@@ -14,14 +14,18 @@ from flask import Flask, request, abort
 import requests
 from dotenv import dotenv_values
 
-# .envから設定を読み込む
+# ローカル開発用: .envファイルがあれば読み込む（Railway本番では環境変数を使用）
 env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
-config = dotenv_values(env_path)
+if os.path.exists(env_path):
+    config = dotenv_values(env_path)
+    for key, value in config.items():
+        if key not in os.environ:
+            os.environ[key] = value
 
-LINE_CHANNEL_SECRET = config['LINE_CHANNEL_SECRET']
-LINE_CHANNEL_ACCESS_TOKEN = config['LINE_CHANNEL_ACCESS_TOKEN']
-NOTION_API_KEY = config['NOTION_API_KEY']
-NOTION_ENGINEER_DB_ID = config['NOTION_ENGINEER_DB_ID']
+LINE_CHANNEL_SECRET = os.environ['LINE_CHANNEL_SECRET']
+LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
+NOTION_API_KEY = os.environ['NOTION_API_KEY']
+NOTION_ENGINEER_DB_ID = os.environ['NOTION_ENGINEER_DB_ID']
 
 app = Flask(__name__)
 
