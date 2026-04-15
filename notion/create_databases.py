@@ -1,8 +1,10 @@
 import requests
 import json
 import os
+from dotenv import dotenv_values
 
-API_KEY = "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"
+config = dotenv_values(os.path.join(os.path.dirname(__file__), '..', 'config', '.env'))
+API_KEY = config.get('NOTION_API_KEY', '')
 PAGE_ID = "343450ff-37c0-80a8-9707-fc29109b057a"
 
 headers = {
