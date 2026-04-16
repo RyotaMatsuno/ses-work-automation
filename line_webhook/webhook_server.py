@@ -22,10 +22,10 @@ if os.path.exists(env_path):
         if key not in os.environ:
             os.environ[key] = value
 
-LINE_CHANNEL_SECRET = os.environ['LINE_CHANNEL_SECRET']
-LINE_CHANNEL_ACCESS_TOKEN = os.environ['LINE_CHANNEL_ACCESS_TOKEN']
-NOTION_API_KEY = os.environ['NOTION_API_KEY']
-NOTION_ENGINEER_DB_ID = os.environ['NOTION_ENGINEER_DB_ID']
+LINE_CHANNEL_SECRET = os.environ.get('LINE_CHANNEL_SECRET', '')
+LINE_CHANNEL_ACCESS_TOKEN = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', '')
+NOTION_API_KEY = os.environ.get('NOTION_API_KEY', '')
+NOTION_ENGINEER_DB_ID = os.environ.get('NOTION_ENGINEER_DB_ID', '')
 
 app = Flask(__name__)
 
