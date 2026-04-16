@@ -6,6 +6,7 @@
   },
   "deploy": {
     "healthcheckPath": "/health",
-    "restartPolicyType": "ON_FAILURE"
+    "restartPolicyType": "ON_FAILURE",
+    "startCommand": "gunicorn webhook_server:app --bind 0.0.0.0:$PORT --workers 1 --timeout 60"
   }
 }
