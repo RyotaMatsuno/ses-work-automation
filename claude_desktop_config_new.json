@@ -1,0 +1,40 @@
+{
+  "mcpServers": {
+    "notion": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "@notionhq/notion-mcp-server"
+      ],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer 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\", \"Notion-Version\": \"2022-06-28\"}"
+      }
+    },
+    "playwright": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "@playwright/mcp",
+        "--output-dir",
+        "C:\\Python_test\\.playwright-mcp"
+      ]
+    },
+    "filesystem": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work",
+        "C:\\Python_test",
+        "C:\\Users\\ma_py\\AppData\\Roaming\\Claude"
+      ]
+    },
+    "terminal": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "@dillionverma/mcp-shell"
+      ]
+    }
+  }
+}
