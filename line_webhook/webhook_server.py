@@ -145,7 +145,6 @@ def run_double_check(proj_name: str, proposal: str, candidates: list) -> tuple:
         check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行:{c.get('parallel','なし')}\n"
     result = call_claude(DOUBLE_CHECK_SYSTEM, check_input, max_tokens=2000)
     is_ok = "【判定】OK" in result
-    # 修正済み提案文を抽出
     final = proposal
     if "【修正済み提案文】" in result:
         after = result.split("【修正済み提案文】", 1)[1].strip()
@@ -228,7 +227,6 @@ def get_available_engineers() -> list:
         price = props.get("単価（万円）", {}).get("number", 0) or 0
         note_prop = props.get("備考（LINEメモ）", {}).get("rich_text", [])
         note = note_prop[0]["plain_text"] if note_prop else ""
-        # 送信者をnoteから判定
         source = "不明"
         if "LINEから自動登録: 松野" in note: source = "松野"
         elif "LINEから自動登録: 岡本" in note: source = "岡本"
@@ -265,10 +263,6 @@ def push_message(user_id: str, text: str, token: str):
 # ============================================================
 
 def determine_roles(project_sender: str, engineer_source: str) -> dict:
-    """
-    案件送信者と人材登録者から担当を決定
-    returns: {"proposal_owner": "松野 or 岡本", "intent_owner": "松野 or 岡本"}
-    """
     if project_sender == "松野" and engineer_source == "松野":
         return {"proposal_owner": "松野", "intent_owner": "松野"}
     elif project_sender == "岡本" and engineer_source == "岡本":
@@ -278,7 +272,6 @@ def determine_roles(project_sender: str, engineer_source: str) -> dict:
     elif project_sender == "松野" and engineer_source == "岡本":
         return {"proposal_owner": "松野", "intent_owner": "岡本"}
     else:
-        # 不明な場合は両方に送信
         return {"proposal_owner": "両方", "intent_owner": "両方"}
 
 
@@ -301,35 +294,28 @@ def process_message(text: str, reply_token: str, sender: str, sender_token: str)
     msg_type = info.get("type", "other")
     print(f"[判定] {msg_type}")
 
-    # ── 人材情報 ──────────────────────────
     if msg_type == "engineer":
         success, _ = register_engineer(info, text, sender)
         name = info.get("name", "（名前未記載）")
         skills_str = "、".join(info.get("skills", [])) or "未記載"
         price = info.get("price", 0)
-
         if success:
             reply_message(reply_token,
                 f"✅ 人材情報を登録しました\n\n"
-                f"👤 {name}\n"
-                f"💻 スキル: {skills_str}\n"
-                f"💴 単価: {price}万円\n\n"
+                f"👤 {name}\n💻 スキル: {skills_str}\n💴 単価: {price}万円\n\n"
                 f"案件が来たらこの方の情報でマッチングします",
                 sender_token)
         else:
             reply_message(reply_token, "❌ 人材情報の登録に失敗しました", sender_token)
         return
 
-    # ── 案件情報 ──────────────────────────
     elif msg_type == "project":
         success, _ = register_project(info, text, sender)
         proj_name = info.get("name", "案件")
-
         if not success:
             reply_message(reply_token, "❌ 案件情報の登録に失敗しました", sender_token)
             return
 
-        # マッチング
         engineers = get_available_engineers()
         matching = run_matching(info, engineers)
         candidates = matching.get("candidates", [])
@@ -338,24 +324,19 @@ def process_message(text: str, reply_token: str, sender: str, sender_token: str)
         if not candidates:
             reply_message(reply_token,
                 f"✅ 案件「{proj_name}」を登録しました\n\n"
-                f"⚠️ マッチする候補者が見つかりませんでした\n"
-                f"エンジニアDBを確認してください",
+                f"⚠️ マッチする候補者が見つかりませんでした\nエンジニアDBを確認してください",
                 sender_token)
             return
 
-        # ダブルチェック
         is_ok, check_result, final_proposal = run_double_check(proj_name, proposal_draft, candidates)
         print(f"[ダブルチェック] OK={is_ok}")
 
-        # 担当振り分け（候補者ごとに担当を判定、最多で決定）
         sources = [c.get("engineer_source", "不明") for c in candidates]
         main_source = max(set(sources), key=sources.count)
         roles = determine_roles(sender, main_source)
-
         proposal_owner = roles["proposal_owner"]
         intent_owner = roles["intent_owner"]
 
-        # ── 案件送信者（クライアント担当）へのメッセージ ──
         proposal_msg = (
             f"✅ 案件「{proj_name}」登録・マッチング・ダブルチェック完了\n\n"
             f"【候補者: {len(candidates)}名】\n"
@@ -374,50 +355,36 @@ def process_message(text: str, reply_token: str, sender: str, sender_token: str)
 
         proposal_msg += f"\n【提案文（送信可能版）】\n"
         proposal_msg += final_proposal[:1500] if final_proposal else "（生成できませんでした）"
-
         if intent_owner != sender:
             proposal_msg += f"\n\n※ 意向確認は{intent_owner}が実施中です"
         proposal_msg += "\n\n確認後「送信して」と返信してください"
 
-        # 案件送信者に返信
         reply_message(reply_token, proposal_msg, sender_token)
 
-        # ── 人材担当者（意向確認担当）へのpush送信 ──
         if intent_owner != sender and intent_owner != "両方":
             intent_user_id, intent_token = get_user_id_and_token(intent_owner)
             intent_msg = (
-                f"📋 意向確認の依頼が来ました\n\n"
-                f"【案件】{proj_name}\n"
+                f"📋 意向確認の依頼が来ました\n\n【案件】{proj_name}\n"
                 f"必須: {', '.join(info.get('required_skills',[])[:4])}\n"
-                f"単価: {info.get('price',0)}万円 / "
-                f"{info.get('location','不明')} / "
-                f"リモート{info.get('remote','不明')}\n\n"
+                f"単価: {info.get('price',0)}万円 / {info.get('location','不明')} / リモート{info.get('remote','不明')}\n\n"
                 f"【確認してほしい人材】\n"
             )
             for i, c in enumerate(candidates[:3], 1):
                 mark = "①②③"[i-1]
-                intent_msg += f"{mark} {c['name']} - {c.get('price',0)}万円\n"
-                intent_msg += f"   {c.get('summary','')[:60]}\n"
-
+                intent_msg += f"{mark} {c['name']} - {c.get('price',0)}万円\n   {c.get('summary','')[:60]}\n"
             intent_msg += f"\n意向確認後、結果をジョブズに送ってください"
             push_message(intent_user_id, intent_msg, intent_token)
 
         elif intent_owner == "両方":
-            # 両方に同じ意向確認メッセージを送信
             for person in ["松野", "岡本"]:
                 if person != sender:
                     uid, tok = get_user_id_and_token(person)
                     push_message(uid,
-                        f"📋 {sender}から案件「{proj_name}」が来ました\n"
-                        f"担当候補者の確認をお願いします",
-                        tok)
+                        f"📋 {sender}から案件「{proj_name}」が来ました\n担当候補者の確認をお願いします", tok)
 
-    # ── その他 ──────────────────────────
     else:
         reply_message(reply_token,
-            "メッセージを受信しました。\n\n"
-            "人材情報または案件情報をテキストで送ってください。\n"
-            "（自由なフォーマットで大丈夫です）",
+            "メッセージを受信しました。\n\n人材情報または案件情報をテキストで送ってください。\n（自由なフォーマットで大丈夫です）",
             sender_token)
 
 
@@ -437,7 +404,6 @@ def handle_webhook(channel_secret: str, channel_token: str, sender_name: str):
             continue
         user_id = event.get('source', {}).get('userId', '')
 
-        # 松野のuserIdを自動保存
         global MATSUNO_USER_ID
         if sender_name == "松野" and user_id and not MATSUNO_USER_ID:
             MATSUNO_USER_ID = user_id
@@ -446,12 +412,7 @@ def handle_webhook(channel_secret: str, channel_token: str, sender_name: str):
             print(f"松野userID自動取得・保存: {user_id}")
 
         try:
-            process_message(
-                event['message']['text'],
-                event['replyToken'],
-                sender_name,
-                channel_token
-            )
+            process_message(event['message']['text'], event['replyToken'], sender_name, channel_token)
         except Exception as e:
             print(f"処理エラー[{sender_name}]: {e}")
     return 'OK', 200
@@ -470,12 +431,6 @@ def webhook_okamoto():
 @app.route('/health', methods=['GET'])
 def health():
     return 'OK', 200
-
-
-@app.route('/debug/matsuno_id', methods=['GET'])
-def debug_matsuno_id():
-    """一時デバッグ用: 松野userIDを返す"""
-    return json.dumps({"MATSUNO_USER_ID": MATSUNO_USER_ID or "未取得"}), 200
 
 
 if __name__ == '__main__':
