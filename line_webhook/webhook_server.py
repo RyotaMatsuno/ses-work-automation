@@ -95,7 +95,7 @@ def call_claude(system: str, user_msg: str, max_tokens: int = 2000) -> str:
             "content-type": "application/json"
         },
         json={
-            "model": "claude-haiku-4-5-20251001",
+            "model": "claude-sonnet-4-20250514",
             "max_tokens": max_tokens,
             "system": system,
             "messages": [{"role": "user", "content": user_msg}]
@@ -383,9 +383,7 @@ def process_message(text: str, reply_token: str, sender: str, sender_token: str)
                         f"📋 {sender}から案件「{proj_name}」が来ました\n担当候補者の確認をお願いします", tok)
 
     else:
-        reply_message(reply_token,
-            "メッセージを受信しました。\n\n人材情報または案件情報をテキストで送ってください。\n（自由なフォーマットで大丈夫です）",
-            sender_token)
+        print(f"[その他] 無視: {text[:50]}")
 
 
 # ============================================================
