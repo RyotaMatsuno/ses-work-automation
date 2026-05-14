@@ -16,7 +16,7 @@ SKILL_OPTIONS = [
     "Linux", "Go", "Ruby", "Docker", "MongoDB", "Spring"
 ]
 
-SYSTEM_PROMPT = f"""あなたはSESエンジニアのスキルシートから情報を抽出するAIです。
+ENGINEER_SYSTEM_PROMPT = f"""あなたはSESエンジニアのスキルシートから情報を抽出するAIです。
 以下のテキストから全エンジニアの情報を抽出し、JSON配列で返してください。
 JSON以外のテキストは一切出力しないでください。
 
@@ -28,6 +28,29 @@ JSON以外のテキストは一切出力しないでください。
     "available_date": "稼働可能日（YYYY-MM-DD形式、即日は今日の日付、不明はnull）",
     "experience_years": 経験年数の数値（不明はnull）,
     "skills": ["スキル1", "スキル2", ...]
+  }}
+]
+
+スキルは以下のリストから該当するものだけを選んでください:
+{", ".join(SKILL_OPTIONS)}
+"""
+
+PROJECT_SYSTEM_PROMPT = f"""あなたはSES案件情報を抽出するAIです。
+以下のテキストから全案件の情報を抽出し、JSON配列で返してください。
+JSON以外のテキストは一切出力しないでください。
+
+抽出するJSON形式:
+[
+  {{
+    "name": "案件名",
+    "required_skills": ["必須スキル1", "必須スキル2"],
+    "optional_skills": ["尚可スキル1"],
+    "price": 単価の数値（万円、不明はnull）,
+    "start_date": "開始日（YYYY-MM-DD形式、不明はnull）",
+    "location": "勤務地（不明はnull）",
+    "remote": "可 or 不可 or 一部リモート or unknown",
+    "period": "期間（不明はnull）",
+    "note": "その他補足情報"
   }}
 ]
 
@@ -59,12 +82,11 @@ def extract_engineers(text: str, filename: str) -> list:
         response = client.messages.create(
             model="claude-sonnet-4-5",
             max_tokens=2000,
-            system=SYSTEM_PROMPT,
+            system=ENGINEER_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}]
         )
         raw = response.content[0].text.strip()
 
-        # ```json ... ``` のfenceを除去
         if raw.startswith("```"):
             raw = raw.split("```")[1]
             if raw.startswith("json"):
@@ -83,6 +105,56 @@ def extract_engineers(text: str, filename: str) -> list:
         return []
     except Exception as e:
         logger.error(f"Claude API呼び出し失敗: {filename} - {e}")
+        return []
+
+
+def extract_projects(text: str, filename: str) -> list:
+    """
+    案件情報テキストからプロジェクト情報をClaude APIで抽出。
+    スプレッドシートに複数案件がまとまっているパターンに対応。
+
+    Returns:
+        list of dict: [{"name", "required_skills", "optional_skills", "price", ...}, ...]
+        失敗時は空リスト
+    """
+    import anthropic
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY が .env に設定されていません")
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    today = date.today().isoformat()
+    user_content = f"今日の日付: {today}\n\n以下のテキストから案件情報を抽出してください:\n\n{text[:8000]}"
+
+    try:
+        response = client.messages.create(
+            model="claude-sonnet-4-5",
+            max_tokens=2000,
+            system=PROJECT_SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": user_content}]
+        )
+        raw = response.content[0].text.strip()
+
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        raw = raw.strip()
+
+        projects = json.loads(raw)
+        if not isinstance(projects, list):
+            projects = [projects]
+
+        logger.info(f"案件抽出成功: {filename} → {len(projects)}件")
+        return projects
+
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON解析失敗（案件）: {filename} - {e}")
+        return []
+    except Exception as e:
+        logger.error(f"Claude API呼び出し失敗（案件）: {filename} - {e}")
         return []
 
 
