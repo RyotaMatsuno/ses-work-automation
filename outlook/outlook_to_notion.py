@@ -1,13 +1,32 @@
 """
-Outlook（IMAP）→ Notion 自動登録スクリプト v2
+Outlook（IMAP）→ Notion 自動登録スクリプト v3
+- 複数メールアカウント対応
 - Claude AIでメール内容を解析（人材 or 案件を自動判定）
 - 人材情報 → エンジニアDB登録
 - 案件情報 → 案件DB登録
-- 自由なフォーマットのメールも解析可能
 
 実行方法:
   python outlook_to_notion.py
 タスクスケジューラで毎日9時/13時/18時に自動実行
+
+.envに設定が必要:
+  # アカウント1（現在のTERRA用）
+  OUTLOOK_EMAIL=sessales@terra-ltd.co.jp
+  OUTLOOK_PASSWORD=xxxx
+  OUTLOOK_IMAP_SERVER=mail65.onamae.ne.jp
+  OUTLOOK_IMAP_PORT=993
+
+  # アカウント2（個人アドレス用）
+  OUTLOOK_EMAIL2=xxxx@xxxx.com
+  OUTLOOK_PASSWORD2=xxxx
+  OUTLOOK_IMAP_SERVER2=outlook.office365.com
+  OUTLOOK_IMAP_PORT2=993
+
+  # アカウント3（追加用・未使用ならそのままでOK）
+  OUTLOOK_EMAIL3=
+  OUTLOOK_PASSWORD3=
+  OUTLOOK_IMAP_SERVER3=
+  OUTLOOK_IMAP_PORT3=993
 """
 
 import imaplib
@@ -16,7 +35,7 @@ import json
 import os
 import re
 import requests
-from datetime import date
+from datetime import datetime
 from email.header import decode_header
 from dotenv import dotenv_values
 
@@ -27,14 +46,10 @@ if os.path.exists(env_path):
         if key not in os.environ:
             os.environ[key] = value
 
-OUTLOOK_EMAIL     = os.environ.get('OUTLOOK_EMAIL', '')
-OUTLOOK_PASSWORD  = os.environ.get('OUTLOOK_PASSWORD', '')
-IMAP_SERVER       = os.environ.get('OUTLOOK_IMAP_SERVER', 'outlook.office365.com')
-IMAP_PORT         = int(os.environ.get('OUTLOOK_IMAP_PORT', '993'))
-NOTION_API_KEY    = os.environ.get('NOTION_API_KEY', '')
+NOTION_API_KEY        = os.environ.get('NOTION_API_KEY', '')
 NOTION_ENGINEER_DB_ID = os.environ.get('NOTION_ENGINEER_DB_ID', '')
 NOTION_PROJECT_DB_ID  = os.environ.get('NOTION_PROJECT_DB_ID', '')
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+ANTHROPIC_API_KEY     = os.environ.get('ANTHROPIC_API_KEY', '')
 
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
@@ -42,13 +57,42 @@ NOTION_HEADERS = {
     "Notion-Version": "2022-06-28"
 }
 
+# 複数アカウント設定を自動収集
+def get_accounts() -> list:
+    """
+    .envから複数アカウント設定を読み込む。
+    OUTLOOK_EMAIL, OUTLOOK_EMAIL2, OUTLOOK_EMAIL3... に対応。
+    """
+    accounts = []
+    suffixes = ['', '2', '3', '4', '5']
+    for s in suffixes:
+        email_addr = os.environ.get(f'OUTLOOK_EMAIL{s}', '')
+        password   = os.environ.get(f'OUTLOOK_PASSWORD{s}', '')
+        server     = os.environ.get(f'OUTLOOK_IMAP_SERVER{s}', 'outlook.office365.com')
+        port       = int(os.environ.get(f'OUTLOOK_IMAP_PORT{s}', '993'))
+        if email_addr and password:
+            accounts.append({
+                'email': email_addr,
+                'password': password,
+                'server': server,
+                'port': port,
+                'label': f'アカウント{s if s else "1"}({email_addr})'
+            })
+    return accounts
+
 PROCESSED_IDS_FILE = os.path.join(os.path.dirname(__file__), 'processed_ids.txt')
 
-# 処理対象キーワード（件名に含まれる場合のみ処理）
 SUBJECT_KEYWORDS = [
     '要員', 'エンジニア', 'スキル', '単価', '稼働', '提案', 'ご紹介',
     '案件', '募集', '参画', '開発', 'PG', 'SE', 'インフラ', 'Java',
     'Python', 'PHP', 'AWS', 'クラウド', 'システム'
+]
+
+VALID_SKILLS = [
+    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
+    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
+    "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
+    "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
 ]
 
 
@@ -74,22 +118,13 @@ def call_claude(system_prompt: str, user_message: str) -> str:
     )
     if res.status_code == 200:
         return res.json()["content"][0]["text"]
-    print(f"Claude APIエラー: {res.status_code} {res.text}")
+    print(f"Claude APIエラー: {res.status_code}")
     return ""
 
 
 def ai_classify_email(subject: str, body: str) -> dict:
-    """メールの件名と本文からAIが人材/案件を判定し構造化データを返す"""
-    system = """あなたはSES（システムエンジニアリングサービス）業界の情報解析AIです。
-メールの件名と本文を解析して、以下のJSON形式のみで返答してください。マークダウンや説明文は不要です。
-
-【人材情報と判断する基準】
-- エンジニアの名前、スキル、単価、稼働可能日などが含まれる
-- 「ご紹介」「要員」「スキルシート」などの言葉がある
-
-【案件情報と判断する基準】
-- 案件名、必須スキル、勤務地、期間などが含まれる
-- 「募集」「案件」「参画」「ご提案」などの言葉がある
+    system = """あなたはSES業界の情報解析AIです。
+メールの件名と本文を解析して、JSON形式のみで返答してください。説明文は不要です。
 
 人材情報の場合:
 {
@@ -107,12 +142,12 @@ def ai_classify_email(subject: str, body: str) -> dict:
 {
   "type": "project",
   "name": "案件名（不明なら空文字）",
-  "required_skills": ["必須スキル1", "必須スキル2"],
+  "required_skills": ["必須スキル1"],
   "optional_skills": ["尚可スキル1"],
   "price": 案件単価の数値（万円、不明なら0）,
   "start_date": "YYYY-MM-DD形式（不明なら空文字）",
   "location": "勤務地（不明なら空文字）",
-  "remote": "可" または "不可" または "一部可" または "不明",
+  "remote": "可または不可または一部可または不明",
   "period": "期間",
   "interview_count": 面談回数の数値（不明なら1）,
   "foreign_ok": false,
@@ -120,43 +155,28 @@ def ai_classify_email(subject: str, body: str) -> dict:
 }
 
 どちらでもない場合:
-{
-  "type": "other",
-  "note": "内容の要約"
-}"""
+{"type": "other", "note": "内容の要約"}"""
 
-    content = f"件名: {subject}\n\n本文:\n{body[:3000]}"
-    result = call_claude(system, content)
+    result = call_claude(system, f"件名: {subject}\n\n本文:\n{body[:3000]}")
     try:
         clean = re.sub(r'```json|```', '', result).strip()
         return json.loads(clean)
-    except Exception as e:
-        print(f"  JSON解析エラー: {e}")
-        return {"type": "other", "note": f"{subject}\n{body[:500]}"}
+    except:
+        return {"type": "other", "note": f"{subject}"}
 
 
 # ============================================================
 # Notion登録
 # ============================================================
 
-VALID_SKILLS = [
-    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
-    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
-    "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
-    "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
-]
-
-
-def register_engineer(info: dict, subject: str, sender: str) -> bool:
+def register_engineer(info: dict, subject: str, sender: str, account_label: str) -> bool:
     name = info.get("name") or "（名前未記載）"
-    note = f"【Outlookから自動登録】\n件名: {subject}\n送信者: {sender}\n\n{info.get('note', '')}"
-
+    note = f"【Outlookから自動登録 - {account_label}】\n件名: {subject}\n送信者: {sender}\n\n{info.get('note', '')}"
     properties = {
         "名前": {"title": [{"text": {"content": name}}]},
         "稼働状況": {"select": {"name": "稼働可能"}},
         "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
-
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills:
         properties["スキル"] = {"multi_select": [{"name": s} for s in skills]}
@@ -175,26 +195,24 @@ def register_engineer(info: dict, subject: str, sender: str) -> bool:
     if res.status_code == 200:
         print(f"  ✅ エンジニア登録: {name}")
         return True
-    print(f"  ❌ エンジニア登録エラー: {res.status_code} {res.text}")
+    print(f"  ❌ エンジニア登録エラー: {res.status_code}")
     return False
 
 
-def register_project(info: dict, subject: str, sender: str) -> bool:
+def register_project(info: dict, subject: str, sender: str, account_label: str) -> bool:
     name = info.get("name") or f"（案件: {subject[:30]}）"
-    note = f"【Outlookから自動登録】\n件名: {subject}\n送信者: {sender}\n\n{info.get('note', '')}"
-
+    note = f"【Outlookから自動登録 - {account_label}】\n件名: {subject}\n送信者: {sender}\n\n{info.get('note', '')}"
     properties = {
         "案件名": {"title": [{"text": {"content": name}}]},
         "ステータス": {"select": {"name": "募集中"}},
         "備考": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
-
-    req_skills = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
-    opt_skills = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
-    if req_skills:
-        properties["必要スキル"] = {"multi_select": [{"name": s} for s in req_skills]}
-    if opt_skills:
-        properties["尚可スキル"] = {"multi_select": [{"name": s} for s in opt_skills]}
+    req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
+    opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
+    if req:
+        properties["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+    if opt:
+        properties["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
     if info.get("price"):
         properties["単価（万円）"] = {"number": info["price"]}
     if info.get("start_date"):
@@ -210,7 +228,7 @@ def register_project(info: dict, subject: str, sender: str) -> bool:
     if res.status_code == 200:
         print(f"  ✅ 案件登録: {name}")
         return True
-    print(f"  ❌ 案件登録エラー: {res.status_code} {res.text}")
+    print(f"  ❌ 案件登録エラー: {res.status_code}")
     return False
 
 
@@ -232,17 +250,15 @@ def decode_str(s):
 
 
 def get_email_body(msg) -> str:
-    body = ''
     if msg.is_multipart():
         for part in msg.walk():
             if part.get_content_type() == 'text/plain' and 'attachment' not in str(part.get('Content-Disposition', '')):
                 charset = part.get_content_charset() or 'utf-8'
-                body = part.get_payload(decode=True).decode(charset, errors='ignore')
-                break
+                return part.get_payload(decode=True).decode(charset, errors='ignore')
     else:
         charset = msg.get_content_charset() or 'utf-8'
-        body = msg.get_payload(decode=True).decode(charset, errors='ignore')
-    return body
+        return msg.get_payload(decode=True).decode(charset, errors='ignore')
+    return ''
 
 
 def load_processed_ids() -> set:
@@ -261,29 +277,24 @@ def should_process(subject: str) -> bool:
     return any(kw in subject for kw in SUBJECT_KEYWORDS)
 
 
-# ============================================================
-# メイン処理
-# ============================================================
-
-def run():
-    from datetime import datetime
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Outlook チェック開始")
-
-    processed_ids = load_processed_ids()
+def process_account(account: dict, processed_ids: set) -> tuple[int, int, int]:
+    """1アカウントの未読メールを処理。(eng登録数, proj登録数, スキップ数)を返す"""
+    label = account['label']
+    print(f"\n--- {label} ---")
 
     try:
-        mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
-        mail.login(OUTLOOK_EMAIL, OUTLOOK_PASSWORD)
+        mail = imaplib.IMAP4_SSL(account['server'], account['port'])
+        mail.login(account['email'], account['password'])
     except Exception as e:
-        print(f"❌ IMAP接続失敗: {e}")
-        return
+        print(f"  ❌ 接続失敗: {e}")
+        return 0, 0, 0
 
     mail.select('INBOX')
     _, msg_nums = mail.search(None, 'UNSEEN')
     all_ids = msg_nums[0].split()
-    print(f"未読メール: {len(all_ids)}件")
+    print(f"  未読: {len(all_ids)}件")
 
-    registered_eng = registered_proj = skipped = 0
+    eng = proj = skip = 0
 
     for num in all_ids:
         _, data = mail.fetch(num, '(BODY[HEADER.FIELDS (MESSAGE-ID)])')
@@ -294,42 +305,72 @@ def run():
             continue
 
         _, data = mail.fetch(num, '(RFC822)')
-        msg = email.message_from_bytes(data[0][1])
+        msg     = email.message_from_bytes(data[0][1])
         subject = decode_str(msg.get('Subject', ''))
         sender  = decode_str(msg.get('From', ''))
         body    = get_email_body(msg)
 
-        print(f"\n処理中: {subject[:50]}")
+        print(f"  処理中: {subject[:40]}")
 
         if not should_process(subject):
-            print("  スキップ（対象キーワードなし）")
+            print("    スキップ（キーワードなし）")
             save_processed_id(msg_id)
-            skipped += 1
+            skip += 1
             continue
 
-        # AI判定・登録
         info = ai_classify_email(subject, body)
-        msg_type = info.get("type", "other")
-        print(f"  AI判定: {msg_type}")
+        t    = info.get("type", "other")
+        print(f"    AI判定: {t}")
 
-        if msg_type == "engineer":
-            if register_engineer(info, subject, sender):
-                registered_eng += 1
+        if t == "engineer":
+            if register_engineer(info, subject, sender, label):
+                eng += 1
             else:
-                skipped += 1
-        elif msg_type == "project":
-            if register_project(info, subject, sender):
-                registered_proj += 1
+                skip += 1
+        elif t == "project":
+            if register_project(info, subject, sender, label):
+                proj += 1
             else:
-                skipped += 1
+                skip += 1
         else:
-            print("  スキップ（人材・案件情報なし）")
-            skipped += 1
+            print("    スキップ（人材・案件情報なし）")
+            skip += 1
 
         save_processed_id(msg_id)
+        processed_ids.add(msg_id)
 
     mail.logout()
-    print(f"\n完了: エンジニア登録 {registered_eng}件 / 案件登録 {registered_proj}件 / スキップ {skipped}件")
+    return eng, proj, skip
+
+
+# ============================================================
+# メイン
+# ============================================================
+
+def run():
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Outlook チェック開始（複数アカウント対応）")
+
+    accounts = get_accounts()
+    if not accounts:
+        print("❌ メールアカウントが設定されていません。.envを確認してください。")
+        return
+
+    print(f"対象アカウント: {len(accounts)}件")
+    for a in accounts:
+        print(f"  - {a['label']}")
+
+    processed_ids = load_processed_ids()
+
+    total_eng = total_proj = total_skip = 0
+
+    for account in accounts:
+        eng, proj, skip = process_account(account, processed_ids)
+        total_eng  += eng
+        total_proj += proj
+        total_skip += skip
+
+    print(f"\n{'='*40}")
+    print(f"完了: エンジニア登録 {total_eng}件 / 案件登録 {total_proj}件 / スキップ {total_skip}件")
 
 
 if __name__ == '__main__':

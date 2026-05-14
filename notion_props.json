@@ -1,0 +1,26 @@
+{
+  "project_properties": {
+    "ステータス": "select",
+    "案件詳細": "rich_text",
+    "クライアント": "rich_text",
+    "勤務地": "rich_text",
+    "開始日": "date",
+    "リモート": "select",
+    "尚可スキル": "multi_select",
+    "期間": "rich_text",
+    "単価（万円）": "number",
+    "必要スキル": "multi_select",
+    "案件名": "title"
+  },
+  "engineer_properties": {
+    "メール": "email",
+    "連絡先": "phone_number",
+    "稼働状況": "select",
+    "備考（LINEメモ）": "rich_text",
+    "経験年数": "number",
+    "稼働可能日": "date",
+    "スキル": "multi_select",
+    "単価（万円）": "number",
+    "名前": "title"
+  }
+}
