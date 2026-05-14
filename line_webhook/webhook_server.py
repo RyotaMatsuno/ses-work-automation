@@ -213,7 +213,7 @@ def process_message(text, reply_token, sender, sender_token):
         success, _ = register_engineer(info, text, sender)
         name = info.get("name", "(no name)")
         skills_str = ", ".join(info.get("skills", [])) or "N/A"
-        price = info.get("price", 0)
+        price = normalize_price(info.get("price", 0))
         if success:
             reply_message(reply_token,
                 f"\u2705 \u767b\u9332\u5b8c\u4e86\n\n\u540d\u524d: {name}\n\u30b9\u30ad\u30eb: {skills_str}\n\u5358\u4fa1: {price}\u4e07\u5186",
