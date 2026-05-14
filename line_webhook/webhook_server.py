@@ -472,6 +472,12 @@ def health():
     return 'OK', 200
 
 
+@app.route('/debug/matsuno_id', methods=['GET'])
+def debug_matsuno_id():
+    """一時デバッグ用: 松野userIDを返す"""
+    return json.dumps({"MATSUNO_USER_ID": MATSUNO_USER_ID or "未取得"}), 200
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f"Webhook v6 起動中... port:{port}")
