@@ -1,0 +1,99 @@
+全件取得開始...
+  取得中... 100件
+  取得中... 200件
+  取得中... 300件
+  取得中... 400件
+  取得中... 500件
+  取得中... 600件
+  取得中... 700件
+  取得中... 800件
+  取得中... 900件
+  取得中... 1000件
+  取得中... 1100件
+  取得中... 1143件
+総件数: 1143
+削除対象: 1120件 / 保持: 23件
+削除開始...
+  進捗: 100/1120 削除=100 エラー=0
+  進捗: 200/1120 削除=200 エラー=0
+  進捗: 300/1120 削除=300 エラー=0
+  進捗: 400/1120 削除=400 エラー=0
+  進捗: 500/1120 削除=500 エラー=0
+  進捗: 600/1120 削除=600 エラー=0
+  進捗: 700/1120 削除=700 エラー=0
+  進捗: 800/1120 削除=800 エラー=0
+  進捗: 900/1120 削除=900 エラー=0
+  リトライ 1/3 pid=345450ff-37c0-81ff-ae58-da5f4ec624fc status=502
+  リトライ 2/3 pid=345450ff-37c0-81ff-ae58-da5f4ec624fc status=400
+  リトライ 3/3 pid=345450ff-37c0-81ff-ae58-da5f4ec624fc status=400
+  進捗: 1000/1120 削除=999 エラー=1
+Traceback (most recent call last):
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connection.py", line 571, in getresponse
+    httplib_response = super().getresponse()
+                       ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 1430, in getresponse
+    response.begin()
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 331, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\http\client.py", line 292, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 720, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1251, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\ssl.py", line 1103, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 645, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\util\retry.py", line 490, in increment
+    raise reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\util\util.py", line 39, in reraise
+    raise value
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 536, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\urllib3\connectionpool.py", line 367, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.notion.com', port=443): Read timed out. (read timeout=15)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ma_py\OneDrive\デスクトップ\ses_work\cleanup_v2.py", line 67, in <module>
+    r = requests.patch(
+        ^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\api.py", line 145, in patch
+    return request("patch", url, data=data, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 592, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\sessions.py", line 706, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\site-packages\requests\adapters.py", line 691, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.notion.com', port=443): Read timed out. (read timeout=15)

@@ -1,0 +1,44 @@
+===== Claude Config Diagnosis ===== 
+ 
+--- APPDATA\Claude\ --- 
+EXISTS 
+ 
+--- Store Version Path --- 
+EXISTS 
+{
+  "preferences": {
+    "coworkScheduledTasksEnabled": false,
+    "ccdScheduledTasksEnabled": true,
+    "coworkWebSearchEnabled": true,
+    "sidebarMode": "chat"
+  },
+  "mcpServers": {
+    "notion": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {
+        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer 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\", \"Notion-Version\": \"2022-06-28\"}"
+      }
+    },
+    "playwright": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": ["-y", "@playwright/mcp", "--output-dir", "C:\\Python_test\\.playwright-mcp"]
+    },
+    "filesystem": {
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work",
+        "C:\\Python_test"
+      ]
+    }
+  }
+} 
+--- AnthropicClaude Path --- 
+NOT FOUND 
+ 
+--- Searching all Claude configs --- 
+C:\Users\ma_py\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude\claude_desktop_config.json
+C:\Users\ma_py\AppData\Local\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude-3p\claude_desktop_config.json
+C:\Users\ma_py\AppData\Roaming\Claude\claude_desktop_config.json

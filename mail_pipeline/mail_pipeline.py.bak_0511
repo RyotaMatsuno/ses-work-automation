@@ -1,0 +1,558 @@
+"""
+メールパイプライン v4
+- v3からの変更: マッチング前にPython側でスキルフィルタリング（上位10名に絞り込み）
+- Notionエンジニア4,642名をそのままAIに渡すとトークン超過 → Python側でフィルタリング後に渡す
+"""
+
+import imaplib
+import email
+import re
+import json
+import os
+import ssl
+import requests
+from datetime import date, datetime, timedelta
+from email.header import decode_header
+from email.utils import parsedate_to_datetime
+from dotenv import dotenv_values
+from pathlib import Path
+
+# ===== 設定 =====
+BASE_DIR = Path(__file__).parent
+ENV_PATH = BASE_DIR.parent / "config" / ".env"
+DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
+LOG_PATH = BASE_DIR / "pipeline.log"
+PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
+
+FETCH_LIMIT = 50
+PROCESS_LIMIT = 20
+MATCH_TOP_N = 10  # AIに渡す最大候補数
+
+config = dotenv_values(ENV_PATH)
+for k, v in config.items():
+    if k not in os.environ:
+        os.environ[k] = v
+
+IMAP_SERVER   = os.environ.get("OUTLOOK_IMAP_SERVER", "mail65.onamae.ne.jp")
+IMAP_PORT     = int(os.environ.get("OUTLOOK_IMAP_PORT", 993))
+EMAIL_USER    = os.environ.get("OUTLOOK_EMAIL", "sessales@terra-ltd.co.jp")
+EMAIL_PASS    = os.environ.get("OUTLOOK_PASSWORD", "")
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+NOTION_KEY    = os.environ.get("NOTION_API_KEY", "")
+ENGINEER_DB   = os.environ.get("NOTION_ENGINEER_DB_ID", "")
+PROJECT_DB    = os.environ.get("NOTION_PROJECT_DB_ID", "")
+
+NOTION_HEADERS = {
+    "Authorization": f"Bearer {NOTION_KEY}",
+    "Content-Type": "application/json",
+    "Notion-Version": "2022-06-28"
+}
+
+VALID_SKILLS = [
+    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
+    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
+    "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
+    "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
+]
+
+DOUBLE_CHECK_SYSTEM = f"""あなたはSES業界のダブルチェック専門AIです。
+提案文と候補者情報を受け取り、以下のルールで厳密にチェックしてください。
+
+今日の日付: {date.today().isoformat()}
+
+【1. 除外ルール違反】
+- 外国籍人材が含まれていないか
+- 地方在住（関東以外）が含まれていないか
+- 短期案件連続の人材が含まれていないか
+- ブランクがある人材が含まれていないか
+- 既往歴がある人材が含まれていないか
+
+【2. 単価チェック（粗利）】
+- 粗利 = 案件単価 - エンジニア単価
+- 粗利5万円未満はNG / 粗利7万円以上が目標
+
+【3. 並行スコア】
+- 面談調整中:1.5 / 面談予定:2.0 / 結果待ち1-2日:2.5 / 3-7日:2.0 / 8-14日:1.5 / 15日超:1.0 / オファー中:5.0
+- 合計5.0以上はNG
+
+【4. 敬語・表現チェック】
+- 「充足」→「全て満たしており」
+- 「即戦力です」→「マッチ度高い人員かと存じます」
+
+【5. 固有名詞マスキング】
+- 企業名・担当者名・連絡先が残っていないか
+
+出力フォーマット:
+【判定】OK / NG
+【チェック結果】
+1. 除外ルール: OK/NG（理由）
+2. 単価・粗利: OK/NG（詳細）
+3. 並行スコア: OK/NG（詳細）
+4. 敬語表現: OK/NG（修正箇所）
+5. マスキング: OK/NG（漏れ箇所）
+【修正済み提案文】
+NGの場合は修正した提案文、OKの場合は「修正不要」
+【所見】
+気になる点があれば一言"""
+
+
+# ===== ログ =====
+def log(msg: str):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{ts}] {msg}"
+    print(line, flush=True)
+    with open(LOG_PATH, "a", encoding="utf-8") as f:
+        f.write(line + "\n")
+
+
+# ===== 処理済みID管理 =====
+def load_processed_ids() -> set:
+    try:
+        if PROCESSED_IDS_PATH.exists():
+            with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
+                return set(json.load(f))
+    except Exception as e:
+        log(f"processed_ids読み込みエラー: {e}")
+    return set()
+
+
+def save_processed_id(msg_id: str, processed: set):
+    processed.add(msg_id)
+    ids_list = list(processed)
+    if len(ids_list) > 2000:
+        ids_list = ids_list[1000:]
+    try:
+        with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
+            json.dump(ids_list, f, ensure_ascii=False)
+    except Exception as e:
+        log(f"processed_ids保存エラー: {e}")
+
+
+# ===== メール取得 =====
+def decode_str(s):
+    if not s:
+        return ""
+    parts = decode_header(s)
+    result = ""
+    for part, charset in parts:
+        if isinstance(part, bytes):
+            result += part.decode(charset or "utf-8", errors="replace")
+        else:
+            result += str(part)
+    return result
+
+
+def get_body(msg):
+    body = ""
+    if msg.is_multipart():
+        for part in msg.walk():
+            if part.get_content_type() == "text/plain":
+                charset = part.get_content_charset() or "utf-8"
+                try:
+                    body = part.get_payload(decode=True).decode(charset, errors="replace")
+                    break
+                except:
+                    pass
+    else:
+        charset = msg.get_content_charset() or "utf-8"
+        try:
+            body = msg.get_payload(decode=True).decode(charset, errors="replace")
+        except:
+            body = str(msg.get_payload())
+    return body.strip()
+
+
+def fetch_recent_emails(limit: int = 50):
+    log(f"IMAP接続開始（直近{limit}件取得）")
+    ctx = ssl.create_default_context()
+    try:
+        mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT, ssl_context=ctx)
+        mail.login(EMAIL_USER, EMAIL_PASS)
+        mail.select("INBOX")
+    except Exception as e:
+        log(f"IMAP接続エラー: {e}")
+        return []
+
+    status, messages = mail.search(None, "ALL")
+    if status != "OK" or not messages[0]:
+        log("対象メールなし")
+        mail.logout()
+        return []
+
+    all_ids = messages[0].split()
+    target_ids = list(reversed(all_ids[-limit:]))
+    log(f"全件数: {len(all_ids)}件 → 直近{len(target_ids)}件を処理対象")
+
+    emails = []
+    for mail_id in target_ids:
+        try:
+            status, msg_data = mail.fetch(mail_id, "(RFC822)")
+            if status != "OK":
+                continue
+            raw = msg_data[0][1]
+            msg = email.message_from_bytes(raw)
+            subject  = decode_str(msg.get("Subject", ""))
+            sender   = decode_str(msg.get("From", ""))
+            reply_to = decode_str(msg.get("Reply-To", "")) or sender
+            msg_id   = msg.get("Message-ID", f"no-id-{mail_id.decode()}")
+            body     = get_body(msg)
+            emails.append({
+                "id": mail_id, "msg_id": msg_id,
+                "subject": subject, "sender": sender,
+                "reply_to": reply_to, "body": body
+            })
+        except Exception as e:
+            log(f"メール取得エラー: {e}")
+
+    mail.logout()
+    log(f"取得完了: {len(emails)}件")
+    return emails
+
+
+# ===== スキルフィルタリング（★v4新規追加★） =====
+def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATCH_TOP_N) -> list:
+    """
+    案件の必須・尚可スキルでエンジニアをフィルタリングし上位top_n名を返す。
+    スコア = 必須スキルマッチ数*2 + 尚可スキルマッチ数*1
+    必須スキルが1つもマッチしない場合は除外。
+    単価乖離5万超も除外。
+    """
+    required = [s.lower() for s in project.get("required_skills", [])]
+    optional = [s.lower() for s in project.get("optional_skills", [])]
+    proj_price = project.get("price", 0) or 0
+
+    scored = []
+    for eng in engineers:
+        eng_skills = [s.lower() for s in eng.get("skills", [])]
+        eng_price = eng.get("price", 0) or 0
+
+        # 単価乖離チェック（5万超は除外）
+        if proj_price > 0 and eng_price > 0:
+            if abs(proj_price - eng_price) > 5:
+                continue
+
+        # 必須スキルマッチ数
+        req_match = sum(1 for r in required if any(r in s for s in eng_skills))
+        # 必須スキルが1つもなければ除外（必須が指定されている場合のみ）
+        if required and req_match == 0:
+            continue
+
+        # 尚可スキルマッチ数
+        opt_match = sum(1 for o in optional if any(o in s for s in eng_skills))
+
+        score = req_match * 2 + opt_match
+        scored.append((score, eng))
+
+    # スコア降順でソート、上位top_n名を返す
+    scored.sort(key=lambda x: x[0], reverse=True)
+    result = [eng for _, eng in scored[:top_n]]
+    return result
+
+
+# ===== Claude AI =====
+def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
+    try:
+        res = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": ANTHROPIC_KEY,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json"
+            },
+            json={
+                "model": "claude-sonnet-4-6",
+                "max_tokens": max_tokens,
+                "system": system,
+                "messages": [{"role": "user", "content": user}]
+            },
+            timeout=60
+        )
+        if res.status_code == 200:
+            return res.json()["content"][0]["text"]
+        log(f"Claude APIエラー: {res.status_code} {res.text[:200]}")
+        return ""
+    except Exception as e:
+        log(f"Claude呼び出し例外: {e}")
+        return ""
+
+
+def classify_email(subject: str, body: str) -> dict:
+    system = """あなたはSES業界の情報解析AIです。メールを解析してJSON形式のみで返答してください。
+
+案件情報の場合:
+{"type":"project","name":"案件名","required_skills":["Java"],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"不明","period":"","interview_count":1,"foreign_ok":false,"note":"業務内容"}
+
+人材情報の場合:
+{"type":"engineer","name":"氏名","skills":["Java"],"price":0,"available_date":"","experience_years":0,"company":"","note":"備考"}
+
+どちらでもない場合:
+{"type":"other","note":"内容要約"}"""
+    text = f"件名: {subject}\n\n{body[:2000]}"
+    result = call_claude(system, text)
+    try:
+        clean = re.sub(r"```json|```", "", result).strip()
+        return json.loads(clean)
+    except:
+        return {"type": "other", "note": "解析失敗"}
+
+
+def ai_matching(project: dict, engineers: list) -> dict:
+    system = """あなたはSES業界のマッチングAIです。JSONで返してください。
+
+除外ルール:
+- 必須スキルに✕ → 除外
+- 単価乖離5万超 → 除外（案件単価-5万〜+2万の範囲のみ）
+
+サマリー文（禁止: 充足・即戦力です）:
+- 必須全○+尚可全○ → "必須・尚可ともにマッチ度高い人員"
+- 必須全○+尚可○率50%以上 → "必須全て満たしており、尚可も○項目経験あり"
+- 必須全○のみ → "必須スキル全て満たし即稼働可能"
+
+返答フォーマット:
+{"candidates":[{"name":"氏名","price":0,"summary":"サマリー","required_match":{},"optional_match":{},"parallel":"なし"}],"proposal_draft":"提案メール本文"}"""
+    payload = {"project": project, "engineers": engineers}
+    result = call_claude(system, json.dumps(payload, ensure_ascii=False), max_tokens=2000)
+    try:
+        clean = re.sub(r"```json|```", "", result).strip()
+        return json.loads(clean)
+    except:
+        return {"candidates": [], "proposal_draft": ""}
+
+
+def double_check(text: str) -> str:
+    return call_claude(DOUBLE_CHECK_SYSTEM, text, max_tokens=2000)
+
+
+# ===== Notion操作 =====
+def notion_query(db_id: str, filter_obj: dict = None) -> list:
+    results = []
+    payload = {"page_size": 100}
+    if filter_obj:
+        payload["filter"] = filter_obj
+    while True:
+        r = requests.post(
+            f"https://api.notion.com/v1/databases/{db_id}/query",
+            headers=NOTION_HEADERS, json=payload
+        )
+        data = r.json()
+        results.extend(data.get("results", []))
+        if not data.get("has_more"):
+            break
+        payload["start_cursor"] = data["next_cursor"]
+    return results
+
+
+def register_project(info: dict, subject: str, sender: str) -> bool:
+    name = info.get("name") or f"【{subject[:20]}】"
+    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    properties = {
+        "案件名": {"title": [{"text": {"content": name}}]},
+        "ステータス": {"select": {"name": "募集中"}},
+        "備考": {"rich_text": [{"text": {"content": note[:2000]}}]}
+    }
+    req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
+    opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
+    if req:
+        properties["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+    if opt:
+        properties["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
+    if info.get("price"):
+        properties["単価（万円）"] = {"number": info["price"]}
+    if info.get("start_date"):
+        properties["開始日"] = {"date": {"start": info["start_date"]}}
+    if info.get("location"):
+        properties["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+    res = requests.post(
+        "https://api.notion.com/v1/pages",
+        headers=NOTION_HEADERS,
+        json={"parent": {"database_id": PROJECT_DB}, "properties": properties}
+    )
+    return res.status_code == 200
+
+
+def register_engineer(info: dict, subject: str, sender: str) -> bool:
+    name = info.get("name") or "（名前未記載）"
+    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    properties = {
+        "名前": {"title": [{"text": {"content": name}}]},
+        "稼働状況": {"select": {"name": "稼働可能"}},
+        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+    }
+    skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
+    if skills:
+        properties["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+    if info.get("price"):
+        properties["単価（万円）"] = {"number": info["price"]}
+    if info.get("available_date"):
+        properties["稼働可能日"] = {"date": {"start": info["available_date"]}}
+    if info.get("experience_years"):
+        properties["経験年数"] = {"number": info["experience_years"]}
+    res = requests.post(
+        "https://api.notion.com/v1/pages",
+        headers=NOTION_HEADERS,
+        json={"parent": {"database_id": ENGINEER_DB}, "properties": properties}
+    )
+    return res.status_code == 200
+
+
+def get_available_engineers() -> list:
+    pages = notion_query(ENGINEER_DB, {
+        "property": "稼働状況", "select": {"equals": "稼働可能"}
+    })
+    engineers = []
+    for p in pages:
+        props = p["properties"]
+        name_prop = props.get("名前", {}).get("title", [])
+        name   = name_prop[0]["plain_text"] if name_prop else "未記載"
+        skills = [o["name"] for o in props.get("スキル", {}).get("multi_select", [])]
+        price  = props.get("単価（万円）", {}).get("number", 0) or 0
+        avail  = (props.get("稼働可能日", {}).get("date") or {}).get("start", "")
+        note_prop = props.get("備考（LINEメモ）", {}).get("rich_text", [])
+        note   = note_prop[0]["plain_text"][:200] if note_prop else ""
+        engineers.append({"name": name, "skills": skills, "price": price,
+                          "available_date": avail, "note": note})
+    return engineers
+
+
+# ===== 提案文下書き保存 =====
+def save_draft(proj_name: str, reply_to: str, candidates: list,
+               check_result: str, final_proposal: str):
+    DRAFTS_DIR.mkdir(exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    safe_name = re.sub(r'[\\/:*?"<>|]', '_', proj_name)[:30]
+    path = DRAFTS_DIR / f"{ts}_{safe_name}.txt"
+
+    is_ok = "【判定】OK" in check_result or "判定】OK" in check_result
+
+    content = f"""================================================================
+提案文下書き
+生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+================================================================
+【案件名】{proj_name}
+【返信先】{reply_to}
+
+【候補者】
+"""
+    for i, c in enumerate(candidates[:3], 1):
+        content += f"  {'①②③'[i-1]} {c['name']} / {c.get('price',0)}万円\n"
+        content += f"     {c.get('summary','')}\n"
+
+    content += f"""
+【ダブルチェック結果】
+判定: {'[OK] OK' if is_ok else '[NG] NG'}
+{check_result[:800]}
+
+【提案メール本文（送信可能版）】
+{final_proposal}
+================================================================
+"""
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return path
+
+
+# ===== メイン =====
+def main():
+    log("=" * 50)
+    log(f"メールパイプライン v4 起動（スキルフィルタリング追加）")
+    log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+
+    processed = load_processed_ids()
+    log(f"処理済みID: {len(processed)}件")
+
+    emails = fetch_recent_emails(limit=FETCH_LIMIT)
+    if not emails:
+        log("処理対象なし・終了")
+        return
+
+    new_emails = [e for e in emails if e["msg_id"] not in processed]
+    log(f"新規処理対象: {len(new_emails)}件（{len(emails) - len(new_emails)}件スキップ）")
+
+    if not new_emails:
+        log("全て処理済み・終了")
+        return
+
+    target_emails = new_emails[:PROCESS_LIMIT]
+    if len(new_emails) > PROCESS_LIMIT:
+        log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails)-PROCESS_LIMIT}件は次回）")
+
+    engineers = get_available_engineers()
+    log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
+
+    for em in target_emails:
+        subject  = em["subject"]
+        sender   = em["sender"]
+        reply_to = em["reply_to"]
+        body     = em["body"]
+        msg_id   = em["msg_id"]
+        log(f"処理中: {subject[:50]}")
+
+        info = classify_email(subject, body)
+        msg_type = info.get("type", "other")
+        log(f"  判定: {msg_type}")
+
+        if msg_type == "project":
+            ok = register_project(info, subject, sender)
+            proj_name = info.get("name") or subject[:30]
+            if not ok:
+                log(f"  [NG] 案件Notion登録失敗: {proj_name}")
+                save_processed_id(msg_id, processed)
+                continue
+            log(f"  [OK] 案件登録: {proj_name}")
+
+            # ★v4: Python側でスキルフィルタリング★
+            filtered = filter_engineers_by_skills(info, engineers, top_n=MATCH_TOP_N)
+            log(f"  スキルフィルタリング: {len(engineers)}名 → {len(filtered)}名")
+
+            if not filtered:
+                log(f"  [!!] スキルマッチする候補者なし: {proj_name}")
+                save_processed_id(msg_id, processed)
+                continue
+
+            matching = ai_matching(info, filtered)
+            candidates = matching.get("candidates", [])
+            proposal_draft = matching.get("proposal_draft", "")
+
+            if not candidates:
+                log(f"  [!!] AIマッチング候補なし: {proj_name}")
+                save_processed_id(msg_id, processed)
+                continue
+            log(f"  AIマッチング: {len(candidates)}名")
+
+            check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
+            for c in candidates:
+                check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
+            check_result = double_check(check_input)
+
+            final_proposal = proposal_draft
+            marker = "【修正済み提案文】"
+            if marker in check_result:
+                after = check_result.split(marker, 1)[1].strip()
+                if "【所見】" in after:
+                    after = after.split("【所見】")[0].strip()
+                if after and after != "修正不要":
+                    final_proposal = after
+
+            draft_path = save_draft(proj_name, reply_to, candidates, check_result, final_proposal)
+            log(f"  [OK] 提案文下書き保存: {draft_path.name}")
+            log(f"  [MAIL] 返信先: {reply_to}")
+
+        elif msg_type == "engineer":
+            name = info.get("name", "（名前未記載）")
+            ok = register_engineer(info, subject, sender)
+            if ok:
+                log(f"  [OK] 人材登録: {name}")
+            else:
+                log(f"  [NG] 人材Notion登録失敗: {name}")
+
+        else:
+            log(f"  スキップ（その他）: {subject[:40]}")
+
+        save_processed_id(msg_id, processed)
+
+    log("メールパイプライン v4 完了")
+    log("=" * 50)
+
+
+if __name__ == "__main__":
+    main()
