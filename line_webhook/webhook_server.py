@@ -231,6 +231,18 @@ def process_message(text, reply_token, sender, sender_token):
         engineers = get_available_engineers()
         matching = run_matching(info, engineers)
         candidates = matching.get("candidates", [])
+        # 粗利フィルタ: 案件単価 - 人材単価 >= 5万円
+        project_price = normalize_price(info.get("price", 0)) or 0
+        if project_price > 0:
+            def gross_ok(c):
+                cp = normalize_price(c.get("price", 0)) or 0
+                if cp == 0: return True  # 単価不明は通す
+                return (project_price - cp) >= 5
+            filtered = [c for c in candidates if gross_ok(c)]
+            ng_count = len(candidates) - len(filtered)
+            if ng_count > 0:
+                print(f"[profit_filter] {ng_count}名を粗利不足で除外")
+            candidates = filtered
         proposal_draft = matching.get("proposal_draft", "")
         if not candidates:
             reply_message(reply_token, f"\u2705 \u6848\u4ef6\u300c{proj_name}\u300d\u767b\u9332\u5b8c\u4e86\n\n\u26a0\ufe0f \u30de\u30c3\u30c1\u5019\u88dc\u8005\u306a\u3057", sender_token)
