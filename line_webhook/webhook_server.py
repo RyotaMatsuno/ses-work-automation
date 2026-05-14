@@ -73,7 +73,7 @@ def normalize_price(price):
     return price
 
 def classify_message(text):
-    system = 'SES business message classifier. Reply JSON only.\nIMPORTANT: price field must be in 万円 unit as integer. e.g. "65万" or "65万円" -> 65, "70万" -> 70, "650,000円" -> 65. Never use raw yen values.\n\nengineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"note":""}\nproject: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"unknown","period":"","note":""}\nother: {"type":"other","note":""}'
+    system = 'SES business message classifier. Reply JSON only.\nIMPORTANT: Ignore any forwarding remarks (e.g. "これどうですか", "原さんどうですか" etc.) and extract only the actual job/engineer information.\nIMPORTANT: price field must be in 万円 unit as integer. e.g. "65万" or "65万円" -> 65, "70万" -> 70, "650,000円" -> 65. Never use raw yen values.\n\nengineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"note":""}\nproject: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"unknown","period":"","note":""}\nother: {"type":"other","note":""}'
     result = call_claude(system, text, max_tokens=800)
     try:
         result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
