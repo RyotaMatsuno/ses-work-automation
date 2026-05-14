@@ -63,8 +63,13 @@ def classify_message(text):
     system = 'SES business message classifier. Reply JSON only.\n\nengineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"note":""}\nproject: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"unknown","period":"","note":""}\nother: {"type":"other","note":""}'
     result = call_claude(system, text, max_tokens=800)
     try:
-        return json.loads(re.sub(r'```json|```', '', result).strip())
-    except:
+        result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
+        if not isinstance(result_obj, dict):
+            print(f"[classify_message] unexpected type: {type(result_obj)} -> fallback to other")
+            return {"type": "other", "note": text[:300]}
+        return result_obj
+    except Exception as e:
+        print(f"[classify_message] parse error: {e} / raw: {result[:100]}")
         return {"type": "other", "note": text[:300]}
 
 
@@ -72,8 +77,13 @@ def run_matching(project, engineers):
     system = 'SES matching AI. Reply JSON only.\n{"candidates":[{"name":"","price":0,"summary":"","required_match":{},"optional_match":{},"parallel":"none","engineer_source":"matsuno or okamoto or unknown"}],"proposal_draft":""}'
     result = call_claude(system, json.dumps({"project": project, "engineers": engineers}, ensure_ascii=False), max_tokens=2000)
     try:
-        return json.loads(re.sub(r'```json|```', '', result).strip())
-    except:
+        result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
+        if not isinstance(result_obj, dict):
+            print(f"[run_matching] unexpected type: {type(result_obj)} -> fallback")
+            return {"candidates": [], "proposal_draft": ""}
+        return result_obj
+    except Exception as e:
+        print(f"[run_matching] parse error: {e} / raw: {result[:100]}")
         return {"candidates": [], "proposal_draft": ""}
 
 
