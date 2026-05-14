@@ -1,5 +1,5 @@
 """
-LINE Webhook Server v9
+LINE Webhook Server v10
 - 人員登録時に既存募集中案件と逆マッチング
 - 「送信して [メアド]」でses-mail経由の実メール送信
 - NG候補を○×付きで参考表示、△も含めて送信に対応
@@ -290,6 +290,29 @@ def build_reverse_match_message(eng_name, matches):
 
     return msg
 
+
+
+def run_double_check(proposal_text, candidates_info):
+    """ダブルチェックAI: 送信前に提案文を検証・自動修正する"""
+    system = """SES proposal double-checker. Reply JSON only.
+Check for:
+1. Forbidden words: 充足, 即戦力, 弊社, 当社
+2. Wrong honorifics: 教えてください->ご教授ください, お願いします->よろしくお願いいたします
+3. Unmasked company/person names in proposal body
+Return: {"ok": true, "issues": [], "corrected": "same as input if ok"}
+If issues found, return corrected text with fixes applied."""
+
+    payload = str({"proposal": proposal_text[:1000], "candidates": candidates_info})
+    import json as _json
+    result = call_claude(system, _json.dumps({"proposal": proposal_text[:1000], "candidates": candidates_info}, ensure_ascii=False), max_tokens=1000)
+    try:
+        result_obj = _json.loads(re.sub(r'```json|```', '', result).strip())
+        if not isinstance(result_obj, dict):
+            return True, [], proposal_text
+        return result_obj.get("ok", True), result_obj.get("issues", []), result_obj.get("corrected", proposal_text)
+    except Exception as e:
+        print(f"[run_double_check] parse error: {e}")
+        return True, [], proposal_text
 
 def notion_query(db_id, filter_obj=None):
     results, payload = [], {"page_size": 100}
