@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 .env
+token_sheets.json  
+token.json  
+token_calendar.json  
