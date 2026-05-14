@@ -59,6 +59,19 @@ def call_claude(system, user_msg, max_tokens=2000):
     return ""
 
 
+
+def normalize_price(price):
+    """AIが万円単位を誤って円単位で返した場合に正規化する。
+    100以上かつ100の倍数っぽい大きな値は万円換算とみなして割る。
+    合理的な万円範囲: 30〜200万円
+    """
+    if price is None or price == 0:
+        return price
+    # 1000以上なら円単位と判断して万円に変換
+    if price >= 1000:
+        price = round(price / 10000)
+    return price
+
 def classify_message(text):
     system = 'SES business message classifier. Reply JSON only.\nIMPORTANT: price field must be in 万円 unit as integer. e.g. "65万" or "65万円" -> 65, "70万" -> 70, "650,000円" -> 65. Never use raw yen values.\n\nengineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"note":""}\nproject: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"unknown","period":"","note":""}\nother: {"type":"other","note":""}'
     result = call_claude(system, text, max_tokens=800)
@@ -112,7 +125,8 @@ def register_engineer(info, raw_text, sender):
     }
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills: props["\u30b9\u30ad\u30eb"] = {"multi_select": [{"name": s} for s in skills]}
-    if info.get("price"): props["\u5358\u4fa1\uff08\u4e07\u5186\uff09"] = {"number": info["price"]}
+    price_val = normalize_price(info.get("price", 0))
+    if price_val: props["\u5358\u4fa1\uff08\u4e07\u5186\uff09"] = {"number": price_val}
     if info.get("experience_years"): props["\u7d4c\u9a13\u5e74\u6570"] = {"number": info["experience_years"]}
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
                        json={"parent": {"database_id": NOTION_ENGINEER_DB_ID}, "properties": props})
@@ -135,7 +149,8 @@ def register_project(info, raw_text, sender):
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
     if req: props["\u5fc5\u8981\u30b9\u30ad\u30eb"] = {"multi_select": [{"name": s} for s in req]}
     if opt: props["\u5c1a\u53ef\u30b9\u30ad\u30eb"] = {"multi_select": [{"name": s} for s in opt]}
-    if info.get("price"): props["\u5358\u4fa1\uff08\u4e07\u5186\uff09"] = {"number": info["price"]}
+    price_val = normalize_price(info.get("price", 0))
+    if price_val: props["\u5358\u4fa1\uff08\u4e07\u5186\uff09"] = {"number": price_val}
     if info.get("location"): props["\u52e4\u52d9\u5730"] = {"rich_text": [{"text": {"content": info["location"]}}]}
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
                        json={"parent": {"database_id": NOTION_PROJECT_DB_ID}, "properties": props})
