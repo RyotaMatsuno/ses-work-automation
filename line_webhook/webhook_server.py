@@ -143,7 +143,7 @@ def register_project(info, raw_text, sender):
     props = {
         "\u6848\u4ef6\u540d": {"title": [{"text": {"content": name}}]},
         "\u30b9\u30c6\u30fc\u30bf\u30b9": {"select": {"name": "\u52df\u96c6\u4e2d"}},
-        "\u5099\u8003": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "\u6848\u4ef6\u8a73\u7d30": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
@@ -152,6 +152,7 @@ def register_project(info, raw_text, sender):
     price_val = normalize_price(info.get("price", 0))
     if price_val: props["\u5358\u4fa1\uff08\u4e07\u5186\uff09"] = {"number": price_val}
     if info.get("location"): props["\u52e4\u52d9\u5730"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+    if info.get("period"): props["\u671f\u9593"] = {"rich_text": [{"text": {"content": info["period"]}}]}
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
                        json={"parent": {"database_id": NOTION_PROJECT_DB_ID}, "properties": props})
     print(f"register_project status: {res.status_code}")
