@@ -1,4 +1,4 @@
-﻿"""
+"""
 LINE Webhook Server v10
 - 莠ｺ蜩｡逋ｻ骭ｲ譎ゅ↓譌｢蟄伜供髮・ｸｭ譯井ｻｶ縺ｨ騾・・繝・メ繝ｳ繧ｰ
 - 縲碁∽ｿ｡縺励※ [繝｡繧｢繝云縲阪〒ses-mail邨檎罰縺ｮ螳溘Γ繝ｼ繝ｫ騾∽ｿ｡
@@ -420,57 +420,34 @@ def get_active_projects():
 
 
 def send_email_via_callback(account, to_addr, subject, body):
-    """
-    繝ｭ繝ｼ繧ｫ繝ｫ縺ｮjobz-command繧ｵ繝ｼ繝舌・邨檎罰縺ｧses-mail繧貞他縺ｳ蜃ｺ縺吶・
-    Railway縺九ｉ逶ｴ謗･ses-mail縺ｯ蜻ｼ縺ｹ縺ｪ縺・◆繧√）obz-command縺ｮHTTP繧ｵ繝ｼ繝舌・縺ｫ
-    Python繧ｳ繝ｼ繝峨ｒ螳溯｡後＆縺帙ｋ譁ｹ蠑上・
-    """
-    import json as _json
-    # jobz-command繧ｵ繝ｼ繝舌・縺ｫPython繧ｹ繧ｯ繝ｪ繝励ヨ繧帝∽ｿ｡縺励※螳溯｡・
-    code = f"""
-import sys
-sys.path.insert(0, r'C:\\\\Users\\\\ma_py\\\\OneDrive\\\\繝・せ繧ｯ繝医ャ繝予\\\ses_work\\\\mail_mcp')
-# ses-mail MCP縺ｯ逶ｴ謗･Python縺九ｉ蜻ｼ縺ｹ縺ｪ縺・◆繧√《mtplib縺ｧ逶ｴ謗･騾∽ｿ｡
-import smtplib, ssl, os
-from email.mime.text import MIMEText
-from email.header import Header
-from dotenv import load_dotenv
-load_dotenv(r'C:\\\\Users\\\\ma_py\\\\OneDrive\\\\繝・せ繧ｯ繝医ャ繝予\\\ses_work\\\\config\\\\.env')
+    import smtplib, ssl
+    from email.mime.text import MIMEText
+    from email.header import Header as EmailHeader
 
-accounts = {{
-    'matsuno': {{'user': 'r-matsuno@terra-ltd.co.jp', 'pw_key': 'MATSUNO_MAIL_PASSWORD'}},
-    'okamoto': {{'user': 'r-okamoto@terra-ltd.co.jp', 'pw_key': 'OKAMOTO_MAIL_PASSWORD'}},
-    'sessales': {{'user': 'sessales@terra-ltd.co.jp', 'pw_key': 'SESSALES_MAIL_PASSWORD'}},
-}}
-acc = accounts.get('{account}', accounts['sessales'])
-user = acc['user']
-pw = os.environ.get(acc['pw_key'], os.environ.get('SESSALES_MAIL_PASSWORD', ''))
-
-msg = MIMEText({_json.dumps(body)}, 'plain', 'utf-8')
-msg['Subject'] = Header({_json.dumps(subject)}, 'utf-8')
-msg['From'] = user
-msg['To'] = {_json.dumps(to_addr)}
-
-ctx = ssl.create_default_context()
-with smtplib.SMTP_SSL('mail65.onamae.ne.jp', 465, context=ctx) as s:
-    s.login(user, pw)
-    s.sendmail(user, [{_json.dumps(to_addr)}], msg.as_bytes())
-print('SENT OK')
-"""
+    accounts_cfg = {
+        'matsuno': {'user': 'r-matsuno@terra-ltd.co.jp', 'pw': os.environ.get('MATSUNO_MAIL_PASSWORD', os.environ.get('SESSALES_MAIL_PASSWORD', ''))},
+        'okamoto': {'user': 'r-okamoto@terra-ltd.co.jp', 'pw': os.environ.get('OKAMOTO_MAIL_PASSWORD', os.environ.get('SESSALES_MAIL_PASSWORD', ''))},
+        'sessales': {'user': 'sessales@terra-ltd.co.jp', 'pw': os.environ.get('SESSALES_MAIL_PASSWORD', '')},
+    }
+    acc = accounts_cfg.get(account, accounts_cfg['sessales'])
+    user, pw = acc['user'], acc['pw']
+    if not pw:
+        print(f"[send_email] ERROR: パスワード未設定 account={account}")
+        return False
     try:
-        res = requests.post(
-            os.environ.get("NGROK_URL", "http://127.0.0.1:8765") + "/run",
-            headers={"X-Auth-Token": "jobz-terra-2026", "Content-Type": "application/json"},
-            json={"cmd": f"python -c \"{code.replace(chr(10), ';').replace('\"', chr(39))}\""},
-            timeout=30
-        )
-        if res.status_code == 200:
-            output = res.json().get("stdout", "")
-            return "SENT OK" in output
+        msg = MIMEText(body, 'plain', 'utf-8')
+        msg['Subject'] = EmailHeader(subject, 'utf-8')
+        msg['From'] = user
+        msg['To'] = to_addr
+        ctx = ssl.create_default_context()
+        with smtplib.SMTP_SSL('mail65.onamae.ne.jp', 465, context=ctx) as s:
+            s.login(user, pw)
+            s.sendmail(user, [to_addr], msg.as_bytes())
+        print(f"[send_email] SENT OK to={to_addr} from={user}")
+        return True
     except Exception as e:
-        print(f"[send_email_via_callback] error: {e}")
-    return False
-
+        print(f"[send_email] ERROR: {e}")
+        return False
 
 def reply_message(reply_token, text, token):
     if len(text) > 4900: text = text[:4900] + "\n...(truncated)"
