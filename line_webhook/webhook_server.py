@@ -3,7 +3,7 @@ LINE Webhook Server v13
 - スキルシートPDF/画像をLINEから受信してskill_reader_api（8766）で処理
 """
 
-import os, hmac, hashlib, base64, json, re, traceback
+import os, hmac, hashlib, base64, json, re, traceback, threading, time
 from datetime import date
 from flask import Flask, request, abort
 import requests
@@ -820,6 +820,19 @@ def webhook_okamoto():
 @app.route('/health', methods=['GET'])
 def health():
     return 'OK', 200
+
+def _keepalive():
+    time.sleep(60)
+    url = os.environ.get('RENDER_EXTERNAL_URL', 'https://ses-work-automation.onrender.com')
+    while True:
+        try:
+            requests.get(f'{url}/health', timeout=10)
+            print('[keepalive] ping OK')
+        except Exception as e:
+            print(f'[keepalive] ping failed: {e}')
+        time.sleep(600)
+
+threading.Thread(target=_keepalive, daemon=True).start()
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
