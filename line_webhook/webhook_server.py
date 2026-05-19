@@ -718,11 +718,13 @@ def get_available_engineers():
 
 
 def get_active_projects():
-
+    # 募集中・稼働中・選考中すべてをマッチング対象とする
     pages = notion_query(NOTION_PROJECT_DB_ID, {
-
-        "property": "ステータス", "select": {"equals": "稼働中"}
-
+        "or": [
+            {"property": "ステータス", "select": {"equals": "募集中"}},
+            {"property": "ステータス", "select": {"equals": "稼働中"}},
+            {"property": "ステータス", "select": {"equals": "選考中"}}
+        ]
     })
 
     result = []
