@@ -1,6 +1,25 @@
 __pycache__/
 *.pyc
 .env
-token_sheets.json  
-token.json  
-token_calendar.json  
+
+# 認証・トークン系（漏洩防止）
+token_sheets.json
+token.json
+token_calendar.json
+freee_token.json
+freee_auth/freee_token.json
+gmail/credentials.json
+google_credentials.json
+ses-work-automation-*.json
+*.token.json
+auth.json
+config_source.json
+
+# ログ・一時ファイル
+*.log
+*.bak
+*.bak_*
+ngrok_screen.png
+
+# 不要な一時スクリプト（tmp_系）
+tmp_*.py
