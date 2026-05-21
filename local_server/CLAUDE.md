@@ -51,3 +51,22 @@ local_server/
 - SPEC.md（何を作るかの定義）
 - TASKS.md（実装順序）
 - ../claude_desktop_config.json（MCP登録状況）
+
+## Codex分業ルール（2026-05-21 追加）
+
+### Codexに自動的に振るタスク
+- Pythonスクリプトの新規作成
+- 既存スクリプトのバグ修正・リファクタ
+- HTML/CSS/Playwright実装
+- バッチ処理・ファイル変換
+
+### ジョブズが自分でやること
+- 設計・SPEC.md作成
+- Notion操作・メール判断
+- 松野への報告・確認
+
+### Codex運用ルール
+- suggest mode固定（導入初期はfully-autoを使わない）
+- git diff 肉眼レビュー必須（Codex実行後）
+- 1SPEC = 1commit を原則とする
+- 本番コードへの初回適用前にsandbox_parser.pyや独立関数で動作観察する
