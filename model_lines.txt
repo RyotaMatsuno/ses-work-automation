@@ -1,0 +1,7 @@
+86: # Claude AI呼び出し
+89: def call_claude(system: str, user_msg: str, max_tokens: int = 2000) -> str:
+98:             "model": "claude-sonnet-4-20250514",
+107:     print(f"Claude APIエラー: {res.status_code}")
+122:     result = call_claude(system, text, max_tokens=800)
+135:     result = call_claude(system, json.dumps({"project": project, "engineers": engineers}, ensure_ascii=False), max_tokens=2000)
+146:     result = call_claude(DOUBLE_CHECK_SYSTEM, check_input, max_tokens=2000)

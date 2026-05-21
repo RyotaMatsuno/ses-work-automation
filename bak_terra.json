@@ -1,0 +1,322 @@
+[
+  {
+    "row": 5,
+    "name": "仲山雄輝",
+    "status": "稼働中",
+    "tanka": 370000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "スウェル"
+  },
+  {
+    "row": 6,
+    "name": "吉田創志",
+    "status": "稼働中",
+    "tanka": 430000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "Technocrats Japan"
+  },
+  {
+    "row": 7,
+    "name": "蒲池佑萌",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "シートス"
+  },
+  {
+    "row": 8,
+    "name": "大野稔貴",
+    "status": "稼働中",
+    "tanka": 320000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "ブライトウェイ"
+  },
+  {
+    "row": 9,
+    "name": "白須雄太",
+    "status": "稼働中",
+    "tanka": 270000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "リブートテック"
+  },
+  {
+    "row": 10,
+    "name": "沼田航陽",
+    "status": "稼働中",
+    "tanka": 360000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "アイゼンソリューション"
+  },
+  {
+    "row": 11,
+    "name": "魚谷",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "スリーケーシー"
+  },
+  {
+    "row": 12,
+    "name": "片山",
+    "status": "5月末終了",
+    "tanka": 570000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "タレントギア"
+  },
+  {
+    "row": 13,
+    "name": "赤木",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "SPPS"
+  },
+  {
+    "row": 14,
+    "name": "坪井",
+    "status": "稼働中",
+    "tanka": 380000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "スウェル"
+  },
+  {
+    "row": 15,
+    "name": "中村",
+    "status": "稼働中",
+    "tanka": 450000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "SPJ"
+  },
+  {
+    "row": 16,
+    "name": "日比野",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "SPPS"
+  },
+  {
+    "row": 17,
+    "name": "大本",
+    "status": "稼働中",
+    "tanka": 330000,
+    "shiire": 300000,
+    "kubun": "BP",
+    "tantou": "TERRA折半",
+    "case": "（確認中）"
+  },
+  {
+    "row": 18,
+    "name": "森",
+    "status": "稼働中",
+    "tanka": 380000,
+    "shiire": 320000,
+    "kubun": "BP",
+    "tantou": "TERRA折半",
+    "case": "（確認中）"
+  },
+  {
+    "row": 19,
+    "name": "永野",
+    "status": "稼働中",
+    "tanka": 680000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "（確認中）"
+  },
+  {
+    "row": 20,
+    "name": "安江",
+    "status": "稼働中",
+    "tanka": 480000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "（確認中）"
+  },
+  {
+    "row": 21,
+    "name": "相川",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "SPPS"
+  },
+  {
+    "row": 22,
+    "name": "芹澤",
+    "status": "稼働中",
+    "tanka": 590000,
+    "shiire": 500000,
+    "kubun": "BP",
+    "tantou": "TERRA折半",
+    "case": "（確認中）"
+  },
+  {
+    "row": 23,
+    "name": "富永",
+    "status": "稼働中",
+    "tanka": 360000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "SPPS"
+  },
+  {
+    "row": 24,
+    "name": "天野",
+    "status": "稼働中",
+    "tanka": 490000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "岡本",
+    "case": "comvace"
+  },
+  {
+    "row": 25,
+    "name": "岩瀬",
+    "status": "稼働中",
+    "tanka": 500000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "岡本",
+    "case": "（確認中）"
+  },
+  {
+    "row": 26,
+    "name": "加藤(T)",
+    "status": "稼働中",
+    "tanka": 380000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "岡本",
+    "case": "（確認中）"
+  },
+  {
+    "row": 27,
+    "name": "山内清",
+    "status": "稼働中",
+    "tanka": 370000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "スウェル（GL経由）"
+  },
+  {
+    "row": 28,
+    "name": "田中みさ",
+    "status": "稼働中",
+    "tanka": 400000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "相馬さん（GL/FT経由）"
+  },
+  {
+    "row": 29,
+    "name": "佐々木",
+    "status": "稼働中",
+    "tanka": 610000,
+    "shiire": 560000,
+    "kubun": "BP",
+    "tantou": "岡本折半",
+    "case": "スウェル"
+  },
+  {
+    "row": 30,
+    "name": "木村勇太",
+    "status": "稼働中",
+    "tanka": 600000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "グレイスライン経由"
+  },
+  {
+    "row": 31,
+    "name": "原",
+    "status": "5月末終了",
+    "tanka": null,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "（調整中）"
+  },
+  {
+    "row": 32,
+    "name": "川崎(新)",
+    "status": "入場前",
+    "tanka": null,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "（調整中）"
+  },
+  {
+    "row": 33,
+    "name": "橋詰(新)",
+    "status": "入場前",
+    "tanka": 450000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "（調整中）"
+  },
+  {
+    "row": 34,
+    "name": "佐々木(入)",
+    "status": "入場前",
+    "tanka": 610000,
+    "shiire": null,
+    "kubun": "P",
+    "tantou": "",
+    "case": "スウェル"
+  },
+  {
+    "row": 35,
+    "name": "小山内",
+    "status": "入場前",
+    "tanka": 600000,
+    "shiire": 540000,
+    "kubun": "BP",
+    "tantou": "TERRA折半",
+    "case": "（調整中）"
+  },
+  {
+    "row": 36,
+    "name": "吉田祥平",
+    "status": "入場前",
+    "tanka": 700000,
+    "shiire": 650000,
+    "kubun": "BP",
+    "tantou": "小坂折半",
+    "case": "省庁ネットワーク/ICT運用"
+  }
+]

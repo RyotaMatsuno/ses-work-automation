@@ -1,0 +1,23 @@
+{
+  "TERRA_issues": [
+    {
+      "row": 32,
+      "name": "川崎(新)",
+      "status": "稼働中",
+      "tantou": "",
+      "kubun": "P",
+      "tanka": "",
+      "shiire": ""
+    },
+    {
+      "row": 37,
+      "name": "齋藤よしまさ",
+      "status": "稼働中",
+      "tantou": "",
+      "kubun": "P",
+      "tanka": "",
+      "shiire": ""
+    }
+  ],
+  "FT_issues": []
+}

@@ -1,0 +1,45 @@
+356:         proposal_msg += f"\n【提案文（送信可能版）】\n"
+357:         proposal_msg += final_proposal[:1500] if final_proposal else "（生成できませんでした）"
+358:         if intent_owner != sender:
+359:             proposal_msg += f"\n\n※ 意向確認は{intent_owner}が実施中です"
+360:         proposal_msg += "\n\n確認後「送信して」と返信してください"
+361: 
+362:         reply_message(reply_token, proposal_msg, sender_token)
+363: 
+364:         if intent_owner != sender and intent_owner != "両方":
+365:             intent_user_id, intent_token = get_user_id_and_token(intent_owner)
+366:             intent_msg = (
+367:                 f"📋 意向確認の依頼が来ました\n\n【案件】{proj_name}\n"
+368:                 f"必須: {', '.join(info.get('required_skills',[])[:4])}\n"
+369:                 f"単価: {info.get('price',0)}万円 / {info.get('location','不明')} / リモート{info.get('remote','不明')}\n\n"
+370:                 f"【確認してほしい人材】\n"
+371:             )
+372:             for i, c in enumerate(candidates[:3], 1):
+373:                 mark = "①②③"[i-1]
+374:                 intent_msg += f"{mark} {c['name']} - {c.get('price',0)}万円\n   {c.get('summary','')[:60]}\n"
+375:             intent_msg += f"\n意向確認後、結果をジョブズに送ってください"
+376:             push_message(intent_user_id, intent_msg, intent_token)
+377: 
+378:         elif intent_owner == "両方":
+379:             for person in ["松野", "岡本"]:
+380:                 if person != sender:
+381:                     uid, tok = get_user_id_and_token(person)
+382:                     push_message(uid,
+383:                         f"📋 {sender}から案件「{proj_name}」が来ました\n担当候補者の確認をお願いします", tok)
+384: 
+385:     else:
+386:         reply_message(reply_token,
+387:             "メッセージを受信しました。\n\n人材情報または案件情報をテキストで送ってください。\n（自由なフォーマットで大丈夫です）",
+388:             sender_token)
+389: 
+390: 
+391: # ============================================================
+392: # Flask エンドポイント
+393: # ============================================================
+394: 
+395: def handle_webhook(channel_secret: str, channel_token: str, sender_name: str):
+396:     signature = request.headers.get('X-Line-Signature', '')
+397:     body = request.get_data()
+398:     if not verify_signature(body, signature, channel_secret):
+399:         abort(400)
+400: 

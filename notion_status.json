@@ -1,0 +1,327 @@
+{
+  "engineer_total": 27,
+  "engineer_available": 27,
+  "project_total": 12,
+  "project_active": 0,
+  "engineers": [
+    {
+      "name": "U.H（33歗・男性）",
+      "price": 45,
+      "skills": [
+        "C#",
+        "MySQL"
+      ],
+      "status": "稼働可能",
+      "note": "【手動登録】武蔵砂川駅（西武拑島線）。弊社社員。日本籍。即日開始可。医療系ソフトウェアの検証・テスト業務中心。予約・患者管理・透析装置連携システムの検証テスト。"
+    },
+    {
+      "name": "R.H（24歳・男性）",
+      "price": 48,
+      "skills": [
+        "Java",
+        "PostgreSQL",
+        "Linux"
+      ],
+      "status": "稼働可能",
+      "note": "【手動登録】学芸大学駅。弊社社員。即日or6月開始。エンジニア専門学2年後2年の実務。運用保守・テスト中心。Javaでの不具合修正・改修。Shell。Windo"
+    },
+    {
+      "name": "OA（33歳・女性）",
+      "price": 60,
+      "skills": [
+        "Java",
+        "C#",
+        "React"
+      ],
+      "status": "稼働可能",
+      "note": "【手動登録】森林公園駅。リモート希望（初回出社可、週1出社可）。弊社社員。準委任。即日開始。設計以降の工程に強み。エンハンス・保守改修実績豊富。詳細設計～製造・"
+    },
+    {
+      "name": "田中太郎",
+      "price": 65,
+      "skills": [
+        "Java",
+        "Python"
+      ],
+      "status": "稼働可能",
+      "note": "[LINE auto-register: matsuno]\n"
+    },
+    {
+      "name": "LHS(40歳/男性)",
+      "price": 65,
+      "skills": [
+        "Java",
+        "JavaScript",
+        "MySQL",
+        "Oracle",
+        "Linux",
+        "Spring"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: ASE　磯山 <takahiro.isoyama@ase-info.com>\n件名: ★ASE_人材★７月/下落合/Java/"
+    },
+    {
+      "name": "K.Y",
+      "price": 1800000,
+      "skills": [
+        "JavaScript",
+        "Python",
+        "PHP",
+        "C#",
+        "MySQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids門脇<d-kadowaki@arkanoids.jp>\n件名: 【人財情報】DX推進PM/PMOご紹介！44"
+    },
+    {
+      "name": "下溝",
+      "price": 0,
+      "skills": [
+        "Python"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: 片山 真緒<mao.katayama@eba-holdings.co.jp>\n件名: 【要員情報】PM経験あり／AI／要件定義"
+    },
+    {
+      "name": "M.Y",
+      "price": 65,
+      "skills": [
+        "React",
+        "TypeScript",
+        "JavaScript",
+        "PHP",
+        "Python",
+        "C#",
+        "Node.js",
+        "Docker",
+        "MySQL",
+        "MongoDB",
+        "Azure"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids門脇<d-kadowaki@arkanoids.jp>\n件名: 【人財情報】フロントエンド要員ご紹介！37歳"
+    },
+    {
+      "name": "王YX（オウ）",
+      "price": 550000,
+      "skills": [
+        "Java",
+        "React"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: 金　梅花<kinmh@t-e-system.com>\n件名: 【要員情報】Java,PLSQL,C#,Vue,Reactエンジ"
+    },
+    {
+      "name": "M.H",
+      "price": 55,
+      "skills": [
+        "Java",
+        "Python",
+        "Docker",
+        "MySQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids門脇<d-kadowaki@arkanoids.jp>\n件名: 【人財情報】組込系SEご紹介！34歳/即〜 "
+    },
+    {
+      "name": "KSみずほ台（男性42歳）",
+      "price": 65,
+      "skills": [
+        "Java",
+        "PHP",
+        "C#",
+        "JavaScript",
+        "Oracle",
+        "PostgreSQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: ロボケン杉田（株式会社共創DX機構）<k.sugita@cdxo.jp>\n件名: ※単価変更いたしました！弊社正社員【65万｜"
+    },
+    {
+      "name": "Y.T",
+      "price": 85,
+      "skills": [
+        "Ruby",
+        "JavaScript",
+        "TypeScript",
+        "Java",
+        "React",
+        "Vue.js",
+        "Node.js",
+        "AWS",
+        "Docker",
+        "Oracle",
+        "MySQL",
+        "PostgreSQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids石嶋<n-ishijima@arkanoids.jp>\n件名: 【人財情報】Ruby要員ご紹介！53歳/5月"
+    },
+    {
+      "name": "Y.K",
+      "price": 500000,
+      "skills": [
+        "C#",
+        "Python",
+        "Go",
+        "PostgreSQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids石嶋<n-ishijima@arkanoids.jp>\n件名: 【人財情報】★先行紹介★若手C#要員ご紹介！"
+    },
+    {
+      "name": "O.K",
+      "price": 780000,
+      "skills": [
+        "C#",
+        "Oracle",
+        "MySQL",
+        "Linux"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: 田丸大輔 <d.tamaru@t-techlife.com>\n件名: 【PM/PMO・証券業務30年超】55歳・男性／VB.n"
+    },
+    {
+      "name": "AK（男性/60歳）",
+      "price": 700000,
+      "skills": [
+        "PHP",
+        "JavaScript",
+        "MySQL",
+        "PostgreSQL",
+        "Oracle",
+        "Linux"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: <sales@code-d.co.jp>\n件名: 【直個人】【即日／フルリモート】EC-CUBE20年以上・高難易度案件対応可"
+    },
+    {
+      "name": "DI(男性/45歳)",
+      "price": 550000,
+      "skills": [
+        "PHP",
+        "JavaScript",
+        "Python"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: <sales@code-d.co.jp>\n件名: 【直個人】0.6人月/Web系システム開発/PHP/SQL/JavaScri"
+    },
+    {
+      "name": "TK",
+      "price": 1250000,
+      "skills": [
+        "Java",
+        "Python",
+        "JavaScript",
+        "Vue.js",
+        "AWS",
+        "Azure",
+        "Oracle",
+        "MySQL"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: ASE　磯山 <takahiro.isoyama@ase-info.com>\n件名: ★ASE_人材★5月/津田沼/要件定義～"
+    },
+    {
+      "name": "UR",
+      "price": 90,
+      "skills": [
+        "PHP",
+        "MySQL",
+        "C#",
+        "JavaScript",
+        "Python",
+        "Swift",
+        "Java",
+        "Node.js",
+        "AWS"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: mw_tokyo_jinzai@b-engineer.com\n件名: 【弊社直個人】PHP/ゲーム開発/要件定義～保守運用/週"
+    },
+    {
+      "name": "I.Y",
+      "price": 850000,
+      "skills": [
+        "Python",
+        "TypeScript",
+        "AWS"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: \"ランサーズ 石川\" <ishikawa.yuumi@lancers.co.jp>\n件名: ※ランサーズ/直フリーランス※フル"
+    },
+    {
+      "name": "K.D",
+      "price": 1000000,
+      "skills": [],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Saze上田<ueda.s@saze.co.jp>\n件名: 懇意にしている一社先のセールスコンサル要員のご紹介　※5/11\n\n"
+    },
+    {
+      "name": "Y.T",
+      "price": 840000,
+      "skills": [
+        "TypeScript",
+        "Vue.js",
+        "React"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: \"ランサーズ 岩佐\" <iwasa.mayuko@lancers.co.jp>\n件名: 【注力人材】フルスタックエンジニア！T"
+    },
+    {
+      "name": "K.K",
+      "price": 94,
+      "skills": [],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: \"ランサーズ岩佐\" <iwasa.mayuko@lancers.co.jp>\n件名: 【注力人材】PM / PMO！[弊社経由"
+    },
+    {
+      "name": "T.H",
+      "price": 650000,
+      "skills": [],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: \"ランサーズ 岩佐\" <iwasa.mayuko@lancers.co.jp>\n件名: 【注力人材】ネットワークエンジニア！ "
+    },
+    {
+      "name": "E.S",
+      "price": 950000,
+      "skills": [
+        "Python",
+        "PHP",
+        "TypeScript",
+        "インフラ"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: \"ランサーズ 石川\" <ishikawa.yuumi@lancers.co.jp>\n件名: ※ランサーズ/直フリーランス※フル"
+    },
+    {
+      "name": "M.S",
+      "price": 750000,
+      "skills": [
+        "TypeScript",
+        "JavaScript",
+        "C#",
+        "PostgreSQL",
+        "Oracle",
+        "AWS"
+      ],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids門脇<d-kadowaki@arkanoids.jp>\n件名: 【人財情報】★先行紹介/弊社実績あり★Out"
+    },
+    {
+      "name": "N.Y",
+      "price": 500000,
+      "skills": [],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids回里<s-kaizato@arkanoids.jp>\n件名: 【人財情報】コンテンツマーケ要員ご紹介！46歳"
+    },
+    {
+      "name": "T.T",
+      "price": 600000,
+      "skills": [],
+      "status": "稼働可能",
+      "note": "【メールから自動登録】\n送信者: Arkanoids石嶋<n-ishijima@arkanoids.jp>\n件名: 【人財情報】★弊社実績有！VBA(Excel"
+    }
+  ],
+  "projects": []
+}

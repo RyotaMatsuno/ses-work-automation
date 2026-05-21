@@ -1,7 +1,10 @@
 """
-メールパイプライン v4
-- v3からの変更: マッチング前にPython側でスキルフィルタリング（上位10名に絞り込み）
-- Notionエンジニア4,642名をそのままAIに渡すとトークン超過 → Python側でフィルタリング後に渡す
+mail_pipeline.py - v5
+v4からの変更:
+- 人材メール受信時: 添付スキルシート（PDF/Word/画像）を自動検出
+- skill_readerでスキル抽出 → 案件照合 → 粗利ジャスト意向確認文生成
+- 添付なし場合はメール本文からスキル抽出（従来通り）
+- 案件登録時もskill_readerのget_active_projects/match_skillsを利用
 """
 
 import imaplib
@@ -10,12 +13,22 @@ import re
 import json
 import os
 import ssl
+import base64
 import requests
 from datetime import date, datetime, timedelta
 from email.header import decode_header
 from email.utils import parsedate_to_datetime
 from dotenv import dotenv_values
 from pathlib import Path
+
+# skill_readerをインポート
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from skill_reader.skill_reader import (
+    extract_skills_from_text, extract_skills_from_image,
+    extract_text_from_pdf, extract_text_from_docx, pdf_to_base64_image,
+    get_active_projects, match_skills, generate_iko_mail
+)
 
 # ===== 設定 =====
 BASE_DIR = Path(__file__).parent
@@ -26,7 +39,7 @@ PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
 
 FETCH_LIMIT = 50
 PROCESS_LIMIT = 20
-MATCH_TOP_N = 10  # AIに渡す最大候補数
+MATCH_TOP_N = 10
 
 config = dotenv_values(ENV_PATH)
 for k, v in config.items():
@@ -105,13 +118,11 @@ def log(msg: str):
         f.write(line + "\n")
 
 
-
 def is_valid_iso_date(s) -> bool:
-    """ISO 8601 (YYYY-MM-DD) 形式かどうか確認"""
     if not s or not isinstance(s, str):
         return False
-    import re
     return bool(re.match(r'^\d{4}-\d{2}-\d{2}$', s.strip()))
+
 
 # ===== 処理済みID管理 =====
 def load_processed_ids() -> set:
@@ -136,7 +147,7 @@ def save_processed_id(msg_id: str, processed: set):
         log(f"processed_ids保存エラー: {e}")
 
 
-# ===== メール取得 =====
+# ===== メール取得（添付ファイル対応 v5新規）=====
 def decode_str(s):
     if not s:
         return ""
@@ -150,24 +161,60 @@ def decode_str(s):
     return result
 
 
-def get_body(msg):
+SKILL_SHEET_MIME_TYPES = {
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/msword",
+    "image/png", "image/jpeg", "image/jpg",
+}
+
+SKILL_SHEET_EXTENSIONS = {".pdf", ".docx", ".doc", ".png", ".jpg", ".jpeg"}
+
+
+def get_body_and_attachments(msg):
+    """本文テキストと添付スキルシート（バイナリ+MIMEタイプ）を取得"""
     body = ""
-    if msg.is_multipart():
-        for part in msg.walk():
-            if part.get_content_type() == "text/plain":
-                charset = part.get_content_charset() or "utf-8"
-                try:
-                    body = part.get_payload(decode=True).decode(charset, errors="replace")
-                    break
-                except:
-                    pass
-    else:
-        charset = msg.get_content_charset() or "utf-8"
-        try:
-            body = msg.get_payload(decode=True).decode(charset, errors="replace")
-        except:
-            body = str(msg.get_payload())
-    return body.strip()
+    attachments = []  # [{"data": bytes, "mime": str, "filename": str}]
+
+    for part in msg.walk():
+        content_type = part.get_content_type()
+        disposition  = str(part.get("Content-Disposition", ""))
+        filename_raw = part.get_filename()
+        filename     = decode_str(filename_raw) if filename_raw else ""
+
+        # 本文テキスト
+        if content_type == "text/plain" and "attachment" not in disposition:
+            charset = part.get_content_charset() or "utf-8"
+            try:
+                body = part.get_payload(decode=True).decode(charset, errors="replace")
+            except Exception:
+                pass
+            continue
+
+        # 添付ファイル判定
+        ext = Path(filename).suffix.lower() if filename else ""
+        is_skill_sheet = (
+            content_type in SKILL_SHEET_MIME_TYPES or
+            ext in SKILL_SHEET_EXTENSIONS
+        )
+
+        if is_skill_sheet and ("attachment" in disposition or filename):
+            data = part.get_payload(decode=True)
+            if data:
+                # MIMEタイプを正規化
+                mime = content_type
+                if ext == ".pdf":
+                    mime = "application/pdf"
+                elif ext in (".docx", ".doc"):
+                    mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                elif ext in (".png",):
+                    mime = "image/png"
+                elif ext in (".jpg", ".jpeg"):
+                    mime = "image/jpeg"
+                attachments.append({"data": data, "mime": mime, "filename": filename})
+                log(f"    添付検出: {filename} ({mime}) {len(data)}bytes")
+
+    return body.strip(), attachments
 
 
 def fetch_recent_emails(limit: int = 50):
@@ -203,11 +250,12 @@ def fetch_recent_emails(limit: int = 50):
             sender   = decode_str(msg.get("From", ""))
             reply_to = decode_str(msg.get("Reply-To", "")) or sender
             msg_id   = msg.get("Message-ID", f"no-id-{mail_id.decode()}")
-            body     = get_body(msg)
+            body, attachments = get_body_and_attachments(msg)
             emails.append({
                 "id": mail_id, "msg_id": msg_id,
                 "subject": subject, "sender": sender,
-                "reply_to": reply_to, "body": body
+                "reply_to": reply_to, "body": body,
+                "attachments": attachments  # v5追加
             })
         except Exception as e:
             log(f"メール取得エラー: {e}")
@@ -217,44 +265,24 @@ def fetch_recent_emails(limit: int = 50):
     return emails
 
 
-# ===== スキルフィルタリング（★v4新規追加★） =====
+# ===== スキルフィルタリング =====
 def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATCH_TOP_N) -> list:
-    """
-    案件の必須・尚可スキルでエンジニアをフィルタリングし上位top_n名を返す。
-    スコア = 必須スキルマッチ数*2 + 尚可スキルマッチ数*1
-    必須スキルが1つもマッチしない場合は除外。
-    単価乖離5万超も除外。
-    """
-    required = [s.lower() for s in project.get("required_skills", [])]
-    optional = [s.lower() for s in project.get("optional_skills", [])]
+    required  = [s.lower() for s in project.get("required_skills", [])]
+    optional  = [s.lower() for s in project.get("optional_skills", [])]
     proj_price = project.get("price", 0) or 0
-
     scored = []
     for eng in engineers:
         eng_skills = [s.lower() for s in eng.get("skills", [])]
-        eng_price = eng.get("price", 0) or 0
-
-        # 単価乖離チェック（5万超は除外）
-        if proj_price > 0 and eng_price > 0:
-            if abs(proj_price - eng_price) > 5:
-                continue
-
-        # 必須スキルマッチ数
+        eng_price  = eng.get("price", 0) or 0
+        if proj_price > 0 and eng_price > 0 and abs(proj_price - eng_price) > 5:
+            continue
         req_match = sum(1 for r in required if any(r in s for s in eng_skills))
-        # 必須スキルが1つもなければ除外（必須が指定されている場合のみ）
         if required and req_match == 0:
             continue
-
-        # 尚可スキルマッチ数
         opt_match = sum(1 for o in optional if any(o in s for s in eng_skills))
-
-        score = req_match * 2 + opt_match
-        scored.append((score, eng))
-
-    # スコア降順でソート、上位top_n名を返す
+        scored.append((req_match * 2 + opt_match, eng))
     scored.sort(key=lambda x: x[0], reverse=True)
-    result = [eng for _, eng in scored[:top_n]]
-    return result
+    return [eng for _, eng in scored[:top_n]]
 
 
 # ===== Claude AI =====
@@ -300,12 +328,7 @@ def classify_email(subject: str, body: str) -> dict:
     try:
         clean = re.sub(r"```json|```", "", result).strip()
         parsed = json.loads(clean)
-        if isinstance(parsed, dict):
-            return parsed
-        # listが返ってきた場合は先頭要素を使う
-        if isinstance(parsed, list) and parsed and isinstance(parsed[0], dict):
-            return parsed[0]
-        return {"type": "other", "note": "予期しない形式"}
+        return parsed if isinstance(parsed, dict) else {"type": "other", "note": "予期しない形式"}
     except:
         return {"type": "other", "note": "解析失敗"}
 
@@ -315,7 +338,7 @@ def ai_matching(project: dict, engineers: list) -> dict:
 
 除外ルール:
 - 必須スキルに✕ → 除外
-- 単価乖離5万超 → 除外（案件単価-5万〜+2万の範囲のみ）
+- 単価乖離5万超 → 除外
 
 サマリー文（禁止: 充足・即戦力です）:
 - 必須全○+尚可全○ → "必須・尚可ともにマッチ度高い人員"
@@ -381,12 +404,11 @@ def register_project(info: dict, subject: str, sender: str) -> bool:
         headers=NOTION_HEADERS,
         json={"parent": {"database_id": PROJECT_DB}, "properties": properties}
     )
-    if res.status_code != 200:
-        log(f"  [Notion ERROR project] {res.status_code}: {res.text[:300]}")
     return res.status_code == 200
 
 
-def register_engineer(info: dict, subject: str, sender: str) -> bool:
+def register_engineer(info: dict, subject: str, sender: str) -> tuple:
+    """エンジニア登録、NotionページIDも返す"""
     name = info.get("name") or "（名前未記載）"
     note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
     properties = {
@@ -408,9 +430,10 @@ def register_engineer(info: dict, subject: str, sender: str) -> bool:
         headers=NOTION_HEADERS,
         json={"parent": {"database_id": ENGINEER_DB}, "properties": properties}
     )
-    if res.status_code != 200:
-        log(f"  [Notion ERROR engineer] {res.status_code}: {res.text[:300]}")
-    return res.status_code == 200
+    if res.status_code == 200:
+        return True, res.json().get("id", "")
+    log(f"  [Notion ERROR engineer] {res.status_code}: {res.text[:300]}")
+    return False, ""
 
 
 def get_available_engineers() -> list:
@@ -432,18 +455,74 @@ def get_available_engineers() -> list:
     return engineers
 
 
-# ===== 提案文下書き保存 =====
+# ===== スキルシート処理（v5新規）=====
+def process_skill_sheet(attachment: dict, engineer_price: int = None,
+                        affiliation: str = "貴社") -> dict | None:
+    """
+    添付スキルシートを処理してスキル抽出・案件照合・意向確認文を生成する。
+    Returns: {"info": dict, "match_results": list, "iko_mail": str} or None
+    """
+    data = attachment["data"]
+    mime = attachment["mime"]
+    fname = attachment["filename"]
+
+    log(f"    スキルシート処理中: {fname}")
+    info = None
+
+    try:
+        if mime == "application/pdf":
+            text = extract_text_from_pdf(data)
+            if text:
+                info = extract_skills_from_text(text)
+            else:
+                log("    (テキストなし → 画像変換)")
+                b64img = pdf_to_base64_image(data)
+                if b64img:
+                    info = extract_skills_from_image(b64img, "image/png")
+        elif "word" in mime:
+            text = extract_text_from_docx(data)
+            info = extract_skills_from_text(text)
+        elif mime.startswith("image/"):
+            b64 = base64.standard_b64encode(data).decode()
+            info = extract_skills_from_image(b64, mime)
+    except Exception as e:
+        log(f"    スキルシート処理エラー: {e}")
+        return None
+
+    if not info:
+        log("    スキル抽出失敗")
+        return None
+
+    log(f"    抽出スキル: {', '.join(info.get('skills', []))}")
+
+    # 案件照合
+    projects = get_active_projects()
+    match_results = match_skills(info.get("skills", []), projects, engineer_price)
+
+    # 意向確認メール生成
+    iko_mail = generate_iko_mail(info, match_results, engineer_price, affiliation)
+
+    just_count = sum(1 for r in match_results
+                     if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
+    log(f"    照合完了: 提案可{sum(1 for r in match_results if r['proposable'])}件 "
+        f"(粗利ジャスト{just_count}件)")
+
+    return {"info": info, "match_results": match_results, "iko_mail": iko_mail}
+
+
+# ===== 下書き保存 =====
 def save_draft(proj_name: str, reply_to: str, candidates: list,
-               check_result: str, final_proposal: str):
+               check_result: str, final_proposal: str,
+               skill_result: dict = None):
     DRAFTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     safe_name = re.sub(r'[\\/:*?"<>|]', '_', proj_name)[:30]
     path = DRAFTS_DIR / f"{ts}_{safe_name}.txt"
 
-    is_ok = "【判定】OK" in check_result or "判定】OK" in check_result
+    is_ok = "【判定】OK" in check_result
 
     content = f"""================================================================
-提案文下書き
+提案文下書き v5
 生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ================================================================
 【案件名】{proj_name}
@@ -457,11 +536,74 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
 
     content += f"""
 【ダブルチェック結果】
-判定: {'[OK] OK' if is_ok else '[NG] NG'}
+判定: {'[OK]' if is_ok else '[NG]'}
 {check_result[:800]}
 
 【提案メール本文（送信可能版）】
 {final_proposal}
+================================================================
+"""
+
+    # v5: スキルシート照合結果も付記
+    if skill_result:
+        just = [r for r in skill_result["match_results"]
+                if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12]
+        content += f"""
+【スキルシート照合結果（skill_reader）】
+氏名: {skill_result['info'].get('name', '不明')}
+スキル: {', '.join(skill_result['info'].get('skills', []))}
+レベル: {skill_result['info'].get('level', '不明')}
+
+粗利ジャスト案件TOP:
+"""
+        for r in just[:3]:
+            content += f"  {r['project_name']} | 粗利{r['gross']}万\n"
+
+        content += f"""
+【意向確認メール文面】
+{skill_result['iko_mail']}
+================================================================
+"""
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return path
+
+
+def save_engineer_draft(engineer_info: dict, match_results: list,
+                        iko_mail: str, reply_to: str, sender: str):
+    """人材メール専用の下書き保存"""
+    DRAFTS_DIR.mkdir(exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    name = engineer_info.get("name", "不明")
+    safe_name = re.sub(r'[\\/:*?"<>|]', '_', name)[:20]
+    path = DRAFTS_DIR / f"{ts}_engineer_{safe_name}.txt"
+
+    just = [r for r in match_results
+            if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12]
+
+    content = f"""================================================================
+人材メール処理結果 v5
+生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+================================================================
+【エンジニア】{name}
+【送信者】{sender}
+【返信先】{reply_to}
+
+【抽出スキル】{', '.join(engineer_info.get('skills', []))}
+【レベル推定】{engineer_info.get('level', '不明')}
+【概要】{engineer_info.get('summary', '')}
+
+【粗利ジャスト案件（5〜12万）TOP{len(just)}件】
+"""
+    for r in just[:5]:
+        req_str = "  ".join(f"{s}:{'○' if v else '×'}" for s, v in r["required"].items()) or "なし"
+        content += f"  {r['project_name']} ({r['client']}) | {r['project_price']}万 | 粗利{r['gross']}万\n"
+        content += f"    必須: {req_str}\n"
+
+    content += f"""
+【意向確認メール文面（粗利ジャストTOP3）】
+{iko_mail}
 ================================================================
 """
     with open(path, "w", encoding="utf-8") as f:
@@ -472,7 +614,7 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
 # ===== メイン =====
 def main():
     log("=" * 50)
-    log(f"メールパイプライン v4 起動（スキルフィルタリング追加）")
+    log("メールパイプライン v5 起動（スキルシート自動読み取り追加）")
     log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
 
     processed = load_processed_ids()
@@ -484,26 +626,27 @@ def main():
         return
 
     new_emails = [e for e in emails if e["msg_id"] not in processed]
-    log(f"新規処理対象: {len(new_emails)}件（{len(emails) - len(new_emails)}件スキップ）")
+    log(f"新規処理対象: {len(new_emails)}件")
 
     if not new_emails:
         log("全て処理済み・終了")
         return
 
     target_emails = new_emails[:PROCESS_LIMIT]
-    if len(new_emails) > PROCESS_LIMIT:
-        log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails)-PROCESS_LIMIT}件は次回）")
-
     engineers = get_available_engineers()
     log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
 
     for em in target_emails:
-        subject  = em["subject"]
-        sender   = em["sender"]
-        reply_to = em["reply_to"]
-        body     = em["body"]
-        msg_id   = em["msg_id"]
+        subject     = em["subject"]
+        sender      = em["sender"]
+        reply_to    = em["reply_to"]
+        body        = em["body"]
+        msg_id      = em["msg_id"]
+        attachments = em.get("attachments", [])
+
         log(f"処理中: {subject[:50]}")
+        if attachments:
+            log(f"  添付: {len(attachments)}件")
 
         info = classify_email(subject, body)
         msg_type = info.get("type", "other")
@@ -513,17 +656,16 @@ def main():
             ok = register_project(info, subject, sender)
             proj_name = info.get("name") or subject[:30]
             if not ok:
-                log(f"  [NG] 案件Notion登録失敗: {proj_name}")
+                log(f"  [NG] 案件Notion登録失敗")
                 save_processed_id(msg_id, processed)
                 continue
             log(f"  [OK] 案件登録: {proj_name}")
 
-            # ★v4: Python側でスキルフィルタリング★
             filtered = filter_engineers_by_skills(info, engineers, top_n=MATCH_TOP_N)
-            log(f"  スキルフィルタリング: {len(engineers)}名 → {len(filtered)}名")
+            log(f"  スキルフィルタ: {len(engineers)}名 → {len(filtered)}名")
 
             if not filtered:
-                log(f"  [!!] スキルマッチする候補者なし: {proj_name}")
+                log(f"  [!!] 候補者なし")
                 save_processed_id(msg_id, processed)
                 continue
 
@@ -532,7 +674,7 @@ def main():
             proposal_draft = matching.get("proposal_draft", "")
 
             if not candidates:
-                log(f"  [!!] AIマッチング候補なし: {proj_name}")
+                log(f"  [!!] AIマッチング候補なし")
                 save_processed_id(msg_id, processed)
                 continue
             log(f"  AIマッチング: {len(candidates)}名")
@@ -551,15 +693,67 @@ def main():
                 if after and after != "修正不要":
                     final_proposal = after
 
-            draft_path = save_draft(proj_name, reply_to, candidates, check_result, final_proposal)
+            # 案件メールにも添付スキルシートがある場合は処理
+            skill_result = None
+            if attachments:
+                skill_result = process_skill_sheet(
+                    attachments[0],
+                    engineer_price=None,
+                    affiliation="貴社"
+                )
+
+            draft_path = save_draft(proj_name, reply_to, candidates,
+                                    check_result, final_proposal, skill_result)
             log(f"  [OK] 提案文下書き保存: {draft_path.name}")
-            log(f"  [MAIL] 返信先: {reply_to}")
 
         elif msg_type == "engineer":
+            # ===== v5: スキルシート添付対応 =====
             name = info.get("name", "（名前未記載）")
-            ok = register_engineer(info, subject, sender)
+            eng_price = info.get("price") or None
+
+            # 所属会社名をsenderから抽出（簡易）
+            affiliation = sender.split("<")[0].strip() if "<" in sender else "貴社"
+
+            skill_result = None
+
+            # 添付スキルシートがある場合はskill_readerで処理
+            if attachments:
+                log(f"  添付スキルシートを処理: {attachments[0]['filename']}")
+                skill_result = process_skill_sheet(
+                    attachments[0],
+                    engineer_price=eng_price,
+                    affiliation=affiliation
+                )
+                if skill_result:
+                    # スキル抽出結果でinfo.skillsを上書き（より精度が高い）
+                    info["skills"] = skill_result["info"].get("skills", info.get("skills", []))
+                    log(f"  スキルシートからスキル上書き: {info['skills']}")
+
+            # Notion登録
+            ok, notion_id = register_engineer(info, subject, sender)
             if ok:
-                log(f"  [OK] 人材登録: {name}")
+                log(f"  [OK] 人材登録: {name} (Notion ID: {notion_id[:8]}...)")
+
+                # skill_readerの結果があればNotionスキル欄も更新済み（register_engineerで登録）
+                # 人材下書き保存
+                if skill_result:
+                    draft_path = save_engineer_draft(
+                        skill_result["info"],
+                        skill_result["match_results"],
+                        skill_result["iko_mail"],
+                        reply_to, sender
+                    )
+                    log(f"  [OK] 人材下書き保存: {draft_path.name}")
+                    just = sum(1 for r in skill_result["match_results"]
+                               if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
+                    log(f"  粗利ジャスト案件: {just}件 → 意向確認文生成済み")
+                else:
+                    # 添付なし：本文から抽出した情報で照合のみ
+                    projects = get_active_projects()
+                    match_results = match_skills(info.get("skills", []), projects, eng_price)
+                    iko_mail = generate_iko_mail(info, match_results, eng_price, affiliation)
+                    draft_path = save_engineer_draft(info, match_results, iko_mail, reply_to, sender)
+                    log(f"  [OK] 本文ベース人材下書き保存: {draft_path.name}")
             else:
                 log(f"  [NG] 人材Notion登録失敗: {name}")
 
@@ -568,7 +762,7 @@ def main():
 
         save_processed_id(msg_id, processed)
 
-    log("メールパイプライン v4 完了")
+    log("メールパイプライン v5 完了")
     log("=" * 50)
 
 

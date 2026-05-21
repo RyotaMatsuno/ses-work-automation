@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>freee認証コード取得</title></head>
+<body>
+<h2 id="msg">処理中...</h2>
+<p id="code_display"></p>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const error = params.get('error');
+if (code) {
+  document.getElementById('msg').textContent = '認証コード取得成功！';
+  document.getElementById('code_display').innerHTML = '<strong>コード: </strong>' + code;
+  // jobz-commandサーバーにコードを送信
+  fetch('http://127.0.0.1:8765/run', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Auth-Token': 'jobz-terra-2026'},
+    body: JSON.stringify({cmd: 'python C:\\\\Users\\\\ma_py\\\\OneDrive\\\\デスクトップ\\\\ses_work\\\\freee_auth\\\\exchange_token.py ' + code})
+  }).then(r => r.json()).then(d => {
+    document.getElementById('msg').textContent = d.stdout && d.stdout.includes('SUCCESS') ? '✅ トークン保存完了！' : '❌ エラー: ' + d.stdout;
+  }).catch(e => {
+    document.getElementById('msg').textContent = 'jobz接続失敗。コードをClaudeに貼ってください: ' + code;
+  });
+} else if (error) {
+  document.getElementById('msg').textContent = 'エラー: ' + error;
+} else {
+  document.getElementById('msg').textContent = 'コードが見つかりません';
+}
+</script>
+</body>
+</html>

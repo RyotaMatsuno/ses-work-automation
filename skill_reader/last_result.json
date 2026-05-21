@@ -1,0 +1,313 @@
+{
+  "engineer": {
+    "name": "OA",
+    "skills": [
+      "Java",
+      "C#",
+      "React",
+      "Spring",
+      "基本設計",
+      "詳細設計"
+    ],
+    "experience_years": {
+      "Java": 5,
+      "C#": 2,
+      "React": 1
+    },
+    "level": "上級SE",
+    "summary": "Java5年・基本設計から製造まで一貫対応可能なSE"
+  },
+  "engineer_price": 60,
+  "match_results": [
+    {
+      "project_id": "364450ff-37c0-811b-ae0e-c4f43246f7a1",
+      "project_name": "Struts Java 基本設計〜 70万（ICD）",
+      "client": "ICD",
+      "project_price": 70,
+      "required": {
+        "Java": true
+      },
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 10,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81cf-8bbf-f4b9e2220f24",
+      "project_name": "PMO 66万 駒込 6月（ドリームビジョン）",
+      "client": "ドリームビジョン",
+      "project_price": 66,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 6,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81c6-a402-da286e8e7b1e",
+      "project_name": "PLM導入開発 Java/C# 65万（ICD）",
+      "client": "ICD",
+      "project_price": 65,
+      "required": {
+        "Java": true
+      },
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 5,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-816b-9074-ff6f56a7f269",
+      "project_name": "C言語 組み込み開発 65万（ICD）",
+      "client": "ICD",
+      "project_price": 65,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 5,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81cd-9687-f76007eb7621",
+      "project_name": "講師/AI分析 フルリモート（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-8189-98ea-d5381d763aef",
+      "project_name": "Webディレクター/PM フリーランス 常駐可（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-8120-b9b3-dd679fd14a93",
+      "project_name": "共済系PMO支援 豊洲常駐 7月（i-bis）",
+      "client": "i-bis",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81d3-8588-fb2548ad762d",
+      "project_name": "Oracle Cloud Manufacturing コンサル/TL（デコーディングエックス）",
+      "client": "デコーディングエックス",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-812d-8cc3-f4b1f1dc2623",
+      "project_name": "COBOL/JCL 大手自動車メーカー 長期保守（メモリアインク）",
+      "client": "メモリアインク",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81f0-97b7-f661943ca4c6",
+      "project_name": "Microsoft365/NW設計・セキュリティ（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-81b9-9cdd-c0d843ebed0a",
+      "project_name": "講師・AI系・6月・フルリモート（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-8146-851d-e65b6df2c223",
+      "project_name": "急募 Java人材 常駐可（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {
+        "Java": true
+      },
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-8163-bb58-e8bed2e68c95",
+      "project_name": "PBXクラウドリフト・コミュニケーションツール比較検討 〜110万（Tech4U・急募）",
+      "client": "Tech4U",
+      "project_price": 110,
+      "required": {},
+      "optional": {},
+      "required_all_ok": true,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 50,
+      "proposable": true
+    },
+    {
+      "project_id": "364450ff-37c0-8188-b2fc-e1dd8565ad7d",
+      "project_name": "Python/AWS IoT自動車 バックエンド 100万〜（D-Standing）",
+      "client": "D-Standing",
+      "project_price": 100,
+      "required": {
+        "Python": false,
+        "AWS": false
+      },
+      "optional": {},
+      "required_all_ok": false,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 40,
+      "proposable": false
+    },
+    {
+      "project_id": "364450ff-37c0-81e8-8ef9-d8ba1d4f7249",
+      "project_name": "PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE）",
+      "client": "ONE WEDGE",
+      "project_price": 75,
+      "required": {
+        "PHP": false,
+        "AWS": false
+      },
+      "optional": {},
+      "required_all_ok": false,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 15,
+      "proposable": false
+    },
+    {
+      "project_id": "364450ff-37c0-815f-b753-dc2daa830733",
+      "project_name": "基幹システム移行 Java/Spring/Postgre 75万（Roots）",
+      "client": "Rootsテクノロジーズ",
+      "project_price": 75,
+      "required": {
+        "Java": true,
+        "PostgreSQL": false
+      },
+      "optional": {},
+      "required_all_ok": false,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": 15,
+      "proposable": false
+    },
+    {
+      "project_id": "364450ff-37c0-81ef-9c5f-f3da4841d6b1",
+      "project_name": "AWS インフラ運用 出社2リモート（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {
+        "AWS": false
+      },
+      "optional": {},
+      "required_all_ok": false,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": false
+    },
+    {
+      "project_id": "364450ff-37c0-812a-80a8-d71e796911ac",
+      "project_name": "TypeScript/Next.js Python/FastAPI フルリモート（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {
+        "TypeScript": false
+      },
+      "optional": {
+        "Python": false
+      },
+      "required_all_ok": false,
+      "opt_rate": 0.0,
+      "opt_match": 0,
+      "opt_total": 1,
+      "gross": null,
+      "proposable": false
+    },
+    {
+      "project_id": "364450ff-37c0-812c-b0bb-e66ebe5adadb",
+      "project_name": "講師・Go・6月・フルリモート（ACWeb）",
+      "client": "ACWeb",
+      "project_price": null,
+      "required": {
+        "Go": false
+      },
+      "optional": {},
+      "required_all_ok": false,
+      "opt_rate": 1.0,
+      "opt_match": 0,
+      "opt_total": 0,
+      "gross": null,
+      "proposable": false
+    }
+  ],
+  "iko_mail": "\n\n件名: OA様 案件ご検討のお願い\n\nアナリックス株式会社 ご担当者様\n\nいつもお世話になっております。\n\n人員のご紹介ありがとうございます。\n下記案件いかがでしょうか。\nご検討いただけますと幸いです。\n\nまた、エントリーいただける場合下記2点ご教授いただけますと幸いです。\n・並行状況\n・必須、尚可の○×\n\n━━━━━━━━━━━━━━━━━━\n■ 案件概要\n━━━━━━━━━━━━━━━━━━\n案件名    : Struts Java 基本設計〜 70万（ICD）\n単価      : 70万円\nクライアント: ICD\n\n━━━━━━━━━━━━━━━━━━\n■ ご記入フォーマット\n━━━━━━━━━━━━━━━━━━\n▼必須スキル（○/×）\n □ Java：\n▼尚可スキル（○/×）\n □ （尚可スキルなし）\n\n▼並行状況\n 例）\n  ・A社: 面談調整中\n  ・B社: 結果待ち\n\n何卒よろしくお願いいたします。============================================================\n件名: OA様 案件ご検討のお願い\n\nアナリックス株式会社 ご担当者様\n\nいつもお世話になっております。\n\n人員のご紹介ありがとうございます。\n下記案件いかがでしょうか。\nご検討いただけますと幸いです。\n\nまた、エントリーいただける場合下記2点ご教授いただけますと幸いです。\n・並行状況\n・必須、尚可の○×\n\n━━━━━━━━━━━━━━━━━━\n■ 案件概要\n━━━━━━━━━━━━━━━━━━\n案件名    : PMO 66万 駒込 6月（ドリームビジョン）\n単価      : 66万円\nクライアント: ドリームビジョン\n\n━━━━━━━━━━━━━━━━━━\n■ ご記入フォーマット\n━━━━━━━━━━━━━━━━━━\n▼必須スキル（○/×）\n □ （必須スキルなし）\n▼尚可スキル（○/×）\n □ （尚可スキルなし）\n\n▼並行状況\n 例）\n  ・A社: 面談調整中\n  ・B社: 結果待ち\n\n何卒よろしくお願いいたします。============================================================\n件名: OA様 案件ご検討のお願い\n\nアナリックス株式会社 ご担当者様\n\nいつもお世話になっております。\n\n人員のご紹介ありがとうございます。\n下記案件いかがでしょうか。\nご検討いただけますと幸いです。\n\nまた、エントリーいただける場合下記2点ご教授いただけますと幸いです。\n・並行状況\n・必須、尚可の○×\n\n━━━━━━━━━━━━━━━━━━\n■ 案件概要\n━━━━━━━━━━━━━━━━━━\n案件名    : PLM導入開発 Java/C# 65万（ICD）\n単価      : 65万円\nクライアント: ICD\n\n━━━━━━━━━━━━━━━━━━\n■ ご記入フォーマット\n━━━━━━━━━━━━━━━━━━\n▼必須スキル（○/×）\n □ Java：\n▼尚可スキル（○/×）\n □ （尚可スキルなし）\n\n▼並行状況\n 例）\n  ・A社: 面談調整中\n  ・B社: 結果待ち\n\n何卒よろしくお願いいたします。"
+}

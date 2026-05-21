@@ -1,0 +1,92 @@
+[
+  {
+    "id": "35d450ff-37c0-8113-bce9-f8ea25192b0a",
+    "name": "K.Y",
+    "raw_price": 1800000,
+    "corrected": 180
+  },
+  {
+    "id": "35d450ff-37c0-8123-b8bb-c139bad439fa",
+    "name": "王YX（オウ）",
+    "raw_price": 550000,
+    "corrected": 55
+  },
+  {
+    "id": "35d450ff-37c0-8130-89a9-fdd9aa18626a",
+    "name": "Y.K",
+    "raw_price": 500000,
+    "corrected": 50
+  },
+  {
+    "id": "35d450ff-37c0-81f1-b5b2-c37c9c675a41",
+    "name": "O.K",
+    "raw_price": 780000,
+    "corrected": 78
+  },
+  {
+    "id": "35d450ff-37c0-81da-9709-eb0c41fb1d79",
+    "name": "AK（男性/60歳）",
+    "raw_price": 700000,
+    "corrected": 70
+  },
+  {
+    "id": "35d450ff-37c0-8151-bad3-e22e52798486",
+    "name": "DI(男性/45歳)",
+    "raw_price": 550000,
+    "corrected": 55
+  },
+  {
+    "id": "35d450ff-37c0-8196-8a70-c9155f10a823",
+    "name": "TK",
+    "raw_price": 1250000,
+    "corrected": 125
+  },
+  {
+    "id": "35d450ff-37c0-8157-becf-d10f668d1740",
+    "name": "I.Y",
+    "raw_price": 850000,
+    "corrected": 85
+  },
+  {
+    "id": "35d450ff-37c0-814b-9bbe-fc91a88413f6",
+    "name": "K.D",
+    "raw_price": 1000000,
+    "corrected": 100
+  },
+  {
+    "id": "35d450ff-37c0-81d0-8f84-ff98e15eafc6",
+    "name": "Y.T",
+    "raw_price": 840000,
+    "corrected": 84
+  },
+  {
+    "id": "35d450ff-37c0-812b-ab53-d134d32603f4",
+    "name": "T.H",
+    "raw_price": 650000,
+    "corrected": 65
+  },
+  {
+    "id": "35d450ff-37c0-8103-b592-cc2327c6fac2",
+    "name": "E.S",
+    "raw_price": 950000,
+    "corrected": 95
+  },
+  {
+    "id": "35b450ff-37c0-812f-bfa0-f5a009e24771",
+    "name": "M.S",
+    "raw_price": 750000,
+    "corrected": 75
+  },
+  {
+    "id": "35b450ff-37c0-81bd-a221-e448d380162e",
+    "name": "N.Y",
+    "raw_price": 500000,
+    "corrected": 50
+  },
+  {
+    "id": "35b450ff-37c0-81fd-a486-f18537cc0363",
+    "name": "T.T",
+    "raw_price": 600000,
+    "corrected": 60
+  }
+]
