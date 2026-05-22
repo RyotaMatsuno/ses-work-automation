@@ -583,7 +583,7 @@ def notion_query(db_id, filter_obj=None):
 
 
 
-def register_engineer(info, raw_text, sender):
+def register_engineer(info, raw_text, sender, user_id=""):
 
     name = info.get("name") or "(no name)"
 
@@ -598,6 +598,9 @@ def register_engineer(info, raw_text, sender):
         "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
 
     }
+
+    assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
+    props["担当者"] = {"select": {"name": assignee_name}}
 
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
 
@@ -627,7 +630,7 @@ def register_engineer(info, raw_text, sender):
 
 
 
-def register_project(info, raw_text, sender):
+def register_project(info, raw_text, sender, user_id=""):
 
     name = info.get("name") or "(no name)"
 
@@ -642,6 +645,9 @@ def register_project(info, raw_text, sender):
         "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
 
     }
+
+    assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
+    props["担当者"] = {"select": {"name": assignee_name}}
 
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
 
@@ -1134,7 +1140,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
 
 
-def process_message(text, reply_token, sender, sender_token):
+def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     print(f"[{sender}] {text[:80]}")
 
@@ -1296,7 +1302,7 @@ def process_message(text, reply_token, sender, sender_token):
 
     if msg_type == "engineer":
 
-        success, _ = register_engineer(info, text, sender)
+        success, _ = register_engineer(info, text, sender, user_id=user_id)
 
         if not success:
 
@@ -1353,7 +1359,7 @@ def process_message(text, reply_token, sender, sender_token):
 
         for eng in engineers_list:
 
-            ok, _ = register_engineer(eng, text, sender)
+            ok, _ = register_engineer(eng, text, sender, user_id=user_id)
 
             if ok:
 
@@ -1401,7 +1407,7 @@ def process_message(text, reply_token, sender, sender_token):
 
     elif msg_type == "project":
 
-        success, _ = register_project(info, text, sender)
+        success, _ = register_project(info, text, sender, user_id=user_id)
 
         proj_name = info.get("name", "project")
 
@@ -1469,7 +1475,7 @@ def process_message(text, reply_token, sender, sender_token):
 
         for proj in projects_list:
 
-            ok, _ = register_project(proj, text, sender)
+            ok, _ = register_project(proj, text, sender, user_id=user_id)
 
             if ok: success_count += 1
 
@@ -1531,6 +1537,8 @@ def handle_webhook(channel_secret, channel_token, sender_name):
 
             MATSUNO_USER_ID = user_id
 
+            print(f"[userId-matsuno] {user_id}", flush=True)
+
             if os.path.exists(ENV_PATH):
 
                 set_key(ENV_PATH, "MATSUNO_LINE_USER_ID", user_id)
@@ -1541,7 +1549,7 @@ def handle_webhook(channel_secret, channel_token, sender_name):
 
             if msg_type == 'text':
 
-                process_message(msg['text'], reply_token, sender_name, channel_token)
+                process_message(msg['text'], reply_token, sender_name, channel_token, user_id=user_id)
 
             elif msg_type in ('image', 'file'):
 
