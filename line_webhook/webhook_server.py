@@ -10,7 +10,7 @@ LINE Webhook Server v13
 
 import os, hmac, hashlib, base64, json, re, traceback, threading, time
 
-from datetime import date
+from datetime import date, datetime
 
 from flask import Flask, request, abort
 
@@ -862,6 +862,126 @@ def push_message(user_id, text, token):
         json={"to": user_id, "messages": [{"type": "text", "text": text}]})
 
 
+def build_matching_result_reply():
+
+    result_path = os.path.join(os.path.dirname(__file__), '..', 'matching_v2', 'result.json')
+
+    if not os.path.exists(result_path):
+
+        return "【マッチング結果】\n結果なし"
+
+    try:
+
+        with open(result_path, 'r', encoding='utf-8') as f:
+
+            data = json.load(f)
+
+    except Exception as e:
+
+        print(f"[matching_reply] result.json read error: {e}")
+
+        return "【マッチング結果】\n結果なし"
+
+    items = data.get("projects", []) if isinstance(data, dict) else data
+
+    if not isinstance(items, list):
+
+        return "【マッチング結果】\n結果なし"
+
+    lines = [f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}"]
+
+    project_count = 0
+
+    number_labels = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"]
+
+    for item in items:
+
+        if not isinstance(item, dict):
+
+            continue
+
+        candidates = item.get("candidates") or []
+
+        if not candidates:
+
+            continue
+
+        project = item.get("project") or {}
+
+        project_name = project.get("name") or item.get("project_name") or "（案件名なし）"
+
+        project_url = project.get("url") or item.get("project_url") or ""
+
+        lines.append("")
+
+        lines.append(f"■ {project_name}（{len(candidates)}名マッチ）")
+
+        if project_url:
+
+            lines.append(str(project_url))
+
+        for index, candidate in enumerate(candidates[:2]):
+
+            if not isinstance(candidate, dict):
+
+                continue
+
+            engineer = candidate.get("engineer") or {}
+
+            name = engineer.get("name") or candidate.get("engineer_name") or candidate.get("name") or "（名前なし）"
+
+            if candidate.get("needs_check"):
+
+                name += " [要確認]"
+
+            price = engineer.get("price") if engineer.get("price") is not None else candidate.get("price")
+
+            price_text = f"{price}万" if price not in (None, "") else "未設定"
+
+            lines.append(f"  {number_labels[index]} {name} /{price_text}")
+
+        if len(candidates) > 2:
+
+            lines.append(f"  他{len(candidates) - 2}名")
+
+        project_count += 1
+
+    if project_count == 0:
+
+        return "【マッチング結果】\n結果なし"
+
+    return "\n".join(lines)
+
+
+def split_line_message(text, limit=4900):
+
+    chunks = []
+
+    current = ""
+
+    for line in text.splitlines():
+
+        next_line = line if not current else current + "\n" + line
+
+        if len(next_line) <= limit:
+
+            current = next_line
+
+            continue
+
+        if current:
+
+            chunks.append(current)
+
+        current = line
+
+    if current:
+
+        chunks.append(current)
+
+    return chunks or [text[:limit]]
+
+
 
 
 
@@ -1193,6 +1313,25 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         else:
 
             reply_message(reply_token, f"📧 送信先メールアドレスを指定してください\n例: メール送信して xxx@yyy.com\n\n{iko_mail[:1500]}", sender_token)
+
+        return
+
+
+    # マッチング結果照会
+
+    if "マッチング" in text_stripped and len(text_stripped) <= 10:
+
+        matching_reply = build_matching_result_reply()
+
+        chunks = split_line_message(matching_reply)
+
+        reply_message(reply_token, chunks[0], sender_token)
+
+        push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
+
+        for chunk in chunks[1:]:
+
+            push_message(push_user_id, chunk, sender_token)
 
         return
 
