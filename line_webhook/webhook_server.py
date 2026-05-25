@@ -17,6 +17,7 @@ from flask import Flask, request, abort
 import requests
 
 from dotenv import dotenv_values, set_key
+from remote_command_handler import execute_remote, execute_bg, get_log, get_health
 try:
     from matching_logic import deduplicate_projects, build_reverse_match_message_v2
     MATCHING_LOGIC_AVAILABLE = True
@@ -978,93 +979,168 @@ def push_message(user_id, text, token):
         json={"to": user_id, "messages": [{"type": "text", "text": text}]})
 
 
+
+
+# ── ステータス略語マッピング ──────────────────────────────────────
+STATUS_ALIASES = {
+    "前": "意向確認前",
+    "確認": "意向確認中", "確認中": "意向確認中", "いこう": "意向確認中",
+    "面談": "面談希望", "面談希望": "面談希望", "希望": "面談希望",
+    "調整": "面談調整中", "調整中": "面談調整中",
+    "済": "面談済み", "面談済": "面談済み", "済み": "面談済み",
+    "合格": "合格", "ok": "合格", "OK": "合格", "〇": "合格",
+    "ng": "NG", "NG": "NG", "×": "NG", "ばつ": "NG",
+}
+
+def normalize_status(raw):
+    """略語をステータス正式名に変換"""
+    return STATUS_ALIASES.get(raw.strip(), raw.strip())
+
+def normalize_candidate_name(raw):
+    """イニシャル・略称を正規化（ドット・スペース除去・大文字化）"""
+    return raw.replace(".", "").replace(" ", "").replace("　", "").upper()
+
+def find_candidate_in_text(text, name_query):
+    """案件詳細テキストから候補者行を探す（部分一致）"""
+    nq = normalize_candidate_name(name_query)
+    for line in text.split("\n"):
+        if "▶" not in line:
+            continue
+        # 行から候補者名部分を抽出（番号と単価の間）
+        m = re.search(r"\d+\.\s+(.+?)\s+/", line)
+        if m:
+            cname = m.group(1).strip()
+            if nq in normalize_candidate_name(cname):
+                return line, cname
+    return None, None
+
+def update_candidate_status(page_id, candidate_name, new_status):
+    """案件詳細の候補者ステータスを更新する"""
+    r = requests.get(f"https://api.notion.com/v1/pages/{page_id}",
+                     headers=NOTION_HEADERS, timeout=10)
+    if r.status_code != 200:
+        return False, f"案件取得失敗: {r.status_code}"
+
+    props = r.json().get("properties", {})
+    existing_items = props.get("案件詳細", {}).get("rich_text", [])
+    existing_text = existing_items[0].get("plain_text", "") if existing_items else ""
+
+    if not existing_text or "【候補者ステータス" not in existing_text:
+        return False, "候補者ステータス欄が見つかりません"
+
+    matched_line, matched_name = find_candidate_in_text(existing_text, candidate_name)
+    if not matched_line:
+        return False, f"「{candidate_name}」が見つかりません"
+
+    new_line = re.sub(r"▶ .+$", f"▶ {new_status}", matched_line)
+    updated_text = existing_text.replace(matched_line, new_line)[:1900]
+
+    r2 = requests.patch(
+        f"https://api.notion.com/v1/pages/{page_id}",
+        headers=NOTION_HEADERS,
+        json={"properties": {"案件詳細": {"rich_text": [{"type": "text", "text": {"content": updated_text}}]}}},
+        timeout=10
+    )
+    if r2.status_code == 200:
+        return True, matched_name
+    return False, f"更新失敗: {r2.status_code}"
+
+
+def find_projects_with_candidate(name_query):
+    """候補者名で全案件を横断検索してヒットした(page_id, proj_name, matched_name)を返す"""
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+        "or": [
+            {"property": "ステータス", "select": {"equals": "募集中"}},
+            {"property": "ステータス", "select": {"equals": "稼働中"}},
+            {"property": "ステータス", "select": {"equals": "選考中"}},
+        ]
+    })
+    results = []
+    for p in pages:
+        props = p.get("properties", {})
+        name_items = props.get("案件名", {}).get("title", [])
+        proj_name = name_items[0].get("plain_text", "") if name_items else ""
+        detail_items = props.get("案件詳細", {}).get("rich_text", [])
+        detail_text = detail_items[0].get("plain_text", "") if detail_items else ""
+        if "【候補者ステータス" not in detail_text:
+            continue
+        matched_line, matched_name = find_candidate_in_text(detail_text, name_query)
+        if matched_line:
+            results.append((p["id"], proj_name, matched_name))
+    return results
+
+
 def build_matching_result_reply():
-
-    result_path = os.path.join(os.path.dirname(__file__), '..', 'matching_v2', 'result.json')
-
-    if not os.path.exists(result_path):
-
-        return "【マッチング結果】\n結果なし"
-
+    """Notion DBからリアルタイムでマッチング結果を取得してフォーマット"""
     try:
-
-        with open(result_path, 'r', encoding='utf-8') as f:
-
-            data = json.load(f)
-
+        # アクティブな案件を取得
+        project_pages = notion_query(NOTION_PROJECT_DB_ID, {
+            "or": [
+                {"property": "ステータス", "select": {"equals": "募集中"}},
+                {"property": "ステータス", "select": {"equals": "稼働中"}},
+            ]
+        })
+        # 稼働可能なエンジニアを取得
+        engineer_pages = notion_query(NOTION_ENGINEER_DB_ID, {
+            "property": "稼働状況", "select": {"equals": "稼働可能"}
+        })
     except Exception as e:
+        print(f"[matching_reply] notion error: {e}")
+        return "【マッチング結果】\nデータ取得失敗"
 
-        print(f"[matching_reply] result.json read error: {e}")
-
-        return "【マッチング結果】\n結果なし"
-
-    items = data.get("projects", []) if isinstance(data, dict) else data
-
-    if not isinstance(items, list):
-
-        return "【マッチング結果】\n結果なし"
-
-    lines = [f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}"]
-
-    project_count = 0
+    if not project_pages or not engineer_pages:
+        return f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n案件または人材データなし（案件:{len(project_pages)}件 人材:{len(engineer_pages)}名）"
 
     number_labels = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"]
+    lines = [f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}"]
+    match_count = 0
 
-    for item in items:
+    for pp in project_pages:
+        props = pp.get("properties", {})
+        # 案件名
+        name_items = props.get("案件名", {}).get("title", [])
+        proj_name = name_items[0].get("plain_text", "名称未設定") if name_items else "名称未設定"
+        # 必須スキル
+        req_skills = [o["name"] for o in props.get("必要スキル", {}).get("multi_select", [])]
+        proj_price = props.get("単価（万円）", {}).get("number") or 0
+        notion_url = f"https://www.notion.so/{pp['id'].replace('-', '')}"
 
-        if not isinstance(item, dict):
+        if not req_skills:
+            continue  # スキル指定なし案件はスキップ
 
+        # エンジニアとのスキルマッチング
+        matched = []
+        for ep in engineer_pages:
+            eprops = ep.get("properties", {})
+            ename_items = eprops.get("名前", {}).get("title", [])
+            ename = ename_items[0].get("plain_text", "不明") if ename_items else "不明"
+            eskills = [o["name"] for o in eprops.get("スキル", {}).get("multi_select", [])]
+            eprice = eprops.get("単価（万円）", {}).get("number") or 0
+
+            # 必須スキルが1つ以上一致すればマッチとする
+            hit = [s for s in req_skills if s in eskills]
+            if not hit:
+                continue
+            # 粗利チェック（5万以上）
+            if eprice > 0 and proj_price > 0 and (proj_price - eprice) < 5:
+                continue
+            matched.append({"name": ename, "price": eprice, "hit": hit})
+
+        if not matched:
             continue
-
-        candidates = item.get("candidates") or []
-
-        if not candidates:
-
-            continue
-
-        project = item.get("project") or {}
-
-        project_name = project.get("name") or item.get("project_name") or "（案件名なし）"
-
-        project_url = project.get("url") or item.get("project_url") or ""
 
         lines.append("")
+        lines.append(f"■ {proj_name}（{len(matched)}名マッチ）")
+        lines.append(notion_url)
+        for idx, m in enumerate(matched[:2]):
+            price_str = f"{m['price']}万" if m['price'] else "未設定"
+            lines.append(f"  {number_labels[idx]} {m['name']} /{price_str}")
+        if len(matched) > 2:
+            lines.append(f"  他{len(matched)-2}名")
+        match_count += 1
 
-        lines.append(f"■ {project_name}（{len(candidates)}名マッチ）")
-
-        if project_url:
-
-            lines.append(str(project_url))
-
-        for index, candidate in enumerate(candidates[:2]):
-
-            if not isinstance(candidate, dict):
-
-                continue
-
-            engineer = candidate.get("engineer") or {}
-
-            name = engineer.get("name") or candidate.get("engineer_name") or candidate.get("name") or "（名前なし）"
-
-            if candidate.get("needs_check"):
-
-                name += " [要確認]"
-
-            price = engineer.get("price") if engineer.get("price") is not None else candidate.get("price")
-
-            price_text = f"{price}万" if price not in (None, "") else "未設定"
-
-            lines.append(f"  {number_labels[index]} {name} /{price_text}")
-
-        if len(candidates) > 2:
-
-            lines.append(f"  他{len(candidates) - 2}名")
-
-        project_count += 1
-
-    if project_count == 0:
-
-        return "【マッチング結果】\n結果なし"
+    if match_count == 0:
+        return f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n現在マッチング候補なし\n（案件:{len(project_pages)}件 人材:{len(engineer_pages)}名で検索済み）"
 
     return "\n".join(lines)
 
@@ -1464,6 +1540,33 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
     text_stripped = text.strip()
 
 
+    # ── リモートコマンド（松野のみ）─────────────────────────────────
+    if user_id and user_id == MATSUNO_USER_ID:
+        if text_stripped.startswith("/run "):
+            result = execute_remote(text_stripped[5:])
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped.startswith("/bg "):
+            result = execute_bg(text_stripped[4:])
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped == "/log":
+            result = get_log()
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped == "/health":
+            result = get_health()
+            reply_message(reply_token, result, sender_token)
+            return
+    elif (
+        text_stripped.startswith("/run ")
+        or text_stripped.startswith("/bg ")
+        or text_stripped in ("/log", "/health")
+    ):
+        reply_message(reply_token, "❌ エラー\n権限がありません", sender_token)
+        return
+
+
 
     # ── 送信指示の処理 ───────────────────────────────────────────
 
@@ -1509,6 +1612,73 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         return
 
+
+
+    # ── ステータス更新コマンド（簡略版）──────────────────────────────
+    # 書式: 「更新 候補者名 ステータス略語」
+    # 例:  「更新 RH 確認中」「更新 MY 面談」「更新 OA NG」
+    if text_stripped.startswith("更新 ") or text_stripped.startswith("更新　"):
+        parts = text_stripped[2:].strip().split()
+        if len(parts) < 2:
+            reply_message(reply_token,
+                "書式: 更新 候補者名 ステータス\n"
+                "例: 更新 RH 確認中 / 更新 MY 面談 / 更新 OA NG\n"
+                "ステータス略語: 前 確認 面談 調整 済 合格 OK NG",
+                sender_token)
+            return
+        name_query = parts[0]
+        status_raw = parts[1]
+        new_status = normalize_status(status_raw)
+        valid = list(STATUS_ALIASES.values()) + list(STATUS_ALIASES.keys())
+        if new_status not in ["意向確認前","意向確認中","面談希望","面談調整中","面談済み","合格","NG"]:
+            reply_message(reply_token,
+                f"「{status_raw}」は無効です\n略語: 前 確認 面談 調整 済 合格 OK NG",
+                sender_token)
+            return
+        # 候補者名で案件を横断検索
+        hits = find_projects_with_candidate(name_query)
+        if not hits:
+            reply_message(reply_token, f"「{name_query}」が候補者リストに見つかりません", sender_token)
+            return
+        if len(hits) > 1:
+            # 複数案件にいる場合は一覧を返す → 「更新 RH 確認中 Java」で案件を絞れる案内
+            names = "\n".join(f"{i+1}. {n}（{m}）" for i, (_, n, m) in enumerate(hits[:5]))
+            if len(parts) >= 3:
+                # 3つ目の引数を案件キーワードとして絞り込み
+                proj_kw = parts[2]
+                filtered = [(pid, pn, mn) for pid, pn, mn in hits if proj_kw.lower() in pn.lower()]
+                if len(filtered) == 1:
+                    hits = filtered
+                else:
+                    reply_message(reply_token,
+                        f"複数案件にヒット:\n{names}\n\n絞り込み例: 更新 {name_query} {status_raw} Java",
+                        sender_token)
+                    return
+            else:
+                reply_message(reply_token,
+                    f"「{name_query}」は複数案件に候補中:\n{names}\n\n案件を絞る場合: 更新 {name_query} {status_raw} 案件キーワード\n全件更新する場合: 更新 {name_query} {status_raw} 全部",
+                    sender_token)
+                return
+        if len(parts) >= 3 and parts[2] == "全部":
+            # 全案件一括更新
+            success_list = []
+            for pid, pn, mn in hits:
+                ok, result = update_candidate_status(pid, mn, new_status)
+                if ok:
+                    success_list.append(pn[:20])
+            reply_message(reply_token,
+                f"✅ {len(success_list)}件更新\nステータス: {new_status}\n" + "\n".join(success_list),
+                sender_token)
+            return
+        page_id, proj_name, matched_name = hits[0]
+        ok, result = update_candidate_status(page_id, matched_name, new_status)
+        if ok:
+            reply_message(reply_token,
+                f"✅ {matched_name} → {new_status}\n{proj_name[:30]}",
+                sender_token)
+        else:
+            reply_message(reply_token, f"❌ 更新失敗: {result}", sender_token)
+        return
 
     # マッチング結果照会
 

@@ -1,0 +1,5 @@
+tunnel: TUNNEL_ID_HERE
+credentials-file: C:\Users\ma_py\.cloudflared\TUNNEL_ID_HERE.json
+ingress:
+  - service: http://127.0.0.1:8765
+  - service: http_status:404
