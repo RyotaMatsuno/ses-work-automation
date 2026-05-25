@@ -1069,6 +1069,69 @@ def build_matching_result_reply():
     return "\n".join(lines)
 
 
+
+def build_progress_reply():
+    """案件進捗をReply API用にフォーマット"""
+    try:
+        pages = notion_query(NOTION_PROJECT_DB_ID, {
+            "or": [
+                {"property": "ステータス", "select": {"equals": "募集中"}},
+                {"property": "ステータス", "select": {"equals": "選考中"}},
+            ]
+        })
+    except Exception as e:
+        print(f"[progress] notion error: {e}")
+        return "【案件進捗】\nデータ取得失敗"
+
+    weekdays = ["月","火","水","木","金","土","日"]
+    now = datetime.now()
+    header = f"【案件進捗】{now.strftime('%m/%d')}（{weekdays[now.weekday()]}）"
+    lines = [header, ""]
+
+    action_lines = []
+
+    if not pages:
+        lines.append("本日募集中案件なし")
+        return "\n".join(lines)
+
+    for p in pages:
+        props = p.get("properties", {})
+        name_items = props.get("案件名", {}).get("title", [])
+        name = name_items[0].get("plain_text", "名称未設定") if name_items else "名称未設定"
+        price = props.get("単価（万円）", {}).get("number")
+        if price is None:
+            price = props.get("単価(万円)", {}).get("number")
+        if isinstance(price, float) and price.is_integer():
+            price = int(price)
+        price_str = str(price) if price not in (None, "") else "-"
+
+        teian    = props.get("提案中",   {}).get("number") or 0
+        mendan   = props.get("面談希望", {}).get("number") or 0
+        ng       = props.get("NG",       {}).get("number") or 0
+        goukaku  = props.get("合格",     {}).get("number") or 0
+        seiyaku  = props.get("成約",     {}).get("number") or 0
+        eigyo_end = props.get("営業終了", {}).get("number") or 0
+
+        lines.append(f"■ {name}（{price_str}万）")
+        row = f"  提案中:{teian} / 面談希望:{mendan} / NG:{ng} / 合格:{goukaku}"
+        if seiyaku:
+            row += f" / 成約:{seiyaku}"
+        if eigyo_end:
+            row += f" / 営業終了:{eigyo_end}"
+        lines.append(row)
+        lines.append("")
+
+        if mendan > 0:
+            action_lines.append(f"  {name} → 面談希望{mendan}件")
+
+    lines.append("⚡ 要アクション")
+    if action_lines:
+        lines.extend(action_lines)
+    else:
+        lines.append("  なし")
+
+    return "\n".join(lines).rstrip()
+
 def split_line_message(text, limit=4900):
 
     chunks = []
@@ -1465,6 +1528,24 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         return
 
+
+    # 案件進捗照会
+
+    if "進捗" in text_stripped and len(text_stripped) <= 10:
+
+        progress_reply = build_progress_reply()
+
+        chunks = split_line_message(progress_reply)
+
+        reply_message(reply_token, chunks[0], sender_token)
+
+        push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
+
+        for chunk in chunks[1:]:
+
+            push_message(push_user_id, chunk, sender_token)
+
+        return
 
 
     if is_send_ok or is_send_all:
