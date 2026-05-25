@@ -46,9 +46,9 @@ MATSUNO_CHANNEL_TOKEN  = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', '')
 
 MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID', '')
 
-OKAMOTO_CHANNEL_SECRET = os.environ.get('OKAMOTO_LINE_CHANNEL_SECRET', '')
+OKAMOTO_CHANNEL_SECRET = os.environ.get('LINE_OKAMOTO_CHANNEL_SECRET') or os.environ.get('OKAMOTO_LINE_CHANNEL_SECRET', '')
 
-OKAMOTO_CHANNEL_TOKEN  = os.environ.get('OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN', '')
+OKAMOTO_CHANNEL_TOKEN  = os.environ.get('LINE_OKAMOTO_CHANNEL_TOKEN') or os.environ.get('OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN', '')
 
 OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID', '')
 
@@ -96,6 +96,32 @@ VALID_SKILLS = [
 SHEET_URL_PATTERN = re.compile(r'https://docs\.google\.com/spreadsheets/[^\s]+')
 
 EMAIL_PATTERN = re.compile(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
+
+KANTO_CHUBU_PREFECTURES = {
+    "東京都", "神奈川県", "埼玉県", "千葉県", "茨城県", "栃木県", "群馬県",
+    "愛知県", "岐阜県", "三重県", "静岡県", "長野県", "富山県", "石川県",
+    "福井県", "山梨県", "新潟県",
+}
+
+ALL_PREFECTURES = [
+    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+]
+
+PREFECTURE_ALIASES = {
+    pref.replace("都", "").replace("府", "").replace("県", ""): pref
+    for pref in ALL_PREFECTURES
+    if pref not in ("北海道", "京都府")
+}
+PREFECTURE_ALIASES["北海道"] = "北海道"
+
+ENGINEER_NAME_NOT_FOUND_REPLY = "名前が取得できませんでした。「氏名: 〇〇」の形式で再送してください。"
+AREA_OUT_OF_SCOPE_REPLY = "対応エリア外のため登録をスキップしました（関東・中部のみ対応）"
 
 
 
@@ -173,13 +199,16 @@ Rules:
 - location: extract city/ward. full-remote->full-remote
 - available_date: YYYY-MM-DD or "sokujitsu"
 - experience_years: integer estimate
+- affiliation: engineer's affiliation company name
+- contact_name: affiliation-side contact person name
+- contact_email: affiliation-side contact email address
 - If forwarded message, extract only the embedded job/person info
 
 Output ONE of these JSON shapes:
 
-Single engineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":""}
+Single engineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":"","affiliation":"","contact_name":"","contact_email":""}
 
-Multiple engineers: {"type":"engineers","engineers":[...]}
+Multiple engineers: {"type":"engineers","engineers":[{"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":"","affiliation":"","contact_name":"","contact_email":""}]}
 
 Single job: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"unknown","period":"","interview_count":0,"note":""}
 
@@ -189,7 +218,7 @@ Other: {"type":"other","note":""}
 
 Examples:
 Input: "Java/Spring 5nen, Tanaka, 65man, sokujitsu, Tokyo"
-Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"price":65,"available_date":"sokujitsu","experience_years":5,"location":"Tokyo","note":""}
+Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"price":65,"available_date":"sokujitsu","experience_years":5,"location":"Tokyo","note":"","affiliation":"","contact_name":"","contact_email":""}
 
 Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
 Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"optional_skills":["Next.js"],"price":57,"start_date":"2026-07-01","location":"Shibuya","remote":"shu3","period":"long","interview_count":1,"note":"kyuubo"}
@@ -583,9 +612,87 @@ def notion_query(db_id, filter_obj=None):
 
 
 
+def find_prefecture_from_text(text):
+
+    if not text:
+
+        return ""
+
+    candidates = []
+
+    for pref in ALL_PREFECTURES:
+
+        pos = text.find(pref)
+
+        if pos >= 0:
+
+            candidates.append((pos, pref))
+
+    for alias, pref in PREFECTURE_ALIASES.items():
+
+        pos = text.find(alias)
+
+        if pos >= 0:
+
+            candidates.append((pos, pref))
+
+    if not candidates:
+
+        return ""
+
+    candidates.sort(key=lambda item: item[0])
+
+    return candidates[0][1]
+
+
+
+def build_engineer_location_text(info, raw_text):
+
+    fields = [
+        info.get("location", ""),
+        info.get("station", ""),
+        info.get("nearest_station", ""),
+        info.get("home", ""),
+        info.get("address", ""),
+        info.get("note", ""),
+        raw_text or "",
+    ]
+
+    return "\n".join(str(v) for v in fields if v)
+
+
+
+def validate_engineer_for_registration(info, raw_text):
+
+    name = str(info.get("name") or "").strip()
+
+    if not name or name.lower() == "(no name)":
+
+        print(f"[SKIP] name not found: {(raw_text or '')[:100]}")
+
+        return False, "name_not_found"
+
+    pref = find_prefecture_from_text(build_engineer_location_text(info, raw_text))
+
+    if pref and pref not in KANTO_CHUBU_PREFECTURES:
+
+        print(f"[SKIP] area out of scope: {pref} / {(raw_text or '')[:100]}")
+
+        return False, "area_out_of_scope"
+
+    return True, ""
+
+
+
 def register_engineer(info, raw_text, sender, user_id=""):
 
-    name = info.get("name") or "(no name)"
+    valid, skip_reason = validate_engineer_for_registration(info, raw_text)
+
+    if not valid:
+
+        return False, skip_reason
+
+    name = str(info.get("name") or "").strip()
 
     note = f"[LINE auto-register: {sender}]\n{info.get('note', raw_text[:1500])}"
 
@@ -611,6 +718,15 @@ def register_engineer(info, raw_text, sender, user_id=""):
     if price_val: props["単価（万円）"] = {"number": price_val}
 
     if info.get("experience_years"): props["経験年数"] = {"number": info["experience_years"]}
+
+    if info.get("affiliation"):
+        props["所属会社"] = {"rich_text": [{"text": {"content": info["affiliation"][:500]}}]}
+
+    if info.get("contact_name"):
+        props["所属担当者名"] = {"rich_text": [{"text": {"content": info["contact_name"][:100]}}]}
+
+    if info.get("contact_email"):
+        props["所属メール"] = {"email": info["contact_email"]}
 
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
 
@@ -1155,7 +1271,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
     content_type = classify_sheet_content(text)
 
-    raw_text = f"[スプレッドシート: {url}]"
+    raw_text = f"[スプレッドシート: {url}]\n{text}"
 
 
 
@@ -1201,11 +1317,13 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         success_count = skip_count = 0
 
+        skip_reasons = set()
+
         registered = []
 
         for eng in engineers:
 
-            ok, _ = register_engineer(eng, raw_text, sender)
+            ok, reason = register_engineer(eng, raw_text, sender)
 
             if ok:
 
@@ -1217,7 +1335,19 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
                 skip_count += 1
 
+                if reason:
+
+                    skip_reasons.add(reason)
+
         msg = f"📊 スプレッドシートから人員登録完了\n\n登録: {success_count}名 / スキップ: {skip_count}名\n"
+
+        if "name_not_found" in skip_reasons:
+
+            msg += f"{ENGINEER_NAME_NOT_FOUND_REPLY}\n"
+
+        if "area_out_of_scope" in skip_reasons:
+
+            msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
 
         for i, e in enumerate(engineers[:5], 1):
 
@@ -1441,9 +1571,21 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     if msg_type == "engineer":
 
-        success, _ = register_engineer(info, text, sender, user_id=user_id)
+        success, reason = register_engineer(info, text, sender, user_id=user_id)
 
         if not success:
+
+            if reason == "name_not_found":
+
+                reply_message(reply_token, ENGINEER_NAME_NOT_FOUND_REPLY, sender_token)
+
+                return
+
+            if reason == "area_out_of_scope":
+
+                reply_message(reply_token, AREA_OUT_OF_SCOPE_REPLY, sender_token)
+
+                return
 
             reply_message(reply_token, "❌ 登録失敗", sender_token)
 
@@ -1494,11 +1636,13 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         success_count = skip_count = 0
 
+        skip_reasons = set()
+
         registered = []
 
         for eng in engineers_list:
 
-            ok, _ = register_engineer(eng, text, sender, user_id=user_id)
+            ok, reason = register_engineer(eng, text, sender, user_id=user_id)
 
             if ok:
 
@@ -1510,7 +1654,19 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
                 skip_count += 1
 
+                if reason:
+
+                    skip_reasons.add(reason)
+
         msg = f"📊 複数人員登録完了\n登録: {success_count}名 / スキップ: {skip_count}名\n"
+
+        if "name_not_found" in skip_reasons:
+
+            msg += f"{ENGINEER_NAME_NOT_FOUND_REPLY}\n"
+
+        if "area_out_of_scope" in skip_reasons:
+
+            msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
 
         for i, e in enumerate(engineers_list[:5], 1):
 
