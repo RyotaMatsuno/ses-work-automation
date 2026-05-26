@@ -1,13 +1,13 @@
-# Jobz コード全体ダンプ
+# Jobz 繧ｳ繝ｼ繝牙�ｨ菴薙ム繝ｳ繝�
 
 ## matching_v2/matching_v2.py
 
 ```py
 # -*- coding: utf-8 -*-
 """
-AIスキル判定を使った案件 × エンジニア マッチング。
+AI繧ｹ繧ｭ繝ｫ蛻､螳壹ｒ菴ｿ縺｣縺滓｡井ｻｶ ﾃ� 繧ｨ繝ｳ繧ｸ繝九い 繝槭ャ繝√Φ繧ｰ縲�
 
-実行:
+螳溯｡�:
   python matching_v2/matching_v2.py
 """
 
@@ -91,7 +91,7 @@ def get_multiselect(props, key):
 
 def get_title(props, key):
     items = props.get(key, {}).get("title", [])
-    return items[0]["plain_text"] if items else "（名前なし）"
+    return items[0]["plain_text"] if items else "�ｼ亥錐蜑阪↑縺暦ｼ�"
 
 
 def get_number(props, key):
@@ -145,10 +145,10 @@ def judge_with_cache(cache, cache_lock, required_skills, optional_skills, engine
 
 def calculate_score(required_judgement):
     required_results = [item["result"] for item in required_judgement.values()]
-    if "×" in required_results:
+    if "ﾃ�" in required_results:
         return 0.0
 
-    triangle_count = required_results.count("△")
+    triangle_count = required_results.count("笆ｳ")
     if triangle_count == 0:
         return 1.0
     if triangle_count == 1:
@@ -158,7 +158,7 @@ def calculate_score(required_judgement):
 
 def needs_check(score, required_judgement):
     required_results = [item["result"] for item in required_judgement.values()]
-    return score < 0.7 or "△" in required_results
+    return score < 0.7 or "笆ｳ" in required_results
 
 
 def format_judgement(judgement):
@@ -166,11 +166,11 @@ def format_judgement(judgement):
     for skill, item in judgement.items():
         result = item["result"]
         reason = item.get("reason", "")
-        if result == "△" and reason:
-            parts.append(f"{skill}:{result}（{reason}）")
+        if result == "笆ｳ" and reason:
+            parts.append(f"{skill}:{result}�ｼ�{reason}�ｼ�")
         else:
             parts.append(f"{skill}:{result}")
-    return "  ".join(parts) if parts else "なし"
+    return "  ".join(parts) if parts else "縺ｪ縺�"
 
 
 def extract_project(page):
@@ -178,12 +178,12 @@ def extract_project(page):
     return {
         "id": page["id"],
         "url": page.get("url"),
-        "name": get_title(props, "案件名"),
-        "client": get_rich_text(props, "クライアント") or "不明",
-        "required_skills": get_multiselect(props, "必要スキル"),
-        "optional_skills": get_multiselect(props, "尚可スキル"),
-        "price": get_number(props, "単価（万円）"),
-        "start_date": get_date(props, "開始日"),
+        "name": get_title(props, "譯井ｻｶ蜷�"),
+        "client": get_rich_text(props, "繧ｯ繝ｩ繧､繧｢繝ｳ繝�") or "荳肴��",
+        "required_skills": get_multiselect(props, "蠢�隕√せ繧ｭ繝ｫ"),
+        "optional_skills": get_multiselect(props, "蟆壼庄繧ｹ繧ｭ繝ｫ"),
+        "price": get_number(props, "蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"),
+        "start_date": get_date(props, "髢句ｧ区律"),
     }
 
 
@@ -192,10 +192,10 @@ def extract_engineer(page):
     return {
         "id": page["id"],
         "url": page.get("url"),
-        "name": get_title(props, "名前"),
-        "skills": get_multiselect(props, "スキル"),
-        "price": get_number(props, "単価（万円）"),
-        "available_date": get_date(props, "稼働可能日"),
+        "name": get_title(props, "蜷榊燕"),
+        "skills": get_multiselect(props, "繧ｹ繧ｭ繝ｫ"),
+        "price": get_number(props, "蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"),
+        "available_date": get_date(props, "遞ｼ蜒榊庄閭ｽ譌･"),
     }
 
 
@@ -204,7 +204,7 @@ def make_project_result(project, candidates):
         "project_id": project["id"],
         "project_name": project["name"],
         "project_url": project["url"],
-        # 2026-05-25: result.jsonで案件予算を確認できるようbudgetを追加。
+        # 2026-05-25: result.json縺ｧ譯井ｻｶ莠育ｮ励ｒ遒ｺ隱阪〒縺阪ｋ繧医≧budget繧定ｿｽ蜉縲�
         "budget": project["price"],
         "candidates": [
             {
@@ -224,7 +224,7 @@ def make_project_result(project, candidates):
 
 
 def evaluate_candidate(project, engineer, judgement):
-    # 2026-05-25: 案件予算を大幅に超える単価の候補はスキル判定前に除外。
+    # 2026-05-25: 譯井ｻｶ莠育ｮ励ｒ螟ｧ蟷�縺ｫ雜�縺医ｋ蜊倅ｾ｡縺ｮ蛟呵｣懊�ｯ繧ｹ繧ｭ繝ｫ蛻､螳壼燕縺ｫ髯､螟悶�
     if (
         engineer["price"] is not None
         and project["price"] is not None
@@ -254,34 +254,34 @@ def evaluate_candidate(project, engineer, judgement):
 
 def print_summary(projects_results):
     print("=" * 65)
-    print("AIマッチング結果")
+    print("AI繝槭ャ繝√Φ繧ｰ邨先棡")
     print("=" * 65)
 
     for project_result in projects_results:
         project = project_result["project"]
         candidates = project_result["candidates"]
-        print(f"案件: {project['name']}")
-        print(f"  クライアント: {project['client']}")
-        print(f"  必須: {', '.join(project['required_skills']) or 'なし'}")
-        print(f"  尚可: {', '.join(project['optional_skills']) or 'なし'}")
+        print(f"譯井ｻｶ: {project['name']}")
+        print(f"  繧ｯ繝ｩ繧､繧｢繝ｳ繝�: {project['client']}")
+        print(f"  蠢�鬆�: {', '.join(project['required_skills']) or '縺ｪ縺�'}")
+        print(f"  蟆壼庄: {', '.join(project['optional_skills']) or '縺ｪ縺�'}")
 
         if not candidates:
-            print("  → 候補なし")
+            print("  竊� 蛟呵｣懊↑縺�")
             print()
             continue
 
         for index, candidate in enumerate(candidates, start=1):
             engineer = candidate["engineer"]
-            print(f"  候補{index}: {engineer['name']}（スコア: {candidate['score']:.2f}）")
-            print(f"    必須: {format_judgement(candidate['required_judgement'])}")
-            print(f"    尚可: {format_judgement(candidate['optional_judgement'])}")
-            price = f"{engineer['price']}万" if engineer["price"] else "未設定"
-            available_date = engineer["available_date"] or "未設定"
-            print(f"    単価: {price} / 稼働: {available_date}")
+            print(f"  蛟呵｣悳index}: {engineer['name']}�ｼ医せ繧ｳ繧｢: {candidate['score']:.2f}�ｼ�")
+            print(f"    蠢�鬆�: {format_judgement(candidate['required_judgement'])}")
+            print(f"    蟆壼庄: {format_judgement(candidate['optional_judgement'])}")
+            price = f"{engineer['price']}荳�" if engineer["price"] else "譛ｪ險ｭ螳�"
+            available_date = engineer["available_date"] or "譛ｪ險ｭ螳�"
+            print(f"    蜊倅ｾ｡: {price} / 遞ｼ蜒�: {available_date}")
             if candidate["needs_check"]:
-                print("    → 要確認 ⚠️（松野に確認フラグ）")
+                print("    竊� 隕∫｢ｺ隱� 笞�ｸ擾ｼ域收驥弱↓遒ｺ隱阪ヵ繝ｩ繧ｰ�ｼ�")
             else:
-                print("    → 提案推奨 ✅")
+                print("    竊� 謠先｡域耳螂ｨ 笨�")
         print()
 
 
@@ -291,12 +291,12 @@ def validate_env():
         if not os.environ.get(key)
     ]
     if missing:
-        raise RuntimeError(f"必要な環境変数が未設定です: {', '.join(missing)}")
+        raise RuntimeError(f"蠢�隕√↑迺ｰ蠅�螟画焚縺梧悴險ｭ螳壹〒縺�: {', '.join(missing)}")
 
 
 def validate_sample_env():
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise RuntimeError("必要な環境変数が未設定です: ANTHROPIC_API_KEY")
+        raise RuntimeError("蠢�隕√↑迺ｰ蠅�螟画焚縺梧悴險ｭ螳壹〒縺�: ANTHROPIC_API_KEY")
 
 
 def load_sample_data():
@@ -309,7 +309,7 @@ def load_sample_data():
             "id": project["id"],
             "url": project.get("url"),
             "name": project["name"],
-            "client": project.get("client", "サンプル"),
+            "client": project.get("client", "繧ｵ繝ｳ繝励Ν"),
             "required_skills": project.get("required_skills", []),
             "optional_skills": project.get("optional_skills", []),
             "price": project.get("price"),
@@ -335,7 +335,7 @@ def parse_args():
     parser.add_argument(
         "--sample",
         action="store_true",
-        help="test_data/sample.jsonを使い、Notion APIを呼ばずに実行する",
+        help="test_data/sample.json繧剃ｽｿ縺�縲¨otion API繧貞他縺ｰ縺壹↓螳溯｡後☆繧�",
     )
     return parser.parse_args()
 
@@ -351,19 +351,19 @@ def main():
         projects = [
             extract_project(page)
             for page in query_db(PROJECT_DB_ID, {
-                "property": "ステータス",
-                "select": {"equals": "募集中"},
+                "property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ",
+                "select": {"equals": "蜍滄寔荳ｭ"},
             })
         ]
         engineers = [
             extract_engineer(page)
             for page in query_db(ENGINEER_DB_ID, {
-                "property": "稼働状況",
-                "select": {"equals": "稼働可能"},
+                "property": "遞ｼ蜒咲憾豕�",
+                "select": {"equals": "遞ｼ蜒榊庄閭ｽ"},
             })
         ]
 
-    print(f"募集中案件: {len(projects)}件 / 稼働可能エンジニア: {len(engineers)}名")
+    print(f"蜍滄寔荳ｭ譯井ｻｶ: {len(projects)}莉ｶ / 遞ｼ蜒榊庄閭ｽ繧ｨ繝ｳ繧ｸ繝九い: {len(engineers)}蜷�")
 
     cache = {}
     cache_lock = Lock()
@@ -373,7 +373,7 @@ def main():
     for project in projects:
         candidates = []
         if not project["required_skills"] and not project["optional_skills"]:
-            print(f"判定スキップ: {project['name']}（スキル要件なし）", flush=True)
+            print(f"蛻､螳壹せ繧ｭ繝�繝�: {project['name']}�ｼ医せ繧ｭ繝ｫ隕∽ｻｶ縺ｪ縺暦ｼ�", flush=True)
             projects_results.append({
                 "project": project,
                 "candidates": candidates,
@@ -381,7 +381,7 @@ def main():
             output_projects.append(make_project_result(project, candidates))
             continue
 
-        print(f"判定中: {project['name']}（{len(engineers)}名）", flush=True)
+        print(f"蛻､螳壻ｸｭ: {project['name']}�ｼ�{len(engineers)}蜷搾ｼ�", flush=True)
 
         batch_judgement = judge_with_cache(
             cache,
@@ -416,12 +416,12 @@ def main():
     with open(RESULT_PATH, "w", encoding="utf-8") as file:
         json.dump(output_projects, file, ensure_ascii=False, indent=2)
 
-    # 2026-05-25: 尚可スキル空問題の原因調査用に件数を出力。
+    # 2026-05-25: 蟆壼庄繧ｹ繧ｭ繝ｫ遨ｺ蝠城｡後�ｮ蜴溷屏隱ｿ譟ｻ逕ｨ縺ｫ莉ｶ謨ｰ繧貞�ｺ蜉帙�
     optional_skill_projects = sum(1 for project in projects if project["optional_skills"])
-    print(f"尚可スキルあり: {optional_skill_projects}/{len(projects)}件")
+    print(f"蟆壼庄繧ｹ繧ｭ繝ｫ縺ゅｊ: {optional_skill_projects}/{len(projects)}莉ｶ")
 
     print_summary(projects_results)
-    print(f"result.json 生成: {RESULT_PATH}")
+    print(f"result.json 逕滓��: {RESULT_PATH}")
 
 
 if __name__ == "__main__":
@@ -434,9 +434,9 @@ if __name__ == "__main__":
 ```py
 # -*- coding: utf-8 -*-
 """
-担当者別LINE通知スクリプト。
+諡�蠖楢�蛻･LINE騾夂衍繧ｹ繧ｯ繝ｪ繝励ヨ縲�
 
-実行:
+螳溯｡�:
   python matching_v2/notify_line.py --dry-run
   python matching_v2/notify_line.py
 """
@@ -466,8 +466,8 @@ ENV_PATHS = [
 ]
 RESULT_PATH = os.path.join(BASE_DIR, "result.json")
 NOTION_VERSION = "2022-06-28"
-DEFAULT_ASSIGNEE = "松野"
-OKAMOTO = "岡本"
+DEFAULT_ASSIGNEE = "譚ｾ驥�"
+OKAMOTO = "蟯｡譛ｬ"
 
 
 def main():
@@ -591,7 +591,7 @@ def push_message(channel_token: str, user_id: str, text: str):
 
 
 def get_assignee(page_id: str, headers: dict) -> str:
-    """NotionページのIDから担当者を取得。未設定・共通はデフォルト'松野'を返す。"""
+    """Notion繝壹�ｼ繧ｸ縺ｮID縺九ｉ諡�蠖楢�繧貞叙蠕励よ悴險ｭ螳壹�ｻ蜈ｱ騾壹�ｯ繝�繝輔か繝ｫ繝�'譚ｾ驥�'繧定ｿ斐☆縲�"""
     if not page_id:
         return DEFAULT_ASSIGNEE
     if os.environ.get("SKIP_NOTION_FETCH") == "1":
@@ -604,7 +604,7 @@ def get_assignee(page_id: str, headers: dict) -> str:
     )
     response.raise_for_status()
     props = response.json().get("properties", {})
-    select_value = props.get("担当者", {}).get("select")
+    select_value = props.get("諡�蠖楢�", {}).get("select")
     name = select_value["name"] if select_value else None
     if name == OKAMOTO:
         return OKAMOTO
@@ -648,24 +648,24 @@ def get_page_info(page_id, headers, page_type):
 
     if page_type == "project":
         return {
-            "name": get_title_property(props, "案件名"),
-            "detail": get_first_text_property(props, ["業務内容", "案件詳細", "詳細", "概要", "内容"]),
-            "required_skills": get_first_multiselect_property(props, ["必須スキル", "必要スキル"]),
-            "optional_skills": get_multiselect_property(props, "尚可スキル"),
-            "price": get_number_property(props, "単価（万円）"),
-            "start_date": get_date_property(props, "開始日"),
-            "input_source": get_text_property(props, "入力元"),
-            "affiliation": get_text_property(props, "所属会社名"),
+            "name": get_title_property(props, "譯井ｻｶ蜷�"),
+            "detail": get_first_text_property(props, ["讌ｭ蜍吝��螳ｹ", "譯井ｻｶ隧ｳ邏ｰ", "隧ｳ邏ｰ", "讎りｦ�", "蜀�螳ｹ"]),
+            "required_skills": get_first_multiselect_property(props, ["蠢�鬆医せ繧ｭ繝ｫ", "蠢�隕√せ繧ｭ繝ｫ"]),
+            "optional_skills": get_multiselect_property(props, "蟆壼庄繧ｹ繧ｭ繝ｫ"),
+            "price": get_number_property(props, "蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"),
+            "start_date": get_date_property(props, "髢句ｧ区律"),
+            "input_source": get_text_property(props, "蜈･蜉帛��"),
+            "affiliation": get_text_property(props, "謇螻樔ｼ夂､ｾ蜷�"),
         }
 
     if page_type == "engineer":
         return {
-            "name": get_title_property(props, "名前"),
-            "skills": get_multiselect_property(props, "スキル"),
-            "price": get_number_property(props, "単価（万円）"),
-            "available_date": get_date_property(props, "稼働可能日"),
-            "input_source": get_text_property(props, "入力元"),
-            "affiliation": get_text_property(props, "所属会社名"),
+            "name": get_title_property(props, "蜷榊燕"),
+            "skills": get_multiselect_property(props, "繧ｹ繧ｭ繝ｫ"),
+            "price": get_number_property(props, "蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"),
+            "available_date": get_date_property(props, "遞ｼ蜒榊庄閭ｽ譌･"),
+            "input_source": get_text_property(props, "蜈･蜉帛��"),
+            "affiliation": get_text_property(props, "謇螻樔ｼ夂､ｾ蜷�"),
         }
 
     raise ValueError(f"unsupported page_type: {page_type}")
@@ -704,48 +704,48 @@ def build_notifications(project_info, project_assignee, candidate_infos):
 
 def build_project_message(project_info, candidate_infos):
     input_source = project_info.get("input_source")
-    line_prefix = "  ⚡LINE案件" if is_line_source(input_source) else ""
+    line_prefix = "  笞｡LINE譯井ｻｶ" if is_line_source(input_source) else ""
     lines = [
-        "【マッチング結果】",
-        f"案件: {format_value(project_info.get('name'))}{line_prefix}",
+        "縲舌�槭ャ繝√Φ繧ｰ邨先棡縲�",
+        f"譯井ｻｶ: {format_value(project_info.get('name'))}{line_prefix}",
     ]
     if project_info.get("affiliation"):
-        lines.append(f"所属: {project_info.get('affiliation')}")
+        lines.append(f"謇螻�: {project_info.get('affiliation')}")
     lines.extend([
-        f"入力元: {format_value(input_source)}",
-        f"業務内容: {format_value(project_info.get('detail'))}",
-        f"必須: {format_list(project_info.get('required_skills'))}",
-        f"尚可: {format_list(project_info.get('optional_skills'))}",
-        f"単価: {format_price(project_info.get('price'))}",
-        f"稼働: {format_value(project_info.get('start_date'))}",
-        "──────────────",
+        f"蜈･蜉帛��: {format_value(input_source)}",
+        f"讌ｭ蜍吝��螳ｹ: {format_value(project_info.get('detail'))}",
+        f"蠢�鬆�: {format_list(project_info.get('required_skills'))}",
+        f"蟆壼庄: {format_list(project_info.get('optional_skills'))}",
+        f"蜊倅ｾ｡: {format_price(project_info.get('price'))}",
+        f"遞ｼ蜒�: {format_value(project_info.get('start_date'))}",
+        "笏笏笏笏笏笏笏笏笏笏笏笏笏笏",
     ])
 
     for item in candidate_infos:
         candidate = item["candidate"]
         engineer_info = item["engineer_info"]
-        # 2026-05-25: needs_check候補が通知上で判別できるよう警告を追記。
-        needs_check_warning = " ⚠️要確認" if candidate.get("needs_check") is True else ""
+        # 2026-05-25: needs_check蛟呵｣懊′騾夂衍荳翫〒蛻､蛻･縺ｧ縺阪ｋ繧医≧隴ｦ蜻翫ｒ霑ｽ險倥�
+        needs_check_warning = " 笞�ｸ剰ｦ∫｢ｺ隱�" if candidate.get("needs_check") is True else ""
         lines.extend([
-            f"▶ {format_value(engineer_info.get('name'))}（スコア: {format_score(candidate.get('score'))}）{needs_check_warning}",
+            f"笆ｶ {format_value(engineer_info.get('name'))}�ｼ医せ繧ｳ繧｢: {format_score(candidate.get('score'))}�ｼ閲needs_check_warning}",
         ])
         if engineer_info.get("affiliation"):
-            lines.append(f"  所属: {engineer_info.get('affiliation')}")
+            lines.append(f"  謇螻�: {engineer_info.get('affiliation')}")
         lines.extend([
-            f"  入力元: {format_value(engineer_info.get('input_source'))}",
+            f"  蜈･蜉帛��: {format_value(engineer_info.get('input_source'))}",
             (
-                f"  単価: {format_price(engineer_info.get('price'))} / "
-                f"稼働: {format_value(engineer_info.get('available_date'))}"
+                f"  蜊倅ｾ｡: {format_price(engineer_info.get('price'))} / "
+                f"遞ｼ蜒�: {format_value(engineer_info.get('available_date'))}"
             ),
-            f"  スキル: {format_list(engineer_info.get('skills'))}",
-            f"  必須判定: {format_judgement(get_required_judgement(candidate))}",
-            f"  尚可判定: {format_judgement(get_optional_judgement(candidate))}",
+            f"  繧ｹ繧ｭ繝ｫ: {format_list(engineer_info.get('skills'))}",
+            f"  蠢�鬆亥愛螳�: {format_judgement(get_required_judgement(candidate))}",
+            f"  蟆壼庄蛻､螳�: {format_judgement(get_optional_judgement(candidate))}",
             "",
         ])
 
     lines.extend([
-        "──────────────",
-        "意向確認をお願いします。",
+        "笏笏笏笏笏笏笏笏笏笏笏笏笏笏",
+        "諢丞髄遒ｺ隱阪ｒ縺企｡倥＞縺励∪縺吶�",
     ])
     return "\n".join(lines)
 
@@ -755,9 +755,9 @@ def is_line_source(input_source):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="result.jsonを読み、担当者別にLINE Push通知します。")
-    parser.add_argument("--dry-run", action="store_true", help="LINE送信せず通知内容をコンソール出力します。")
-    parser.add_argument("--result-path", default=RESULT_PATH, help="読み込むresult.jsonのパス。")
+    parser = argparse.ArgumentParser(description="result.json繧定ｪｭ縺ｿ縲∵球蠖楢�蛻･縺ｫLINE Push騾夂衍縺励∪縺吶�")
+    parser.add_argument("--dry-run", action="store_true", help="LINE騾∽ｿ｡縺帙★騾夂衍蜀�螳ｹ繧偵さ繝ｳ繧ｽ繝ｼ繝ｫ蜃ｺ蜉帙＠縺ｾ縺吶�")
+    parser.add_argument("--result-path", default=RESULT_PATH, help="隱ｭ縺ｿ霎ｼ繧result.json縺ｮ繝代せ縲�")
     return parser.parse_args()
 
 
@@ -768,7 +768,7 @@ def get_project_id(item):
 
 def get_project_name(item):
     project = item.get("project") or {}
-    return project.get("name") or item.get("project_name") or "（案件名なし）"
+    return project.get("name") or item.get("project_name") or "�ｼ域｡井ｻｶ蜷阪↑縺暦ｼ�"
 
 
 def get_project_price(item):
@@ -786,7 +786,7 @@ def get_engineer_id(candidate):
 
 
 def get_engineer_name(candidate):
-    return candidate.get("name") or candidate.get("engineer_name") or "（エンジニア名なし）"
+    return candidate.get("name") or candidate.get("engineer_name") or "�ｼ医お繝ｳ繧ｸ繝九い蜷阪↑縺暦ｼ�"
 
 
 def get_required_judgement(candidate):
@@ -847,7 +847,7 @@ def get_date_property(props, key):
 
 def format_judgement(judgement):
     if not judgement:
-        return "なし"
+        return "縺ｪ縺�"
 
     parts = []
     for skill, value in judgement.items():
@@ -858,13 +858,13 @@ def format_judgement(judgement):
 
 def format_price(price):
     if price is None or price == "":
-        return "未設定"
-    return f"{price}万円"
+        return "譛ｪ險ｭ螳�"
+    return f"{price}荳�蜀�"
 
 
 def format_score(score):
     if score is None:
-        return "未設定"
+        return "譛ｪ險ｭ螳�"
     if isinstance(score, float):
         return f"{score:.2f}".rstrip("0").rstrip(".")
     return str(score)
@@ -872,11 +872,11 @@ def format_score(score):
 
 def format_list(values):
     items = [str(value) for value in (values or []) if value not in (None, "")]
-    return ", ".join(items) if items else "なし"
+    return ", ".join(items) if items else "縺ｪ縺�"
 
 
 def format_value(value):
-    return str(value) if value not in (None, "") else "未設定"
+    return str(value) if value not in (None, "") else "譛ｪ險ｭ螳�"
 
 
 def build_notion_headers():
@@ -932,7 +932,7 @@ if __name__ == "__main__":
 
 LINE Webhook Server v13
 
-- スキルシートPDF/画像をLINEから受信してskill_reader_api（8766）で処理
+- 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝�PDF/逕ｻ蜒上ｒLINE縺九ｉ蜿嶺ｿ｡縺励※skill_reader_api�ｼ�8766�ｼ峨〒蜃ｦ逅�
 
 """
 
@@ -975,13 +975,13 @@ MATSUNO_CHANNEL_SECRET = os.environ.get('LINE_CHANNEL_SECRET', '')
 
 MATSUNO_CHANNEL_TOKEN  = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', '')
 
-MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID') or 'REDACTED-SECRET'
+MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID') or '***MASKED***'
 
 OKAMOTO_CHANNEL_SECRET = os.environ.get('LINE_OKAMOTO_CHANNEL_SECRET') or os.environ.get('OKAMOTO_LINE_CHANNEL_SECRET', '')
 
 OKAMOTO_CHANNEL_TOKEN  = os.environ.get('LINE_OKAMOTO_CHANNEL_TOKEN') or os.environ.get('OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN', '')
 
-OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID') or 'REDACTED-SECRET'
+OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID') or '***MASKED***'
 
 NOTION_API_KEY         = os.environ.get('NOTION_API_KEY', '')
 
@@ -1010,10 +1010,10 @@ DB_PROPERTY_CACHE = {}
 
 def get_line_source_label(user_id: str) -> str:
     if user_id == MATSUNO_USER_ID:
-        return "松野LINE"
+        return "譚ｾ驥鮫INE"
     if user_id == OKAMOTO_USER_ID:
-        return "岡本LINE"
-    return "松野LINE"
+        return "蟯｡譛ｬLINE"
+    return "譚ｾ驥鮫INE"
 
 VALID_SKILLS = [
     "Java","Python","PHP","JavaScript","TypeScript","C#","C++","C","Go","Ruby",
@@ -1039,36 +1039,36 @@ SHEET_URL_PATTERN = re.compile(r'https://docs\.google\.com/spreadsheets/[^\s]+')
 EMAIL_PATTERN = re.compile(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
 
 KANTO_CHUBU_PREFECTURES = {
-    "東京都", "神奈川県", "埼玉県", "千葉県", "茨城県", "栃木県", "群馬県",
-    "愛知県", "岐阜県", "三重県", "静岡県", "長野県", "富山県", "石川県",
-    "福井県", "山梨県", "新潟県",
+    "譚ｱ莠ｬ驛ｽ", "逾槫･亥ｷ晉恁", "蝓ｼ邇臥恁", "蜊�闡臥恁", "闌ｨ蝓守恁", "譬�譛ｨ逵�", "鄒､鬥ｬ逵�",
+    "諢帷衍逵�", "蟯宣�懃恁", "荳蛾㍾逵�", "髱吝ｲ｡逵�", "髟ｷ驥守恁", "蟇悟ｱｱ逵�", "遏ｳ蟾晉恁",
+    "遖丈ｺ慕恁", "螻ｱ譴ｨ逵�", "譁ｰ貎溽恁",
 }
 
 ALL_PREFECTURES = [
-    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
-    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
-    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
-    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
-    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
-    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
-    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+    "蛹玲ｵｷ驕�", "髱呈｣ｮ逵�", "蟯ｩ謇狗恁", "螳ｮ蝓守恁", "遘狗伐逵�", "螻ｱ蠖｢逵�", "遖丞ｳｶ逵�",
+    "闌ｨ蝓守恁", "譬�譛ｨ逵�", "鄒､鬥ｬ逵�", "蝓ｼ邇臥恁", "蜊�闡臥恁", "譚ｱ莠ｬ驛ｽ", "逾槫･亥ｷ晉恁",
+    "譁ｰ貎溽恁", "蟇悟ｱｱ逵�", "遏ｳ蟾晉恁", "遖丈ｺ慕恁", "螻ｱ譴ｨ逵�", "髟ｷ驥守恁", "蟯宣�懃恁",
+    "髱吝ｲ｡逵�", "諢帷衍逵�", "荳蛾㍾逵�", "貊玖ｳ逵�", "莠ｬ驛ｽ蠎�", "螟ｧ髦ｪ蠎�", "蜈ｵ蠎ｫ逵�",
+    "螂郁憶逵�", "蜥梧ｭ悟ｱｱ逵�", "魑･蜿也恁", "蟲ｶ譬ｹ逵�", "蟯｡螻ｱ逵�", "蠎�蟲ｶ逵�", "螻ｱ蜿｣逵�",
+    "蠕ｳ蟲ｶ逵�", "鬥吝ｷ晉恁", "諢帛ｪ帷恁", "鬮倡衍逵�", "遖丞ｲ｡逵�", "菴占ｳ逵�", "髟ｷ蟠守恁",
+    "辭頑悽逵�", "螟ｧ蛻�逵�", "螳ｮ蟠守恁", "鮖ｿ蜈仙ｳｶ逵�", "豐也ｸ�逵�",
 ]
 
 PREFECTURE_ALIASES = {
-    pref.replace("都", "").replace("府", "").replace("県", ""): pref
+    pref.replace("驛ｽ", "").replace("蠎�", "").replace("逵�", ""): pref
     for pref in ALL_PREFECTURES
-    if pref not in ("北海道", "京都府")
+    if pref not in ("蛹玲ｵｷ驕�", "莠ｬ驛ｽ蠎�")
 }
-PREFECTURE_ALIASES["北海道"] = "北海道"
+PREFECTURE_ALIASES["蛹玲ｵｷ驕�"] = "蛹玲ｵｷ驕�"
 
-ENGINEER_NAME_NOT_FOUND_REPLY = "名前が取得できませんでした。「氏名: 〇〇」の形式で再送してください。"
-AREA_OUT_OF_SCOPE_REPLY = "対応エリア外のため登録をスキップしました（関東・中部のみ対応）"
+ENGINEER_NAME_NOT_FOUND_REPLY = "蜷榊燕縺悟叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲ゅ梧ｰ丞錐: 縲�縲�縲阪�ｮ蠖｢蠑上〒蜀埼√＠縺ｦ縺上□縺輔＞縲�"
+AREA_OUT_OF_SCOPE_REPLY = "蟇ｾ蠢懊お繝ｪ繧｢螟悶�ｮ縺溘ａ逋ｻ骭ｲ繧偵せ繧ｭ繝�繝励＠縺ｾ縺励◆�ｼ磯未譚ｱ繝ｻ荳ｭ驛ｨ縺ｮ縺ｿ蟇ｾ蠢懶ｼ�"
 
 
 
 PENDING_PROPOSALS = {}
 
-# スキルシート解析結果の一時保存 key: sender+"_skill" → iko_mail text
+# 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝郁ｧ｣譫千ｵ先棡縺ｮ荳譎ゆｿ晏ｭ� key: sender+"_skill" 竊� iko_mail text
 
 PENDING_SKILL_MAIL = {}
 
@@ -1373,37 +1373,37 @@ def evaluate_candidate(candidate, project_price):
 
 def build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_draft):
 
-    msg = f"📊 案件『{proj_name}』登録・マッチング完了\n\n"
+    msg = f"投 譯井ｻｶ縲施proj_name}縲冗匳骭ｲ繝ｻ繝槭ャ繝√Φ繧ｰ螳御ｺ�\n\n"
 
 
 
     if ok_candidates:
 
-        msg += f"✅ OK候補: {len(ok_candidates)}名\n"
+        msg += f"笨� OK蛟呵｣�: {len(ok_candidates)}蜷構n"
 
         for i, (c, detail) in enumerate(ok_candidates, 1):
 
             price = normalize_price(c.get("price", 0)) or 0
 
-            msg += f"{i}. {c['name']} / {price}万\n"
+            msg += f"{i}. {c['name']} / {price}荳Ⅸn"
 
             if detail: msg += f"   {detail}\n"
 
     else:
 
-        msg += "✅ OK候補なし\n"
+        msg += "笨� OK蛟呵｣懊↑縺予n"
 
 
 
     if ng_candidates:
 
-        msg += f"\n⚠️ 参考候補: {len(ng_candidates)}名\n"
+        msg += f"\n笞�ｸ� 蜿り�蛟呵｣�: {len(ng_candidates)}蜷構n"
 
         for i, (c, ng_reasons, detail) in enumerate(ng_candidates, 1):
 
             price = normalize_price(c.get("price", 0)) or 0
 
-            msg += f"{i}. {c['name']} / {price}万\n"
+            msg += f"{i}. {c['name']} / {price}荳Ⅸn"
 
             msg += f"   NG: {' / '.join(ng_reasons)}\n"
 
@@ -1413,7 +1413,7 @@ def build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_dra
 
     if proposal_draft:
 
-        msg += f"\n提案文:\n{proposal_draft[:800]}"
+        msg += f"\n謠先｡域枚:\n{proposal_draft[:800]}"
 
 
 
@@ -1421,15 +1421,15 @@ def build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_dra
 
     if ok_candidates and ng_candidates:
 
-        msg += "「送信して xxx@yyy.com」→ OK候補のみ\n「NGも含めて送信して xxx@yyy.com」→ 全員"
+        msg += "縲碁∽ｿ｡縺励※ xxx@yyy.com縲坂�� OK蛟呵｣懊�ｮ縺ｿ\n縲君G繧ょ性繧√※騾∽ｿ｡縺励※ xxx@yyy.com縲坂�� 蜈ｨ蜩｡"
 
     elif ok_candidates:
 
-        msg += "「送信して xxx@yyy.com」で意向確認メールを送ります"
+        msg += "縲碁∽ｿ｡縺励※ xxx@yyy.com縲阪〒諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ繧帝√ｊ縺ｾ縺�"
 
     else:
 
-        msg += "「NGも含めて送信して xxx@yyy.com」で参考候補を送れます"
+        msg += "縲君G繧ょ性繧√※騾∽ｿ｡縺励※ xxx@yyy.com縲阪〒蜿り�蛟呵｣懊ｒ騾√ｌ縺ｾ縺�"
 
 
 
@@ -1443,15 +1443,15 @@ def build_reverse_match_message(eng_name, matches):
 
     if not matches:
 
-        return f"📋 登録完了: {eng_name}\n\n⚠️ マッチする募集中案件なし"
+        return f"搭 逋ｻ骭ｲ螳御ｺ�: {eng_name}\n\n笞�ｸ� 繝槭ャ繝√☆繧句供髮�荳ｭ譯井ｻｶ縺ｪ縺�"
 
 
 
-    msg = f"📋 登録完了: {eng_name}\n\n🔎 マッチする案件 {len(matches)}件\n"
+    msg = f"搭 逋ｻ骭ｲ螳御ｺ�: {eng_name}\n\n博 繝槭ャ繝√☆繧区｡井ｻｶ {len(matches)}莉ｶ\n"
 
     for i, m in enumerate(matches[:3], 1):
 
-        pname = m.get("project_name", "不明")
+        pname = m.get("project_name", "荳肴��")
 
         pprice = m.get("project_price", 0)
 
@@ -1461,21 +1461,21 @@ def build_reverse_match_message(eng_name, matches):
 
         req_match = m.get("required_match", {})
 
-        req_str = " ".join(f"{'○' if v else '×'}{k}" for k, v in req_match.items()) if req_match else ""
+        req_str = " ".join(f"{'笳�' if v else 'ﾃ�'}{k}" for k, v in req_match.items()) if req_match else ""
 
 
 
         msg += f"\n{i}. {pname}\n"
 
-        msg += f"   案件単価: {pprice}万 / 粗利予想: {gross}万 / スコア: {score}\n"
+        msg += f"   譯井ｻｶ蜊倅ｾ｡: {pprice}荳� / 邊怜茜莠域Φ: {gross}荳� / 繧ｹ繧ｳ繧｢: {score}\n"
 
-        if req_str: msg += f"   必須: {req_str}\n"
+        if req_str: msg += f"   蠢�鬆�: {req_str}\n"
 
 
 
     if len(matches) > 3:
 
-        msg += f"\n...他{len(matches)-3}件"
+        msg += f"\n...莉本len(matches)-3}莉ｶ"
 
 
 
@@ -1491,7 +1491,7 @@ def run_double_check(proposal_text, candidates_info):
 
 Check for:
 
-1. Forbidden words: 弊社, 充足, 即戦力, 教えてください
+1. Forbidden words: 蠑顔､ｾ, 蜈�雜ｳ, 蜊ｳ謌ｦ蜉�, 謨吶∴縺ｦ縺上□縺輔＞
 
 2. Wrong honorifics
 
@@ -1589,9 +1589,9 @@ def get_database_property_names(db_id):
 
 def add_input_source_property(props, db_id, input_source):
 
-    if input_source and "入力元" in get_database_property_names(db_id):
+    if input_source and "蜈･蜉帛��" in get_database_property_names(db_id):
 
-        props["入力元"] = {"select": {"name": input_source}}
+        props["蜈･蜉帛��"] = {"select": {"name": input_source}}
 
 
 
@@ -1681,35 +1681,35 @@ def register_engineer(info, raw_text, sender, user_id=""):
 
     props = {
 
-        "名前": {"title": [{"text": {"content": name}}]},
+        "蜷榊燕": {"title": [{"text": {"content": name}}]},
 
-        "稼働状況": {"select": {"name": "稼働可能"}},
+        "遞ｼ蜒咲憾豕�": {"select": {"name": "遞ｼ蜒榊庄閭ｽ"}},
 
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "蛯呵��ｼ�LINE繝｡繝｢�ｼ�": {"rich_text": [{"text": {"content": note[:2000]}}]}
 
     }
 
-    assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
-    props["担当者"] = {"select": {"name": assignee_name}}
+    assignee_name = "蟯｡譛ｬ" if user_id and user_id == OKAMOTO_USER_ID else "譚ｾ驥�"
+    props["諡�蠖楢�"] = {"select": {"name": assignee_name}}
 
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
 
-    if skills: props["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+    if skills: props["繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in skills]}
 
     price_val = normalize_price(info.get("price", 0))
 
-    if price_val: props["単価（万円）"] = {"number": price_val}
+    if price_val: props["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": price_val}
 
-    if info.get("experience_years"): props["経験年数"] = {"number": info["experience_years"]}
+    if info.get("experience_years"): props["邨碁ｨ灘ｹｴ謨ｰ"] = {"number": info["experience_years"]}
 
     if info.get("affiliation"):
-        props["所属会社"] = {"rich_text": [{"text": {"content": info["affiliation"][:500]}}]}
+        props["謇螻樔ｼ夂､ｾ"] = {"rich_text": [{"text": {"content": info["affiliation"][:500]}}]}
 
     if info.get("contact_name"):
-        props["所属担当者名"] = {"rich_text": [{"text": {"content": info["contact_name"][:100]}}]}
+        props["謇螻樊球蠖楢�蜷�"] = {"rich_text": [{"text": {"content": info["contact_name"][:100]}}]}
 
     if info.get("contact_email"):
-        props["所属メール"] = {"email": info["contact_email"]}
+        props["謇螻槭Γ繝ｼ繝ｫ"] = {"email": info["contact_email"]}
 
     add_input_source_property(props, NOTION_ENGINEER_DB_ID, get_line_source_label(user_id))
 
@@ -1739,32 +1739,32 @@ def register_project(info, raw_text, sender, user_id=""):
 
     props = {
 
-        "案件名": {"title": [{"text": {"content": name}}]},
+        "譯井ｻｶ蜷�": {"title": [{"text": {"content": name}}]},
 
-        "ステータス": {"select": {"name": "稼働中"}},
+        "繧ｹ繝�繝ｼ繧ｿ繧ｹ": {"select": {"name": "遞ｼ蜒堺ｸｭ"}},
 
-        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "譯井ｻｶ隧ｳ邏ｰ": {"rich_text": [{"text": {"content": note[:2000]}}]}
 
     }
 
-    assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
-    props["担当者"] = {"select": {"name": assignee_name}}
+    assignee_name = "蟯｡譛ｬ" if user_id and user_id == OKAMOTO_USER_ID else "譚ｾ驥�"
+    props["諡�蠖楢�"] = {"select": {"name": assignee_name}}
 
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
 
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
 
-    if req: props["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+    if req: props["蠢�隕√せ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in req]}
 
-    if opt: props["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
+    if opt: props["蟆壼庄繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in opt]}
 
     price_val = normalize_price(info.get("price", 0))
 
-    if price_val: props["単価（万円）"] = {"number": price_val}
+    if price_val: props["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": price_val}
 
-    if info.get("location"): props["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+    if info.get("location"): props["蜍､蜍吝慍"] = {"rich_text": [{"text": {"content": info["location"]}}]}
 
-    if info.get("period"): props["期間"] = {"rich_text": [{"text": {"content": info["period"]}}]}
+    if info.get("period"): props["譛滄俣"] = {"rich_text": [{"text": {"content": info["period"]}}]}
 
     add_input_source_property(props, NOTION_PROJECT_DB_ID, get_line_source_label(user_id))
 
@@ -1790,7 +1790,7 @@ def get_available_engineers():
 
     pages = notion_query(NOTION_ENGINEER_DB_ID, {
 
-        "property": "稼働状況", "select": {"equals": "稼働可能"}
+        "property": "遞ｼ蜒咲憾豕�", "select": {"equals": "遞ｼ蜒榊庄閭ｽ"}
 
     })
 
@@ -1800,15 +1800,15 @@ def get_available_engineers():
 
         props = p["properties"]
 
-        name_items = props.get("名前", {}).get("title", [])
+        name_items = props.get("蜷榊燕", {}).get("title", [])
 
         name = name_items[0].get("plain_text", "unknown") if name_items else "unknown"
 
-        skills = [o["name"] for o in props.get("スキル", {}).get("multi_select", [])]
+        skills = [o["name"] for o in props.get("繧ｹ繧ｭ繝ｫ", {}).get("multi_select", [])]
 
-        price = props.get("単価（万円）", {}).get("number", 0) or 0
+        price = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number", 0) or 0
 
-        note_items = props.get("備考（LINEメモ）", {}).get("rich_text", [])
+        note_items = props.get("蛯呵��ｼ�LINE繝｡繝｢�ｼ�", {}).get("rich_text", [])
 
         note = note_items[0].get("plain_text", "") if note_items else ""
 
@@ -1827,12 +1827,12 @@ def get_available_engineers():
 
 
 def get_active_projects():
-    # 募集中・稼働中・選考中すべてをマッチング対象とする
+    # 蜍滄寔荳ｭ繝ｻ遞ｼ蜒堺ｸｭ繝ｻ驕ｸ閠�荳ｭ縺吶∋縺ｦ繧偵�槭ャ繝√Φ繧ｰ蟇ｾ雎｡縺ｨ縺吶ｋ
     pages = notion_query(NOTION_PROJECT_DB_ID, {
         "or": [
-            {"property": "ステータス", "select": {"equals": "募集中"}},
-            {"property": "ステータス", "select": {"equals": "稼働中"}},
-            {"property": "ステータス", "select": {"equals": "選考中"}}
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "蜍滄寔荳ｭ"}},
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "遞ｼ蜒堺ｸｭ"}},
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "驕ｸ閠�荳ｭ"}}
         ]
     })
 
@@ -1842,17 +1842,17 @@ def get_active_projects():
 
         props = p["properties"]
 
-        name_items = props.get("案件名", {}).get("title", [])
+        name_items = props.get("譯井ｻｶ蜷�", {}).get("title", [])
 
         name = name_items[0].get("plain_text", "unknown") if name_items else "unknown"
 
-        req_skills = [o["name"] for o in props.get("必要スキル", {}).get("multi_select", [])]
+        req_skills = [o["name"] for o in props.get("蠢�隕√せ繧ｭ繝ｫ", {}).get("multi_select", [])]
 
-        opt_skills = [o["name"] for o in props.get("尚可スキル", {}).get("multi_select", [])]
+        opt_skills = [o["name"] for o in props.get("蟆壼庄繧ｹ繧ｭ繝ｫ", {}).get("multi_select", [])]
 
-        price = props.get("単価（万円）", {}).get("number", 0) or 0
+        price = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number", 0) or 0
 
-        location_items = props.get("勤務地", {}).get("rich_text", [])
+        location_items = props.get("蜍､蜍吝慍", {}).get("rich_text", [])
 
         location = location_items[0].get("plain_text", "") if location_items else ""
 
@@ -1902,7 +1902,7 @@ def send_email_via_callback(account, to_addr, subject, body):
 
     if not pw:
 
-        print(f"[send_email] ERROR: パスワード未設定 account={account}")
+        print(f"[send_email] ERROR: 繝代せ繝ｯ繝ｼ繝画悴險ｭ螳� account={account}")
 
         return False
 
@@ -1967,32 +1967,32 @@ def push_message(user_id, text, token):
 
 
 
-# ── ステータス略語マッピング ──────────────────────────────────────
+# 笏笏 繧ｹ繝�繝ｼ繧ｿ繧ｹ逡･隱槭�槭ャ繝斐Φ繧ｰ 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
 STATUS_ALIASES = {
-    "前": "意向確認前",
-    "確認": "意向確認中", "確認中": "意向確認中", "いこう": "意向確認中",
-    "面談": "面談希望", "面談希望": "面談希望", "希望": "面談希望",
-    "調整": "面談調整中", "調整中": "面談調整中",
-    "済": "面談済み", "面談済": "面談済み", "済み": "面談済み",
-    "合格": "合格", "ok": "合格", "OK": "合格", "〇": "合格",
-    "ng": "NG", "NG": "NG", "×": "NG", "ばつ": "NG",
+    "蜑�": "諢丞髄遒ｺ隱榊燕",
+    "遒ｺ隱�": "諢丞髄遒ｺ隱堺ｸｭ", "遒ｺ隱堺ｸｭ": "諢丞髄遒ｺ隱堺ｸｭ", "縺�縺薙≧": "諢丞髄遒ｺ隱堺ｸｭ",
+    "髱｢隲�": "髱｢隲�蟶梧悍", "髱｢隲�蟶梧悍": "髱｢隲�蟶梧悍", "蟶梧悍": "髱｢隲�蟶梧悍",
+    "隱ｿ謨ｴ": "髱｢隲�隱ｿ謨ｴ荳ｭ", "隱ｿ謨ｴ荳ｭ": "髱｢隲�隱ｿ謨ｴ荳ｭ",
+    "貂�": "髱｢隲�貂医∩", "髱｢隲�貂�": "髱｢隲�貂医∩", "貂医∩": "髱｢隲�貂医∩",
+    "蜷域ｼ": "蜷域ｼ", "ok": "蜷域ｼ", "OK": "蜷域ｼ", "縲�": "蜷域ｼ",
+    "ng": "NG", "NG": "NG", "ﾃ�": "NG", "縺ｰ縺､": "NG",
 }
 
 def normalize_status(raw):
-    """略語をステータス正式名に変換"""
+    """逡･隱槭ｒ繧ｹ繝�繝ｼ繧ｿ繧ｹ豁｣蠑丞錐縺ｫ螟画鋤"""
     return STATUS_ALIASES.get(raw.strip(), raw.strip())
 
 def normalize_candidate_name(raw):
-    """イニシャル・略称を正規化（ドット・スペース除去・大文字化）"""
-    return raw.replace(".", "").replace(" ", "").replace("　", "").upper()
+    """繧､繝九す繝｣繝ｫ繝ｻ逡･遘ｰ繧呈ｭ｣隕丞喧�ｼ医ラ繝�繝医�ｻ繧ｹ繝壹�ｼ繧ｹ髯､蜴ｻ繝ｻ螟ｧ譁�蟄怜喧�ｼ�"""
+    return raw.replace(".", "").replace(" ", "").replace("縲", "").upper()
 
 def find_candidate_in_text(text, name_query):
-    """案件詳細テキストから候補者行を探す（部分一致）"""
+    """譯井ｻｶ隧ｳ邏ｰ繝�繧ｭ繧ｹ繝医°繧牙呵｣懆�陦後ｒ謗｢縺呻ｼ磯Κ蛻�荳閾ｴ�ｼ�"""
     nq = normalize_candidate_name(name_query)
     for line in text.split("\n"):
-        if "▶" not in line:
+        if "笆ｶ" not in line:
             continue
-        # 行から候補者名部分を抽出（番号と単価の間）
+        # 陦後°繧牙呵｣懆�蜷埼Κ蛻�繧呈歓蜃ｺ�ｼ育分蜿ｷ縺ｨ蜊倅ｾ｡縺ｮ髢難ｼ�
         m = re.search(r"\d+\.\s+(.+?)\s+/", line)
         if m:
             cname = m.group(1).strip()
@@ -2001,54 +2001,54 @@ def find_candidate_in_text(text, name_query):
     return None, None
 
 def update_candidate_status(page_id, candidate_name, new_status):
-    """案件詳細の候補者ステータスを更新する"""
+    """譯井ｻｶ隧ｳ邏ｰ縺ｮ蛟呵｣懆�繧ｹ繝�繝ｼ繧ｿ繧ｹ繧呈峩譁ｰ縺吶ｋ"""
     r = requests.get(f"https://api.notion.com/v1/pages/{page_id}",
                      headers=NOTION_HEADERS, timeout=10)
     if r.status_code != 200:
-        return False, f"案件取得失敗: {r.status_code}"
+        return False, f"譯井ｻｶ蜿門ｾ怜､ｱ謨�: {r.status_code}"
 
     props = r.json().get("properties", {})
-    existing_items = props.get("案件詳細", {}).get("rich_text", [])
+    existing_items = props.get("譯井ｻｶ隧ｳ邏ｰ", {}).get("rich_text", [])
     existing_text = existing_items[0].get("plain_text", "") if existing_items else ""
 
-    if not existing_text or "【候補者ステータス" not in existing_text:
-        return False, "候補者ステータス欄が見つかりません"
+    if not existing_text or "縲仙呵｣懆�繧ｹ繝�繝ｼ繧ｿ繧ｹ" not in existing_text:
+        return False, "蛟呵｣懆�繧ｹ繝�繝ｼ繧ｿ繧ｹ谺�縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ"
 
     matched_line, matched_name = find_candidate_in_text(existing_text, candidate_name)
     if not matched_line:
-        return False, f"「{candidate_name}」が見つかりません"
+        return False, f"縲鶏candidate_name}縲阪′隕九▽縺九ｊ縺ｾ縺帙ｓ"
 
-    new_line = re.sub(r"▶ .+$", f"▶ {new_status}", matched_line)
+    new_line = re.sub(r"笆ｶ .+$", f"笆ｶ {new_status}", matched_line)
     updated_text = existing_text.replace(matched_line, new_line)[:1900]
 
     r2 = requests.patch(
         f"https://api.notion.com/v1/pages/{page_id}",
         headers=NOTION_HEADERS,
-        json={"properties": {"案件詳細": {"rich_text": [{"type": "text", "text": {"content": updated_text}}]}}},
+        json={"properties": {"譯井ｻｶ隧ｳ邏ｰ": {"rich_text": [{"type": "text", "text": {"content": updated_text}}]}}},
         timeout=10
     )
     if r2.status_code == 200:
         return True, matched_name
-    return False, f"更新失敗: {r2.status_code}"
+    return False, f"譖ｴ譁ｰ螟ｱ謨�: {r2.status_code}"
 
 
 def find_projects_with_candidate(name_query):
-    """候補者名で全案件を横断検索してヒットした(page_id, proj_name, matched_name)を返す"""
+    """蛟呵｣懆�蜷阪〒蜈ｨ譯井ｻｶ繧呈ｨｪ譁ｭ讀懃ｴ｢縺励※繝偵ャ繝医＠縺�(page_id, proj_name, matched_name)繧定ｿ斐☆"""
     pages = notion_query(NOTION_PROJECT_DB_ID, {
         "or": [
-            {"property": "ステータス", "select": {"equals": "募集中"}},
-            {"property": "ステータス", "select": {"equals": "稼働中"}},
-            {"property": "ステータス", "select": {"equals": "選考中"}},
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "蜍滄寔荳ｭ"}},
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "遞ｼ蜒堺ｸｭ"}},
+            {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "驕ｸ閠�荳ｭ"}},
         ]
     })
     results = []
     for p in pages:
         props = p.get("properties", {})
-        name_items = props.get("案件名", {}).get("title", [])
+        name_items = props.get("譯井ｻｶ蜷�", {}).get("title", [])
         proj_name = name_items[0].get("plain_text", "") if name_items else ""
-        detail_items = props.get("案件詳細", {}).get("rich_text", [])
+        detail_items = props.get("譯井ｻｶ隧ｳ邏ｰ", {}).get("rich_text", [])
         detail_text = detail_items[0].get("plain_text", "") if detail_items else ""
-        if "【候補者ステータス" not in detail_text:
+        if "縲仙呵｣懆�繧ｹ繝�繝ｼ繧ｿ繧ｹ" not in detail_text:
             continue
         matched_line, matched_name = find_candidate_in_text(detail_text, name_query)
         if matched_line:
@@ -2057,57 +2057,57 @@ def find_projects_with_candidate(name_query):
 
 
 def build_matching_result_reply():
-    """Notion DBからリアルタイムでマッチング結果を取得してフォーマット"""
+    """Notion DB縺九ｉ繝ｪ繧｢繝ｫ繧ｿ繧､繝縺ｧ繝槭ャ繝√Φ繧ｰ邨先棡繧貞叙蠕励＠縺ｦ繝輔か繝ｼ繝槭ャ繝�"""
     try:
-        # アクティブな案件を取得
+        # 繧｢繧ｯ繝�繧｣繝悶↑譯井ｻｶ繧貞叙蠕�
         project_pages = notion_query(NOTION_PROJECT_DB_ID, {
             "or": [
-                {"property": "ステータス", "select": {"equals": "募集中"}},
-                {"property": "ステータス", "select": {"equals": "稼働中"}},
+                {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "蜍滄寔荳ｭ"}},
+                {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "遞ｼ蜒堺ｸｭ"}},
             ]
         })
-        # 稼働可能なエンジニアを取得
+        # 遞ｼ蜒榊庄閭ｽ縺ｪ繧ｨ繝ｳ繧ｸ繝九い繧貞叙蠕�
         engineer_pages = notion_query(NOTION_ENGINEER_DB_ID, {
-            "property": "稼働状況", "select": {"equals": "稼働可能"}
+            "property": "遞ｼ蜒咲憾豕�", "select": {"equals": "遞ｼ蜒榊庄閭ｽ"}
         })
     except Exception as e:
         print(f"[matching_reply] notion error: {e}")
-        return "【マッチング結果】\nデータ取得失敗"
+        return "縲舌�槭ャ繝√Φ繧ｰ邨先棡縲曾n繝�繝ｼ繧ｿ蜿門ｾ怜､ｱ謨�"
 
     if not project_pages or not engineer_pages:
-        return f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n案件または人材データなし（案件:{len(project_pages)}件 人材:{len(engineer_pages)}名）"
+        return f"縲舌�槭ャ繝√Φ繧ｰ邨先棡縲捜datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n譯井ｻｶ縺ｾ縺溘�ｯ莠ｺ譚舌ョ繝ｼ繧ｿ縺ｪ縺暦ｼ域｡井ｻｶ:{len(project_pages)}莉ｶ 莠ｺ譚�:{len(engineer_pages)}蜷搾ｼ�"
 
-    number_labels = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨", "⑩"]
-    lines = [f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}"]
+    number_labels = ["竭", "竭｡", "竭｢", "竭｣", "竭､", "竭･", "竭ｦ", "竭ｧ", "竭ｨ", "竭ｩ"]
+    lines = [f"縲舌�槭ャ繝√Φ繧ｰ邨先棡縲捜datetime.now().strftime('%Y-%m-%d %H:%M')}"]
     match_count = 0
 
     for pp in project_pages:
         props = pp.get("properties", {})
-        # 案件名
-        name_items = props.get("案件名", {}).get("title", [])
-        proj_name = name_items[0].get("plain_text", "名称未設定") if name_items else "名称未設定"
-        # 必須スキル
-        req_skills = [o["name"] for o in props.get("必要スキル", {}).get("multi_select", [])]
-        proj_price = props.get("単価（万円）", {}).get("number") or 0
+        # 譯井ｻｶ蜷�
+        name_items = props.get("譯井ｻｶ蜷�", {}).get("title", [])
+        proj_name = name_items[0].get("plain_text", "蜷咲ｧｰ譛ｪ險ｭ螳�") if name_items else "蜷咲ｧｰ譛ｪ險ｭ螳�"
+        # 蠢�鬆医せ繧ｭ繝ｫ
+        req_skills = [o["name"] for o in props.get("蠢�隕√せ繧ｭ繝ｫ", {}).get("multi_select", [])]
+        proj_price = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number") or 0
         notion_url = f"https://www.notion.so/{pp['id'].replace('-', '')}"
 
         if not req_skills:
-            continue  # スキル指定なし案件はスキップ
+            continue  # 繧ｹ繧ｭ繝ｫ謖�螳壹↑縺玲｡井ｻｶ縺ｯ繧ｹ繧ｭ繝�繝�
 
-        # エンジニアとのスキルマッチング
+        # 繧ｨ繝ｳ繧ｸ繝九い縺ｨ縺ｮ繧ｹ繧ｭ繝ｫ繝槭ャ繝√Φ繧ｰ
         matched = []
         for ep in engineer_pages:
             eprops = ep.get("properties", {})
-            ename_items = eprops.get("名前", {}).get("title", [])
-            ename = ename_items[0].get("plain_text", "不明") if ename_items else "不明"
-            eskills = [o["name"] for o in eprops.get("スキル", {}).get("multi_select", [])]
-            eprice = eprops.get("単価（万円）", {}).get("number") or 0
+            ename_items = eprops.get("蜷榊燕", {}).get("title", [])
+            ename = ename_items[0].get("plain_text", "荳肴��") if ename_items else "荳肴��"
+            eskills = [o["name"] for o in eprops.get("繧ｹ繧ｭ繝ｫ", {}).get("multi_select", [])]
+            eprice = eprops.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number") or 0
 
-            # 必須スキルが1つ以上一致すればマッチとする
+            # 蠢�鬆医せ繧ｭ繝ｫ縺�1縺､莉･荳贋ｸ閾ｴ縺吶ｌ縺ｰ繝槭ャ繝√→縺吶ｋ
             hit = [s for s in req_skills if s in eskills]
             if not hit:
                 continue
-            # 粗利チェック（5万以上）
+            # 邊怜茜繝√ぉ繝�繧ｯ�ｼ�5荳�莉･荳奇ｼ�
             if eprice > 0 and proj_price > 0 and (proj_price - eprice) < 5:
                 continue
             matched.append({"name": ename, "price": eprice, "hit": hit})
@@ -2116,81 +2116,81 @@ def build_matching_result_reply():
             continue
 
         lines.append("")
-        lines.append(f"■ {proj_name}（{len(matched)}名マッチ）")
+        lines.append(f"笆 {proj_name}�ｼ�{len(matched)}蜷阪�槭ャ繝��ｼ�")
         lines.append(notion_url)
         for idx, m in enumerate(matched[:2]):
-            price_str = f"{m['price']}万" if m['price'] else "未設定"
+            price_str = f"{m['price']}荳�" if m['price'] else "譛ｪ險ｭ螳�"
             lines.append(f"  {number_labels[idx]} {m['name']} /{price_str}")
         if len(matched) > 2:
-            lines.append(f"  他{len(matched)-2}名")
+            lines.append(f"  莉本len(matched)-2}蜷�")
         match_count += 1
 
     if match_count == 0:
-        return f"【マッチング結果】{datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n現在マッチング候補なし\n（案件:{len(project_pages)}件 人材:{len(engineer_pages)}名で検索済み）"
+        return f"縲舌�槭ャ繝√Φ繧ｰ邨先棡縲捜datetime.now().strftime('%Y-%m-%d %H:%M')}\n\n迴ｾ蝨ｨ繝槭ャ繝√Φ繧ｰ蛟呵｣懊↑縺予n�ｼ域｡井ｻｶ:{len(project_pages)}莉ｶ 莠ｺ譚�:{len(engineer_pages)}蜷阪〒讀懃ｴ｢貂医∩�ｼ�"
 
     return "\n".join(lines)
 
 
 
 def build_progress_reply():
-    """案件進捗をReply API用にフォーマット"""
+    """譯井ｻｶ騾ｲ謐励ｒReply API逕ｨ縺ｫ繝輔か繝ｼ繝槭ャ繝�"""
     try:
         pages = notion_query(NOTION_PROJECT_DB_ID, {
             "or": [
-                {"property": "ステータス", "select": {"equals": "募集中"}},
-                {"property": "ステータス", "select": {"equals": "選考中"}},
+                {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "蜍滄寔荳ｭ"}},
+                {"property": "繧ｹ繝�繝ｼ繧ｿ繧ｹ", "select": {"equals": "驕ｸ閠�荳ｭ"}},
             ]
         })
     except Exception as e:
         print(f"[progress] notion error: {e}")
-        return "【案件進捗】\nデータ取得失敗"
+        return "縲先｡井ｻｶ騾ｲ謐励曾n繝�繝ｼ繧ｿ蜿門ｾ怜､ｱ謨�"
 
-    weekdays = ["月","火","水","木","金","土","日"]
+    weekdays = ["譛�","轣ｫ","豌ｴ","譛ｨ","驥�","蝨�","譌･"]
     now = datetime.now()
-    header = f"【案件進捗】{now.strftime('%m/%d')}（{weekdays[now.weekday()]}）"
+    header = f"縲先｡井ｻｶ騾ｲ謐励捜now.strftime('%m/%d')}�ｼ�{weekdays[now.weekday()]}�ｼ�"
     lines = [header, ""]
 
     action_lines = []
 
     if not pages:
-        lines.append("本日募集中案件なし")
+        lines.append("譛ｬ譌･蜍滄寔荳ｭ譯井ｻｶ縺ｪ縺�")
         return "\n".join(lines)
 
     for p in pages:
         props = p.get("properties", {})
-        name_items = props.get("案件名", {}).get("title", [])
-        name = name_items[0].get("plain_text", "名称未設定") if name_items else "名称未設定"
-        price = props.get("単価（万円）", {}).get("number")
+        name_items = props.get("譯井ｻｶ蜷�", {}).get("title", [])
+        name = name_items[0].get("plain_text", "蜷咲ｧｰ譛ｪ險ｭ螳�") if name_items else "蜷咲ｧｰ譛ｪ險ｭ螳�"
+        price = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number")
         if price is None:
-            price = props.get("単価(万円)", {}).get("number")
+            price = props.get("蜊倅ｾ｡(荳�蜀�)", {}).get("number")
         if isinstance(price, float) and price.is_integer():
             price = int(price)
         price_str = str(price) if price not in (None, "") else "-"
 
-        teian    = props.get("提案中",   {}).get("number") or 0
-        mendan   = props.get("面談希望", {}).get("number") or 0
+        teian    = props.get("謠先｡井ｸｭ",   {}).get("number") or 0
+        mendan   = props.get("髱｢隲�蟶梧悍", {}).get("number") or 0
         ng       = props.get("NG",       {}).get("number") or 0
-        goukaku  = props.get("合格",     {}).get("number") or 0
-        seiyaku  = props.get("成約",     {}).get("number") or 0
-        eigyo_end = props.get("営業終了", {}).get("number") or 0
+        goukaku  = props.get("蜷域ｼ",     {}).get("number") or 0
+        seiyaku  = props.get("謌千ｴ�",     {}).get("number") or 0
+        eigyo_end = props.get("蝟ｶ讌ｭ邨ゆｺ�", {}).get("number") or 0
 
-        lines.append(f"■ {name}（{price_str}万）")
-        row = f"  提案中:{teian} / 面談希望:{mendan} / NG:{ng} / 合格:{goukaku}"
+        lines.append(f"笆 {name}�ｼ�{price_str}荳��ｼ�")
+        row = f"  謠先｡井ｸｭ:{teian} / 髱｢隲�蟶梧悍:{mendan} / NG:{ng} / 蜷域ｼ:{goukaku}"
         if seiyaku:
-            row += f" / 成約:{seiyaku}"
+            row += f" / 謌千ｴ�:{seiyaku}"
         if eigyo_end:
-            row += f" / 営業終了:{eigyo_end}"
+            row += f" / 蝟ｶ讌ｭ邨ゆｺ�:{eigyo_end}"
         lines.append(row)
         lines.append("")
 
         if mendan > 0:
-            action_lines.append(f"  {name} → 面談希望{mendan}件")
+            action_lines.append(f"  {name} 竊� 髱｢隲�蟶梧悍{mendan}莉ｶ")
 
-    lines.append("⚡ 要アクション")
+    lines.append("笞｡ 隕√い繧ｯ繧ｷ繝ｧ繝ｳ")
     if action_lines:
         lines.extend(action_lines)
     else:
-        lines.append("  なし")
+        lines.append("  縺ｪ縺�")
 
     return "\n".join(lines).rstrip()
 
@@ -2228,11 +2228,11 @@ def split_line_message(text, limit=4900):
 
 def handle_file_message(message_id, mime_type, reply_token, sender, sender_token):
 
-    """LINEから送られたPDF/画像ファイルをskill_reader_apiで処理"""
+    """LINE縺九ｉ騾√ｉ繧後◆PDF/逕ｻ蜒上ヵ繧｡繧､繝ｫ繧痴kill_reader_api縺ｧ蜃ｦ逅�"""
 
     try:
 
-        # LINEからファイルコンテンツ取得
+        # LINE縺九ｉ繝輔ぃ繧､繝ｫ繧ｳ繝ｳ繝�繝ｳ繝�蜿門ｾ�
 
         token = MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN
 
@@ -2248,7 +2248,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         if res.status_code != 200:
 
-            reply_message(reply_token, f"❌ ファイル取得失敗: {res.status_code}", sender_token)
+            reply_message(reply_token, f"笶� 繝輔ぃ繧､繝ｫ蜿門ｾ怜､ｱ謨�: {res.status_code}", sender_token)
 
             return
 
@@ -2258,15 +2258,15 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
-        # skill_reader_api（8766）に送信
+        # skill_reader_api�ｼ�8766�ｼ峨↓騾∽ｿ｡
 
-        reply_message(reply_token, "📋 スキルシート解析中...", sender_token)
+        reply_message(reply_token, "搭 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝郁ｧ｣譫蝉ｸｭ...", sender_token)
 
         api_res = requests.post(
 
             "http://127.0.0.1:8766/process_skill_sheet",
 
-            json={"base64": b64_data, "mime": mime_type, "affiliation": "貴社"},
+            json={"base64": b64_data, "mime": mime_type, "affiliation": "雋ｴ遉ｾ"},
 
             timeout=120
 
@@ -2276,7 +2276,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         if api_res.status_code != 200:
 
-            reply_message(reply_token, f"❌ 解析失敗: {api_res.text[:200]}", sender_token)
+            reply_message(reply_token, f"笶� 隗｣譫仙､ｱ謨�: {api_res.text[:200]}", sender_token)
 
             return
 
@@ -2286,7 +2286,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         if result.get("status") != "ok":
 
-            reply_message(reply_token, f"❌ 解析エラー: {result.get('message','不明')}", sender_token)
+            reply_message(reply_token, f"笶� 隗｣譫舌お繝ｩ繝ｼ: {result.get('message','荳肴��')}", sender_token)
 
             return
 
@@ -2294,11 +2294,11 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         eng = result.get("engineer", {})
 
-        name = eng.get("name", "不明")
+        name = eng.get("name", "荳肴��")
 
-        skills = ", ".join(eng.get("skills", [])) or "なし"
+        skills = ", ".join(eng.get("skills", [])) or "縺ｪ縺�"
 
-        level = eng.get("level", "不明")
+        level = eng.get("level", "荳肴��")
 
         summary = eng.get("summary", "")
 
@@ -2308,7 +2308,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
-        # 結果をPENDING_SKILL_MAILに保存
+        # 邨先棡繧単ENDING_SKILL_MAIL縺ｫ菫晏ｭ�
 
         pending_key = sender + "_skill"
 
@@ -2316,21 +2316,21 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
-        msg = f"📋 スキルシート解析完了\n"
+        msg = f"搭 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝郁ｧ｣譫仙ｮ御ｺ�\n"
 
-        msg += f"氏名: {name}\n"
+        msg += f"豌丞錐: {name}\n"
 
-        msg += f"レベル: {level}\n"
+        msg += f"繝ｬ繝吶Ν: {level}\n"
 
-        msg += f"スキル: {skills}\n"
+        msg += f"繧ｹ繧ｭ繝ｫ: {skills}\n"
 
         if summary:
 
-            msg += f"概要: {summary}\n"
+            msg += f"讎りｦ�: {summary}\n"
 
-        msg += f"\n粗利ジャスト案件（5〜12万）: {just_count}件\n"
+        msg += f"\n邊怜茜繧ｸ繝｣繧ｹ繝域｡井ｻｶ�ｼ�5縲�12荳��ｼ�: {just_count}莉ｶ\n"
 
-        msg += "\n「メール送信して xxx@yyy.com」で意向確認メールを送信できます。"
+        msg += "\n縲後Γ繝ｼ繝ｫ騾∽ｿ｡縺励※ xxx@yyy.com縲阪〒諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ繧帝∽ｿ｡縺ｧ縺阪∪縺吶�"
 
 
 
@@ -2352,7 +2352,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
             MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
 
-            f"❌ スキルシート処理エラー: {str(e)[:200]}",
+            f"笶� 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝亥�ｦ逅�繧ｨ繝ｩ繝ｼ: {str(e)[:200]}",
 
             sender_token
 
@@ -2366,19 +2366,19 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 def handle_sheet_url(url, reply_token, sender, sender_token):
 
-    reply_message(reply_token, "🔄 スプレッドシートを取得中...", sender_token)
+    reply_message(reply_token, "売 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝医ｒ蜿門ｾ嶺ｸｭ...", sender_token)
 
     result = fetch_sheet_text(url)
 
     if result["status"] == "login_required":
 
-        reply_message(reply_token, "⚠️ ログインが必要なスプレッドシートのためスキップしました", sender_token)
+        reply_message(reply_token, "笞�ｸ� 繝ｭ繧ｰ繧､繝ｳ縺悟ｿ�隕√↑繧ｹ繝励Ξ繝�繝峨す繝ｼ繝医�ｮ縺溘ａ繧ｹ繧ｭ繝�繝励＠縺ｾ縺励◆", sender_token)
 
         return
 
     elif result["status"] == "error":
 
-        reply_message(reply_token, f"❌ スプレッドシート取得失敗: {result.get('error','')[:100]}", sender_token)
+        reply_message(reply_token, f"笶� 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝亥叙蠕怜､ｱ謨�: {result.get('error','')[:100]}", sender_token)
 
         return
 
@@ -2388,7 +2388,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
     if not text or len(text.strip()) < 50:
 
-        reply_message(reply_token, "⚠️ スプレッドシートの内容が取得できませんでした", sender_token)
+        reply_message(reply_token, "笞�ｸ� 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝医�ｮ蜀�螳ｹ縺悟叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆", sender_token)
 
         return
 
@@ -2396,7 +2396,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
     content_type = classify_sheet_content(text)
 
-    raw_text = f"[スプレッドシート: {url}]\n{text}"
+    raw_text = f"[繧ｹ繝励Ξ繝�繝峨す繝ｼ繝�: {url}]\n{text}"
 
 
 
@@ -2406,7 +2406,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         if not projects:
 
-            reply_message(reply_token, "⚠️ 案件情報が抽出できませんでした", sender_token)
+            reply_message(reply_token, "笞�ｸ� 譯井ｻｶ諠�蝣ｱ縺梧歓蜃ｺ縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆", sender_token)
 
             return
 
@@ -2420,13 +2420,13 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
             else: skip_count += 1
 
-        msg = f"📊 スプレッドシートから案件登録完了\n\n登録: {success_count}件 / スキップ: {skip_count}件\n"
+        msg = f"投 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝医°繧画｡井ｻｶ逋ｻ骭ｲ螳御ｺ�\n\n逋ｻ骭ｲ: {success_count}莉ｶ / 繧ｹ繧ｭ繝�繝�: {skip_count}莉ｶ\n"
 
         for i, p in enumerate(projects[:5], 1):
 
-            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}万\n"
+            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}荳Ⅸn"
 
-        if len(projects) > 5: msg += f"...他{len(projects)-5}件"
+        if len(projects) > 5: msg += f"...莉本len(projects)-5}莉ｶ"
 
         reply_message(reply_token, msg, sender_token)
 
@@ -2436,7 +2436,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         if not engineers:
 
-            reply_message(reply_token, "⚠️ 人員情報が抽出できませんでした", sender_token)
+            reply_message(reply_token, "笞�ｸ� 莠ｺ蜩｡諠�蝣ｱ縺梧歓蜃ｺ縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆", sender_token)
 
             return
 
@@ -2464,7 +2464,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
                     skip_reasons.add(reason)
 
-        msg = f"📊 スプレッドシートから人員登録完了\n\n登録: {success_count}名 / スキップ: {skip_count}名\n"
+        msg = f"投 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝医°繧我ｺｺ蜩｡逋ｻ骭ｲ螳御ｺ�\n\n逋ｻ骭ｲ: {success_count}蜷� / 繧ｹ繧ｭ繝�繝�: {skip_count}蜷構n"
 
         if "name_not_found" in skip_reasons:
 
@@ -2476,9 +2476,9 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         for i, e in enumerate(engineers[:5], 1):
 
-            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}万\n"
+            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}荳Ⅸn"
 
-        if len(engineers) > 5: msg += f"...他{len(engineers)-5}名"
+        if len(engineers) > 5: msg += f"...莉本len(engineers)-5}蜷�"
 
         if registered:
 
@@ -2486,7 +2486,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
             if active_projects:
 
-                msg += f"\n\n🔎 {len(registered)}名の逆マッチング中..."
+                msg += f"\n\n博 {len(registered)}蜷阪�ｮ騾�繝槭ャ繝√Φ繧ｰ荳ｭ..."
 
                 reply_message(reply_token, msg, sender_token)
 
@@ -2526,7 +2526,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
     text_stripped = text.strip()
 
 
-    # ── リモートコマンド（松野のみ）─────────────────────────────────
+    # 笏笏 繝ｪ繝｢繝ｼ繝医さ繝槭Φ繝会ｼ域收驥弱�ｮ縺ｿ�ｼ俄楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
     if user_id and user_id == MATSUNO_USER_ID:
         if text_stripped.startswith("/run "):
             result = execute_remote(text_stripped[5:])
@@ -2549,22 +2549,22 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         or text_stripped.startswith("/bg ")
         or text_stripped in ("/log", "/health")
     ):
-        reply_message(reply_token, "❌ エラー\n権限がありません", sender_token)
+        reply_message(reply_token, "笶� 繧ｨ繝ｩ繝ｼ\n讓ｩ髯舌′縺ゅｊ縺ｾ縺帙ｓ", sender_token)
         return
 
 
 
-    # ── 送信指示の処理 ───────────────────────────────────────────
+    # 笏笏 騾∽ｿ｡謖�遉ｺ縺ｮ蜃ｦ逅� 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
 
-    is_send_all = "NGも含めて送信" in text_stripped or "NG含めて送信" in text_stripped
+    is_send_all = "NG繧ょ性繧√※騾∽ｿ｡" in text_stripped or "NG蜷ｫ繧√※騾∽ｿ｡" in text_stripped
 
-    is_mail_send = "メール送信して" in text_stripped
+    is_mail_send = "繝｡繝ｼ繝ｫ騾∽ｿ｡縺励※" in text_stripped
 
-    is_send_ok  = text_stripped.startswith("送信して") or text_stripped.startswith("送信 ")
+    is_send_ok  = text_stripped.startswith("騾∽ｿ｡縺励※") or text_stripped.startswith("騾∽ｿ｡ ")
 
 
 
-    # スキルシート解析後の意向確認メール送信
+    # 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝郁ｧ｣譫仙ｾ後�ｮ諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ騾∽ｿ｡
 
     if is_mail_send and skill_key in PENDING_SKILL_MAIL:
 
@@ -2578,97 +2578,97 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             account = "matsuno" if sender == "matsuno" else "okamoto"
 
-            subject = "案件ご検討のお願い"
+            subject = "譯井ｻｶ縺疲､懆ｨ弱�ｮ縺企｡倥＞"
 
             sent = send_email_via_callback(account, to_addr, subject, iko_mail)
 
             if sent:
 
-                reply_message(reply_token, f"✅ 意向確認メール送信完了\n送信先: {to_addr}", sender_token)
+                reply_message(reply_token, f"笨� 諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ騾∽ｿ｡螳御ｺ�\n騾∽ｿ｡蜈�: {to_addr}", sender_token)
 
                 del PENDING_SKILL_MAIL[skill_key]
 
             else:
 
-                reply_message(reply_token, f"❌ 送信失敗。以下をコピーして手動送信してください:\n宛先: {to_addr}\n\n{iko_mail[:2000]}", sender_token)
+                reply_message(reply_token, f"笶� 騾∽ｿ｡螟ｱ謨励ゆｻ･荳九ｒ繧ｳ繝斐�ｼ縺励※謇句虚騾∽ｿ｡縺励※縺上□縺輔＞:\n螳帛��: {to_addr}\n\n{iko_mail[:2000]}", sender_token)
 
         else:
 
-            reply_message(reply_token, f"📧 送信先メールアドレスを指定してください\n例: メール送信して xxx@yyy.com\n\n{iko_mail[:1500]}", sender_token)
+            reply_message(reply_token, f"透 騾∽ｿ｡蜈医Γ繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ繧呈欠螳壹＠縺ｦ縺上□縺輔＞\n萓�: 繝｡繝ｼ繝ｫ騾∽ｿ｡縺励※ xxx@yyy.com\n\n{iko_mail[:1500]}", sender_token)
 
         return
 
 
 
-    # ── ステータス更新コマンド（簡略版）──────────────────────────────
-    # 書式: 「更新 候補者名 ステータス略語」
-    # 例:  「更新 RH 確認中」「更新 MY 面談」「更新 OA NG」
-    if text_stripped.startswith("更新 ") or text_stripped.startswith("更新　"):
+    # 笏笏 繧ｹ繝�繝ｼ繧ｿ繧ｹ譖ｴ譁ｰ繧ｳ繝槭Φ繝会ｼ育ｰ｡逡･迚茨ｼ俄楳笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
+    # 譖ｸ蠑�: 縲梧峩譁ｰ 蛟呵｣懆�蜷� 繧ｹ繝�繝ｼ繧ｿ繧ｹ逡･隱槭�
+    # 萓�:  縲梧峩譁ｰ RH 遒ｺ隱堺ｸｭ縲阪梧峩譁ｰ MY 髱｢隲�縲阪梧峩譁ｰ OA NG縲�
+    if text_stripped.startswith("譖ｴ譁ｰ ") or text_stripped.startswith("譖ｴ譁ｰ縲"):
         parts = text_stripped[2:].strip().split()
         if len(parts) < 2:
             reply_message(reply_token,
-                "書式: 更新 候補者名 ステータス\n"
-                "例: 更新 RH 確認中 / 更新 MY 面談 / 更新 OA NG\n"
-                "ステータス略語: 前 確認 面談 調整 済 合格 OK NG",
+                "譖ｸ蠑�: 譖ｴ譁ｰ 蛟呵｣懆�蜷� 繧ｹ繝�繝ｼ繧ｿ繧ｹ\n"
+                "萓�: 譖ｴ譁ｰ RH 遒ｺ隱堺ｸｭ / 譖ｴ譁ｰ MY 髱｢隲� / 譖ｴ譁ｰ OA NG\n"
+                "繧ｹ繝�繝ｼ繧ｿ繧ｹ逡･隱�: 蜑� 遒ｺ隱� 髱｢隲� 隱ｿ謨ｴ 貂� 蜷域ｼ OK NG",
                 sender_token)
             return
         name_query = parts[0]
         status_raw = parts[1]
         new_status = normalize_status(status_raw)
         valid = list(STATUS_ALIASES.values()) + list(STATUS_ALIASES.keys())
-        if new_status not in ["意向確認前","意向確認中","面談希望","面談調整中","面談済み","合格","NG"]:
+        if new_status not in ["諢丞髄遒ｺ隱榊燕","諢丞髄遒ｺ隱堺ｸｭ","髱｢隲�蟶梧悍","髱｢隲�隱ｿ謨ｴ荳ｭ","髱｢隲�貂医∩","蜷域ｼ","NG"]:
             reply_message(reply_token,
-                f"「{status_raw}」は無効です\n略語: 前 確認 面談 調整 済 合格 OK NG",
+                f"縲鶏status_raw}縲阪�ｯ辟｡蜉ｹ縺ｧ縺兔n逡･隱�: 蜑� 遒ｺ隱� 髱｢隲� 隱ｿ謨ｴ 貂� 蜷域ｼ OK NG",
                 sender_token)
             return
-        # 候補者名で案件を横断検索
+        # 蛟呵｣懆�蜷阪〒譯井ｻｶ繧呈ｨｪ譁ｭ讀懃ｴ｢
         hits = find_projects_with_candidate(name_query)
         if not hits:
-            reply_message(reply_token, f"「{name_query}」が候補者リストに見つかりません", sender_token)
+            reply_message(reply_token, f"縲鶏name_query}縲阪′蛟呵｣懆�繝ｪ繧ｹ繝医↓隕九▽縺九ｊ縺ｾ縺帙ｓ", sender_token)
             return
         if len(hits) > 1:
-            # 複数案件にいる場合は一覧を返す → 「更新 RH 確認中 Java」で案件を絞れる案内
-            names = "\n".join(f"{i+1}. {n}（{m}）" for i, (_, n, m) in enumerate(hits[:5]))
+            # 隍�謨ｰ譯井ｻｶ縺ｫ縺�繧句ｴ蜷医�ｯ荳隕ｧ繧定ｿ斐☆ 竊� 縲梧峩譁ｰ RH 遒ｺ隱堺ｸｭ Java縲阪〒譯井ｻｶ繧堤ｵ槭ｌ繧区｡亥��
+            names = "\n".join(f"{i+1}. {n}�ｼ�{m}�ｼ�" for i, (_, n, m) in enumerate(hits[:5]))
             if len(parts) >= 3:
-                # 3つ目の引数を案件キーワードとして絞り込み
+                # 3縺､逶ｮ縺ｮ蠑墓焚繧呈｡井ｻｶ繧ｭ繝ｼ繝ｯ繝ｼ繝峨→縺励※邨槭ｊ霎ｼ縺ｿ
                 proj_kw = parts[2]
                 filtered = [(pid, pn, mn) for pid, pn, mn in hits if proj_kw.lower() in pn.lower()]
                 if len(filtered) == 1:
                     hits = filtered
                 else:
                     reply_message(reply_token,
-                        f"複数案件にヒット:\n{names}\n\n絞り込み例: 更新 {name_query} {status_raw} Java",
+                        f"隍�謨ｰ譯井ｻｶ縺ｫ繝偵ャ繝�:\n{names}\n\n邨槭ｊ霎ｼ縺ｿ萓�: 譖ｴ譁ｰ {name_query} {status_raw} Java",
                         sender_token)
                     return
             else:
                 reply_message(reply_token,
-                    f"「{name_query}」は複数案件に候補中:\n{names}\n\n案件を絞る場合: 更新 {name_query} {status_raw} 案件キーワード\n全件更新する場合: 更新 {name_query} {status_raw} 全部",
+                    f"縲鶏name_query}縲阪�ｯ隍�謨ｰ譯井ｻｶ縺ｫ蛟呵｣應ｸｭ:\n{names}\n\n譯井ｻｶ繧堤ｵ槭ｋ蝣ｴ蜷�: 譖ｴ譁ｰ {name_query} {status_raw} 譯井ｻｶ繧ｭ繝ｼ繝ｯ繝ｼ繝噂n蜈ｨ莉ｶ譖ｴ譁ｰ縺吶ｋ蝣ｴ蜷�: 譖ｴ譁ｰ {name_query} {status_raw} 蜈ｨ驛ｨ",
                     sender_token)
                 return
-        if len(parts) >= 3 and parts[2] == "全部":
-            # 全案件一括更新
+        if len(parts) >= 3 and parts[2] == "蜈ｨ驛ｨ":
+            # 蜈ｨ譯井ｻｶ荳諡ｬ譖ｴ譁ｰ
             success_list = []
             for pid, pn, mn in hits:
                 ok, result = update_candidate_status(pid, mn, new_status)
                 if ok:
                     success_list.append(pn[:20])
             reply_message(reply_token,
-                f"✅ {len(success_list)}件更新\nステータス: {new_status}\n" + "\n".join(success_list),
+                f"笨� {len(success_list)}莉ｶ譖ｴ譁ｰ\n繧ｹ繝�繝ｼ繧ｿ繧ｹ: {new_status}\n" + "\n".join(success_list),
                 sender_token)
             return
         page_id, proj_name, matched_name = hits[0]
         ok, result = update_candidate_status(page_id, matched_name, new_status)
         if ok:
             reply_message(reply_token,
-                f"✅ {matched_name} → {new_status}\n{proj_name[:30]}",
+                f"笨� {matched_name} 竊� {new_status}\n{proj_name[:30]}",
                 sender_token)
         else:
-            reply_message(reply_token, f"❌ 更新失敗: {result}", sender_token)
+            reply_message(reply_token, f"笶� 譖ｴ譁ｰ螟ｱ謨�: {result}", sender_token)
         return
 
-    # マッチング結果照会
+    # 繝槭ャ繝√Φ繧ｰ邨先棡辣ｧ莨�
 
-    if "マッチング" in text_stripped and len(text_stripped) <= 10:
+    if "繝槭ャ繝√Φ繧ｰ" in text_stripped and len(text_stripped) <= 10:
 
         matching_reply = build_matching_result_reply()
 
@@ -2685,9 +2685,9 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         return
 
 
-    # 案件進捗照会
+    # 譯井ｻｶ騾ｲ謐礼�ｧ莨�
 
-    if "進捗" in text_stripped and len(text_stripped) <= 10:
+    if "騾ｲ謐�" in text_stripped and len(text_stripped) <= 10:
 
         progress_reply = build_progress_reply()
 
@@ -2710,7 +2710,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         if not pending:
 
-            reply_message(reply_token, "⚠️ 送信待ちの提案がありません", sender_token)
+            reply_message(reply_token, "笞�ｸ� 騾∽ｿ｡蠕�縺｡縺ｮ謠先｡医′縺ゅｊ縺ｾ縺帙ｓ", sender_token)
 
             return
 
@@ -2728,7 +2728,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         draft    = pending.get("proposal_draft", "")
 
-        proj_name = pending.get("proj_name", "案件")
+        proj_name = pending.get("proj_name", "譯井ｻｶ")
 
 
 
@@ -2742,9 +2742,9 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             account = "matsuno" if sender == "matsuno" else "okamoto"
 
-            subject = f"【ご提案】{proj_name}"
+            subject = f"縲舌＃謠先｡医捜proj_name}"
 
-            body = draft if draft else f"【ご提案】{proj_name}\n\n" + "\n".join(f"・{n}" for n in target_names)
+            body = draft if draft else f"縲舌＃謠先｡医捜proj_name}\n\n" + "\n".join(f"繝ｻ{n}" for n in target_names)
 
             sent = send_email_via_callback(account, to_addr, subject, body)
 
@@ -2752,7 +2752,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
                 reply_message(reply_token,
 
-                    f"✅ メール送信完了\n送信先: {to_addr}\n件名: {subject}\n対象: {len(target_names)}名",
+                    f"笨� 繝｡繝ｼ繝ｫ騾∽ｿ｡螳御ｺ�\n騾∽ｿ｡蜈�: {to_addr}\n莉ｶ蜷�: {subject}\n蟇ｾ雎｡: {len(target_names)}蜷�",
 
                     sender_token)
 
@@ -2760,17 +2760,17 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
                 reply_message(reply_token,
 
-                    f"❌ 自動送信失敗。以下をコピーして手動送信してください:\n送信先: {to_addr}\n\n{body[:1500]}",
+                    f"笶� 閾ｪ蜍暮∽ｿ｡螟ｱ謨励ゆｻ･荳九ｒ繧ｳ繝斐�ｼ縺励※謇句虚騾∽ｿ｡縺励※縺上□縺輔＞:\n騾∽ｿ｡蜈�: {to_addr}\n\n{body[:1500]}",
 
                     sender_token)
 
         else:
 
-            label = "全員" if is_send_all else "OK候補のみ"
+            label = "蜈ｨ蜩｡" if is_send_all else "OK蛟呵｣懊�ｮ縺ｿ"
 
             reply_message(reply_token,
 
-                f"📋 提案内容確認（{label} {len(target_names)}名）\n送信先メールを「送信して xxx@yyy.com」で指定してください\n\n{draft[:1500]}",
+                f"搭 謠先｡亥��螳ｹ遒ｺ隱搾ｼ�{label} {len(target_names)}蜷搾ｼ噂n騾∽ｿ｡蜈医Γ繝ｼ繝ｫ繧偵碁∽ｿ｡縺励※ xxx@yyy.com縲阪〒謖�螳壹＠縺ｦ縺上□縺輔＞\n\n{draft[:1500]}",
 
                 sender_token)
 
@@ -2784,7 +2784,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
 
 
-    # ── スプレッドシートURL ──────────────────────────────────────
+    # 笏笏 繧ｹ繝励Ξ繝�繝峨す繝ｼ繝�URL 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
 
     sheet_urls = SHEET_URL_PATTERN.findall(text)
 
@@ -2796,7 +2796,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
 
 
-    # ── 通常メッセージ分類 ───────────────────────────────────────
+    # 笏笏 騾壼ｸｸ繝｡繝�繧ｻ繝ｼ繧ｸ蛻�鬘� 笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏笏
 
     info = classify_message(text)
 
@@ -2824,7 +2824,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
                 return
 
-            reply_message(reply_token, "❌ 登録失敗", sender_token)
+            reply_message(reply_token, "笶� 逋ｻ骭ｲ螟ｱ謨�", sender_token)
 
             return
 
@@ -2840,7 +2840,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             reply_message(reply_token,
 
-                f"📋 登録完了\n名前: {name}\nスキル: {skills_str}\n単価: {price}万\n\n稼働中案件なし",
+                f"搭 逋ｻ骭ｲ螳御ｺ�\n蜷榊燕: {name}\n繧ｹ繧ｭ繝ｫ: {skills_str}\n蜊倅ｾ｡: {price}荳Ⅸn\n遞ｼ蜒堺ｸｭ譯井ｻｶ縺ｪ縺�",
 
                 sender_token)
 
@@ -2867,7 +2867,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         if not engineers_list:
 
-            reply_message(reply_token, "❌ 人員情報が取得できませんでした", sender_token)
+            reply_message(reply_token, "笶� 莠ｺ蜩｡諠�蝣ｱ縺悟叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆", sender_token)
 
             return
 
@@ -2895,7 +2895,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
                     skip_reasons.add(reason)
 
-        msg = f"📊 複数人員登録完了\n登録: {success_count}名 / スキップ: {skip_count}名\n"
+        msg = f"投 隍�謨ｰ莠ｺ蜩｡逋ｻ骭ｲ螳御ｺ�\n逋ｻ骭ｲ: {success_count}蜷� / 繧ｹ繧ｭ繝�繝�: {skip_count}蜷構n"
 
         if "name_not_found" in skip_reasons:
 
@@ -2907,7 +2907,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         for i, e in enumerate(engineers_list[:5], 1):
 
-            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}万\n"
+            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}荳Ⅸn"
 
         reply_message(reply_token, msg, sender_token)
 
@@ -2945,7 +2945,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         if not success:
 
-            reply_message(reply_token, "❌ 案件登録失敗", sender_token)
+            reply_message(reply_token, "笶� 譯井ｻｶ逋ｻ骭ｲ螟ｱ謨�", sender_token)
 
             return
 
@@ -2999,7 +2999,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         if not projects_list:
 
-            reply_message(reply_token, "❌ 案件情報が取得できませんでした", sender_token)
+            reply_message(reply_token, "笶� 譯井ｻｶ諠�蝣ｱ縺悟叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆", sender_token)
 
             return
 
@@ -3013,11 +3013,11 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             else: skip_count += 1
 
-        msg = f"📊 複数案件登録完了\n登録: {success_count}件 / スキップ: {skip_count}件\n"
+        msg = f"投 隍�謨ｰ譯井ｻｶ逋ｻ骭ｲ螳御ｺ�\n逋ｻ骭ｲ: {success_count}莉ｶ / 繧ｹ繧ｭ繝�繝�: {skip_count}莉ｶ\n"
 
         for i, p in enumerate(projects_list[:5], 1):
 
-            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}万\n"
+            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}荳Ⅸn"
 
         reply_message(reply_token, msg, sender_token)
 
@@ -3085,11 +3085,11 @@ def handle_webhook(channel_secret, channel_token, sender_name):
 
             elif msg_type in ('image', 'file'):
 
-                # PDF/画像スキルシート受信
+                # PDF/逕ｻ蜒上せ繧ｭ繝ｫ繧ｷ繝ｼ繝亥女菫｡
 
                 mime = msg.get('contentType', 'image/jpeg') if msg_type == 'image' else msg.get('fileName', '')
 
-                # ファイル名からMIME判定
+                # 繝輔ぃ繧､繝ｫ蜷阪°繧窺IME蛻､螳�
 
                 if msg_type == 'file':
 
@@ -3190,12 +3190,12 @@ if __name__ == '__main__':
 
 ```py
 """
-ジョブズ用 ローカルコマンド実行サーバー
-- localhost:8765 でHTTPリクエストを受け付ける
-- ジョブズ（Claude）がFilesystem MCPまたはHTTP経由でコマンドを送信 → PC上で実行 → 結果を返す
-- セキュリティ: localhostのみ受付、トークン認証あり
-- v2: ThreadingHTTPServer化（長時間コマンドでブロックしない）
-- v2: timeout上限3600秒（1時間）、/write_and_runもtimeoutをリクエストから受け取る
+繧ｸ繝ｧ繝悶ぜ逕ｨ 繝ｭ繝ｼ繧ｫ繝ｫ繧ｳ繝槭Φ繝牙ｮ溯｡後し繝ｼ繝舌�ｼ
+- localhost:8765 縺ｧHTTP繝ｪ繧ｯ繧ｨ繧ｹ繝医ｒ蜿励￠莉倥￠繧�
+- 繧ｸ繝ｧ繝悶ぜ�ｼ�Claude�ｼ峨′Filesystem MCP縺ｾ縺溘�ｯHTTP邨檎罰縺ｧ繧ｳ繝槭Φ繝峨ｒ騾∽ｿ｡ 竊� PC荳翫〒螳溯｡� 竊� 邨先棡繧定ｿ斐☆
+- 繧ｻ繧ｭ繝･繝ｪ繝�繧｣: localhost縺ｮ縺ｿ蜿嶺ｻ倥√ヨ繝ｼ繧ｯ繝ｳ隱崎ｨｼ縺ゅｊ
+- v2: ThreadingHTTPServer蛹厄ｼ磯聞譎る俣繧ｳ繝槭Φ繝峨〒繝悶Ο繝�繧ｯ縺励↑縺��ｼ�
+- v2: timeout荳企剞3600遘抵ｼ�1譎る俣�ｼ峨�/write_and_run繧Ｕimeout繧偵Μ繧ｯ繧ｨ繧ｹ繝医°繧牙女縺大叙繧�
 """
 
 import http.server
@@ -3207,11 +3207,11 @@ import logging
 from datetime import datetime
 from socketserver import ThreadingMixIn
 
-# ========== 設定 ==========
+# ========== 險ｭ螳� ==========
 PORT = 8765
 AUTH_TOKEN = "jobz-terra-2026"
-LOG_FILE = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\local_server\server.log"
-MAX_TIMEOUT = 3600  # 上限1時間
+LOG_FILE = r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\local_server\server.log"
+MAX_TIMEOUT = 3600  # 荳企剞1譎る俣
 # ==========================
 
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
@@ -3228,8 +3228,8 @@ logger = logging.getLogger(__name__)
 
 
 class ThreadingHTTPServer(ThreadingMixIn, http.server.HTTPServer):
-    """各リクエストを別スレッドで処理するHTTPサーバー。
-    長時間コマンド実行中も他のリクエストを受け付け続ける。"""
+    """蜷�繝ｪ繧ｯ繧ｨ繧ｹ繝医ｒ蛻･繧ｹ繝ｬ繝�繝峨〒蜃ｦ逅�縺吶ｋHTTP繧ｵ繝ｼ繝舌�ｼ縲�
+    髟ｷ譎る俣繧ｳ繝槭Φ繝牙ｮ溯｡御ｸｭ繧ゆｻ悶�ｮ繝ｪ繧ｯ繧ｨ繧ｹ繝医ｒ蜿励￠莉倥￠邯壹￠繧九�"""
     daemon_threads = True
 
 
@@ -3260,17 +3260,17 @@ class CommandHandler(http.server.BaseHTTPRequestHandler):
             self.send_json(404, {"error": "not found"})
 
     def do_POST(self):
-        # localhost以外は拒否
+        # localhost莉･螟悶�ｯ諡貞凄
         if self.client_address[0] not in ("127.0.0.1", "::1"):
             self.send_json(403, {"error": "forbidden: localhost only"})
             return
 
-        # 認証チェック
+        # 隱崎ｨｼ繝√ぉ繝�繧ｯ
         if not self.check_auth():
             self.send_json(401, {"error": "unauthorized: invalid token"})
             return
 
-        # ボディ読み込み
+        # 繝懊ョ繧｣隱ｭ縺ｿ霎ｼ縺ｿ
         length = int(self.headers.get("Content-Length", 0))
         body = self.rfile.read(length).decode("utf-8")
         try:
@@ -3281,10 +3281,10 @@ class CommandHandler(http.server.BaseHTTPRequestHandler):
 
         path = self.path
 
-        # ========== /run : コマンド実行 ==========
+        # ========== /run : 繧ｳ繝槭Φ繝牙ｮ溯｡� ==========
         if path == "/run":
             cmd = req.get("cmd", "")
-            cwd = req.get("cwd", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work")
+            cwd = req.get("cwd", r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work")
             timeout = min(int(req.get("timeout", 60)), MAX_TIMEOUT)
 
             if not cmd:
@@ -3314,12 +3314,12 @@ class CommandHandler(http.server.BaseHTTPRequestHandler):
             except Exception as e:
                 self.send_json(500, {"error": str(e), "cmd": cmd})
 
-        # ========== /write_and_run : ファイル書き込み → 実行 ==========
+        # ========== /write_and_run : 繝輔ぃ繧､繝ｫ譖ｸ縺崎ｾｼ縺ｿ 竊� 螳溯｡� ==========
         elif path == "/write_and_run":
             filepath = req.get("filepath", "")
             content = req.get("content", "")
             run_cmd = req.get("run_cmd", "")
-            cwd = req.get("cwd", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work")
+            cwd = req.get("cwd", r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work")
             timeout = min(int(req.get("timeout", 120)), MAX_TIMEOUT)
 
             if not filepath or not content:
@@ -3358,14 +3358,14 @@ class CommandHandler(http.server.BaseHTTPRequestHandler):
 
 
 def run():
-    logger.info(f"ジョブズ コマンドサーバー v2 起動 → localhost:{PORT}")
-    logger.info(f"ThreadingHTTPServer: 有効（並列リクエスト対応）")
-    logger.info(f"最大timeout: {MAX_TIMEOUT}秒")
+    logger.info(f"繧ｸ繝ｧ繝悶ぜ 繧ｳ繝槭Φ繝峨し繝ｼ繝舌�ｼ v2 襍ｷ蜍� 竊� localhost:{PORT}")
+    logger.info(f"ThreadingHTTPServer: 譛牙柑�ｼ井ｸｦ蛻励Μ繧ｯ繧ｨ繧ｹ繝亥ｯｾ蠢懶ｼ�")
+    logger.info(f"譛螟ｧtimeout: {MAX_TIMEOUT}遘�")
     server = ThreadingHTTPServer(("127.0.0.1", PORT), CommandHandler)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        logger.info("サーバー停止")
+        logger.info("繧ｵ繝ｼ繝舌�ｼ蛛懈ｭ｢")
         server.shutdown()
 
 
@@ -3378,10 +3378,10 @@ if __name__ == "__main__":
 
 ```py
 """
-ジョブズ用 コマンド実行MCPサーバー
-Claude Desktop から使えるMCPツールとして command_server.py に橋渡しする
+繧ｸ繝ｧ繝悶ぜ逕ｨ 繧ｳ繝槭Φ繝牙ｮ溯｡勲CP繧ｵ繝ｼ繝舌�ｼ
+Claude Desktop 縺九ｉ菴ｿ縺医ｋMCP繝�繝ｼ繝ｫ縺ｨ縺励※ command_server.py 縺ｫ讖区ｸ｡縺励☆繧�
 
-設定: claude_desktop_config.json に追加が必要
+險ｭ螳�: claude_desktop_config.json 縺ｫ霑ｽ蜉縺悟ｿ�隕�
 """
 
 import asyncio
@@ -3424,27 +3424,27 @@ async def list_tools():
     return [
         types.Tool(
             name="run_command",
-            description="ローカルPCでターミナルコマンドを実行する。Python/bat/pip/git/node等なんでも実行可能。",
+            description="繝ｭ繝ｼ繧ｫ繝ｫPC縺ｧ繧ｿ繝ｼ繝溘リ繝ｫ繧ｳ繝槭Φ繝峨ｒ螳溯｡後☆繧九１ython/bat/pip/git/node遲峨↑繧薙〒繧ょｮ溯｡悟庄閭ｽ縲�",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "cmd": {"type": "string", "description": "実行するコマンド（例: python script.py, pip install requests, git push）"},
-                    "cwd": {"type": "string", "description": "実行ディレクトリ（省略時はses_work）"},
-                    "timeout": {"type": "integer", "description": "タイムアウト秒数（デフォルト60）"},
+                    "cmd": {"type": "string", "description": "螳溯｡後☆繧九さ繝槭Φ繝会ｼ井ｾ�: python script.py, pip install requests, git push�ｼ�"},
+                    "cwd": {"type": "string", "description": "螳溯｡後ョ繧｣繝ｬ繧ｯ繝医Μ�ｼ育怐逡･譎ゅ�ｯses_work�ｼ�"},
+                    "timeout": {"type": "integer", "description": "繧ｿ繧､繝繧｢繧ｦ繝育ｧ呈焚�ｼ医ョ繝輔か繝ｫ繝�60�ｼ�"},
                 },
                 "required": ["cmd"],
             },
         ),
         types.Tool(
             name="write_and_run",
-            description="ファイルを書き込んでから即実行する。スクリプト作成→実行を1ステップで完結。",
+            description="繝輔ぃ繧､繝ｫ繧呈嶌縺崎ｾｼ繧薙〒縺九ｉ蜊ｳ螳溯｡後☆繧九ゅせ繧ｯ繝ｪ繝励ヨ菴懈�絶�貞ｮ溯｡後ｒ1繧ｹ繝�繝�繝励〒螳檎ｵ舌�",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "filepath": {"type": "string", "description": "書き込み先のフルパス"},
-                    "content": {"type": "string", "description": "ファイルの内容"},
-                    "run_cmd": {"type": "string", "description": "書き込み後に実行するコマンド（省略可）"},
-                    "cwd": {"type": "string", "description": "実行ディレクトリ（省略時はses_work）"},
+                    "filepath": {"type": "string", "description": "譖ｸ縺崎ｾｼ縺ｿ蜈医�ｮ繝輔Ν繝代せ"},
+                    "content": {"type": "string", "description": "繝輔ぃ繧､繝ｫ縺ｮ蜀�螳ｹ"},
+                    "run_cmd": {"type": "string", "description": "譖ｸ縺崎ｾｼ縺ｿ蠕後↓螳溯｡後☆繧九さ繝槭Φ繝会ｼ育怐逡･蜿ｯ�ｼ�"},
+                    "cwd": {"type": "string", "description": "螳溯｡後ョ繧｣繝ｬ繧ｯ繝医Μ�ｼ育怐逡･譎ゅ�ｯses_work�ｼ�"},
                 },
                 "required": ["filepath", "content"],
             },
@@ -3484,7 +3484,7 @@ if __name__ == "__main__":
 #!/usr/bin/env python3
 """
 SES Mail MCP Server
-Claude Desktopからメール送信・受信確認ができるMCPサーバー
+Claude Desktop縺九ｉ繝｡繝ｼ繝ｫ騾∽ｿ｡繝ｻ蜿嶺ｿ｡遒ｺ隱阪′縺ｧ縺阪ｋMCP繧ｵ繝ｼ繝舌�ｼ
 """
 
 import json
@@ -3499,7 +3499,7 @@ from datetime import datetime
 import sys
 import io
 
-# Windows stdout/stdinをUTF-8に強制
+# Windows stdout/stdin繧旦TF-8縺ｫ蠑ｷ蛻ｶ
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
 
@@ -3533,7 +3533,7 @@ ACCOUNTS = {
 def send_email(account_name: str, to: str, subject: str, body: str) -> dict:
     account = ACCOUNTS.get(account_name)
     if not account:
-        return {"success": False, "error": f"アカウント '{account_name}' が見つかりません"}
+        return {"success": False, "error": f"繧｢繧ｫ繧ｦ繝ｳ繝� '{account_name}' 縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ"}
     try:
         msg = MIMEMultipart()
         msg["From"] = account["email"]
@@ -3545,7 +3545,7 @@ def send_email(account_name: str, to: str, subject: str, body: str) -> dict:
             server.sendmail(account["email"], to, msg.as_string())
         return {
             "success": True,
-            "message": f"送信完了: {to} へ「{subject}」を送信しました",
+            "message": f"騾∽ｿ｡螳御ｺ�: {to} 縺ｸ縲鶏subject}縲阪ｒ騾∽ｿ｡縺励∪縺励◆",
             "from": account["email"],
             "to": to,
             "subject": subject,
@@ -3558,7 +3558,7 @@ def send_email(account_name: str, to: str, subject: str, body: str) -> dict:
 def get_recent_emails(account_name: str, limit: int = 10) -> dict:
     account = ACCOUNTS.get(account_name)
     if not account:
-        return {"success": False, "error": f"アカウント '{account_name}' が見つかりません"}
+        return {"success": False, "error": f"繧｢繧ｫ繧ｦ繝ｳ繝� '{account_name}' 縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ"}
     try:
         mail = imaplib.IMAP4_SSL(account["imap_server"], account["imap_port"])
         mail.login(account["email"], account["password"])
@@ -3628,26 +3628,26 @@ def handle_request(request: dict) -> dict:
                 "tools": [
                     {
                         "name": "send_email",
-                        "description": "メールを送信する。松野または岡本のアカウントから送信可能。",
+                        "description": "繝｡繝ｼ繝ｫ繧帝∽ｿ｡縺吶ｋ縲よ收驥弱∪縺溘�ｯ蟯｡譛ｬ縺ｮ繧｢繧ｫ繧ｦ繝ｳ繝医°繧蛾∽ｿ｡蜿ｯ閭ｽ縲�",
                         "inputSchema": {
                             "type": "object",
                             "properties": {
-                                "account": {"type": "string", "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)"},
-                                "to": {"type": "string", "description": "送信先メールアドレス"},
-                                "subject": {"type": "string", "description": "件名"},
-                                "body": {"type": "string", "description": "本文"}
+                                "account": {"type": "string", "description": "'matsuno'(譚ｾ驥弱い繝峨Ξ繧ｹ) / 'okamoto'(蟯｡譛ｬ繧｢繝峨Ξ繧ｹ) / 'sessales'(TERRA蜈ｱ騾�)"},
+                                "to": {"type": "string", "description": "騾∽ｿ｡蜈医Γ繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ"},
+                                "subject": {"type": "string", "description": "莉ｶ蜷�"},
+                                "body": {"type": "string", "description": "譛ｬ譁�"}
                             },
                             "required": ["account", "to", "subject", "body"]
                         }
                     },
                     {
                         "name": "get_recent_emails",
-                        "description": "最新のメール一覧を取得する",
+                        "description": "譛譁ｰ縺ｮ繝｡繝ｼ繝ｫ荳隕ｧ繧貞叙蠕励☆繧�",
                         "inputSchema": {
                             "type": "object",
                             "properties": {
-                                "account": {"type": "string", "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)"},
-                                "limit": {"type": "integer", "description": "取得件数（デフォルト10）", "default": 10}
+                                "account": {"type": "string", "description": "'matsuno'(譚ｾ驥弱い繝峨Ξ繧ｹ) / 'okamoto'(蟯｡譛ｬ繧｢繝峨Ξ繧ｹ) / 'sessales'(TERRA蜈ｱ騾�)"},
+                                "limit": {"type": "integer", "description": "蜿門ｾ嶺ｻｶ謨ｰ�ｼ医ョ繝輔か繝ｫ繝�10�ｼ�", "default": 10}
                             },
                             "required": ["account"]
                         }
@@ -3681,7 +3681,7 @@ def handle_request(request: dict) -> dict:
 
 
 def main():
-    # stderrにログ出力（デバッグ用）
+    # stderr縺ｫ繝ｭ繧ｰ蜃ｺ蜉幢ｼ医ョ繝舌ャ繧ｰ逕ｨ�ｼ�
     sys.stderr.write("ses-mail-mcp: starting...\n")
     sys.stderr.flush()
     
@@ -3698,7 +3698,7 @@ def main():
             method = request.get("method", "")
             req_id = request.get("id")
             
-            # 通知メッセージ（idなし）は応答不要
+            # 騾夂衍繝｡繝�繧ｻ繝ｼ繧ｸ�ｼ�id縺ｪ縺暦ｼ峨�ｯ蠢懃ｭ比ｸ崎ｦ�
             if req_id is None:
                 sys.stderr.write(f"ses-mail-mcp: notification received: {method}\n")
                 sys.stderr.flush()
@@ -3733,22 +3733,22 @@ if __name__ == "__main__":
 ```py
 """
 freee_invoice_v2.py
-契約マスターExcelを正として稼働中人員の請求書をfreeeにドラフト作成。
+螂醍ｴ�繝槭せ繧ｿ繝ｼExcel繧呈ｭ｣縺ｨ縺励※遞ｼ蜒堺ｸｭ莠ｺ蜩｡縺ｮ隲区ｱよ嶌繧断reee縺ｫ繝峨Λ繝輔ヨ菴懈�舌�
 
-請求ルール:
-【TERRA】
-  P（プロパー）: GL/FP経由以外 → 15,000円/人（税別）固定
-  P（プロパー）: GL/FP経由稼働 → 請求なし
-  BP: 粗利×80%
-  TERRA折半: 粗利×50%
-  岡本折半: 粗利×80%
-【フラップテック】
-  通常: 粗利×68%
-  小坂折半: 粗利×48%
-  岡本折半: 粗利×68%
-  岡本: 粗利×68%全額払出
-【グレイスライン】
-  粗利×60%
+隲区ｱゅΝ繝ｼ繝ｫ:
+縲慎ERRA縲�
+  P�ｼ医�励Ο繝代�ｼ�ｼ�: GL/FP邨檎罰莉･螟� 竊� 15,000蜀�/莠ｺ�ｼ育ｨ主挨�ｼ牙崋螳�
+  P�ｼ医�励Ο繝代�ｼ�ｼ�: GL/FP邨檎罰遞ｼ蜒� 竊� 隲区ｱゅ↑縺�
+  BP: 邊怜茜ﾃ�80%
+  TERRA謚伜濠: 邊怜茜ﾃ�50%
+  蟯｡譛ｬ謚伜濠: 邊怜茜ﾃ�80%
+縲舌ヵ繝ｩ繝�繝励ユ繝�繧ｯ縲�
+  騾壼ｸｸ: 邊怜茜ﾃ�68%
+  蟆丞揩謚伜濠: 邊怜茜ﾃ�48%
+  蟯｡譛ｬ謚伜濠: 邊怜茜ﾃ�68%
+  蟯｡譛ｬ: 邊怜茜ﾃ�68%蜈ｨ鬘肴鴛蜃ｺ
+縲舌げ繝ｬ繧､繧ｹ繝ｩ繧､繝ｳ縲�
+  邊怜茜ﾃ�60%
 """
 
 import os, sys, requests
@@ -3756,12 +3756,12 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 import openpyxl
 
-# token_managerを参照（自動リフレッシュ付き）
-sys.path.insert(0, r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\freee_auth")
+# token_manager繧貞盾辣ｧ�ｼ郁�ｪ蜍輔Μ繝輔Ξ繝�繧ｷ繝･莉倥″�ｼ�
+sys.path.insert(0, r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\freee_auth")
 from token_manager import get_headers
 
-# ===== 設定 =====
-EXCEL_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
+# ===== 險ｭ螳� =====
+EXCEL_PATH = r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\contract\螂醍ｴ�繝槭せ繧ｿ繝ｼ_v6.xlsx"
 FREEE_BASE = "https://api.freee.co.jp/api/1"
 COMPANY_ID = 11712776
 
@@ -3771,16 +3771,16 @@ def freee_headers():
     return h
 
 def safe_int(v):
-    """値を安全にintに変換。文字列や日付型はスキップ(0返却)"""
+    """蛟､繧貞ｮ牙�ｨ縺ｫint縺ｫ螟画鋤縲よ枚蟄怜�励ｄ譌･莉伜梛縺ｯ繧ｹ繧ｭ繝�繝�(0霑泌唆)"""
     if v is None:
         return 0
     if isinstance(v, (int, float)):
         return int(v)
-    # 文字列・日付型はスキップ
+    # 譁�蟄怜�励�ｻ譌･莉伜梛縺ｯ繧ｹ繧ｭ繝�繝�
     return 0
 
 def is_valid_name(v):
-    """氏名として有効かチェック。日付型・数値・空は除外"""
+    """豌丞錐縺ｨ縺励※譛牙柑縺九メ繧ｧ繝�繧ｯ縲よ律莉伜梛繝ｻ謨ｰ蛟､繝ｻ遨ｺ縺ｯ髯､螟�"""
     if v is None:
         return False
     if isinstance(v, (int, float)):
@@ -3789,25 +3789,25 @@ def is_valid_name(v):
     if isinstance(v, (datetime.datetime, datetime.date)):
         return False
     s = str(v).strip()
-    if not s or s in ("NaN", "稼働中合計"):
+    if not s or s in ("NaN", "遞ｼ蜒堺ｸｭ蜷郁ｨ�"):
         return False
-    # 数字だけの文字列も除外
+    # 謨ｰ蟄励□縺代�ｮ譁�蟄怜�励ｂ髯､螟�
     if s.replace("/", "").replace("-", "").isdigit():
         return False
     return True
 
-# ===== Excel読み込み =====
+# ===== Excel隱ｭ縺ｿ霎ｼ縺ｿ =====
 def load_active_entries():
     wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
     entries = []
 
     # --- TERRA ---
-    # ヘッダー: 担当(0) 区分(1) ステータス(2) 氏名(3) ... 案件/上位会社(6) 単価(案件)(7) ... 仕入単価(12)
+    # 繝倥ャ繝繝ｼ: 諡�蠖�(0) 蛹ｺ蛻�(1) 繧ｹ繝�繝ｼ繧ｿ繧ｹ(2) 豌丞錐(3) ... 譯井ｻｶ/荳贋ｽ堺ｼ夂､ｾ(6) 蜊倅ｾ｡(譯井ｻｶ)(7) ... 莉募�･蜊倅ｾ｡(12)
     ws = wb["TERRA"]
     rows = list(ws.iter_rows(values_only=True))
     header_row = None
     for i, row in enumerate(rows):
-        if row and "担当" in str(row[0]):
+        if row and "諡�蠖�" in str(row[0]):
             header_row = i
             break
     if header_row is not None:
@@ -3821,47 +3821,47 @@ def load_active_entries():
             tanka    = safe_int(row[7])
             shiire   = safe_int(row[12])
 
-            if "稼働中" not in status: continue
+            if "遞ｼ蜒堺ｸｭ" not in status: continue
             if not is_valid_name(name): continue
             name = str(name).strip()
 
-            is_gl_ft = any(k in case for k in ["グレイスライン", "フラップテック", "GL", "FT"])
+            is_gl_ft = any(k in case for k in ["繧ｰ繝ｬ繧､繧ｹ繝ｩ繧､繝ｳ", "繝輔Λ繝�繝励ユ繝�繧ｯ", "GL", "FT"])
             profit = tanka - shiire
 
             if kubun == "P":
                 if is_gl_ft:
-                    continue  # 請求なし
+                    continue  # 隲区ｱゅ↑縺�
                 seikyu = 15000
-                rule   = "プロパー→15,000円固定"
+                rule   = "繝励Ο繝代�ｼ竊�15,000蜀�蝗ｺ螳�"
             elif kubun == "BP":
-                if tantou == "TERRA折半":
+                if tantou == "TERRA謚伜濠":
                     seikyu = int(profit * 0.50)
-                    rule   = "TERRA折半→粗利×50%"
-                elif tantou == "岡本折半":
+                    rule   = "TERRA謚伜濠竊堤ｲ怜茜ﾃ�50%"
+                elif tantou == "蟯｡譛ｬ謚伜濠":
                     seikyu = int(profit * 0.80)
-                    rule   = "岡本折半→粗利×80%（岡本払出あり）"
+                    rule   = "蟯｡譛ｬ謚伜濠竊堤ｲ怜茜ﾃ�80%�ｼ亥ｲ｡譛ｬ謇募�ｺ縺ゅｊ�ｼ�"
                 else:
                     seikyu = int(profit * 0.80)
-                    rule   = "BP→粗利×80%"
+                    rule   = "BP竊堤ｲ怜茜ﾃ�80%"
             else:
                 seikyu = 15000
-                rule   = "不明→15,000円固定"
+                rule   = "荳肴�寂��15,000蜀�蝗ｺ螳�"
 
             if seikyu <= 0: continue
 
             entries.append({
-                "partner": "株式会社TERRA",
+                "partner": "譬ｪ蠑丈ｼ夂､ｾTERRA",
                 "name": name, "profit": profit, "seikyu": seikyu,
                 "rule": rule, "source": "TERRA"
             })
 
-    # --- フラップテック ---
-    # ヘッダー: 担当(0) ステータス(1) 氏名(2) 参画時期(3) 期間(4) 案件/上位(5) 案件単価(6) 仕入単価(7)
-    ws = wb["フラップテック"]
+    # --- 繝輔Λ繝�繝励ユ繝�繧ｯ ---
+    # 繝倥ャ繝繝ｼ: 諡�蠖�(0) 繧ｹ繝�繝ｼ繧ｿ繧ｹ(1) 豌丞錐(2) 蜿ら判譎よ悄(3) 譛滄俣(4) 譯井ｻｶ/荳贋ｽ�(5) 譯井ｻｶ蜊倅ｾ｡(6) 莉募�･蜊倅ｾ｡(7)
+    ws = wb["繝輔Λ繝�繝励ユ繝�繧ｯ"]
     rows = list(ws.iter_rows(values_only=True))
     header_row = None
     for i, row in enumerate(rows):
-        if row and "担当" in str(row[0]) and "ステータス" in str(row[1] or ""):
+        if row and "諡�蠖�" in str(row[0]) and "繧ｹ繝�繝ｼ繧ｿ繧ｹ" in str(row[1] or ""):
             header_row = i
             break
     if header_row is not None:
@@ -3870,45 +3870,45 @@ def load_active_entries():
             tantou  = str(row[0] or "").strip()
             status  = str(row[1] or "").strip()
             name    = row[2]
-            tanka   = safe_int(row[6])   # 案件単価(上位から)
-            shiire  = safe_int(row[7])   # 仕入単価(下位へ)
+            tanka   = safe_int(row[6])   # 譯井ｻｶ蜊倅ｾ｡(荳贋ｽ阪°繧�)
+            shiire  = safe_int(row[7])   # 莉募�･蜊倅ｾ｡(荳倶ｽ阪∈)
 
-            if "稼働中" not in status: continue
+            if "遞ｼ蜒堺ｸｭ" not in status: continue
             if not is_valid_name(name): continue
             name = str(name).strip()
-            if tanka == 0: continue  # 単価未入力はスキップ
+            if tanka == 0: continue  # 蜊倅ｾ｡譛ｪ蜈･蜉帙�ｯ繧ｹ繧ｭ繝�繝�
 
             profit = tanka - shiire
 
             if profit <= 0:
-                print(f"  [SKIP] {name}: 粗利{profit:,}円（単価={tanka:,} 仕入={shiire:,}）")
+                print(f"  [SKIP] {name}: 邊怜茜{profit:,}蜀��ｼ亥腰萓｡={tanka:,} 莉募�･={shiire:,}�ｼ�")
                 continue
 
-            if tantou == "小坂折半":
+            if tantou == "蟆丞揩謚伜濠":
                 seikyu = int(profit * 0.48)
-                rule   = "小坂折半→粗利×48%"
-            elif tantou in ("岡本折半", "岡本"):
+                rule   = "蟆丞揩謚伜濠竊堤ｲ怜茜ﾃ�48%"
+            elif tantou in ("蟯｡譛ｬ謚伜濠", "蟯｡譛ｬ"):
                 seikyu = int(profit * 0.68)
-                rule   = f"{tantou}→粗利×68%（岡本払出あり）"
+                rule   = f"{tantou}竊堤ｲ怜茜ﾃ�68%�ｼ亥ｲ｡譛ｬ謇募�ｺ縺ゅｊ�ｼ�"
             else:
                 seikyu = int(profit * 0.68)
-                rule   = "通常→粗利×68%"
+                rule   = "騾壼ｸｸ竊堤ｲ怜茜ﾃ�68%"
 
             if seikyu <= 0: continue
 
             entries.append({
-                "partner": "株式会社フラップテック",
+                "partner": "譬ｪ蠑丈ｼ夂､ｾ繝輔Λ繝�繝励ユ繝�繧ｯ",
                 "name": name, "profit": profit, "seikyu": seikyu,
                 "rule": rule, "source": "FT"
             })
 
-    # --- グレイスライン ---
-    # ヘッダー: ステータス(0) 氏名(1) 参画時期(2) 期間(3) 案件/上位(4) 案件単価(5) 仕入単価(6)
-    ws = wb["グレイスライン"]
+    # --- 繧ｰ繝ｬ繧､繧ｹ繝ｩ繧､繝ｳ ---
+    # 繝倥ャ繝繝ｼ: 繧ｹ繝�繝ｼ繧ｿ繧ｹ(0) 豌丞錐(1) 蜿ら判譎よ悄(2) 譛滄俣(3) 譯井ｻｶ/荳贋ｽ�(4) 譯井ｻｶ蜊倅ｾ｡(5) 莉募�･蜊倅ｾ｡(6)
+    ws = wb["繧ｰ繝ｬ繧､繧ｹ繝ｩ繧､繝ｳ"]
     rows = list(ws.iter_rows(values_only=True))
     header_row = None
     for i, row in enumerate(rows):
-        if row and "ステータス" in str(row[0]):
+        if row and "繧ｹ繝�繝ｼ繧ｿ繧ｹ" in str(row[0]):
             header_row = i
             break
     if header_row is not None:
@@ -3916,10 +3916,10 @@ def load_active_entries():
             if not any(row): continue
             status  = str(row[0] or "").strip()
             name    = row[1]
-            tanka   = safe_int(row[5])   # 案件単価(上位から)
-            shiire  = safe_int(row[6])   # 仕入単価(下位へ)
+            tanka   = safe_int(row[5])   # 譯井ｻｶ蜊倅ｾ｡(荳贋ｽ阪°繧�)
+            shiire  = safe_int(row[6])   # 莉募�･蜊倅ｾ｡(荳倶ｽ阪∈)
 
-            if "稼働中" not in status: continue
+            if "遞ｼ蜒堺ｸｭ" not in status: continue
             if not is_valid_name(name): continue
             name = str(name).strip()
             if tanka == 0: continue
@@ -3927,21 +3927,21 @@ def load_active_entries():
             profit = tanka - shiire
 
             if profit <= 0:
-                print(f"  [SKIP] {name}: 粗利{profit:,}円（単価={tanka:,} 仕入={shiire:,}）")
+                print(f"  [SKIP] {name}: 邊怜茜{profit:,}蜀��ｼ亥腰萓｡={tanka:,} 莉募�･={shiire:,}�ｼ�")
                 continue
 
             seikyu = int(profit * 0.60)
             if seikyu <= 0: continue
 
             entries.append({
-                "partner": "グレイスライン株式会社",
+                "partner": "繧ｰ繝ｬ繧､繧ｹ繝ｩ繧､繝ｳ譬ｪ蠑丈ｼ夂､ｾ",
                 "name": name, "profit": profit, "seikyu": seikyu,
-                "rule": "GL→粗利×60%", "source": "GL"
+                "rule": "GL竊堤ｲ怜茜ﾃ�60%", "source": "GL"
             })
 
     return entries
 
-# ===== freee: 取引先取得/作成 =====
+# ===== freee: 蜿門ｼ募�亥叙蠕�/菴懈�� =====
 def get_or_create_partner(name):
     res = requests.get(f"{FREEE_BASE}/partners",
         headers=freee_headers(),
@@ -3953,20 +3953,20 @@ def get_or_create_partner(name):
         json={"company_id": COMPANY_ID, "name": name, "partner_type": "customer"})
     return res2.json()["partner"]["id"]
 
-# ===== freee: 請求書ドラフト作成 =====
+# ===== freee: 隲区ｱよ嶌繝峨Λ繝輔ヨ菴懈�� =====
 def create_invoice(entry, issue_date, due_date):
     partner_id = get_or_create_partner(entry["partner"])
-    mon = f"{issue_date.year}年{issue_date.month}月"
+    mon = f"{issue_date.year}蟷ｴ{issue_date.month}譛�"
     payload = {
         "company_id": COMPANY_ID,
         "issue_date":  issue_date.strftime("%Y-%m-%d"),
         "due_date":    due_date.strftime("%Y-%m-%d"),
         "partner_id":  partner_id,
         "invoice_status": "draft",
-        "title": f"{mon}分 業務委託料（{entry['name']}様）",
-        "description": f"[{entry['rule']}] 粗利: {entry['profit']:,}円",
+        "title": f"{mon}蛻� 讌ｭ蜍吝ｧ碑ｨ玲侭�ｼ�{entry['name']}讒假ｼ�",
+        "description": f"[{entry['rule']}] 邊怜茜: {entry['profit']:,}蜀�",
         "invoice_lines": [{
-            "name":       f"業務委託料（{entry['name']}様）{mon}分",
+            "name":       f"讌ｭ蜍吝ｧ碑ｨ玲侭�ｼ�{entry['name']}讒假ｼ閲mon}蛻�",
             "quantity":   1,
             "unit_price": entry["seikyu"],
             "tax_code":   1,
@@ -3976,13 +3976,13 @@ def create_invoice(entry, issue_date, due_date):
     res = requests.post(f"{FREEE_BASE}/invoices", headers=freee_headers(), json=payload)
     if res.status_code in (200, 201):
         inv_id = res.json()["invoice"]["id"]
-        print(f"  OK {entry['name']} / {entry['partner']} / {entry['seikyu']:,}円 [{entry['rule']}] -> ID:{inv_id}")
+        print(f"  OK {entry['name']} / {entry['partner']} / {entry['seikyu']:,}蜀� [{entry['rule']}] -> ID:{inv_id}")
         return True
     else:
         print(f"  NG {entry['name']} / {res.status_code}: {res.text[:200]}")
         return False
 
-# ===== メイン =====
+# ===== 繝｡繧､繝ｳ =====
 def run(target_month=None):
     today = date.today()
     if target_month is None:
@@ -3990,15 +3990,15 @@ def run(target_month=None):
     issue_date = target_month.replace(day=1)
     due_date   = issue_date + relativedelta(months=1) - relativedelta(days=1)
 
-    print(f"=== freee請求書自動生成 v2 ===")
-    print(f"請求対象月: {target_month.year}年{target_month.month}月分")
-    print(f"請求日: {issue_date}  支払期限: {due_date}")
+    print(f"=== freee隲区ｱよ嶌閾ｪ蜍慕函謌� v2 ===")
+    print(f"隲区ｱょｯｾ雎｡譛�: {target_month.year}蟷ｴ{target_month.month}譛亥��")
+    print(f"隲区ｱよ律: {issue_date}  謾ｯ謇墓悄髯�: {due_date}")
     print()
 
     entries = load_active_entries()
-    print(f"対象人員: {len(entries)}名")
+    print(f"蟇ｾ雎｡莠ｺ蜩｡: {len(entries)}蜷�")
     for e in entries:
-        print(f"  {e['source']} | {e['name']} | 粗利{e['profit']:,}円 | 請求{e['seikyu']:,}円 | {e['rule']}")
+        print(f"  {e['source']} | {e['name']} | 邊怜茜{e['profit']:,}蜀� | 隲区ｱ�{e['seikyu']:,}蜀� | {e['rule']}")
     print()
 
     ok = ng = 0
@@ -4007,9 +4007,9 @@ def run(target_month=None):
         else: ng += 1
 
     print()
-    print(f"=== 完了: 作成{ok}件 / エラー{ng}件 ===")
+    print(f"=== 螳御ｺ�: 菴懈�須ok}莉ｶ / 繧ｨ繝ｩ繝ｼ{ng}莉ｶ ===")
     print(f"-> https://secure.freee.co.jp/invoices")
-    # ===== 請求書作成完了後: 契約マスターのステータスを自動更新 =====
+    # ===== 隲区ｱよ嶌菴懈�仙ｮ御ｺ�蠕�: 螂醍ｴ�繝槭せ繧ｿ繝ｼ縺ｮ繧ｹ繝�繝ｼ繧ｿ繧ｹ繧定�ｪ蜍墓峩譁ｰ =====
     if ok > 0:
         try:
             import sys as _sys2
@@ -4017,10 +4017,10 @@ def run(target_month=None):
             _sys2.path.insert(0, _os2.path.dirname(__file__))
             from auto_status_update import update_status_after_invoice
             invoiced_names = [e["name"] for e in entries]
-            print(f"\n[auto_status] 請求書作成済み人員のステータスを稼働中に更新...")
+            print(f"\n[auto_status] 隲区ｱよ嶌菴懈�先ｸ医∩莠ｺ蜩｡縺ｮ繧ｹ繝�繝ｼ繧ｿ繧ｹ繧堤ｨｼ蜒堺ｸｭ縺ｫ譖ｴ譁ｰ...")
             update_status_after_invoice(names=invoiced_names)
         except Exception as _e:
-            print(f"[auto_status] ステータス更新スキップ（エラー: {_e}）")
+            print(f"[auto_status] 繧ｹ繝�繝ｼ繧ｿ繧ｹ譖ｴ譁ｰ繧ｹ繧ｭ繝�繝暦ｼ医お繝ｩ繝ｼ: {_e}�ｼ�")
 
 if __name__ == "__main__":
     import sys as _sys
@@ -4036,15 +4036,15 @@ if __name__ == "__main__":
 
 ```py
 """
-freee トークン管理モジュール
-- access_tokenは6時間で期限切れ → refresh_tokenで自動更新
-- このモジュールをimportするだけでトークン管理が完結
+freee 繝医�ｼ繧ｯ繝ｳ邂｡逅�繝｢繧ｸ繝･繝ｼ繝ｫ
+- access_token縺ｯ6譎る俣縺ｧ譛滄剞蛻�繧� 竊� refresh_token縺ｧ閾ｪ蜍墓峩譁ｰ
+- 縺薙�ｮ繝｢繧ｸ繝･繝ｼ繝ｫ繧段mport縺吶ｋ縺縺代〒繝医�ｼ繧ｯ繝ｳ邂｡逅�縺悟ｮ檎ｵ�
 """
 import json, time, requests, os
 
 CLIENT_ID     = "731109064351970"
-CLIENT_SECRET = "6rbUbEgQ1i58C7O6Ndg8TQDDQcoO6w9EGkCt_HkWADe9klxnGoN1iNd-vlF0vqkqdVOJYi8nfkYNY9M9evkBJQ"
-TOKEN_FILE    = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\freee_auth\freee_token.json"
+CLIENT_SECRET = "***MASKED***"
+TOKEN_FILE    = r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\freee_auth\freee_token.json"
 COMPANY_ID    = 11712776
 
 def load_token():
@@ -4070,20 +4070,20 @@ def refresh_access_token():
     if res.status_code == 200:
         new_data = res.json()
         save_token(new_data)
-        print("[TOKEN] リフレッシュ成功")
+        print("[TOKEN] 繝ｪ繝輔Ξ繝�繧ｷ繝･謌仙粥")
         return new_data["access_token"]
     else:
         raise Exception(f"Token refresh failed: {res.text}")
 
 def get_access_token():
-    """有効なaccess_tokenを返す（期限切れなら自動リフレッシュ）"""
+    """譛牙柑縺ｪaccess_token繧定ｿ斐☆�ｼ域悄髯仙��繧後↑繧芽�ｪ蜍輔Μ繝輔Ξ繝�繧ｷ繝･�ｼ�"""
     token_data = load_token()
     saved_at = token_data.get("saved_at", 0)
     expires_in = token_data.get("expires_in", 21600)
     elapsed = int(time.time()) - saved_at
     
-    if elapsed > (expires_in - 300):  # 5分前にリフレッシュ
-        print(f"[TOKEN] 期限切れ({elapsed}秒経過) → リフレッシュ")
+    if elapsed > (expires_in - 300):  # 5蛻�蜑阪↓繝ｪ繝輔Ξ繝�繧ｷ繝･
+        print(f"[TOKEN] 譛滄剞蛻�繧�({elapsed}遘堤ｵ碁℃) 竊� 繝ｪ繝輔Ξ繝�繧ｷ繝･")
         return refresh_access_token()
     
     return token_data["access_token"]
@@ -4092,18 +4092,18 @@ def get_headers():
     return {"Authorization": f"Bearer {get_access_token()}"}
 
 if __name__ == "__main__":
-    # テスト実行
+    # 繝�繧ｹ繝亥ｮ溯｡�
     token = get_access_token()
-    print(f"[OK] access_token取得: {token[:20]}...")
+    print(f"[OK] access_token蜿門ｾ�: {token[:20]}...")
     
-    # APIテスト
+    # API繝�繧ｹ繝�
     res = requests.get(
         f"https://api.freee.co.jp/api/1/companies",
         headers=get_headers()
     )
-    print(f"[OK] API接続: {res.status_code}")
+    print(f"[OK] API謗･邯�: {res.status_code}")
     for c in res.json().get("companies", []):
-        print(f"     事業所: {c.get('display_name')} (ID: {c.get('id')})")
+        print(f"     莠区･ｭ謇: {c.get('display_name')} (ID: {c.get('id')})")
 
 ```
 
@@ -4133,45 +4133,45 @@ REQUEST_TIMEOUT = 15
 REQUEST_SLEEP_SECONDS = 1
 
 QUERIES = [
-    "SES企業 東京 メールアドレス site:*.co.jp",
-    "SIer 東京 採用 contact site:*.co.jp",
-    "システム開発 受託 東京 問い合わせ site:*.co.jp",
-    "SES派遣 IT企業 関東 mail",
-    "フリーランスエンジニア 紹介 SES 東京",
+    "SES莨∵･ｭ 譚ｱ莠ｬ 繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ site:*.co.jp",
+    "SIer 譚ｱ莠ｬ 謗｡逕ｨ contact site:*.co.jp",
+    "繧ｷ繧ｹ繝�繝髢狗匱 蜿苓ｨ� 譚ｱ莠ｬ 蝠上＞蜷医ｏ縺� site:*.co.jp",
+    "SES豢ｾ驕｣ IT莨∵･ｭ 髢｢譚ｱ mail",
+    "繝輔Μ繝ｼ繝ｩ繝ｳ繧ｹ繧ｨ繝ｳ繧ｸ繝九い 邏ｹ莉� SES 譚ｱ莠ｬ",
 ]
 FALLBACK_DOMAINS = {
-    "SES企業 東京 メールアドレス site:*.co.jp": [
+    "SES莨∵･ｭ 譚ｱ莠ｬ 繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ site:*.co.jp": [
         "https://www.techbrain.co.jp",
         "https://www.mst-inc.co.jp",
         "https://www.brainets.co.jp",
     ],
-    "SIer 東京 採用 contact site:*.co.jp": [
+    "SIer 譚ｱ莠ｬ 謗｡逕ｨ contact site:*.co.jp": [
         "https://www.nsw.co.jp",
         "https://www.tis.co.jp",
     ],
-    "システム開発 受託 東京 問い合わせ site:*.co.jp": [
+    "繧ｷ繧ｹ繝�繝髢狗匱 蜿苓ｨ� 譚ｱ莠ｬ 蝠上＞蜷医ｏ縺� site:*.co.jp": [
         "https://www.nttdata.co.jp",
         "https://www.hitachi-solutions.co.jp",
     ],
-    "SES派遣 IT企業 関東 mail": [
+    "SES豢ｾ驕｣ IT莨∵･ｭ 髢｢譚ｱ mail": [
         "https://www.isg.co.jp",
         "https://www.fsi.co.jp",
     ],
-    "フリーランスエンジニア 紹介 SES 東京": [
+    "繝輔Μ繝ｼ繝ｩ繝ｳ繧ｹ繧ｨ繝ｳ繧ｸ繝九い 邏ｹ莉� SES 譚ｱ莠ｬ": [
         "https://www.techbrain.co.jp",
         "https://www.brainets.co.jp",
     ],
 }
 KNOWN_COMPANY_NAMES = {
-    "www.techbrain.co.jp": "テックブレーン株式会社",
-    "www.mst-inc.co.jp": "エム・エス・ティー株式会社",
-    "www.brainets.co.jp": "株式会社ブレインズ",
-    "www.isg.co.jp": "株式会社ISG",
-    "www.fsi.co.jp": "富士ソフト株式会社",
-    "www.nsw.co.jp": "NSW株式会社",
-    "www.tis.co.jp": "TIS株式会社",
-    "www.nttdata.co.jp": "株式会社NTTデータ",
-    "www.hitachi-solutions.co.jp": "株式会社日立ソリューションズ",
+    "www.techbrain.co.jp": "繝�繝�繧ｯ繝悶Ξ繝ｼ繝ｳ譬ｪ蠑丈ｼ夂､ｾ",
+    "www.mst-inc.co.jp": "繧ｨ繝繝ｻ繧ｨ繧ｹ繝ｻ繝�繧｣繝ｼ譬ｪ蠑丈ｼ夂､ｾ",
+    "www.brainets.co.jp": "譬ｪ蠑丈ｼ夂､ｾ繝悶Ξ繧､繝ｳ繧ｺ",
+    "www.isg.co.jp": "譬ｪ蠑丈ｼ夂､ｾISG",
+    "www.fsi.co.jp": "蟇悟｣ｫ繧ｽ繝輔ヨ譬ｪ蠑丈ｼ夂､ｾ",
+    "www.nsw.co.jp": "NSW譬ｪ蠑丈ｼ夂､ｾ",
+    "www.tis.co.jp": "TIS譬ｪ蠑丈ｼ夂､ｾ",
+    "www.nttdata.co.jp": "譬ｪ蠑丈ｼ夂､ｾNTT繝�繝ｼ繧ｿ",
+    "www.hitachi-solutions.co.jp": "譬ｪ蠑丈ｼ夂､ｾ譌･遶九た繝ｪ繝･繝ｼ繧ｷ繝ｧ繝ｳ繧ｺ",
 }
 
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
@@ -4216,7 +4216,7 @@ def fetch_url(session: requests.Session, url: str) -> Optional[str]:
             response.encoding = response.apparent_encoding
         return response.text
     except requests.RequestException as exc:
-        print(f"取得エラー: {url} ({exc})")
+        print(f"蜿門ｾ励お繝ｩ繝ｼ: {url} ({exc})")
         return None
 
 
@@ -4263,7 +4263,7 @@ def google_search_domains(session: requests.Session, query: str, limit: int = 5)
         return domains
 
     fallback_domains = FALLBACK_DOMAINS.get(query, [])
-    print(f"Google検索結果を抽出できないためフォールバック候補を使用: {query}")
+    print(f"Google讀懃ｴ｢邨先棡繧呈歓蜃ｺ縺ｧ縺阪↑縺�縺溘ａ繝輔か繝ｼ繝ｫ繝舌ャ繧ｯ蛟呵｣懊ｒ菴ｿ逕ｨ: {query}")
     return fallback_domains[:limit]
 
 
@@ -4317,7 +4317,7 @@ def extract_company_name(html: str, site_url: str) -> str:
 
 def normalize_company_name(value: str) -> str:
     cleaned = re.sub(r"\s+", " ", value).strip()
-    for separator in ["｜", "|", " - ", " – ", " — ", "／", "/"]:
+    for separator in ["�ｽ�", "|", " - ", " 窶� ", " 窶� ", "�ｼ�", "/"]:
         if separator in cleaned:
             cleaned = cleaned.split(separator)[0].strip()
     return cleaned
@@ -4325,7 +4325,7 @@ def normalize_company_name(value: str) -> str:
 
 def judge_company_type(site_url: str, html: str) -> str:
     text = f"{site_url}\n{BeautifulSoup(html, 'html.parser').get_text(' ', strip=True)}"
-    if any(keyword in text for keyword in ["SES", "ses", "派遣", "技術者派遣"]):
+    if any(keyword in text for keyword in ["SES", "ses", "豢ｾ驕｣", "謚陦楢�豢ｾ驕｣"]):
         return "ses"
     return "prime"
 
@@ -4411,10 +4411,10 @@ def print_preview(rows: List[Dict[str, str]]) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="IT・SES企業の連絡先を収集してtargets.csvへ追記します。")
+    parser = argparse.ArgumentParser(description="IT繝ｻSES莨∵･ｭ縺ｮ騾｣邨｡蜈医ｒ蜿朱寔縺励※targets.csv縺ｸ霑ｽ險倥＠縺ｾ縺吶�")
     mode = parser.add_mutually_exclusive_group(required=True)
-    mode.add_argument("--dry-run", action="store_true", help="収集結果を表示し、CSVには書き込みません。")
-    mode.add_argument("--run", action="store_true", help="収集結果をtargets.csvへ追記します。")
+    mode.add_argument("--dry-run", action="store_true", help="蜿朱寔邨先棡繧定｡ｨ遉ｺ縺励，SV縺ｫ縺ｯ譖ｸ縺崎ｾｼ縺ｿ縺ｾ縺帙ｓ縲�")
+    mode.add_argument("--run", action="store_true", help="蜿朱寔邨先棡繧稚argets.csv縺ｸ霑ｽ險倥＠縺ｾ縺吶�")
     return parser.parse_args()
 
 
@@ -4429,7 +4429,7 @@ def main() -> int:
         append_targets(candidates, TARGETS_CSV)
 
     write_collect_log(result)
-    print(f"追加{result['added_count']}社 / スキップ{result['skipped_duplicate_count']}社（重複）")
+    print(f"霑ｽ蜉{result['added_count']}遉ｾ / 繧ｹ繧ｭ繝�繝養result['skipped_duplicate_count']}遉ｾ�ｼ磯㍾隍��ｼ�")
     return 0
 
 
@@ -4446,62 +4446,62 @@ chcp 65001 >nul
 cd /d "%~dp0"
 if not exist "logs" mkdir "logs"
 set "LOG_PATH=logs\matching_daily.log"
-echo [%date% %time%] マッチング開始 >> "%LOG_PATH%"
+echo [%date% %time%] 繝槭ャ繝√Φ繧ｰ髢句ｧ� >> "%LOG_PATH%"
 python matching_v2\matching_v2.py >> "%LOG_PATH%" 2>&1
 if %ERRORLEVEL% EQU 0 (
-    echo [%date% %time%] マッチング完了 >> "%LOG_PATH%"
+    echo [%date% %time%] 繝槭ャ繝√Φ繧ｰ螳御ｺ� >> "%LOG_PATH%"
 ) else (
-    echo [%date% %time%] マッチング失敗 >> "%LOG_PATH%"
+    echo [%date% %time%] 繝槭ャ繝√Φ繧ｰ螟ｱ謨� >> "%LOG_PATH%"
 )
-echo [%date% %time%] 完了 >> "%LOG_PATH%"
+echo [%date% %time%] 螳御ｺ� >> "%LOG_PATH%"
 
 ```
 
 ## AGENTS.md
 
 ```md
-# AGENTS.md - Codex指示書
-最終更新: 2026-05-21
+# AGENTS.md - Codex謖�遉ｺ譖ｸ
+譛邨よ峩譁ｰ: 2026-05-21
 
-## 役割
-あなたはエンジニア担当です。ジョブズ（Claude Desktop）から
-タスクを受け取り、コードを実装して報告します。
+## 蠖ｹ蜑ｲ
+縺ゅ↑縺溘�ｯ繧ｨ繝ｳ繧ｸ繝九い諡�蠖薙〒縺吶ゅず繝ｧ繝悶ぜ�ｼ�Claude Desktop�ｼ峨°繧�
+繧ｿ繧ｹ繧ｯ繧貞女縺大叙繧翫√さ繝ｼ繝峨ｒ螳溯｣�縺励※蝣ｱ蜻翫＠縺ｾ縺吶�
 
-## 担当領域
+## 諡�蠖馴伜沺
 
-### やること
-- Pythonスクリプト新規作成・修正・バグ修正
-- HTML/CSS/JS・Playwright自動化スクリプト
-- バッチ処理・ファイル変換・テスト実行
-- ジョブズが書いた設計・仕様のコード化
+### 繧�繧九％縺ｨ
+- Python繧ｹ繧ｯ繝ｪ繝励ヨ譁ｰ隕丈ｽ懈�舌�ｻ菫ｮ豁｣繝ｻ繝舌げ菫ｮ豁｣
+- HTML/CSS/JS繝ｻPlaywright閾ｪ蜍募喧繧ｹ繧ｯ繝ｪ繝励ヨ
+- 繝舌ャ繝∝�ｦ逅�繝ｻ繝輔ぃ繧､繝ｫ螟画鋤繝ｻ繝�繧ｹ繝亥ｮ溯｡�
+- 繧ｸ繝ｧ繝悶ぜ縺梧嶌縺�縺溯ｨｭ險医�ｻ莉墓ｧ倥�ｮ繧ｳ繝ｼ繝牙喧
 
-### やらないこと
-- Notion DBへの直接書き込み（ジョブズが行う）
-- メール送信の判断・実行（ジョブズが行う）
-- 事業判断・優先順位付け
+### 繧�繧峨↑縺�縺薙→
+- Notion DB縺ｸ縺ｮ逶ｴ謗･譖ｸ縺崎ｾｼ縺ｿ�ｼ医ず繝ｧ繝悶ぜ縺瑚｡後≧�ｼ�
+- 繝｡繝ｼ繝ｫ騾∽ｿ｡縺ｮ蛻､譁ｭ繝ｻ螳溯｡鯉ｼ医ず繝ｧ繝悶ぜ縺瑚｡後≧�ｼ�
+- 莠区･ｭ蛻､譁ｭ繝ｻ蜆ｪ蜈磯�菴堺ｻ倥￠
 
-## 作業ルール
-- 作業ディレクトリ: C:\Users\ma_py\OneDrive\デスクトップ\ses_work\ 配下のみ
-- 文字コード: UTF-8を常に明示
-- APIキーはハードコードしない（freee_token.json / config_source.json から読み込む）
-- 既存の認証ファイル構成を維持する（freee_token.json / config_source.json を継続利用）
-- 認証方式変更禁止
-- 指示されていない全体リファクタ禁止
-- import整理禁止（明示的に指示された場合のみ）
-- 既存ログ削除禁止
-- 関数名変更時は理由を事前報告
-- 新規依存追加禁止（明示的に許可された場合のみ）
-- requirements.txt を勝手に変更禁止
-- 変更ファイルは最大3件。4件以上になる場合は事前報告してから実行
-- 新規コード作成時は動作確認コマンドも提示
+## 菴懈･ｭ繝ｫ繝ｼ繝ｫ
+- 菴懈･ｭ繝�繧｣繝ｬ繧ｯ繝医Μ: C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\ 驟堺ｸ九�ｮ縺ｿ
+- 譁�蟄励さ繝ｼ繝�: UTF-8繧貞ｸｸ縺ｫ譏守､ｺ
+- API繧ｭ繝ｼ縺ｯ繝上�ｼ繝峨さ繝ｼ繝峨＠縺ｪ縺��ｼ�freee_token.json / config_source.json 縺九ｉ隱ｭ縺ｿ霎ｼ繧�ｼ�
+- 譌｢蟄倥�ｮ隱崎ｨｼ繝輔ぃ繧､繝ｫ讒区�舌ｒ邯ｭ謖√☆繧具ｼ�freee_token.json / config_source.json 繧堤ｶ咏ｶ壼茜逕ｨ�ｼ�
+- 隱崎ｨｼ譁ｹ蠑丞､画峩遖∵ｭ｢
+- 謖�遉ｺ縺輔ｌ縺ｦ縺�縺ｪ縺�蜈ｨ菴薙Μ繝輔ぃ繧ｯ繧ｿ遖∵ｭ｢
+- import謨ｴ逅�遖∵ｭ｢�ｼ域�守､ｺ逧�縺ｫ謖�遉ｺ縺輔ｌ縺溷ｴ蜷医�ｮ縺ｿ�ｼ�
+- 譌｢蟄倥Ο繧ｰ蜑企勁遖∵ｭ｢
+- 髢｢謨ｰ蜷榊､画峩譎ゅ�ｯ逅�逕ｱ繧剃ｺ句燕蝣ｱ蜻�
+- 譁ｰ隕丈ｾ晏ｭ倩ｿｽ蜉遖∵ｭ｢�ｼ域�守､ｺ逧�縺ｫ險ｱ蜿ｯ縺輔ｌ縺溷ｴ蜷医�ｮ縺ｿ�ｼ�
+- requirements.txt 繧貞享謇九↓螟画峩遖∵ｭ｢
+- 螟画峩繝輔ぃ繧､繝ｫ縺ｯ譛螟ｧ3莉ｶ縲�4莉ｶ莉･荳翫↓縺ｪ繧句ｴ蜷医�ｯ莠句燕蝣ｱ蜻翫＠縺ｦ縺九ｉ螳溯｡�
+- 譁ｰ隕上さ繝ｼ繝我ｽ懈�先凾縺ｯ蜍穂ｽ懃｢ｺ隱阪さ繝槭Φ繝峨ｂ謠千､ｺ
 
-## 完了報告フォーマット
+## 螳御ｺ�蝣ｱ蜻翫ヵ繧ｩ繝ｼ繝槭ャ繝�
 ```
-## 完了報告
-- 作成/変更ファイル: [パス]
-- 変更概要: [1〜3行]
-- テスト結果: [pass/fail + 出力サマリ]
-- 注意点: [あれば]
+## 螳御ｺ�蝣ｱ蜻�
+- 菴懈��/螟画峩繝輔ぃ繧､繝ｫ: [繝代せ]
+- 螟画峩讎りｦ�: [1縲�3陦珪
+- 繝�繧ｹ繝育ｵ先棡: [pass/fail + 蜃ｺ蜉帙し繝槭Μ]
+- 豕ｨ諢冗せ: [縺ゅｌ縺ｰ]
 ```
 
 ```
@@ -4562,43 +4562,43 @@ def was_sent_recently(email: str, history: dict[str, str], now: datetime) -> boo
 
 
 def build_template(target: dict[str, str]) -> tuple[str, str, str]:
-    contact_name = target["contact_name"] or "ご担当者"
+    contact_name = target["contact_name"] or "縺疲球蠖楢�"
     target_type = target["type"]
-    sender_name = SENDER_NAME or "松野"
-    sender_name_with_family = f"松野 {SENDER_NAME}".rstrip()
+    sender_name = SENDER_NAME or "譚ｾ驥�"
+    sender_name_with_family = f"譚ｾ驥� {SENDER_NAME}".rstrip()
 
-    if target_type == "元請け":
-        subject = "エンジニアリングリソースのご提案"
+    if target_type == "蜈�隲九￠":
+        subject = "繧ｨ繝ｳ繧ｸ繝九い繝ｪ繝ｳ繧ｰ繝ｪ繧ｽ繝ｼ繧ｹ縺ｮ縺疲署譯�"
         template = "A"
-        body = f"""{contact_name}様
+        body = f"""{contact_name}讒�
 
-お世話になっております。株式会社TERRA 松野と申します。
+縺贋ｸ冶ｩｱ縺ｫ縺ｪ縺｣縺ｦ縺翫ｊ縺ｾ縺吶よｪ蠑丈ｼ夂､ｾTERRA 譚ｾ驥弱→逕ｳ縺励∪縺吶�
 
-SESエンジニアのご提案にてご連絡させていただきました。
-Java/Python/インフラ等、幅広いスキルセットのエンジニアを
-即日〜ご提案可能です。
+SES繧ｨ繝ｳ繧ｸ繝九い縺ｮ縺疲署譯医↓縺ｦ縺秘｣邨｡縺輔○縺ｦ縺�縺溘□縺阪∪縺励◆縲�
+Java/Python/繧､繝ｳ繝輔Λ遲峨∝ｹ�蠎�縺�繧ｹ繧ｭ繝ｫ繧ｻ繝�繝医�ｮ繧ｨ繝ｳ繧ｸ繝九い繧�
+蜊ｳ譌･縲懊＃謠先｡亥庄閭ｽ縺ｧ縺吶�
 
-ご興味がございましたら、お気軽にご返信ください。
+縺碑�亥袖縺後＃縺悶＞縺ｾ縺励◆繧峨√♀豌苓ｻｽ縺ｫ縺碑ｿ比ｿ｡縺上□縺輔＞縲�
 
-株式会社TERRA
+譬ｪ蠑丈ｼ夂､ｾTERRA
 {sender_name_with_family}
 {OUTREACH_FROM_EMAIL}
 """
         return subject, body, template
 
-    subject = "エンジニア情報交換・BP提携のご相談"
+    subject = "繧ｨ繝ｳ繧ｸ繝九い諠�蝣ｱ莠､謠帙�ｻBP謠先声縺ｮ縺皮嶌隲�"
     template = "B"
-    body = f"""{contact_name}様
+    body = f"""{contact_name}讒�
 
-お世話になっております。株式会社TERRA 松野と申します。
+縺贋ｸ冶ｩｱ縺ｫ縺ｪ縺｣縺ｦ縺翫ｊ縺ｾ縺吶よｪ蠑丈ｼ夂､ｾTERRA 譚ｾ驥弱→逕ｳ縺励∪縺吶�
 
-弊社はSES事業を展開しており、BP様との情報交換・相互提案を
-積極的に進めております。
+蠑顔､ｾ縺ｯSES莠区･ｭ繧貞ｱ暮幕縺励※縺翫ｊ縲。P讒倥→縺ｮ諠�蝣ｱ莠､謠帙�ｻ逶ｸ莠呈署譯医ｒ
+遨肴･ｵ逧�縺ｫ騾ｲ繧√※縺翫ｊ縺ｾ縺吶�
 
-案件・人員情報の交換等、ご興味がございましたら
-ぜひお気軽にご返信ください。
+譯井ｻｶ繝ｻ莠ｺ蜩｡諠�蝣ｱ縺ｮ莠､謠帷ｭ峨√＃闊亥袖縺後＃縺悶＞縺ｾ縺励◆繧�
+縺懊�ｲ縺頑ｰ苓ｻｽ縺ｫ縺碑ｿ比ｿ｡縺上□縺輔＞縲�
 
-株式会社TERRA
+譬ｪ蠑丈ｼ夂､ｾTERRA
 {sender_name}
 {OUTREACH_FROM_EMAIL}
 """
@@ -4634,22 +4634,22 @@ def run_outreach(dry_run: bool = True) -> dict[str, object]:
         email = target["email"]
         memo = target["memo"]
 
-        if "断り" in memo:
+        if "譁ｭ繧�" in memo:
             skipped += 1
-            details.append(make_detail(target, "skip_断り"))
-            print(f"[skip_断り] {company} <{email}>")
+            details.append(make_detail(target, "skip_譁ｭ繧�"))
+            print(f"[skip_譁ｭ繧馨 {company} <{email}>")
             continue
 
         if not email:
             skipped += 1
-            details.append(make_detail(target, "skip_emailなし"))
-            print(f"[skip_emailなし] {company}")
+            details.append(make_detail(target, "skip_email縺ｪ縺�"))
+            print(f"[skip_email縺ｪ縺余 {company}")
             continue
 
         if was_sent_recently(email, history, now):
             skipped += 1
-            details.append(make_detail(target, "skip_180日未満"))
-            print(f"[skip_180日未満] {company} <{email}>")
+            details.append(make_detail(target, "skip_180譌･譛ｪ貅"))
+            print(f"[skip_180譌･譛ｪ貅] {company} <{email}>")
             continue
 
         subject, body, template = build_template(target)
@@ -4685,8 +4685,8 @@ def run_outreach(dry_run: bool = True) -> dict[str, object]:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Outreach mail sender")
     mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--dry-run", action="store_true", help="送信せずログのみ出力します")
-    mode.add_argument("--run", action="store_true", help="本番送信します")
+    mode.add_argument("--dry-run", action="store_true", help="騾∽ｿ｡縺帙★繝ｭ繧ｰ縺ｮ縺ｿ蜃ｺ蜉帙＠縺ｾ縺�")
+    mode.add_argument("--run", action="store_true", help="譛ｬ逡ｪ騾∽ｿ｡縺励∪縺�")
     return parser.parse_args()
 
 
@@ -4713,7 +4713,7 @@ from email.utils import formatdate
 from dotenv import dotenv_values
 
 
-ENV_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
+ENV_PATH = r"C:\Users\ma_py\OneDrive\繝�繧ｹ繧ｯ繝医ャ繝予ses_work\config\.env"
 SMTP_HOST = "mail65.onamae.ne.jp"
 SMTP_PORT = 465
 MATSUNO_EMAIL = "r-matsuno@terra-ltd.co.jp"
@@ -4783,8 +4783,8 @@ from step6_send_proposal import send_proposals
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Phase1 営業パイプライン")
-    parser.add_argument("--dry-run", action="store_true", help="メール送信と外部取得をスキップ")
+    parser = argparse.ArgumentParser(description="Phase1 蝟ｶ讌ｭ繝代う繝励Λ繧､繝ｳ")
+    parser.add_argument("--dry-run", action="store_true", help="繝｡繝ｼ繝ｫ騾∽ｿ｡縺ｨ螟夜Κ蜿門ｾ励ｒ繧ｹ繧ｭ繝�繝�")
     args = parser.parse_args()
     dry_run = bool(args.dry_run)
     try:
@@ -4796,7 +4796,7 @@ def main() -> int:
         send_proposals(dry_run=dry_run)
         return 0
     except Exception as exc:
-        print(f"[pipeline] エラー: {exc}", flush=True)
+        print(f"[pipeline] 繧ｨ繝ｩ繝ｼ: {exc}", flush=True)
         return 1
 
 
@@ -4828,7 +4828,7 @@ def _read_json(path: Path) -> list[dict]:
         data = json.loads(path.read_text(encoding="utf-8"))
         return data if isinstance(data, list) else []
     except Exception as exc:
-        print(f"[Step1] result.json読込エラー: {exc}", flush=True)
+        print(f"[Step1] result.json隱ｭ霎ｼ繧ｨ繝ｩ繝ｼ: {exc}", flush=True)
         return []
 
 
@@ -4841,7 +4841,7 @@ def _skills(value) -> list[str]:
 
 
 def _candidate_name(candidate: dict) -> str:
-    return candidate.get("name") or candidate.get("engineer_name") or candidate.get("engineer_id") or "候補者"
+    return candidate.get("name") or candidate.get("engineer_name") or candidate.get("engineer_id") or "蛟呵｣懆�"
 
 
 def _candidate_id(candidate: dict) -> str:
@@ -4860,25 +4860,25 @@ def generate_intent_drafts(result_path: Path = RESULT_PATH) -> list[dict]:
             price = candidate.get("proposed_price") or candidate.get("price") or project.get("budget") or ""
             subject = IKOUKAKUNIN_SUBJECT.format(candidate_name=name, role_area=project.get("location", ""))
             body = IKOUKAKUNIN_TEMPLATE.format(
-                affiliation=candidate.get("affiliation") or "ご所属会社",
-                contact_name=candidate.get("contact_name") or "ご担当者",
-                project_name=project.get("project_name") or "案件名未設定",
+                affiliation=candidate.get("affiliation") or "縺疲園螻樔ｼ夂､ｾ",
+                contact_name=candidate.get("contact_name") or "縺疲球蠖楢�",
+                project_name=project.get("project_name") or "譯井ｻｶ蜷肴悴險ｭ螳�",
                 description=project.get("description") or project.get("project_url") or "",
-                required_skills=", ".join(required) if required else "確認中",
-                preferred_skills=", ".join(preferred) if preferred else "確認中",
+                required_skills=", ".join(required) if required else "遒ｺ隱堺ｸｭ",
+                preferred_skills=", ".join(preferred) if preferred else "遒ｺ隱堺ｸｭ",
                 proposed_price=price,
-                period=project.get("period") or project.get("start_date") or "確認中",
-                location=project.get("location") or "確認中",
-                remote=project.get("remote") or "確認中",
-                interview_count=project.get("interview_count") or "確認中",
-                foreign_ok="可" if project.get("foreign_ok") else "確認中",
+                period=project.get("period") or project.get("start_date") or "遒ｺ隱堺ｸｭ",
+                location=project.get("location") or "遒ｺ隱堺ｸｭ",
+                remote=project.get("remote") or "遒ｺ隱堺ｸｭ",
+                interview_count=project.get("interview_count") or "遒ｺ隱堺ｸｭ",
+                foreign_ok="蜿ｯ" if project.get("foreign_ok") else "遒ｺ隱堺ｸｭ",
                 required_format=skill_format(required),
                 preferred_format=skill_format(preferred),
             )
             path = DRAFT_DIR / f"ikoukakunin_{project_id}_{_candidate_id(candidate)}.txt"
             path.write_text(f"Subject: {subject}\nTo: {candidate.get('contact_email', '')}\n\n{body}", encoding="utf-8")
             generated.append({"path": str(path), "project": project, "candidate": candidate, "subject": subject})
-    print(f"[Step1] 意向確認メール生成: {len(generated)}件", flush=True)
+    print(f"[Step1] 諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ逕滓��: {len(generated)}莉ｶ", flush=True)
     return generated
 
 
@@ -4943,11 +4943,11 @@ def send_intent_drafts(dry_run: bool = True) -> list[dict]:
     results = []
     for path in sorted(DRAFT_DIR.glob("ikoukakunin_*.txt")):
         to, subject, body = _split_draft(path.read_text(encoding="utf-8"))
-        print(f"[Step2] 送信対象: {to} / {subject}", flush=True)
+        print(f"[Step2] 騾∽ｿ｡蟇ｾ雎｡: {to} / {subject}", flush=True)
         entry = {"step": "intent", "path": str(path), "to": to, "subject": subject, "dry_run": dry_run, "at": datetime.now().isoformat()}
         if dry_run:
             entry["status"] = "skipped"
-            print("[Step2] dry-run: メール送信スキップ", flush=True)
+            print("[Step2] dry-run: 繝｡繝ｼ繝ｫ騾∽ｿ｡繧ｹ繧ｭ繝�繝�", flush=True)
         else:
             payload = json.dumps({"account": "sessales", "to": to, "subject": subject, "body": body}, ensure_ascii=False).encode("utf-8")
             try:
@@ -4958,11 +4958,11 @@ def send_intent_drafts(dry_run: bool = True) -> list[dict]:
             except Exception as exc:
                 entry["status"] = "error"
                 entry["error"] = str(exc)
-                print(f"[Step2] 送信エラー: {exc}", flush=True)
+                print(f"[Step2] 騾∽ｿ｡繧ｨ繝ｩ繝ｼ: {exc}", flush=True)
         _append_log(entry)
         results.append(entry)
     if not results and dry_run:
-        print("[Step2] dry-run: メール送信スキップ", flush=True)
+        print("[Step2] dry-run: 繝｡繝ｼ繝ｫ騾∽ｿ｡繧ｹ繧ｭ繝�繝�", flush=True)
     return results
 
 
@@ -5002,7 +5002,7 @@ def _fetch_recent(limit: int = 20, dry_run: bool = True) -> list[dict]:
                 data = json.loads(res.read().decode("utf-8"))
             return data.get("emails") or data.get("messages") or []
         except Exception as exc:
-            print(f"[Step3] メール取得エラー({path}): {exc}", flush=True)
+            print(f"[Step3] 繝｡繝ｼ繝ｫ蜿門ｾ励お繝ｩ繝ｼ({path}): {exc}", flush=True)
     return []
 
 
@@ -5013,12 +5013,12 @@ def _parse_skill_marks(body: str, title: str) -> dict:
         if title in line:
             capture = True
             continue
-        if capture and line.startswith("▼"):
+        if capture and line.startswith("笆ｼ"):
             break
         if capture:
-            m = re.search(r"[・\-]?\s*([^:：]+)\s*[:：]\s*([○◯×xX])", line)
+            m = re.search(r"[繝ｻ\-]?\s*([^:�ｼ咯+)\s*[:�ｼ咯\s*([笳銀留ﾃ踊X])", line)
             if m:
-                found[m.group(1).strip()] = "×" if m.group(2).lower() in {"×", "x"} else "○"
+                found[m.group(1).strip()] = "ﾃ�" if m.group(2).lower() in {"ﾃ�", "x"} else "笳�"
     return found
 
 
@@ -5026,15 +5026,15 @@ def parse_reply(email_item: dict) -> dict:
     body = email_item.get("body") or email_item.get("body_preview") or ""
     statuses = []
     for line in body.splitlines():
-        if any(word in line for word in ("面談調整中", "面談予定", "結果待ち", "オファー中")):
-            statuses.append(line.strip(" ・\t"))
+        if any(word in line for word in ("髱｢隲�隱ｿ謨ｴ荳ｭ", "髱｢隲�莠亥ｮ�", "邨先棡蠕�縺｡", "繧ｪ繝輔ぃ繝ｼ荳ｭ")):
+            statuses.append(line.strip(" 繝ｻ\t"))
     return {
         "mail_id": str(email_item.get("id") or email_item.get("message_id") or "unknown"),
         "subject": email_item.get("subject", ""),
         "from": email_item.get("from", ""),
         "parallel_status": statuses,
-        "required_skills": _parse_skill_marks(body, "必須"),
-        "preferred_skills": _parse_skill_marks(body, "尚可"),
+        "required_skills": _parse_skill_marks(body, "蠢�鬆�"),
+        "preferred_skills": _parse_skill_marks(body, "蟆壼庄"),
     }
 
 
@@ -5047,7 +5047,7 @@ def parse_unread_replies(dry_run: bool = True) -> list[dict]:
         path = PARSED_DIR / f"{result['mail_id']}.json"
         path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
         parsed.append(result)
-    print(f"[Step3] 未読メール確認: {len(parsed)}件", flush=True)
+    print(f"[Step3] 譛ｪ隱ｭ繝｡繝ｼ繝ｫ遒ｺ隱�: {len(parsed)}莉ｶ", flush=True)
     return parsed
 
 
@@ -5070,14 +5070,14 @@ BASE_DIR = Path(__file__).resolve().parent
 PARSED_DIR = BASE_DIR / "parsed_replies"
 
 STATUS_SCORES = {
-    "面談調整中": 1.5,
-    "面談予定": 2.0,
-    "オファー中": 5.0,
+    "髱｢隲�隱ｿ謨ｴ荳ｭ": 1.5,
+    "髱｢隲�莠亥ｮ�": 2.0,
+    "繧ｪ繝輔ぃ繝ｼ荳ｭ": 5.0,
 }
 
 
 def _result_wait_score(text: str) -> float:
-    m = re.search(r"(\d+)\s*日", text)
+    m = re.search(r"(\d+)\s*譌･", text)
     if not m:
         return 2.5
     days = int(m.group(1))
@@ -5093,7 +5093,7 @@ def _result_wait_score(text: str) -> float:
 def parallel_score(statuses: list[str]) -> float:
     total = 0.0
     for status in statuses:
-        if "結果待ち" in status:
+        if "邨先棡蠕�縺｡" in status:
             total += _result_wait_score(status)
             continue
         for key, score in STATUS_SCORES.items():
@@ -5109,11 +5109,11 @@ def judge_reply(data: dict) -> dict:
     gross_profit = data.get("gross_profit")
     reasons = []
     if score >= 5.0:
-        reasons.append("並行スコア合計5.0以上")
-    if any(v == "×" for v in required.values()):
-        reasons.append("必須スキルに×")
+        reasons.append("荳ｦ陦後せ繧ｳ繧｢蜷郁ｨ�5.0莉･荳�")
+    if any(v == "ﾃ�" for v in required.values()):
+        reasons.append("蠢�鬆医せ繧ｭ繝ｫ縺ｫﾃ�")
     if gross_profit is not None and gross_profit < 5:
-        reasons.append("粗利5万円未満")
+        reasons.append("邊怜茜5荳�蜀�譛ｪ貅")
     data["judge"] = {
         "proposal_ok": not reasons,
         "parallel_score": score,
@@ -5133,10 +5133,10 @@ def judge_all() -> list[dict]:
             path.write_text(json.dumps(judged, ensure_ascii=False, indent=2), encoding="utf-8")
             results.append(judged)
         except Exception as exc:
-            print(f"[Step4] 判定エラー({path.name}): {exc}", flush=True)
+            print(f"[Step4] 蛻､螳壹お繝ｩ繝ｼ({path.name}): {exc}", flush=True)
     ok = sum(1 for item in results if item.get("judge", {}).get("proposal_ok"))
     ng = len(results) - ok
-    print(f"[Step4] 提案可否判定: {ok}件OK / {ng}件NG", flush=True)
+    print(f"[Step4] 謠先｡亥庄蜷ｦ蛻､螳�: {ok}莉ｶOK / {ng}莉ｶNG", flush=True)
     return results
 
 
@@ -5170,30 +5170,30 @@ def _read_projects() -> list[dict]:
             data = json.loads(RESULT_PATH.read_text(encoding="utf-8"))
             return data if isinstance(data, list) else []
     except Exception as exc:
-        print(f"[Step5] result.json読込エラー: {exc}", flush=True)
+        print(f"[Step5] result.json隱ｭ霎ｼ繧ｨ繝ｩ繝ｼ: {exc}", flush=True)
     return []
 
 
 def _skill_summary(value) -> str:
     if isinstance(value, dict):
-        return ", ".join(f"{k}:{v.get('result', v)}" if isinstance(v, dict) else f"{k}:{v}" for k, v in value.items()) or "確認中"
+        return ", ".join(f"{k}:{v.get('result', v)}" if isinstance(v, dict) else f"{k}:{v}" for k, v in value.items()) or "遒ｺ隱堺ｸｭ"
     if isinstance(value, list):
-        return ", ".join(map(str, value)) or "確認中"
-    return "確認中"
+        return ", ".join(map(str, value)) or "遒ｺ隱堺ｸｭ"
+    return "遒ｺ隱堺ｸｭ"
 
 
 def _summary(project: dict, candidates: list[dict]) -> str:
     cfg = dotenv_values(str(ENV_PATH))
     if cfg.get("ANTHROPIC_API_KEY"):
-        names = "、".join(c.get("engineer_name") or c.get("name") or "候補者" for c in candidates)
-        return f"{project.get('project_name', '対象案件')}に対し、{names}をスキル適合度と単価バランスで選定しました。"
-    return "候補者のスキル適合度、単価、稼働開始時期を踏まえて提案候補を選定しました。"
+        names = "縲�".join(c.get("engineer_name") or c.get("name") or "蛟呵｣懆�" for c in candidates)
+        return f"{project.get('project_name', '蟇ｾ雎｡譯井ｻｶ')}縺ｫ蟇ｾ縺励＋names}繧偵せ繧ｭ繝ｫ驕ｩ蜷亥ｺｦ縺ｨ蜊倅ｾ｡繝舌Λ繝ｳ繧ｹ縺ｧ驕ｸ螳壹＠縺ｾ縺励◆縲�"
+    return "蛟呵｣懆�縺ｮ繧ｹ繧ｭ繝ｫ驕ｩ蜷亥ｺｦ縲∝腰萓｡縲∫ｨｼ蜒埼幕蟋区凾譛溘ｒ雕上∪縺医※謠先｡亥呵｣懊ｒ驕ｸ螳壹＠縺ｾ縺励◆縲�"
 
 
 def generate_proposals() -> list[dict]:
     DRAFT_DIR.mkdir(parents=True, exist_ok=True)
     outputs = []
-    labels = ["松", "竹", "梅"]
+    labels = ["譚ｾ", "遶ｹ", "譴�"]
     for project in _read_projects():
         candidates = sorted(project.get("candidates") or [], key=lambda c: c.get("score", 0), reverse=True)[:3]
         if not candidates:
@@ -5202,23 +5202,23 @@ def generate_proposals() -> list[dict]:
         for idx, candidate in enumerate(candidates):
             blocks.append(CANDIDATE_TEMPLATE.format(
                 rank_label=labels[idx],
-                name=candidate.get("engineer_name") or candidate.get("name") or "候補者",
-                price=candidate.get("proposed_price") or candidate.get("price") or "確認中",
-                available_date=candidate.get("available_date") or "確認中",
+                name=candidate.get("engineer_name") or candidate.get("name") or "蛟呵｣懆�",
+                price=candidate.get("proposed_price") or candidate.get("price") or "遒ｺ隱堺ｸｭ",
+                available_date=candidate.get("available_date") or "遒ｺ隱堺ｸｭ",
                 required=_skill_summary(candidate.get("required") or candidate.get("required_match")),
                 preferred=_skill_summary(candidate.get("optional") or candidate.get("preferred_match")),
-                appeal=f"マッチングスコア {candidate.get('score', '確認中')}",
+                appeal=f"繝槭ャ繝√Φ繧ｰ繧ｹ繧ｳ繧｢ {candidate.get('score', '遒ｺ隱堺ｸｭ')}",
             ))
         body = PROPOSAL_TEMPLATE.format(
-            project_name=project.get("project_name") or "案件名未設定",
+            project_name=project.get("project_name") or "譯井ｻｶ蜷肴悴險ｭ螳�",
             candidate_blocks="\n".join(blocks),
             summary=_summary(project, candidates),
         )
         project_id = str(project.get("project_id") or project.get("id") or "project").replace("/", "_")
         path = DRAFT_DIR / f"proposal_{project_id}.txt"
-        path.write_text(f"Subject: {project.get('project_name', '')} ご提案\nTo: \n\n{body}", encoding="utf-8")
+        path.write_text(f"Subject: {project.get('project_name', '')} 縺疲署譯�\nTo: \n\n{body}", encoding="utf-8")
         outputs.append({"path": str(path), "project": project})
-    print(f"[Step5] 提案文生成: {len(outputs)}件", flush=True)
+    print(f"[Step5] 謠先｡域枚逕滓��: {len(outputs)}莉ｶ", flush=True)
     return outputs
 
 
@@ -5247,11 +5247,11 @@ def send_proposals(dry_run: bool = True) -> list[dict]:
     results = []
     for path in sorted(DRAFT_DIR.glob("proposal_*.txt")):
         to, subject, body = _split_draft(path.read_text(encoding="utf-8"))
-        print(f"[Step6] 送信対象: {to} / {subject}", flush=True)
+        print(f"[Step6] 騾∽ｿ｡蟇ｾ雎｡: {to} / {subject}", flush=True)
         entry = {"step": "proposal", "path": str(path), "to": to, "subject": subject, "dry_run": dry_run, "at": datetime.now().isoformat()}
         if dry_run:
             entry["status"] = "skipped"
-            print("[Step6] dry-run: 提案メール送信スキップ", flush=True)
+            print("[Step6] dry-run: 謠先｡医Γ繝ｼ繝ｫ騾∽ｿ｡繧ｹ繧ｭ繝�繝�", flush=True)
         else:
             payload = json.dumps({"account": "sessales", "to": to, "subject": subject, "body": body}, ensure_ascii=False).encode("utf-8")
             try:
@@ -5262,11 +5262,11 @@ def send_proposals(dry_run: bool = True) -> list[dict]:
             except Exception as exc:
                 entry["status"] = "error"
                 entry["error"] = str(exc)
-                print(f"[Step6] 送信エラー: {exc}", flush=True)
+                print(f"[Step6] 騾∽ｿ｡繧ｨ繝ｩ繝ｼ: {exc}", flush=True)
         _append_log(entry)
         results.append(entry)
     if not results and dry_run:
-        print("[Step6] dry-run: 提案メール送信スキップ", flush=True)
+        print("[Step6] dry-run: 謠先｡医Γ繝ｼ繝ｫ騾∽ｿ｡繧ｹ繧ｭ繝�繝�", flush=True)
     return results
 
 
@@ -5281,88 +5281,88 @@ if __name__ == "__main__":
 from __future__ import annotations
 
 
-IKOUKAKUNIN_SUBJECT = "{candidate_name}様 案件ご検討のお願い（{role_area}）"
+IKOUKAKUNIN_SUBJECT = "{candidate_name}讒� 譯井ｻｶ縺疲､懆ｨ弱�ｮ縺企｡倥＞�ｼ�{role_area}�ｼ�"
 
-IKOUKAKUNIN_TEMPLATE = """{affiliation} {contact_name}様
+IKOUKAKUNIN_TEMPLATE = """{affiliation} {contact_name}讒�
 
-いつもお世話になっております。
+縺�縺､繧ゅ♀荳冶ｩｱ縺ｫ縺ｪ縺｣縺ｦ縺翫ｊ縺ｾ縺吶�
 
-人員のご紹介ありがとうございます。
-下記案件いかがでしょうか。
-ご検討いただけますと幸いです。
+莠ｺ蜩｡縺ｮ縺皮ｴｹ莉九≠繧翫′縺ｨ縺�縺斐＊縺�縺ｾ縺吶�
+荳玖ｨ俶｡井ｻｶ縺�縺九′縺ｧ縺励ｇ縺�縺九�
+縺疲､懆ｨ弱＞縺溘□縺代∪縺吶→蟷ｸ縺�縺ｧ縺吶�
 
-また、エントリーいただける場合下記2点ご教授いただけますと幸いです。
-・並行状況
-・必須、尚可の○×
+縺ｾ縺溘√お繝ｳ繝医Μ繝ｼ縺�縺溘□縺代ｋ蝣ｴ蜷井ｸ玖ｨ�2轤ｹ縺疲蕗謗医＞縺溘□縺代∪縺吶→蟷ｸ縺�縺ｧ縺吶�
+繝ｻ荳ｦ陦檎憾豕�
+繝ｻ蠢�鬆医∝ｰ壼庄縺ｮ笳凝�
 
-━━━━━━━━━━━━━━━━━━
-■ 案件概要
-━━━━━━━━━━━━━━━━━━
-案件名    : {project_name}
-業務内容  : {description}
-必須スキル: {required_skills}
-尚可スキル: {preferred_skills}
-単価      : {proposed_price}万円
-期間      : {period}
-勤務地    : {location}（リモート可否: {remote}）
-面談      : {interview_count}回
-外国籍    : {foreign_ok}
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆 譯井ｻｶ讎りｦ�
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+譯井ｻｶ蜷�    : {project_name}
+讌ｭ蜍吝��螳ｹ  : {description}
+蠢�鬆医せ繧ｭ繝ｫ: {required_skills}
+蟆壼庄繧ｹ繧ｭ繝ｫ: {preferred_skills}
+蜊倅ｾ｡      : {proposed_price}荳�蜀�
+譛滄俣      : {period}
+蜍､蜍吝慍    : {location}�ｼ医Μ繝｢繝ｼ繝亥庄蜷ｦ: {remote}�ｼ�
+髱｢隲�      : {interview_count}蝗�
+螟門嵜邀�    : {foreign_ok}
 
-━━━━━━━━━━━━━━━━━━
-■ ご記入フォーマット
-━━━━━━━━━━━━━━━━━━
-▼必須スキル（○/×）
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆 縺碑ｨ伜�･繝輔か繝ｼ繝槭ャ繝�
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆ｼ蠢�鬆医せ繧ｭ繝ｫ�ｼ遺雷/ﾃ暦ｼ�
 {required_format}
-▼尚可スキル（○/×）
+笆ｼ蟆壼庄繧ｹ繧ｭ繝ｫ�ｼ遺雷/ﾃ暦ｼ�
 {preferred_format}
 
-▼並行状況
- 例）
-  ・A社: 面談調整中
-  ・B社: 面談予定 2/2（○月○日）
-  ・C社: 結果待ち 2/2（面談実施日 ○月○日）
+笆ｼ荳ｦ陦檎憾豕�
+ 萓具ｼ�
+  繝ｻA遉ｾ: 髱｢隲�隱ｿ謨ｴ荳ｭ
+  繝ｻB遉ｾ: 髱｢隲�莠亥ｮ� 2/2�ｼ遺雷譛遺雷譌･�ｼ�
+  繝ｻC遉ｾ: 邨先棡蠕�縺｡ 2/2�ｼ磯擇隲�螳滓命譌･ 笳区怦笳区律�ｼ�
 
-何卒よろしくお願いいたします。
+菴募穀繧医ｍ縺励￥縺企｡倥＞縺�縺溘＠縺ｾ縺吶�
 """
 
-PROPOSAL_SUBJECT = "{project_name} ご提案"
+PROPOSAL_SUBJECT = "{project_name} 縺疲署譯�"
 
-PROPOSAL_TEMPLATE = """ご担当者様
+PROPOSAL_TEMPLATE = """縺疲球蠖楢�讒�
 
-いつもお世話になっております。
-下記の通り、候補者をご提案いたします。
+縺�縺､繧ゅ♀荳冶ｩｱ縺ｫ縺ｪ縺｣縺ｦ縺翫ｊ縺ｾ縺吶�
+荳玖ｨ倥�ｮ騾壹ｊ縲∝呵｣懆�繧偵＃謠先｡医＞縺溘＠縺ｾ縺吶�
 
-━━━━━━━━━━━━━━━━━━
-■ 案件
-━━━━━━━━━━━━━━━━━━
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆 譯井ｻｶ
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
 {project_name}
 
-━━━━━━━━━━━━━━━━━━
-■ ご提案候補者
-━━━━━━━━━━━━━━━━━━
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆 縺疲署譯亥呵｣懆�
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
 {candidate_blocks}
 
-━━━━━━━━━━━━━━━━━━
-■ サマリー
-━━━━━━━━━━━━━━━━━━
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
+笆 繧ｵ繝槭Μ繝ｼ
+笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤笏≫煤
 {summary}
 
-ご確認のほど、何卒よろしくお願いいたします。
+縺皮｢ｺ隱阪�ｮ縺ｻ縺ｩ縲∽ｽ募穀繧医ｍ縺励￥縺企｡倥＞縺�縺溘＠縺ｾ縺吶�
 """
 
-CANDIDATE_TEMPLATE = """【{rank_label}】{name}
-単価: {price}万円
-稼働開始: {available_date}
-必須スキル: {required}
-尚可スキル: {preferred}
-補足: {appeal}
+CANDIDATE_TEMPLATE = """縲須rank_label}縲捜name}
+蜊倅ｾ｡: {price}荳�蜀�
+遞ｼ蜒埼幕蟋�: {available_date}
+蠢�鬆医せ繧ｭ繝ｫ: {required}
+蟆壼庄繧ｹ繧ｭ繝ｫ: {preferred}
+陬懆ｶｳ: {appeal}
 """
 
 
 def skill_format(skills: list[str]) -> str:
     if not skills:
-        return "・特になし"
-    return "\n".join(f"・{skill}: " for skill in skills)
+        return "繝ｻ迚ｹ縺ｫ縺ｪ縺�"
+    return "\n".join(f"繝ｻ{skill}: " for skill in skills)
 
 ```
 
@@ -5371,11 +5371,11 @@ def skill_format(skills: list[str]) -> str:
 ```py
 """
 mail_pipeline.py - v5.1
-v4からの変更:
-- 人材メール受信時: 添付スキルシート（PDF/Word/画像）を自動検出
-- skill_readerでスキル抽出 → 案件照合 → 粗利ジャスト意向確認文生成
-- 添付なし場合はメール本文からスキル抽出（従来通り）
-- 案件登録時もskill_readerのget_active_projects/match_skillsを利用
+v4縺九ｉ縺ｮ螟画峩:
+- 莠ｺ譚舌Γ繝ｼ繝ｫ蜿嶺ｿ｡譎�: 豺ｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝茨ｼ�PDF/Word/逕ｻ蜒擾ｼ峨ｒ閾ｪ蜍墓､懷�ｺ
+- skill_reader縺ｧ繧ｹ繧ｭ繝ｫ謚ｽ蜃ｺ 竊� 譯井ｻｶ辣ｧ蜷� 竊� 邊怜茜繧ｸ繝｣繧ｹ繝域э蜷醍｢ｺ隱肴枚逕滓��
+- 豺ｻ莉倥↑縺怜ｴ蜷医�ｯ繝｡繝ｼ繝ｫ譛ｬ譁�縺九ｉ繧ｹ繧ｭ繝ｫ謚ｽ蜃ｺ�ｼ亥ｾ捺擂騾壹ｊ�ｼ�
+- 譯井ｻｶ逋ｻ骭ｲ譎ゅｂskill_reader縺ｮget_active_projects/match_skills繧貞茜逕ｨ
 """
 
 import imaplib
@@ -5392,7 +5392,7 @@ from email.utils import parsedate_to_datetime
 from dotenv import dotenv_values
 from pathlib import Path
 
-# skill_readerをインポート
+# skill_reader繧偵う繝ｳ繝昴�ｼ繝�
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from skill_reader.skill_reader import (
@@ -5402,7 +5402,7 @@ from skill_reader.skill_reader import (
 )
 from usage_tracker.cost_logger import log_cost
 
-# ===== 設定 =====
+# ===== 險ｭ螳� =====
 BASE_DIR = Path(__file__).parent
 ENV_PATH = BASE_DIR.parent / "config" / ".env"
 DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
@@ -5436,53 +5436,53 @@ NOTION_HEADERS = {
 
 VALID_SKILLS = [
     "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
-    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
+    "React", "AWS", "繧､繝ｳ繝輔Λ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
     "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
     "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
 ]
 
-DOUBLE_CHECK_SYSTEM = f"""あなたはSES業界のダブルチェック専門AIです。
-提案文と候補者情報を受け取り、以下のルールで厳密にチェックしてください。
+DOUBLE_CHECK_SYSTEM = f"""縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ繝繝悶Ν繝√ぉ繝�繧ｯ蟆る摩AI縺ｧ縺吶�
+謠先｡域枚縺ｨ蛟呵｣懆�諠�蝣ｱ繧貞女縺大叙繧翫∽ｻ･荳九�ｮ繝ｫ繝ｼ繝ｫ縺ｧ蜴ｳ蟇�縺ｫ繝√ぉ繝�繧ｯ縺励※縺上□縺輔＞縲�
 
-今日の日付: {date.today().isoformat()}
+莉頑律縺ｮ譌･莉�: {date.today().isoformat()}
 
-【1. 除外ルール違反】
-- 外国籍人材が含まれていないか
-- 地方在住（関東以外）が含まれていないか
-- 短期案件連続の人材が含まれていないか
-- ブランクがある人材が含まれていないか
-- 既往歴がある人材が含まれていないか
+縲�1. 髯､螟悶Ν繝ｼ繝ｫ驕募渚縲�
+- 螟門嵜邀堺ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 蝨ｰ譁ｹ蝨ｨ菴擾ｼ磯未譚ｱ莉･螟厄ｼ峨′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 遏ｭ譛滓｡井ｻｶ騾｣邯壹�ｮ莠ｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 繝悶Λ繝ｳ繧ｯ縺後≠繧倶ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 譌｢蠕豁ｴ縺後≠繧倶ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
 
-【2. 単価チェック（粗利）】
-- 粗利 = 案件単価 - エンジニア単価
-- 粗利5万円未満はNG / 粗利7万円以上が目標
+縲�2. 蜊倅ｾ｡繝√ぉ繝�繧ｯ�ｼ育ｲ怜茜�ｼ峨�
+- 邊怜茜 = 譯井ｻｶ蜊倅ｾ｡ - 繧ｨ繝ｳ繧ｸ繝九い蜊倅ｾ｡
+- 邊怜茜5荳�蜀�譛ｪ貅縺ｯNG / 邊怜茜7荳�蜀�莉･荳翫′逶ｮ讓�
 
-【3. 並行スコア】
-- 面談調整中:1.5 / 面談予定:2.0 / 結果待ち1-2日:2.5 / 3-7日:2.0 / 8-14日:1.5 / 15日超:1.0 / オファー中:5.0
-- 合計5.0以上はNG
+縲�3. 荳ｦ陦後せ繧ｳ繧｢縲�
+- 髱｢隲�隱ｿ謨ｴ荳ｭ:1.5 / 髱｢隲�莠亥ｮ�:2.0 / 邨先棡蠕�縺｡1-2譌･:2.5 / 3-7譌･:2.0 / 8-14譌･:1.5 / 15譌･雜�:1.0 / 繧ｪ繝輔ぃ繝ｼ荳ｭ:5.0
+- 蜷郁ｨ�5.0莉･荳翫�ｯNG
 
-【4. 敬語・表現チェック】
-- 「充足」→「全て満たしており」
-- 「即戦力です」→「マッチ度高い人員かと存じます」
+縲�4. 謨ｬ隱槭�ｻ陦ｨ迴ｾ繝√ぉ繝�繧ｯ縲�
+- 縲悟��雜ｳ縲坂�偵悟�ｨ縺ｦ貅縺溘＠縺ｦ縺翫ｊ縲�
+- 縲悟叉謌ｦ蜉帙〒縺吶坂�偵後�槭ャ繝∝ｺｦ鬮倥＞莠ｺ蜩｡縺九→蟄倥§縺ｾ縺吶�
 
-【5. 固有名詞マスキング】
-- 企業名・担当者名・連絡先が残っていないか
+縲�5. 蝗ｺ譛牙錐隧槭�槭せ繧ｭ繝ｳ繧ｰ縲�
+- 莨∵･ｭ蜷阪�ｻ諡�蠖楢�蜷阪�ｻ騾｣邨｡蜈医′谿九▲縺ｦ縺�縺ｪ縺�縺�
 
-出力フォーマット:
-【判定】OK / NG
-【チェック結果】
-1. 除外ルール: OK/NG（理由）
-2. 単価・粗利: OK/NG（詳細）
-3. 並行スコア: OK/NG（詳細）
-4. 敬語表現: OK/NG（修正箇所）
-5. マスキング: OK/NG（漏れ箇所）
-【修正済み提案文】
-NGの場合は修正した提案文、OKの場合は「修正不要」
-【所見】
-気になる点があれば一言"""
+蜃ｺ蜉帙ヵ繧ｩ繝ｼ繝槭ャ繝�:
+縲仙愛螳壹前K / NG
+縲舌メ繧ｧ繝�繧ｯ邨先棡縲�
+1. 髯､螟悶Ν繝ｼ繝ｫ: OK/NG�ｼ育炊逕ｱ�ｼ�
+2. 蜊倅ｾ｡繝ｻ邊怜茜: OK/NG�ｼ郁ｩｳ邏ｰ�ｼ�
+3. 荳ｦ陦後せ繧ｳ繧｢: OK/NG�ｼ郁ｩｳ邏ｰ�ｼ�
+4. 謨ｬ隱櫁｡ｨ迴ｾ: OK/NG�ｼ井ｿｮ豁｣邂�謇�ｼ�
+5. 繝槭せ繧ｭ繝ｳ繧ｰ: OK/NG�ｼ域ｼ上ｌ邂�謇�ｼ�
+縲蝉ｿｮ豁｣貂医∩謠先｡域枚縲�
+NG縺ｮ蝣ｴ蜷医�ｯ菫ｮ豁｣縺励◆謠先｡域枚縲＾K縺ｮ蝣ｴ蜷医�ｯ縲御ｿｮ豁｣荳崎ｦ√�
+縲先園隕九�
+豌励↓縺ｪ繧狗せ縺後≠繧後�ｰ荳險"""
 
 
-# ===== ログ =====
+# ===== 繝ｭ繧ｰ =====
 def log(msg: str):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"[{ts}] {msg}"
@@ -5498,22 +5498,22 @@ def is_valid_iso_date(s) -> bool:
 
 
 def get_input_source_label(email_user: str) -> str:
-    """IMAPログインアカウントから入力元ラベルを返す"""
+    """IMAP繝ｭ繧ｰ繧､繝ｳ繧｢繧ｫ繧ｦ繝ｳ繝医°繧牙�･蜉帛��繝ｩ繝吶Ν繧定ｿ斐☆"""
     if "r-matsuno" in (email_user or ""):
-        return "松野メール"
+        return "譚ｾ驥弱Γ繝ｼ繝ｫ"
     if "r-okamoto" in (email_user or ""):
-        return "岡本メール"
-    return "共通メール"
+        return "蟯｡譛ｬ繝｡繝ｼ繝ｫ"
+    return "蜈ｱ騾壹Γ繝ｼ繝ｫ"
 
 
-# ===== 処理済みID管理 =====
+# ===== 蜃ｦ逅�貂医∩ID邂｡逅� =====
 def load_processed_ids() -> set:
     try:
         if PROCESSED_IDS_PATH.exists():
             with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
                 return set(json.load(f))
     except Exception as e:
-        log(f"processed_ids読み込みエラー: {e}")
+        log(f"processed_ids隱ｭ縺ｿ霎ｼ縺ｿ繧ｨ繝ｩ繝ｼ: {e}")
     return set()
 
 
@@ -5526,10 +5526,10 @@ def save_processed_id(msg_id: str, processed: set):
         with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
             json.dump(ids_list, f, ensure_ascii=False)
     except Exception as e:
-        log(f"processed_ids保存エラー: {e}")
+        log(f"processed_ids菫晏ｭ倥お繝ｩ繝ｼ: {e}")
 
 
-# ===== メール取得（添付ファイル対応 v5新規）=====
+# ===== 繝｡繝ｼ繝ｫ蜿門ｾ暦ｼ域ｷｻ莉倥ヵ繧｡繧､繝ｫ蟇ｾ蠢� v5譁ｰ隕擾ｼ�=====
 def decode_str(s):
     if not s:
         return ""
@@ -5554,7 +5554,7 @@ SKILL_SHEET_EXTENSIONS = {".pdf", ".docx", ".doc", ".png", ".jpg", ".jpeg"}
 
 
 def get_body_and_attachments(msg):
-    """本文テキストと添付スキルシート（バイナリ+MIMEタイプ）を取得"""
+    """譛ｬ譁�繝�繧ｭ繧ｹ繝医→豺ｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝茨ｼ医ヰ繧､繝翫Μ+MIME繧ｿ繧､繝暦ｼ峨ｒ蜿門ｾ�"""
     body = ""
     attachments = []  # [{"data": bytes, "mime": str, "filename": str}]
 
@@ -5564,7 +5564,7 @@ def get_body_and_attachments(msg):
         filename_raw = part.get_filename()
         filename     = decode_str(filename_raw) if filename_raw else ""
 
-        # 本文テキスト
+        # 譛ｬ譁�繝�繧ｭ繧ｹ繝�
         if content_type == "text/plain" and "attachment" not in disposition:
             charset = part.get_content_charset() or "utf-8"
             try:
@@ -5573,7 +5573,7 @@ def get_body_and_attachments(msg):
                 pass
             continue
 
-        # 添付ファイル判定
+        # 豺ｻ莉倥ヵ繧｡繧､繝ｫ蛻､螳�
         ext = Path(filename).suffix.lower() if filename else ""
         is_skill_sheet = (
             content_type in SKILL_SHEET_MIME_TYPES or
@@ -5583,7 +5583,7 @@ def get_body_and_attachments(msg):
         if is_skill_sheet and ("attachment" in disposition or filename):
             data = part.get_payload(decode=True)
             if data:
-                # MIMEタイプを正規化
+                # MIME繧ｿ繧､繝励ｒ豁｣隕丞喧
                 mime = content_type
                 if ext == ".pdf":
                     mime = "application/pdf"
@@ -5594,31 +5594,31 @@ def get_body_and_attachments(msg):
                 elif ext in (".jpg", ".jpeg"):
                     mime = "image/jpeg"
                 attachments.append({"data": data, "mime": mime, "filename": filename})
-                log(f"    添付検出: {filename} ({mime}) {len(data)}bytes")
+                log(f"    豺ｻ莉俶､懷�ｺ: {filename} ({mime}) {len(data)}bytes")
 
     return body.strip(), attachments
 
 
 def fetch_recent_emails(limit: int = 50):
-    log(f"IMAP接続開始（直近{limit}件取得）")
+    log(f"IMAP謗･邯夐幕蟋具ｼ育峩霑捜limit}莉ｶ蜿門ｾ暦ｼ�")
     ctx = ssl.create_default_context()
     try:
         mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT, ssl_context=ctx)
         mail.login(EMAIL_USER, EMAIL_PASS)
         mail.select("INBOX")
     except Exception as e:
-        log(f"IMAP接続エラー: {e}")
+        log(f"IMAP謗･邯壹お繝ｩ繝ｼ: {e}")
         return []
 
     status, messages = mail.search(None, "ALL")
     if status != "OK" or not messages[0]:
-        log("対象メールなし")
+        log("蟇ｾ雎｡繝｡繝ｼ繝ｫ縺ｪ縺�")
         mail.logout()
         return []
 
     all_ids = messages[0].split()
     target_ids = list(reversed(all_ids[-limit:]))
-    log(f"全件数: {len(all_ids)}件 → 直近{len(target_ids)}件を処理対象")
+    log(f"蜈ｨ莉ｶ謨ｰ: {len(all_ids)}莉ｶ 竊� 逶ｴ霑捜len(target_ids)}莉ｶ繧貞�ｦ逅�蟇ｾ雎｡")
 
     emails = []
     for mail_id in target_ids:
@@ -5637,17 +5637,17 @@ def fetch_recent_emails(limit: int = 50):
                 "id": mail_id, "msg_id": msg_id,
                 "subject": subject, "sender": sender,
                 "reply_to": reply_to, "body": body,
-                "attachments": attachments  # v5追加
+                "attachments": attachments  # v5霑ｽ蜉
             })
         except Exception as e:
-            log(f"メール取得エラー: {e}")
+            log(f"繝｡繝ｼ繝ｫ蜿門ｾ励お繝ｩ繝ｼ: {e}")
 
     mail.logout()
-    log(f"取得完了: {len(emails)}件")
+    log(f"蜿門ｾ怜ｮ御ｺ�: {len(emails)}莉ｶ")
     return emails
 
 
-# ===== スキルフィルタリング =====
+# ===== 繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ =====
 def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATCH_TOP_N) -> list:
     required  = [s.lower() for s in project.get("required_skills", [])]
     optional  = [s.lower() for s in project.get("optional_skills", [])]
@@ -5697,39 +5697,39 @@ def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
                 cached_tokens=usage.get("cache_read_input_tokens", 0),
             )
             return data["content"][0]["text"]
-        log(f"Claude APIエラー: {res.status_code} {res.text[:200]}")
+        log(f"Claude API繧ｨ繝ｩ繝ｼ: {res.status_code} {res.text[:200]}")
         return ""
     except Exception as e:
-        log(f"Claude呼び出し例外: {e}")
+        log(f"Claude蜻ｼ縺ｳ蜃ｺ縺嶺ｾ句､�: {e}")
         return ""
 
 
 def classify_email(subject: str, body: str) -> dict:
-    system = """あなたはSES業界の情報解析AIです。メールを解析してJSON形式のみで返答してください。
+    system = """縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ諠�蝣ｱ隗｣譫植I縺ｧ縺吶ゅΓ繝ｼ繝ｫ繧定ｧ｣譫舌＠縺ｦJSON蠖｢蠑上�ｮ縺ｿ縺ｧ霑皮ｭ斐＠縺ｦ縺上□縺輔＞縲�
 
-案件情報の場合:
-{"type":"project","name":"案件名","required_skills":["Java"],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"不明","period":"","interview_count":1,"foreign_ok":false,"note":"業務内容"}
+譯井ｻｶ諠�蝣ｱ縺ｮ蝣ｴ蜷�:
+{"type":"project","name":"譯井ｻｶ蜷�","required_skills":["Java"],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"荳肴��","period":"","interview_count":1,"foreign_ok":false,"note":"讌ｭ蜍吝��螳ｹ"}
 
-人材情報の場合:
-{"type":"engineer","name":"氏名","skills":["Java"],"price":0,"available_date":"","experience_years":0,"company":"","note":"備考"}
+莠ｺ譚先ュ蝣ｱ縺ｮ蝣ｴ蜷�:
+{"type":"engineer","name":"豌丞錐","skills":["Java"],"price":0,"available_date":"","experience_years":0,"company":"","note":"蛯呵�"}
 
-どちらでもない場合:
-{"type":"other","note":"内容要約"}"""
-    text = f"件名: {subject}\n\n{body[:2000]}"
+縺ｩ縺｡繧峨〒繧ゅ↑縺�蝣ｴ蜷�:
+{"type":"other","note":"蜀�螳ｹ隕∫ｴ�"}"""
+    text = f"莉ｶ蜷�: {subject}\n\n{body[:2000]}"
     result = call_claude(system, text)
     try:
         clean = re.sub(r"```json|```", "", result).strip()
         parsed = json.loads(clean)
-        return parsed if isinstance(parsed, dict) else {"type": "other", "note": "予期しない形式"}
+        return parsed if isinstance(parsed, dict) else {"type": "other", "note": "莠域悄縺励↑縺�蠖｢蠑�"}
     except:
-        return {"type": "other", "note": "解析失敗"}
+        return {"type": "other", "note": "隗｣譫仙､ｱ謨�"}
 
 
 def extract_affiliation(body: str) -> str:
-    """メール本文から所属会社名を抽出。取れなければ空文字。"""
+    """繝｡繝ｼ繝ｫ譛ｬ譁�縺九ｉ謇螻樔ｼ夂､ｾ蜷阪ｒ謚ｽ蜃ｺ縲ょ叙繧後↑縺代ｌ縺ｰ遨ｺ譁�蟄励�"""
     if not ANTHROPIC_KEY or not body:
         return ""
-    system = 'メール本文から送信元または紹介元の所属会社名だけを抽出し、JSONのみで返してください。形式: {"company":""}'
+    system = '繝｡繝ｼ繝ｫ譛ｬ譁�縺九ｉ騾∽ｿ｡蜈�縺ｾ縺溘�ｯ邏ｹ莉句��縺ｮ謇螻樔ｼ夂､ｾ蜷阪□縺代ｒ謚ｽ蜃ｺ縺励゛SON縺ｮ縺ｿ縺ｧ霑斐＠縺ｦ縺上□縺輔＞縲ょｽ｢蠑�: {"company":""}'
     result = call_claude(system, body[:2000], max_tokens=120)
     try:
         clean = re.sub(r"```json|```", "", result).strip()
@@ -5741,19 +5741,19 @@ def extract_affiliation(body: str) -> str:
 
 
 def ai_matching(project: dict, engineers: list) -> dict:
-    system = """あなたはSES業界のマッチングAIです。JSONで返してください。
+    system = """縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ繝槭ャ繝√Φ繧ｰAI縺ｧ縺吶�JSON縺ｧ霑斐＠縺ｦ縺上□縺輔＞縲�
 
-除外ルール:
-- 必須スキルに✕ → 除外
-- 単価乖離5万超 → 除外
+髯､螟悶Ν繝ｼ繝ｫ:
+- 蠢�鬆医せ繧ｭ繝ｫ縺ｫ笨� 竊� 髯､螟�
+- 蜊倅ｾ｡荵夜屬5荳�雜� 竊� 髯､螟�
 
-サマリー文（禁止: 充足・即戦力です）:
-- 必須全○+尚可全○ → "必須・尚可ともにマッチ度高い人員"
-- 必須全○+尚可○率50%以上 → "必須全て満たしており、尚可も○項目経験あり"
-- 必須全○のみ → "必須スキル全て満たし即稼働可能"
+繧ｵ繝槭Μ繝ｼ譁��ｼ育ｦ∵ｭ｢: 蜈�雜ｳ繝ｻ蜊ｳ謌ｦ蜉帙〒縺呻ｼ�:
+- 蠢�鬆亥�ｨ笳�+蟆壼庄蜈ｨ笳� 竊� "蠢�鬆医�ｻ蟆壼庄縺ｨ繧ゅ↓繝槭ャ繝∝ｺｦ鬮倥＞莠ｺ蜩｡"
+- 蠢�鬆亥�ｨ笳�+蟆壼庄笳狗紫50%莉･荳� 竊� "蠢�鬆亥�ｨ縺ｦ貅縺溘＠縺ｦ縺翫ｊ縲∝ｰ壼庄繧や雷鬆�逶ｮ邨碁ｨ薙≠繧�"
+- 蠢�鬆亥�ｨ笳九�ｮ縺ｿ 竊� "蠢�鬆医せ繧ｭ繝ｫ蜈ｨ縺ｦ貅縺溘＠蜊ｳ遞ｼ蜒榊庄閭ｽ"
 
-返答フォーマット:
-{"candidates":[{"name":"氏名","price":0,"summary":"サマリー","required_match":{},"optional_match":{},"parallel":"なし"}],"proposal_draft":"提案メール本文"}"""
+霑皮ｭ斐ヵ繧ｩ繝ｼ繝槭ャ繝�:
+{"candidates":[{"name":"豌丞錐","price":0,"summary":"繧ｵ繝槭Μ繝ｼ","required_match":{},"optional_match":{},"parallel":"縺ｪ縺�"}],"proposal_draft":"謠先｡医Γ繝ｼ繝ｫ譛ｬ譁�"}"""
     payload = {"project": project, "engineers": engineers}
     result = call_claude(system, json.dumps(payload, ensure_ascii=False), max_tokens=2000)
     try:
@@ -5767,7 +5767,7 @@ def double_check(text: str) -> str:
     return call_claude(DOUBLE_CHECK_SYSTEM, text, max_tokens=2000)
 
 
-# ===== Notion操作 =====
+# ===== Notion謫堺ｽ� =====
 def get_database_property_names(db_id: str) -> set:
     if not db_id:
         return set()
@@ -5781,20 +5781,20 @@ def get_database_property_names(db_id: str) -> set:
             if res.status_code == 200:
                 DB_PROPERTY_CACHE[db_id] = set(res.json().get("properties", {}).keys())
             else:
-                log(f"Notion DBプロパティ取得スキップ: {res.status_code} {res.text[:120]}")
+                log(f"Notion DB繝励Ο繝代ユ繧｣蜿門ｾ励せ繧ｭ繝�繝�: {res.status_code} {res.text[:120]}")
                 DB_PROPERTY_CACHE[db_id] = set()
         except Exception as e:
-            log(f"Notion DBプロパティ取得例外: {e}")
+            log(f"Notion DB繝励Ο繝代ユ繧｣蜿門ｾ嶺ｾ句､�: {e}")
             DB_PROPERTY_CACHE[db_id] = set()
     return DB_PROPERTY_CACHE[db_id]
 
 
 def add_input_source_properties(properties: dict, db_id: str, input_source: str, affiliation: str):
     prop_names = get_database_property_names(db_id)
-    if input_source and "入力元" in prop_names:
-        properties["入力元"] = {"select": {"name": input_source}}
-    if affiliation and "所属会社名" in prop_names:
-        properties["所属会社名"] = {"rich_text": [{"text": {"content": affiliation[:500]}}]}
+    if input_source and "蜈･蜉帛��" in prop_names:
+        properties["蜈･蜉帛��"] = {"select": {"name": input_source}}
+    if affiliation and "謇螻樔ｼ夂､ｾ蜷�" in prop_names:
+        properties["謇螻樔ｼ夂､ｾ蜷�"] = {"rich_text": [{"text": {"content": affiliation[:500]}}]}
 
 
 def notion_query(db_id: str, filter_obj: dict = None) -> list:
@@ -5816,25 +5816,25 @@ def notion_query(db_id: str, filter_obj: dict = None) -> list:
 
 
 def register_project(info: dict, subject: str, sender: str, input_source: str = "", affiliation: str = "") -> bool:
-    name = info.get("name") or f"【{subject[:20]}】"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    name = info.get("name") or f"縲須subject[:20]}縲�"
+    note = f"縲舌Γ繝ｼ繝ｫ縺九ｉ閾ｪ蜍慕匳骭ｲ縲曾n騾∽ｿ｡閠�: {sender}\n莉ｶ蜷�: {subject}\n\n{info.get('note','')}"
     properties = {
-        "案件名": {"title": [{"text": {"content": name}}]},
-        "ステータス": {"select": {"name": "募集中"}},
-        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "譯井ｻｶ蜷�": {"title": [{"text": {"content": name}}]},
+        "繧ｹ繝�繝ｼ繧ｿ繧ｹ": {"select": {"name": "蜍滄寔荳ｭ"}},
+        "譯井ｻｶ隧ｳ邏ｰ": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
     if req:
-        properties["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+        properties["蠢�隕√せ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in req]}
     if opt:
-        properties["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
+        properties["蟆壼庄繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in opt]}
     if info.get("price"):
-        properties["単価（万円）"] = {"number": info["price"]}
+        properties["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": info["price"]}
     if is_valid_iso_date(info.get("start_date")):
-        properties["開始日"] = {"date": {"start": info["start_date"].strip()}}
+        properties["髢句ｧ区律"] = {"date": {"start": info["start_date"].strip()}}
     if info.get("location"):
-        properties["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+        properties["蜍､蜍吝慍"] = {"rich_text": [{"text": {"content": info["location"]}}]}
     add_input_source_properties(properties, PROJECT_DB, input_source, affiliation)
     res = requests.post(
         "https://api.notion.com/v1/pages",
@@ -5845,23 +5845,23 @@ def register_project(info: dict, subject: str, sender: str, input_source: str = 
 
 
 def register_engineer(info: dict, subject: str, sender: str, input_source: str = "", affiliation: str = "") -> tuple:
-    """エンジニア登録、NotionページIDも返す"""
-    name = info.get("name") or "（名前未記載）"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    """繧ｨ繝ｳ繧ｸ繝九い逋ｻ骭ｲ縲¨otion繝壹�ｼ繧ｸID繧りｿ斐☆"""
+    name = info.get("name") or "�ｼ亥錐蜑肴悴險倩ｼ会ｼ�"
+    note = f"縲舌Γ繝ｼ繝ｫ縺九ｉ閾ｪ蜍慕匳骭ｲ縲曾n騾∽ｿ｡閠�: {sender}\n莉ｶ蜷�: {subject}\n\n{info.get('note','')}"
     properties = {
-        "名前": {"title": [{"text": {"content": name}}]},
-        "稼働状況": {"select": {"name": "稼働可能"}},
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "蜷榊燕": {"title": [{"text": {"content": name}}]},
+        "遞ｼ蜒咲憾豕�": {"select": {"name": "遞ｼ蜒榊庄閭ｽ"}},
+        "蛯呵��ｼ�LINE繝｡繝｢�ｼ�": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills:
-        properties["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+        properties["繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in skills]}
     if info.get("price"):
-        properties["単価（万円）"] = {"number": info["price"]}
+        properties["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": info["price"]}
     if is_valid_iso_date(info.get("available_date")):
-        properties["稼働可能日"] = {"date": {"start": info["available_date"].strip()}}
+        properties["遞ｼ蜒榊庄閭ｽ譌･"] = {"date": {"start": info["available_date"].strip()}}
     if info.get("experience_years"):
-        properties["経験年数"] = {"number": info["experience_years"]}
+        properties["邨碁ｨ灘ｹｴ謨ｰ"] = {"number": info["experience_years"]}
     add_input_source_properties(properties, ENGINEER_DB, input_source, affiliation)
     res = requests.post(
         "https://api.notion.com/v1/pages",
@@ -5876,35 +5876,35 @@ def register_engineer(info: dict, subject: str, sender: str, input_source: str =
 
 def get_available_engineers() -> list:
     pages = notion_query(ENGINEER_DB, {
-        "property": "稼働状況", "select": {"equals": "稼働可能"}
+        "property": "遞ｼ蜒咲憾豕�", "select": {"equals": "遞ｼ蜒榊庄閭ｽ"}
     })
     engineers = []
     for p in pages:
         props = p["properties"]
-        name_prop = props.get("名前", {}).get("title", [])
-        name   = name_prop[0]["plain_text"] if name_prop else "未記載"
-        skills = [o["name"] for o in props.get("スキル", {}).get("multi_select", [])]
-        price  = props.get("単価（万円）", {}).get("number", 0) or 0
-        avail  = (props.get("稼働可能日", {}).get("date") or {}).get("start", "")
-        note_prop = props.get("備考（LINEメモ）", {}).get("rich_text", [])
+        name_prop = props.get("蜷榊燕", {}).get("title", [])
+        name   = name_prop[0]["plain_text"] if name_prop else "譛ｪ險倩ｼ�"
+        skills = [o["name"] for o in props.get("繧ｹ繧ｭ繝ｫ", {}).get("multi_select", [])]
+        price  = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number", 0) or 0
+        avail  = (props.get("遞ｼ蜒榊庄閭ｽ譌･", {}).get("date") or {}).get("start", "")
+        note_prop = props.get("蛯呵��ｼ�LINE繝｡繝｢�ｼ�", {}).get("rich_text", [])
         note   = note_prop[0]["plain_text"][:200] if note_prop else ""
         engineers.append({"name": name, "skills": skills, "price": price,
                           "available_date": avail, "note": note})
     return engineers
 
 
-# ===== スキルシート処理（v5新規）=====
+# ===== 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝亥�ｦ逅��ｼ�v5譁ｰ隕擾ｼ�=====
 def process_skill_sheet(attachment: dict, engineer_price: int = None,
-                        affiliation: str = "貴社") -> dict | None:
+                        affiliation: str = "雋ｴ遉ｾ") -> dict | None:
     """
-    添付スキルシートを処理してスキル抽出・案件照合・意向確認文を生成する。
+    豺ｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝医ｒ蜃ｦ逅�縺励※繧ｹ繧ｭ繝ｫ謚ｽ蜃ｺ繝ｻ譯井ｻｶ辣ｧ蜷医�ｻ諢丞髄遒ｺ隱肴枚繧堤函謌舌☆繧九�
     Returns: {"info": dict, "match_results": list, "iko_mail": str} or None
     """
     data = attachment["data"]
     mime = attachment["mime"]
     fname = attachment["filename"]
 
-    log(f"    スキルシート処理中: {fname}")
+    log(f"    繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝亥�ｦ逅�荳ｭ: {fname}")
     info = None
 
     try:
@@ -5913,7 +5913,7 @@ def process_skill_sheet(attachment: dict, engineer_price: int = None,
             if text:
                 info = extract_skills_from_text(text)
             else:
-                log("    (テキストなし → 画像変換)")
+                log("    (繝�繧ｭ繧ｹ繝医↑縺� 竊� 逕ｻ蜒丞､画鋤)")
                 b64img = pdf_to_base64_image(data)
                 if b64img:
                     info = extract_skills_from_image(b64img, "image/png")
@@ -5924,31 +5924,31 @@ def process_skill_sheet(attachment: dict, engineer_price: int = None,
             b64 = base64.standard_b64encode(data).decode()
             info = extract_skills_from_image(b64, mime)
     except Exception as e:
-        log(f"    スキルシート処理エラー: {e}")
+        log(f"    繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝亥�ｦ逅�繧ｨ繝ｩ繝ｼ: {e}")
         return None
 
     if not info:
-        log("    スキル抽出失敗")
+        log("    繧ｹ繧ｭ繝ｫ謚ｽ蜃ｺ螟ｱ謨�")
         return None
 
-    log(f"    抽出スキル: {', '.join(info.get('skills', []))}")
+    log(f"    謚ｽ蜃ｺ繧ｹ繧ｭ繝ｫ: {', '.join(info.get('skills', []))}")
 
-    # 案件照合
+    # 譯井ｻｶ辣ｧ蜷�
     projects = get_active_projects()
     match_results = match_skills(info.get("skills", []), projects, engineer_price)
 
-    # 意向確認メール生成
+    # 諢丞髄遒ｺ隱阪Γ繝ｼ繝ｫ逕滓��
     iko_mail = generate_iko_mail(info, match_results, engineer_price, affiliation)
 
     just_count = sum(1 for r in match_results
                      if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
-    log(f"    照合完了: 提案可{sum(1 for r in match_results if r['proposable'])}件 "
-        f"(粗利ジャスト{just_count}件)")
+    log(f"    辣ｧ蜷亥ｮ御ｺ�: 謠先｡亥庄{sum(1 for r in match_results if r['proposable'])}莉ｶ "
+        f"(邊怜茜繧ｸ繝｣繧ｹ繝�{just_count}莉ｶ)")
 
     return {"info": info, "match_results": match_results, "iko_mail": iko_mail}
 
 
-# ===== 下書き保存 =====
+# ===== 荳区嶌縺堺ｿ晏ｭ� =====
 def save_draft(proj_name: str, reply_to: str, candidates: list,
                check_result: str, final_proposal: str,
                skill_result: dict = None):
@@ -5957,48 +5957,48 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
     safe_name = re.sub(r'[\\/:*?"<>|]', '_', proj_name)[:30]
     path = DRAFTS_DIR / f"{ts}_{safe_name}.txt"
 
-    is_ok = "【判定】OK" in check_result
+    is_ok = "縲仙愛螳壹前K" in check_result
 
     content = f"""================================================================
-提案文下書き v5
-生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+謠先｡域枚荳区嶌縺� v5
+逕滓�先律譎�: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ================================================================
-【案件名】{proj_name}
-【返信先】{reply_to}
+縲先｡井ｻｶ蜷阪捜proj_name}
+縲占ｿ比ｿ｡蜈医捜reply_to}
 
-【候補者】
+縲仙呵｣懆�縲�
 """
     for i, c in enumerate(candidates[:3], 1):
-        content += f"  {'①②③'[i-1]} {c['name']} / {c.get('price',0)}万円\n"
+        content += f"  {'竭竭｡竭｢'[i-1]} {c['name']} / {c.get('price',0)}荳�蜀�\n"
         content += f"     {c.get('summary','')}\n"
 
     content += f"""
-【ダブルチェック結果】
-判定: {'[OK]' if is_ok else '[NG]'}
+縲舌ム繝悶Ν繝√ぉ繝�繧ｯ邨先棡縲�
+蛻､螳�: {'[OK]' if is_ok else '[NG]'}
 {check_result[:800]}
 
-【提案メール本文（送信可能版）】
+縲先署譯医Γ繝ｼ繝ｫ譛ｬ譁��ｼ磯∽ｿ｡蜿ｯ閭ｽ迚茨ｼ峨�
 {final_proposal}
 ================================================================
 """
 
-    # v5: スキルシート照合結果も付記
+    # v5: 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝育�ｧ蜷育ｵ先棡繧ゆｻ倩ｨ�
     if skill_result:
         just = [r for r in skill_result["match_results"]
                 if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12]
         content += f"""
-【スキルシート照合結果（skill_reader）】
-氏名: {skill_result['info'].get('name', '不明')}
-スキル: {', '.join(skill_result['info'].get('skills', []))}
-レベル: {skill_result['info'].get('level', '不明')}
+縲舌せ繧ｭ繝ｫ繧ｷ繝ｼ繝育�ｧ蜷育ｵ先棡�ｼ�skill_reader�ｼ峨�
+豌丞錐: {skill_result['info'].get('name', '荳肴��')}
+繧ｹ繧ｭ繝ｫ: {', '.join(skill_result['info'].get('skills', []))}
+繝ｬ繝吶Ν: {skill_result['info'].get('level', '荳肴��')}
 
-粗利ジャスト案件TOP:
+邊怜茜繧ｸ繝｣繧ｹ繝域｡井ｻｶTOP:
 """
         for r in just[:3]:
-            content += f"  {r['project_name']} | 粗利{r['gross']}万\n"
+            content += f"  {r['project_name']} | 邊怜茜{r['gross']}荳Ⅸn"
 
         content += f"""
-【意向確認メール文面】
+縲先э蜷醍｢ｺ隱阪Γ繝ｼ繝ｫ譁�髱｢縲�
 {skill_result['iko_mail']}
 ================================================================
 """
@@ -6010,10 +6010,10 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
 
 def save_engineer_draft(engineer_info: dict, match_results: list,
                         iko_mail: str, reply_to: str, sender: str):
-    """人材メール専用の下書き保存"""
+    """莠ｺ譚舌Γ繝ｼ繝ｫ蟆ら畑縺ｮ荳区嶌縺堺ｿ晏ｭ�"""
     DRAFTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    name = engineer_info.get("name", "不明")
+    name = engineer_info.get("name", "荳肴��")
     safe_name = re.sub(r'[\\/:*?"<>|]', '_', name)[:20]
     path = DRAFTS_DIR / f"{ts}_engineer_{safe_name}.txt"
 
@@ -6021,26 +6021,26 @@ def save_engineer_draft(engineer_info: dict, match_results: list,
             if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12]
 
     content = f"""================================================================
-人材メール処理結果 v5
-生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+莠ｺ譚舌Γ繝ｼ繝ｫ蜃ｦ逅�邨先棡 v5
+逕滓�先律譎�: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ================================================================
-【エンジニア】{name}
-【送信者】{sender}
-【返信先】{reply_to}
+縲舌お繝ｳ繧ｸ繝九い縲捜name}
+縲宣∽ｿ｡閠�縲捜sender}
+縲占ｿ比ｿ｡蜈医捜reply_to}
 
-【抽出スキル】{', '.join(engineer_info.get('skills', []))}
-【レベル推定】{engineer_info.get('level', '不明')}
-【概要】{engineer_info.get('summary', '')}
+縲先歓蜃ｺ繧ｹ繧ｭ繝ｫ縲捜', '.join(engineer_info.get('skills', []))}
+縲舌Ξ繝吶Ν謗ｨ螳壹捜engineer_info.get('level', '荳肴��')}
+縲先ｦりｦ√捜engineer_info.get('summary', '')}
 
-【粗利ジャスト案件（5〜12万）TOP{len(just)}件】
+縲千ｲ怜茜繧ｸ繝｣繧ｹ繝域｡井ｻｶ�ｼ�5縲�12荳��ｼ欝OP{len(just)}莉ｶ縲�
 """
     for r in just[:5]:
-        req_str = "  ".join(f"{s}:{'○' if v else '×'}" for s, v in r["required"].items()) or "なし"
-        content += f"  {r['project_name']} ({r['client']}) | {r['project_price']}万 | 粗利{r['gross']}万\n"
-        content += f"    必須: {req_str}\n"
+        req_str = "  ".join(f"{s}:{'笳�' if v else 'ﾃ�'}" for s, v in r["required"].items()) or "縺ｪ縺�"
+        content += f"  {r['project_name']} ({r['client']}) | {r['project_price']}荳� | 邊怜茜{r['gross']}荳Ⅸn"
+        content += f"    蠢�鬆�: {req_str}\n"
 
     content += f"""
-【意向確認メール文面（粗利ジャストTOP3）】
+縲先э蜷醍｢ｺ隱阪Γ繝ｼ繝ｫ譁�髱｢�ｼ育ｲ怜茜繧ｸ繝｣繧ｹ繝�TOP3�ｼ峨�
 {iko_mail}
 ================================================================
 """
@@ -6049,32 +6049,32 @@ def save_engineer_draft(engineer_info: dict, match_results: list,
     return path
 
 
-# ===== メイン =====
+# ===== 繝｡繧､繝ｳ =====
 def main():
     log("=" * 50)
-    log("メールパイプライン v5.1 起動（入力元ラベル・所属会社名追加）")
-    log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+    log("繝｡繝ｼ繝ｫ繝代う繝励Λ繧､繝ｳ v5.1 襍ｷ蜍包ｼ亥�･蜉帛��繝ｩ繝吶Ν繝ｻ謇螻樔ｼ夂､ｾ蜷崎ｿｽ蜉�ｼ�")
+    log(f"險ｭ螳�: 蜿門ｾ養FETCH_LIMIT}莉ｶ / 蜃ｦ逅�{PROCESS_LIMIT}莉ｶ / 繝槭ャ繝√Φ繧ｰ荳贋ｽ砿MATCH_TOP_N}蜷�")
     input_source = get_input_source_label(EMAIL_USER)
-    log(f"入力元: {input_source}")
+    log(f"蜈･蜉帛��: {input_source}")
 
     processed = load_processed_ids()
-    log(f"処理済みID: {len(processed)}件")
+    log(f"蜃ｦ逅�貂医∩ID: {len(processed)}莉ｶ")
 
     emails = fetch_recent_emails(limit=FETCH_LIMIT)
     if not emails:
-        log("処理対象なし・終了")
+        log("蜃ｦ逅�蟇ｾ雎｡縺ｪ縺励�ｻ邨ゆｺ�")
         return
 
     new_emails = [e for e in emails if e["msg_id"] not in processed]
-    log(f"新規処理対象: {len(new_emails)}件")
+    log(f"譁ｰ隕丞�ｦ逅�蟇ｾ雎｡: {len(new_emails)}莉ｶ")
 
     if not new_emails:
-        log("全て処理済み・終了")
+        log("蜈ｨ縺ｦ蜃ｦ逅�貂医∩繝ｻ邨ゆｺ�")
         return
 
     target_emails = new_emails[:PROCESS_LIMIT]
     engineers = get_available_engineers()
-    log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
+    log(f"繧ｨ繝ｳ繧ｸ繝九いDB: {len(engineers)}蜷搾ｼ育ｨｼ蜒榊庄閭ｽ�ｼ�")
 
     for em in target_emails:
         subject     = em["subject"]
@@ -6084,29 +6084,29 @@ def main():
         msg_id      = em["msg_id"]
         attachments = em.get("attachments", [])
 
-        log(f"処理中: {subject[:50]}")
+        log(f"蜃ｦ逅�荳ｭ: {subject[:50]}")
         if attachments:
-            log(f"  添付: {len(attachments)}件")
+            log(f"  豺ｻ莉�: {len(attachments)}莉ｶ")
 
         info = classify_email(subject, body)
         msg_type = info.get("type", "other")
-        log(f"  判定: {msg_type}")
+        log(f"  蛻､螳�: {msg_type}")
 
         if msg_type == "project":
             affiliation = extract_affiliation(body)
             ok = register_project(info, subject, sender, input_source, affiliation)
             proj_name = info.get("name") or subject[:30]
             if not ok:
-                log(f"  [NG] 案件Notion登録失敗")
+                log(f"  [NG] 譯井ｻｶNotion逋ｻ骭ｲ螟ｱ謨�")
                 save_processed_id(msg_id, processed)
                 continue
-            log(f"  [OK] 案件登録: {proj_name}")
+            log(f"  [OK] 譯井ｻｶ逋ｻ骭ｲ: {proj_name}")
 
             filtered = filter_engineers_by_skills(info, engineers, top_n=MATCH_TOP_N)
-            log(f"  スキルフィルタ: {len(engineers)}名 → {len(filtered)}名")
+            log(f"  繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ: {len(engineers)}蜷� 竊� {len(filtered)}蜷�")
 
             if not filtered:
-                log(f"  [!!] 候補者なし")
+                log(f"  [!!] 蛟呵｣懆�縺ｪ縺�")
                 save_processed_id(msg_id, processed)
                 continue
 
@@ -6115,68 +6115,68 @@ def main():
             proposal_draft = matching.get("proposal_draft", "")
 
             if not candidates:
-                log(f"  [!!] AIマッチング候補なし")
+                log(f"  [!!] AI繝槭ャ繝√Φ繧ｰ蛟呵｣懊↑縺�")
                 save_processed_id(msg_id, processed)
                 continue
-            log(f"  AIマッチング: {len(candidates)}名")
+            log(f"  AI繝槭ャ繝√Φ繧ｰ: {len(candidates)}蜷�")
 
-            check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
+            check_input = f"縲先｡井ｻｶ蜷阪捜proj_name}\n\n縲先署譯域枚繝峨Λ繝輔ヨ縲曾n{proposal_draft}\n\n縲仙呵｣懆�縲曾n"
             for c in candidates:
-                check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
+                check_input += f"- {c['name']} / {c.get('price',0)}荳�蜀� / 荳ｦ陦�: {c.get('parallel','縺ｪ縺�')}\n"
             check_result = double_check(check_input)
 
             final_proposal = proposal_draft
-            marker = "【修正済み提案文】"
+            marker = "縲蝉ｿｮ豁｣貂医∩謠先｡域枚縲�"
             if marker in check_result:
                 after = check_result.split(marker, 1)[1].strip()
-                if "【所見】" in after:
-                    after = after.split("【所見】")[0].strip()
-                if after and after != "修正不要":
+                if "縲先園隕九�" in after:
+                    after = after.split("縲先園隕九�")[0].strip()
+                if after and after != "菫ｮ豁｣荳崎ｦ�":
                     final_proposal = after
 
-            # 案件メールにも添付スキルシートがある場合は処理
+            # 譯井ｻｶ繝｡繝ｼ繝ｫ縺ｫ繧よｷｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝医′縺ゅｋ蝣ｴ蜷医�ｯ蜃ｦ逅�
             skill_result = None
             if attachments:
                 skill_result = process_skill_sheet(
                     attachments[0],
                     engineer_price=None,
-                    affiliation="貴社"
+                    affiliation="雋ｴ遉ｾ"
                 )
 
             draft_path = save_draft(proj_name, reply_to, candidates,
                                     check_result, final_proposal, skill_result)
-            log(f"  [OK] 提案文下書き保存: {draft_path.name}")
+            log(f"  [OK] 謠先｡域枚荳区嶌縺堺ｿ晏ｭ�: {draft_path.name}")
 
         elif msg_type == "engineer":
-            # ===== v5: スキルシート添付対応 =====
-            name = info.get("name", "（名前未記載）")
+            # ===== v5: 繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝域ｷｻ莉伜ｯｾ蠢� =====
+            name = info.get("name", "�ｼ亥錐蜑肴悴險倩ｼ会ｼ�")
             eng_price = info.get("price") or None
 
             affiliation = extract_affiliation(body)
-            skill_affiliation = affiliation or (sender.split("<")[0].strip() if "<" in sender else "貴社")
+            skill_affiliation = affiliation or (sender.split("<")[0].strip() if "<" in sender else "雋ｴ遉ｾ")
 
             skill_result = None
 
-            # 添付スキルシートがある場合はskill_readerで処理
+            # 豺ｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝医′縺ゅｋ蝣ｴ蜷医�ｯskill_reader縺ｧ蜃ｦ逅�
             if attachments:
-                log(f"  添付スキルシートを処理: {attachments[0]['filename']}")
+                log(f"  豺ｻ莉倥せ繧ｭ繝ｫ繧ｷ繝ｼ繝医ｒ蜃ｦ逅�: {attachments[0]['filename']}")
                 skill_result = process_skill_sheet(
                     attachments[0],
                     engineer_price=eng_price,
                     affiliation=skill_affiliation
                 )
                 if skill_result:
-                    # スキル抽出結果でinfo.skillsを上書き（より精度が高い）
+                    # 繧ｹ繧ｭ繝ｫ謚ｽ蜃ｺ邨先棡縺ｧinfo.skills繧剃ｸ頑嶌縺搾ｼ医ｈ繧顔ｲｾ蠎ｦ縺碁ｫ倥＞�ｼ�
                     info["skills"] = skill_result["info"].get("skills", info.get("skills", []))
-                    log(f"  スキルシートからスキル上書き: {info['skills']}")
+                    log(f"  繧ｹ繧ｭ繝ｫ繧ｷ繝ｼ繝医°繧峨せ繧ｭ繝ｫ荳頑嶌縺�: {info['skills']}")
 
-            # Notion登録
+            # Notion逋ｻ骭ｲ
             ok, notion_id = register_engineer(info, subject, sender, input_source, affiliation)
             if ok:
-                log(f"  [OK] 人材登録: {name} (Notion ID: {notion_id[:8]}...)")
+                log(f"  [OK] 莠ｺ譚千匳骭ｲ: {name} (Notion ID: {notion_id[:8]}...)")
 
-                # skill_readerの結果があればNotionスキル欄も更新済み（register_engineerで登録）
-                # 人材下書き保存
+                # skill_reader縺ｮ邨先棡縺後≠繧後�ｰNotion繧ｹ繧ｭ繝ｫ谺�繧よ峩譁ｰ貂医∩�ｼ�register_engineer縺ｧ逋ｻ骭ｲ�ｼ�
+                # 莠ｺ譚蝉ｸ区嶌縺堺ｿ晏ｭ�
                 if skill_result:
                     draft_path = save_engineer_draft(
                         skill_result["info"],
@@ -6184,26 +6184,26 @@ def main():
                         skill_result["iko_mail"],
                         reply_to, sender
                     )
-                    log(f"  [OK] 人材下書き保存: {draft_path.name}")
+                    log(f"  [OK] 莠ｺ譚蝉ｸ区嶌縺堺ｿ晏ｭ�: {draft_path.name}")
                     just = sum(1 for r in skill_result["match_results"]
                                if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
-                    log(f"  粗利ジャスト案件: {just}件 → 意向確認文生成済み")
+                    log(f"  邊怜茜繧ｸ繝｣繧ｹ繝域｡井ｻｶ: {just}莉ｶ 竊� 諢丞髄遒ｺ隱肴枚逕滓�先ｸ医∩")
                 else:
-                    # 添付なし：本文から抽出した情報で照合のみ
+                    # 豺ｻ莉倥↑縺暦ｼ壽悽譁�縺九ｉ謚ｽ蜃ｺ縺励◆諠�蝣ｱ縺ｧ辣ｧ蜷医�ｮ縺ｿ
                     projects = get_active_projects()
                     match_results = match_skills(info.get("skills", []), projects, eng_price)
                     iko_mail = generate_iko_mail(info, match_results, eng_price, skill_affiliation)
                     draft_path = save_engineer_draft(info, match_results, iko_mail, reply_to, sender)
-                    log(f"  [OK] 本文ベース人材下書き保存: {draft_path.name}")
+                    log(f"  [OK] 譛ｬ譁�繝吶�ｼ繧ｹ莠ｺ譚蝉ｸ区嶌縺堺ｿ晏ｭ�: {draft_path.name}")
             else:
-                log(f"  [NG] 人材Notion登録失敗: {name}")
+                log(f"  [NG] 莠ｺ譚侵otion逋ｻ骭ｲ螟ｱ謨�: {name}")
 
         else:
-            log(f"  スキップ（その他）: {subject[:40]}")
+            log(f"  繧ｹ繧ｭ繝�繝暦ｼ医◎縺ｮ莉厄ｼ�: {subject[:40]}")
 
         save_processed_id(msg_id, processed)
 
-    log("メールパイプライン v5.1 完了")
+    log("繝｡繝ｼ繝ｫ繝代う繝励Λ繧､繝ｳ v5.1 螳御ｺ�")
     log("=" * 50)
 
 
@@ -6216,9 +6216,9 @@ if __name__ == "__main__":
 
 ```py
 """
-メールパイプライン v4
-- v3からの変更: マッチング前にPython側でスキルフィルタリング（上位10名に絞り込み）
-- Notionエンジニア4,642名をそのままAIに渡すとトークン超過 → Python側でフィルタリング後に渡す
+繝｡繝ｼ繝ｫ繝代う繝励Λ繧､繝ｳ v4
+- v3縺九ｉ縺ｮ螟画峩: 繝槭ャ繝√Φ繧ｰ蜑阪↓Python蛛ｴ縺ｧ繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ�ｼ井ｸ贋ｽ�10蜷阪↓邨槭ｊ霎ｼ縺ｿ�ｼ�
+- Notion繧ｨ繝ｳ繧ｸ繝九い4,642蜷阪ｒ縺昴�ｮ縺ｾ縺ｾAI縺ｫ貂｡縺吶→繝医�ｼ繧ｯ繝ｳ雜�驕� 竊� Python蛛ｴ縺ｧ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ蠕後↓貂｡縺�
 """
 
 import imaplib
@@ -6234,7 +6234,7 @@ from email.utils import parsedate_to_datetime
 from dotenv import dotenv_values
 from pathlib import Path
 
-# ===== 設定 =====
+# ===== 險ｭ螳� =====
 BASE_DIR = Path(__file__).parent
 ENV_PATH = BASE_DIR.parent / "config" / ".env"
 DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
@@ -6243,7 +6243,7 @@ PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
 
 FETCH_LIMIT = 50
 PROCESS_LIMIT = 1
-MATCH_TOP_N = 10  # AIに渡す最大候補数
+MATCH_TOP_N = 10  # AI縺ｫ貂｡縺呎怙螟ｧ蛟呵｣懈焚
 
 config = dotenv_values(ENV_PATH)
 for k, v in config.items():
@@ -6267,53 +6267,53 @@ NOTION_HEADERS = {
 
 VALID_SKILLS = [
     "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
-    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
+    "React", "AWS", "繧､繝ｳ繝輔Λ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
     "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
     "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
 ]
 
-DOUBLE_CHECK_SYSTEM = f"""あなたはSES業界のダブルチェック専門AIです。
-提案文と候補者情報を受け取り、以下のルールで厳密にチェックしてください。
+DOUBLE_CHECK_SYSTEM = f"""縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ繝繝悶Ν繝√ぉ繝�繧ｯ蟆る摩AI縺ｧ縺吶�
+謠先｡域枚縺ｨ蛟呵｣懆�諠�蝣ｱ繧貞女縺大叙繧翫∽ｻ･荳九�ｮ繝ｫ繝ｼ繝ｫ縺ｧ蜴ｳ蟇�縺ｫ繝√ぉ繝�繧ｯ縺励※縺上□縺輔＞縲�
 
-今日の日付: {date.today().isoformat()}
+莉頑律縺ｮ譌･莉�: {date.today().isoformat()}
 
-【1. 除外ルール違反】
-- 外国籍人材が含まれていないか
-- 地方在住（関東以外）が含まれていないか
-- 短期案件連続の人材が含まれていないか
-- ブランクがある人材が含まれていないか
-- 既往歴がある人材が含まれていないか
+縲�1. 髯､螟悶Ν繝ｼ繝ｫ驕募渚縲�
+- 螟門嵜邀堺ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 蝨ｰ譁ｹ蝨ｨ菴擾ｼ磯未譚ｱ莉･螟厄ｼ峨′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 遏ｭ譛滓｡井ｻｶ騾｣邯壹�ｮ莠ｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 繝悶Λ繝ｳ繧ｯ縺後≠繧倶ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
+- 譌｢蠕豁ｴ縺後≠繧倶ｺｺ譚舌′蜷ｫ縺ｾ繧後※縺�縺ｪ縺�縺�
 
-【2. 単価チェック（粗利）】
-- 粗利 = 案件単価 - エンジニア単価
-- 粗利5万円未満はNG / 粗利7万円以上が目標
+縲�2. 蜊倅ｾ｡繝√ぉ繝�繧ｯ�ｼ育ｲ怜茜�ｼ峨�
+- 邊怜茜 = 譯井ｻｶ蜊倅ｾ｡ - 繧ｨ繝ｳ繧ｸ繝九い蜊倅ｾ｡
+- 邊怜茜5荳�蜀�譛ｪ貅縺ｯNG / 邊怜茜7荳�蜀�莉･荳翫′逶ｮ讓�
 
-【3. 並行スコア】
-- 面談調整中:1.5 / 面談予定:2.0 / 結果待ち1-2日:2.5 / 3-7日:2.0 / 8-14日:1.5 / 15日超:1.0 / オファー中:5.0
-- 合計5.0以上はNG
+縲�3. 荳ｦ陦後せ繧ｳ繧｢縲�
+- 髱｢隲�隱ｿ謨ｴ荳ｭ:1.5 / 髱｢隲�莠亥ｮ�:2.0 / 邨先棡蠕�縺｡1-2譌･:2.5 / 3-7譌･:2.0 / 8-14譌･:1.5 / 15譌･雜�:1.0 / 繧ｪ繝輔ぃ繝ｼ荳ｭ:5.0
+- 蜷郁ｨ�5.0莉･荳翫�ｯNG
 
-【4. 敬語・表現チェック】
-- 「充足」→「全て満たしており」
-- 「即戦力です」→「マッチ度高い人員かと存じます」
+縲�4. 謨ｬ隱槭�ｻ陦ｨ迴ｾ繝√ぉ繝�繧ｯ縲�
+- 縲悟��雜ｳ縲坂�偵悟�ｨ縺ｦ貅縺溘＠縺ｦ縺翫ｊ縲�
+- 縲悟叉謌ｦ蜉帙〒縺吶坂�偵後�槭ャ繝∝ｺｦ鬮倥＞莠ｺ蜩｡縺九→蟄倥§縺ｾ縺吶�
 
-【5. 固有名詞マスキング】
-- 企業名・担当者名・連絡先が残っていないか
+縲�5. 蝗ｺ譛牙錐隧槭�槭せ繧ｭ繝ｳ繧ｰ縲�
+- 莨∵･ｭ蜷阪�ｻ諡�蠖楢�蜷阪�ｻ騾｣邨｡蜈医′谿九▲縺ｦ縺�縺ｪ縺�縺�
 
-出力フォーマット:
-【判定】OK / NG
-【チェック結果】
-1. 除外ルール: OK/NG（理由）
-2. 単価・粗利: OK/NG（詳細）
-3. 並行スコア: OK/NG（詳細）
-4. 敬語表現: OK/NG（修正箇所）
-5. マスキング: OK/NG（漏れ箇所）
-【修正済み提案文】
-NGの場合は修正した提案文、OKの場合は「修正不要」
-【所見】
-気になる点があれば一言"""
+蜃ｺ蜉帙ヵ繧ｩ繝ｼ繝槭ャ繝�:
+縲仙愛螳壹前K / NG
+縲舌メ繧ｧ繝�繧ｯ邨先棡縲�
+1. 髯､螟悶Ν繝ｼ繝ｫ: OK/NG�ｼ育炊逕ｱ�ｼ�
+2. 蜊倅ｾ｡繝ｻ邊怜茜: OK/NG�ｼ郁ｩｳ邏ｰ�ｼ�
+3. 荳ｦ陦後せ繧ｳ繧｢: OK/NG�ｼ郁ｩｳ邏ｰ�ｼ�
+4. 謨ｬ隱櫁｡ｨ迴ｾ: OK/NG�ｼ井ｿｮ豁｣邂�謇�ｼ�
+5. 繝槭せ繧ｭ繝ｳ繧ｰ: OK/NG�ｼ域ｼ上ｌ邂�謇�ｼ�
+縲蝉ｿｮ豁｣貂医∩謠先｡域枚縲�
+NG縺ｮ蝣ｴ蜷医�ｯ菫ｮ豁｣縺励◆謠先｡域枚縲＾K縺ｮ蝣ｴ蜷医�ｯ縲御ｿｮ豁｣荳崎ｦ√�
+縲先園隕九�
+豌励↓縺ｪ繧狗せ縺後≠繧後�ｰ荳險"""
 
 
-# ===== ログ =====
+# ===== 繝ｭ繧ｰ =====
 def log(msg: str):
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"[{ts}] {msg}"
@@ -6322,14 +6322,14 @@ def log(msg: str):
         f.write(line + "\n")
 
 
-# ===== 処理済みID管理 =====
+# ===== 蜃ｦ逅�貂医∩ID邂｡逅� =====
 def load_processed_ids() -> set:
     try:
         if PROCESSED_IDS_PATH.exists():
             with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
                 return set(json.load(f))
     except Exception as e:
-        log(f"processed_ids読み込みエラー: {e}")
+        log(f"processed_ids隱ｭ縺ｿ霎ｼ縺ｿ繧ｨ繝ｩ繝ｼ: {e}")
     return set()
 
 
@@ -6342,10 +6342,10 @@ def save_processed_id(msg_id: str, processed: set):
         with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
             json.dump(ids_list, f, ensure_ascii=False)
     except Exception as e:
-        log(f"processed_ids保存エラー: {e}")
+        log(f"processed_ids菫晏ｭ倥お繝ｩ繝ｼ: {e}")
 
 
-# ===== メール取得 =====
+# ===== 繝｡繝ｼ繝ｫ蜿門ｾ� =====
 def decode_str(s):
     if not s:
         return ""
@@ -6380,25 +6380,25 @@ def get_body(msg):
 
 
 def fetch_recent_emails(limit: int = 50):
-    log(f"IMAP接続開始（直近{limit}件取得）")
+    log(f"IMAP謗･邯夐幕蟋具ｼ育峩霑捜limit}莉ｶ蜿門ｾ暦ｼ�")
     ctx = ssl.create_default_context()
     try:
         mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT, ssl_context=ctx)
         mail.login(EMAIL_USER, EMAIL_PASS)
         mail.select("INBOX")
     except Exception as e:
-        log(f"IMAP接続エラー: {e}")
+        log(f"IMAP謗･邯壹お繝ｩ繝ｼ: {e}")
         return []
 
     status, messages = mail.search(None, "ALL")
     if status != "OK" or not messages[0]:
-        log("対象メールなし")
+        log("蟇ｾ雎｡繝｡繝ｼ繝ｫ縺ｪ縺�")
         mail.logout()
         return []
 
     all_ids = messages[0].split()
     target_ids = list(reversed(all_ids[-limit:]))
-    log(f"全件数: {len(all_ids)}件 → 直近{len(target_ids)}件を処理対象")
+    log(f"蜈ｨ莉ｶ謨ｰ: {len(all_ids)}莉ｶ 竊� 逶ｴ霑捜len(target_ids)}莉ｶ繧貞�ｦ逅�蟇ｾ雎｡")
 
     emails = []
     for mail_id in target_ids:
@@ -6419,20 +6419,20 @@ def fetch_recent_emails(limit: int = 50):
                 "reply_to": reply_to, "body": body
             })
         except Exception as e:
-            log(f"メール取得エラー: {e}")
+            log(f"繝｡繝ｼ繝ｫ蜿門ｾ励お繝ｩ繝ｼ: {e}")
 
     mail.logout()
-    log(f"取得完了: {len(emails)}件")
+    log(f"蜿門ｾ怜ｮ御ｺ�: {len(emails)}莉ｶ")
     return emails
 
 
-# ===== スキルフィルタリング（★v4新規追加★） =====
+# ===== 繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ�ｼ遺��v4譁ｰ隕剰ｿｽ蜉笘��ｼ� =====
 def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATCH_TOP_N) -> list:
     """
-    案件の必須・尚可スキルでエンジニアをフィルタリングし上位top_n名を返す。
-    スコア = 必須スキルマッチ数*2 + 尚可スキルマッチ数*1
-    必須スキルが1つもマッチしない場合は除外。
-    単価乖離5万超も除外。
+    譯井ｻｶ縺ｮ蠢�鬆医�ｻ蟆壼庄繧ｹ繧ｭ繝ｫ縺ｧ繧ｨ繝ｳ繧ｸ繝九い繧偵ヵ繧｣繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ縺嶺ｸ贋ｽ衡op_n蜷阪ｒ霑斐☆縲�
+    繧ｹ繧ｳ繧｢ = 蠢�鬆医せ繧ｭ繝ｫ繝槭ャ繝∵焚*2 + 蟆壼庄繧ｹ繧ｭ繝ｫ繝槭ャ繝∵焚*1
+    蠢�鬆医せ繧ｭ繝ｫ縺�1縺､繧ゅ�槭ャ繝√＠縺ｪ縺�蝣ｴ蜷医�ｯ髯､螟悶�
+    蜊倅ｾ｡荵夜屬5荳�雜�繧る勁螟悶�
     """
     required = [s.lower() for s in project.get("required_skills", [])]
     optional = [s.lower() for s in project.get("optional_skills", [])]
@@ -6443,24 +6443,24 @@ def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATC
         eng_skills = [s.lower() for s in eng.get("skills", [])]
         eng_price = eng.get("price", 0) or 0
 
-        # 単価乖離チェック（5万超は除外）
+        # 蜊倅ｾ｡荵夜屬繝√ぉ繝�繧ｯ�ｼ�5荳�雜�縺ｯ髯､螟厄ｼ�
         if proj_price > 0 and eng_price > 0:
             if abs(proj_price - eng_price) > 5:
                 continue
 
-        # 必須スキルマッチ数
+        # 蠢�鬆医せ繧ｭ繝ｫ繝槭ャ繝∵焚
         req_match = sum(1 for r in required if any(r in s for s in eng_skills))
-        # 必須スキルが1つもなければ除外（必須が指定されている場合のみ）
+        # 蠢�鬆医せ繧ｭ繝ｫ縺�1縺､繧ゅ↑縺代ｌ縺ｰ髯､螟厄ｼ亥ｿ�鬆医′謖�螳壹＆繧後※縺�繧句ｴ蜷医�ｮ縺ｿ�ｼ�
         if required and req_match == 0:
             continue
 
-        # 尚可スキルマッチ数
+        # 蟆壼庄繧ｹ繧ｭ繝ｫ繝槭ャ繝∵焚
         opt_match = sum(1 for o in optional if any(o in s for s in eng_skills))
 
         score = req_match * 2 + opt_match
         scored.append((score, eng))
 
-    # スコア降順でソート、上位top_n名を返す
+    # 繧ｹ繧ｳ繧｢髯埼�縺ｧ繧ｽ繝ｼ繝医∽ｸ贋ｽ衡op_n蜷阪ｒ霑斐☆
     scored.sort(key=lambda x: x[0], reverse=True)
     result = [eng for _, eng in scored[:top_n]]
     return result
@@ -6486,47 +6486,47 @@ def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
         )
         if res.status_code == 200:
             return res.json()["content"][0]["text"]
-        log(f"Claude APIエラー: {res.status_code} {res.text[:200]}")
+        log(f"Claude API繧ｨ繝ｩ繝ｼ: {res.status_code} {res.text[:200]}")
         return ""
     except Exception as e:
-        log(f"Claude呼び出し例外: {e}")
+        log(f"Claude蜻ｼ縺ｳ蜃ｺ縺嶺ｾ句､�: {e}")
         return ""
 
 
 def classify_email(subject: str, body: str) -> dict:
-    system = """あなたはSES業界の情報解析AIです。メールを解析してJSON形式のみで返答してください。
+    system = """縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ諠�蝣ｱ隗｣譫植I縺ｧ縺吶ゅΓ繝ｼ繝ｫ繧定ｧ｣譫舌＠縺ｦJSON蠖｢蠑上�ｮ縺ｿ縺ｧ霑皮ｭ斐＠縺ｦ縺上□縺輔＞縲�
 
-案件情報の場合:
-{"type":"project","name":"案件名","required_skills":["Java"],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"不明","period":"","interview_count":1,"foreign_ok":false,"note":"業務内容"}
+譯井ｻｶ諠�蝣ｱ縺ｮ蝣ｴ蜷�:
+{"type":"project","name":"譯井ｻｶ蜷�","required_skills":["Java"],"optional_skills":[],"price":0,"start_date":"","location":"","remote":"荳肴��","period":"","interview_count":1,"foreign_ok":false,"note":"讌ｭ蜍吝��螳ｹ"}
 
-人材情報の場合:
-{"type":"engineer","name":"氏名","skills":["Java"],"price":0,"available_date":"","experience_years":0,"company":"","note":"備考"}
+莠ｺ譚先ュ蝣ｱ縺ｮ蝣ｴ蜷�:
+{"type":"engineer","name":"豌丞錐","skills":["Java"],"price":0,"available_date":"","experience_years":0,"company":"","note":"蛯呵�"}
 
-どちらでもない場合:
-{"type":"other","note":"内容要約"}"""
-    text = f"件名: {subject}\n\n{body[:2000]}"
+縺ｩ縺｡繧峨〒繧ゅ↑縺�蝣ｴ蜷�:
+{"type":"other","note":"蜀�螳ｹ隕∫ｴ�"}"""
+    text = f"莉ｶ蜷�: {subject}\n\n{body[:2000]}"
     result = call_claude(system, text)
     try:
         clean = re.sub(r"```json|```", "", result).strip()
         return json.loads(clean)
     except:
-        return {"type": "other", "note": "解析失敗"}
+        return {"type": "other", "note": "隗｣譫仙､ｱ謨�"}
 
 
 def ai_matching(project: dict, engineers: list) -> dict:
-    system = """あなたはSES業界のマッチングAIです。JSONで返してください。
+    system = """縺ゅ↑縺溘�ｯSES讌ｭ逡後�ｮ繝槭ャ繝√Φ繧ｰAI縺ｧ縺吶�JSON縺ｧ霑斐＠縺ｦ縺上□縺輔＞縲�
 
-除外ルール:
-- 必須スキルに✕ → 除外
-- 単価乖離5万超 → 除外（案件単価-5万〜+2万の範囲のみ）
+髯､螟悶Ν繝ｼ繝ｫ:
+- 蠢�鬆医せ繧ｭ繝ｫ縺ｫ笨� 竊� 髯､螟�
+- 蜊倅ｾ｡荵夜屬5荳�雜� 竊� 髯､螟厄ｼ域｡井ｻｶ蜊倅ｾ｡-5荳�縲�+2荳�縺ｮ遽�蝗ｲ縺ｮ縺ｿ�ｼ�
 
-サマリー文（禁止: 充足・即戦力です）:
-- 必須全○+尚可全○ → "必須・尚可ともにマッチ度高い人員"
-- 必須全○+尚可○率50%以上 → "必須全て満たしており、尚可も○項目経験あり"
-- 必須全○のみ → "必須スキル全て満たし即稼働可能"
+繧ｵ繝槭Μ繝ｼ譁��ｼ育ｦ∵ｭ｢: 蜈�雜ｳ繝ｻ蜊ｳ謌ｦ蜉帙〒縺呻ｼ�:
+- 蠢�鬆亥�ｨ笳�+蟆壼庄蜈ｨ笳� 竊� "蠢�鬆医�ｻ蟆壼庄縺ｨ繧ゅ↓繝槭ャ繝∝ｺｦ鬮倥＞莠ｺ蜩｡"
+- 蠢�鬆亥�ｨ笳�+蟆壼庄笳狗紫50%莉･荳� 竊� "蠢�鬆亥�ｨ縺ｦ貅縺溘＠縺ｦ縺翫ｊ縲∝ｰ壼庄繧や雷鬆�逶ｮ邨碁ｨ薙≠繧�"
+- 蠢�鬆亥�ｨ笳九�ｮ縺ｿ 竊� "蠢�鬆医せ繧ｭ繝ｫ蜈ｨ縺ｦ貅縺溘＠蜊ｳ遞ｼ蜒榊庄閭ｽ"
 
-返答フォーマット:
-{"candidates":[{"name":"氏名","price":0,"summary":"サマリー","required_match":{},"optional_match":{},"parallel":"なし"}],"proposal_draft":"提案メール本文"}"""
+霑皮ｭ斐ヵ繧ｩ繝ｼ繝槭ャ繝�:
+{"candidates":[{"name":"豌丞錐","price":0,"summary":"繧ｵ繝槭Μ繝ｼ","required_match":{},"optional_match":{},"parallel":"縺ｪ縺�"}],"proposal_draft":"謠先｡医Γ繝ｼ繝ｫ譛ｬ譁�"}"""
     payload = {"project": project, "engineers": engineers}
     result = call_claude(system, json.dumps(payload, ensure_ascii=False), max_tokens=2000)
     try:
@@ -6540,7 +6540,7 @@ def double_check(text: str) -> str:
     return call_claude(DOUBLE_CHECK_SYSTEM, text, max_tokens=2000)
 
 
-# ===== Notion操作 =====
+# ===== Notion謫堺ｽ� =====
 def notion_query(db_id: str, filter_obj: dict = None) -> list:
     results = []
     payload = {"page_size": 100}
@@ -6560,25 +6560,25 @@ def notion_query(db_id: str, filter_obj: dict = None) -> list:
 
 
 def register_project(info: dict, subject: str, sender: str) -> bool:
-    name = info.get("name") or f"【{subject[:20]}】"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    name = info.get("name") or f"縲須subject[:20]}縲�"
+    note = f"縲舌Γ繝ｼ繝ｫ縺九ｉ閾ｪ蜍慕匳骭ｲ縲曾n騾∽ｿ｡閠�: {sender}\n莉ｶ蜷�: {subject}\n\n{info.get('note','')}"
     properties = {
-        "案件名": {"title": [{"text": {"content": name}}]},
-        "ステータス": {"select": {"name": "募集中"}},
-        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "譯井ｻｶ蜷�": {"title": [{"text": {"content": name}}]},
+        "繧ｹ繝�繝ｼ繧ｿ繧ｹ": {"select": {"name": "蜍滄寔荳ｭ"}},
+        "譯井ｻｶ隧ｳ邏ｰ": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
     if req:
-        properties["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+        properties["蠢�隕√せ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in req]}
     if opt:
-        properties["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
+        properties["蟆壼庄繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in opt]}
     if info.get("price"):
-        properties["単価（万円）"] = {"number": info["price"]}
+        properties["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": info["price"]}
     if info.get("start_date"):
-        properties["開始日"] = {"date": {"start": info["start_date"]}}
+        properties["髢句ｧ区律"] = {"date": {"start": info["start_date"]}}
     if info.get("location"):
-        properties["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+        properties["蜍､蜍吝慍"] = {"rich_text": [{"text": {"content": info["location"]}}]}
     res = requests.post(
         "https://api.notion.com/v1/pages",
         headers=NOTION_HEADERS,
@@ -6590,22 +6590,22 @@ def register_project(info: dict, subject: str, sender: str) -> bool:
 
 
 def register_engineer(info: dict, subject: str, sender: str) -> bool:
-    name = info.get("name") or "（名前未記載）"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    name = info.get("name") or "�ｼ亥錐蜑肴悴險倩ｼ会ｼ�"
+    note = f"縲舌Γ繝ｼ繝ｫ縺九ｉ閾ｪ蜍慕匳骭ｲ縲曾n騾∽ｿ｡閠�: {sender}\n莉ｶ蜷�: {subject}\n\n{info.get('note','')}"
     properties = {
-        "名前": {"title": [{"text": {"content": name}}]},
-        "稼働状況": {"select": {"name": "稼働可能"}},
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "蜷榊燕": {"title": [{"text": {"content": name}}]},
+        "遞ｼ蜒咲憾豕�": {"select": {"name": "遞ｼ蜒榊庄閭ｽ"}},
+        "蛯呵��ｼ�LINE繝｡繝｢�ｼ�": {"rich_text": [{"text": {"content": note[:2000]}}]}
     }
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills:
-        properties["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+        properties["繧ｹ繧ｭ繝ｫ"] = {"multi_select": [{"name": s} for s in skills]}
     if info.get("price"):
-        properties["単価（万円）"] = {"number": info["price"]}
+        properties["蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�"] = {"number": info["price"]}
     if info.get("available_date"):
-        properties["稼働可能日"] = {"date": {"start": info["available_date"]}}
+        properties["遞ｼ蜒榊庄閭ｽ譌･"] = {"date": {"start": info["available_date"]}}
     if info.get("experience_years"):
-        properties["経験年数"] = {"number": info["experience_years"]}
+        properties["邨碁ｨ灘ｹｴ謨ｰ"] = {"number": info["experience_years"]}
     res = requests.post(
         "https://api.notion.com/v1/pages",
         headers=NOTION_HEADERS,
@@ -6618,24 +6618,24 @@ def register_engineer(info: dict, subject: str, sender: str) -> bool:
 
 def get_available_engineers() -> list:
     pages = notion_query(ENGINEER_DB, {
-        "property": "稼働状況", "select": {"equals": "稼働可能"}
+        "property": "遞ｼ蜒咲憾豕�", "select": {"equals": "遞ｼ蜒榊庄閭ｽ"}
     })
     engineers = []
     for p in pages:
         props = p["properties"]
-        name_prop = props.get("名前", {}).get("title", [])
-        name   = name_prop[0]["plain_text"] if name_prop else "未記載"
-        skills = [o["name"] for o in props.get("スキル", {}).get("multi_select", [])]
-        price  = props.get("単価（万円）", {}).get("number", 0) or 0
-        avail  = (props.get("稼働可能日", {}).get("date") or {}).get("start", "")
-        note_prop = props.get("備考（LINEメモ）", {}).get("rich_text", [])
+        name_prop = props.get("蜷榊燕", {}).get("title", [])
+        name   = name_prop[0]["plain_text"] if name_prop else "譛ｪ險倩ｼ�"
+        skills = [o["name"] for o in props.get("繧ｹ繧ｭ繝ｫ", {}).get("multi_select", [])]
+        price  = props.get("蜊倅ｾ｡�ｼ井ｸ�蜀��ｼ�", {}).get("number", 0) or 0
+        avail  = (props.get("遞ｼ蜒榊庄閭ｽ譌･", {}).get("date") or {}).get("start", "")
+        note_prop = props.get("蛯呵��ｼ�LINE繝｡繝｢�ｼ�", {}).get("rich_text", [])
         note   = note_prop[0]["plain_text"][:200] if note_prop else ""
         engineers.append({"name": name, "skills": skills, "price": price,
                           "available_date": avail, "note": note})
     return engineers
 
 
-# ===== 提案文下書き保存 =====
+# ===== 謠先｡域枚荳区嶌縺堺ｿ晏ｭ� =====
 def save_draft(proj_name: str, reply_to: str, candidates: list,
                check_result: str, final_proposal: str):
     DRAFTS_DIR.mkdir(exist_ok=True)
@@ -6643,27 +6643,27 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
     safe_name = re.sub(r'[\\/:*?"<>|]', '_', proj_name)[:30]
     path = DRAFTS_DIR / f"{ts}_{safe_name}.txt"
 
-    is_ok = "【判定】OK" in check_result or "判定】OK" in check_result
+    is_ok = "縲仙愛螳壹前K" in check_result or "蛻､螳壹前K" in check_result
 
     content = f"""================================================================
-提案文下書き
-生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+謠先｡域枚荳区嶌縺�
+逕滓�先律譎�: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ================================================================
-【案件名】{proj_name}
-【返信先】{reply_to}
+縲先｡井ｻｶ蜷阪捜proj_name}
+縲占ｿ比ｿ｡蜈医捜reply_to}
 
-【候補者】
+縲仙呵｣懆�縲�
 """
     for i, c in enumerate(candidates[:3], 1):
-        content += f"  {'①②③'[i-1]} {c['name']} / {c.get('price',0)}万円\n"
+        content += f"  {'竭竭｡竭｢'[i-1]} {c['name']} / {c.get('price',0)}荳�蜀�\n"
         content += f"     {c.get('summary','')}\n"
 
     content += f"""
-【ダブルチェック結果】
-判定: {'[OK] OK' if is_ok else '[NG] NG'}
+縲舌ム繝悶Ν繝√ぉ繝�繧ｯ邨先棡縲�
+蛻､螳�: {'[OK] OK' if is_ok else '[NG] NG'}
 {check_result[:800]}
 
-【提案メール本文（送信可能版）】
+縲先署譯医Γ繝ｼ繝ｫ譛ｬ譁��ｼ磯∽ｿ｡蜿ｯ閭ｽ迚茨ｼ峨�
 {final_proposal}
 ================================================================
 """
@@ -6672,33 +6672,33 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
     return path
 
 
-# ===== メイン =====
+# ===== 繝｡繧､繝ｳ =====
 def main():
     log("=" * 50)
-    log(f"メールパイプライン v4 起動（スキルフィルタリング追加）")
-    log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+    log(f"繝｡繝ｼ繝ｫ繝代う繝励Λ繧､繝ｳ v4 襍ｷ蜍包ｼ医せ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ霑ｽ蜉�ｼ�")
+    log(f"險ｭ螳�: 蜿門ｾ養FETCH_LIMIT}莉ｶ / 蜃ｦ逅�{PROCESS_LIMIT}莉ｶ / 繝槭ャ繝√Φ繧ｰ荳贋ｽ砿MATCH_TOP_N}蜷�")
 
     processed = load_processed_ids()
-    log(f"処理済みID: {len(processed)}件")
+    log(f"蜃ｦ逅�貂医∩ID: {len(processed)}莉ｶ")
 
     emails = fetch_recent_emails(limit=FETCH_LIMIT)
     if not emails:
-        log("処理対象なし・終了")
+        log("蜃ｦ逅�蟇ｾ雎｡縺ｪ縺励�ｻ邨ゆｺ�")
         return
 
     new_emails = [e for e in emails if e["msg_id"] not in processed]
-    log(f"新規処理対象: {len(new_emails)}件（{len(emails) - len(new_emails)}件スキップ）")
+    log(f"譁ｰ隕丞�ｦ逅�蟇ｾ雎｡: {len(new_emails)}莉ｶ�ｼ�{len(emails) - len(new_emails)}莉ｶ繧ｹ繧ｭ繝�繝暦ｼ�")
 
     if not new_emails:
-        log("全て処理済み・終了")
+        log("蜈ｨ縺ｦ蜃ｦ逅�貂医∩繝ｻ邨ゆｺ�")
         return
 
     target_emails = new_emails[:PROCESS_LIMIT]
     if len(new_emails) > PROCESS_LIMIT:
-        log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails)-PROCESS_LIMIT}件は次回）")
+        log(f"蜃ｦ逅�荳企剞縺ｫ繧医ｊ{PROCESS_LIMIT}莉ｶ縺ｫ邨槭ｊ霎ｼ縺ｿ�ｼ域ｮ九ｊ{len(new_emails)-PROCESS_LIMIT}莉ｶ縺ｯ谺｡蝗橸ｼ�")
 
     engineers = get_available_engineers()
-    log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
+    log(f"繧ｨ繝ｳ繧ｸ繝九いDB: {len(engineers)}蜷搾ｼ育ｨｼ蜒榊庄閭ｽ�ｼ�")
 
     for em in target_emails:
         subject  = em["subject"]
@@ -6706,27 +6706,27 @@ def main():
         reply_to = em["reply_to"]
         body     = em["body"]
         msg_id   = em["msg_id"]
-        log(f"処理中: {subject[:50]}")
+        log(f"蜃ｦ逅�荳ｭ: {subject[:50]}")
 
         info = classify_email(subject, body)
         msg_type = info.get("type", "other")
-        log(f"  判定: {msg_type}")
+        log(f"  蛻､螳�: {msg_type}")
 
         if msg_type == "project":
             ok = register_project(info, subject, sender)
             proj_name = info.get("name") or subject[:30]
             if not ok:
-                log(f"  [NG] 案件Notion登録失敗: {proj_name}")
+                log(f"  [NG] 譯井ｻｶNotion逋ｻ骭ｲ螟ｱ謨�: {proj_name}")
                 save_processed_id(msg_id, processed)
                 continue
-            log(f"  [OK] 案件登録: {proj_name}")
+            log(f"  [OK] 譯井ｻｶ逋ｻ骭ｲ: {proj_name}")
 
-            # ★v4: Python側でスキルフィルタリング★
+            # 笘�v4: Python蛛ｴ縺ｧ繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ笘�
             filtered = filter_engineers_by_skills(info, engineers, top_n=MATCH_TOP_N)
-            log(f"  スキルフィルタリング: {len(engineers)}名 → {len(filtered)}名")
+            log(f"  繧ｹ繧ｭ繝ｫ繝輔ぅ繝ｫ繧ｿ繝ｪ繝ｳ繧ｰ: {len(engineers)}蜷� 竊� {len(filtered)}蜷�")
 
             if not filtered:
-                log(f"  [!!] スキルマッチする候補者なし: {proj_name}")
+                log(f"  [!!] 繧ｹ繧ｭ繝ｫ繝槭ャ繝√☆繧句呵｣懆�縺ｪ縺�: {proj_name}")
                 save_processed_id(msg_id, processed)
                 continue
 
@@ -6735,43 +6735,43 @@ def main():
             proposal_draft = matching.get("proposal_draft", "")
 
             if not candidates:
-                log(f"  [!!] AIマッチング候補なし: {proj_name}")
+                log(f"  [!!] AI繝槭ャ繝√Φ繧ｰ蛟呵｣懊↑縺�: {proj_name}")
                 save_processed_id(msg_id, processed)
                 continue
-            log(f"  AIマッチング: {len(candidates)}名")
+            log(f"  AI繝槭ャ繝√Φ繧ｰ: {len(candidates)}蜷�")
 
-            check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
+            check_input = f"縲先｡井ｻｶ蜷阪捜proj_name}\n\n縲先署譯域枚繝峨Λ繝輔ヨ縲曾n{proposal_draft}\n\n縲仙呵｣懆�縲曾n"
             for c in candidates:
-                check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
+                check_input += f"- {c['name']} / {c.get('price',0)}荳�蜀� / 荳ｦ陦�: {c.get('parallel','縺ｪ縺�')}\n"
             check_result = double_check(check_input)
 
             final_proposal = proposal_draft
-            marker = "【修正済み提案文】"
+            marker = "縲蝉ｿｮ豁｣貂医∩謠先｡域枚縲�"
             if marker in check_result:
                 after = check_result.split(marker, 1)[1].strip()
-                if "【所見】" in after:
-                    after = after.split("【所見】")[0].strip()
-                if after and after != "修正不要":
+                if "縲先園隕九�" in after:
+                    after = after.split("縲先園隕九�")[0].strip()
+                if after and after != "菫ｮ豁｣荳崎ｦ�":
                     final_proposal = after
 
             draft_path = save_draft(proj_name, reply_to, candidates, check_result, final_proposal)
-            log(f"  [OK] 提案文下書き保存: {draft_path.name}")
-            log(f"  [MAIL] 返信先: {reply_to}")
+            log(f"  [OK] 謠先｡域枚荳区嶌縺堺ｿ晏ｭ�: {draft_path.name}")
+            log(f"  [MAIL] 霑比ｿ｡蜈�: {reply_to}")
 
         elif msg_type == "engineer":
-            name = info.get("name", "（名前未記載）")
+            name = info.get("name", "�ｼ亥錐蜑肴悴險倩ｼ会ｼ�")
             ok = register_engineer(info, subject, sender)
             if ok:
-                log(f"  [OK] 人材登録: {name}")
+                log(f"  [OK] 莠ｺ譚千匳骭ｲ: {name}")
             else:
-                log(f"  [NG] 人材Notion登録失敗: {name}")
+                log(f"  [NG] 莠ｺ譚侵otion逋ｻ骭ｲ螟ｱ謨�: {name}")
 
         else:
-            log(f"  スキップ（その他）: {subject[:40]}")
+            log(f"  繧ｹ繧ｭ繝�繝暦ｼ医◎縺ｮ莉厄ｼ�: {subject[:40]}")
 
         save_processed_id(msg_id, processed)
 
-    log("メールパイプライン v4 完了")
+    log("繝｡繝ｼ繝ｫ繝代う繝励Λ繧､繝ｳ v4 螳御ｺ�")
     log("=" * 50)
 
 
