@@ -17973,3 +17973,174 @@ requests.exceptions.HTTPError: 429 Client Error: Too Many Requests for url: http
 [2026-05-27 17:41:54]   スキップ（その他）: 「子ども向け」をどう脱却した？タカラトミーが幅広い世代の心を掴んで売上130%を
 [2026-05-27 17:41:54] メールパイプライン v5.1 完了
 [2026-05-27 17:41:54] ==================================================
+[2026-05-27 19:09:20]   ルール分類インポート失敗: '_io.StringIO' object has no attribute 'reconfigure'
+[2026-05-27 19:09:54]   Batch API送信: 2件 (msgbatch_01Dso5F7K7z3895nmRKgrbeM)
+[2026-05-27 19:11:31]   Batch API送信: 1件 (msgbatch_01JTXJybeqqvgSdyETm3qY5Y)
+[2026-05-27 19:11:32]   Batch API送信: 1件 (msgbatch_01A68kwohCz4jCxFF9RqEQLo)
+[2026/05/27 19:13:58.02] ===== mail_pipeline 開始 ===== 
+[2026-05-27 19:14:00] ==================================================
+[2026-05-27 19:14:00] メールパイプライン v5.1 起動（入力元ラベル・所属会社名追加）
+[2026-05-27 19:14:00] 設定: 取得2000件 / 処理2000件 / マッチング上位10名
+[2026-05-27 19:14:00] 処理済みID: 1210件
+[2026-05-27 19:14:00] メール取得開始: 2アカウント / 最大2000件/アカウント
+[2026-05-27 19:14:00] IMAP接続: sessales@terra-ltd.co.jp (共通メール)
+[2026-05-27 19:14:00]   sessales@terra-ltd.co.jp: 全4245件 → 最大2000件を処理対象
+[2026-05-27 19:14:02]     添付検出: 経歴書_M.S(八千代台).docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 33841bytes
+[2026-05-27 19:14:03]     添付検出: 職務経歴書_N.Y.pdf (application/pdf) 505496bytes
+[2026-05-27 19:14:03]     添付検出: 【スキルシート】R.K.pdf (application/pdf) 490109bytes
+[2026-05-27 19:14:03]     添付検出: 経歴書_TH.pdf (application/pdf) 1590204bytes
+[2026-05-27 19:14:04]     添付検出: 経歴書_M.H_武蔵小杉・元住吉_20251113.pdf (application/pdf) 224493bytes
+[2026-05-27 19:14:06]     添付検出: スキルシート(A.W).pdf (application/pdf) 394992bytes
+[2026-05-27 19:14:06]     添付検出: 経歴書_R.W（上星川）_.pdf (application/pdf) 83096bytes
+[2026-05-27 19:14:07]     添付検出: 【スキルシート】N.H.pdf (application/pdf) 463488bytes
+[2026-05-27 19:14:08]     添付検出: 【スキルシート】H.Y.pdf (application/pdf) 465032bytes
+[2026-05-27 19:14:10]     添付検出: スキルシート_A.K_要町・池袋.pdf (application/pdf) 613858bytes
+[2026-05-27 19:14:10]     添付検出: KS_saginuma_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 65684bytes
+[2026-05-27 19:14:11]     添付検出: 経歴書_KA(祐天寺).pdf (application/pdf) 2653128bytes
+[2026-05-27 19:14:12]     添付検出: SM_higashitotsuka_skillsheet.pdf (application/pdf) 434943bytes
+[2026-05-27 19:14:12]     添付検出: ES_kamifukuoka_skillsheet_1.pdf (application/pdf) 277104bytes
+[2026-05-27 19:14:12]     添付検出: スキルシート_no.0004.pdf (application/pdf) 216425bytes
+[2026-05-27 19:14:13]     添付検出: スキルシート_S.M_ネットワークエンシ?ニア_32598.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 36571bytes
+[2026-05-27 19:14:13]     添付検出: TY_40_菅野.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 180736bytes
+[2026-05-27 19:14:13]     添付検出: 経歴書.pdf (application/pdf) 325902bytes
+[2026-05-27 19:14:14]     添付検出: 職務経歴書_K.K_亀岡駅（京都府）.pdf (application/pdf) 375570bytes
+[2026-05-27 19:14:16]     添付検出: スキルシート_U.T_中野.pdf (application/pdf) 1361287bytes
+[2026-05-27 19:14:16]     添付検出: スキルシート_（KM）元住吉駅.pdf (application/pdf) 161582bytes
+[2026-05-27 19:14:17]     添付検出: I.S_UIデザイナー_2605.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 82432bytes
+[2026-05-27 19:14:17]     添付検出: 経歴書_A.T（南千住）2603〜.pdf (application/pdf) 287756bytes
+[2026-05-27 19:14:19]     添付検出: KY_omiya_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 56807bytes
+[2026-05-27 19:14:19]     添付検出: 経歴書_T.S（鶴川）.pdf (application/pdf) 769713bytes
+[2026-05-27 19:14:19]     添付検出: SM_shimo_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 82908bytes
+[2026-05-27 19:14:19]     添付検出: 経歴書.KA.pdf (application/pdf) 1174867bytes
+[2026-05-27 19:14:20]     添付検出: EF_33_鶴川.pdf (application/pdf) 254337bytes
+[2026-05-27 19:14:20]     添付検出: H・T職務経歴書.pdf (application/pdf) 339669bytes
+[2026-05-27 19:14:21]     添付検出: 87BZ44_職務経歴書B0317勝どき.pdf (application/pdf) 129346bytes
+[2026-05-27 19:14:22]     添付検出: KK_inachuou_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 21744bytes
+[2026-05-27 19:14:22]     添付検出: 経歴書_T.F（笹塚）.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 63278bytes
+[2026-05-27 19:14:25]     添付検出: MY_kokubunji_skillsheet_under713k.pdf (application/pdf) 456680bytes
+[2026-05-27 19:14:25]     添付検出: TS_木ノ本.pdf (application/pdf) 1187297bytes
+[2026-05-27 19:14:26]     添付検出: 経歴書_M.A(都筑ふれあいの丘).docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 43631bytes
+[2026-05-27 19:14:26]     添付検出: NE_52_兵庫県.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 53894bytes
+[2026-05-27 19:14:27]     添付検出: スキルシート_I.M_馬喰横山_202604.pdf (application/pdf) 626758bytes
+[2026-05-27 19:14:27]     添付検出: FM.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 30045bytes
+[2026-05-27 19:14:29]     添付検出: 職務経歴書(FJ.40歳).pdf (application/pdf) 816599bytes
+[2026-05-27 19:14:29]     添付検出: EM_kamisyakujii_skillsheet.pdf (application/pdf) 455023bytes
+[2026-05-27 19:14:29]     添付検出: S.K_蕨_経歴書.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 33433bytes
+[2026-05-27 19:14:31]     添付検出: 経歴書_M.M.pdf (application/pdf) 388337bytes
+[2026-05-27 19:14:31]     添付検出: N.Yあさ?み野_経歴書.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 1671418bytes
+[2026-05-27 19:14:32]     添付検出: TM_70.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 2036052bytes
+[2026-05-27 19:14:32]     添付検出: 経歴書_A.M(新百合ヶ丘).docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 67410bytes
+[2026-05-27 19:14:32]     添付検出: H.T足利市_経歴書.pdf (application/pdf) 202499bytes
+[2026-05-27 19:14:32]     添付検出: スキルシート_H.Y【Java】.pdf (application/pdf) 197695bytes
+[2026-05-27 19:14:32]     添付検出: K.S沖縄_経歴書.pdf (application/pdf) 429004bytes
+[2026-05-27 19:14:32]     添付検出: 職務経歴書_T.T_三軒茶屋_202604.pdf (application/pdf) 741146bytes
+[2026-05-27 19:14:33]     添付検出: H.T大阪_経歴書.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 102912bytes
+[2026-05-27 19:14:33]     添付検出: 技術経歴書_O.N(高円寺).pdf (application/pdf) 187824bytes
+[2026-05-27 19:14:33]     添付検出: スキルシート_（KM）元住吉駅.pdf (application/pdf) 161582bytes
+[2026-05-27 19:14:34]     添付検出: スキルシート_YI【Kotlin,Swift】   .pdf (application/pdf) 323858bytes
+[2026-05-27 19:14:34]     添付検出: T.K小伝馬町_経歴書.pdf (application/pdf) 648489bytes
+[2026-05-27 19:14:34]     添付検出: Ｋ・Ｒ.pdf (application/pdf) 120235bytes
+[2026-05-27 19:14:34]     添付検出: Ｆ・Ｓ .pdf (application/pdf) 117593bytes
+[2026-05-27 19:14:34]     添付検出: Ｅ・Ｙ.pdf (application/pdf) 181385bytes
+[2026-05-27 19:14:34]     添付検出: Ｓ・Ｋ.pdf (application/pdf) 106146bytes
+[2026-05-27 19:14:34]     添付検出: Ｈ・Ｈ.pdf (application/pdf) 136295bytes
+[2026-05-27 19:14:34]     添付検出: Ｓ・Ｍ.pdf (application/pdf) 126960bytes
+[2026-05-27 19:14:34]     添付検出: Ｈ・Ｋ.pdf (application/pdf) 174729bytes
+[2026-05-27 19:14:34]     添付検出: Ｔ・Ｒ.pdf (application/pdf) 126144bytes
+[2026-05-27 19:14:35]     添付検出: K.R元住吉_経歴書.pdf (application/pdf) 211844bytes
+[2026-05-27 19:14:35]     添付検出: H.H蒲田_経歴書.pdf (application/pdf) 193050bytes
+[2026-05-27 19:14:35]     添付検出: KT_ishikawa_skillsheet.pdf (application/pdf) 220576bytes
+[2026-05-27 19:14:35]     添付検出: GN_osaka_skillsheet.pdf (application/pdf) 175779bytes
+[2026-05-27 19:14:35]     添付検出: T.Cスキルシート.pdf (application/pdf) 649467bytes
+[2026-05-27 19:14:35]     添付検出: H.J新丸子_経歴書.pdf (application/pdf) 126118bytes
+[2026-05-27 19:14:36]     添付検出: 技術者経歴書_HY_202604.pdf (application/pdf) 220542bytes
+[2026-05-27 19:14:36]     添付検出: HN@東久米.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 34742bytes
+[2026-05-27 19:14:36]     添付検出: SY-1.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 113664bytes
+[2026-05-27 19:14:36]     添付検出: YO.pdf (application/pdf) 335275bytes
+[2026-05-27 19:14:36]     添付検出: DM.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 55756bytes
+[2026-05-27 19:14:36]     添付検出: 経歴書_O.M.pdf (application/pdf) 516104bytes
+[2026-05-27 19:14:37]     添付検出: JS.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 54784bytes
+[2026-05-27 19:14:37]     添付検出: スキルシート_TN【Go×React】.pdf (application/pdf) 221030bytes
+[2026-05-27 19:14:37]     添付検出: OK (2).docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 44217bytes
+[2026-05-27 19:14:37]     添付検出: スキルシート_MM【フ?ランナー】.pdf (application/pdf) 178703bytes
+[2026-05-27 19:14:37]     添付検出: W.Y南行徳_経歴書.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 2929531bytes
+[2026-05-27 19:14:37]     添付検出: 職務経歴書(YM.33歳).pdf (application/pdf) 1040987bytes
+[2026-05-27 19:14:38]     添付検出: HT.pdf (application/pdf) 289591bytes
+[2026-05-27 19:14:38]     添付検出: スキルシート_K.S_辻堂駅.pdf (application/pdf) 616640bytes
+[2026-05-27 19:14:38]     添付検出: YS_senngawa_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 30699bytes
+[2026-05-27 19:14:38]     添付検出: MR@蒲田_スキルシート.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 586407bytes
+[2026-05-27 19:14:39]     添付検出: SI_tsurukawa_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 71602bytes
+[2026-05-27 19:14:39]     添付検出: NS@高田馬場最新.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 19266bytes
+[2026-05-27 19:14:39]     添付検出: 経歴書_T.M（宝殿）.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 36334bytes
+[2026-05-27 19:14:40]     添付検出: RM_fukuoka_skillsheet.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 56072bytes
+[2026-05-27 19:14:40]     添付検出: T.G池尻大橋_経歴書.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 31035bytes
+[2026-05-27 19:14:40]     添付検出: 　KH中国籍（PHP_西新井）.pdf (application/pdf) 140789bytes
+[2026-05-27 19:14:40]     添付検出: KK_43_赤羽.pdf (application/pdf) 1882784bytes
+[2026-05-27 19:14:41]     添付検出: O.K南行徳_経歴書.pdf (application/pdf) 1101856bytes
+[2026-05-27 19:14:41]     添付検出: N.H町田_経歴書.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 86528bytes
+[2026-05-27 19:14:41]     添付検出: スキルシート最新_H.I【テ?ィレクター】.pdf (application/pdf) 2197012bytes
+[2026-05-27 19:14:41]     添付検出: H.N徳島_経歴書.pdf (application/pdf) 410375bytes
+[2026-05-27 19:14:42]     添付検出: OK_46_新三郷.doc (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 117760bytes
+[2026-05-27 19:14:42]     添付検出: 経歴書_A.K（福岡）.pdf (application/pdf) 161570bytes
+[2026-05-27 19:14:42]     添付検出: S.K大阪_経歴書.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 37096bytes
+[2026-05-27 19:14:42]     添付検出: MYK-T.T 20260518.pdf (application/pdf) 364042bytes
+[2026-05-27 19:14:43]     添付検出: 経歴書_M.S＠古淵_0408.pdf (application/pdf) 92455bytes
+[2026-05-27 19:14:44]     添付検出: スキルシート_YM（子安駅）.pdf (application/pdf) 1007230bytes
+[2026-05-27 19:14:45]     添付検出: N.Y_������������.pdf (application/pdf) 398681bytes
+[2026-05-27 19:14:45]     添付検出: スキルシート_YI【Kotlin,Swift】_.pdf (application/pdf) 323858bytes
+[2026-05-27 19:14:46]     添付検出: RN_todakouen.pdf (application/pdf) 182917bytes
+[2026-05-27 19:14:46]     添付検出: TT_66.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 28500bytes
+[2026-05-27 19:14:46]     添付検出: 経歴書_S.Y.pdf (application/pdf) 81031bytes
+[2026-05-27 19:14:46]     添付検出: MM_宇都宮.pdf (application/pdf) 607042bytes
+[2026-05-27 19:14:46]     添付検出: DY_obihiro_skillsheet.pdf (application/pdf) 274417bytes
+[2026-05-27 19:14:47]     添付検出: スキルシート_ON.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 35087bytes
+[2026-05-27 19:14:47]     添付検出: M.T_大船.pdf (application/pdf) 493792bytes
+[2026-05-27 19:14:48]     添付検出: 職務経歴書_H.H_岐阜県.pdf (application/pdf) 326974bytes
+[2026-05-27 19:14:48]     添付検出: U.K_埼玉県.pdf (application/pdf) 172403bytes
+[2026-05-27 19:14:48]     添付検出: 169BZ55_スキルシートB0319西新宿五丁目.pdf (application/pdf) 801427bytes
+[2026-05-27 19:14:49]     添付検出: 173BZ50_スキルシートB0424みなとみらい.pdf (application/pdf) 215892bytes
+[2026-05-27 19:14:49]     添付検出: IC@新宿_スキルシート_202603.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 26795bytes
+[2026-05-27 19:14:49]     添付検出: TY_27_鹿児島県霧島市.pdf (application/pdf) 148182bytes
+[2026-05-27 19:14:49]     添付検出: 174BZ19_スキルシートB0501芝浦.pdf (application/pdf) 128552bytes
+[2026-05-27 19:14:49]     添付検出: ホ?ートフォリオ_HM.pdf (application/pdf) 2703405bytes
+[2026-05-27 19:14:49]     添付検出: 174BZ98_スキルシートB0520東池袋駅.pdf (application/pdf) 656356bytes
+[2026-05-27 19:14:49]     添付検出: MY_スキルシート.pdf (application/pdf) 1467709bytes
+[2026-05-27 19:14:49]     添付検出: スキルシート_E.T 田無駅.pdf (application/pdf) 265707bytes
+[2026-05-27 19:14:50]     添付検出: OT@沖縄_スキルシート_202605.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 18382bytes
+[2026-05-27 19:14:50]     添付検出: 176BZ06_スキルシートB0526佐倉.pdf (application/pdf) 149114bytes
+[2026-05-27 19:14:50]     添付検出: 176BZ68_スキルシートB0526蒲田.pdf (application/pdf) 462669bytes
+[2026-05-27 19:14:50]     添付検出: スキルシートSI 田町.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 42481bytes
+[2026-05-27 19:14:50]     添付検出: スキルシート_S.T みずほ台駅.pdf (application/pdf) 288512bytes
+[2026-05-27 19:14:50]     添付検出: 176BZ05_スキルシートB0520入間市.pdf (application/pdf) 187025bytes
+[2026-05-27 19:14:50]     添付検出: YK_62.pdf (application/pdf) 169471bytes
+[2026-05-27 19:14:51]     添付検出: HD@篠崎_スキルシート.pdf (application/pdf) 785549bytes
+[2026-05-27 19:14:51]     添付検出: スキルシート_Y.R_かしわ台駅.pdf (application/pdf) 792855bytes
+[2026-05-27 19:14:51]     添付検出: スキルシート_M.H_東大宮駅.pdf (application/pdf) 84612bytes
+[2026-05-27 19:14:51]     添付検出: スキルシート_F.Y_京王堀之内.pdf (application/pdf) 666209bytes
+[2026-05-27 19:14:51]     添付検出: スキルシートTK 馬込沢駅.pdf (application/pdf) 220970bytes
+[2026-05-27 19:14:51]     添付検出: スキルシートYS 笹塚 (2).docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 25516bytes
+[2026-05-27 19:14:52]     添付検出: 【スキルシート】_H.S 　浅草.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 220532bytes
+[2026-05-27 19:14:52]     添付検出: K.O経歴書（男性／30歳）.xlsx - 経歴書.pdf (application/pdf) 132628bytes
+[2026-05-27 19:14:54]     添付検出: F.Tスキルシート.pdf (application/pdf) 127682bytes
+[2026-05-27 19:14:54]     添付検出: ST@所沢_スキルシート_202605.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 19828bytes
+[2026-05-27 19:14:54]     添付検出: 13BZ98_スキルシートB0518渋谷.pdf (application/pdf) 532540bytes
+[2026-05-27 19:14:55]     添付検出: 職務経歴書(MH)20260501.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 58144bytes
+[2026-05-27 19:14:55]     添付検出: NM_31_五反田.pdf (application/pdf) 498958bytes
+[2026-05-27 19:14:55]     添付検出: 106BZ32_スキルシートB0519中野島駅.pdf (application/pdf) 220631bytes
+[2026-05-27 19:14:55]     添付検出: 172BZ55_スキルシートB0420大阪府.pdf (application/pdf) 221440bytes
+[2026-05-27 19:14:56]     添付検出: 173BZ86_スキルシートB0507広島県.pdf (application/pdf) 672170bytes
+[2026-05-27 19:14:56]     添付検出: スキルシート_K.H_西新井.pdf (application/pdf) 140789bytes
+[2026-05-27 19:14:56]   sessales@terra-ltd.co.jp: 2000件追加
+[2026-05-27 19:14:56] IMAP接続: r-matsuno@terra-ltd.co.jp (松野メール)
+[2026-05-27 19:14:57]   r-matsuno@terra-ltd.co.jp: 全114件 → 最大2000件を処理対象
+[2026-05-27 19:14:58]     添付検出: AI駆動開発_20260526.pdf (application/pdf) 706596bytes
+[2026-05-27 19:14:58]     添付検出: ウェルビーイング経営.png (image/png) 1963142bytes
+[2026-05-27 19:14:58]     添付検出: NT_市川駅_7416A.docx (application/vnd.openxmlformats-officedocument.wordprocessingml.document) 51015bytes
+[2026-05-27 19:14:58]     添付検出: ST(西荻窪).pdf (application/pdf) 348422bytes
+[2026-05-27 19:14:58]     添付検出: IS(千葉市).pdf (application/pdf) 508976bytes
+[2026-05-27 19:14:58]     添付検出: スキルシートAW(京成立石駅).pdf (application/pdf) 412170bytes
+[2026-05-27 19:15:00]     添付検出: 【ゼロスピリッツ】案件情報一覧_20260527.pdf (application/pdf) 515627bytes
+[2026-05-27 19:15:00]   r-matsuno@terra-ltd.co.jp: 113件追加
+[2026-05-27 19:15:00] 取得完了: 合計2113件
+[2026-05-27 19:15:00] 新規処理対象: 1043件
+[2026-05-27 19:15:01]   Batch API送信: 922件 (msgbatch_017MzhNcbFoUCsLvBEncCu8d)

@@ -25,7 +25,10 @@ import jpholiday
 
 # skill_readerをインポート
 import sys
-sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from skill_reader.skill_reader import (
     extract_skills_from_text, extract_skills_from_image,
@@ -592,8 +595,14 @@ SES業界用語:
         return {em.get("index", i): classify_email(em.get("subject", ""), em.get("body", "")) for i, em in enumerate(emails)}
 
     try:
-        with contextlib.redirect_stdout(io.StringIO()):
+        import importlib, sys as _sys
+        _old_stdout = _sys.stdout
+        try:
+            import io as _io
+            _sys.stdout = _io.StringIO()
             from analyze_final import SKIP_PATTERNS, ENGINEER_PATTERNS, PROJECT_PATTERNS, classify_by_rule
+        finally:
+            _sys.stdout = _old_stdout
         _ = (SKIP_PATTERNS, ENGINEER_PATTERNS, PROJECT_PATTERNS)
     except Exception as e:
         log(f"  ルール分類インポート失敗: {e}")
