@@ -397,15 +397,22 @@ Output:
   "score":0,
   "gross_profit":0,
   "required_match":{"Java":true},
-  "optional_match":{},
-  "note":""
+  "optional_match":{}
 }]}
+Note: Do NOT include "note" field. It will be filled from DB.
 """
     result = call_claude(system, json.dumps({"engineer": engineer, "projects": projects}, ensure_ascii=False), max_tokens=2000)
     try:
         result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
         if not isinstance(result_obj, dict):
             return {"matches": []}
+        # projectsデータからnote/assigneeをマージ（AI生成ではなくDB原文を使う）
+        proj_map = {p.get("name", ""): p for p in projects}
+        for m in result_obj.get("matches", []):
+            pname = m.get("project_name", "")
+            proj = proj_map.get(pname, {})
+            m["note"] = proj.get("note", "")
+            m["assignee"] = proj.get("assignee", "")
         return result_obj
     except Exception as e:
         print(f"[run_reverse_matching] parse error: {e}")
