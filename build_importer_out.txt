@@ -1,0 +1,11 @@
+written: parsers/text_parser.py
+written: parsers/file_parser.py
+written: utils/drive_downloader.py
+written: utils/notion_writer.py
+written: importer.py
+written: __init__.py
+written: parsers/__init__.py
+written: utils/__init__.py
+written: tests/__init__.py
+written: tests/test_text_parser.py
+All files generated.

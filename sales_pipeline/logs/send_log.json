@@ -1,0 +1,1271 @@
+[
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.877232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.878232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.878232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.879232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.880232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-812a-80a8-d71e796911ac_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.880232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.880232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.881233",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.881233",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.882232",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.883239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.883239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.884239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.884239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.885239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.885239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.886238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.886238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8188-b2fc-e1dd8565ad7d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.887238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8151-bad3-e22e52798486.txt",
+    "to": "",
+    "subject": "DI(男性/45歳)様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.887238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.888233",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.889239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.889239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81da-9709-eb0c41fb1d79.txt",
+    "to": "",
+    "subject": "AK（男性/60歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.890239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.891238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.891238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.892244",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.892244",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.893236",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.894239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.894239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.895239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.895239",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.896238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.896238",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.897238",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-811b-ae0e-c4f43246f7a1.txt",
+    "to": "",
+    "subject": "Struts Java 基本設計〜 70万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.912926",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-812a-80a8-d71e796911ac.txt",
+    "to": "",
+    "subject": "TypeScript/Next.js Python/FastAPI フルリモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.914929",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8146-851d-e65b6df2c223.txt",
+    "to": "",
+    "subject": "急募 Java人材 常駐可（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.915925",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-815f-b753-dc2daa830733.txt",
+    "to": "",
+    "subject": "基幹システム移行 Java/Spring/Postgre 75万（Roots） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.915925",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8173-bcdc-e8d67c5f8f2d.txt",
+    "to": "",
+    "subject": "【注力/中部】Java 基本設計〜対応可 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.916942",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8188-b2fc-e1dd8565ad7d.txt",
+    "to": "",
+    "subject": "Python/AWS IoT自動車 バックエンド 100万〜（D-Standing） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.917929",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81a8-b240-fd79783c92fa.txt",
+    "to": "",
+    "subject": "【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.917929",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81c6-a402-da286e8e7b1e.txt",
+    "to": "",
+    "subject": "PLM導入開発 Java/C# 65万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.918923",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81e8-8ef9-d8ba1d4f7249.txt",
+    "to": "",
+    "subject": "PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.919923",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81ef-9c5f-f3da4841d6b1.txt",
+    "to": "",
+    "subject": "AWS インフラ運用 出社2リモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.920926",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_368450ff-37c0-81dc-9fa0-de974573ba4f.txt",
+    "to": "",
+    "subject": "【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:07:55.921926",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.070005",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.071831",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.073831",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.074828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.075828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-812a-80a8-d71e796911ac_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.077829",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.078834",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.079832",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.079832",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.080832",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.081833",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.082832",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.083828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.084828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.085828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.086835",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.087834",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.087834",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8188-b2fc-e1dd8565ad7d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.089828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8151-bad3-e22e52798486.txt",
+    "to": "",
+    "subject": "DI(男性/45歳)様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.090827",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.091828",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.092827",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.093826",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81da-9709-eb0c41fb1d79.txt",
+    "to": "",
+    "subject": "AK（男性/60歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.093826",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.097269",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.100279",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.101276",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.102286",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.103280",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.104279",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.105358",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.107346",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.108336",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.109338",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.110325",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.112275",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-811b-ae0e-c4f43246f7a1.txt",
+    "to": "",
+    "subject": "Struts Java 基本設計〜 70万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.124367",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-812a-80a8-d71e796911ac.txt",
+    "to": "",
+    "subject": "TypeScript/Next.js Python/FastAPI フルリモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.125282",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8146-851d-e65b6df2c223.txt",
+    "to": "",
+    "subject": "急募 Java人材 常駐可（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.126279",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-815f-b753-dc2daa830733.txt",
+    "to": "",
+    "subject": "基幹システム移行 Java/Spring/Postgre 75万（Roots） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.127278",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8173-bcdc-e8d67c5f8f2d.txt",
+    "to": "",
+    "subject": "【注力/中部】Java 基本設計〜対応可 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.128276",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8188-b2fc-e1dd8565ad7d.txt",
+    "to": "",
+    "subject": "Python/AWS IoT自動車 バックエンド 100万〜（D-Standing） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.128276",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81a8-b240-fd79783c92fa.txt",
+    "to": "",
+    "subject": "【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.129280",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81c6-a402-da286e8e7b1e.txt",
+    "to": "",
+    "subject": "PLM導入開発 Java/C# 65万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.131279",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81e8-8ef9-d8ba1d4f7249.txt",
+    "to": "",
+    "subject": "PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.132279",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81ef-9c5f-f3da4841d6b1.txt",
+    "to": "",
+    "subject": "AWS インフラ運用 出社2リモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.133279",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_368450ff-37c0-81dc-9fa0-de974573ba4f.txt",
+    "to": "",
+    "subject": "【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:37.134279",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.068865",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.070856",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.070856",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.071964",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-811b-ae0e-c4f43246f7a1_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.072778",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-812a-80a8-d71e796911ac_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.073778",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.074910",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.075837",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.076864",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.077842",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8146-851d-e65b6df2c223_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.078988",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.079998",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-815f-b753-dc2daa830733_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.080780",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.081785",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.082784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.083783",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.084784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8173-bcdc-e8d67c5f8f2d_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.084784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-8188-b2fc-e1dd8565ad7d_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.085987",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8151-bad3-e22e52798486.txt",
+    "to": "",
+    "subject": "DI(男性/45歳)様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.086823",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.087784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.088783",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.089784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_35d450ff-37c0-81da-9709-eb0c41fb1d79.txt",
+    "to": "",
+    "subject": "AK（男性/60歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.090784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81a8-b240-fd79783c92fa_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.091784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-8165-80a0-d7eb702c83d4.txt",
+    "to": "",
+    "subject": "KSみずほ台（男性42歳）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.092783",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.093783",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_35d450ff-37c0-81c3-b2df-f37e0e299392.txt",
+    "to": "",
+    "subject": "M.H様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.095785",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-8137-9dc1-e11b8e6a022c.txt",
+    "to": "",
+    "subject": "R.H（24歳・男性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.096784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81c6-a402-da286e8e7b1e_360450ff-37c0-81cc-bf28-cc3c8969fd0a.txt",
+    "to": "",
+    "subject": "OA（33歳・女性）様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.097784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.098784",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81e8-8ef9-d8ba1d4f7249_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.100980",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.101872",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_364450ff-37c0-81ef-9c5f-f3da4841d6b1_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.103787",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-815a-972a-e921fb93f43c.txt",
+    "to": "",
+    "subject": "M.Y様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.104904",
+    "status": "skipped"
+  },
+  {
+    "step": "intent",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\ikoukakunin_368450ff-37c0-81dc-9fa0-de974573ba4f_35d450ff-37c0-81ba-a490-e4d373caa400.txt",
+    "to": "",
+    "subject": "UR様 案件ご検討のお願い（）",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.105887",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-811b-ae0e-c4f43246f7a1.txt",
+    "to": "",
+    "subject": "Struts Java 基本設計〜 70万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.116785",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-812a-80a8-d71e796911ac.txt",
+    "to": "",
+    "subject": "TypeScript/Next.js Python/FastAPI フルリモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.117847",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8146-851d-e65b6df2c223.txt",
+    "to": "",
+    "subject": "急募 Java人材 常駐可（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.119042",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-815f-b753-dc2daa830733.txt",
+    "to": "",
+    "subject": "基幹システム移行 Java/Spring/Postgre 75万（Roots） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.120075",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8173-bcdc-e8d67c5f8f2d.txt",
+    "to": "",
+    "subject": "【注力/中部】Java 基本設計〜対応可 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.121859",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-8188-b2fc-e1dd8565ad7d.txt",
+    "to": "",
+    "subject": "Python/AWS IoT自動車 バックエンド 100万〜（D-Standing） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.122862",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81a8-b240-fd79783c92fa.txt",
+    "to": "",
+    "subject": "【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.123781",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81c6-a402-da286e8e7b1e.txt",
+    "to": "",
+    "subject": "PLM導入開発 Java/C# 65万（ICD） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.124857",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81e8-8ef9-d8ba1d4f7249.txt",
+    "to": "",
+    "subject": "PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.125858",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_364450ff-37c0-81ef-9c5f-f3da4841d6b1.txt",
+    "to": "",
+    "subject": "AWS インフラ運用 出社2リモート（ACWeb） ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.126867",
+    "status": "skipped"
+  },
+  {
+    "step": "proposal",
+    "path": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\sales_pipeline\\drafts\\proposal_368450ff-37c0-81dc-9fa0-de974573ba4f.txt",
+    "to": "",
+    "subject": "【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月 ご提案",
+    "dry_run": true,
+    "at": "2026-05-25T12:10:44.128867",
+    "status": "skipped"
+  }
+]

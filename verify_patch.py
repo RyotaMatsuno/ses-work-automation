@@ -1,8 +1,9 @@
-with open('freee/freee_invoice_v2.py', encoding='utf-8') as f:
-    c = f.read()
-if 'auto_status_update' in c:
-    idx = c.find('auto_status_update')
-    print('組み込み確認OK')
-    print(c[idx-100:idx+400])
-else:
-    print('NG')
+
+path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\matching_v2.py"
+with open(path, encoding="utf-8") as f:
+    content = f.read()
+
+print("build_skill_text_for_engineer:", "build_skill_text_for_engineer" in content)
+print("raw_text:", '"raw_text"' in content)
+print("drive_url:", '"drive_url"' in content)
+print("skill_text:", '"skill_text"' in content)

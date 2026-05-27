@@ -58,6 +58,65 @@ JSON以外のテキストは一切出力しないでください。
 {", ".join(SKILL_OPTIONS)}
 """
 
+CLASSIFY_SYSTEM_PROMPT = """あなたはSES業界のメール添付ファイルの内容を分類するAIです。
+以下のテキストが「人員情報（スキルシート・経歴書）」か「案件情報（募集要項）」かを判定してください。
+以下のJSONのみを返してください（説明文不要）:
+{"type": "engineer"} または {"type": "project"} または {"type": "unknown"}
+
+判断基準:
+- 人員: 氏名・経験年数・スキル・稼働可能日・希望単価が主体
+- 案件: 業務内容・必須スキル・期間・勤務地・募集単価が主体
+"""
+
+
+def classify_content(text: str) -> str:
+    """
+    テキストが人員情報か案件情報かを分類。
+
+    Returns:
+        "engineer" / "project" / "unknown"
+    """
+    import anthropic
+
+    def fallback_classify() -> str:
+        engineer_words = ["氏名", "経験年数", "経歴", "スキルシート", "稼働可能", "希望単価"]
+        project_words = ["必須スキル", "募集", "案件", "勤務地", "期間", "業務内容"]
+        engineer_score = sum(1 for word in engineer_words if word in text)
+        project_score = sum(1 for word in project_words if word in text)
+        if engineer_score > project_score:
+            return "engineer"
+        if project_score > engineer_score:
+            return "project"
+        return "unknown"
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        return fallback_classify()
+
+    client = anthropic.Anthropic(api_key=api_key)
+
+    try:
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=50,
+            system=CLASSIFY_SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": text[:3000]}]
+        )
+        raw = response.content[0].text.strip()
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+            raw = raw.strip()
+        data = json.loads(raw)
+        content_type = data.get("type", "unknown")
+        if content_type not in {"engineer", "project", "unknown"}:
+            return fallback_classify()
+        return content_type
+    except Exception as e:
+        logger.error(f"classify_content失敗: {e}")
+        return fallback_classify()
+
 
 def extract_engineers(text: str, filename: str) -> list:
     """
@@ -80,7 +139,7 @@ def extract_engineers(text: str, filename: str) -> list:
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-5",
+            model="claude-haiku-4-5-20251001",
             max_tokens=2000,
             system=ENGINEER_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}]
@@ -130,7 +189,7 @@ def extract_projects(text: str, filename: str) -> list:
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-5",
+            model="claude-haiku-4-5-20251001",
             max_tokens=2000,
             system=PROJECT_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}]

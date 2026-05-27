@@ -1,0 +1,497 @@
+# -*- coding: utf-8 -*-
+"""
+AIスキル判定を使った案件 × エンジニア マッチング。
+
+実行:
+  python matching_v2/matching_v2.py
+"""
+
+import io
+import argparse
+import json
+import os
+import sys
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
+from threading import Lock
+
+from dotenv import dotenv_values
+
+try:
+    from .skill_judge import judge_skills_batch
+except ImportError:
+    from skill_judge import judge_skills_batch
+
+import requests
+
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
+BASE_DIR = os.path.dirname(__file__)
+SES_WORK_DIR = os.path.dirname(BASE_DIR)
+ENV_PATHS = [
+    os.path.join(BASE_DIR, "config", ".env"),
+    os.path.join(SES_WORK_DIR, "config", ".env"),
+]
+PROJECT_DB_ID_DEFAULT = "343450ff-37c0-81e4-934e-f25f90284a3c"
+RESULT_PATH = os.path.join(BASE_DIR, "result.json")
+SAMPLE_PATH = os.path.join(BASE_DIR, "test_data", "sample.json")
+MAX_WORKERS = int(os.environ.get("MATCHING_V2_WORKERS", "4"))
+
+
+def load_env():
+    for env_path in ENV_PATHS:
+        if os.path.exists(env_path):
+            config = dotenv_values(env_path)
+            for key, value in config.items():
+                if key not in os.environ and value is not None:
+                    os.environ[key] = value
+
+
+load_env()
+
+API_KEY = os.environ.get("NOTION_API_KEY", "")
+ENGINEER_DB_ID = os.environ.get("NOTION_ENGINEER_DB_ID", "")
+PROJECT_DB_ID = os.environ.get("NOTION_PROJECT_DB_ID", PROJECT_DB_ID_DEFAULT)
+
+HEADERS = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+    "Notion-Version": "2022-06-28",
+}
+
+
+def query_db(db_id, filter_obj=None):
+    results = []
+    payload = {"page_size": 100}
+    if filter_obj:
+        payload["filter"] = filter_obj
+
+    while True:
+        response = requests.post(
+            f"https://api.notion.com/v1/databases/{db_id}/query",
+            headers=HEADERS,
+            json=payload,
+            timeout=30,
+        )
+        response.raise_for_status()
+        data = response.json()
+        results.extend(data.get("results", []))
+        if not data.get("has_more"):
+            break
+        payload["start_cursor"] = data["next_cursor"]
+    return results
+
+
+def get_multiselect(props, key):
+    return [item["name"] for item in props.get(key, {}).get("multi_select", [])]
+
+
+def get_title(props, key):
+    items = props.get(key, {}).get("title", [])
+    return items[0]["plain_text"] if items else "（名前なし）"
+
+
+def get_number(props, key):
+    return props.get(key, {}).get("number")
+
+
+def get_date(props, key):
+    date_value = props.get(key, {}).get("date")
+    return date_value["start"] if date_value else None
+
+
+def get_select(props, key):
+    select_value = props.get(key, {}).get("select")
+    return select_value.get("name", "") if select_value else ""
+
+
+def get_rich_text(props, key):
+    items = props.get(key, {}).get("rich_text", [])
+    return "".join(item.get("plain_text", "") for item in items)
+
+
+def get_text_property(props, key):
+    prop = props.get(key, {})
+    if prop.get("type") == "rich_text":
+        return "".join(item.get("plain_text", "") for item in prop.get("rich_text", []))
+    if prop.get("type") == "title":
+        return "".join(item.get("plain_text", "") for item in prop.get("title", []))
+    return ""
+
+
+def get_min_gross(engineer_owner, project_owner):
+    # 担当者不明は安全側で5万。
+    if not engineer_owner or not project_owner:
+        return 5
+    if "岡本" in (engineer_owner or "") or "岡本" in (project_owner or ""):
+        return 3
+    return 5
+
+
+
+def build_skill_text_for_engineer(engineer):
+    """スキルシート原文 > Driveファイル > raw_text > multi_select の優先順位でスキルテキストを返す"""
+    file_path = engineer.get("file_path", "")
+    drive_url = engineer.get("drive_url", "")
+    raw_text = engineer.get("raw_text", "")
+    skills_list = engineer.get("skills", [])
+
+    # ファイルパスがあれば読み込み（ローカルExcel/PDF）
+    if file_path:
+        try:
+            import os
+            if os.path.exists(file_path):
+                ext = os.path.splitext(file_path)[1].lower()
+                if ext in ('.txt', '.md'):
+                    with open(file_path, encoding='utf-8', errors='ignore') as fp:
+                        return fp.read()
+        except Exception:
+            pass
+
+    # Drive URLがあればraw_textを優先（Driveダウンロードは非同期が必要なため今はスキップ）
+    if raw_text:
+        return raw_text
+
+    # multi_selectにフォールバック
+    return ", ".join(skills_list)
+
+def judge_with_cache(cache, cache_lock, required_skills, optional_skills, engineers):
+    key = (
+        tuple(sorted(required_skills)),
+        tuple(sorted(optional_skills)),
+        tuple(
+            sorted(
+                (
+                    engineer["name"],
+                    tuple(sorted(engineer.get("skills", []))),
+                )
+                for engineer in engineers
+            )
+        ),
+    )
+    with cache_lock:
+        cached = cache.get(key)
+    if cached is not None:
+        return cached
+
+    judged = judge_skills_batch(
+        list(required_skills),
+        list(optional_skills),
+        [
+            {
+                "name": engineer["name"],
+                "skills": engineer.get("skills", []),
+                "skill_text": build_skill_text_for_engineer(engineer),
+            }
+            for engineer in engineers
+        ],
+    )
+    with cache_lock:
+        cache[key] = judged
+    return judged
+
+
+def calculate_score(required_judgement):
+    required_results = [item["result"] for item in required_judgement.values()]
+    if "×" in required_results:
+        return 0.0
+
+    triangle_count = required_results.count("△")
+    if triangle_count == 0:
+        return 1.0
+    if triangle_count == 1:
+        return 0.8
+    return 0.65
+
+
+def needs_check(score, required_judgement):
+    required_results = [item["result"] for item in required_judgement.values()]
+    return score < 0.7 or "△" in required_results
+
+
+def format_judgement(judgement):
+    parts = []
+    for skill, item in judgement.items():
+        result = item["result"]
+        reason = item.get("reason", "")
+        if result == "△" and reason:
+            parts.append(f"{skill}:{result}（{reason}）")
+        else:
+            parts.append(f"{skill}:{result}")
+    return "  ".join(parts) if parts else "なし"
+
+
+def extract_project(page):
+    props = page["properties"]
+    raw_body = get_text_property(props, "案件詳細") or get_text_property(props, "備考（LINEメモ）") or ""
+    return {
+        "id": page["id"],
+        "url": page.get("url"),
+        "name": get_title(props, "案件名"),
+        "client": get_rich_text(props, "クライアント") or "不明",
+        "required_skills": get_multiselect(props, "必要スキル"),
+        "optional_skills": get_multiselect(props, "尚可スキル"),
+        "price": get_number(props, "単価（万円）"),
+        "start_date": get_date(props, "開始日"),
+        "owner": get_select(props, "担当者"),
+        "raw_text": get_rich_text(props, "人員情報原文"),
+        "file_path": get_rich_text(props, "添付ファイルパス"),
+        "drive_url": get_rich_text(props, "Driveリンク"),
+        "raw_body": raw_body,
+    }
+
+
+def extract_engineer(page):
+    props = page["properties"]
+    raw_body = get_text_property(props, "備考（LINEメモ）") or ""
+    return {
+        "id": page["id"],
+        "url": page.get("url"),
+        "name": get_title(props, "名前"),
+        "skills": get_multiselect(props, "スキル"),
+        "price": get_number(props, "単価（万円）"),
+        "available_date": get_date(props, "稼働可能日"),
+        "owner": get_select(props, "担当者"),
+        "raw_text": get_rich_text(props, "人員情報原文"),
+        "file_path": get_rich_text(props, "添付ファイルパス"),
+        "drive_url": get_rich_text(props, "Driveリンク"),
+        "raw_body": raw_body,
+    }
+
+
+def make_project_result(project, candidates):
+    return {
+        "project_id": project["id"],
+        "project_name": project["name"],
+        "project_url": project["url"],
+        "raw_body": project.get("raw_body", ""),
+        # 2026-05-25: result.jsonで案件予算を確認できるようbudgetを追加。
+        "budget": project["price"],
+        "candidates": [
+            {
+                "engineer_id": candidate["engineer"]["id"],
+                "engineer_name": candidate["engineer"]["name"],
+                "engineer_url": candidate["engineer"]["url"],
+                "raw_body": candidate["engineer"].get("raw_body", ""),
+                "score": candidate["score"],
+                "needs_check": candidate["needs_check"],
+                "required": candidate["required_judgement"],
+                "optional": candidate["optional_judgement"],
+                "price": candidate["engineer"]["price"],
+                "available_date": candidate["engineer"]["available_date"],
+                "engineer_owner": candidate["engineer"].get("owner", ""),
+                "project_owner": project.get("owner", ""),
+            }
+            for candidate in candidates
+        ],
+    }
+
+
+def evaluate_candidate(project, engineer, judgement):
+    # 2026-05-26: 担当者別の最低粗利を満たさない候補は除外。
+    if (
+        engineer["price"] is not None
+        and project["price"] is not None
+        and project["price"] - engineer["price"]
+        < get_min_gross(engineer.get("owner"), project.get("owner"))
+    ):
+        return None
+
+    required_judgement = {
+        skill: judgement[skill] for skill in project["required_skills"]
+    }
+    optional_judgement = {
+        skill: judgement[skill] for skill in project["optional_skills"]
+    }
+    score = calculate_score(required_judgement)
+
+    if score == 0.0:
+        return None
+
+    return {
+        "engineer": engineer,
+        "score": score,
+        "needs_check": needs_check(score, required_judgement),
+        "required_judgement": required_judgement,
+        "optional_judgement": optional_judgement,
+    }
+
+
+def print_summary(projects_results):
+    print("=" * 65)
+    print("AIマッチング結果")
+    print("=" * 65)
+
+    for project_result in projects_results:
+        project = project_result["project"]
+        candidates = project_result["candidates"]
+        print(f"案件: {project['name']}")
+        print(f"  クライアント: {project['client']}")
+        print(f"  必須: {', '.join(project['required_skills']) or 'なし'}")
+        print(f"  尚可: {', '.join(project['optional_skills']) or 'なし'}")
+
+        if not candidates:
+            print("  → 候補なし")
+            print()
+            continue
+
+        for index, candidate in enumerate(candidates, start=1):
+            engineer = candidate["engineer"]
+            print(f"  候補{index}: {engineer['name']}（スコア: {candidate['score']:.2f}）")
+            print(f"    必須: {format_judgement(candidate['required_judgement'])}")
+            print(f"    尚可: {format_judgement(candidate['optional_judgement'])}")
+            price = f"{engineer['price']}万" if engineer["price"] else "未設定"
+            available_date = engineer["available_date"] or "未設定"
+            print(f"    単価: {price} / 稼働: {available_date}")
+            if candidate["needs_check"]:
+                print("    → 要確認 ⚠️（松野に確認フラグ）")
+            else:
+                print("    → 提案推奨 ✅")
+        print()
+
+
+def validate_env():
+    missing = [
+        key for key in ["NOTION_API_KEY", "NOTION_ENGINEER_DB_ID", "ANTHROPIC_API_KEY"]
+        if not os.environ.get(key)
+    ]
+    if missing:
+        raise RuntimeError(f"必要な環境変数が未設定です: {', '.join(missing)}")
+
+
+def validate_sample_env():
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        raise RuntimeError("必要な環境変数が未設定です: ANTHROPIC_API_KEY")
+
+
+def load_sample_data():
+    with open(SAMPLE_PATH, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    projects = []
+    for project in data.get("projects", []):
+        projects.append({
+            "id": project["id"],
+            "url": project.get("url"),
+            "name": project["name"],
+            "client": project.get("client", "サンプル"),
+            "required_skills": project.get("required_skills", []),
+            "optional_skills": project.get("optional_skills", []),
+            "price": project.get("price"),
+            "start_date": project.get("start_date"),
+            "owner": project.get("owner", ""),
+        })
+
+    engineers = []
+    for engineer in data.get("engineers", []):
+        engineers.append({
+            "id": engineer["id"],
+            "url": engineer.get("url"),
+            "name": engineer["name"],
+            "skills": engineer.get("skills", []),
+            "price": engineer.get("price"),
+            "available_date": engineer.get("available_date"),
+            "owner": engineer.get("owner", ""),
+        })
+
+    return projects, engineers
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--sample",
+        action="store_true",
+        help="test_data/sample.jsonを使い、Notion APIを呼ばずに実行する",
+    )
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    if args.sample:
+        validate_sample_env()
+        projects, engineers = load_sample_data()
+    else:
+        validate_env()
+        projects = [
+            extract_project(page)
+            for page in query_db(PROJECT_DB_ID, {
+                "property": "ステータス",
+                "select": {"equals": "募集中"},
+            })
+        ]
+        engineers = [
+            extract_engineer(page)
+            for page in query_db(ENGINEER_DB_ID, {
+                "property": "稼働状況",
+                "select": {"equals": "稼働可能"},
+            })
+        ]
+
+    print(f"募集中案件: {len(projects)}件 / 稼働可能エンジニア: {len(engineers)}名")
+
+    cache = {}
+    cache_lock = Lock()
+    projects_results = []
+    output_projects = []
+
+    for project in projects:
+        candidates = []
+        if not project["required_skills"] and not project["optional_skills"]:
+            print(f"判定スキップ: {project['name']}（スキル要件なし）", flush=True)
+            projects_results.append({
+                "project": project,
+                "candidates": candidates,
+            })
+            output_projects.append(make_project_result(project, candidates))
+            continue
+
+        print(f"判定中: {project['name']}（{len(engineers)}名）", flush=True)
+
+        batch_judgement = judge_with_cache(
+            cache,
+            cache_lock,
+            project["required_skills"],
+            project["optional_skills"],
+            engineers,
+        )
+        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+            futures = []
+            for engineer in engineers:
+                judgement = batch_judgement.get(engineer["name"], {})
+                futures.append(executor.submit(
+                    evaluate_candidate,
+                    project,
+                    engineer,
+                    judgement,
+                ))
+            for future in as_completed(futures):
+                candidate = future.result()
+                if candidate is None:
+                    continue
+                candidates.append(candidate)
+
+        candidates.sort(key=lambda item: item["score"], reverse=True)
+        projects_results.append({
+            "project": project,
+            "candidates": candidates,
+        })
+        output_projects.append(make_project_result(project, candidates))
+
+    with open(RESULT_PATH, "w", encoding="utf-8") as file:
+        json.dump(output_projects, file, ensure_ascii=False, indent=2)
+
+    # 2026-05-25: 尚可スキル空問題の原因調査用に件数を出力。
+    optional_skill_projects = sum(1 for project in projects if project["optional_skills"])
+    print(f"尚可スキルあり: {optional_skill_projects}/{len(projects)}件")
+
+    print_summary(projects_results)
+    print(f"result.json 生成: {RESULT_PATH}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,210 @@
+{
+  "results": {
+    "project": 844,
+    "engineer": 801,
+    "skip": 398,
+    "unknown": 1957
+  },
+  "unknown_samples": [
+    {
+      "subject": "【直人材】Java(SpringBoot)｜フルリモート｜4月｜85~90万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【直個人】6月～/PMO/英語TOEIC990点/インフラエンジニア/リモート併用希望（D-code 伊藤）",
+      "from": "<sales@code-d.co.jp>"
+    },
+    {
+      "subject": "【ロースキル案件】未経験可/商業施設でのポップアップ運営/営業・販売・商品案内等/即日～/複数拠点",
+      "from": "トラストフィールディングSES営業部 <sales@trust-fielding.co.jp>"
+    },
+    {
+      "subject": "複数名急募【ロースキル案件】未経験可/アポ取り架電業務/面談後即決/即日～/不動前・大塚（常駐）",
+      "from": "トラストフィールディングSES営業部 <sales@trust-fielding.co.jp>"
+    },
+    {
+      "subject": "【即日要員】C#/React/Vue.js｜要件定義〜運用保守対応・PL補佐経験あり",
+      "from": "近藤慶一<k.kondou@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "注力要員情報/React、Next.js、TypeScript、PHP、Laravel、UI/UXデザイン/要件定義〜/７月〜",
+      "from": "男澤純一<j.otokozawa@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "【Astro人材】◆PG/SE・37歳◆・PHP・Laravel・JavaScript・要件定義〜・＠北陸本線松任(フルリモート希望)",
+      "from": "（株）アストロ　鈴木りら<rira.suzuki@astro-hd.com>"
+    },
+    {
+      "subject": "【人材情報】【～75万 / 志村三丁目】要件定義〜総合テスト対応可能／安定稼働のJava要員（D-code 南山）",
+      "from": "<sales@code-d.co.jp>"
+    },
+    {
+      "subject": "【Astro人材】◆SE・31歳◆・JavaScript・TypeScript・詳細設計〜・＠高崎(リモート希望)",
+      "from": "（株）アストロ　鈴木りら<rira.suzuki@astro-hd.com>"
+    },
+    {
+      "subject": "【直人材】戦略コンサル｜PMO｜出社可｜即日｜160万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【Astro人材】◆SE・35歳◆・PHP・JavaScript・COBOL・詳細設計〜・＠宮城",
+      "from": "（株）アストロ　鈴木りら<rira.suzuki@astro-hd.com>"
+    },
+    {
+      "subject": "【CONVICTION案件情報】証券系 分析基盤・収支管理システム運用保守エンハンス_SQL/SAS_2026年7月開始",
+      "from": "partner@conviction-inc.com"
+    },
+    {
+      "subject": "【★大特価/35万】 即〜6月スポット/希望何でも幅広くください！インフラ/SQL//BIツール/Tableau",
+      "from": "近藤慶一<k.kondou@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "﻿【NBW案件情報】与信管理/8月～/23区内(テレワーク併用）",
+      "from": "NBW王敬東 <j.wang@n-b-w.com>"
+    },
+    {
+      "subject": "【7月~/PM/尚可Swift/基本リモート】大手飲食向けiOSアプリ開発/東京駅/Objective-C",
+      "from": "星野 弘樹(KaizenTechAgent)<h.hoshino@kaizentech.co.jp>"
+    },
+    {
+      "subject": "【人材情報】5月～/一社先正社員/初石駅/~70万/Python/開発案件希望（D-code 南山）",
+      "from": "<sales@code-d.co.jp>"
+    },
+    {
+      "subject": "【直人材】B2Bマーケティング｜グローバル｜基本リモート｜即日｜~100万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【直要員】Web・制作ディレクター / 大手クライアント経験複数◎人柄◎",
+      "from": "株式会社ACWEB 藤原<m.fujiwara@acweb.co.jp>"
+    },
+    {
+      "subject": "【直人材】SAPコンサル｜PMO｜即日｜リモート希望｜120万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【プラウド要員情報】【PM/PMO】85万/上流/要件定義/AWS/Web開発//即日/コミュ力◎/ポジティブ＆明るい◎/@西所沢",
+      "from": "sales@proud-g.jp"
+    },
+    {
+      "subject": "即日要員　NWインフラエンジニア　設計・構築　8年　常駐相談可能！！",
+      "from": "田中　有希菜<yu-tanaka@threee3.com>"
+    },
+    {
+      "subject": "【CONVICTION案件情報】新サービス向け店内サーバアプリ機能追加支援_C#/C++_6月または7月開始｜面談1回",
+      "from": "sales@conviction-inc.com"
+    },
+    {
+      "subject": "【単価下げ】6月～　Java/React.js./Vue.js/C#.Net/Node.js/Angular要員「方（ファン）.X」ご提案/経験6年/中国籍/日",
+      "from": "NetWisdom_井上 喜雄 <inoue@netwisdom.co.jp>"
+    },
+    {
+      "subject": "【6月Java要員】要件定義～結合テスト／障害対応・品質意識高／田無駅（常駐可〇）",
+      "from": "y.naoi@gatlab.co.jp"
+    },
+    {
+      "subject": "【直人材】React｜コーダー ｜ フルリモート ｜6月 ｜~65万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【直人材】PHP(Laravel)｜フルリモート｜即日｜80万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【直個人】【～50万】Windows・Cisco・Google Workspace対応可／社内SE経験30年以上（D-code 南山）",
+      "from": "<sales@code-d.co.jp>"
+    },
+    {
+      "subject": "【7月開始&8月開始】※Javaエンジニア募集/弊社増員/",
+      "from": "s.sakurai@h-basis.co.jp"
+    },
+    {
+      "subject": "即〜【Delphi】YT1001のご紹介です。",
+      "from": "ZERO小川 裕大<ogawa@ze-r0.jp>"
+    },
+    {
+      "subject": "即〜【MS・C#・.net】IM796のご紹介です。",
+      "from": "ZERO小川 裕大<ogawa@ze-r0.jp>"
+    },
+    {
+      "subject": "【直人材】PM/PMO｜CRM/MA｜リモート希望｜ 即日｜140万円　【ビズリンク柳】",
+      "from": "株式会社ビズリンク<partner@bizlink.io>"
+    },
+    {
+      "subject": "【人材情報】AWS即戦力／Oracle Platinum ／クラウド／麹町",
+      "from": "片山 真緒<mao.katayama@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "常駐可！弊社実績あり／PMO／金融／練馬",
+      "from": "片山 真緒<mao.katayama@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "【要員情報】注力要員！要件定義〜／SaaS ／PdM ／田町",
+      "from": "片山 真緒<mao.katayama@eba-holdings.co.jp>"
+    },
+    {
+      "subject": "【要員配信】7月～/C言語経験5年の29歳/組込み経験豊富なエンジニア/制御ロジック実装〜テスト設計まで一人称対応可",
+      "from": "<y-toyoshima@dream-v.co.jp>"
+    },
+    {
+      "subject": "【直要員】WEBディレクター / PM / 常駐可！（HTML / CSS / JavaScript / Figma / XD / Photoshop / Il",
+      "from": "株式会社ACWEB 藤原<m.fujiwara@acweb.co.jp>"
+    },
+    {
+      "subject": "【PHP(Laravel)・Webフルスタック／43歳】男性／要件定義〜運用保守一貫／100名規模PJ実績／高い順応力・コミュ力良好／75万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "≪急募≫【ダイバージェンス案件】SQL / Java / 運用保守 / 業務アプリケーション / 豊洲 / 即日",
+      "from": "ダイバージェンス　案件<ses-reply@diver-gence.com>"
+    },
+    {
+      "subject": "【実績あり所属！】Unity／C#／ゲーム・アプリ開発エンジニア／みずほ台駅",
+      "from": "y.naoi@gatlab.co.jp"
+    },
+    {
+      "subject": "【Java/C#人材】55万/常駐可/詳細設計〜/若手業務アプリ開発人材",
+      "from": "高野 倫凪<takano-m@i-bis.jp>"
+    },
+    {
+      "subject": "【PM・PL・Java18年・AWS／44歳】男性／実務21年超／金融・保険特化／要件定義〜顧客調整・見積／React・Vue／糀谷・即動可／88万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "★【フロントエンド要員】即日開始/0,4人月希望/フルリモート/WEB制作/要件定義～/LP制作/React/Next.js/JavaScript【KAD大内】",
+      "from": "株式会社KAD営業部 <sales@kad-japan.com>"
+    },
+    {
+      "subject": "【Next.js(5年)・AI/LLM・AWS・UIデザイン／28歳】男性／実務5年フルスタック／要件定義4年／英語対応・講師歴8年（コミュ力抜群）／115万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "【Flutter・PHP(Laravel)・Firebase／24歳】男性／アプリ・Webフルスタック／要件定義〜総合テスト一貫／UI・デザイン知見有／75万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "【PHP(Laravel)・AsteriaWarp・データ連携／27歳】男性／要件定義〜管理・運用一貫／EC商品管理・基幹システム実績／調布・6月〜／90万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "【アイル要員情報】【インフラ】Linuxサーバ基本設計〜テスト、AWS構築、Amazon Linux 2023、RHEL8/9、VMware、Windows、A",
+      "from": "takaya.watanabe@ill-g.jp"
+    },
+    {
+      "subject": "【CONVICTION案件情報】施工管理｜自衛隊駐屯地監視カメラ工事_現場代理人_7月開始｜面談1回",
+      "from": "sales@conviction-inc.com"
+    },
+    {
+      "subject": "【Java・C#・Python・C++／14年】57歳・男性／Oracle Master Silver・Java Silver保持／設計〜テスト一貫／池袋・即日",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "【Salesforce専業10年・コンサルSE／39歳】男性／要件定義〜内製化支援／標準機能・Flowスペシャリスト／情シス出身・業務理解◎／105万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    },
+    {
+      "subject": "【PMO・ICTサポート・試験統制／43歳】男性／VBAツール作成による業務効率化／進捗・工程管理／三咲・6月〜／80万",
+      "from": "田丸大輔 <d.tamaru@t-techlife.com>"
+    }
+  ]
+}

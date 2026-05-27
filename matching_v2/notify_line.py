@@ -1,0 +1,599 @@
+# -*- coding: utf-8 -*-
+"""
+担当者別LINE通知スクリプト v3。
+変更点:
+  - 案件フル情報表示（勤務地/リモート/面談回数/外国籍/期間/業務内容/必須尚可スキル）
+  - 案件・人員の会社名を表示
+  - Notion URL を result.json から直接表示
+  - 判定理由（reason）を表示
+
+実行:
+  python matching_v2/notify_line.py --dry-run
+  python matching_v2/notify_line.py
+"""
+
+import argparse
+import io
+import json
+import os
+import sys
+
+import requests
+
+try:
+    from dotenv import dotenv_values
+except ImportError:
+    dotenv_values = None
+
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+
+BASE_DIR = os.path.dirname(__file__)
+SES_WORK_DIR = os.path.dirname(BASE_DIR)
+ENV_PATHS = [
+    os.path.join(BASE_DIR, "config", ".env"),
+    os.path.join(SES_WORK_DIR, "config", ".env"),
+]
+RESULT_PATH = os.path.join(BASE_DIR, "result.json")
+NOTION_VERSION = "2022-06-28"
+DEFAULT_ASSIGNEE = "松野"
+OKAMOTO = "岡本"
+
+
+def main():
+    args = parse_args()
+    load_env()
+
+    notion_headers = build_notion_headers()
+    line_accounts = None if args.dry_run else build_line_accounts()
+    results = load_result(args.result_path)
+
+    assignee_cache = {}
+    info_cache = {}
+    project_notify_count = 0
+    notification_count = 0
+    skipped_count = 0
+    notification_batches = []
+
+    for item in results:
+        candidates = item.get("candidates") or []
+        if not candidates:
+            skipped_count += 1
+            continue
+
+        project_id = get_project_id(item)
+        project_info = get_page_info_cached(project_id, notion_headers, info_cache, "project")
+        if not project_info.get("name"):
+            project_info["name"] = get_project_name(item)
+        if project_info.get("price") is None:
+            project_info["price"] = get_project_price(item)
+        if not project_info.get("start_date"):
+            project_info["start_date"] = get_project_start_date(item)
+        if not project_info.get("input_source"):
+            project_info["input_source"] = get_project_input_source(item)
+        if not project_info.get("affiliation"):
+            project_info["affiliation"] = get_project_affiliation(item)
+        if not project_info.get("raw_body"):
+            project_info["raw_body"] = item.get("raw_body", "")
+        # result.json の URL を直接セット（Notion fetch 失敗時のフォールバック含む）
+        if not project_info.get("url"):
+            project_info["url"] = item.get("project_url") or ""
+
+        project_assignee = get_assignee_cached(project_id, notion_headers, assignee_cache)
+        candidate_infos = []
+
+        for candidate in candidates:
+            engineer_id = get_engineer_id(candidate)
+            engineer_assignee = get_assignee_cached(engineer_id, notion_headers, assignee_cache)
+            engineer_info = get_page_info_cached(engineer_id, notion_headers, info_cache, "engineer")
+            if not engineer_info.get("name"):
+                engineer_info["name"] = get_engineer_name(candidate)
+            if engineer_info.get("price") is None:
+                engineer_info["price"] = candidate.get("price")
+            if not engineer_info.get("available_date"):
+                engineer_info["available_date"] = candidate.get("available_date")
+            if not engineer_info.get("input_source"):
+                engineer_info["input_source"] = get_candidate_input_source(candidate)
+            if not engineer_info.get("affiliation"):
+                engineer_info["affiliation"] = get_candidate_affiliation(candidate)
+            if not engineer_info.get("raw_body"):
+                engineer_info["raw_body"] = candidate.get("raw_body", "")
+            # result.json の engineer URL を直接セット
+            if not engineer_info.get("url"):
+                engineer_info["url"] = candidate.get("engineer_url") or ""
+            candidate_infos.append({
+                "candidate": candidate,
+                "engineer_info": engineer_info,
+                "engineer_assignee": engineer_assignee,
+            })
+
+        notifications = build_notifications(
+            project_info=project_info,
+            project_assignee=project_assignee,
+            candidate_infos=candidate_infos,
+        )
+
+        notification_batches.append((is_line_source(project_info.get("input_source")), notifications))
+        project_notify_count += 1
+
+    notification_batches.sort(key=lambda batch: 0 if batch[0] else 1)
+    for _, notifications in notification_batches:
+        for assignee, text in notifications:
+            if args.dry_run:
+                print_dry_run(assignee, text)
+            else:
+                account = line_accounts[assignee]
+                status_code, response_text = push_message(
+                    account["channel_token"],
+                    account["user_id"],
+                    text,
+                )
+                print(f"[sent] to={assignee} status={status_code} response={response_text}")
+            notification_count += 1
+
+    mode = "dry-run" if args.dry_run else "send"
+    print(
+        f"[done] mode={mode} projects={project_notify_count} "
+        f"notifications={notification_count} skipped_empty_projects={skipped_count}"
+    )
+
+
+def load_env():
+    for env_path in ENV_PATHS:
+        if not os.path.exists(env_path):
+            continue
+
+        if dotenv_values is not None:
+            config = dotenv_values(env_path)
+        else:
+            config = read_env_file(env_path)
+
+        for key, value in config.items():
+            if key not in os.environ and value is not None:
+                os.environ[key] = value
+
+
+def read_env_file(env_path):
+    config = {}
+    with open(env_path, "r", encoding="utf-8") as f:
+        for raw_line in f:
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            config[key.strip()] = value.strip().strip('"').strip("'")
+    return config
+
+
+def push_message(channel_token: str, user_id: str, text: str):
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {
+        "Authorization": f"Bearer {channel_token}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "to": user_id,
+        "messages": [{"type": "text", "text": text}],
+    }
+    response = requests.post(url, headers=headers, json=payload, timeout=10)
+    return response.status_code, response.text
+
+
+def get_assignee(page_id: str, headers: dict) -> str:
+    if not page_id:
+        return DEFAULT_ASSIGNEE
+    if os.environ.get("SKIP_NOTION_FETCH") == "1":
+        return DEFAULT_ASSIGNEE
+
+    response = requests.get(
+        f"https://api.notion.com/v1/pages/{page_id}",
+        headers=headers,
+        timeout=30,
+    )
+    response.raise_for_status()
+    props = response.json().get("properties", {})
+    select_value = props.get("担当者", {}).get("select")
+    name = select_value["name"] if select_value else None
+    if name == OKAMOTO:
+        return OKAMOTO
+    return DEFAULT_ASSIGNEE
+
+
+def load_result(result_path: str):
+    with open(result_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    if not isinstance(data, list):
+        raise ValueError("result.json must be a list")
+    return data
+
+
+def get_assignee_cached(page_id, headers, cache):
+    if page_id not in cache:
+        cache[page_id] = get_assignee(page_id, headers)
+    return cache[page_id]
+
+
+def get_page_info_cached(page_id, headers, cache, page_type):
+    key = (page_type, page_id)
+    if key not in cache:
+        cache[key] = get_page_info(page_id, headers, page_type)
+    return dict(cache[key])
+
+
+def get_page_info(page_id, headers, page_type):
+    if not page_id:
+        return empty_page_info(page_type)
+    if os.environ.get("SKIP_NOTION_FETCH") == "1":
+        return empty_page_info(page_type)
+
+    response = requests.get(
+        f"https://api.notion.com/v1/pages/{page_id}",
+        headers=headers,
+        timeout=30,
+    )
+    response.raise_for_status()
+    props = response.json().get("properties", {})
+
+    if page_type == "project":
+        return {
+            "name": get_title_property(props, "案件名"),
+            "detail": get_first_text_property(props, ["業務内容", "案件詳細", "詳細", "概要", "内容"]),
+            "required_skills": get_first_multiselect_property(props, ["必須スキル", "必要スキル"]),
+            "optional_skills": get_multiselect_property(props, "尚可スキル"),
+            "price": get_number_property(props, "単価（万円）"),
+            "start_date": get_date_property(props, "開始日"),
+            "input_source": get_text_property(props, "入力元"),
+            "affiliation": get_text_property(props, "所属会社名"),
+            "location": get_text_property(props, "勤務地"),
+            "remote": get_text_property(props, "リモート"),
+            "interview_count": get_text_property(props, "面談回数"),
+            "foreign_ok": get_text_property(props, "外国籍"),
+            "period": get_text_property(props, "期間"),
+            "raw_body": get_first_text_property(props, ["案件詳細", "備考（LINEメモ）"]),
+            "url": "",  # main()でresult.jsonから上書きセット
+        }
+
+    if page_type == "engineer":
+        return {
+            "name": get_title_property(props, "名前"),
+            "skills": get_multiselect_property(props, "スキル"),
+            "price": get_number_property(props, "単価（万円）"),
+            "available_date": get_date_property(props, "稼働可能日"),
+            "input_source": get_text_property(props, "入力元"),
+            "affiliation": get_text_property(props, "所属会社名"),
+            "raw_body": get_text_property(props, "備考（LINEメモ）"),
+            "url": "",  # main()でresult.jsonから上書きセット
+        }
+
+    raise ValueError(f"unsupported page_type: {page_type}")
+
+
+def empty_page_info(page_type):
+    if page_type == "project":
+        return {
+            "name": "",
+            "detail": "",
+            "required_skills": [],
+            "optional_skills": [],
+            "price": None,
+            "start_date": None,
+            "input_source": "",
+            "affiliation": "",
+            "location": "",
+            "remote": "",
+            "interview_count": "",
+            "foreign_ok": "",
+            "period": "",
+            "raw_body": "",
+            "url": "",
+        }
+    return {
+        "name": "",
+        "skills": [],
+        "price": None,
+        "available_date": None,
+        "input_source": "",
+        "affiliation": "",
+        "raw_body": "",
+        "url": "",
+    }
+
+
+def build_notifications(project_info, project_assignee, candidate_infos):
+    assignees = {project_assignee}
+    for item in candidate_infos:
+        assignees.add(item["engineer_assignee"])
+
+    message = build_project_message(project_info, candidate_infos)
+    return [(assignee, message) for assignee in sorted(assignees)]
+
+
+def build_project_message(project_info, candidate_infos):
+    input_source = project_info.get("input_source")
+    line_prefix = "  ⚡LINE案件" if is_line_source(input_source) else ""
+
+    lines = [
+        "【マッチング結果】",
+        f"案件: {format_value(project_info.get('name'))}{line_prefix}",
+    ]
+
+    # 会社名
+    affiliation = project_info.get("affiliation") or ""
+    if affiliation:
+        lines.append(f"会社名: {affiliation}")
+
+    lines.append(f"入力元: {format_value(input_source)}")
+
+    # Notion URL
+    if project_info.get("url"):
+        lines.append(f"案件URL: {project_info.get('url')}")
+
+    # 案件詳細フル表示
+    lines.extend([
+        f"業務内容: {format_value(project_info.get('detail'))}",
+        f"必須スキル: {format_list(project_info.get('required_skills'))}",
+        f"尚可スキル: {format_list(project_info.get('optional_skills'))}",
+        f"単価: {format_price(project_info.get('price'))}",
+        f"稼働開始: {format_value(project_info.get('start_date'))}",
+        f"期間: {format_value(project_info.get('period'))}",
+        f"勤務地: {format_value(project_info.get('location'))}",
+        f"リモート: {format_value(project_info.get('remote'))}",
+        f"面談: {format_value(project_info.get('interview_count'))}",
+        f"外国籍: {format_value(project_info.get('foreign_ok'))}",
+        "──────────────",
+    ])
+
+    for item in candidate_infos:
+        candidate = item["candidate"]
+        engineer_info = item["engineer_info"]
+        needs_check_warning = " ⚠️要確認" if candidate.get("needs_check") is True else ""
+        lines.append(
+            f"▶ {format_value(engineer_info.get('name'))}（スコア: {format_score(candidate.get('score'))}）{needs_check_warning}"
+        )
+        # 人員会社名
+        eng_affiliation = engineer_info.get("affiliation") or ""
+        if eng_affiliation:
+            lines.append(f"  所属会社: {eng_affiliation}")
+        lines.append(f"  入力元: {format_value(engineer_info.get('input_source'))}")
+        # Notion URL
+        if engineer_info.get("url"):
+            lines.append(f"  NotionURL: {engineer_info.get('url')}")
+        lines.extend([
+            (
+                f"  単価: {format_price(engineer_info.get('price'))} / "
+                f"稼働: {format_value(engineer_info.get('available_date'))}"
+            ),
+            f"  スキル: {format_list(engineer_info.get('skills'))}",
+            f"  必須判定: {format_judgement(get_required_judgement(candidate))}",
+            f"  尚可判定: {format_judgement(get_optional_judgement(candidate))}",
+            "",
+        ])
+
+    lines.extend([
+        "──────────────",
+        "意向確認をお願いします。",
+    ])
+
+    proj_raw = project_info.get("raw_body", "").strip()
+    if proj_raw:
+        lines.append("")
+        lines.append("【元データ（案件）】")
+        preview = proj_raw[:2000]
+        lines.append(preview)
+        if len(proj_raw) > 2000:
+            lines.append(f"... (total {len(proj_raw)} chars, truncated)")
+
+    for item in candidate_infos:
+        eng_info = item["engineer_info"]
+        eng_raw = eng_info.get("raw_body", "").strip()
+        eng_name = eng_info.get("name", "")
+        if eng_raw:
+            lines.append("")
+            lines.append(f"【元データ（{eng_name}）】")
+            preview = eng_raw[:1500]
+            lines.append(preview)
+            if len(eng_raw) > 1500:
+                lines.append(f"... (total {len(eng_raw)} chars, truncated)")
+        drive_url = eng_info.get("drive_url", "").strip()
+        if drive_url:
+            lines.append("")
+            lines.append(f"【添付ファイル（{eng_name}）】")
+            lines.append(drive_url)
+
+    return "\n".join(lines)
+
+
+def is_line_source(input_source):
+    return str(input_source or "").endswith("LINE")
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="result.jsonを読み、担当者別にLINE Push通知します。")
+    parser.add_argument("--dry-run", action="store_true", help="LINE送信せず通知内容をコンソール出力します。")
+    parser.add_argument("--result-path", default=RESULT_PATH, help="読み込むresult.jsonのパス。")
+    return parser.parse_args()
+
+
+def get_project_id(item):
+    project = item.get("project") or {}
+    return project.get("id") or item.get("project_id") or ""
+
+
+def get_project_name(item):
+    project = item.get("project") or {}
+    return project.get("name") or item.get("project_name") or "（案件名なし）"
+
+
+def get_project_price(item):
+    project = item.get("project") or {}
+    return project.get("price") or item.get("price") or item.get("budget")
+
+
+def get_project_start_date(item):
+    project = item.get("project") or {}
+    return project.get("start_date") or item.get("start_date")
+
+
+def get_project_input_source(item):
+    project = item.get("project") or {}
+    return project.get("input_source") or item.get("input_source") or ""
+
+
+def get_project_affiliation(item):
+    project = item.get("project") or {}
+    return project.get("affiliation") or project.get("所属会社名") or item.get("affiliation") or ""
+
+
+def get_engineer_id(candidate):
+    return candidate.get("id") or candidate.get("engineer_id") or ""
+
+
+def get_engineer_name(candidate):
+    return candidate.get("name") or candidate.get("engineer_name") or "（エンジニア名なし）"
+
+
+def get_candidate_input_source(candidate):
+    return candidate.get("input_source") or candidate.get("engineer_input_source") or ""
+
+
+def get_candidate_affiliation(candidate):
+    return candidate.get("affiliation") or candidate.get("engineer_affiliation") or candidate.get("所属会社名") or ""
+
+
+def get_required_judgement(candidate):
+    return candidate.get("required_judgement") or candidate.get("required") or {}
+
+
+def get_optional_judgement(candidate):
+    return candidate.get("optional_judgement") or candidate.get("optional") or {}
+
+
+def get_title_property(props, key):
+    items = props.get(key, {}).get("title", [])
+    return items[0]["plain_text"] if items else ""
+
+
+def get_text_property(props, key):
+    prop = props.get(key, {})
+    if prop.get("type") == "rich_text":
+        return "".join(item.get("plain_text", "") for item in prop.get("rich_text", []))
+    if prop.get("type") == "title":
+        return "".join(item.get("plain_text", "") for item in prop.get("title", []))
+    if prop.get("type") == "select":
+        select_value = prop.get("select")
+        return select_value.get("name", "") if select_value else ""
+    if prop.get("type") == "multi_select":
+        return format_list(item.get("name", "") for item in prop.get("multi_select", []))
+    return ""
+
+
+def get_first_text_property(props, keys):
+    for key in keys:
+        value = get_text_property(props, key)
+        if value:
+            return value
+    return ""
+
+
+def get_multiselect_property(props, key):
+    return [item["name"] for item in props.get(key, {}).get("multi_select", [])]
+
+
+def get_first_multiselect_property(props, keys):
+    for key in keys:
+        value = get_multiselect_property(props, key)
+        if value:
+            return value
+    return []
+
+
+def get_number_property(props, key):
+    return props.get(key, {}).get("number")
+
+
+def get_date_property(props, key):
+    date_value = props.get(key, {}).get("date")
+    return date_value["start"] if date_value else None
+
+
+def format_judgement(judgement):
+    if not judgement:
+        return "なし"
+    parts = []
+    for skill, value in judgement.items():
+        if isinstance(value, dict):
+            result = value.get("result", "")
+            reason = value.get("reason", "")
+            parts.append(f"{skill}:{result}（{reason}）")
+        else:
+            parts.append(f"{skill}:{value}")
+    return "\n    ".join(parts)
+
+
+def format_price(price):
+    if price is None or price == "":
+        return "未設定"
+    return f"{price}万円"
+
+
+def format_score(score):
+    if score is None:
+        return "未設定"
+    if isinstance(score, float):
+        return f"{score:.2f}".rstrip("0").rstrip(".")
+    return str(score)
+
+
+def format_list(values):
+    items = [str(value) for value in (values or []) if value not in (None, "")]
+    return ", ".join(items) if items else "なし"
+
+
+def format_value(value):
+    return str(value) if value not in (None, "") else "未設定"
+
+
+def build_notion_headers():
+    api_key = os.environ.get("NOTION_API_KEY", "")
+    if not api_key:
+        raise RuntimeError("NOTION_API_KEY is not set")
+    return {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "Notion-Version": NOTION_VERSION,
+    }
+
+
+def build_line_accounts():
+    accounts = {
+        DEFAULT_ASSIGNEE: {
+            "channel_token": os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", ""),
+            "user_id": os.environ.get("MATSUNO_LINE_USER_ID", ""),
+        },
+        OKAMOTO: {
+            "channel_token": os.environ.get("OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN")
+            or os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", ""),
+            "user_id": os.environ.get("OKAMOTO_LINE_USER_ID", ""),
+        },
+    }
+
+    missing = []
+    for assignee, account in accounts.items():
+        if not account["channel_token"]:
+            missing.append(f"{assignee}: channel token")
+        if not account["user_id"]:
+            missing.append(f"{assignee}: user id")
+    if missing:
+        raise RuntimeError("LINE environment variables are not set: " + ", ".join(missing))
+    return accounts
+
+
+def print_dry_run(assignee, text):
+    print("=" * 60)
+    print(f"[dry-run] to={assignee}")
+    print(text)
+
+
+if __name__ == "__main__":
+    main()

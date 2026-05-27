@@ -1,0 +1,100 @@
+[Step1] 意向確認メール生成: 36件
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.H様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / R.H（24歳・男性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / OA（33歳・女性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.Y様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.H様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / R.H（24歳・男性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / OA（33歳・女性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / R.H（24歳・男性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.H様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / R.H（24歳・男性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / OA（33歳・女性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / DI(男性/45歳)様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.Y様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / AK（男性/60歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / OA（33歳・女性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / KSみずほ台（男性42歳）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.H様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / R.H（24歳・男性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / OA（33歳・女性）様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.Y様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.Y様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / M.Y様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step2] 送信対象:  / UR様 案件ご検討のお願い（）
+[Step2] dry-run: メール送信スキップ
+[Step3] 未読メール確認: 0件
+[Step4] 提案可否判定: 0件OK / 0件NG
+[Step5] 提案文生成: 11件
+[Step6] 送信対象:  / Struts Java 基本設計～ 70万（ICD） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / TypeScript/Next.js Python/FastAPI フルリモート（ACWeb） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / 急募 Java人材 常駐可（ACWeb） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / 基幹システム移行 Java/Spring/Postgre 75万（Roots） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / 【注力/中部】Java 基本設計～対応可 ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / Python/AWS IoT自動車 バックエンド 100万～（D-Standing） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / 【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / PLM導入開発 Java/C# 65万（ICD） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / AWS インフラ運用 出社2リモート（ACWeb） ご提案
+[Step6] dry-run: 提案メール送信スキップ
+[Step6] 送信対象:  / 【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月 ご提案
+[Step6] dry-run: 提案メール送信スキップ
+
+=== STDERR ===

@@ -1,0 +1,619 @@
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月
+業務内容: 生成AI活用推進PJの一環。AIガバナンス・ガードレール導入フェーズの要件定義から対応。多摩センター フルリモート。商談実績有。担当営業: 鈴木 ta-suzuki@b-tm.co.jp / 070-5370-9500。メールID: 42865
+必須: AWS
+尚可: なし
+単価: 未設定
+稼働: 2026-07-01
+──────────────
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ I.Y（スコア: 1）
+  単価: 85万円 / 稼働: 2025-04-01
+  スキル: Python, TypeScript, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ M.S（スコア: 1）
+  単価: 75万円 / 稼働: 2025-06-01
+  スキル: TypeScript, JavaScript, C#, PostgreSQL, Oracle, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ M.Y（スコア: 0.8）
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: AWS:△
+  尚可判定: なし
+
+▶ E.S（スコア: 0.8）
+  単価: 95万円 / 稼働: 2025-04-01
+  スキル: Python, PHP, TypeScript, インフラ
+  必須判定: AWS:△
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【注力/中部】Java 基本設計〜対応可
+業務内容: 基本設計から対応可能なJavaエンジニア。必須：Java。商流なし・支援費用なし。単価帤58〜63万円。
+必須: Java
+尚可: なし
+単価: 60万円
+稼働: 2026-06-01
+──────────────
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ 田中太郎（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ R.H（24歳・男性）（スコア: 1）
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ LHS(40歳/男性)（スコア: 1）
+  単価: 65万円 / 稼働: 2024-07-01
+  スキル: Java, JavaScript, MySQL, Oracle, Linux, Spring
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Java:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア
+業務内容: ウォーターフォール・アジャイルプロセスでのWebシステム開発。必須：JavaScript／TypeScriptフロントエンド開発経験・Laravel・Next.js。上流工程対応可能な方展期。商流なし・支援費用なし。面談回数不明（小耳情報）。
+必須: JavaScript
+尚可: なし
+単価: 75万円
+稼働: 2026-07-01
+──────────────
+▶ LHS(40歳/男性)（スコア: 1）
+  単価: 65万円 / 稼働: 2024-07-01
+  スキル: Java, JavaScript, MySQL, Oracle, Linux, Spring
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ M.Y（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ AK（男性/60歳）（スコア: 1）
+  単価: 70万円 / 稼働: 未設定
+  スキル: PHP, JavaScript, MySQL, PostgreSQL, Oracle, Linux
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ DI(男性/45歳)（スコア: 1）
+  単価: 55万円 / 稼働: 未設定
+  スキル: PHP, JavaScript, Python
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ M.S（スコア: 1）
+  単価: 75万円 / 稼働: 2025-06-01
+  スキル: TypeScript, JavaScript, C#, PostgreSQL, Oracle, AWS
+  必須判定: JavaScript:◯
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 0.8）
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: JavaScript:△
+  尚可判定: なし
+
+▶ Y.T（スコア: 0.8）
+  単価: 85万円 / 稼働: 2025-05-08
+  スキル: Ruby, JavaScript, TypeScript, Java, React, Vue.js, Node.js, AWS, Docker, Oracle, MySQL, PostgreSQL
+  必須判定: JavaScript:△
+  尚可判定: なし
+
+▶ Y.T（スコア: 0.8）
+  単価: 84万円 / 稼働: 2025-05-01
+  スキル: TypeScript, Vue.js, React
+  必須判定: JavaScript:△
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: Python/AWS IoT自動車 バックエンド 100万〜（D-Standing）
+業務内容: Python/AWS/リモート併用（出社3）・IoT自動車関連サービスバックエンド開発・100万以上・エンド直。メールID: 33773
+必須: Python, AWS
+尚可: なし
+単価: 100万円
+稼働: 未設定
+──────────────
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Python:◯ / AWS:◯
+  尚可判定: なし
+
+▶ I.Y（スコア: 1）
+  単価: 85万円 / 稼働: 2025-04-01
+  スキル: Python, TypeScript, AWS
+  必須判定: Python:◯ / AWS:◯
+  尚可判定: なし
+
+▶ E.S（スコア: 0.8）
+  単価: 95万円 / 稼働: 2025-04-01
+  スキル: Python, PHP, TypeScript, インフラ
+  必須判定: Python:◯ / AWS:△
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE）
+業務内容: OA4008・大手口コミサイト運用企業・toB向けシステム・7月〜・PHP/Laravel/IaC(Terraform)/AWS・基本リモート・～75万。メールID: 33844
+必須: PHP, AWS
+尚可: なし
+単価: 75万円
+稼働: 未設定
+──────────────
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: PHP:◯ / AWS:◯
+  尚可判定: なし
+
+▶ M.Y（スコア: 0.8）
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: PHP:◯ / AWS:△
+  尚可判定: なし
+
+▶ E.S（スコア: 0.8）
+  単価: 95万円 / 稼働: 2025-04-01
+  スキル: Python, PHP, TypeScript, インフラ
+  必須判定: PHP:◯ / AWS:△
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 基幹システム移行 Java/Spring/Postgre 75万（Roots）
+業務内容: 基幹システム移行支援・6月〜・要件定義・Java/Spring/Postgre・〜75万・リモート併用。メールID: 33846
+必須: Java, PostgreSQL
+尚可: なし
+単価: 75万円
+稼働: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯ / PostgreSQL:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯ / PostgreSQL:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: AWS インフラ運用 出社2リモート（ACWeb）
+業務内容: 元請け直案件。AWS/Windows/インフラ運用/出社2リモート。クラウド・サーバ領域運用改善支援およびリード。メールID: 33774
+必須: AWS
+尚可: なし
+単価: 未設定
+稼働: 未設定
+──────────────
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ I.Y（スコア: 1）
+  単価: 85万円 / 稼働: 2025-04-01
+  スキル: Python, TypeScript, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ M.S（スコア: 1）
+  単価: 75万円 / 稼働: 2025-06-01
+  スキル: TypeScript, JavaScript, C#, PostgreSQL, Oracle, AWS
+  必須判定: AWS:◯
+  尚可判定: なし
+
+▶ M.Y（スコア: 0.8）
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: AWS:△
+  尚可判定: なし
+
+▶ E.S（スコア: 0.8）
+  単価: 95万円 / 稼働: 2025-04-01
+  スキル: Python, PHP, TypeScript, インフラ
+  必須判定: AWS:△
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: TypeScript/Next.js Python/FastAPI フルリモート（ACWeb）
+業務内容: エンド直案件。TypeScript/Next.js+Python/FastAPIフルスタック・フルリモート。オンライン薬局Webアプリ新機能開発。メールID: 33778
+必須: TypeScript
+尚可: Python
+単価: 未設定
+稼働: 未設定
+──────────────
+▶ M.Y（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: TypeScript:◯
+  尚可判定: Python:◯
+
+▶ Y.T（スコア: 1）
+  単価: 85万円 / 稼働: 2025-05-08
+  スキル: Ruby, JavaScript, TypeScript, Java, React, Vue.js, Node.js, AWS, Docker, Oracle, MySQL, PostgreSQL
+  必須判定: TypeScript:◯
+  尚可判定: Python:×
+
+▶ I.Y（スコア: 1）
+  単価: 85万円 / 稼働: 2025-04-01
+  スキル: Python, TypeScript, AWS
+  必須判定: TypeScript:◯
+  尚可判定: Python:◯
+
+▶ Y.T（スコア: 1）
+  単価: 84万円 / 稼働: 2025-05-01
+  スキル: TypeScript, Vue.js, React
+  必須判定: TypeScript:◯
+  尚可判定: Python:×
+
+▶ E.S（スコア: 1）
+  単価: 95万円 / 稼働: 2025-04-01
+  スキル: Python, PHP, TypeScript, インフラ
+  必須判定: TypeScript:◯
+  尚可判定: Python:◯
+
+▶ M.S（スコア: 1）
+  単価: 75万円 / 稼働: 2025-06-01
+  スキル: TypeScript, JavaScript, C#, PostgreSQL, Oracle, AWS
+  必須判定: TypeScript:◯
+  尚可判定: Python:×
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: Struts Java 基本設計〜 70万（ICD）
+業務内容: Struts/Java/基本設計・70万程・7月・リモート併用・ICD直案件。メールID: 33779
+必須: Java
+尚可: なし
+単価: 70万円
+稼働: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ 田中太郎（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ LHS(40歳/男性)（スコア: 1）
+  単価: 65万円 / 稼働: 2024-07-01
+  スキル: Java, JavaScript, MySQL, Oracle, Linux, Spring
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Java:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: PLM導入開発 Java/C# 65万（ICD）
+業務内容: PLM導入開発・Java/C#・65万・6月・基本出社・1枠・要件大幅緩和案件。メールID: 33780
+必須: Java
+尚可: なし
+単価: 65万円
+稼働: 未設定
+──────────────
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ 田中太郎（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ R.H（24歳・男性）（スコア: 1）
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ LHS(40歳/男性)（スコア: 1）
+  単価: 65万円 / 稼働: 2024-07-01
+  スキル: Java, JavaScript, MySQL, Oracle, Linux, Spring
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Java:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 講師・Go・6月・フルリモート（ACWeb）
+業務内容: 弊社エンド直案件。講師・Go・6月・フルリモート・1人月未満も可。メールID: 33790
+必須: Go
+尚可: なし
+単価: 未設定
+稼働: 未設定
+──────────────
+▶ Y.K（スコア: 1）
+  単価: 50万円 / 稼働: 2025-07-01
+  スキル: C#, Python, Go, PostgreSQL
+  必須判定: Go:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 急募 Java人材 常駐可（ACWeb）
+業務内容: 急募。Java人材。常駐可。メールID: 33791
+必須: Java
+尚可: なし
+単価: 未設定
+稼働: 未設定
+──────────────
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ R.H（24歳・男性）（スコア: 1）
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ 田中太郎（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: Java, Python
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ (no name)（スコア: 1）
+  単価: 65万円 / 稼働: 未設定
+  スキル: C#
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ LHS(40歳/男性)（スコア: 1）
+  単価: 65万円 / 稼働: 2024-07-01
+  スキル: Java, JavaScript, MySQL, Oracle, Linux, Spring
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Java:◯
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+[done] mode=dry-run projects=12 notifications=12 skipped_empty_projects=17

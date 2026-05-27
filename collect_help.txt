@@ -1,0 +1,9 @@
+usage: collect_targets.py [-h] (--dry-run | --run)
+
+IT�ESES��Ƃ̘A��������W����targets.csv�֒ǋL���܂��B
+
+options:
+  -h, --help  show this help message and exit
+  --dry-run   ���W���ʂ�\�����ACSV�ɂ͏������݂܂���B
+  --run       ���W���ʂ�targets.csv�֒ǋL���܂��B
+

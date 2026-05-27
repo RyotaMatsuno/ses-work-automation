@@ -1,0 +1,537 @@
+=== STDOUT ===
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【BTM】AIガバナンス基盤構築 AWS 保険業界 フルリモート 7月
+入力元: 未設定
+案件URL: https://www.notion.so/BTM-AI-AWS-7-368450ff37c081dc9fa0de974573ba4f
+業務内容: 生成AI活用推進PJの一環。AIガバナンス・ガードレール導入フェーズの要件定義から対応。多摩センター フルリモート。商談実績有。担当営業: 鈴木 ta-suzuki@b-tm.co.jp / 070-5370-9500。メールID: 42865
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. UR /90万 ▶ 意向確認前
+必須スキル: AWS
+尚可スキル: なし
+単価: 未設定
+稼働開始: 2026-07-01
+期間: 未設定
+勤務地: 未設定
+リモート: フルリモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ UR（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/UR-35d450ff37c081baa490e4d373caa400
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: AWS:◯（AWSの実務経験が明記されている）
+  尚可判定: なし
+
+▶ M.Y（スコア: 0.8） ⚠️要確認
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-Y-35d450ff37c0815a972ae921fb93f43c
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: AWS:△（Azureの実務経験があるがAWSは記載されていない。クラウド経験から基礎は期待できるが実務確認が必要）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【注力/中部】Java 基本設計〜対応可
+入力元: 未設定
+案件URL: https://www.notion.so/Java-364450ff37c08173bcdce8d67c5f8f2d
+業務内容: 基本設計から対応可能なJavaエンジニア。必須：Java。商流なし・支援費用なし。単価帤58〜63万円。
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.H（24歳・男性） /48万 ▶ 意向確認前
+  2. M.H /55万 ▶ 意向確認前
+必須スキル: Java
+尚可スキル: なし
+単価: 60万円
+稼働開始: 2026-06-01
+期間: 6月〜
+勤務地: 中部（近鉄北勺駅）
+リモート: 常駐
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/R-H-24-360450ff37c081379dc1e11b8e6a022c
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-H-35d450ff37c081c3b2dff37e0e299392
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OA-33-360450ff37c081ccbf28cc3c8969fd0a
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 【注力/中部】Laravel/Next.js 上流工程対応可能Webエンジニア
+入力元: 未設定
+案件URL: https://www.notion.so/Laravel-Next-js-Web-364450ff37c081a8b240fd79783c92fa
+業務内容: ウォーターフォール・アジャイルプロセスでのWebシステム開発。必須：JavaScript／TypeScriptフロントエンド開発経験・Laravel・Next.js。上流工程対応可能な方展期。商流なし・支援費用なし。面談回数不明（小耳情報）。
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. M.Y /65万 ▶ 意向確認前
+  2. KSみずほ台（男性42歳） /65万 ▶ 意向確認前
+  他2名（Notionで確認）
+必須スキル: JavaScript
+尚可スキル: なし
+単価: 75万円
+稼働開始: 2026-07-01
+期間: 7月〜
+勤務地: 中部（名古屋遠江駅·港内駅辺り）
+リモート: 常駐
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ M.Y（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-Y-35d450ff37c0815a972ae921fb93f43c
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: JavaScript:◯（JavaScriptの実務経験がある）
+  尚可判定: なし
+
+▶ AK（男性/60歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/AK-60-35d450ff37c081da9709eb0c41fb1d79
+  単価: 70万円 / 稼働: 未設定
+  スキル: PHP, JavaScript, MySQL, PostgreSQL, Oracle, Linux
+  必須判定: JavaScript:◯（JavaScriptの実務経験がある）
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: JavaScript:◯（JavaScriptの実務経験がある）
+  尚可判定: なし
+
+▶ DI(男性/45歳)（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/DI-45-35d450ff37c08151bad3e22e52798486
+  単価: 55万円 / 稼働: 未設定
+  スキル: PHP, JavaScript, Python
+  必須判定: JavaScript:◯（JavaScriptの実務経験がある）
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 0.8） ⚠️要確認
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OA-33-360450ff37c081ccbf28cc3c8969fd0a
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: JavaScript:△（Reactの経験があり関連技術だが、JavaScript単体の実務確認が必要）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: Python/AWS IoT自動車 バックエンド 100万〜（D-Standing）
+入力元: 未設定
+案件URL: https://www.notion.so/Python-AWS-IoT-100-D-Standing-364450ff37c08188b2fce1dd8565ad7d
+業務内容: Python/AWS/リモート併用（出社3）・IoT自動車関連サービスバックエンド開発・100万以上・エンド直。メールID: 33773
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.E（32歳） /75万 ▶ 意向確認前
+  2. 下溝 /未設定 ▶ 意向確認前
+  他4名（Notionで確認）
+必須スキル: Python, AWS
+尚可スキル: なし
+単価: 100万円
+稼働開始: 未設定
+期間: 未設定
+勤務地: 未設定
+リモート: 一部リモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ UR（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/UR-35d450ff37c081baa490e4d373caa400
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Python:◯（Python経験があり要件を満たす）
+    AWS:◯（AWS実務経験があり要件を満たす）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: PHP/Laravel/AWS/IaC(Terraform) 基本リモート 75万（ONE WEDGE）
+入力元: 未設定
+案件URL: https://www.notion.so/PHP-Laravel-AWS-IaC-Terraform-75-ONE-WEDGE-364450ff37c081e88ef9d8ba1d4f7249
+業務内容: OA4008・大手口コミサイト運用企業・toB向けシステム・7月〜・PHP/Laravel/IaC(Terraform)/AWS・基本リモート・～75万。メールID: 33844
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. M.Y /65万 ▶ 意向確認前
+  2. KSみずほ台（男性42歳） /65万 ▶ 意向確認前
+  他2名（Notionで確認）
+必須スキル: PHP, AWS
+尚可スキル: なし
+単価: 75万円
+稼働開始: 未設定
+期間: 7月〜
+勤務地: 未設定
+リモート: 一部リモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ M.Y（スコア: 0.8） ⚠️要確認
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-Y-35d450ff37c0815a972ae921fb93f43c
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: PHP:◯（PHPの実務経験がある）
+    AWS:△（Azureの経験があるがAWS実務範囲は要確認）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 基幹システム移行 Java/Spring/Postgre 75万（Roots）
+入力元: 未設定
+案件URL: https://www.notion.so/Java-Spring-Postgre-75-Roots-364450ff37c0815fb753dc2daa830733
+業務内容: 基幹システム移行支援・6月〜・要件定義・Java/Spring/Postgre・〜75万・リモート併用。メールID: 33846
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.H（24歳・男性） /48万 ▶ 意向確認前
+  2. OA（33歳・女性） /60万 ▶ 意向確認前
+  他3名（Notionで確認）
+必須スキル: Java, PostgreSQL
+尚可スキル: なし
+単価: 75万円
+稼働開始: 未設定
+期間: 6月〜
+勤務地: 未設定
+リモート: 一部リモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/R-H-24-360450ff37c081379dc1e11b8e6a022c
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯（Javaの実務経験がある）
+    PostgreSQL:◯（PostgreSQLの実務経験がある）
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯（Javaの実務経験がある）
+    PostgreSQL:◯（PostgreSQLの実務経験がある）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: AWS インフラ運用 出社2リモート（ACWeb）
+入力元: 未設定
+案件URL: https://www.notion.so/AWS-2-ACWeb-364450ff37c081ef9c5ff3da4841d6b1
+業務内容: 元請け直案件。AWS/Windows/インフラ運用/出社2リモート。クラウド・サーバ領域運用改善支援およびリード。メールID: 33774
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. UR /90万 ▶ 意向確認前
+必須スキル: AWS
+尚可スキル: なし
+単価: 未設定
+稼働開始: 未設定
+期間: 未設定
+勤務地: 未設定
+リモート: 一部リモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ UR（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/UR-35d450ff37c081baa490e4d373caa400
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: AWS:◯（AWSの実務経験が明記されている）
+  尚可判定: なし
+
+▶ M.Y（スコア: 0.8） ⚠️要確認
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-Y-35d450ff37c0815a972ae921fb93f43c
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: AWS:△（Azureの実務経験があるがAWSは記載されていない。クラウド経験から基礎は期待できるが実務確認が必要）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: TypeScript/Next.js Python/FastAPI フルリモート（ACWeb）
+入力元: 未設定
+案件URL: https://www.notion.so/TypeScript-Next-js-Python-FastAPI-ACWeb-364450ff37c0812a80a8d71e796911ac
+業務内容: エンド直案件。TypeScript/Next.js+Python/FastAPIフルスタック・フルリモート。オンライン薬局Webアプリ新機能開発。メールID: 33778
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. M.Y /65万 ▶ 意向確認前
+必須スキル: TypeScript
+尚可スキル: Python
+単価: 未設定
+稼働開始: 未設定
+期間: 未設定
+勤務地: 未設定
+リモート: フルリモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ M.Y（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-Y-35d450ff37c0815a972ae921fb93f43c
+  単価: 65万円 / 稼働: 未設定
+  スキル: React, TypeScript, JavaScript, PHP, Python, C#, Node.js, Docker, MySQL, MongoDB, Azure
+  必須判定: TypeScript:◯（TypeScript経験がある）
+  尚可判定: Python:◯（Python経験がある）
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: Struts Java 基本設計〜 70万（ICD）
+入力元: 未設定
+案件URL: https://www.notion.so/Struts-Java-70-ICD-364450ff37c0811bae0ec4f43246f7a1
+業務内容: Struts/Java/基本設計・70万程・7月・リモート併用・ICD直案件。メールID: 33779
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.H（24歳・男性） /48万 ▶ 意向確認前
+  2. OA（33歳・女性） /60万 ▶ 意向確認前
+  他2名（Notionで確認）
+必須スキル: Java
+尚可スキル: なし
+単価: 70万円
+稼働開始: 未設定
+期間: 7月〜
+勤務地: 未設定
+リモート: 一部リモート
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-H-35d450ff37c081c3b2dff37e0e299392
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ R.H（24歳・男性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/R-H-24-360450ff37c081379dc1e11b8e6a022c
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OA-33-360450ff37c081ccbf28cc3c8969fd0a
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: PLM導入開発 Java/C# 65万（ICD）
+入力元: 未設定
+案件URL: https://www.notion.so/PLM-Java-C-65-ICD-364450ff37c081c6a402da286e8e7b1e
+業務内容: PLM導入開発・Java/C#・65万・6月・基本出社・1枠・要件大幅緩和案件。メールID: 33780
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.H（24歳・男性） /48万 ▶ 意向確認前
+  2. OA（33歳・女性） /60万 ▶ 意向確認前
+  他1名（Notionで確認）
+必須スキル: Java
+尚可スキル: なし
+単価: 65万円
+稼働開始: 未設定
+期間: 6月〜
+勤務地: 未設定
+リモート: 常駐
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/R-H-24-360450ff37c081379dc1e11b8e6a022c
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-H-35d450ff37c081c3b2dff37e0e299392
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OA-33-360450ff37c081ccbf28cc3c8969fd0a
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: 急募 Java人材 常駐可（ACWeb）
+入力元: 未設定
+案件URL: https://www.notion.so/Java-ACWeb-364450ff37c08146851de65b6df2c223
+業務内容: 急募。Java人材。常駐可。メールID: 33791
+
+【候補者ステータス 2026-05-25】
+凡例: 意向確認前 | 意向確認中 | 面談希望 | 面談調整中 | 面談済み | 合格 | NG
+
+  1. R.H（24歳・男性） /48万 ▶ 意向確認前
+  2. OA（33歳・女性） /60万 ▶ 意向確認前
+  他3名（Notionで確認）
+必須スキル: Java
+尚可スキル: なし
+単価: 未設定
+稼働開始: 未設定
+期間: 未設定
+勤務地: 未設定
+リモート: 未設定
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ R.H（24歳・男性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/R-H-24-360450ff37c081379dc1e11b8e6a022c
+  単価: 48万円 / 稼働: 未設定
+  スキル: Java, PostgreSQL, Linux
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ OA（33歳・女性）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OA-33-360450ff37c081ccbf28cc3c8969fd0a
+  単価: 60万円 / 稼働: 未設定
+  スキル: Java, C#, React
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ KSみずほ台（男性42歳）（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/KS-42-35d450ff37c0816580a0d7eb702c83d4
+  単価: 65万円 / 稼働: 2026-06-01
+  スキル: Java, PHP, C#, JavaScript, Oracle, PostgreSQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ M.H（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-H-35d450ff37c081c3b2dff37e0e299392
+  単価: 55万円 / 稼働: 未設定
+  スキル: Java, Python, Docker, MySQL
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+▶ UR（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/UR-35d450ff37c081baa490e4d373caa400
+  単価: 90万円 / 稼働: 2026-07-01
+  スキル: PHP, MySQL, C#, JavaScript, Python, Swift, Java, Node.js, AWS
+  必須判定: Java:◯（Javaの実務経験がある）
+  尚可判定: なし
+
+──────────────
+意向確認をお願いします。
+[done] mode=dry-run projects=11 notifications=11 skipped_empty_projects=18
+
+=== STDERR ===
+
+RC: 0

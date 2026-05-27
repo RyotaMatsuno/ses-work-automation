@@ -6,6 +6,7 @@ importer.py v3 - メール添付スキルシート自動取り込みシステム
 """
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -23,26 +24,36 @@ logger = logging.getLogger("importer")
 PROCESSED_IDS_PATH = Path(__file__).parent / "processed_ids.json"
 
 
-def load_processed_ids() -> set:
+def load_processed_ids() -> dict:
     try:
-        with open(PROCESSED_IDS_PATH, "r") as f:
-            return set(json.load(f))
+        with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if isinstance(data, list):
+                return {"sessales": data, "matsuno": [], "okamoto": []}
+            if isinstance(data, dict):
+                for account in ["sessales", "matsuno", "okamoto"]:
+                    data.setdefault(account, [])
+                return data
     except Exception:
-        return set()
+        pass
+    return {"sessales": [], "matsuno": [], "okamoto": []}
 
 
-def save_processed_id(uid: str):
+def save_processed_id(uid: str, account: str = "sessales"):
     ids = load_processed_ids()
-    ids.add(uid)
-    with open(PROCESSED_IDS_PATH, "w") as f:
-        json.dump(list(ids), f)
+    if account not in ids:
+        ids[account] = []
+    if uid not in ids[account]:
+        ids[account].append(uid)
+    with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
+        json.dump(ids, f, ensure_ascii=False)
 
 
 def process_attachments(attachments: list, meta: dict) -> dict:
-    """パターンA: 添付ファイルからエンジニア情報を抽出してNotion登録"""
+    """パターンA: 添付ファイルを人員/案件に分類してNotion登録"""
     from file_parser import parse_file
-    from ai_extractor import extract_engineers
-    from notion_writer import register_engineer
+    from ai_extractor import extract_engineers, extract_projects, classify_content
+    from notion_writer import register_engineer, register_project
 
     stats = {"success": 0, "skip": 0, "error": 0}
 
@@ -52,23 +63,35 @@ def process_attachments(attachments: list, meta: dict) -> dict:
         file_data = att["data"]
 
         text = parse_file(filename, ext, file_data)
-        if not text:
-            logger.warning(f"テキスト変換失敗: {filename} → スキップ")
+        if not text or len(text.strip()) < 200:
+            logger.warning(f"テキスト変換失敗または短すぎ: {filename} → スキップ")
             stats["error"] += 1
             continue
 
-        engineers = extract_engineers(text, filename)
-        if not engineers:
-            logger.warning(f"エンジニア情報抽出失敗: {filename} → スキップ")
-            stats["error"] += 1
-            continue
+        content_type = classify_content(text)
+        logger.info(f"コンテンツ判定: {filename} → {content_type}")
 
-        for eng in engineers:
-            result = register_engineer(eng, meta)
-            if result:
-                stats["success"] += 1
-            else:
-                stats["skip"] += 1
+        if content_type == "engineer":
+            records = extract_engineers(text, filename)
+            if not records:
+                logger.warning(f"エンジニア情報抽出失敗: {filename} → スキップ")
+                stats["error"] += 1
+                continue
+            for eng in records:
+                result = register_engineer(eng, meta)
+                stats["success" if result else "skip"] += 1
+        elif content_type == "project":
+            records = extract_projects(text, filename)
+            if not records:
+                logger.warning(f"案件情報抽出失敗: {filename} → スキップ")
+                stats["error"] += 1
+                continue
+            for proj in records:
+                result = register_project(proj, meta)
+                stats["success" if result else "skip"] += 1
+        else:
+            logger.warning(f"判定不能のためスキップ: {filename}")
+            stats["skip"] += 1
 
     return stats
 
@@ -166,7 +189,13 @@ def main():
     from mail_fetcher import fetch_new_emails, save_processed_id as mark_processed
 
     try:
-        emails = fetch_new_emails(days_back=1)
+        account = "all"
+        if "--account" in sys.argv:
+            account_index = sys.argv.index("--account")
+            if len(sys.argv) <= account_index + 1:
+                raise ValueError("--account には sessales/matsuno/okamoto/all を指定してください")
+            account = sys.argv[account_index + 1]
+        emails = fetch_new_emails(days_back=1, account=account)
     except ConnectionError as e:
         logger.error(f"IMAP接続失敗 → 中断: {e}")
         return
@@ -180,6 +209,10 @@ def main():
 
     logger.info(f"処理対象メール: {len(emails)}件")
 
+    if os.environ.get("DRY_RUN") == "1":
+        logger.info("DRY_RUN=1 のためメール取得確認のみで終了（Notion登録・処理済み記録なし）")
+        return
+
     total_success = 0
     total_skip = 0
     total_error = 0
@@ -187,13 +220,15 @@ def main():
     for mail_item in emails:
         uid = mail_item["uid"]
         subject = mail_item["subject"]
+        account_name = mail_item.get("account", "sessales")
         meta = {
             "subject": subject,
             "from": mail_item["from"],
             "date": mail_item["date"],
+            "account": account_name,
         }
 
-        logger.info(f"--- 処理開始: UID={uid} 件名={subject[:50]} ---")
+        logger.info(f"--- 処理開始: account={account_name} UID={uid} 件名={subject[:50]} ---")
 
         # パターンA: 添付ファイル → エンジニア登録
         if mail_item["attachments"]:
@@ -219,8 +254,8 @@ def main():
             total_skip += stats["skip"]
             total_error += stats["error"]
 
-        mark_processed(uid)
-        logger.info(f"UID={uid} 処理済み記録完了")
+        mark_processed(uid, account_name)
+        logger.info(f"account={account_name} UID={uid} 処理済み記録完了")
 
     logger.info(f"===== 完了 登録:{total_success} スキップ:{total_skip} エラー:{total_error} =====")
 

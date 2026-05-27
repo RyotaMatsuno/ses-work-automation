@@ -45,13 +45,13 @@ MATSUNO_CHANNEL_SECRET = os.environ.get('LINE_CHANNEL_SECRET', '')
 
 MATSUNO_CHANNEL_TOKEN  = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', '')
 
-MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID', '')
+MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID') or 'REDACTED-SECRET'
 
 OKAMOTO_CHANNEL_SECRET = os.environ.get('LINE_OKAMOTO_CHANNEL_SECRET') or os.environ.get('OKAMOTO_LINE_CHANNEL_SECRET', '')
 
 OKAMOTO_CHANNEL_TOKEN  = os.environ.get('LINE_OKAMOTO_CHANNEL_TOKEN') or os.environ.get('OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN', '')
 
-OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID', '')
+OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID') or 'REDACTED-SECRET'
 
 NOTION_API_KEY         = os.environ.get('NOTION_API_KEY', '')
 
@@ -74,6 +74,16 @@ NOTION_HEADERS = {
     "Notion-Version": "2022-06-28"
 
 }
+
+DB_PROPERTY_CACHE = {}
+
+
+def get_line_source_label(user_id: str) -> str:
+    if user_id == MATSUNO_USER_ID:
+        return "松野LINE"
+    if user_id == OKAMOTO_USER_ID:
+        return "岡本LINE"
+    return ""
 
 VALID_SKILLS = [
     "Java","Python","PHP","JavaScript","TypeScript","C#","C++","C","Go","Ruby",
@@ -248,9 +258,16 @@ Output: {"type":"project","name":"React/TypeScript case","required_skills":["Rea
 
 def classify_sheet_content(text):
 
-    system = '''Classify this spreadsheet content. Reply JSON only.
+    system = '''You are a classifier for SES (System Engineer Staffing) business documents in Japanese.
+Classify the content as "engineer" (skill sheet / resume / 経歴書 / スキルシート) 
+or "project" (job requirement / 案件 / 求人 / 募集要項).
 
-{"content_type": "engineer"} or {"content_type": "project"}'''
+Rules:
+- If it contains person name, work history, skill list, self-introduction → "engineer"
+- If it contains required skills, job description, client info, contract period → "project"  
+- When unclear, default to "engineer"
+
+Reply JSON only: {"content_type": "engineer"} or {"content_type": "project"}'''
 
     result = call_claude(system, text[:2000], max_tokens=100)
 
@@ -613,6 +630,48 @@ def notion_query(db_id, filter_obj=None):
 
 
 
+def get_database_property_names(db_id):
+
+    if not db_id:
+
+        return set()
+
+    if db_id not in DB_PROPERTY_CACHE:
+
+        try:
+
+            r = requests.get(f"https://api.notion.com/v1/databases/{db_id}",
+
+                             headers=NOTION_HEADERS, timeout=30)
+
+            if r.status_code == 200:
+
+                DB_PROPERTY_CACHE[db_id] = set(r.json().get("properties", {}).keys())
+
+            else:
+
+                print(f"[Notion schema skip] {r.status_code}: {r.text[:120]}")
+
+                DB_PROPERTY_CACHE[db_id] = set()
+
+        except Exception as e:
+
+            print(f"[Notion schema error] {e}")
+
+            DB_PROPERTY_CACHE[db_id] = set()
+
+    return DB_PROPERTY_CACHE[db_id]
+
+
+
+def add_input_source_property(props, db_id, input_source):
+
+    if input_source and "入力元" in get_database_property_names(db_id):
+
+        props["入力元"] = {"select": {"name": input_source}}
+
+
+
 def find_prefecture_from_text(text):
 
     if not text:
@@ -673,6 +732,17 @@ def validate_engineer_for_registration(info, raw_text):
 
         return False, "name_not_found"
 
+    # 外国籍チェック
+    nationality = str(info.get("nationality") or info.get("note") or "").lower()
+    raw_lower = (raw_text or "").lower()
+    foreign_keywords = ["外国籍", "中国", "韓国", "ベトナム", "インド", "フィリピン", "ネパール",
+                        "バングラ", "パキスタン", "スリランカ", "ミャンマー", "インドネシア",
+                        "chinese", "korean", "vietnamese", "indian", "foreign"]
+    for kw in foreign_keywords:
+        if kw in nationality or kw in raw_lower:
+            print(f"[SKIP] foreign nationality: {kw} / {(raw_text or '')[:100]}")
+            return False, "foreign_nationality"
+
     pref = find_prefecture_from_text(build_engineer_location_text(info, raw_text))
 
     if pref and pref not in KANTO_CHUBU_PREFECTURES:
@@ -729,6 +799,9 @@ def register_engineer(info, raw_text, sender, user_id=""):
     if info.get("contact_email"):
         props["所属メール"] = {"email": info["contact_email"]}
 
+    input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
+    add_input_source_property(props, NOTION_ENGINEER_DB_ID, input_source)
+
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
 
                        json={"parent": {"database_id": NOTION_ENGINEER_DB_ID}, "properties": props})
@@ -781,6 +854,9 @@ def register_project(info, raw_text, sender, user_id=""):
     if info.get("location"): props["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
 
     if info.get("period"): props["期間"] = {"rich_text": [{"text": {"content": info["period"]}}]}
+
+    input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
+    add_input_source_property(props, NOTION_PROJECT_DB_ID, input_source)
 
     res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
 
@@ -1378,7 +1454,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
-def handle_sheet_url(url, reply_token, sender, sender_token):
+def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
 
     reply_message(reply_token, "🔄 スプレッドシートを取得中...", sender_token)
 
@@ -1428,7 +1504,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         for proj in projects:
 
-            ok, _ = register_project(proj, raw_text, sender)
+            ok, _ = register_project(proj, raw_text, sender, user_id=user_id)
 
             if ok: success_count += 1
 
@@ -1462,7 +1538,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
 
         for eng in engineers:
 
-            ok, reason = register_engineer(eng, raw_text, sender)
+            ok, reason = register_engineer(eng, raw_text, sender, user_id=user_id)
 
             if ok:
 
@@ -1487,6 +1563,10 @@ def handle_sheet_url(url, reply_token, sender, sender_token):
         if "area_out_of_scope" in skip_reasons:
 
             msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
+
+        if "foreign_nationality" in skip_reasons:
+
+            msg += "外国籍のため登録をスキップしました\n"
 
         for i, e in enumerate(engineers[:5], 1):
 
@@ -1804,7 +1884,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     if sheet_urls:
 
-        handle_sheet_url(sheet_urls[0], reply_token, sender, sender_token)
+        handle_sheet_url(sheet_urls[0], reply_token, sender, sender_token, user_id=user_id)
 
         return
 
@@ -1835,6 +1915,12 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
             if reason == "area_out_of_scope":
 
                 reply_message(reply_token, AREA_OUT_OF_SCOPE_REPLY, sender_token)
+
+                return
+
+            if reason == "foreign_nationality":
+
+                reply_message(reply_token, "外国籍のため登録をスキップしました", sender_token)
 
                 return
 
@@ -1918,6 +2004,10 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         if "area_out_of_scope" in skip_reasons:
 
             msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
+
+        if "foreign_nationality" in skip_reasons:
+
+            msg += "外国籍のため登録をスキップしました\n"
 
         for i, e in enumerate(engineers_list[:5], 1):
 
@@ -2083,7 +2173,7 @@ def handle_webhook(channel_secret, channel_token, sender_name):
 
             MATSUNO_USER_ID = user_id
 
-            print(f"[userId-matsuno] {user_id}", flush=True)
+            print("[userId-matsuno] captured", flush=True)
 
             if os.path.exists(ENV_PATH):
 

@@ -1,0 +1,27 @@
+{
+  "run_at": "2026-05-25T17:47:02",
+  "dry_run": true,
+  "total": 3,
+  "sent": 2,
+  "skipped": 1,
+  "details": [
+    {
+      "company": "株式会社サンプル",
+      "email": "tanaka@example.com",
+      "status": "sent",
+      "template": "A"
+    },
+    {
+      "company": "株式会社テスト",
+      "email": "suzuki@test.co.jp",
+      "status": "skip_断り",
+      "template": null
+    },
+    {
+      "company": "株式会社デモ",
+      "email": "sato@example.com",
+      "status": "sent",
+      "template": "B"
+    }
+  ]
+}

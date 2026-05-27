@@ -1,42 +1,38 @@
 
-import requests, sys, time
-sys.stdout.reconfigure(encoding='utf-8')
+import sys
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 from dotenv import dotenv_values
-from pathlib import Path
+import requests
 
-ENV_PATH = Path(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
-config = dotenv_values(ENV_PATH)
-NOTION_KEY = config.get("NOTION_API_KEY", "")
-ENGINEER_DB = config.get("NOTION_ENGINEER_DB_ID", "")
-
-HEADERS = {
-    "Authorization": f"Bearer {NOTION_KEY}",
-    "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+config = dotenv_values(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
+headers = {
+    'Authorization': f'Bearer {config["NOTION_API_KEY"]}',
+    'Notion-Version': '2022-06-28',
+    'Content-Type': 'application/json'
 }
 
-CUTOFF = "2026-05-09"
+def count_db(db_id, label):
+    results = []
+    payload = {'page_size': 100}
+    while True:
+        r = requests.post(f'https://api.notion.com/v1/databases/{db_id}/query', headers=headers, json=payload)
+        data = r.json()
+        results.extend(data.get('results', []))
+        if not data.get('has_more'):
+            break
+        payload['start_cursor'] = data['next_cursor']
+    print(f'{label}: 合計{len(results)}件')
+    # ステータス別集計
+    statuses = {}
+    for p in results:
+        props = p['properties']
+        # 案件DBはステータス、エンジニアDBは稼働状況
+        s = (props.get('ステータス') or props.get('稼働状況') or {}).get('select', {})
+        name = s.get('name', '未設定') if s else '未設定'
+        statuses[name] = statuses.get(name, 0) + 1
+    for k, v in sorted(statuses.items(), key=lambda x: -x[1]):
+        print(f'  {k}: {v}件')
 
-all_pages = []
-cursor = None
-while True:
-    payload = {"page_size": 100}
-    if cursor:
-        payload["start_cursor"] = cursor
-    r = requests.post(
-        f"https://api.notion.com/v1/databases/{ENGINEER_DB}/query",
-        headers=HEADERS, json=payload, timeout=30
-    )
-    data = r.json()
-    all_pages.extend(data.get("results", []))
-    if not data.get("has_more"):
-        break
-    cursor = data["next_cursor"]
-    time.sleep(0.3)
-
-targets = [p for p in all_pages if p["created_time"][:10] < CUTOFF]
-keeps   = [p for p in all_pages if p["created_time"][:10] >= CUTOFF]
-
-print(f"現在の総件数: {len(all_pages)}")
-print(f"削除対象残り: {len(targets)}件")
-print(f"保持対象: {len(keeps)}件")
+count_db('343450ff-37c0-81e4-934e-f25f90284a3c', '案件DB')
+print()
+count_db('343450ff-37c0-819d-8769-fb0a8a4ceeb1', 'エンジニアDB')

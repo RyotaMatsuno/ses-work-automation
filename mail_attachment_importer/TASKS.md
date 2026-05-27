@@ -1,6 +1,6 @@
 # TASKS.md - メール添付スキルシート自動取り込みシステム
 
-最終更新: 2026-05-14 (v3完了)
+最終更新: 2026-05-26 (Phase 8完了)
 
 ---
 
@@ -52,6 +52,17 @@
   - タスク名: jobz_importer
   - 次回実行: 2026/05/15 8:00:00
 - [x] 動作確認 ← テスト実行でパイプライン全段階確認済み
+
+## Phase 8: v4差分修正（2026-05-26）
+- [x] 8-1. ai_extractor.py に classify_content() 追加
+- [x] 8-2. ai_extractor.py のモデルを claude-haiku-4-5-20251001 に変更
+- [x] 8-3. importer.py の process_attachments() を人員/案件自動判定に修正
+- [x] 8-4. mail_fetcher.py に matsuno / okamoto アカウント追加
+- [x] 8-5. processed_ids.json をdict形式に移行（後方互換処理込み）
+- [x] 8-6. importer.py の meta に account フィールド追加
+- [x] 8-7. 動作確認: python -c "from ai_extractor import classify_content; print(classify_content('氏名: 山田太郎 スキル: Java'))"
+- [x] 8-8. 動作確認: python -c "from ai_extractor import classify_content; print(classify_content('必須スキル: Java 勤務地: 東京 期間: 6ヶ月'))"
+- [x] 8-9. 動作確認: DRY_RUN=1 python importer.py で3アカウントのIMAP接続確認
 
 ---
 

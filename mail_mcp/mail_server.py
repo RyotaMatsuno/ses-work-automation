@@ -8,9 +8,12 @@ import json
 import smtplib
 import imaplib
 import email
+import base64
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
 from email.header import decode_header
+from email import encoders
 import os
 from datetime import datetime
 import sys
@@ -47,7 +50,7 @@ ACCOUNTS = {
     }
 }
 
-def send_email(account_name: str, to: str, subject: str, body: str) -> dict:
+def send_email(account_name: str, to: str, subject: str, body: str, attachments: list | None = None) -> dict:
     account = ACCOUNTS.get(account_name)
     if not account:
         return {"success": False, "error": f"アカウント '{account_name}' が見つかりません"}
@@ -57,6 +60,14 @@ def send_email(account_name: str, to: str, subject: str, body: str) -> dict:
         msg["To"] = to
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain", "utf-8"))
+        for att in (attachments or []):
+            mime_type = att.get("mime") or "application/octet-stream"
+            main_type, sub_type = mime_type.split("/", 1) if "/" in mime_type else ("application", "octet-stream")
+            part = MIMEBase(main_type, sub_type)
+            part.set_payload(base64.b64decode(att["data"]))
+            encoders.encode_base64(part)
+            part.add_header("Content-Disposition", f'attachment; filename="{att["filename"]}"')
+            msg.attach(part)
         with smtplib.SMTP_SSL(account["smtp_server"], account["smtp_port"]) as server:
             server.login(account["email"], account["password"])
             server.sendmail(account["email"], to, msg.as_string())
@@ -152,7 +163,20 @@ def handle_request(request: dict) -> dict:
                                 "account": {"type": "string", "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)"},
                                 "to": {"type": "string", "description": "送信先メールアドレス"},
                                 "subject": {"type": "string", "description": "件名"},
-                                "body": {"type": "string", "description": "本文"}
+                                "body": {"type": "string", "description": "本文"},
+                                "attachments": {
+                                    "type": "array",
+                                    "description": "添付ファイル。dataはbase64文字列。",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "filename": {"type": "string", "description": "添付ファイル名"},
+                                            "data": {"type": "string", "description": "base64エンコード済みファイルデータ"},
+                                            "mime": {"type": "string", "description": "MIMEタイプ"}
+                                        },
+                                        "required": ["filename", "data"]
+                                    }
+                                }
                             },
                             "required": ["account", "to", "subject", "body"]
                         }
@@ -177,7 +201,7 @@ def handle_request(request: dict) -> dict:
         tool_name = params.get("name", "")
         args = params.get("arguments", {})
         if tool_name == "send_email":
-            result = send_email(args["account"], args["to"], args["subject"], args["body"])
+            result = send_email(args["account"], args["to"], args["subject"], args["body"], args.get("attachments"))
         elif tool_name == "get_recent_emails":
             result = get_recent_emails(args["account"], args.get("limit", 10))
         else:

@@ -1,0 +1,49 @@
+RC: 0
+
+=== STDOUT ===
+Google�������ʂ𒊏o�ł��Ȃ����߃t�H�[���o�b�N�����g�p: SES��� ���� ���[���A�h���X site:*.co.jp
+�擾�G���[: https://www.techbrain.co.jp/ (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/contact (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /contact (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/contact/ (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /contact/ (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/contact.html (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /contact.html (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/inquiry (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /inquiry (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/inquiry/ (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /inquiry/ (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.techbrain.co.jp/inquiry.php (HTTPSConnectionPool(host='www.techbrain.co.jp', port=443): Max retries exceeded with url: /inquiry.php (Caused by NameResolutionError("HTTPSConnection(host='www.techbrain.co.jp', port=443): Failed to resolve 'www.techbrain.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.mst-inc.co.jp/contact.html (404 Client Error: Not Found for url: https://mst-inc.co.jp/contact.html)
+�擾�G���[: https://www.mst-inc.co.jp/inquiry (404 Client Error: Not Found for url: https://mst-inc.co.jp/inquiry)
+�擾�G���[: https://www.mst-inc.co.jp/inquiry/ (404 Client Error: Not Found for url: https://mst-inc.co.jp/inquiry/)
+�擾�G���[: https://www.mst-inc.co.jp/inquiry.php (404 Client Error: Not Found for url: https://mst-inc.co.jp/inquiry.php)
+�擾�G���[: https://www.brainets.co.jp/ (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: / (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/contact (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /contact (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/contact/ (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /contact/ (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/contact.html (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /contact.html (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/inquiry (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /inquiry (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/inquiry/ (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /inquiry/ (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+�擾�G���[: https://www.brainets.co.jp/inquiry.php (HTTPSConnectionPool(host='www.brainets.co.jp', port=443): Max retries exceeded with url: /inquiry.php (Caused by NameResolutionError("HTTPSConnection(host='www.brainets.co.jp', port=443): Failed to resolve 'www.brainets.co.jp' ([Errno 11001] getaddrinfo failed)")))
+Google�������ʂ𒊏o�ł��Ȃ����߃t�H�[���o�b�N�����g�p: SIer ���� �̗p contact site:*.co.jp
+�擾�G���[: https://www.nsw.co.jp/contact (404 Client Error: Not Found for url: https://www.nsw.co.jp/contact)
+�擾�G���[: https://www.nsw.co.jp/contact/ (404 Client Error: Not Found for url: https://www.nsw.co.jp/contact/)
+�擾�G���[: https://www.nsw.co.jp/contact.html (404 Client Error: Not Found for url: https://www.nsw.co.jp/contact.html)
+�擾�G���[: https://www.nsw.co.jp/inquiry (404 Client Error: Not Found for url: https://www.nsw.co.jp/inquiry)
+�擾�G���[: https://www.nsw.co.jp/inquiry/ (404 Client Error: Not Found for url: https://www.nsw.co.jp/inquiry/)
+�擾�G���[: https://www.nsw.co.jp/inquiry.php (404 Client Error: Not Found for url: https://www.nsw.co.jp/inquiry.php)
+�擾�G���[: https://www.tis.co.jp/contact.html (404 Client Error: Not Found for url: https://www.tis.co.jp/contact.html)
+�擾�G���[: https://www.tis.co.jp/inquiry (404 Client Error: Not Found for url: https://www.tis.co.jp/inquiry/)
+�擾�G���[: https://www.tis.co.jp/inquiry/ (404 Client Error: Not Found for url: https://www.tis.co.jp/inquiry/)
+�擾�G���[: https://www.tis.co.jp/inquiry.php (404 Client Error: Not Found for url: https://www.tis.co.jp/inquiry.php)
+Google�������ʂ𒊏o�ł��Ȃ����߃t�H�[���o�b�N�����g�p: �V�X�e���J�� ��� ���� �₢���킹 site:*.co.jp
+�擾�G���[: https://www.hitachi-solutions.co.jp/contact (404 Client Error: Not Found for url: https://www.hitachi-solutions.co.jp/contact)
+�擾�G���[: https://www.hitachi-solutions.co.jp/contact/ (404 Client Error: Not Found for url: https://www.hitachi-solutions.co.jp/contact/)
+�擾�G���[: https://www.hitachi-solutions.co.jp/contact.html (404 Client Error: Not Found for url: https://www.hitachi-solutions.co.jp/contact.html)
+�擾�G���[: https://www.hitachi-solutions.co.jp/inquiry.php (404 Client Error: Not Found for url: https://www.hitachi-solutions.co.jp/inquiry.php)
+Google�������ʂ𒊏o�ł��Ȃ����߃t�H�[���o�b�N�����g�p: SES�h�� IT��� �֓� mail
+�擾�G���[: https://www.fsi.co.jp/contact (404 Client Error: Not Found for url: https://www.fsi.co.jp/contact/)
+�擾�G���[: https://www.fsi.co.jp/contact/ (404 Client Error: Not Found for url: https://www.fsi.co.jp/contact/)
+�擾�G���[: https://www.fsi.co.jp/contact.html (404 Client Error: Not Found for url: https://www.fsi.co.jp/contact.html)
+�擾�G���[: https://www.fsi.co.jp/inquiry (404 Client Error: Not Found for url: https://www.fsi.co.jp/inquiry)
+�擾�G���[: https://www.fsi.co.jp/inquiry/ (404 Client Error: Not Found for url: https://www.fsi.co.jp/inquiry/)
+�擾�G���[: https://www.fsi.co.jp/inquiry.php (404 Client Error: Not Found for url: https://www.fsi.co.jp/inquiry.php)
+Google�������ʂ𒊏o�ł��Ȃ����߃t�H�[���o�b�N�����g�p: �t���[�����X�G���W�j�A �Љ� SES ����
+�ǉ�0�� / �X�L�b�v0�Ёi�d���j
+
+=== STDERR ===

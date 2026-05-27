@@ -1,0 +1,14 @@
+log size: 0
+PID 6028: イメージ名                     PID セッション名     セッション# メモリ使用量
+========================= ======== ================ =========== ============
+cmd.exe                       6028 Console                    1     11,024 K
+node procs:
+イメージ名                     PID セッション名     セッション# メモリ使用量
+========================= ======== ================ =========== ============
+node.exe                     21684 Console                    1     10,096 K
+node.exe                     21692 Console                    1      9,896 K
+node.exe                     21704 Console                    1      9,868 K
+node.exe                      9824 Console                    1     15,248 K
+node.exe                     21360 Console                    1    125,916 K
+node.exe                     12408 Console                    1     32,208 K
+node.exe                      3040 Console                    1     45,572 K

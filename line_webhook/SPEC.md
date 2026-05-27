@@ -1,103 +1,136 @@
-# SPEC.md - LINE Webhook 自動化 v2
+# SPEC.md — LINE Remote Command
 
-最終更新: 2026-05-14
+最終更新: 2026-05-25
 
-## 目標
-松野・岡本がLINEにテキストをコピペするだけで、自動マッチング→担当振り分け→各自に結果送信まで完結する。
+## 概要
+スマホのLINEから「/run python matching_v2/matching_v2.py」のように送信すると、
+PCのjobz-commandが実行して結果をLINEに返す機能を追加する。
 
----
-
-## フロー
+## アーキテクチャ
 
 ```
-松野 or 岡本がLINEに案件/人材をコピペ
-↓
-Webhookが受信 → 送信者（松野/岡本）を判定
-↓
-Claude AIで案件/人材を判別 → Notionに登録
-↓
-【案件の場合】マッチングAI → ダブルチェックAI → 担当振り分け判定
-↓
-松野・岡本それぞれの個人LINEに結果をpush送信
-（元メッセージへのリプライ形式）
+LINE (スマホ)
+  ↓ メッセージ送信
+Cloud Run: webhook_server.py
+  ↓ /run プレフィックス検出
+remote_command_handler.py
+  ↓ HTTP POST (30秒タイムアウト)
+Cloudflare Tunnel (固定URL)
+  ↓ トンネル
+jobz-command: http://127.0.0.1:8765/run
+  ↓ コマンド実行結果
+Cloud Run → LINE返信
 ```
 
----
+## 認証・セキュリティ
+- 松野user_id（MATSUNO_USER_IDの値）からのみ /run 系コマンドを受け付ける
+- jobz-commandへのリクエストに X-Auth-Token: {JOBZ_AUTH_TOKEN} を付与
+- Cloudflare TunnelのURLは .env の JOBZ_COMMAND_URL から読む
 
-## 送信者判定
+## コマンド仕様
 
-- Webhookのevent.source.userIdで判定
-- 松野のuserIdは .env の MATSUNO_LINE_USER_ID
-- 岡本のuserIdは .env の OKAMOTO_LINE_USER_ID（設定済み: REDACTED-SECRET）
-- どちらでもないuserIdは無視
+| 入力フォーマット | 動作 |
+|---|---|
+| /run <command> | jobz-commandの POST /run に転送 |
+| /bg <command> | jobz-commandの POST /run_bg に転送（非同期） |
+| /log | jobz-commandの GET /log を返す（直近50行） |
+| /health | jobz-commandの GET /health を返す |
 
----
+## 返信フォーマット
+成功: "✅ 実行完了\n<結果の先頭200文字>"
+失敗: "❌ エラー\n<エラー内容>"
 
-## 4パターン担当振り分け
+## 環境変数（.envに追記する項目）
+JOBZ_COMMAND_URL=https://xxxxx.trycloudflare.com
+JOBZ_AUTH_TOKEN=jobz-terra-2026
+# MATSUNO_LINE_USER_IDはすでに.envに存在する
 
-| 案件送信者 | 人材送信者 | 意向確認担当 | クライアント提案担当 |
-|---|---|---|---|
-| 岡本 | 松野 | 松野（人材側） | 岡本（クライアント側） |
-| 松野 | 岡本 | 岡本（人材側） | 松野（クライアント側） |
-| 松野 | 松野 | 松野（両方） | 松野（両方） |
-| 岡本 | 岡本 | 岡本（両方） | 岡本（両方） |
+## 実装対象ファイル
+1. ses_work/line_webhook/remote_command_handler.py — 新規作成
+2. ses_work/line_webhook/webhook_server.py — /runプレフィックス検出ロジックをprocess_message()の先頭に追記
+3. ses_work/line_webhook/cloudflare/config.yml — Cloudflareトンネル設定テンプレート
+4. ses_work/line_webhook/cloudflare/start_tunnel.bat — トンネル起動バッチ
+5. ses_work/line_webhook/cloudflare/README_SETUP.md — 初回セットアップ手順書
+6. ses_work/line_webhook/test_remote_command.py — 単体テスト
 
-※ 案件が来た時点では人材送信者は「マッチした人材の最終登録者」で判定
-※ 判定できない場合は両方に送信
+## remote_command_handler.py の詳細仕様
 
----
+```python
+import os, requests
+from dotenv import dotenv_values
 
-## LINE送信方式
+ENV_PATH = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+config = dotenv_values(ENV_PATH)
+JOBZ_COMMAND_URL = os.environ.get('JOBZ_COMMAND_URL') or config.get('JOBZ_COMMAND_URL', '')
+JOBZ_AUTH_TOKEN = os.environ.get('JOBZ_AUTH_TOKEN') or config.get('JOBZ_AUTH_TOKEN', 'jobz-terra-2026')
+HEADERS = {"X-Auth-Token": JOBZ_AUTH_TOKEN, "Content-Type": "application/json"}
+TIMEOUT = 30
 
-- reply_token: 受信メッセージへの即時返信（送信者のみ）
-- push_message: 任意のユーザーへの個別送信（松野・岡本それぞれ）
-- 案件投稿にリプライ → 「この人材で確認中」
-- 人材投稿にリプライ → 「この案件で打診中」
+def trim_result(text, max=200):
+    return text[:max] + ("..." if len(text) > max else "")
 
----
+def execute_remote(cmd):
+    # POST /run {"cmd": cmd, "cwd": "ses_work"}
+    # 返却: {"returncode":0,"stdout":"...","stderr":"..."}
+    # → "✅ 実行完了\n<stdout先頭200文字>" or "❌ エラー\n<stderr>"
 
-## 各自へのメッセージ構成
+def execute_bg(cmd):
+    # POST /run_bg {"cmd": cmd, "cwd": "ses_work"}
+    # → "✅ バックグラウンド実行開始\n<cmd>"
 
-### 案件登録者（クライアント担当）へ
-```
-✅ 案件「{案件名}」登録完了 + マッチング結果
+def get_log():
+    # GET /log
+    # → 直近50行をLINEに返す（2000文字以内）
 
-【候補者: N名】
-① 氏名 / 単価万円
-   サマリー文（並行状況）
-② ...
-
-【ダブルチェック】OK / NG（NG理由）
-
-【提案文（送信可能版）】
-...
-
-※ 意向確認は{担当者名}が実施中です
-確認できたら「送信して」と返信してください
-```
-
-### 人材担当者（意向確認担当）へ
-```
-📋 意向確認依頼
-
-【案件】{案件名}
-スキル: {必須スキル}
-単価: {単価}万円 / {勤務地} / リモート{可否}
-
-【確認してほしい人材】
-① {氏名} - {単価}万円
-   {サマリー}
-
-意向確認後、ジョブズに結果を送ってください
+def get_health():
+    # GET /health
+    # → "✅ jobz-command: OK" or "❌ 接続失敗"
 ```
 
----
+## webhook_server.py への追記位置
+process_message()の先頭（text_stripped定義の直後）に以下を追記:
 
-## .env 追加項目
-- MATSUNO_LINE_USER_ID: 松野の個人LINEユーザーID（Webhookから自動取得）
-- OKAMOTO_LINE_USER_ID: 岡本の個人LINEユーザーID（設定済み）
+```python
+# ── リモートコマンド（松野のみ） ─────────────────────────────────
+if user_id and user_id == MATSUNO_USER_ID:
+    if text_stripped.startswith("/run "):
+        result = execute_remote(text_stripped[5:])
+        reply_message(reply_token, result, sender_token)
+        return
+    elif text_stripped.startswith("/bg "):
+        result = execute_bg(text_stripped[4:])
+        reply_message(reply_token, result, sender_token)
+        return
+    elif text_stripped == "/log":
+        result = get_log()
+        reply_message(reply_token, result, sender_token)
+        return
+    elif text_stripped == "/health":
+        result = get_health()
+        reply_message(reply_token, result, sender_token)
+        return
+```
 
----
+importに追記:
+```python
+from remote_command_handler import execute_remote, execute_bg, get_log, get_health
+```
 
-## デプロイ
-変更後はRailwayに自動デプロイ（git push）
+## Cloudflare config.yml テンプレート
+```yaml
+tunnel: TUNNEL_ID_HERE
+credentials-file: C:\Users\ma_py\.cloudflared\TUNNEL_ID_HERE.json
+ingress:
+  - service: http://127.0.0.1:8765
+  - service: http_status:404
+```
+※ hostnameは指定しない（Quick Tunnelでも動作する）
+
+## README_SETUP.md の内容（セットアップ手順）
+1. cloudflaredインストール: winget install Cloudflare.cloudflared
+2. ログイン: cloudflared tunnel login
+3. トンネル作成: cloudflared tunnel create jobz-command
+4. 発行されたTUNNEL_IDをconfig.ymlに記入
+5. start_tunnel.batを実行（またはスタートアップに登録）
+6. 表示されたURL（trycloudflare.com）を.envのJOBZ_COMMAND_URLに記入
+7. Cloud Runを再デプロイ: gcloud run deploy...

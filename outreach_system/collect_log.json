@@ -1,0 +1,44 @@
+{
+  "collected_at": "2026-05-27T10:38:30",
+  "queries": [
+    {
+      "query": "SES企業 東京 メールアドレス site:*.co.jp",
+      "domains": [
+        "https://www.techbrain.co.jp",
+        "https://www.mst-inc.co.jp",
+        "https://www.brainets.co.jp"
+      ]
+    },
+    {
+      "query": "SIer 東京 採用 contact site:*.co.jp",
+      "domains": [
+        "https://www.nsw.co.jp",
+        "https://www.tis.co.jp"
+      ]
+    },
+    {
+      "query": "システム開発 受託 東京 問い合わせ site:*.co.jp",
+      "domains": [
+        "https://www.nttdata.co.jp",
+        "https://www.hitachi-solutions.co.jp"
+      ]
+    },
+    {
+      "query": "SES派遣 IT企業 関東 mail",
+      "domains": [
+        "https://www.isg.co.jp",
+        "https://www.fsi.co.jp"
+      ]
+    },
+    {
+      "query": "フリーランスエンジニア 紹介 SES 東京",
+      "domains": [
+        "https://www.techbrain.co.jp",
+        "https://www.brainets.co.jp"
+      ]
+    }
+  ],
+  "candidates": [],
+  "added_count": 0,
+  "skipped_duplicate_count": 0
+}

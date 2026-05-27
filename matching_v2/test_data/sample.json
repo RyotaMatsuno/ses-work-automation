@@ -1,0 +1,46 @@
+{
+  "projects": [
+    {
+      "id": "test-proj-1",
+      "name": "テスト案件Java",
+      "required_skills": [
+        "Java",
+        "Spring"
+      ],
+      "optional_skills": [
+        "AWS"
+      ],
+      "price": 65
+    },
+    {
+      "id": "test-proj-2",
+      "name": "テスト案件スキル空",
+      "required_skills": [],
+      "optional_skills": [],
+      "price": 60
+    }
+  ],
+  "engineers": [
+    {
+      "id": "test-eng-1",
+      "name": "テストエンジニアA",
+      "skills": [
+        "Java",
+        "Spring Boot",
+        "AWS"
+      ],
+      "price": 65,
+      "available_date": "2026-06-01"
+    },
+    {
+      "id": "test-eng-2",
+      "name": "テストエンジニアB",
+      "skills": [
+        "Python",
+        "Django"
+      ],
+      "price": 55,
+      "available_date": "2026-07-01"
+    }
+  ]
+}
