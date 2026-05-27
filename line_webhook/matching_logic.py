@@ -174,6 +174,12 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
             gross = m["_cat"]["gross"]
             score = m.get("score", 0)
             lines.append(f"  {i}. {m.get('project_name', '不明')}")
+            assignee = m.get("assignee", "")
+            if assignee:
+                lines.append(f"     会社: {assignee}")
+            note = m.get("note", "")
+            if note:
+                lines.append(f"     内容: {note[:60]}")
             lines.append(f"     単価:{pp}万 粗利:{gross}万 スコア:{score}")
             rs = skill_str(m.get("required_match", {}))
             if rs:
@@ -191,6 +197,12 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
             gross = m["_cat"]["gross"]
             cat = m["_cat"]
             lines.append(f"  {i}. {m.get('project_name', '不明')}")
+            assignee = m.get("assignee", "")
+            if assignee:
+                lines.append(f"     会社: {assignee}")
+            note = m.get("note", "")
+            if note:
+                lines.append(f"     内容: {note[:60]}")
             lines.append(f"     単価:{pp}万 現粗利:{gross}万")
             lines.append(f"     調整依頼額: max{cat['adj_max']}万 / {cat['adj_mid']}万 / {cat['adj_min']}万")
 
@@ -202,6 +214,12 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
             pp = m.get("project_price", 0)
             up_price = m["_cat"]["upfuri_price"]
             lines.append(f"  {i}. {m.get('project_name', '不明')}")
+            assignee = m.get("assignee", "")
+            if assignee:
+                lines.append(f"     会社: {assignee}")
+            note = m.get("note", "")
+            if note:
+                lines.append(f"     内容: {note[:60]}")
             lines.append(f"     現単価:{pp}万 -> 上振れ提案:{up_price}万")
 
     # 単価不明
