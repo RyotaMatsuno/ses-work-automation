@@ -948,17 +948,11 @@ def get_active_projects():
 
         note_items = props.get("案件詳細", {}).get("rich_text", [])
 
-        note = note_items[0].get("plain_text", "")[:200] if note_items else ""
+        note = note_items[0].get("plain_text", "")[:2000] if note_items else ""
 
-        assignee_select = props.get("担当者", {}).get("select", {})
+        co_items = props.get("所属会社名", {}).get("rich_text", [])
 
-        assignee = assignee_select.get("name", "") if assignee_select else ""
-
-        if not assignee:
-
-            src_items = props.get("input_source", {}).get("rich_text", [])
-
-            assignee = src_items[0].get("plain_text", "")[:50] if src_items else ""
+        assignee = co_items[0].get("plain_text", "") if co_items else ""
 
         result.append({
 
