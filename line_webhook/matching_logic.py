@@ -99,6 +99,8 @@ def categorize_match(engineer_price, project_price, required_match, optional_mat
     ep = engineer_price or 0
     pp = project_price or 0
     gross = pp - ep if (pp > 0 and ep > 0) else None
+    if ep > 0 and pp > 0 and (pp - ep) > 15:
+        return {"category": "ng", "gross": gross, "reason": f"上振れ{pp-ep}万超（上限15万）"}
 
     req_all_ok = all(v for v in required_match.values()) if required_match else False
     opt_any_ok = any(v for v in optional_match.values()) if optional_match else False

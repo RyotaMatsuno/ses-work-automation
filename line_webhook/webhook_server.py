@@ -386,6 +386,8 @@ def run_reverse_matching(engineer, projects):
 Rules:
 - gross_profit = project_price - engineer_price
 - ONLY include projects where gross_profit >= 5
+- EXCLUDE projects where (project_price - engineer_price) > 15 (too high to negotiate)
+- EXCLUDE projects where project_price == 0 (price unknown, cannot calculate gross profit)
 - score 0-100: skill match 70pts + gross quality 30pts
 - Sort by score desc, return top matches
 - If engineer price unknown, estimate from experience
@@ -417,6 +419,31 @@ Note: Do NOT include "note" field. It will be filled from DB.
     except Exception as e:
         print(f"[run_reverse_matching] parse error: {e}")
         return {"matches": []}
+
+
+def run_reverse_matching_full(engineer, projects):
+    """全案件を30件バッチで処理してマッチング結果をマージ"""
+    BATCH_SIZE = 30
+    all_matches = []
+    for i in range(0, len(projects), BATCH_SIZE):
+        batch = projects[i:i+BATCH_SIZE]
+        result = run_reverse_matching(engineer, batch)
+        all_matches.extend(result.get("matches", []))
+
+    seen = set()
+    unique = []
+    for m in sorted(all_matches, key=lambda x: x.get("score", 0), reverse=True):
+        name = m.get("project_name", "")
+        if name not in seen:
+            seen.add(name)
+            unique.append(m)
+    # ハードフィルタ: 上振れ15万超・単価0万を強制除外
+    eng_price = engineer.get("price", 0) or 0
+    if eng_price > 0:
+        unique = [m for m in unique
+                  if (m.get("project_price") or 0) > 0
+                  and ((m.get("project_price") or 0) - eng_price) <= 15]
+    return {"matches": unique}
 
 
 def evaluate_candidate(candidate, project_price):
@@ -1605,7 +1632,7 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
 
                 for eng in registered[:3]:
 
-                    result_m = run_reverse_matching(eng, active_projects)
+                    result_m = run_reverse_matching_full(eng, active_projects)
 
                     matches = result_m.get("matches", [])[:3]
 
@@ -1965,7 +1992,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             return
 
-        result_m = run_reverse_matching(info, active_projects)
+        result_m = run_reverse_matching_full(info, active_projects)
 
         matches = result_m.get("matches", [])[:3]
 
@@ -2044,7 +2071,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             for eng in registered[:3]:
 
-                rm = run_reverse_matching(eng, active_projects)
+                rm = run_reverse_matching_full(eng, active_projects)
 
                 matches = rm.get("matches", [])[:3]
 
