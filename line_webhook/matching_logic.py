@@ -7,6 +7,38 @@ import json
 import re
 
 
+
+import re as _re
+
+def clean_note(note):
+    if not note:
+        return ''
+    # 【案件要約】形式はそのまま
+    if note.startswith('【案件要約】'):
+        return note
+    # 署名・挨拶を除去して案件情報部分のみ抽出
+    skip_kw = ['TEL:', 'FAX:', '〒', 'https://', 'http://', '携帯:', 'mail :', 'HP：',
+               '＝＝＝', '───', '___', '以上よろしく', 'メールアドレス', '@']
+    # ■案件名 or 【案件名】 から始まる行を探す
+    lines_all = note.splitlines()
+    start_idx = None
+    for i, line in enumerate(lines_all):
+        if '■案件名' in line or '【案件名】' in line:
+            start_idx = i
+            break
+    if start_idx is None:
+        return note[:800]
+    result_lines = []
+    for line in lines_all[start_idx:]:
+        # 署名ブロックの開始を検知
+        if any(kw in line for kw in skip_kw):
+            break
+        # 区切り線（---、===、***）で終わり
+        if _re.match(r'^[-=*_]{3,}$', line.strip()):
+            break
+        result_lines.append(line)
+    return '\n'.join(result_lines).strip()
+
 def deduplicate_projects(projects):
     """
     同一案件（スキル・場所・単価が近い）をグループ化し、単価最高のものだけ返す。
@@ -179,7 +211,7 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
                 lines.append(f"     会社: {assignee}")
             note = m.get("note", "")
             if note:
-                lines.append(f"     内容: {note}")
+                lines.append(f"     内容: {clean_note(note)}")
             lines.append(f"     単価:{pp}万 粗利:{gross}万 スコア:{score}")
             rs = skill_str(m.get("required_match", {}))
             if rs:
@@ -202,7 +234,7 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
                 lines.append(f"     会社: {assignee}")
             note = m.get("note", "")
             if note:
-                lines.append(f"     内容: {note}")
+                lines.append(f"     内容: {clean_note(note)}")
             lines.append(f"     単価:{pp}万 現粗利:{gross}万")
             lines.append(f"     調整依頼額: max{cat['adj_max']}万 / {cat['adj_mid']}万 / {cat['adj_min']}万")
 
@@ -219,7 +251,7 @@ def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
                 lines.append(f"     会社: {assignee}")
             note = m.get("note", "")
             if note:
-                lines.append(f"     内容: {note}")
+                lines.append(f"     内容: {clean_note(note)}")
             lines.append(f"     現単価:{pp}万 -> 上振れ提案:{up_price}万")
 
     # 単価不明
