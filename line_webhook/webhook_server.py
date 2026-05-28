@@ -1375,7 +1375,7 @@ def analyze_skill_sheet(b64_data, mime_type):
     res = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-20250514", "max_tokens": 1000, "system": system, "messages": [{"role": "user", "content": content}]},
+        json={"model": "claude-sonnet-4-5", "max_tokens": 1000, "system": system, "messages": [{"role": "user", "content": content}]},
         timeout=90
     )
     if res.status_code == 200:
