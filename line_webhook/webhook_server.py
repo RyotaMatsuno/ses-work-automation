@@ -1378,8 +1378,8 @@ def analyze_skill_sheet(b64_data, mime_type):
     res = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-        json={"model": "claude-opus-4-6", "max_tokens": 2000, "system": system, "messages": [{"role": "user", "content": content}]},
-        timeout=60
+        json={"model": "claude-sonnet-4-20250514", "max_tokens": 2000, "system": system, "messages": [{"role": "user", "content": content}]},
+        timeout=90
     )
     if res.status_code == 200:
         try:
@@ -1388,7 +1388,7 @@ def analyze_skill_sheet(b64_data, mime_type):
         except Exception as e:
             print(f"[analyze_skill_sheet] parse error: {e}")
             return {}
-    print(f"[analyze_skill_sheet] API error: {res.status_code}")
+    print(f"[analyze_skill_sheet] API error: {res.status_code} {res.text[:200]}")
     return {}
 
 
