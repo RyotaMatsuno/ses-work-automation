@@ -142,6 +142,10 @@ PENDING_PROPOSALS = {}
 
 PENDING_SKILL_MAIL = {}
 
+# webhookEventId重複処理防止（メモリ内、最大1000件）
+PROCESSED_EVENT_IDS = set()
+MAX_EVENT_IDS = 1000
+
 
 
 
@@ -156,7 +160,7 @@ def verify_signature(body, signature, secret):
 
 
 
-def call_claude(system, user_msg, max_tokens=800):
+def call_claude(system, user_msg, max_tokens=120):
 
     res = requests.post(
 
@@ -234,7 +238,7 @@ Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"pric
 Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
 Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"optional_skills":["Next.js"],"price":57,"start_date":"2026-07-01","location":"Shibuya","remote":"shu3","period":"long","interview_count":1,"note":"kyuubo"}
 """
-    result = call_claude(system, text, max_tokens=500)
+    result = call_claude(system, text, max_tokens=120)
 
     try:
 
@@ -592,43 +596,7 @@ def build_reverse_match_message(eng_name, matches):
 
 
 
-def run_double_check(proposal_text, candidates_info):
-
-    system = """SES proposal double-checker. Reply JSON only.
-
-Check for:
-
-1. Forbidden words: 弊社, 充足, 即戦力, 教えてください
-
-2. Wrong honorifics
-
-3. Unmasked company/person names in proposal body
-
-Return: {"ok": true, "issues": [], "corrected": "same as input if ok"}
-
-If issues found, return corrected text with fixes applied."""
-
-
-
-    import json as _json
-
-    result = call_claude(system, _json.dumps({"proposal": proposal_text[:1000], "candidates": candidates_info}, ensure_ascii=False), max_tokens=1000)
-
-    try:
-
-        result_obj = _json.loads(re.sub(r'```json|```', '', result).strip())
-
-        if not isinstance(result_obj, dict):
-
-            return True, [], proposal_text
-
-        return result_obj.get("ok", True), result_obj.get("issues", []), result_obj.get("corrected", proposal_text)
-
-    except Exception as e:
-
-        print(f"[run_double_check] parse error: {e}")
-
-        return True, [], proposal_text
+# run_double_check 削除済み（未使用・コスト削減）
 
 
 
@@ -1417,6 +1385,12 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
+        # PDFサイズ制限（5MB超 = 推定10ページ超）
+        file_size = len(res.content)
+        if file_size > 5 * 1024 * 1024:
+            reply_message(reply_token, f"❌ ファイルが大きすぎます（{file_size//1024//1024}MB）。5MB以内のファイルを送ってください。", sender_token)
+            return
+
         b64_data = base64.b64encode(res.content).decode()
 
         # 2. 解析中メッセージ
@@ -2102,7 +2076,22 @@ def handle_webhook(channel_secret, channel_token, sender_name):
 
             continue
 
+        # グループ/ルームチャットは弾く（個人チャットのみ受け付ける）
+        source_type = event.get('source', {}).get('type', '')
+        if source_type not in ('user', ''):
+            print(f"[skip] non-user source: {source_type}")
+            continue
 
+        # webhookEventId重複処理防止
+        event_id = event.get('webhookEventId', '')
+        if event_id:
+            if event_id in PROCESSED_EVENT_IDS:
+                print(f"[skip] duplicate event: {event_id}")
+                continue
+            PROCESSED_EVENT_IDS.add(event_id)
+            if len(PROCESSED_EVENT_IDS) > MAX_EVENT_IDS:
+                oldest = next(iter(PROCESSED_EVENT_IDS))
+                PROCESSED_EVENT_IDS.discard(oldest)
 
         msg = event['message']
 
