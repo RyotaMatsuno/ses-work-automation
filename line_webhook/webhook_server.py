@@ -1444,18 +1444,8 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
             push_message(user_id, msg, sender_token)
             return
 
-        # 5. 逆マッチング
-        active_projects = deduplicate_projects(get_active_projects())
-        result_m = run_reverse_matching_full(info, active_projects)
-        matches = result_m.get("matches", [])[:3]
-
-        if MATCHING_LOGIC_AVAILABLE:
-            msg = build_reverse_match_message_v2(
-                name, matches, normalize_price(info.get("price", 0)) or 0)
-        else:
-            msg = build_reverse_match_message(name, matches)
-
-        push_message(user_id, msg, sender_token)
+        # 5. 逆マッチング（コスト確認中のため停止中）
+        push_message(user_id, f"📋 登録完了: {name}\n\n⚠️ マッチング機能は現在停止中です", sender_token)
 
     except Exception as e:
         _uid = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
@@ -1588,33 +1578,10 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
 
         if registered:
 
-            active_projects = deduplicate_projects(get_active_projects())
+            # マッチング停止中
+            pass
 
-            if active_projects:
-
-                msg += f"\n\n🔎 {len(registered)}名の逆マッチング中..."
-
-                reply_message(reply_token, msg, sender_token)
-
-                for eng in registered[:3]:
-
-                    result_m = run_reverse_matching_full(eng, active_projects)
-
-                    matches = result_m.get("matches", [])[:3]
-
-                    if matches:
-                        if MATCHING_LOGIC_AVAILABLE:
-                            rev_msg = build_reverse_match_message_v2(
-                                eng.get("name","?"), matches,
-                                normalize_price(eng.get("price", 0)) or 0)
-                        else:
-                            rev_msg = build_reverse_match_message(eng.get("name","?"), matches)
-                        push_message(MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
-                                     rev_msg,
-                                     MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN)
-
-                return
-
+        # スプレッドシート案件登録後のマッチング停止中
         reply_message(reply_token, msg, sender_token)
 
 
@@ -1958,18 +1925,8 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
             return
 
-        result_m = run_reverse_matching_full(info, active_projects)
-
-        matches = result_m.get("matches", [])[:3]
-
-        if MATCHING_LOGIC_AVAILABLE:
-            msg = build_reverse_match_message_v2(
-                info.get("name", "(no name)"), matches,
-                normalize_price(info.get("price", 0)) or 0)
-        else:
-            msg = build_reverse_match_message(info.get("name", "(no name)"), matches)
-
-        reply_message(reply_token, msg, sender_token)
+        # マッチング停止中
+        reply_message(reply_token, f"📋 登録完了: {info.get('name', '(no name)')}\n\n⚠️ マッチング機能は現在停止中です", sender_token)
 
 
 
@@ -2027,29 +1984,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         reply_message(reply_token, msg, sender_token)
 
-        active_projects = deduplicate_projects(get_active_projects())
-
-        if active_projects and registered:
-
-            uid = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
-
-            tok = MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN
-
-            for eng in registered[:3]:
-
-                rm = run_reverse_matching_full(eng, active_projects)
-
-                matches = rm.get("matches", [])[:3]
-
-                if matches:
-
-                    if MATCHING_LOGIC_AVAILABLE:
-                        _rmsg = build_reverse_match_message_v2(
-                            eng.get("name","?"), matches,
-                            normalize_price(eng.get("price", 0)) or 0)
-                    else:
-                        _rmsg = build_reverse_match_message(eng.get("name","?"), matches)
-                    push_message(uid, _rmsg, tok)
+        # マッチング停止中
 
 
 
