@@ -156,7 +156,7 @@ def verify_signature(body, signature, secret):
 
 
 
-def call_claude(system, user_msg, max_tokens=2000):
+def call_claude(system, user_msg, max_tokens=800):
 
     res = requests.post(
 
@@ -234,7 +234,7 @@ Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"pric
 Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
 Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"optional_skills":["Next.js"],"price":57,"start_date":"2026-07-01","location":"Shibuya","remote":"shu3","period":"long","interview_count":1,"note":"kyuubo"}
 """
-    result = call_claude(system, text, max_tokens=2000)
+    result = call_claude(system, text, max_tokens=500)
 
     try:
 
@@ -2271,7 +2271,7 @@ def _keepalive():
 
     time.sleep(60)
 
-    url = os.environ.get('RENDER_EXTERNAL_URL', 'https://ses-work-automation.onrender.com')
+    url = os.environ.get('CLOUD_RUN_URL', 'https://line-webhook-74735301292.asia-northeast1.run.app')
 
     while True:
 
