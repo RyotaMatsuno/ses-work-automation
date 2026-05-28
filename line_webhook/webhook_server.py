@@ -1361,9 +1361,40 @@ def split_line_message(text, limit=4900):
 
 
 
+def analyze_skill_sheet(b64_data, mime_type):
+    """Claude APIでスキルシートを直接解析（8766不要）"""
+    if mime_type == "application/pdf":
+        content = [
+            {"type": "document", "source": {"type": "base64", "media_type": "application/pdf", "data": b64_data}},
+            {"type": "text", "text": "このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {\"name\":\"\",\"skills\":[],\"price\":0,\"available_date\":\"\",\"experience_years\":0,\"location\":\"\",\"affiliation\":\"\",\"note\":\"\"}"}
+        ]
+    else:
+        mt = mime_type if mime_type.startswith("image/") else "image/jpeg"
+        content = [
+            {"type": "image", "source": {"type": "base64", "media_type": mt, "data": b64_data}},
+            {"type": "text", "text": "このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {\"name\":\"\",\"skills\":[],\"price\":0,\"available_date\":\"\",\"experience_years\":0,\"location\":\"\",\"affiliation\":\"\",\"note\":\"\"}"}
+        ]
+    system = "SES業界のスキルシート解析AI。JSON形式のみ返答。price=万円整数。experience_years=業界経験年数の整数。"
+    res = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+        json={"model": "claude-opus-4-6", "max_tokens": 2000, "system": system, "messages": [{"role": "user", "content": content}]},
+        timeout=60
+    )
+    if res.status_code == 200:
+        try:
+            text = res.json()["content"][0]["text"]
+            return json.loads(re.sub(r'```json|```', '', text).strip())
+        except Exception as e:
+            print(f"[analyze_skill_sheet] parse error: {e}")
+            return {}
+    print(f"[analyze_skill_sheet] API error: {res.status_code}")
+    return {}
+
+
 def handle_file_message(message_id, mime_type, reply_token, sender, sender_token):
 
-    """LINEから送られたPDF/画像ファイルをskill_reader_apiで処理"""
+    """LINEから送られたPDF/画像ファイルをClaude APIで直接解析してNotion登録"""
 
     try:
 
@@ -1391,108 +1422,47 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         b64_data = base64.b64encode(res.content).decode()
 
-
-
-        # skill_reader_api（8766）に送信
-
+        # 2. 解析中メッセージ
         reply_message(reply_token, "📋 スキルシート解析中...", sender_token)
 
-        api_res = requests.post(
-
-            "http://127.0.0.1:8766/process_skill_sheet",
-
-            json={"base64": b64_data, "mime": mime_type, "affiliation": "貴社"},
-
-            timeout=120
-
-        )
-
-
-
-        if api_res.status_code != 200:
-
-            reply_message(reply_token, f"❌ 解析失敗: {api_res.text[:200]}", sender_token)
-
+        # 3. Claude APIで直接スキル抽出（8766不要）
+        user_id = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
+        info = analyze_skill_sheet(b64_data, mime_type)
+        if not info or not info.get("name"):
+            push_message(user_id, "❌ スキル情報を抽出できませんでした。テキスト形式で再送してください。", sender_token)
             return
 
+        name = info.get("name", "不明")
 
-
-        result = api_res.json()
-
-        if result.get("status") != "ok":
-
-            reply_message(reply_token, f"❌ 解析エラー: {result.get('message','不明')}", sender_token)
-
+        # 4. Notion登録
+        success, reason = register_engineer(info, str(info), sender, user_id=user_id)
+        if not success:
+            msg = f"📋 解析完了: {name}\n\n"
+            if reason == "area_out_of_scope":
+                msg += AREA_OUT_OF_SCOPE_REPLY
+            elif reason == "foreign_nationality":
+                msg += "外国籍のため登録をスキップしました"
+            else:
+                msg += f"⚠️ 登録スキップ: {reason}"
+            push_message(user_id, msg, sender_token)
             return
 
+        # 5. 逆マッチング
+        active_projects = deduplicate_projects(get_active_projects())
+        result_m = run_reverse_matching_full(info, active_projects)
+        matches = result_m.get("matches", [])[:3]
 
+        if MATCHING_LOGIC_AVAILABLE:
+            msg = build_reverse_match_message_v2(
+                name, matches, normalize_price(info.get("price", 0)) or 0)
+        else:
+            msg = build_reverse_match_message(name, matches)
 
-        eng = result.get("engineer", {})
-
-        name = eng.get("name", "不明")
-
-        skills = ", ".join(eng.get("skills", [])) or "なし"
-
-        level = eng.get("level", "不明")
-
-        summary = eng.get("summary", "")
-
-        just_count = result.get("just_count", 0)
-
-        iko_mail = result.get("iko_mail", "")
-
-
-
-        # 結果をPENDING_SKILL_MAILに保存
-
-        pending_key = sender + "_skill"
-
-        PENDING_SKILL_MAIL[pending_key] = iko_mail
-
-
-
-        msg = f"📋 スキルシート解析完了\n"
-
-        msg += f"氏名: {name}\n"
-
-        msg += f"レベル: {level}\n"
-
-        msg += f"スキル: {skills}\n"
-
-        if summary:
-
-            msg += f"概要: {summary}\n"
-
-        msg += f"\n粗利ジャスト案件（5〜12万）: {just_count}件\n"
-
-        msg += "\n「メール送信して xxx@yyy.com」で意向確認メールを送信できます。"
-
-
-
-        push_message(
-
-            MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
-
-            msg,
-
-            sender_token
-
-        )
-
-
+        push_message(user_id, msg, sender_token)
 
     except Exception as e:
-
-        push_message(
-
-            MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
-
-            f"❌ スキルシート処理エラー: {str(e)[:200]}",
-
-            sender_token
-
-        )
-
+        _uid = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
+        push_message(_uid, f"❌ スキルシート処理エラー: {str(e)[:200]}", sender_token)
         traceback.print_exc()
 
 
