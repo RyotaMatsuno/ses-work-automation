@@ -476,7 +476,7 @@ def classify_email(subject: str, body: str) -> dict:
 
 どちらでもない場合:
 {"type":"other","note":"内容要約"}"""
-    text = f"件名: {subject}\n\n{body[:200]}"
+    text = f"件名: {subject}\n\n{body[:2000]}"
     result = call_claude(system, text)
     try:
         clean = re.sub(r"```json|```", "", result).strip()
@@ -538,7 +538,7 @@ SES業界用語:
                 "model": model,
                 "max_tokens": 400,
                 "system": system,
-                "messages": [{"role": "user", "content": f"件名: {subject}\n\n{body[:200]}"}],
+                "messages": [{"role": "user", "content": f"件名: {subject}\n\n{body[:2000]}"}],
             },
         }
 
@@ -1136,7 +1136,12 @@ def main():
             log(f"  [OK] 提案文下書き保存: {draft_path.name}")
 
         elif msg_type == "engineer":
-            # ===== v5: スキルシート添付対応 =====
+            # ===== 人材登録はLINE経由のみ。メール経由はスキップ (2026-05-28) =====
+            name = info.get("name", "（名前未記載）")
+            log(f"  [スキップ] 人材情報はメール経由登録対象外: {name} / {subject[:40]}")
+            save_processed_id(msg_id, processed)
+            continue
+            # ===== 以下は元のコード（無効化） =====
             name = info.get("name", "（名前未記載）")
             eng_price = info.get("price") or None
             info_owner = (
