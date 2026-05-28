@@ -160,7 +160,7 @@ def verify_signature(body, signature, secret):
 
 
 
-def call_claude(system, user_msg, max_tokens=120):
+def call_claude(system, user_msg, max_tokens=120, caller="unknown"):
 
     res = requests.post(
 
@@ -178,7 +178,11 @@ def call_claude(system, user_msg, max_tokens=120):
 
     if res.status_code == 200:
 
-        return res.json()["content"][0]["text"]
+        data = res.json()
+        usage = data.get("usage", {})
+        print(f"[claude_api] caller={caller} model=haiku max_tokens={max_tokens} "
+              f"in={usage.get('input_tokens','?')} out={usage.get('output_tokens','?')}")
+        return data["content"][0]["text"]
 
     print(f"Claude API error: {res.status_code} {res.text[:100]}")
 
@@ -238,7 +242,7 @@ Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"pric
 Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
 Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"optional_skills":["Next.js"],"price":57,"start_date":"2026-07-01","location":"Shibuya","remote":"shu3","period":"long","interview_count":1,"note":"kyuubo"}
 """
-    result = call_claude(system, text, max_tokens=120)
+    result = call_claude(system, text, max_tokens=120, caller="classify_message")
 
     try:
 
@@ -273,7 +277,7 @@ Rules:
 
 Reply JSON only: {"content_type": "engineer"} or {"content_type": "project"}'''
 
-    result = call_claude(system, text[:2000], max_tokens=100)
+    result = call_claude(system, text[:2000], max_tokens=100, caller="classify_sheet_content")
 
     try:
 
@@ -1348,7 +1352,11 @@ def analyze_skill_sheet(b64_data, mime_type):
     )
     if res.status_code == 200:
         try:
-            text = res.json()["content"][0]["text"]
+            data = res.json()
+            usage = data.get("usage", {})
+            print(f"[claude_api] caller=analyze_skill_sheet model=sonnet max_tokens=1000 "
+                  f"in={usage.get('input_tokens','?')} out={usage.get('output_tokens','?')}")
+            text = data["content"][0]["text"]
             return json.loads(re.sub(r'```json|```', '', text).strip())
         except Exception as e:
             print(f"[analyze_skill_sheet] parse error: {e}")
@@ -1385,11 +1393,23 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
 
 
-        # PDFサイズ制限（5MB超 = 推定10ページ超）
+        # PDFサイズ制限（5MB超）
         file_size = len(res.content)
         if file_size > 5 * 1024 * 1024:
             reply_message(reply_token, f"❌ ファイルが大きすぎます（{file_size//1024//1024}MB）。5MB以内のファイルを送ってください。", sender_token)
             return
+
+        # PDFページ数制限！10ページ超はブロック）
+        if mime_type == "application/pdf":
+            try:
+                import pdfplumber, io
+                with pdfplumber.open(io.BytesIO(res.content)) as pdf:
+                    page_count = len(pdf.pages)
+                if page_count > 10:
+                    reply_message(reply_token, f"❌ PDFが{page_count}ページあります、10ページ以内のスキルシートを送ってください。", sender_token)
+                    return
+            except Exception:
+                pass  # PDF解析失敗時はスキップして続行
 
         b64_data = base64.b64encode(res.content).decode()
 
