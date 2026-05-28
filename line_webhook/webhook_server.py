@@ -344,80 +344,77 @@ def extract_projects_from_text(text):
 
 
 def run_matching(project, engineers):
-    system = """SES matching AI. Reply JSON only. No markdown.
-
-Business Rules:
-- gross_profit = project_price - engineer_price (both in man-yen)
-- gross < 5: NG reason "grori-fusoku"
-- All required_skills must match: if any missing -> required_ok=false
-- score 0-100: required match 60pts + optional match rate 20pts + gross quality 20pts (7man=100pct,5man=50pct)
-- proposal_draft: formal Japanese business email. Use templates.
-- FORBIDDEN in proposal: beshsa/toshsa -> remove, sokusenjryoku -> "match-do-takai-jinzai", oshiete-kudasai -> "gokyujyu-kudasai", jyuusoku -> "subete mitashite-ori"
-- proposal format: list top candidates with single-line summary each
-
-Output:
-{"candidates":[{
-  "name":"",
-  "price":0,
-  "available_date":"",
-  "score":0,
-  "gross_profit":0,
-  "required_match":{"Java":true},
-  "optional_match":{"Docker":true},
-  "required_ok":true,
-  "ng_reasons":[],
-  "summary":""
-}],"proposal_draft":""}
-"""
-    result = call_claude(system, json.dumps({"project": project, "engineers": engineers}, ensure_ascii=False), max_tokens=3000)
-    try:
-        result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
-        if not isinstance(result_obj, dict):
-            return {"candidates": [], "proposal_draft": ""}
-        return result_obj
-    except Exception as e:
-        print(f"[run_matching] parse error: {e}")
-        return {"candidates": [], "proposal_draft": ""}
+    """ルールベースマッチング（API不要）"""
+    req_skills = set(project.get("required_skills", []))
+    opt_skills = set(project.get("optional_skills", []))
+    proj_price = normalize_price(project.get("price", 0)) or 0
+    candidates = []
+    for eng in engineers:
+        eng_skills = set(eng.get("skills", []))
+        eng_price = normalize_price(eng.get("price", 0)) or 0
+        req_match = {s: (s in eng_skills) for s in req_skills}
+        opt_match = {s: (s in eng_skills) for s in opt_skills}
+        required_ok = all(req_match.values()) if req_match else True
+        gross = (proj_price - eng_price) if (proj_price > 0 and eng_price > 0) else 0
+        ng_reasons = []
+        if not required_ok:
+            missing = [k for k, v in req_match.items() if not v]
+            ng_reasons.append(f"hissu-NG: {', '.join(missing)}")
+        if eng_price == 0:
+            ng_reasons.append("tanka-mishettei")
+        elif gross > 0 and gross < 5:
+            ng_reasons.append(f"grori {gross}man (min 5man)")
+        req_pts = 60 if required_ok else 0
+        opt_pts = int(20 * (sum(opt_match.values()) / len(opt_match))) if opt_match else 20
+        gross_pts = min(20, int(20 * gross / 7)) if gross >= 5 else 0
+        score = req_pts + opt_pts + gross_pts
+        candidates.append({
+            "name": eng.get("name", ""),
+            "price": eng_price,
+            "available_date": "",
+            "score": score,
+            "gross_profit": gross,
+            "required_match": req_match,
+            "optional_match": opt_match,
+            "required_ok": required_ok,
+            "ng_reasons": ng_reasons,
+            "summary": "",
+        })
+    candidates.sort(key=lambda x: x["score"], reverse=True)
+    return {"candidates": candidates, "proposal_draft": ""}
 
 
 def run_reverse_matching(engineer, projects):
-    system = """SES reverse matching AI. Reply JSON only. No markdown.
-
-Rules:
-- gross_profit = project_price - engineer_price
-- ONLY include projects where gross_profit >= 5
-- EXCLUDE projects where (project_price - engineer_price) > 15 (too high to negotiate)
-- score 0-100: skill match 70pts + gross quality 30pts
-- Sort by score desc, return top matches
-- If engineer price unknown, estimate from experience
-
-Output:
-{"matches":[{
-  "project_name":"",
-  "project_price":0,
-  "score":0,
-  "gross_profit":0,
-  "required_match":{"Java":true},
-  "optional_match":{}
-}]}
-Note: Do NOT include "note" field. It will be filled from DB.
-"""
-    result = call_claude(system, json.dumps({"engineer": engineer, "projects": projects}, ensure_ascii=False), max_tokens=2000)
-    try:
-        result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
-        if not isinstance(result_obj, dict):
-            return {"matches": []}
-        # projectsデータからnote/assigneeをマージ（AI生成ではなくDB原文を使う）
-        proj_map = {p.get("name", ""): p for p in projects}
-        for m in result_obj.get("matches", []):
-            pname = m.get("project_name", "")
-            proj = proj_map.get(pname, {})
-            m["note"] = proj.get("note", "")
-            m["assignee"] = proj.get("assignee", "")
-        return result_obj
-    except Exception as e:
-        print(f"[run_reverse_matching] parse error: {e}")
-        return {"matches": []}
+    """ルールベース逆マッチング（API不要）"""
+    eng_skills = set(engineer.get("skills", []))
+    eng_price = normalize_price(engineer.get("price", 0)) or 0
+    matches = []
+    for proj in projects:
+        req_skills = set(proj.get("required_skills", []))
+        opt_skills = set(proj.get("optional_skills", []))
+        proj_price = normalize_price(proj.get("price", 0)) or 0
+        gross = (proj_price - eng_price) if (proj_price > 0 and eng_price > 0) else 0
+        if eng_price > 0 and proj_price > 0:
+            if gross < 5: continue
+            if gross > 15: continue
+        req_match = {s: (s in eng_skills) for s in req_skills}
+        opt_match = {s: (s in eng_skills) for s in opt_skills}
+        if req_skills and not any(req_match.values()): continue
+        skill_pts = int(70 * (sum(req_match.values()) / len(req_match))) if req_match else 70
+        gross_pts = min(30, int(30 * gross / 7)) if gross >= 5 else (15 if gross == 0 else 0)
+        score = skill_pts + gross_pts
+        matches.append({
+            "project_name": proj.get("name", ""),
+            "project_price": proj_price,
+            "score": score,
+            "gross_profit": gross,
+            "required_match": req_match,
+            "optional_match": opt_match,
+            "note": proj.get("note", ""),
+            "assignee": proj.get("assignee", ""),
+        })
+    matches.sort(key=lambda x: x["score"], reverse=True)
+    return {"matches": matches}
 
 
 def run_reverse_matching_full(engineer, projects):
