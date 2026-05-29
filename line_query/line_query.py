@@ -101,7 +101,7 @@ def business_days_since(dt) -> int:
 
 def classify_query(text: str) -> tuple[str, dict]:
     stripped = text.strip()
-    match = re.match(r"^([A-Za-z]{1,4})[\s/](.+)$", stripped)
+    match = re.match(r"^([A-Za-z]{1,4})[\s\u3000/](.+)$", stripped)
     if match:
         return ("engineer", {"initial": match.group(1).upper(), "station": match.group(2).strip()})
     return ("project", {"name": stripped})
