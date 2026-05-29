@@ -1,30 +1,50 @@
-# TASKS.md — LINE Remote Command
+# TASKS.md - スキル年数抽出・古スキル除外改修
 
-## Phase 1: remote_command_handler.py 作成
-- [ ] ses_work/line_webhook/remote_command_handler.py を新規作成
-- [ ] ENV_PATHから JOBZ_COMMAND_URL / JOBZ_AUTH_TOKEN を読み込む（os.environ優先、fallback .env）
-- [ ] trim_result(text, max=200) を実装
-- [ ] execute_remote(cmd) を実装 → POST /run → "✅ 実行完了\n<stdout200文字>" or "❌ エラー\n<stderr>"
-- [ ] execute_bg(cmd) を実装 → POST /run_bg → "✅ バックグラウンド実行開始\n<cmd>"
-- [ ] get_log() を実装 → GET /log → 直近50行・2000文字以内
-- [ ] get_health() を実装 → GET /health → "✅ jobz-command: OK" or "❌ 接続失敗: <error>"
-- [ ] 全関数にtimeout=30・try/except実装
+## チェックリスト（Codexが順番に実装・完了時に[x]に更新）
 
-## Phase 2: webhook_server.py に追記
-- [ ] ファイル先頭のimport群に `from remote_command_handler import execute_remote, execute_bg, get_log, get_health` を追記
-- [ ] process_message()内のtext_stripped定義直後（print文の次行）に /run 系コマンド分岐を追記
-- [ ] user_id == MATSUNO_USER_ID のガード条件を必ず入れる
-- [ ] /run, /bg, /log, /health の4コマンドを実装
-- [ ] 既存ロジックを一切変更しない（追記のみ）
+- [x] Task 1: skill_extractor.py 新規作成
+  - extract_skills_from_bytes(file_bytes, mime_type) -> str
+    - PDF: pdfplumberでテキスト抽出
+    - xlsx: openpyxlで全シートのセル値を結合
+    - docx: python-docxで段落テキストを結合
+    - image/*: base64エンコードして返す（Claude Visionは呼び出し元で処理）
+    - その他: UTF-8デコード試行
+  - analyze_skill_sheet_v2(file_bytes, mime_type, summary_text="") -> dict
+    - テキスト化 → summary_textと結合 → Claude haiku APIに投げる
+    - プロンプトにactive判定ロジックを含める（10年以上未使用はfalse）
+    - JSONパース・エラー時は{}を返す
+  - filter_and_sort_skills(skills_list) -> list[str]
+    - active: trueのみ抽出
+    - VALID_SKILLSと照合（webhook_server.pyからimport）
+    - years降順でソート
+    - str リストを返す
 
-## Phase 3: Cloudflare設定ファイル生成
-- [ ] ses_work/line_webhook/cloudflare/ ディレクトリ作成
-- [ ] config.yml テンプレートを作成（TUNNEL_ID_HEREプレースホルダー）
-- [ ] start_tunnel.bat を作成（`cloudflared tunnel --config config.yml run jobz-command`）
-- [ ] README_SETUP.md を作成（SPEC.mdの手順7ステップを記載）
+- [x] Task 2: webhook_server.py にUSER_BUFFERを追加
+  - グローバル変数 USER_BUFFER = {} を追加（PENDING_PROPOSALSの直下）
+  - BUFFER_TTL = 1800 定数を追加
 
-## Phase 4: テストスクリプト
-- [ ] ses_work/line_webhook/test_remote_command.py を作成
-- [ ] JOBZ_COMMAND_URLが未設定の場合はlocalhost:8765で試行
-- [ ] get_health()を呼んで結果を print するだけのシンプルなテスト
-- [ ] python test_remote_command.py で単体実行できること
+- [x] Task 3: process_message にバッファ保存ロジックを追加
+  - classify_message の結果が "engineer" の場合のみ USER_BUFFER[user_id] に保存
+  - {"summary": text, "timestamp": time.time()} の形式
+  - TTL超過のバッファを定期クリーンアップ（新規メッセージ受信時に古いものを削除）
+
+- [x] Task 4: handle_file_message を改修
+  - skill_extractor.analyze_skill_sheet_v2 をimport
+  - res.content（バイト列）をそのまま渡す（b64変換不要）
+  - USER_BUFFERから summary を取得して渡す
+  - 使用後 USER_BUFFER[user_id] を削除
+  - 既存のPDF/画像フロー（analyze_skill_sheet）はanalyze_skill_sheet_v2に統合
+  - xlsx/docxの場合も同じフローで処理
+
+- [x] Task 5: register_engineer を改修
+  - skills がdict形式の場合 filter_and_sort_skills を呼ぶ
+  - skills がstr形式の場合は既存ロジック継続
+
+- [x] Task 6: requirements.txt に追記
+  - openpyxl>=3.1.0
+  - python-docx>=1.1.0
+  が含まれていなければ追記
+
+- [x] Task 7: 動作確認
+  - python -c "from skill_extractor import filter_and_sort_skills; print(filter_and_sort_skills([{'name':'Java','years':20,'last_used_year':2025,'active':True},{'name':'C#','years':3,'last_used_year':2013,'active':False}]))"
+  - 出力が ['Java'] であることを確認
