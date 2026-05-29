@@ -1928,12 +1928,12 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         try:
             buffer_key = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
             USER_BUFFER[buffer_key] = {"summary": text, "timestamp": time.time()}
+            reply_message(reply_token, "スキルシート（PDF/Excel/Word）を送ってください。", sender_token)
         except Exception as e:
             print(f"[USER_BUFFER] save error: {e}")
+        return
 
-
-
-    if msg_type == "engineer":
+    if False and msg_type == "engineer":  # ファイル受信待機フローに一本化（此ブロックは使わない）
 
         success, reason = register_engineer(info, text, sender, user_id=user_id)
 
