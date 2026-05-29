@@ -3,3 +3,6 @@ requests
 python-dotenv
 gunicorn
 pdfplumber
+jpholiday
+python-dateutil
+anthropic
