@@ -1625,6 +1625,9 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     text_stripped = text.strip()
 
+    import sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'line_query')); from line_query import handle_line_query
+    result = handle_line_query(text)
+    if result is not None: return reply_message(reply_token, result, sender_token)
 
     # ── リモートコマンド（松野のみ）─────────────────────────────────
     if user_id and user_id == MATSUNO_USER_ID:
@@ -2308,4 +2311,3 @@ if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
 
     app.run(host='0.0.0.0', port=port)
-
