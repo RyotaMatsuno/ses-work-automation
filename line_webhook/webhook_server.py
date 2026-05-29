@@ -228,7 +228,9 @@ Rules:
 
 Output ONE of these JSON shapes:
 
-Single engineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":"","affiliation":"","contact_name":"","contact_email":""}
+Single engineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":"","affiliation":"","contact_name":"","contact_email":"","initial":"","nearest_station":""}
+- initial: 2-letter uppercase initials extracted from name (e.g. "H.S" -> "HS", "田中太郎" -> "TT")
+- nearest_station: station name only, no line/prefix (e.g. "北小金駅(千代田線)" -> "北小金", "Kitakogane" -> "北小金")
 
 Multiple engineers: {"type":"engineers","engineers":[{"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","note":"","affiliation":"","contact_name":"","contact_email":""}]}
 
@@ -802,12 +804,22 @@ def register_engineer(info, raw_text, sender, user_id=""):
 
     if info.get("affiliation"):
         props["所属会社"] = {"rich_text": [{"text": {"content": info["affiliation"][:500]}}]}
+    else:
+        # LINE登録は所属情報がない場合、ソース名（松野LINE/岡本LINE）を所属会社名に入れる
+        _src = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
+        props["所属会社"] = {"rich_text": [{"text": {"content": _src}}]}
 
     if info.get("contact_name"):
         props["所属担当者名"] = {"rich_text": [{"text": {"content": info["contact_name"][:100]}}]}
 
     if info.get("contact_email"):
         props["所属メール"] = {"email": info["contact_email"]}
+
+    # イニシャルと最寄り駅を保存（line_query照会に必須）
+    if info.get("initial"):
+        props["イニシャル"] = {"rich_text": [{"text": {"content": info["initial"][:20]}}]}
+    if info.get("nearest_station"):
+        props["最寄り駅"] = {"rich_text": [{"text": {"content": info["nearest_station"][:50]}}]}
 
     input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
     add_input_source_property(props, NOTION_ENGINEER_DB_ID, input_source)
@@ -1925,6 +1937,38 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
     print(f"[type] {msg_type}")
 
     if msg_type == "engineer":
+        # 100文字以上のテキストはスキルシート本文として直接登録
+        if len(text_stripped) >= 100:
+            try:
+                # テキストからそのまま登録（ファイル不要）
+                success, reason = register_engineer(info, text, sender, user_id=user_id)
+                push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
+                if not success:
+                    if reason == "name_not_found":
+                        reply_message(reply_token, ENGINEER_NAME_NOT_FOUND_REPLY, sender_token)
+                    elif reason == "area_out_of_scope":
+                        reply_message(reply_token, AREA_OUT_OF_SCOPE_REPLY, sender_token)
+                    elif reason == "foreign_nationality":
+                        reply_message(reply_token, "外国籍のため登録をスキップしました", sender_token)
+                    else:
+                        reply_message(reply_token, f"❌ 登録失敗: {reason}", sender_token)
+                    return
+                # 逆マッチング
+                active_projects = deduplicate_projects(get_active_projects())
+                result_m = run_reverse_matching_full(info, active_projects)
+                matches = result_m.get("matches", [])[:3]
+                if MATCHING_LOGIC_AVAILABLE:
+                    msg = build_reverse_match_message_v2(
+                        info.get("name", "(no name)"), matches,
+                        normalize_price(info.get("price", 0)) or 0)
+                else:
+                    msg = build_reverse_match_message(info.get("name", "(no name)"), matches)
+                reply_message(reply_token, msg, sender_token)
+            except Exception as e:
+                print(f"[text_register] error: {e}")
+                reply_message(reply_token, f"❌ テキスト登録エラー: {str(e)[:100]}", sender_token)
+            return
+        # 100文字未満 → ファイル待機（従来通り）
         try:
             buffer_key = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
             USER_BUFFER[buffer_key] = {"summary": text, "timestamp": time.time()}
