@@ -347,6 +347,8 @@ def engineer_query(initial: str, station: str) -> str:
             if budget > 150:
                 continue  # 異常単価除外
             gross  = calc_gross_profit(budget, eng_rate)
+            if gross > 15:
+                continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
             thresh = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
             if gross < thresh:
                 continue
@@ -376,6 +378,8 @@ def project_query(name: str) -> str:
         if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
             continue
         gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+        if gross > 15:
+            continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
         if gross < threshold:
             continue
         matched_engs.append({"page": eng, "gross_profit": gross})
