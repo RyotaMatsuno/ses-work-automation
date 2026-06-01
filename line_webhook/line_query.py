@@ -579,6 +579,17 @@ def _extract_contacts(text: str) -> str:
 
 # ── 詳細照会（「詳細 ①」コマンド用） ─────────────────────────────
 # 番号→インデックスのマッピング
+def normalize_number(text: str) -> str:
+    """全角数字・全角丸数字を半角数字に正規化する"""
+    # 全角数字 → 半角数字
+    text = text.translate(str.maketrans('０１２３４５６７８９', '0123456789'))
+    # 全角丸数字 ①〜⑳ → 1〜20
+    zenkaku_maru = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
+    for i, c in enumerate(zenkaku_maru, 1):
+        text = text.replace(c, str(i))
+    return text
+
+
 _NUM_MAP = {
     "①": 0, "②": 1, "③": 2, "④": 3, "⑤": 4,
     "⑥": 5, "⑦": 6, "⑧": 7, "⑨": 8, "⑩": 9,
@@ -597,14 +608,14 @@ _LAST_RESULTS: dict[str, list[dict]] = {}  # key: initial_station → projects l
 def detail_query(text: str) -> str | None:
     """「詳細 ①」「詳細 6」などのコマンドを処理して案件全文を返す"""
     import re as _re
-    # パターン: 詳細[スペース]番号
-    m = _re.match(r'^詳細\s*([①-⑩\d]+)$', text.strip())
+    # パターン: 詳細[スペース]番号（全角数字・丸数字も正規化して受け付ける）
+    m = _re.match(r'^詳細\s*(.+)$', text.strip())
     if not m:
         return None
-    num_str = m.group(1).strip()
+    num_str = normalize_number(m.group(1).strip())
     idx = _NUM_MAP.get(num_str)
     if idx is None:
-        return f"「{num_str}」は無効な番号です。①〜⑩または1〜31で指定してください。"
+        return f"「{m.group(1).strip()}」は無効な番号です。①〜⑩または1〜31で指定してください。"
 
     # キャッシュから取得
     if not _LAST_RESULTS:
