@@ -1656,7 +1656,16 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     import sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'line_query')); from line_query import handle_line_query
     result = handle_line_query(text)
-    if result is not None: return reply_message(reply_token, result, sender_token)
+    if result is not None:
+        chunks = split_line_message(result)
+        if len(chunks) == 1:
+            reply_message(reply_token, chunks[0], sender_token)
+        else:
+            # 複数チャンク: 1通目はReply、2通目以降はPush
+            reply_message(reply_token, chunks[0], sender_token)
+            for chunk in chunks[1:]:
+                push_message(user_id, chunk, sender_token)
+        return
 
     # ── リモートコマンド（松野のみ）─────────────────────────────────
     if user_id and user_id == MATSUNO_USER_ID:
