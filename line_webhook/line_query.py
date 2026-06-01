@@ -427,7 +427,7 @@ def format_project_result(engineer: dict, projects: list) -> str:
         gross    = item["gross_profit"]
         age      = business_days_since(pj.get("last_edited_time"))
         assignee = _select_prop(pj, PROP_ASSIGNEE)
-        detail   = _clean_detail(_text_prop(pj, PROP_PJDETAIL))
+        raw_detail = _text_prop(pj, PROP_PJDETAIL)
 
         lines.extend([
             "",
@@ -437,8 +437,9 @@ def format_project_result(engineer: dict, projects: list) -> str:
             f"  {loc}" + (f" ({remote})" if remote else "") + (f" / {period}" if period else "") + f" [{age}\u65e5\u524d]",
             (f"  \u9001\u4fe1\u5143: {_case_source(pj)}" if _case_source(pj) else ""),  # 送信元:
         ])
-        if detail:
-            lines.append(f"  \u6982\u8981: {detail}")  # 概要:
+        if raw_detail:
+            # 概要全文表示（文字数制限なし）
+            lines.append(f"  概要: {raw_detail}")
 
     return _limit_reply(lines, projects, format_project_result, engineer)
 
