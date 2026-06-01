@@ -38,8 +38,8 @@ PROJECT_DB_ID = (
 NOTION_VERSION = "2022-06-28"
 NOTION_QUERY_URL = "https://api.notion.com/v1/databases/{db_id}/query"
 ERROR_MESSAGE = "\u7167\u4f1a\u4e2d\u306b\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002\u3057\u3070\u3089\u304f\u5f8c\u306b\u518d\u8a66\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002"
-LINE_LIMIT = 5000
-TOP_LIMIT = 5
+LINE_LIMIT = 100000  # 全件表示（LINEは5000文字/メッセージだがsplit_line_messageで分割）
+TOP_LIMIT = 9999   # 全件表示
 GROSS_THRESHOLDS = {"\u677e\u91ce": 5, "\u5ca1\u672c": 3}
 
 logger = logging.getLogger(__name__)
@@ -535,23 +535,8 @@ def _num_label(index: int) -> str:
     return labels[index - 1] if 1 <= index <= len(labels) else f"{index}."
 
 def _limit_reply(lines: list[str], items: list, formatter, header_page: dict) -> str:
-    text = "\n".join(lines)
-    if len(text) <= LINE_LIMIT:
-        return text
-    limited = []
-    for line in lines:
-        limited.append(line)
-        if line.startswith(_num_label(1)):
-            break
-    for line in lines[len(limited):]:
-        if line.startswith(_num_label(TOP_LIMIT + 1)):
-            break
-        limited.append(line)
-    out = "\n".join(limited)
-    suffix = "\n(\u4e0a\u4f4d5\u4ef6\u8868\u793a)"
-    if len(out) + len(suffix) > LINE_LIMIT:
-        out = out[: LINE_LIMIT - len(suffix)]
-    return out + suffix
+    # 全件表示（split_line_message側でLINE送信時に分割する）
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":
