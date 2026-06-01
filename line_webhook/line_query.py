@@ -349,9 +349,8 @@ def engineer_query(initial: str, station: str) -> str:
             gross  = calc_gross_profit(budget, eng_rate)
             if gross > 15:
                 continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
-            thresh = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
-            if gross < thresh:
-                continue
+            if gross < 0:
+                continue  # 粗利マイナス=交渉しても利益見込めない
             matched.append({"page": project, "gross_profit": gross})
         matched.sort(key=lambda x: x["gross_profit"], reverse=True)
         replies.append(format_project_result(engineer, matched))
@@ -380,8 +379,8 @@ def project_query(name: str) -> str:
         gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
         if gross > 15:
             continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
-        if gross < threshold:
-            continue
+        if gross < 0:
+            continue  # 粗利マイナス=交渉しても利益見込めない
         matched_engs.append({"page": eng, "gross_profit": gross})
     matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
     return format_engineer_result(project, matched_engs)
