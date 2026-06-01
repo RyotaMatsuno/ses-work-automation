@@ -83,6 +83,8 @@ def _notion_headers() -> dict[str, str]:
 
 
 def fetch_all_pages(db_id: str, filter_body: dict = None) -> list[dict]:
+    import time as _time
+    _t0 = _time.time()
     results: list[dict] = []
     payload: dict[str, Any] = {"page_size": 100}
     if filter_body:
@@ -100,6 +102,8 @@ def fetch_all_pages(db_id: str, filter_body: dict = None) -> list[dict]:
         if not data.get("has_more"):
             break
         payload["start_cursor"] = data.get("next_cursor")
+    _elapsed = _time.time() - _t0
+    print(f"[fetch_all_pages] db={db_id[-8:]} count={len(results)} elapsed={_elapsed:.1f}s", flush=True)
     return results
 
 
