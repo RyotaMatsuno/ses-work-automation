@@ -17,7 +17,7 @@ import base64
 import requests
 from datetime import date, datetime, timedelta
 from email.header import decode_header
-from email.utils import parsedate_to_datetime
+from email.utils import getaddresses, parsedate_to_datetime
 from dotenv import dotenv_values
 from pathlib import Path
 
@@ -47,7 +47,7 @@ LOG_PATH = BASE_DIR / "pipeline.log"
 PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
 
 FETCH_LIMIT = 2000
-PROCESS_LIMIT = 2000
+CLASSIFY_LIMIT = 150
 MATCH_TOP_N = 10
 DB_PROPERTY_CACHE = {}
 
@@ -178,6 +178,55 @@ def get_from_account(owner: str) -> str:
 def get_input_source_label(email_user: str) -> str:
     """後方互換用。新規処理ではget_source_label(sender)を使う。"""
     return get_source_label(email_user)
+
+
+def _env_list(name: str) -> list[str]:
+    value = os.environ.get(name) or config.get(name) or ""
+    return [item.strip().lower() for item in value.split(",") if item.strip()]
+
+
+BROADCAST_SENDER_ALLOWLIST = set(_env_list("BROADCAST_SENDER_ALLOWLIST"))
+BROADCAST_FOOTER_PATTERNS = (
+    "配信停止", "配信の停止", "配信解除", "購読解除", "登録解除",
+    "メルマガ", "メールマガジン", "一斉配信", "一括配信",
+    "unsubscribe", "opt-out", "mail magazine",
+)
+BROADCAST_RECIPIENT_THRESHOLD = int(os.environ.get("BROADCAST_RECIPIENT_THRESHOLD") or config.get("BROADCAST_RECIPIENT_THRESHOLD") or 15)
+
+
+def _sender_allowed(sender: str) -> bool:
+    if not BROADCAST_SENDER_ALLOWLIST:
+        return False
+    sender_lower = (sender or "").lower()
+    domain = sender_lower.split("@")[-1].split(">")[0].strip() if "@" in sender_lower else ""
+    return any(
+        allowed == sender_lower or
+        (domain and (allowed == domain or allowed == f"@{domain}"))
+        for allowed in BROADCAST_SENDER_ALLOWLIST
+    )
+
+
+def _recipient_count(msg: dict) -> int:
+    addresses = getaddresses([msg.get("to", ""), msg.get("cc", "")])
+    return len({addr.lower() for _, addr in addresses if addr})
+
+
+def is_broadcast(msg) -> bool:
+    """分類前に配信メールを除外する。allowlist指定があれば最優先で除外しない。"""
+    if not isinstance(msg, dict):
+        return False
+    if _sender_allowed(msg.get("sender", "")):
+        return False
+
+    headers = msg.get("headers", {}) or {}
+    if headers.get("list-unsubscribe") or headers.get("list-id"):
+        return True
+
+    footer = (msg.get("body", "") or "")[-2000:].lower()
+    if any(pattern.lower() in footer for pattern in BROADCAST_FOOTER_PATTERNS):
+        return True
+
+    return _recipient_count(msg) >= BROADCAST_RECIPIENT_THRESHOLD
 
 
 def parse_notion_datetime(value):
@@ -371,13 +420,22 @@ def fetch_emails_from_account(account: dict, limit: int) -> list:
             subject  = decode_str(msg.get("Subject", ""))
             sender   = decode_str(msg.get("From", ""))
             reply_to = decode_str(msg.get("Reply-To", "")) or sender
+            to_addr  = decode_str(msg.get("To", ""))
+            cc_addr  = decode_str(msg.get("Cc", ""))
             msg_id   = msg.get("Message-ID", f"no-id-{mail_id.decode()}-{user}")
+            headers  = {
+                key.lower(): decode_str(value)
+                for key, value in msg.items()
+            }
             body, attachments = get_body_and_attachments(msg)
             emails.append({
                 "id": mail_id, "msg_id": msg_id,
                 "subject": subject,
                 "sender": sender or user,  # Fromが空の場合はアカウントアドレスを使う
                 "reply_to": reply_to,
+                "to": to_addr,
+                "cc": cc_addr,
+                "headers": headers,
                 "body": body,
                 "attachments": attachments,
                 "account_label": label,  # どのアカウントから来たか記録
@@ -1048,7 +1106,7 @@ def save_engineer_draft(engineer_info: dict, match_results: list,
 def main():
     log("=" * 50)
     log("メールパイプライン v5.1 起動（入力元ラベル・所属会社名追加）")
-    log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+    log(f"設定: 取得{FETCH_LIMIT}件 / 分類上限{CLASSIFY_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
     processed = load_processed_ids()
     log(f"処理済みID: {len(processed)}件")
 
@@ -1064,7 +1122,22 @@ def main():
         log("全て処理済み・終了")
         return
 
-    target_emails = new_emails[:PROCESS_LIMIT]
+    target_emails = []
+    broadcast_count = 0
+    for em in new_emails:
+        if is_broadcast(em):
+            broadcast_count += 1
+            log(f"配信除外: {em.get('subject', '')[:50]} / {em.get('sender', '')[:80]}")
+            save_processed_id(em["msg_id"], processed)
+            continue
+        if len(target_emails) < CLASSIFY_LIMIT:
+            target_emails.append(em)
+
+    log(f"分類対象: {len(target_emails)}件 / 配信除外: {broadcast_count}件 / 上限{CLASSIFY_LIMIT}件")
+    if not target_emails:
+        log("分類対象なし・終了")
+        return
+
     classified = classify_email_v2([
         {**em, "index": i} for i, em in enumerate(target_emails)
     ])

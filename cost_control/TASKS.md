@@ -13,11 +13,11 @@
 - [ ] 検証: grep でハードコードモデル残存ゼロ / py_compile 全通過
 
 ## Phase 2 — 構造修正
-- [ ] C4-1: 配信判定関数 is_broadcast(msg) 実装（ヘッダ＋送信元allowlist＋フッタ）
-- [ ] C4-2: 分類API前に is_broadcast で除外、Notion登録もスキップ
-- [ ] C4-3: PROCESS_LIMIT を fetch と分離、非配信の分類を1回150件上限に
+- [x] C4-1: 配信判定関数 is_broadcast(msg) 実装（ヘッダ＋送信元allowlist＋フッタ）
+- [x] C4-2: 分類API前に is_broadcast で除外、Notion登録もスキップ
+- [x] C4-3: PROCESS_LIMIT を fetch と分離、非配信の分類を1回150件上限に
 - [ ] C4-4: 受信箱サンプル100通で配信除外率・誤除外0件を確認
-- [ ] C5-1: cost_control/project_expiry.py 実装（4営業日超→アーカイブ）
+- [x] C5-1: cost_control/project_expiry.py 実装（4営業日超→アーカイブ）
 - [ ] C5-2: 初回一括プルーニング（stale約5,900件を退避ステータス、物理削除なし）
 - [ ] C5-3: SES_ProjectExpiry 日次タスク登録
 - [ ] 検証: active_projects が実需要規模に収束
