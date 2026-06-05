@@ -13,6 +13,11 @@ import sys
 import time
 from threading import Lock
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 from anthropic import Anthropic
 from anthropic import NotFoundError
 from anthropic import RateLimitError
@@ -23,9 +28,10 @@ if SES_WORK_DIR not in sys.path:
     sys.path.insert(0, SES_WORK_DIR)
 
 from usage_tracker.cost_logger import log_cost
+from common.model_config import MATCH_MODEL
 
 
-MODEL_NAME = "claude-haiku-4-5-20251001"
+MODEL_NAME = MATCH_MODEL
 VALID_RESULTS = {"◯", "×", "△"}
 SYSTEM_PROMPT = """
 あなたはSES案件のスキルマッチング担当です。
@@ -100,15 +106,15 @@ def _validate_batch_result(skills_to_judge, engineers, data):
 
 def _select_fallback_model(client):
     model_list = client.models.list(limit=20)
-    sonnet_models = [
+    haiku_models = [
         model.id for model in model_list.data
-        if "sonnet" in model.id
+        if "haiku" in model.id
     ]
-    if sonnet_models:
-        return sonnet_models[0]
-    if model_list.data:
-        return model_list.data[0].id
-    raise RuntimeError("Anthropic APIで利用可能なモデルが見つかりません")
+    if MODEL_NAME in haiku_models:
+        return MODEL_NAME
+    if haiku_models:
+        return haiku_models[0]
+    raise RuntimeError("Anthropic APIで利用可能なHaikuモデルが見つかりません")
 
 
 def _wait_for_rate_slot():
@@ -162,7 +168,7 @@ def _messages_create(client, model_name, prompt):
 def _create_message(client, prompt):
     global _SELECTED_MODEL
 
-    model_name = os.environ.get("ANTHROPIC_MODEL") or _SELECTED_MODEL or MODEL_NAME
+    model_name = os.environ.get("MATCH_MODEL") or _SELECTED_MODEL or MODEL_NAME
     try:
         response = _messages_create(client, model_name, prompt)
         _SELECTED_MODEL = model_name

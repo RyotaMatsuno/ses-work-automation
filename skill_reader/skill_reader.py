@@ -7,11 +7,19 @@ Task16: LINE連携入力対応（base64と同じ経路）
 Task17: 意向確認メール文面への自動埋め込み
 """
 import os, sys, json, base64, argparse, io
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
 import requests
 import pdfplumber
 from docx import Document
 import anthropic
 from dotenv import dotenv_values
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from common.ledger import can_spend as ledger_can_spend, record as ledger_record
+from common.model_config import TEXT_MODEL, VISION_MODEL
 
 # ── 環境変数 ──────────────────────────────────────────────────────
 env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
@@ -90,20 +98,38 @@ def extract_text_from_docx(data: bytes) -> str:
 # ── Claude API スキル抽出 ─────────────────────────────────────────
 
 def extract_skills_from_text(text: str) -> dict:
+    model = TEXT_MODEL
+    est_in = len(text[:8000]) // 4 + 500
+    est_out = 1000
+    if not ledger_can_spend(est_in, est_out, model):
+        raise RuntimeError(f"cost_guard: skill_reader text API stopped model={model}")
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     msg = client.messages.create(
-        model="claude-sonnet-4-6",
+        model=model,
         max_tokens=1000,
         system=SKILL_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": f"以下のスキルシートを解析してください:\n\n{text[:8000]}"}]
     )
+    usage = getattr(msg, "usage", None)
+    if usage:
+        ledger_record(
+            getattr(usage, "input_tokens", 0),
+            getattr(usage, "output_tokens", 0),
+            getattr(msg, "model", None) or model,
+            "skill_reader",
+        )
     raw = msg.content[0].text.strip().strip("```").lstrip("json").strip()
     return json.loads(raw)
 
 def extract_skills_from_image(b64: str, mime: str = "image/png") -> dict:
+    model = VISION_MODEL
+    est_in = len(b64) // 4 + 500
+    est_out = 1000
+    if not ledger_can_spend(est_in, est_out, model):
+        raise RuntimeError(f"cost_guard: skill_reader vision API stopped model={model}")
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     msg = client.messages.create(
-        model="claude-sonnet-4-6",
+        model=model,
         max_tokens=1000,
         system=SKILL_SYSTEM_PROMPT,
         messages=[{
@@ -114,6 +140,14 @@ def extract_skills_from_image(b64: str, mime: str = "image/png") -> dict:
             ]
         }]
     )
+    usage = getattr(msg, "usage", None)
+    if usage:
+        ledger_record(
+            getattr(usage, "input_tokens", 0),
+            getattr(usage, "output_tokens", 0),
+            getattr(msg, "model", None) or model,
+            "skill_reader",
+        )
     raw = msg.content[0].text.strip().strip("```").lstrip("json").strip()
     return json.loads(raw)
 

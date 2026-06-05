@@ -34,10 +34,19 @@ import email
 import json
 import os
 import re
+import sys
+try:
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+except Exception:
+    pass
 import requests
 from datetime import datetime
 from email.header import decode_header
 from dotenv import dotenv_values
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from common.ledger import can_spend as ledger_can_spend, record as ledger_record
+from common.model_config import TEXT_MODEL
 
 env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
 if os.path.exists(env_path):
@@ -101,6 +110,12 @@ VALID_SKILLS = [
 # ============================================================
 
 def call_claude(system_prompt: str, user_message: str) -> str:
+    model = TEXT_MODEL
+    est_in = (len(system_prompt) + len(user_message)) // 4 + 200
+    est_out = 1000
+    if not ledger_can_spend(est_in, est_out, model):
+        print(f"cost_guard: Outlook分類API停止 model={model}")
+        return ""
     res = requests.post(
         "https://api.anthropic.com/v1/messages",
         headers={
@@ -109,7 +124,7 @@ def call_claude(system_prompt: str, user_message: str) -> str:
             "content-type": "application/json"
         },
         json={
-            "model": "claude-sonnet-4-20250514",
+            "model": model,
             "max_tokens": 1000,
             "system": system_prompt,
             "messages": [{"role": "user", "content": user_message}]
@@ -117,7 +132,15 @@ def call_claude(system_prompt: str, user_message: str) -> str:
         timeout=30
     )
     if res.status_code == 200:
-        return res.json()["content"][0]["text"]
+        data = res.json()
+        usage = data.get("usage", {})
+        ledger_record(
+            usage.get("input_tokens", 0),
+            usage.get("output_tokens", 0),
+            data.get("model") or model,
+            "outlook_to_notion",
+        )
+        return data["content"][0]["text"]
     print(f"Claude APIエラー: {res.status_code}")
     return ""
 

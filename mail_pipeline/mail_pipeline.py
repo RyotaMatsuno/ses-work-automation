@@ -35,6 +35,8 @@ from skill_reader.skill_reader import (
     extract_text_from_pdf, extract_text_from_docx, pdf_to_base64_image,
     get_active_projects as _get_active_projects, match_skills, generate_iko_mail
 )
+from common.ledger import can_spend as ledger_can_spend, record as ledger_record
+from common.model_config import TEXT_MODEL
 from usage_tracker.cost_logger import log_cost
 
 # ===== 設定 =====
@@ -430,7 +432,11 @@ def filter_engineers_by_skills(project: dict, engineers: list, top_n: int = MATC
 
 # ===== Claude AI =====
 def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
-    model = "claude-haiku-4-5-20251001"
+    model = TEXT_MODEL
+    est_in = (len(system) + len(user)) // 4 + 200
+    if not ledger_can_spend(est_in, max_tokens, model):
+        log(f"cost_guard: Claude呼び出し停止 model={model}")
+        return ""
     try:
         res = requests.post(
             "https://api.anthropic.com/v1/messages",
@@ -456,6 +462,12 @@ def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
                 input_tokens=usage.get("input_tokens", 0),
                 output_tokens=usage.get("output_tokens", 0),
                 cached_tokens=usage.get("cache_read_input_tokens", 0),
+            )
+            ledger_record(
+                usage.get("input_tokens", 0),
+                usage.get("output_tokens", 0),
+                data.get("model") or model,
+                "mail_pipeline",
             )
             return data["content"][0]["text"]
         log(f"Claude APIエラー: {res.status_code} {res.text[:200]}")
@@ -491,7 +503,7 @@ def classify_email_v2(emails: list) -> dict:
     import io
     import time
 
-    model = "claude-haiku-4-5-20251001"
+    model = TEXT_MODEL
     headers = {
         "x-api-key": ANTHROPIC_KEY,
         "anthropic-version": "2023-06-01",
@@ -545,6 +557,10 @@ SES業界用語:
     def send_batch(batch_items: list) -> list:
         if not batch_items:
             return []
+        est_in = sum(len(json.dumps(item, ensure_ascii=False)) // 4 + 200 for item in batch_items)
+        est_out = sum(item.get("params", {}).get("max_tokens", 400) for item in batch_items)
+        if not ledger_can_spend(est_in, est_out, model):
+            raise RuntimeError(f"cost_guard: Batch API停止 model={model}")
         res = requests_module.post(
             "https://api.anthropic.com/v1/messages/batches",
             headers=headers,
@@ -579,7 +595,19 @@ SES業界用語:
         if results_res.status_code != 200:
             raise RuntimeError(f"Batch結果取得エラー: {results_res.status_code} {results_res.text[:300]}")
         lines = [line for line in results_res.text.splitlines() if line.strip()]
-        return [json.loads(line) for line in lines]
+        items = [json.loads(line) for line in lines]
+        for item in items:
+            result = item.get("result", {})
+            message = result.get("message", {}) if result.get("type") == "succeeded" else {}
+            usage = message.get("usage", {}) if isinstance(message, dict) else {}
+            if usage:
+                ledger_record(
+                    usage.get("input_tokens", 0),
+                    usage.get("output_tokens", 0),
+                    message.get("model") or model,
+                    "mail_pipeline",
+                )
+        return items
 
     def result_text(item: dict) -> str:
         result = item.get("result", {})
