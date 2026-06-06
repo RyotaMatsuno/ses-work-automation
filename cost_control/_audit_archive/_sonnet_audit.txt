@@ -1,0 +1,155 @@
+=== files mentioning 'sonnet' ===
+  \_archive_tmp\cost_estimate.py  (sonnet x11)
+  \_archive_tmp\write_spec_v4.py  (sonnet x1)
+  \_sonnet_audit.py  (sonnet x11)
+  \common\ledger.py  (sonnet x4)
+  \cost_estimate.py  (sonnet x11)
+  \double_check\double_check.py  (sonnet x1)
+  \line_webhook\webhook_clean.py  (sonnet x1)
+  \line_webhook\webhook_server.py  (sonnet x2)
+  \line_webhook\write_webhook.py  (sonnet x1)
+  \mail_pipeline\mail_pipeline_test1.py  (sonnet x1)
+  \matching_v2\skill_judge.py  (sonnet x4)
+  \outlook\outlook_to_notion.py  (sonnet x1)
+  \skill_reader\skill_reader.py  (sonnet x2)
+  \usage_tracker\cost_calculator.py  (sonnet x3)
+  \write_spec_v4.py  (sonnet x1)
+
+--- mail_pipeline/mail_pipeline.py (1222 lines) ---
+  4: - 人材メール受信時: 添付スキルシート（PDF/Word/画像）を自動検出
+  6: - 添付なし場合はメール本文からスキル抽出（従来通り）
+  16: import base64
+  34: extract_skills_from_text, extract_skills_from_image,
+  35: extract_text_from_pdf, extract_text_from_docx, pdf_to_base64_image,
+  275: "application/pdf",
+  278: "image/png", "image/jpeg", "image/jpg",
+  281: SKILL_SHEET_EXTENSIONS = {".pdf", ".docx", ".doc", ".png", ".jpg", ".jpeg"}
+  284: def get_body_and_attachments(msg):
+  285: """本文テキストと添付スキルシート（バイナリ+MIMEタイプ）を取得"""
+  287: attachments = []  # [{"data": bytes, "mime": str, "filename": str}]
+  296: if content_type == "text/plain" and "attachment" not in disposition:
+  311: if is_skill_sheet and ("attachment" in disposition or filename):
+  316: if ext == ".pdf":
+  317: mime = "application/pdf"
+  318: elif ext in (".docx", ".doc"):
+  321: mime = "image/png"
+  323: mime = "image/jpeg"
+  324: attachments.append({"data": data, "mime": mime, "filename": filename})
+  325: log(f"    添付検出: {filename} ({mime}) {len(data)}bytes")
+  327: return body.strip(), attachments
+  373: body, attachments = get_body_and_attachments(msg)
+  380: "attachments": attachments,
+  433: model = "claude-haiku-4-5-20251001"
+  443: "model": model,
+  455: model=data.get("model") or model,
+  468: def classify_email(subject: str, body: str) -> dict:
+  489: def classify_email_v2(emails: list) -> dict:
+  494: model = "claude-haiku-4-5-20251001"
+  533: def build_extract_request(custom_id: str, subject: str, body: str, mail_type: str) -> dict:
+  538: "model": model,
+  627: batch_requests.append(build_extract_request(f"extract_{rule_type}_{idx}", subject, body, rule_type))
+  632: "model": model,
+  639: second_extract_requests = []
+  644: if custom_id.startswith("extract_project_") or custom_id.startswith("extract_engineer_"):
+  654: second_extract_requests.append(build_extract_request(f"extract_{mail_type}_{idx}", em.get("subject", ""), em.get("body", ""), mail
+  658: for item in send_batch(second_extract_requests):
+  660: if custom_id.startswith("extract_project_") or custom_id.startswith("extract_engineer_"):
+  674: def extract_affiliation(body: str) -> str:
+  861: def process_skill_sheet(attachment: dict, engineer_price: int = None,
+  864: 添付スキルシートを処理してスキル抽出・案件照合・意向確認文を生成する。
+  867: data = attachment["data"]
+  868: mime = attachment["mime"]
+  869: fname = attachment["filename"]
+  875: if mime == "application/pdf":
+  876: text = extract_text_from_pdf(data)
+  878: info = extract_skills_from_text(text)
+  881: b64img = pdf_to_base64_image(data)
+  883: info = extract_skills_from_image(b64img, "image/png")
+  885: text = extract_text_from_docx(data)
+  886: info = extract_skills_from_text(text)
+  887: elif mime.startswith("image/"):
+  888: b64 = base64.standard_b64encode(data).decode()
+  889: info = extract_skills_from_image(b64, mime)
+  1052: attachments = em.get("attachments", [])
+  1057: if attachments:
+  1058: log(f"  添付: {len(attachments)}件")
+  1071: affiliation = extract_affiliation(body)
+  1114: if attachments:
+  1116: attachments[0],
+  1123: if attachments:
+  1126: att = attachments[0]
+  1154: affiliation = extract_affiliation(body)
+  1160: if attachments:
+  1161: log(f"  添付スキルシートを処理: {attachments[0]['filename']}")
+  1163: attachments[0],
+  1174: if attachments:
+  1177: att = attachments[0]
+
+--- mail_attachment_importer/importer.py (264 lines) ---
+  2: importer.py v3 - メール添付スキルシート自動取り込みシステム
+  3: パターンA（添付ファイル）/ B（スプレッドシート1人）/ C（スプレッドシート複数人）対応
+  52: def process_attachments(attachments: list, meta: dict) -> dict:
+  53: """パターンA: 添付ファイルを人員/案件に分類してNotion登録"""
+  55: from ai_extractor import extract_engineers, extract_projects, classify_content
+  60: for att in attachments:
+  71: content_type = classify_content(text)
+  75: records = extract_engineers(text, filename)
+  84: records = extract_projects(text, filename)
+  102: from ai_extractor import extract_engineers
+  127: engineers = extract_engineers(text, f"sheet:{url[:60]}")
+  146: from ai_extractor import extract_projects
+  170: projects = extract_projects(text, f"sheet:{url[:60]}")
+  234: if mail_item["attachments"]:
+  235: logger.info(f"パターンA: 添付ファイル {len(mail_item['attachments'])}件")
+  236: stats = process_attachments(mail_item["attachments"], meta)
+
+--- mail_attachment_importer/ai_extractor.py (230 lines) ---
+  2: ai_extractor.py - Claude APIでスキルシートから構造化データ抽出モジュール
+  61: CLASSIFY_SYSTEM_PROMPT = """あなたはSES業界のメール添付ファイルの内容を分類するAIです。
+  72: def classify_content(text: str) -> str:
+  100: model="claude-haiku-4-5-20251001",
+  117: logger.error(f"classify_content失敗: {e}")
+  121: def extract_engineers(text: str, filename: str) -> list:
+  142: model="claude-haiku-4-5-20251001",
+  170: def extract_projects(text: str, filename: str) -> list:
+  192: model="claude-haiku-4-5-20251001",
+  229: result = extract_engineers(sample, "sample.txt")
+
+--- mail_attachment_importer/text_parser.py: NOT FOUND
+
+--- outlook_to_notion.py: NOT FOUND
+
+--- matching_v2/skill_judge.py (320 lines) ---
+  28: MODEL_NAME = "claude-haiku-4-5-20251001"
+  42: _SELECTED_MODEL = None
+  57: def _extract_text(response):
+  103: sonnet_models = [
+  105: if "sonnet" in model.id
+  107: if sonnet_models:
+  108: return sonnet_models[0]
+  131: model=model_name,
+  163: global _SELECTED_MODEL
+  165: model_name = os.environ.get("ANTHROPIC_MODEL") or _SELECTED_MODEL or MODEL_NAME
+  168: _SELECTED_MODEL = model_name
+  174: fallback_model = _select_fallback_model(client)
+  176: _SELECTED_MODEL = fallback_model
+  184: _SELECTED_MODEL = model_name
+  198: model=getattr(response, "model", None) or model_name,
+  244: data = _parse_json_object(_extract_text(response))
+  319: data = _parse_json_object(_extract_text(response))
+
+--- matching_v3/config.py (57 lines) ---
+  17: DEFAULT_STRUCTURER_MODEL = "gpt-4.1-nano"  # [GPT切替] Anthropic月次上限のためGPTに変更（nano: few-shot付きで精度8/8確認済み）
+  28: self.structurer_model = os.environ.get(
+  29: "STRUCTURER_MODEL",
+  30: self.env.get("STRUCTURER_MODEL") or DEFAULT_STRUCTURER_MODEL,
+
+--- matching_v3/structurer.py (214 lines) ---
+  14: from config import Config, DEFAULT_STRUCTURER_MODEL
+  34: - extraction_confidence: 抽出の確信度（不明点が多い場合は低く）"""
+  42: if not _ledger_can_spend(est_input_tokens, est_output_tokens, DEFAULT_STRUCTURER_MODEL):
+  49: model = cost_guard.get_model()
+  51: if model.startswith("gpt-") or model.startswith("o"):
+  115: model=model,
+  135: model=model,
+  212: "extraction_confidence": 0.0,

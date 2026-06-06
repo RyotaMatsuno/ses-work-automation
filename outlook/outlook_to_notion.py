@@ -287,13 +287,21 @@ def get_email_body(msg) -> str:
 def load_processed_ids() -> set:
     if not os.path.exists(PROCESSED_IDS_FILE):
         return set()
-    with open(PROCESSED_IDS_FILE, 'r') as f:
-        return set(line.strip() for line in f if line.strip())
+    try:
+        with open(PROCESSED_IDS_FILE, 'r', encoding='utf-8') as f:
+            return set(line.strip() for line in f if line.strip())
+    except Exception as e:
+        print(f"processed_ids読み込みエラー: {e}", flush=True)
+        raise
 
 
 def save_processed_id(msg_id: str):
-    with open(PROCESSED_IDS_FILE, 'a') as f:
-        f.write(msg_id + '\n')
+    try:
+        with open(PROCESSED_IDS_FILE, 'a', encoding='utf-8') as f:
+            f.write(msg_id + '\n')
+    except Exception as e:
+        print(f"processed_ids保存エラー: {e}", flush=True)
+        raise
 
 
 def should_process(subject: str) -> bool:

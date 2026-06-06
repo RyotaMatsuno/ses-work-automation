@@ -1,0 +1,163 @@
+対象本番.pyファイル数: 630
+
+=== [SYNTAX ERRORS] (即バグ) ===
+  \cleanup2.py: line 21: invalid syntax
+  \inject_consts.py: line 39: unmatched ')'
+  \setup_drive_oauth.py: line 33: bytes can only contain ASCII literal characters
+  計3
+
+=== [API呼び出し関数とガード状況] (cost) ===
+  ★NG \attachment_importer\parsers\text_parser.py:29 extract_person_from_block()
+  ★NG \double_check\double_check.py:92 double_check()
+  ★NG \line_webhook\skill_extractor.py:102 analyze_skill_sheet_v2()
+  ★NG \line_webhook\webhook_clean.py:89 call_claude()
+  ★NG \line_webhook\webhook_server.py:166 call_claude()
+  ★NG \line_webhook\webhook_server.py:1353 analyze_skill_sheet()
+  ★NG \mail_attachment_importer\ai_extractor.py:72 classify_content()
+  ★NG \mail_attachment_importer\ai_extractor.py:121 extract_engineers()
+  ★NG \mail_attachment_importer\ai_extractor.py:170 extract_projects()
+  OK  \mail_pipeline\mail_pipeline.py:492 call_claude()
+  OK  \mail_pipeline\mail_pipeline.py:559 classify_email_v2()
+  OK  \mail_pipeline\mail_pipeline.py:615 send_batch()
+  ★NG \matching_v2\skill_judge.py:131 _messages_create()
+  ★NG \matching_v3\structurer.py:105 _call_anthropic()
+  ★NG \matching_v3\structurer.py:125 _call_openai()
+  OK  \outlook\outlook_to_notion.py:112 call_claude()
+  ★NG \pipeline_v1\skill_autofill.py:115 extract_skills()
+  ★NG \reply_parser\reply_parser.py:114 call_claude()
+  OK  \skill_reader\skill_reader.py:100 extract_skills_from_text()
+  OK  \skill_reader\skill_reader.py:124 extract_skills_from_image()
+  ガード無しAPI関数: 14 / 全20
+
+=== [while True で break無し] (無限ループ/コスト暴走リスク) ===
+  \daily_report.py:81
+  \line_webhook\webhook_server.py:2370
+  \matching_v3\notion_client.py:91
+  \pipeline_v1\fetcher.py:42
+  計4
+
+=== [握りつぶし例外 except: pass/continue] (バグ隠蔽) ===
+  \analyze_final.py:5 (pass)
+  \cleanup_root.py:112 (pass)
+  \cleanup_root.py:128 (pass)
+  \cleanup_root.py:147 (pass)
+  \collect_subjects.py:42 (pass)
+  \collect_subjects.py:65 (pass)
+  \compare_fix.py:23 (pass)
+  \compare_fix.py:48 (pass)
+  \cost_guard.py:130 (continue)
+  \debug_all_files.py:25 (continue)
+  \fetch_emails_to_notion.py:185 (pass)
+  \fetch_emails_to_notion.py:61 (pass)
+  \fetch_emails_to_notion.py:73 (pass)
+  \find_google_tokens.py:24 (pass)
+  \gpt_consult.py:10 (pass)
+  \import_emails_3weeks.py:76 (pass)
+  \import_emails_3weeks.py:89 (pass)
+  \monthly_sim.py:25 (pass)
+  \monthly_sim.py:23 (pass)
+  \per_call_analysis.py:17 (pass)
+  \_audit_scan1.py:53 (continue)
+  \attachment_importer\importer.py:27 (pass)
+  \attachment_importer\importer.py:190 (pass)
+  \attachment_importer\utils\notion_writer.py:91 (pass)
+  \attachment_importer\utils\notion_writer.py:99 (pass)
+  \attachment_importer\utils\notion_writer.py:113 (pass)
+  \common\ledger.py:12 (pass)
+  \common\model_config.py:11 (pass)
+  \cost_control\project_expiry.py:13 (pass)
+  \freee\payment_checker.py:128 (continue)
+  \line_webhook\save_session.py:19 (pass)
+  \line_webhook\save_session.py:78 (pass)
+  \line_webhook\use_session.py:37 (pass)
+  \line_webhook\use_session.py:126 (pass)
+  \line_webhook\use_session.py:149 (pass)
+  \line_webhook\webhook_server.py:1431 (pass)
+  \line_webhook\cloudflare\start_and_update.py:51 (pass)
+  \local_server\command_server.py:91 (pass)
+  \mail_attachment_importer\importer.py:37 (pass)
+  \mail_attachment_importer\mail_fetcher.py:74 (pass)
+  計65 (うちbare except 47)
+
+=== [関数の重複定義] (分岐/修正漏れリスク) ===
+  parse_args() x11: \daily_report.py:249; \freee\invoice_sender.py:381; \freee\payment_checker.py:316; \line_notify\notify_line.py:243; \line_webhook\use_session.py:167
+  query_db() x7: \audit.py:18; \exclude_engineers.py:17; \matching.py:26; \matching_utf8.py:25; \notion_status.py:16
+  do_GET() x6: \drive_oauth_flow.py:50; \get_drive_token.py:38; \setup_drive_oauth2.py:15; \freee\auth.py:20; \freee_auth\callback_server.py:43
+  log_message() x6: \drive_oauth_flow.py:61; \get_drive_token.py:49; \setup_drive_oauth2.py:26; \freee\auth.py:30; \freee_auth\callback_server.py:63
+  decode_str() x5: \collect_subjects.py:13; \fetch_emails_to_notion.py:34; \import_emails_3weeks.py:52; \mail_pipeline\mail_pipeline.py:312; \outlook\outlook_to_notion.py:262
+  call_claude() x5: \line_webhook\webhook_clean.py:89; \line_webhook\webhook_server.py:166; \mail_pipeline\mail_pipeline.py:492; \outlook\outlook_to_notion.py:112; \reply_parser\reply_parser.py:114
+  register_engineer() x5: \line_webhook\webhook_clean.py:177; \line_webhook\webhook_server.py:765; \mail_attachment_importer\notion_writer.py:81; \mail_pipeline\mail_pipeline.py:892; \outlook\outlook_to_notion.py:195
+  register_project() x5: \line_webhook\webhook_clean.py:197; \line_webhook\webhook_server.py:845; \mail_attachment_importer\notion_writer.py:157; \mail_pipeline\mail_pipeline.py:858; \outlook\outlook_to_notion.py:225
+  classify_by_rule() x4: \analyze_final.py:58; \analyze_subjects.py:34; \analyze_v2.py:42; \analyze_v3.py:67
+  query_all() x4: \analyze_skill_empty.py:28; \cleanup_final.py:23; \cleanup_v2.py:25; \skill_filter_sim.py:11
+  load_config() x4: \daily_report.py:37; \freee\invoice_sender.py:79; \freee\payment_checker.py:71; \reply_parser\reply_parser.py:39
+  notion_headers() x4: \daily_report.py:60; \freee\invoice_sender.py:90; \pipeline_v1\fetcher.py:24; \reply_parser\reply_parser.py:44
+  notion_query() x4: \daily_report.py:68; \line_webhook\webhook_clean.py:162; \line_webhook\webhook_server.py:614; \mail_pipeline\mail_pipeline.py:832
+  split_line_message() x4: \daily_report.py:209; \debug_split.py:12; \verify_fulltext.py:18; \line_webhook\webhook_server.py:1321
+  push_message() x4: \daily_report.py:225; \line_webhook\webhook_clean.py:251; \line_webhook\webhook_server.py:1079; \matching_v2\notify_line.py:169
+  g() x4: \ys_fill_stepA.py:95; \ys_fill_stepB.py:74; \ys_final_check.py:15; \ys_write.py:70
+  freee_headers() x4: \freee\freee_invoice_apr.py:32; \freee\freee_invoice_v2.py:35; \freee\invoice_sender.py:84; \freee\payment_checker.py:76
+  load_processed_ids() x4: \mail_attachment_importer\importer.py:27; \mail_attachment_importer\mail_fetcher.py:64; \mail_pipeline\mail_pipeline.py:289; \outlook\outlook_to_notion.py:287
+  save_processed_id() x4: \mail_attachment_importer\importer.py:42; \mail_attachment_importer\mail_fetcher.py:79; \mail_pipeline\mail_pipeline.py:299; \outlook\outlook_to_notion.py:294
+  get_nyukin_month() x3: \calc_789.py:20; \calc_789_final.py:57; \calc_by_site.py:47
+  count_db() x3: \count_db.py:14; \count_dbs.py:10; \matching_cost_sim.py:10
+  format_price() x3: \daily_report.py:157; \matching_v2\notify_line.py:534; \pipeline_v1\composer.py:8
+  normalize() x3: \dedup_analysis.py:46; \diag_skills_map.py:15; \matching_v3\matcher.py:16
+  read() x3: \deploy_final.py:28; \pipeline_notify_fix.py:16; \verify_mcp_direct.py:30
+  upload_to_drive() x3: \drive_uploader.py:53; \line_webhook\drive_uploader.py:53; \mail_pipeline\drive_uploader.py:7
+  計147関数が複数定義
+
+=== [本文truncate] (token/精度トレードオフ) ===
+  \analyze_skill_empty.py:72: sample_bodies.append({"name": name, "body_len": len(body), "body_head": body[:300]})
+  \archive_engineers.py:64: print(f"❌ 失敗: {names[page_id]} / {r.status_code} {r.text[:100]}")
+  \create_oauth_client.py:25: print(r.text[:500])
+  \debug_line_push.py:15: print('status:', res.status_code, res.text[:300])
+  \diag_conf.py:46: print(f"  本文（最初の300字）: {body[:300]}")
+  \fetch_emails_to_notion.py:90: 'raw_body': body[:500]  # 最初の500文字
+  \fetch_emails_to_notion.py:260: return False, f"エラー: {res.status_code} {res.text[:200]}"
+  \fetch_emails_to_notion.py:317: text_to_check = f"{subject} {body[:300]}"
+  \get_client_secret.py:37: print(f"Identity API: {resp2.status_code} {resp2.text[:200]}")
+  \get_client_secret3.py:23: print("clientauthconfig:", resp.status_code, resp.text[:500], flush=True)
+  \get_client_secret3.py:28: print("iap:", resp2.status_code, resp2.text[:500], flush=True)
+  \get_oauth_secret.py:25: print(f"brands: {r.status_code} {r.text[:300]}")
+  \get_oauth_secret.py:30: print(f"IAP brands: {r2.status_code} {r2.text[:300]}")
+  \get_oauth_secret2.py:38: print(f"OAuthClients API: {r2.status_code} {r2.text[:400]}")
+  \import_emails_3weeks.py:101: text = f"{subject} {body[:800]}"
+  \push_result.py:14: if len(text) > 4900: text = text[:4900] + '\n...(省略)'
+  \push_result.py:19: return r.status_code, r.text[:100]
+  \read_cleanup.py:8: print(content[:3000])
+  \read_cleanup_bg.py:12: f.write(content[:5000])
+  \read_cleanup_bg2.py:18: print(repr(text[:200]))
+  \read_collect.py:8: print(content[:3000])
+  \read_wh.py:4: print(content[:3000])
+  \redeploy_railway.py:25: print(res.text[:300])
+  \register_roots.py:92: print(f'NG: {res.status_code} {res.text[:300]}')
+  \send_roots_line.py:72: print(f'[{name}] status={res.status_code} response={res.text[:100]}')
+  計92
+
+=== [TODO/FIXME/HACK] ===
+  \re_static.py:41: # BUG-9: PROP_RATE >= 75 フィルタが残っていないか確認
+  \re_static.py:45: # BUG-11: project_query にfilter_bodyが入っているか
+  \root_cause.py:8: # ── BUG-A: remote空欄 "()" 表示 ─────────────────────────────────────
+  \root_cause.py:19: # ── BUG-B: assignee表示（既修正確認） ──────────────────────────────────
+  \root_cause.py:26: # ── BUG-C: _clean_detail が挨拶文で始まる ──────────────────────────────
+  \root_cause.py:69: r"\u304a\u9858\u3044\u3044\u305f\u3057\u307e\u3059$",  # ← BUG: $アンカー
+  \root_cause.py:84: # ── BUG-D: 単価140万/130万の案件 ──────────────────────────────────────
+  \static_analysis.py:15: # BUG-1: format_project_result で _text_prop(engineer, "イニシャル") をハードコード
+  \static_analysis.py:21: # BUG-2: format_project_result で _text_prop(engineer, "最寄り駅") をハードコード
+  \static_analysis.py:27: # BUG-3: project_query で日本語直書き ("案件名","ステータス","必要スキル","担当者")
+  \static_analysis.py:34: # BUG-4: engineer_query の matched_engineers が空でも stations チェックが甘い
+  \static_analysis.py:39: # BUG-5: _limit_reply が新フォーマット（①で始まらない）で打ち切れない
+  \static_analysis.py:46: # BUG-6: handle_line_query の 100文字ガード
+  \static_analysis.py:53: # BUG-7: classify_query で駅名に空白が含まれると以降を切り捨てる
+  \static_analysis.py:60: # BUG-8: _match_initial が PROP_INI を使っているが
+  \static_analysis.py:66: # BUG-9: engineer_query の Notion フィルタ PROP_RATE >= 75 が
+  \static_analysis.py:75: # BUG-10: format_project_result で _text_prop(project, '案件名') をハードコード
+  \static_analysis.py:86: # BUG-11: project_query が全件スキャンしている (フィルタなし)
+  \static_analysis.py:95: # BUG-12: format_engineer_result も日本語直書き多数
+  \verify_linequery_fix.py:21: # BUG-3: _match_station
+  \verify_linequery_fix.py:27: # BUG-2: _gross_threshold
+  \verify_linequery_fix.py:33: # BUG-1: _limit_reply
+  \verify_linequery_fix.py:44: # BUG-4: engineer_query filter
+  \_audit_scan1.py:56: if re.search(r"#.*\b(TODO|FIXME|HACK|XXX|BUG)\b", l) or re.match(r"\s*#\s*(TODO|FIXME|HACK
+  計24

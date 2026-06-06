@@ -46,7 +46,7 @@ DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
 LOG_PATH = BASE_DIR / "pipeline.log"
 PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
 
-FETCH_LIMIT = 2000
+FETCH_LIMIT = 200
 CLASSIFY_LIMIT = 150
 MATCH_TOP_N = 10
 DB_PROPERTY_CACHE = {}
@@ -287,13 +287,17 @@ def get_active_projects(filter_keyword: str = None) -> list:
 
 # ===== 処理済みID管理 =====
 def load_processed_ids() -> set:
+    if not PROCESSED_IDS_PATH.exists():
+        return set()
     try:
-        if PROCESSED_IDS_PATH.exists():
-            with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
-                return set(json.load(f))
+        with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, list):
+            raise ValueError("processed_ids.jsonの形式がlistではありません")
+        return set(data)
     except Exception as e:
         log(f"processed_ids読み込みエラー: {e}")
-    return set()
+        raise
 
 
 def save_processed_id(msg_id: str, processed: set):
@@ -306,6 +310,7 @@ def save_processed_id(msg_id: str, processed: set):
             json.dump(ids_list, f, ensure_ascii=False)
     except Exception as e:
         log(f"processed_ids保存エラー: {e}")
+        raise
 
 
 # ===== メール取得（添付ファイル対応 v5新規）=====

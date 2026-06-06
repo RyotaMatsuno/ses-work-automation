@@ -1,0 +1,14 @@
+=== SES_MailPipeline task ===
+  タスク名:        \SES_MailPipeline
+  次回の実行時刻:  2026/06/05 21:00:00
+  状態:            準備完了
+
+=== pipeline.log last startup marker ===
+  最終起動行: [2026-06-05 17:04:53] メールパイプライン v5.1 完了
+  配信除外ログ累計: 0 / 最終: (なし)
+  最終分類対象行: (なし)
+
+=== is_broadcast 合成テスト ===
+  [OK] List-Unsubscribeあり: 期待=True 実際=True
+  [OK] フッタに配信停止: 期待=True 実際=True
+  [OK] 通常の個別案件: 期待=False 実際=False

@@ -1,0 +1,176 @@
+
+============================================================
+### static_analysis.py
+  [120 lines]
+  1: import sys, io, re
+  2: sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+  3: 
+  4: print("=" * 70)
+  5: print("静的バグ解析 - line_query.py 全問題点を列挙")
+  6: print("=" * 70)
+  7: 
+  8: path = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\line_query.py'
+  9: with open(path, 'r', encoding='utf-8') as f:
+  10:     src = f.read()
+  11: 
+  12: issues = []
+  13: 
+  14: # ================================================================
+  15: # BUG-1: format_project_result で _text_prop(engineer, "イニシャル") をハードコード
+  16: # ================================================================
+  17: if '_text_prop(engineer, "イニシャル")' in src:
+  18:     issues.append("BUG-1: format_project_result がイニシャルを直接文字列で引いている（PROP_INI定数を使うべき）")
+  19: 
+  20: # ================================================================
+  21: # BUG-2: format_project_result で _text_prop(engineer, "最寄り駅") をハードコード
+  22: # ================================================================
+  23: if '_text_prop(engineer, "最寄り駅")' in src:
+  24:     issues.append("BUG-2: format_project_result が最寄り駅を直接文字列で引いている（PROP_STA定数を使うべき）")
+  25: 
+  26: # ================================================================
+  27: # BUG-3: project_query で日本語直書き ("案件名","ステータス","必要スキル","担当者")
+  28: # ================================================================
+  29: for literal in ['"案件名"', '"ステータス"', '"必要スキル"', '"担当者"', '"稼働状況"', '"スキル"', '"単価（万円）"']:
+  30:     if literal in src:
+  31:         issues.append(f"BUG-3: project_query/format_engineer_result が {literal} を直書き（定数を使うべき）")
+  32: 
+  33: # ================================================================
+  34: # BUG-4: engineer_query の matched_engineers が空でも stations チェックが甘い
+  35: # ================================================================
+  36: # _match_station: sta が空 + memo に駅名なし → True を返す（正しい仕様なので問題なし）
+  37: 
+  38: # ================================================================
+  39: # BUG-5: _limit_reply が新フォーマット（①で始まらない）で打ち切れない
+  40: # ================================================================
+  41: # 新フォーマット: "① 案件名\n  必須: ...\n  単価: ...\n  場所..."
+  42: # _limit_reply は line.startswith(f"{_num_label(TOP_LIMIT + 1)}") で ⑥ を探す
+  43: # 新フォーマットは "⑥ 案件名" で始まるので startswith("⑥") で正しく打ち切れる → OK
+  44: 
+  45: # ================================================================
+  46: # BUG-6: handle_line_query の 100文字ガード
+  47: # ================================================================
+  48: # 「HS 北小金」= 6文字 → OK
+  49: # 「HS 北小金（詳細を教えてください）」= 17文字 → OK (100未満なのでクエリとして処理)
+  50: # しかし「HS 北小金 詳細スキルはJavaとSpringで経験年数は10年以上...」= 50文字前後 → 誤分類リスク
+  51: 
+  52: # ================================================================
+  53: # BUG-7: classify_query で駅名に空白が含まれると以降を切り捨てる
+  54: # ================================================================
+  55: test_sta = re.match(r'^([A-Za-z.]{1,8})[\s\u3000/]+(.+)$', 'HS 西新宿五丁目')
+  56: if test_sta:
+  57:     print(f"INFO: 'HS 西新宿五丁目' → initial={test_sta.group(1)}, station={test_sta.group(2)}")
+  58: 
+  59: # ================================================================
+  60: # BUG-8: _match_initial が PROP_INI を使っているが
+  61: #         engineer_query→_match_initial でNOTION_DB全件スキャン
+  62: # ================================================================
+  63: # これはパフォーマンスの問題だが機能上は問題なし
+  64: 
+  65: # ================================================================
+  66: # BUG-9: engineer_query の Notion フィルタ PROP_RATE >= 75 が
+  67: #         案件単価75万未満の案件を全部弾いている
+  68: # ================================================================
+  69: # H.S単価70万 → 粗利5万以上 = 案件単価75万以上が必要 → フィルタは正しい
+  70: # しかし「岡本担当の案件は粗利3万OK」→ 案件単価73万でも提案できるが弾かれる
+  71: print("BUG-9候補: PROP_RATE>=75フィルタが岡本担当案件(粗利3万OK)で不当に弾く可能性")
+  72: print("  例: 案件単価73万、H.S単価70万 → 粗利3万 → 岡本案件なら提案できるのに弾かれる")
+  73: 
+  74: # ================================================================
+  75: # BUG-10: format_project_result で _text_prop(project, '案件名') をハードコード
+  76: # ================================================================
+  77: # フォーマット変更後の新コードで確認
+  78: if "_text_prop(project, '案件名')" in src:
+  79:     issues.append("BUG-10: format_project_result で '案件名' を直書き (PROP_PJNAMEを使うべき)")
+  80: if "_text_prop(project, '必要スキル')" in src or "_multi_select_prop(project, '必要スキル')" in src:
+  81:     issues.append("BUG-10b: format_project_result で '必要スキル' を直書き (PROP_REQSKを使うべき)")
+  82: if "_text_prop(project, '勤務地')" in src or "_text_prop(project, '勤務地')" in src:
+  83:     issues.append("BUG-10c: format_project_result で '勤務地' を直書き (PROP_LOCATIONを使うべき)")
+  84: 
+  85: # ================================================================
+  86: # BUG-11: project_query が全件スキャンしている (フィルタなし)
+  87: # ================================================================
+  88: idx_pq = src.find('def project_query')
+  89: idx_fetch = src.find('fetch_all_pages(PROJECT_DB_ID)', idx_pq)
+  90: idx_filter = src.find('filter_body', idx_pq)
+  91: if idx_fetch > 0 and (idx_filter < 0 or idx_filter > idx_fetch + 500):
+  92:     issues.append("BUG-11: project_query が filter_bodyなしで全件スキャン（遅い・1637件全部取る）")
+  93: 
+  94: # ================================================================
+  95: # BUG-12: format_engineer_result も日本語直書き多数
+  96: # ================================================================
+  97: for lit in ["'名前'", "'最寄り駅'", "'スキル'", "'稼働状況'", "'稼働可能日'", "'所属会社'", "'備考（LINEメモ）'"]:
+  98:     if f"_text_prop(engineer, {lit})" in src or f"_multi_select_prop(engineer, {lit})" in src or f"_select_prop(engineer, {lit})" in sr
+  99:         issues.append(f"BUG-12: format_engineer_result で {lit} を直書き（定数を使うべき）")
+  100: 
+  101: print()
+  102: print(f"発見した問題数: {len(issues)}件")
+  103: for i, issue in enumerate(issues, 1):
+  104:     print(f"  [{i}] {issue}")
+  105: 
+  106: print()
+  107: print("=" * 70)
+  108: print("優先度判定")
+  109: print("=" * 70)
+  110: print("【致命的・動作に影響】")
+  111: print("  BUG-9: 岡本案件が73-74万の場合にH.S(70万)がマッチしない")
+  112: print("  BUG-11: project_queryが全1637件スキャン(30秒以上かかる可能性)")
+  113: print()
+  114: print("【日本語直書き - Cloud Run環境で文字化けすると動作しない】")
+  115: print("  BUG-3/10/12: format_*関数の日本語プロパティ直書き")
+  116: print("  → Cloud Runのsrc/コンテナ内でUTF-8が保証されているなら問題なし")
+  117: print("  → ただし過去に文字化けバグがあったので確認が必要")
+  118: print()
+  119: print("【軽微】")
+  120: print("  BUG-1/2: format_project_result のイニシャル・最寄り駅取得")
+
+============================================================
+### verify_linequery_fix.py
+  [48 lines]
+  1: import sys, subprocess, os
+  2: sys.stdout.reconfigure(encoding='utf-8')
+  3: 
+  4: lw = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook'
+  5: 
+  6: # 1. 構文チェック
+  7: r = subprocess.run(
+  8:     ['python', '-m', 'py_compile', 'line_query.py'],
+  9:     cwd=lw, capture_output=True, text=True, encoding='utf-8'
+  10: )
+  11: print(f"syntax check: {'OK' if r.returncode == 0 else 'ERROR'}")
+  12: if r.stderr:
+  13:     print(r.stderr)
+  14: 
+  15: # 2. 修正箇所を確認
+  16: with open(os.path.join(lw, 'line_query.py'), encoding='utf-8') as f:
+  17:     lines = f.readlines()
+  18: 
+  19: print(f"\nTotal lines: {len(lines)}")
+  20: 
+  21: # BUG-3: _match_station
+  22: print("\n=== BUG-3: _match_station ===")
+  23: for i, line in enumerate(lines, 1):
+  24:     if '_match_station' in line or ('return False' in line and i > 160 and i < 185):
+  25:         print(f"L{i}: {line.rstrip()}")
+  26: 
+  27: # BUG-2: _gross_threshold
+  28: print("\n=== BUG-2: _gross_threshold ===")
+  29: for i, line in enumerate(lines, 1):
+  30:     if 'GROSS_THRESHOLDS' in line or '_gross_threshold' in line:
+  31:         print(f"L{i}: {line.rstrip()}")
+  32: 
+  33: # BUG-1: _limit_reply
+  34: print("\n=== BUG-1: _limit_reply ===")
+  35: in_func = False
+  36: for i, line in enumerate(lines, 1):
+  37:     if 'def _limit_reply' in line:
+  38:         in_func = True
+  39:     if in_func:
+  40:         print(f"L{i}: {line.rstrip()}")
+  41:         if in_func and i > 5 and line.strip().startswith('def ') and '_limit_reply' not in line:
+  42:             break
+  43: 
+  44: # BUG-4: engineer_query filter
+  45: print("\n=== BUG-4: engineer_query filter ===")
+  46: for i, line in enumerate(lines, 1):
+  47:     if 'VAL_ADJUSTING' in line or 'VAL_RECRUITING' in line:
+  48:         print(f"L{i}: {line.rstrip()}")

@@ -1,0 +1,244 @@
+### line_query.py 存在: True
+  [728 lines]  最終更新mtime順で現行とみなす
+
+  -- BUG-9/11 関連シグナル --
+  43: GROSS_THRESHOLDS = {"\u677e\u91ce": 5, "\u5ca1\u672c": 3}
+  56: PROP_RATE       = bytes.fromhex("e58d98e4bea1efbc88e4b887e58686efbc89").decode()  # 単価（万円）
+  60: PROP_ASSIGNEE   = bytes.fromhex("e68b85e5bd93e88085").decode()              # 担当者
+  69: PROP_AFFIL_CONT = bytes.fromhex("e68980e5b19ee68b85e5bd93e88085e5908d").decode()  # 所属担当者名
+  87: def fetch_all_pages(db_id: str, filter_body: dict = None) -> list[dict]:
+  92: if filter_body:
+  93: payload["filter"] = filter_body
+  108: print(f"[fetch_all_pages] db={db_id[-8:]} count={len(results)} elapsed={_elapsed:.1f}s", flush=True)
+  252: Phase1: メール/電話/担当者名を全文から直接抽出（送信者行は除外）
+  317: engineers = fetch_all_pages(ENGINEER_DB_ID)
+  325: _prj_filter = {"property": PROP_RATE, "number": {"greater_than": 0}}
+  326: projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_prj_filter)
+  342: eng_rate   = _number_prop(engineer, PROP_RATE)
+  354: budget = _number_prop(project, PROP_RATE)
+  356: continue  # 異常単価除外
+  359: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+  361: continue  # 粗利マイナス=交渉しても利益見込めない
+  374: projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_filter)
+  380: budget    = _number_prop(project, PROP_RATE)
+  381: threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
+  382: engineers = fetch_all_pages(ENGINEER_DB_ID)
+  391: gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+  393: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+  395: continue  # 粗利マイナス=交渉しても利益見込めない
+  436: budget   = _number_prop(pj, PROP_RATE)
+  455: lines.append(f"\n他{len(projects)-15}件 | 粗利順上位15件を表示")
+  475: f"  \u7a3c\u50cd: {_select_prop(eng, PROP_WORKST)} / \u5358\u4fa1: {_format_number(_number_prop(eng, PROP_RATE))}\u4e07 
+  480: lines.append(f"\n他{len(engineers)-10}件 | 粗利順上位10件を表示")
+  554: def _gross_threshold(assignee: str) -> int:
+  555: return GROSS_THRESHOLDS.get(assignee, 5)
+  572: """案件詳細テキストからメアド・電話・担当者名を抽出して返す"""
+  644: budget   = _number_prop(pj, PROP_RATE)
+  652: f"単価: {_format_number(budget)}万" + (f" / {assignee}担当" if assignee else ""),
+  670: f"稼働: {_select_prop(eng, PROP_WORKST)} / 単価: {_format_number(_number_prop(eng, PROP_RATE))}万 / 粗利: {_format_number(gross
+
+  --- def engineer_query (from L316) ---
+  316: def engineer_query(initial: str, station: str) -> str:
+  317:     engineers = fetch_all_pages(ENGINEER_DB_ID)
+  318:     matched_engineers = [
+  319:         e for e in engineers
+  320:         if _match_initial(e, initial) and _match_station(e, station)
+  321:     ]
+  322:     if not matched_engineers:
+  323:         return f"\u4e00\u81f4\u3059\u308b\u4eba\u54e1\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {ini
+  324: 
+  325:     _prj_filter = {"property": PROP_RATE, "number": {"greater_than": 0}}
+  326:     projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_prj_filter)
+  327: 
+  328:     # dedup: 先頭20文字で重複排除（同一案件の複数メール送信に対応）
+  329:     _seen: set[str] = set()
+  330:     _deduped: list[dict] = []
+  331:     for _p in projects:
+  332:         _k = _text_prop(_p, PROP_PJNAME)
+  333:         _k20 = _k[:20] if _k else ""
+  334:         if _k20 and _k20 not in _seen:
+  335:             _seen.add(_k20)
+  336:             _deduped.append(_p)
+  337:     projects = _deduped
+  338: 
+  339:     replies = []
+  340:     for engineer in matched_engineers:
+  341:         eng_skills = _multi_select_prop(engineer, PROP_SKILL)
+  342:         eng_rate   = _number_prop(engineer, PROP_RATE)
+  343:         matched: list[dict] = []
+  344:         for project in projects:
+  345:             if _select_prop(project, PROP_STATUS) not in (VAL_RECRUITING, VAL_ADJUSTING):
+  346:                 continue
+  347:             if business_days_since(project.get("last_edited_time")) > 4:
+  348:                 continue
+  349:             required = _multi_select_prop(project, PROP_REQSK)
+  350:             if not required:
+  351:                 continue  # スキル未設定案件はマッチング対象外
+  352:             if not skill_match(required, eng_skills):
+  353:                 continue
+
+  --- def project_query (from L372) ---
+  372: def project_query(name: str) -> str:
+  373:     _filter = {"property": PROP_STATUS, "select": {"equals": VAL_RECRUITING}}
+  374:     projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_filter)
+  375:     matched = [p for p in projects if _contains(_text_prop(p, PROP_PJNAME), name)]
+  376:     if not matched:
+  377:         return f"\u4e00\u81f4\u3059\u308b\u6848\u4ef6\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {nam
+  378:     project = matched[0]
+  379:     required  = _multi_select_prop(project, PROP_REQSK)
+  380:     budget    = _number_prop(project, PROP_RATE)
+  381:     threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
+  382:     engineers = fetch_all_pages(ENGINEER_DB_ID)
+  383:     matched_engs = []
+  384:     for eng in engineers:
+  385:         if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
+  386:             continue
+  387:         if business_days_since(eng.get("last_edited_time")) > 21:
+  388:             continue
+  389:         if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
+  390:             continue
+  391:         gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+  392:         if gross > 15:
+  393:             continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+  394:         if gross < 0:
+  395:             continue  # 粗利マイナス=交渉しても利益見込めない
+  396:         matched_engs.append({"page": eng, "gross_profit": gross})
+  397:     matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
+  398:     _LAST_ENG_RESULTS["latest"] = matched_engs
+  399:     return format_engineer_result(project, matched_engs)
+  400: 
+  401: 
+  402: def format_project_result(engineer: dict, projects: list) -> str:
+
+  --- def _gross_threshold (from L554) ---
+  554: def _gross_threshold(assignee: str) -> int:
+  555:     return GROSS_THRESHOLDS.get(assignee, 5)
+  556: 
+  557: def _join(values: list[str]) -> str:
+
+  --- def _match_station (from L173) ---
+  173: def _match_station(engineer: dict, station: str) -> bool:
+  174:     if not station:
+  175:         return True
+  176:     sta = _text_prop(engineer, PROP_STA)
+  177:     if sta:
+  178:         return station in sta
+  179:     memo = _text_prop(engineer, PROP_MEMO)
+  180:     if memo and station in memo:
+  181:         return True
+  182:     return False  # station specified but no matching station data
+  183: 
+  184: 
+  185: def _engineer_source(engineer: dict) -> str:
+
+### line_query を import している現役ファイル
+  \check_affil.py
+  \check_detail_cut.py
+  \check_detail_length.py
+  \check_src.py
+  \check_src2.py
+  \comprehensive_test.py
+  \debug_split.py
+  \diagnose4.py
+  \diagnose_match.py
+  \e2e_local.py
+  \fast_test.py
+  \fast_test2.py
+  \final_check2.py
+  \final_confirm.py
+  \final_preview.py
+  \final_test.py
+  \final_test2.py
+  \find_limit_msg.py
+  \fix_classify.py
+  \inv3.py
+  \local_query_test.py
+  \preview.py
+  \preview2.py
+  \push_result.py
+  \quick_e2e.py
+  \recheck.py
+  \recheck2.py
+  \status_report.py
+  \strict_diagnose.py
+  \test_fullview.py
+  \test_gross_cap.py
+  \test_gross_floor.py
+  \test_linequery_count.py
+  \test_linequery_live.py
+  \test_line_query.py
+  \verify_detail_cmd.py
+  \verify_final.py
+  \verify_fulltext.py
+  \_audit_read2.py
+  \line_query\check_db.py
+  \line_query\check_db2.py
+  \line_query\check_db3.py
+  \line_query\check_hs.py
+  \line_query\check_prop2.py
+  \line_query\debug_filter.py
+  \line_query\debug_match.py
+  \line_query\debug_station.py
+  \line_query\deep_debug.py
+  \line_query\filter_debug2.py
+  \line_query\final_test.py
+  \line_query\live_test.py
+  \line_query\test_eng.py
+  \line_query\test_final.py
+  \line_query\test_fix.py
+  \line_query\test_format.py
+  \line_query\test_hs.py
+  \line_query\test_hs2.py
+  \line_query\test_hs3.py
+  \line_query\test_result.py
+  \line_query\test_runtime.py
+  \line_query\unit_test.py
+  \line_webhook\check_import.py
+  \line_webhook\test_hs_local.py
+  \line_webhook\test_hs_query.py
+  \line_webhook\webhook_server.py
+  \line_webhook\zenkaku_normalize\test_normalize.py
+
+### common/ledger.py (先頭40 + can_spend周辺)
+  1: from __future__ import annotations
+  2: import json
+  3: import os
+  4: import sys
+  5: from datetime import datetime, timezone
+  6: from pathlib import Path
+  7: 
+  8: from dotenv import dotenv_values
+  9: 
+  10: try:
+  11:     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+  12: except Exception:
+  13:     pass
+  14: 
+  15: BASE_DIR = Path(__file__).resolve().parent.parent  # ses_work/
+  16: STATE_FILE = Path(__file__).resolve().parent / "cost_state.json"
+  17: COST_LOG = BASE_DIR / "usage_tracker" / "cost_log.jsonl"
+  18: ENV_PATH = BASE_DIR / "config" / ".env"
+  19: _ENV = dotenv_values(ENV_PATH, encoding="utf-8") if ENV_PATH.exists() else {}
+  20: 
+  21: def _float_env(name: str, default: float) -> float:
+  22:     try:
+  23:         return float(os.environ.get(name) or _ENV.get(name) or default)
+  24:     except (TypeError, ValueError):
+  25:         return default
+  26: 
+  27: 
+  28: # グローバル上限
+  29: DAILY_HARD_USD = _float_env("COST_GUARD_DAILY_USD", 1.0)
+  30: MONTHLY_USD = _float_env("COST_GUARD_MONTHLY_USD", 6.0)
+  31: 
+  32: _DEFAULT_RATE = (1.0, 5.0)
+  33: 
+  34: 
+  35: def _estimate(in_tokens: int, out_tokens: int, model: str) -> float:
+  36:     model_lower = (model or "").lower()
+  37:     if "haiku" in model_lower:
+  38:         r = (1.0, 5.0)
+  39:     elif "sonnet" in model_lower:
+  40:         r = (3.0, 15.0)
+  ...87: def can_spend(est_in: int = 200, est_out: int = 300,
+  ...119: def record(in_tokens: int, out_tokens: int, model: str, script: str) -> None:

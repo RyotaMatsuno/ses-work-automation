@@ -1,0 +1,151 @@
+
+### common/ledger.py L87-145
+  87: def can_spend(est_in: int = 200, est_out: int = 300,
+  88:               model: str = "") -> bool:
+  89:     """API呼び出し前に確認。Falseならスキップすること。"""
+  90:     s = _load_state()
+  91:     est = _estimate(est_in, est_out, model)
+  92:     if s["daily_usd"] + est > DAILY_HARD_USD:
+  93:         _append_log({
+  94:             "ts": datetime.now(timezone.utc).isoformat(),
+  95:             "script": "cost_guard",
+  96:             "model": model,
+  97:             "input_tokens": est_in,
+  98:             "output_tokens": est_out,
+  99:             "cost_usd": est,
+  100:             "blocked": True,
+  101:             "reason": "daily_limit",
+  102:         })
+  103:         return False
+  104:     if s["monthly_usd"] + est > MONTHLY_USD:
+  105:         _append_log({
+  106:             "ts": datetime.now(timezone.utc).isoformat(),
+  107:             "script": "cost_guard",
+  108:             "model": model,
+  109:             "input_tokens": est_in,
+  110:             "output_tokens": est_out,
+  111:             "cost_usd": est,
+  112:             "blocked": True,
+  113:             "reason": "monthly_limit",
+  114:         })
+  115:         return False
+  116:     return True
+  117: 
+  118: 
+  119: def record(in_tokens: int, out_tokens: int, model: str, script: str) -> None:
+  120:     """API呼び出し成功後に必ず呼ぶ。コストを記録する。"""
+  121:     cost = _estimate(in_tokens, out_tokens, model)
+  122:     s = _load_state()
+  123:     s["daily_usd"] = round(s["daily_usd"] + cost, 8)
+  124:     s["monthly_usd"] = round(s["monthly_usd"] + cost, 8)
+  125:     s["daily_calls"] = s.get("daily_calls", 0) + 1
+  126:     _save_state(s)
+  127:     _append_log({
+  128:         "ts":            datetime.now(timezone.utc).isoformat(),
+  129:         "script":        script,
+  130:         "model":         model,
+  131:         "input_tokens":  in_tokens,
+  132:         "output_tokens": out_tokens,
+  133:         "cost_usd":      cost,
+  134:     })
+  135: 
+  136: 
+  137: def daily_total() -> float:
+  138:     return _load_state()["daily_usd"]
+  139: 
+  140: 
+  141: def monthly_total() -> float:
+  142:     return _load_state()["monthly_usd"]
+
+### matching_v3/cost_guard.py L110-145
+  110:     @classmethod
+  111:     def _estimate_cost(cls, input_tokens: int, output_tokens: int) -> float:
+  112:         return input_tokens * cls.LLM_INPUT_RATE_USD + output_tokens * cls.LLM_OUTPUT_RATE_USD
+  113: 
+  114:     @staticmethod
+  115:     def _parse_ts(value: Any) -> datetime | None:
+  116:         if not isinstance(value, str):
+  117:             return None
+  118:         try:
+  119:             return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+  120:         except ValueError:
+  121:             return None
+
+### mail_attachment_importer/ai_extractor.py L60-120
+  60: 
+  61: CLASSIFY_SYSTEM_PROMPT = """あなたはSES業界のメール添付ファイルの内容を分類するAIです。
+  62: 以下のテキストが「人員情報（スキルシート・経歴書）」か「案件情報（募集要項）」かを判定してください。
+  63: 以下のJSONのみを返してください（説明文不要）:
+  64: {"type": "engineer"} または {"type": "project"} または {"type": "unknown"}
+  65: 
+  66: 判断基準:
+  67: - 人員: 氏名・経験年数・スキル・稼働可能日・希望単価が主体
+  68: - 案件: 業務内容・必須スキル・期間・勤務地・募集単価が主体
+  69: """
+  70: 
+  71: 
+  72: def classify_content(text: str) -> str:
+  73:     """
+  74:     テキストが人員情報か案件情報かを分類。
+  75: 
+  76:     Returns:
+  77:         "engineer" / "project" / "unknown"
+  78:     """
+  79:     import anthropic
+  80: 
+  81:     def fallback_classify() -> str:
+  82:         engineer_words = ["氏名", "経験年数", "経歴", "スキルシート", "稼働可能", "希望単価"]
+  83:         project_words = ["必須スキル", "募集", "案件", "勤務地", "期間", "業務内容"]
+  84:         engineer_score = sum(1 for word in engineer_words if word in text)
+  85:         project_score = sum(1 for word in project_words if word in text)
+  86:         if engineer_score > project_score:
+  87:             return "engineer"
+  88:         if project_score > engineer_score:
+  89:             return "project"
+  90:         return "unknown"
+  91: 
+  92:     api_key = os.environ.get("ANTHROPIC_API_KEY")
+  93:     if not api_key:
+  94:         return fallback_classify()
+  95: 
+  96:     client = anthropic.Anthropic(api_key=api_key)
+  97: 
+  98:     try:
+  99:         response = client.messages.create(
+  100:             model="claude-haiku-4-5-20251001",
+  101:             max_tokens=50,
+  102:             system=CLASSIFY_SYSTEM_PROMPT,
+  103:             messages=[{"role": "user", "content": text[:3000]}]
+  104:         )
+  105:         raw = response.content[0].text.strip()
+  106:         if raw.startswith("```"):
+  107:             raw = raw.split("```")[1]
+  108:             if raw.startswith("json"):
+  109:                 raw = raw[4:]
+  110:             raw = raw.strip()
+  111:         data = json.loads(raw)
+  112:         content_type = data.get("type", "unknown")
+  113:         if content_type not in {"engineer", "project", "unknown"}:
+  114:             return fallback_classify()
+  115:         return content_type
+  116:     except Exception as e:
+  117:         logger.error(f"classify_content失敗: {e}")
+  118:         return fallback_classify()
+  119: 
+  120: 
+
+### business_days_since 定義
+  line_query.py:112: def business_days_since(dt) -> int:
+  line_query.py:113:     if isinstance(dt, str):
+  line_query.py:114:         start_date = parser.isoparse(dt).date()
+  line_query.py:115:     elif isinstance(dt, datetime):
+  line_query.py:116:         start_date = dt.date()
+  line_query.py:117:     elif isinstance(dt, date):
+  line_query.py:118:         start_date = dt
+  line_query.py:119:     else:
+  line_query.py:120:         raise TypeError("dt must be datetime, date, or ISO string")
+  line_query.py:121:     today = date.today()
+  line_query.py:122:     if start_date >= today:
+  line_query.py:123:         return 0
+  line_query.py:124:     days = 0
+  line_query.py:125:     current = start_date + timedelta(days=1)

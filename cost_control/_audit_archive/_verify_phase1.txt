@@ -1,0 +1,176 @@
+=== py_compile result ===
+[\cost_control_py_compile_result.txt]
+﻿py_compile: pass
+
+
+=== git diff --stat ===
+        |      2 +-
+ contract/excel_b64.txt                             |      2 +-
+ fix_env_uid.py                                     |      4 +-
+ input_label_spec/SPEC.md                           |      4 +-
+ line_webhook/SPEC_quality.md                       |      2 +-
+ line_webhook/SPEC_userid_assignee.md               |      2 +-
+ line_webhook/TASKS_quality.md                      |      2 +-
+ line_webhook/update_spec.py                        |      2 +-
+ line_webhook/webhook_server.py                     |      4 +-
+ local_server/watchdog.log                          |     13 +
+ mail_pipeline/mail_pipeline.py                     |     34 +-
+ mail_pipeline/pipeline.log                         | 886300 ++++++++++++++++++
+ matching_v2/skill_judge.py                         |     24 +-
+ outlook/outlook_to_notion.py                       |     27 +-
+ .../CEO\346\214\207\347\244\272\346\233\270v8.md"  |      4 +-
+ save_ceo_v8.py                                     |      4 +-
+ skill_reader/skill_reader.py                       |     38 +-
+ test_line_sim.py                                   |      6 +-
+ test_line_webhook.py                               |      2 +-
+ test_project.py                                    |      2 +-
+ test_render_webhook.py                             |      2 +-
+ test_webhook.py                                    |      2 +-
+ write_input_label_spec.py                          |      4 +-
+ 25 files changed, 886449 insertions(+), 45 deletions(-)
+
+
+=== git status --short ===
+tract2.py
+?? update_master_full.py
+?? update_master_gaps.py
+?? update_spec_classify.py
+?? update_ss_corrections.py
+?? update_timeout.py
+?? update_wiki.py
+?? update_wiki2.py
+?? usage_tracker/check_cost.py
+?? usage_tracker/cost_analysis.py
+?? usage_tracker/cost_log_archive_2026-06.jsonl
+?? usage_tracker/hourly_analysis.py
+?? usage_tracker/peek_archive.py
+?? v3_files.txt
+?? v3_read.txt
+?? validate_bugs.py
+?? validate_gpt.py
+?? verify_all_consts.py
+?? verify_contract.py
+?? verify_copy.py
+?? verify_costfix.py
+?? verify_costfix_final.py
+?? verify_detail_cmd.py
+?? verify_final.py
+?? verify_flow.py
+?? verify_fulltext.py
+?? verify_guard.py
+?? verify_hs.py
+?? verify_limit.py
+?? verify_linequery_fix.py
+?? verify_notion_props.py
+?? verify_phase_e.py
+?? verify_propose.py
+?? wait150.py
+?? wait30.py
+?? wait35.py
+?? wait60.py
+?? wait90.py
+?? wait_and_check.py
+?? wait_and_check_integration.py
+?? wait_and_check_pptx.py
+?? wait_codex.py
+?? wait_codex_log.py
+?? wait_deploy_lq.py
+?? wall_hit_matching.py
+?? wall_hit_result.json
+?? wd_cost_guard.bat
+?? wd_daily_report.bat
+?? wd_importer.bat
+?? wd_mail_pipeline.bat
+?? wd_matching_v3.bat
+?? wd_outlook.bat
+?? webhook_commands.txt
+?? webhook_status.txt
+?? weekday_guard.py
+?? write_notion_memo.py
+?? write_project_detail_spec.py
+?? write_spec_linequery.py
+?? ys_discover.py
+?? ys_fill_stepA.py
+?? ys_fill_stepB.py
+?? ys_final_check.py
+?? ys_inspect.py
+?? ys_inspect_jisseki.py
+?? ys_inspect_native.py
+?? ys_inspect_native2.py
+?? ys_sa_test.py
+?? ys_write.py
+
+
+=== common/model_config.py ===
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+from dotenv import dotenv_values
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = BASE_DIR / "config" / ".env"
+
+_ENV = dotenv_values(ENV_PATH, encoding="utf-8") if ENV_PATH.exists() else {}
+
+
+def _get_model(env_name: str, default: str) -> str:
+    return os.environ.get(env_name) or _ENV.get(env_name) or default
+
+
+TEXT_MODEL = _get_model("TEXT_MODEL", "claude-haiku-4-5-20251001")
+VISION_MODEL = _get_model("VISION_MODEL", "claude-sonnet-4-6")
+STRUCTURER_MODEL = _get_model("STRUCTURER_MODEL", "gpt-4.1-nano")
+MATCH_MODEL = _get_model("MATCH_MODEL", "claude-haiku-4-5-20251001")
+
+
+=== hardcoded claude-/gpt- in production (excl model_config, tests, _archive, patch_*) ===
+  \backfill_eng_skills.py:31: MODEL = "claude-haiku-4-5-20251001"
+  \backfill_skills.py:29: MODEL = "claude-haiku-4-5-20251001"
+  \gpt_consult.py:38: "model": "gpt-4o",
+  \wall_hitting.py:16: DEFAULT_OPENAI_MODEL = "gpt-4o"
+  \wall_hitting.py:17: SEARCH_OPENAI_MODEL = "gpt-4o-search-preview"
+  \wall_hit_matching.py:61: "model": "gpt-5.5",
+  \wall_hit_matching.py:81: "model": "gpt-4.1-nano",
+  \_verify_phase1.py:37: if ('"claude-' in l or "'claude-" in l or '"gpt-' in l or "'gpt-" in l) and "model" in l.lower():
+  \attachment_importer\parsers\text_parser.py:55: model="claude-haiku-4-5-20251001",
+  \double_check\double_check.py:101: "model": "claude-sonnet-4-20250514",
+  \line_webhook\skill_extractor.py:149: json={"model": "claude-haiku-4-5-20251001", "max_tokens": 2000,
+  \line_webhook\webhook_clean.py:98: "model": "claude-sonnet-4-20250514",
+  \line_webhook\webhook_server.py:174: json={"model": "claude-haiku-4-5-20251001", "max_tokens": max_tokens,
+  \line_webhook\webhook_server.py:1370: json={"model": "claude-sonnet-4-5", "max_tokens": 1000, "system": system, "messages": [{"role": "user", "conte
+  \mail_attachment_importer\ai_extractor.py:100: model="claude-haiku-4-5-20251001",
+  \mail_attachment_importer\ai_extractor.py:142: model="claude-haiku-4-5-20251001",
+  \mail_attachment_importer\ai_extractor.py:192: model="claude-haiku-4-5-20251001",
+  \matching_v3\structurer.py:51: if model.startswith("gpt-") or model.startswith("o"):
+  \pipeline_v1\skill_autofill.py:13: MODEL_NAME = "claude-haiku-4-5-20251001"
+  \reply_parser\reply_parser.py:21: CLAUDE_MODEL = "claude-haiku-4-5-20251001"
+
+=== skill_judge.py _select_fallback_model (now) ===
+  107: def _select_fallback_model(client):
+  108:     model_list = client.models.list(limit=20)
+  109:     haiku_models = [
+  110:         model.id for model in model_list.data
+  111:         if "haiku" in model.id
+  112:     ]
+  113:     if MODEL_NAME in haiku_models:
+  114:         return MODEL_NAME
+  115:     if haiku_models:
+  116:         return haiku_models[0]
+  117:     raise RuntimeError("Anthropic APIで利用可能なHaikuモデルが見つかりません")
+  118: 
+
+=== ledger guard presence ===
+  mail_pipeline/mail_pipeline.py: ledger_can_spend=YES / VISION_MODEL=- / TEXT_MODEL=YES
+  skill_reader/skill_reader.py: ledger_can_spend=YES / VISION_MODEL=YES / TEXT_MODEL=YES
+  outlook/outlook_to_notion.py: ledger_can_spend=YES / VISION_MODEL=- / TEXT_MODEL=YES
+
+=== codex/node procs ===
+node.exe present: True

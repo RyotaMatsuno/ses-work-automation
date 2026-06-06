@@ -1,0 +1,61 @@
+
+## usage_tracker/cost_log_archive_2026-06.jsonl
+  日付: ['2026-06-02']  合計 $50.88 (¥7886)
+   mail_pipeline claude-haiku-4-5-20251001    n 13791 in  17081031 out  4497385 $31.65
+   matching_v2   claude-haiku-4-5-20251001    n  3830 in   6737311 out  3458480 $19.22
+
+## usage_tracker/cost_log.jsonl
+  日付: ['2026-05-26', '2026-05-27']  合計 $0.88 (¥137)
+   mail_pipeline claude-sonnet-4-6            n   112 in    131019 out    21552 $0.72
+   matching_v2   claude-haiku-4-5-20251001    n    33 in     32685 out    34865 $0.17
+   mail_pipeline claude-haiku-4-5-20251001    n     2 in       453 out      227 $0.00
+
+## usage_tracker/cost_log_archive_2026-05.jsonl
+  日付: ['2026-05-25']  合計 $0.00 (¥1)
+   mail_pipeline claude-haiku-4-5-20251001    n     1 in      1200 out      300 $0.00
+   matching_v2   claude-haiku-4-5-20251001    n     2 in      9200 out     1450 $0.00
+
+=== locate mail_pipeline.py ===
+   \mail_pipeline\mail_pipeline.py 51236 B
+   \mail_pipeline\mail_pipeline_test1.py 21969 B
+  -> chosen: \mail_pipeline\mail_pipeline.py
+  -- ingest/limit/broadcast filter --
+   [PROCESS_LIMIT] 48: PROCESS_LIMIT = 2000
+   [LIMIT =] 47: FETCH_LIMIT = 2000
+   [スキップ] 146: pass  # OneDrive同期ロック等でファイルが書けない場合はスキップ
+   [除外] 101: 【1. 除外ルール違反】
+   [body[:] 479: text = f"件名: {subject}\n\n{body[:2000]}"
+   [判定] 124: 【判定】OK / NG
+
+=== importer.log tail ===
+  size=542212B  limit-hits-in-tail=0
+    2026-05-27 10:40:17,683 [INFO] mail_fetcher: 添付取得: IS_mitakadai_skillsheet.xlsx (UID=1701554)
+    2026-05-27 10:40:18,167 [INFO] mail_fetcher: 添付取得: 履歴書-邢.J.xlsx (UID=1701579)
+    2026-05-27 10:40:18,679 [INFO] mail_fetcher: 添付取得: 履歴書-邢.J.xlsx (UID=1701587)
+    2026-05-27 10:40:18,840 [INFO] mail_fetcher: 添付取得: OH.xlsx (UID=1701595)
+    2026-05-27 10:40:18,855 [INFO] mail_fetcher: 添付取得: スキルシート_OM.xlsx (UID=1701596)
+    2026-05-27 10:40:18,893 [INFO] mail_fetcher: 添付取得: 【スキルシート】Y.H（長町）.xlsx (UID=1701598)
+    2026-05-27 10:40:18,970 [INFO] mail_fetcher: 添付取得: スキルシート_ T.A.xlsx (UID=1701601)
+    2026-05-27 10:40:19,034 [INFO] mail_fetcher: 添付取得: 【スキルシート】M.U_ふじみ野0424.xlsx (UID=1701603)
+    2026-05-27 10:40:19,072 [INFO] mail_fetcher: 添付取得: SS経堂【スキルシート】 0501.xlsx (UID=1701605)
+    2026-05-27 10:40:19,171 [INFO] mail_fetcher: 添付取得: IY_名古屋（愛知）.pdf (UID=1701608)
+
+=== scheduled tasks (filtered) ===
+    "\freee_auto_invoice","2026/07/01 9:00:00","準備完了"
+    "\freee_invoice_send","2026/07/01 10:00:00","準備完了"
+    "\freee_payment_check_15","2026/06/15 8:00:00","準備完了"
+    "\freee_payment_check_eom","2026/06/28 8:00:00","準備完了"
+    "\jobz-watchdog","2026/06/05 18:05:00","準備完了"
+    "\jobz-watchdog","2026/06/05 18:05:00","準備完了"
+    "\jobz_daily_report","2026/06/06 8:00:00","準備完了"
+    "\jobz_matching_daily","N/A","無効"
+    "\SES_CostGuard","2026/06/05 18:05:00","準備完了"
+    "\SES_Freee_Invoice","2026/06/25 10:00:00","準備完了"
+    "\SES_MailPipeline","2026/06/05 19:00:00","実行中"
+    "\SES_MatchingAndNotify","N/A","無効"
+    "\SES_MatchingV3","2026/06/05 19:00:00","準備完了"
+    "\SES_Outlook_13h","2026/06/06 13:00:00","準備完了"
+    "\SES_Outlook_18h","2026/06/06 18:00:00","準備完了"
+    "\SES_Outlook_9h","2026/06/06 9:00:00","準備完了"
+    "\usage_tracker_daily","2026/06/06 9:05:00","準備完了"
+    "\Microsoft\Windows\ApplicationData\appuriverifierdaily","N/A","準備完了"

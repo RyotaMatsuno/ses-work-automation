@@ -1,0 +1,473 @@
+=== matching_v2 git log (last 8) ===
+109cd69 fix: マッチング結果を上位15件（案件）/10件（人員）に制限
+bf6d7e0 fix: 全角数字・丸数字対応（詳細コマンド normalize_number追加）
+fb7a327 feat: 一覧は連絡先のみ1通・詳細Nコマンドで全文表示
+6418f98 fix: 概要を全文表示（文字数制限撤廃）
+c43d9ae fix: gunicornタイムアウト120秒 + Notionフェッチ時間ログ追加
+9b7bbb8 fix: line_query/line_query.py を line_webhook版(全件表示)に同期
+e2d689e fix: line_query結果をsplit_line_messageで分割してPush送信
+affb6b0 fix: 全件表示・粗利0〜15万フィルタをCloud Runに反映
+
+=== repo git log (last 12) ===
+109cd69 fix: マッチング結果を上位15件（案件）/10件（人員）に制限
+bf6d7e0 fix: 全角数字・丸数字対応（詳細コマンド normalize_number追加）
+fb7a327 feat: 一覧は連絡先のみ1通・詳細Nコマンドで全文表示
+6418f98 fix: 概要を全文表示（文字数制限撤廃）
+c43d9ae fix: gunicornタイムアウト120秒 + Notionフェッチ時間ログ追加
+9b7bbb8 fix: line_query/line_query.py を line_webhook版(全件表示)に同期
+e2d689e fix: line_query結果をsplit_line_messageで分割してPush送信
+affb6b0 fix: 全件表示・粗利0〜15万フィルタをCloud Runに反映
+b93fd9d fix: 粗利下限をマイナス除外のみに変更（0〜15万を表示対象に）
+cd02633 fix: 粗利上限15万超の案件を除外（スキルミスマッチ・単価乖離リスク対策）
+a3b94e0 fix: line_query.py バグ4件修正 (_match_station/gross_threshold/limit_reply/filter)
+5940903 fix: LINE登録時に所属情報なければ松野LINE/岡本LINEをセット
+
+
+=== LOG FILES (mtime desc) ===
+2026-06-05 17:59     1597288B  \local_server\server.log
+2026-06-05 17:59    53239400B  \mail_pipeline\pipeline.log
+2026-06-05 17:56       70104B  \local_server\watchdog.log
+2026-06-05 17:38      542212B  \mail_attachment_importer\importer.log
+2026-06-05 17:34        5545B  \cleanup_v2.log
+2026-06-05 17:34        5463B  \cleanup_v2_new.log
+2026-06-05 17:34        1421B  \cleanup.log
+2026-06-05 17:33           0B  \codex_limit_fix.log
+2026-06-05 17:31        1373B  \cr_log.txt
+2026-06-05 17:30      695781B  \matching_v3\logs\matching_v3_20260605.log
+2026-06-05 17:17           0B  \codex_phase_e.log
+2026-06-05 12:15        1104B  \pf6_cloudrun_smtp\deploy.log
+2026-06-05 12:14      496618B  \pf6_cloudrun_smtp\codex.log
+2026-06-05 12:07        1104B  \pf5_cloudrun\deploy.log
+2026-06-05 12:05      555036B  \pf5_cloudrun\codex.log
+2026-06-05 11:42      540463B  \pf4_matching\codex.log
+2026-06-05 11:38      725792B  \pf3_mailpipeline\codex.log
+2026-06-05 11:30      202838B  \pf1_costguard\codex.log
+2026-06-05 10:59           0B  \phase1_codex.log
+2026-06-05 08:01        9334B  \logs\daily_report.log
+2026-06-04 21:46      593235B  \mail_pipeline\codex_costfix.log
+2026-06-04 19:10       82002B  \matching_v3\logs\matching_v3_20260604.log
+2026-06-04 19:01         110B  \phase0_final.log
+2026-06-04 19:01           0B  \matching_v3\logs\phase0_run_fresh.log
+2026-06-04 19:01        2764B  \line_webhook\cloudflare\tunnel.log
+2026-06-04 16:36         110B  \phase0_bg8.log
+2026-06-04 16:35         110B  \phase0_bg7.log
+2026-06-04 16:34         110B  \phase0_bg6.log
+2026-06-04 16:31         110B  \phase0_bg5.log
+2026-06-04 16:31      481078B  \codex_review_fix2b.log
+
+=== COST CAP / BUDGET ENFORCEMENT (grep) ===
+add_debug.py:11: '            print(f"[match] {_text_prop(project, chr(0x6848)+chr(0x4EF6)+chr(0x540D))} status={_sel
+add_skill_filter.py:13: "            budget = _number_prop(project, PROP_RATE)"
+add_skill_filter.py:18: "            budget = _number_prop(project, PROP_RATE)\n"
+add_skill_filter.py:19: "            if not required and budget < 80:\n"  # スキル指定なし案件は単価80万未満を除外
+add_skill_filter.py:27: "            budget = _number_prop(project, PROP_RATE)"
+add_skill_filter.py:33: "            budget = _number_prop(project, PROP_RATE)"
+add_skill_filter.py:38: "            gross  = calc_gross_profit(budget, engineer_rate)\n"
+add_skill_filter.py:43: "            gross  = calc_gross_profit(budget, engineer_rate)\n"
+apply_all_fixes.py:89: budget = _number_prop(project, PROP_RATE)
+apply_all_fixes.py:90: gross  = calc_gross_profit(budget, engineer_rate)
+check_ft_detail.py:17: budget = row[6]   # 案件単価
+check_ft_detail.py:24: print(f"{name}({tanto}): 案件{budget} 仕入{cost} 粗利{gross} FT請求{ft_req} 岡本払出{okamoto} 実入り{jissyu} 木原{kih
+check_gross_logic.py:11: print("=== 粗利・単価・budget関連の全ロジック ===")
+check_gross_logic.py:15: 'gross', 'budget', 'thresh', 'calc_gross',
+check_gross_logic.py:17: '150', 'budget > '
+check_matching_quality.py:33: print(f"Budget: {sample.get('budget')}")
+check_pipeline6.py:15: if any(k in l for k in ['LIMIT', 'FETCH', 'PROCESS', 'cost', 'COST', 'budget', 'BUDGET', 'daily', 'D
+check_result_json.py:14: print(f"先頭案件: {p.get('project_name')} / budget={p.get('budget')} / candidates={len(p.get('candidates
+cost_guard.py:5: usage_tracker/cost_log.jsonl をグローバル合算で監視し、上限超過時に
+cost_guard.py:19: SOFT_DAILY_LIMIT = 6.0
+cost_guard.py:253: "APIコスト月次上限到達（全停止）\n"
+cost_guard.py:254: f"月次: ${monthly:.2f} / 上限 ${MONTHLY_LIMIT:.2f}\n"
+cost_guard.py:264: "APIコスト日次上限到達（全停止）\n"
+cost_guard.py:265: f"日次: ${daily:.2f} / 上限 ${HARD_DAILY_LIMIT:.2f}\n"
+count_matched.py:30: budget = lq._number_prop(p, lq.PROP_RATE)
+count_matched.py:31: gross  = lq.calc_gross_profit(budget, eng_rate)
+diagnose3.py:93: print(f'  有効 + スキルあり: {valid_with_skill}件 ← これが本来の上限')
+diagnose_match.py:70: budget = _number_prop(p, '単価（万円）')
+diagnose_match.py:71: gross = calc_gross_profit(budget, hs_rate)
+fix_dedup.py:10: if budget > 200:
+fix_dedup.py:12: NEW_CAP = '''            # 単価が150万超は時給/年額等の異常データとして除外（SES月額上限）
+fix_dedup.py:13: if budget > 150:
+fix_dedup.py:18: print('✅ 上限 200→150万 OK')
+fix_format.py:79: _budget = _number_prop(project, '単価（万円）')
+fix_format.py:87: f"  単価: {_format_number(_budget)}万 / 粗利: {_format_number(_gross)}万",
+fix_rate_cap.py:12: OLD = '''            budget = _number_prop(project, PROP_RATE)
+fix_rate_cap.py:13: gross  = calc_gross_profit(budget, eng_rate)
+fix_rate_cap.py:18: NEW = '''            budget = _number_prop(project, PROP_RATE)
+fix_rate_cap.py:20: if budget > 200:
+fix_rate_cap.py:22: gross  = calc_gross_profit(budget, eng_rate)
+fix_skill_filter.py:28: budget = _number_prop(project, PROP_RATE)
+fix_skill_filter.py:29: gross  = calc_gross_profit(budget, eng_rate)
+fix_skill_filter.py:56: budget = _number_prop(project, PROP_RATE)
+fix_skill_filter.py:57: gross  = calc_gross_profit(budget, eng_rate)
+full_static.py:162: ('budget > 150', '単価150万超除外'),
+haiku_deep_dive.py:20: print("=== 逆算: $150以内に収めるための1日上限 ===")
+inv3.py:57: budget = _number_prop(p, PROP_RATE)
+inv3.py:58: if budget > 150: continue
+inv3.py:59: gross = calc_gross_profit(budget, hs_rate)
+patch_clean.py:82: OLD_ASSIGN = 'f"  \\u5358\\u4fa1: {_format_number(budget)}\\u4e07 / \\u7c97\\u5229: {_format_number(
+patch_clean.py:83: NEW_ASSIGN = 'f"  \\u5358\\u4fa1: {_format_number(budget)}\\u4e07 / \\u7c97\\u5229: {_format_number(
+patch_config_cg.py:12: new_model = 'DEFAULT_STRUCTURER_MODEL = "gpt-4o-mini"  # [GPT切替] Anthropic月次上限のためGPTに変更'
+patch_detail_cmd_2.py:90: budget   = _number_prop(pj, PROP_RATE)
+patch_detail_cmd_2.py:98: f"単価: {_format_number(budget)}万" + (f" / {assignee}担当" if assignee else ""),
+patch_gross_cap.py:17: OLD_EQ = '''            budget = _number_prop(project, PROP_RATE)
+patch_gross_cap.py:18: if budget > 150:
+patch_gross_cap.py:20: gross  = calc_gross_profit(budget, eng_rate)
+patch_gross_cap.py:25: NEW_EQ = '''            budget = _number_prop(project, PROP_RATE)
+patch_gross_cap.py:26: if budget > 150:
+patch_gross_cap.py:28: gross  = calc_gross_profit(budget, eng_rate)
+patch_gross_cap.py:30: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_gross_cap.py:36: OLD_PQ = '''        gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+patch_gross_cap.py:40: NEW_PQ = '''        gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+patch_gross_cap.py:42: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_gross_floor.py:17: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_gross_floor.py:23: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_gross_floor.py:29: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_gross_floor.py:34: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+patch_pipeline_body.py:52: """Notionのrich_textは1ブロック2000文字上限のため複数ブロックに分割する"""
+push_result.py:53: print('→ LINE月次メッセージ上限に達している可能性')
+rewrite_eq.py:62: budget = _number_prop(project, PROP_RATE)
+rewrite_eq.py:63: gross  = calc_gross_profit(budget, engineer_rate)
+rewrite_lq.py:159: def calc_gross_profit(budget: float, cost: float) -> float:
+rewrite_lq.py:160: return float(budget or 0) - float(cost or 0)
+rewrite_lq.py:226: budget = _number_prop(project, PROP_RATE)
+rewrite_lq.py:227: gross  = calc_gross_profit(budget, eng_rate)
+rewrite_lq.py:252: budget   = _number_prop(project, PROP_RATE)
+rewrite_lq.py:263: gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+rewrite_lq.py:290: budget    = _number_prop(pj, PROP_RATE)
+rewrite_lq.py:297: f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07",
+rewrite_v2.py:164: def calc_gross_profit(budget: float, cost: float) -> float:
+rewrite_v2.py:165: return float(budget or 0) - float(cost or 0)
+rewrite_v2.py:285: budget = _number_prop(project, PROP_RATE)
+rewrite_v2.py:286: if budget > 150:
+rewrite_v2.py:288: gross  = calc_gross_profit(budget, eng_rate)
+rewrite_v2.py:306: budget    = _number_prop(project, PROP_RATE)
+rewrite_v2.py:317: gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+rewrite_v2.py:355: budget   = _number_prop(pj, PROP_RATE)
+rewrite_v2.py:365: f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07 / {as
+root_cause.py:90: print('    → 案件DBに「年齢上限」フィールドがないためコード側での対応不可')
+run_test1.py:3: mail_pipeline テスト実行（処理上限1件・タイムアウト対策でサブプロセス起動）
+safety_check.py:6: max_calls = 6.0 / haiku_cost
+safety_check.py:7: print(f"1日$6上限 → 最大{max_calls:.0f}回呼べる")
+safety_check.py:13: for daily_limit in [5.0, 5.5, 6.0]:
+safety_check.py:15: print(f"  日次上限${daily_limit} × 20営業日 = 月${monthly:.0f}")
+safety_check.py:26: print(f"$6/日上限 → {max_calls:.0f}回で強制停止。物理的に$6超えない。")
+status_report.py:52: print(f'LINE quota: {usage}/200通 ({"⚠️ 上限到達 - 6月1日リセット" if usage==200 else "✅ 余裕あり"})')
+strict_diagnose.py:53: budget = lq._number_prop(p, lq.PROP_RATE)
+strict_diagnose.py:54: if budget > 150: continue
+strict_diagnose.py:55: gross = lq.calc_gross_profit(budget, hs_rate)
+strict_diagnose.py:58: matched.append({'page': p, 'gross': gross, 'budget': budget})
+strict_diagnose.py:75: print(f'  budget={item["budget"]}万 gross={item["gross"]}万 loc=[{loc}] remote=[{remote}] assignee=[{a
+strict_diagnose.py:101: if item['budget'] > 100:
+strict_diagnose.py:102: print(f'  [BUG-D] 単価{item["budget"]}万 → SES月額として妥当性疑問（H.S単価70万, 粗利{item["gross"]}万）')
+test_drive_msg.py:10: 'budget': 70,
+test_drive_msg2.py:10: 'budget': 70,
+test_filter.py:23: sys.stdout.buffer.write(f'Filter: budget>={75}, status={lq.VAL_RECRUITING!r}\n'.encode('utf-8'))
+test_filter.py:35: budget = lq._number_prop(p, lq.PROP_RATE)
+test_filter.py:36: gross  = lq.calc_gross_profit(budget, eng_rate)
+test_gross_cap.py:21: print("\n=== HS 北小金 (粗利上限15万適用後) ===")
+update_wiki2.py:15: {"bulleted_list_item": {"rich_text": [t("コスト: 月$107（20営業日）。1日$6上限/月$140上限/Anthropic側$140のSpend Limit
+update_wiki2.py:17: {"bulleted_list_item": {"rich_text": [t("暴走防止: 5重+3防御壁（processed_id/回数上限/日次コスト/月次コスト/本文長制限/二重起動ロック/推
+update_wiki_precision.py:15: 2. result.jsonにbudget（案件予算）追加（make_project_result）
+update_wiki_precision.py:23: - result.jsonにbudgetフィールド追加確認
+update_wiki_progress2.py:41: bullet("LINE月200通上限: 6/1リセット待ち。notify_line.py本番送信テストは6/1以降"),
+validate_gpt.py:36: "name": "単価のみ上限記載",
+verify_costfix.py:17: print("\n=== [Fix2] processed_ids 上限ロジック ===")
+write_fix_spec.py:26: 1. mail_pipeline: 1日400件以上の案件メールを全件処理できるよう上限を撤廃
+write_notion_memo.py:56: b("案件側マッチングの粗利上限: 15万超はフィルタ除外（ハードコード）→ 変更する場合はproject_query内の if gross > 15 を修正"),
+_cost_audit_2.py:42: w("\n=== COST CAP / BUDGET ENFORCEMENT (grep) ===")
+_cost_audit_2.py:43: patt = ["daily_cap","DAILY_CAP","budget","BUDGET","cost_limit","COST_LIMIT","6.0","max_cost","stop_i
+ledger.py:11: DAILY_SOFT_USD  = 6.0
+notion_to_gcal.py:261: budget = extract_number(props, '予算（万円）') or extract_number(props, '単価（万円）')
+notion_to_gcal.py:271: budget_str = f"{budget}万円" if budget else '未記載'
+notion_to_gcal.py:277: f"予算: {budget_str}\n"
+check_threshold.py:16: for budget, cost in [(0, 70), (70, 65), (75, 70), (90, 70)]:
+check_threshold.py:17: g = line_query.calc_gross_profit(budget, cost)
+check_threshold.py:18: sys.stdout.buffer.write(f'  calc_gross_profit({budget}, {cost}) = {g}\n'.encode('utf-8'))
+check_threshold.py:21: sys.stdout.buffer.write(b'\nbudget=0 case: gross=-70, threshold=3, -70 < 3 = True -> should CONTINUE
+debug_filter.py:42: budget = lq._number_prop(proj, "単価（万円）")
+debug_filter.py:43: gross = lq.calc_gross_profit(budget, rate)
+debug_filter.py:50: print(f"  MATCH: {pname} budget={budget} gross={gross}")
+filter_debug2.py:38: budget  = _number_prop(p, '\u5358\u4fa1\uff08\u4e07\u5186\uff09')
+filter_debug2.py:40: gross   = calc_gross_profit(budget, eng_rate)
+filter_debug2.py:44: f'  [{status}] {name[:15]} | days={days} | req_sk={req_sk} | sm={sm} | budget={budget} | gross={gros
+line_query.py:149: def calc_gross_profit(budget: float, cost: float) -> float:
+line_query.py:150: return float(budget or 0) - float(cost or 0)
+line_query.py:346: budget = _number_prop(project, PROP_RATE)
+line_query.py:347: if budget > 150:
+line_query.py:349: gross  = calc_gross_profit(budget, eng_rate)
+line_query.py:351: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+line_query.py:368: budget    = _number_prop(project, PROP_RATE)
+line_query.py:379: gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+line_query.py:381: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+line_query.py:422: budget   = _number_prop(pj, PROP_RATE)
+line_query.py:432: f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07" + (f
+line_query.py:157: def calc_gross_profit(budget: float, cost: float) -> float:
+line_query.py:158: return float(budget or 0) - float(cost or 0)
+line_query.py:354: budget = _number_prop(project, PROP_RATE)
+line_query.py:355: if budget > 150:
+line_query.py:357: gross  = calc_gross_profit(budget, eng_rate)
+line_query.py:359: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+line_query.py:380: budget    = _number_prop(project, PROP_RATE)
+line_query.py:391: gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+line_query.py:393: continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+line_query.py:436: budget   = _number_prop(pj, PROP_RATE)
+line_query.py:446: f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07" + (f
+line_query.py:644: budget   = _number_prop(pj, PROP_RATE)
+line_query.py:652: f"単価: {_format_number(budget)}万" + (f" / {assignee}担当" if assignee else ""),
+matching_logic.py:103: return {"category": "ng", "gross": gross, "reason": f"上振れ{pp-ep}万超（上限15万）"}
+test_hs_query.py:48: budget = _number_prop(p, PROP_RATE)
+test_hs_query.py:49: if budget > 150:
+test_hs_query.py:51: gross = calc_gross_profit(budget, hs_rate)
+test_hs_query.py:59: matched.append({'name': _text_prop(p, PROP_PJNAME), 'budget': budget, 'gross': gross, 'req': req, 'a
+test_hs_query.py:63: print(f"  [{m['age']}日前] {m['name'][:35]} 単価:{m['budget']}万 粗利:{m['gross']}万 必須:{m['req']}")
+command_server.py:7: - v2: timeout上限3600秒（1時間）、/write_and_runもtimeoutをリクエストから受け取る
+command_server.py:26: MAX_TIMEOUT = 3600  # 上限1時間
+test_quick.py:2: test_quick.py - 軽量統合テスト（最新10件上限）
+mail_pipeline.py:766: """Notionのrich_textは1ブロック2000文字上限のため複数ブロックに分割する"""
+mail_pipeline_test1.py:481: log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails)-PROCESS_LIMIT}件は次回）")
+matching_v2.py:271: "budget": project["price"],
+notify_line.py:430: return project.get("price") or item.get("price") or item.get("budget")
+config.py:17: DEFAULT_STRUCTURER_MODEL = "gpt-4.1-nano"  # [GPT切替] Anthropic月次上限のためGPTに変更（nano: few-shot付きで精度8/8確認
+cost_guard.py:22: DAILY_COST_LIMIT_USD = 1.00
+cost_guard.py:24: MONTHLY_STOP_USD = 6.00
+cost_guard.py:42: if float(daily["total_cost_usd"]) + est_cost > self.DAILY_COST_LIMIT_USD:
+matcher.py:55: return "NG", [f"並行過多: スコア{p_score:.1f}（上限5.0）"]
+matching_v3.py:141: logger.warning("コスト上限到達、処理停止")
+notifier.py:26: PUSH_LIMIT_PER_DAY = 6  # 平日のみ稼働: 22日×6=132通/月 < 200通上限
+test_cost_guard.py:31: _write_cost(path, 6.0)
+match_engineers.py:88: "budget": num(props.get("単価（万円）", {})),
+match_engineers.py:122: proj_budget = project["budget"]
+match_engineers.py:123: if eng_price and proj_budget:
+match_engineers.py:124: diff = proj_budget - eng_price
+match_engineers.py:127: reasons.append(f"単価OK: {eng_price}万 <= {proj_budget}万(+20pt)")
+match_engineers.py:130: reasons.append(f"単価ほぼOK: {eng_price}万 / 予算{proj_budget}万(+10pt)")
+match_engineers.py:132: reasons.append(f"単価超過: {eng_price}万 / 予算{proj_budget}万(0pt)")
+match_engineers.py:201: print(f"  案件: 必要スキル={proj['required_skills']} / 予算={proj['budget']}万")
+propose.py:123: budget_yen = normalize_price(project.get("budget"))
+propose.py:124: if budget_yen is None:
+propose.py:138: gross_yen = budget_yen - price_yen
+step1_generate.py:50: price = candidate.get("proposed_price") or candidate.get("price") or project.get("budget") or ""
+notion_to_sheets.py:194: budget = (extract_number(props, '予算（万円）')
+notion_to_sheets.py:205: name, status, skills, budget,
+patch_pipeline_body.py:52: """Notionのrich_textは1ブロック2000文字上限のため複数ブロックに分割する"""
+test_drive_msg.py:10: 'budget': 70,
+test_drive_msg2.py:10: 'budget': 70,
+update_wiki_precision.py:15: 2. result.jsonにbudget（案件予算）追加（make_project_result）
+update_wiki_precision.py:23: - result.jsonにbudgetフィールド追加確認
+update_wiki_progress2.py:41: bullet("LINE月200通上限: 6/1リセット待ち。notify_line.py本番送信テストは6/1以降"),
+write_fix_spec.py:26: 1. mail_pipeline: 1日400件以上の案件メールを全件処理できるよう上限を撤廃
+-- cap-related hits: 201
+
+=== ANTHROPIC API CALL SITES (active, non-comment) ===
+api_audit.py:12: if 'call_claude(' in line or ('anthropic.com/v1/messages' in line):
+backfill_eng_skills.py:14: from anthropic import Anthropic
+backfill_eng_skills.py:24: ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+backfill_eng_skills.py:32: client = Anthropic(api_key=ANTHROPIC_API_KEY)
+backfill_eng_skills.py:82: response = client.messages.create(
+backfill_skills.py:12: from anthropic import Anthropic
+backfill_skills.py:22: ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+backfill_skills.py:30: client = Anthropic(api_key=ANTHROPIC_API_KEY)
+backfill_skills.py:93: response = client.messages.create(
+build_importer.py:22: import anthropic
+build_importer.py:69: msg = client.messages.create(
+build_importer.py:85: key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
+build_importer.py:86: client = anthropic.Anthropic(api_key=key)
+build_importer.py:510: api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+check_gpt_ready.py:15: print("\n=== structurer.py _call_anthropic 全体 ===")
+check_gpt_ready.py:20: if "def _call_anthropic" in l:
+check_gpt_ready.py:24: if in_func and i > 89 and l.strip().startswith("def ") and "_call_anthropic" not in l:
+check_importer_full.py:10: libs = ['openpyxl', 'pdfplumber', 'docx', 'anthropic', 'playwright']
+check_matching_structure.py:13: if any(kw in line for kw in ['client.messages', 'anthropic', 'for ', 'while ', 'batch', 'engineer', 'project']
+check_matching_structure.py:14: if any(kw in line for kw in ['client.messages', 'for ', 'batch']):
+check_model_usage.py:11: api_calls = [l for l in lines if "HTTP Request: POST" in l and "anthropic" in l]
+consult_arch.py:1: import sys, io, anthropic
+consult_arch.py:7: client = anthropic.Anthropic(api_key=cfg["ANTHROPIC_API_KEY"])
+consult_arch.py:38: response = client.messages.create(
+debug_matching_reply.py:11: os.environ.setdefault("ANTHROPIC_API_KEY", "dummy")
+final_audit.py:16: if 'call_claude(' in line or 'anthropic.com/v1/messages' in line:
+final_check_all.py:77: required_keys = ["NOTION_API_KEY","NOTION_ENGINEER_DB_ID","ANTHROPIC_API_KEY","LINE_CHANNEL_ACCESS_TOKEN"]
+find_logs.py:12: base2 = os.path.expandvars(r"%LOCALAPPDATA%\AnthropicClaude")
+find_logs.py:18: print("AnthropicClaude folder not found")
+fix_existing_skills.py:9: anthropic_key = env.get('ANTHROPIC_API_KEY')
+fix_existing_skills.py:59: "https://api.anthropic.com/v1/messages",
+fix_existing_skills.py:60: headers={"x-api-key": anthropic_key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+fix_indent.py:14: fixed_lines.append('    # [GPT切替] モデル名でAnthropicとOpenAIを振り分け')
+fix_indent.py:22: fixed_lines.append('        response = _call_anthropic(prompt_text, model, cfg)')
+fix_indent.py:39: '    # OpenAI: prompt_tokens/completion_tokens, Anthropic: input_tokens/output_tokens\n'
+fix_indent.py:54: print("OK: usage token取得 OpenAI/Anthropic両対応")
+model_test.py:4: key = config.get('ANTHROPIC_API_KEY','')
+model_test.py:5: res = requests.post('https://api.anthropic.com/v1/messages',
+model_test.py:6: headers={'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json'},
+patch_config_cg.py:12: new_model = 'DEFAULT_STRUCTURER_MODEL = "gpt-4o-mini"  # [GPT切替] Anthropic月次上限のためGPTに変更'
+patch_skill_judge.py:39: OLD2 = '    api_key = os.environ["ANTHROPIC_API_KEY"]\n    client = Anthropic(api_key=api_key)\n\n    prompt =
+patch_skill_judge.py:40: NEW2 = '''    api_key = os.environ["ANTHROPIC_API_KEY"]
+patch_skill_judge.py:41: client = Anthropic(api_key=api_key)
+patch_structurer_1.py:13: old_call_anthropic = '''def _call_anthropic(prompt_text: str, model: str, config: Config):
+patch_structurer_1.py:15: import anthropic
+patch_structurer_1.py:17: raise RuntimeError("anthropic package is required") from exc
+patch_structurer_1.py:18: api_key = config.anthropic_api_key
+patch_structurer_1.py:20: raise ValueError("ANTHROPIC_API_KEY is required")
+patch_structurer_1.py:21: client = anthropic.Anthropic(api_key=api_key)
+patch_structurer_1.py:22: return client.messages.create(
+patch_structurer_1.py:30: new_call_funcs = '''def _call_anthropic(prompt_text: str, model: str, config: Config):
+patch_structurer_1.py:32: import anthropic
+patch_structurer_1.py:34: raise RuntimeError("anthropic package is required") from exc
+patch_structurer_1.py:35: api_key = config.anthropic_api_key
+patch_structurer_1.py:37: raise ValueError("ANTHROPIC_API_KEY is required")
+patch_structurer_1.py:38: client = anthropic.Anthropic(api_key=api_key)
+patch_structurer_1.py:39: return client.messages.create(
+patch_structurer_1.py:68: if old_call_anthropic in text:
+patch_structurer_1.py:69: text = text.replace(old_call_anthropic, new_call_funcs)
+patch_structurer_1.py:72: print("NG: _call_anthropic 置換対象見つからない")
+patch_structurer_2.py:46: old_structurize_call = "response = _call_anthropic(prompt_text, model, cfg)"
+patch_structurer_2.py:48: "# [GPT切替] モデル名でAnthropicとOpenAIを振り分け\n"
+patch_structurer_2.py:52: "            response = _call_anthropic(prompt_text, model, cfg)"
+patch_structurer_2.py:62: if "_call_anthropic" in l or "_call_openai" in l:
+test_backfill.py:9: from anthropic import Anthropic
+test_backfill.py:19: ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+test_backfill.py:27: client = Anthropic(api_key=ANTHROPIC_API_KEY)
+test_backfill.py:72: response = client.messages.create(
+test_matching_reply.py:13: os.environ.setdefault("ANTHROPIC_API_KEY", "dummy")
+update_wiki2.py:15: {"bulleted_list_item": {"rich_text": [t("コスト: 月$107（20営業日）。1日$6上限/月$140上限/Anthropic側$140のSpend Limit設定必須。")]},
+update_wiki2.py:17: {"bulleted_list_item": {"rich_text": [t("暴走防止: 5重+3防御壁（processed_id/回数上限/日次コスト/月次コスト/本文長制限/二重起動ロック/推定コスト予約/Ant
+write_spec_v4.py:44: import anthropic, json, os
+write_spec_v4.py:45: api_key = os.environ.get("ANTHROPIC_API_KEY")
+write_spec_v4.py:48: client = anthropic.Anthropic(api_key=api_key)
+write_spec_v4.py:50: response = client.messages.create(
+_cost_audit_2.py:62: w("\n=== ANTHROPIC API CALL SITES (active, non-comment) ===")
+_cost_audit_2.py:73: if ("messages.create" in s or "client.messages" in s or "anthropic" in s.lower()) and not s.startswith("#"):
+importer.py:119: api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+text_parser.py:7: import anthropic
+text_parser.py:54: msg = client.messages.create(
+text_parser.py:70: key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
+text_parser.py:71: client = anthropic.Anthropic(api_key=key)
+double_check.py:28: ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+double_check.py:94: "https://api.anthropic.com/v1/messages",
+double_check.py:96: "x-api-key": ANTHROPIC_API_KEY,
+double_check.py:97: "anthropic-version": "2023-06-01",
+skill_extractor.py:14: ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+skill_extractor.py:147: "https://api.anthropic.com/v1/messages",
+skill_extractor.py:148: headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"
+update_req.py:6: additions = ['jpholiday', 'python-dateutil', 'anthropic']
+webhook_clean.py:41: ANTHROPIC_API_KEY      = os.environ.get('ANTHROPIC_API_KEY', '')
+webhook_clean.py:91: "https://api.anthropic.com/v1/messages",
+webhook_clean.py:93: "x-api-key": ANTHROPIC_API_KEY,
+webhook_clean.py:94: "anthropic-version": "2023-06-01",
+webhook_server.py:62: ANTHROPIC_API_KEY      = os.environ.get('ANTHROPIC_API_KEY', '')
+webhook_server.py:170: "https://api.anthropic.com/v1/messages",
+webhook_server.py:172: headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"
+webhook_server.py:1368: "https://api.anthropic.com/v1/messages",
+webhook_server.py:1369: headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"
+write_webhook.py:41: ANTHROPIC_API_KEY      = os.environ.get(\\'ANTHROPIC_API_KEY\\', \\'\\')
+write_webhook.py:91: "https://api.anthropic.com/v1/messages",
+write_webhook.py:93: "x-api-key": ANTHROPIC_API_KEY,
+write_webhook.py:94: "anthropic-version": "2023-06-01",
+patch_0528.py:108: "https://api.anthropic.com/v1/messages",
+patch_0528.py:109: headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"
+ai_extractor.py:79: import anthropic
+ai_extractor.py:92: api_key = os.environ.get("ANTHROPIC_API_KEY")
+ai_extractor.py:96: client = anthropic.Anthropic(api_key=api_key)
+ai_extractor.py:99: response = client.messages.create(
+ai_extractor.py:129: import anthropic
+ai_extractor.py:131: api_key = os.environ.get("ANTHROPIC_API_KEY")
+ai_extractor.py:133: raise ValueError("ANTHROPIC_API_KEY が .env に設定されていません")
+ai_extractor.py:135: client = anthropic.Anthropic(api_key=api_key)
+ai_extractor.py:141: response = client.messages.create(
+ai_extractor.py:179: import anthropic
+ai_extractor.py:181: api_key = os.environ.get("ANTHROPIC_API_KEY")
+ai_extractor.py:183: raise ValueError("ANTHROPIC_API_KEY が .env に設定されていません")
+ai_extractor.py:185: client = anthropic.Anthropic(api_key=api_key)
+ai_extractor.py:191: response = client.messages.create(
+update_tasks.py:8: - [x] 必要ライブラリインストール（openpyxl / pdfplumber / python-docx / anthropic / python-dotenv）← 完了 2026-05-13
+mail_pipeline.py:78: ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+mail_pipeline.py:436: "https://api.anthropic.com/v1/messages",
+mail_pipeline.py:438: "x-api-key": ANTHROPIC_KEY,
+mail_pipeline.py:439: "anthropic-version": "2023-06-01",
+mail_pipeline.py:496: "x-api-key": ANTHROPIC_KEY,
+mail_pipeline.py:497: "anthropic-version": "2023-06-01",
+mail_pipeline.py:498: "anthropic-beta": "message-batches-2024-09-24",
+mail_pipeline.py:549: "https://api.anthropic.com/v1/messages/batches",
+mail_pipeline.py:561: f"https://api.anthropic.com/v1/messages/batches/{batch_id}",
+mail_pipeline.py:575: f"https://api.anthropic.com/v1/messages/batches/{batch_id}/results",
+mail_pipeline.py:593: if not ANTHROPIC_KEY:
+mail_pipeline.py:594: log("  Batch APIスキップ: ANTHROPIC_API_KEY未設定")
+mail_pipeline.py:676: if not ANTHROPIC_KEY or not body:
+mail_pipeline_test1.py:40: ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+mail_pipeline_test1.py:256: "https://api.anthropic.com/v1/messages",
+mail_pipeline_test1.py:258: "x-api-key": ANTHROPIC_KEY,
+mail_pipeline_test1.py:259: "anthropic-version": "2023-06-01",
+matching_v2.py:357: key for key in ["NOTION_API_KEY", "NOTION_ENGINEER_DB_ID", "ANTHROPIC_API_KEY"]
+matching_v2.py:365: if not os.environ.get("ANTHROPIC_API_KEY"):
+matching_v2.py:366: raise RuntimeError("必要な環境変数が未設定です: ANTHROPIC_API_KEY")
+skill_judge.py:16: from anthropic import Anthropic
+skill_judge.py:17: from anthropic import NotFoundError
+skill_judge.py:18: from anthropic import RateLimitError
+skill_judge.py:46: os.environ.get("ANTHROPIC_MIN_INTERVAL_SECONDS", "1.4")
+skill_judge.py:111: raise RuntimeError("Anthropic APIで利用可能なモデルが見つかりません")
+skill_judge.py:130: return client.messages.create(
+skill_judge.py:165: model_name = os.environ.get("ANTHROPIC_MODEL") or _SELECTED_MODEL or MODEL_NAME
+skill_judge.py:222: api_key = os.environ["ANTHROPIC_API_KEY"]
+skill_judge.py:223: client = Anthropic(api_key=api_key)
+skill_judge.py:276: api_key = os.environ["ANTHROPIC_API_KEY"]
+skill_judge.py:277: client = Anthropic(api_key=api_key)
+config.py:17: DEFAULT_STRUCTURER_MODEL = "gpt-4.1-nano"  # [GPT切替] Anthropic月次上限のためGPTに変更（nano: few-shot付きで精度8/8確認済み）
+config.py:41: def anthropic_api_key(self) -> str | None:
+config.py:42: return self.get("ANTHROPIC_API_KEY")
+structurer.py:54: response = _call_anthropic(prompt_text, model, cfg)
+structurer.py:105: def _call_anthropic(prompt_text: str, model: str, config: Config):
+structurer.py:107: import anthropic
+structurer.py:109: raise RuntimeError("anthropic package is required") from exc
+structurer.py:110: api_key = config.anthropic_api_key
+structurer.py:112: raise ValueError("ANTHROPIC_API_KEY is required")
+structurer.py:113: client = anthropic.Anthropic(api_key=api_key)
+structurer.py:114: return client.messages.create(
+test_structurer.py:25: anthropic_api_key = "secret"
+test_structurer.py:40: with patch("structurer._call_anthropic", return_value=_response(json.dumps(expected, ensure_ascii=False))):
+outlook_to_notion.py:52: ANTHROPIC_API_KEY     = os.environ.get('ANTHROPIC_API_KEY', '')
+outlook_to_notion.py:105: "https://api.anthropic.com/v1/messages",
+outlook_to_notion.py:107: "x-api-key": ANTHROPIC_API_KEY,
+outlook_to_notion.py:108: "anthropic-version": "2023-06-01",
+pipeline.py:11: from skill_autofill import autofill_skills, load_anthropic_api_key
+pipeline.py:58: api_key = load_anthropic_api_key()
+skill_autofill.py:7: from anthropic import Anthropic
+skill_autofill.py:68: def load_anthropic_api_key() -> str:
+skill_autofill.py:70: api_key = config.get("ANTHROPIC_API_KEY")
+skill_autofill.py:72: raise RuntimeError(f"ANTHROPIC_API_KEY is not set in {ENV_PATH}")
+skill_autofill.py:116: client = Anthropic(api_key=api_key)
+skill_autofill.py:117: response = client.messages.create(
+reply_parser.py:20: ANTHROPIC_VERSION = "2023-06-01"
+reply_parser.py:123: "anthropic-version": ANTHROPIC_VERSION,
+reply_parser.py:127: "https://api.anthropic.com/v1/messages",
+reply_parser.py:230: if use_claude and cfg.get("ANTHROPIC_API_KEY"):
+reply_parser.py:232: parsed = call_claude(body, cfg["ANTHROPIC_API_KEY"])
+step5_proposal.py:37: if cfg.get("ANTHROPIC_API_KEY"):
+skill_reader.py:13: import anthropic
+skill_reader.py:23: ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+skill_reader.py:93: client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+skill_reader.py:94: msg = client.messages.create(
+skill_reader.py:104: client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+skill_reader.py:105: msg = client.messages.create(
+check_mail2.py:16: for m in re.finditer(r'anthropic|client\.messages|log_cost|Anthropic', content, re.IGNORECASE):
+check_mail_pipeline.py:8: for m in re.finditer(r'anthropic|client\.messages|log_cost|usage', content, re.IGNORECASE):
+check_matching.py:5: hits = [(m.start(), content[max(0,m.start()-100):m.start()+200]) for m in re.finditer(r'client\.messages\.crea
+check_notify.py:8: hits = [m.start() for m in re.finditer(r'anthropic|log_cost|Anthropic', content, re.IGNORECASE)]
+build_importer.py:22: import anthropic
+build_importer.py:69: msg = client.messages.create(
+build_importer.py:85: key = api_key or os.environ.get("ANTHROPIC_API_KEY", "")
+build_importer.py:86: client = anthropic.Anthropic(api_key=key)
+build_importer.py:510: api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+consult_arch.py:1: import sys, io, anthropic
+consult_arch.py:7: client = anthropic.Anthropic(api_key=cfg["ANTHROPIC_API_KEY"])
+consult_arch.py:38: response = client.messages.create(
+debug_matching_reply.py:11: os.environ.setdefault("ANTHROPIC_API_KEY", "dummy")
+find_logs.py:12: base2 = os.path.expandvars(r"%LOCALAPPDATA%\AnthropicClaude")
+find_logs.py:18: print("AnthropicClaude folder not found")
+patch_skill_judge.py:39: OLD2 = '    api_key = os.environ["ANTHROPIC_API_KEY"]\n    client = Anthropic(api_key=api_key)\n\n    prompt =
+patch_skill_judge.py:40: NEW2 = '''    api_key = os.environ["ANTHROPIC_API_KEY"]
+patch_skill_judge.py:41: client = Anthropic(api_key=api_key)
+test_matching_reply.py:13: os.environ.setdefault("ANTHROPIC_API_KEY", "dummy")
+write_spec_v4.py:44: import anthropic, json, os
+write_spec_v4.py:45: api_key = os.environ.get("ANTHROPIC_API_KEY")
+write_spec_v4.py:48: client = anthropic.Anthropic(api_key=api_key)
+write_spec_v4.py:50: response = client.messages.create(

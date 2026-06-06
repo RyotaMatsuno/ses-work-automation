@@ -110,6 +110,8 @@ def fetch_all_pages(db_id: str, filter_body: dict = None) -> list[dict]:
 
 
 def business_days_since(dt) -> int:
+    if dt is None:
+        return 0
     if isinstance(dt, str):
         start_date = parser.isoparse(dt).date()
     elif isinstance(dt, datetime):
@@ -344,7 +346,7 @@ def engineer_query(initial: str, station: str) -> str:
         for project in projects:
             if _select_prop(project, PROP_STATUS) not in (VAL_RECRUITING, VAL_ADJUSTING):
                 continue
-            if business_days_since(project.get("last_edited_time")) > 4:
+            if business_days_since(project.get("created_time")) > 4:
                 continue
             required = _multi_select_prop(project, PROP_REQSK)
             if not required:
@@ -354,11 +356,14 @@ def engineer_query(initial: str, station: str) -> str:
             budget = _number_prop(project, PROP_RATE)
             if budget > 150:
                 continue  # 異常単価除外
+            _th = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
             gross  = calc_gross_profit(budget, eng_rate)
             if gross > 15:
                 continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
             if gross < 0:
                 continue  # 粗利マイナス=交渉しても利益見込めない
+            if gross < _th:
+                continue
             matched.append({"page": project, "gross_profit": gross})
         matched.sort(key=lambda x: x["gross_profit"], reverse=True)
         # 詳細照会用にキャッシュ保存
@@ -384,7 +389,7 @@ def project_query(name: str) -> str:
     for eng in engineers:
         if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
             continue
-        if business_days_since(eng.get("last_edited_time")) > 21:
+        if business_days_since(eng.get("created_time")) > 21:
             continue
         if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
             continue
@@ -393,6 +398,8 @@ def project_query(name: str) -> str:
             continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
         if gross < 0:
             continue  # 粗利マイナス=交渉しても利益見込めない
+        if gross < threshold:
+            continue
         matched_engs.append({"page": eng, "gross_profit": gross})
     matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
     _LAST_ENG_RESULTS["latest"] = matched_engs
@@ -435,7 +442,7 @@ def format_project_result(engineer: dict, projects: list) -> str:
         period   = _text_prop(pj, PROP_PERIOD)
         budget   = _number_prop(pj, PROP_RATE)
         gross    = item["gross_profit"]
-        age      = business_days_since(pj.get("last_edited_time"))
+        age      = business_days_since(pj.get("created_time"))
         assignee = _select_prop(pj, PROP_ASSIGNEE)
         raw_detail = _text_prop(pj, PROP_PJDETAIL)
 
@@ -473,7 +480,7 @@ def format_engineer_result(project: dict, engineers: list) -> str:
             f"{_num_label(idx)}{_text_prop(eng, PROP_NAME)}\uff5c{_text_prop(eng, PROP_STA)}",
             f"  \u30b9\u30ad\u30eb: {_join(_multi_select_prop(eng, PROP_SKILL))}",
             f"  \u7a3c\u50cd: {_select_prop(eng, PROP_WORKST)} / \u5358\u4fa1: {_format_number(_number_prop(eng, PROP_RATE))}\u4e07 / \u7c97\u5229: {_format_number(item['gross_profit'])}\u4e07",
-            f"  \u7a3c\u50cd\u53ef: {_date_prop(eng, PROP_WORKON) or '\u672a\u8a2d\u5b9a'} / \u9256\u5ea6: {business_days_since(eng.get('last_edited_time'))}\u65e5\u524d",
+            f"  \u7a3c\u50cd\u53ef: {_date_prop(eng, PROP_WORKON) or '\u672a\u8a2d\u5b9a'} / \u9256\u5ea6: {business_days_since(eng.get('created_time'))}\u65e5\u524d",
             f"  \u6240\u5c5e: {_text_prop(eng, PROP_AFFIL)} / {_text_prop(eng, PROP_AFFIL_CONT)} / {_text_prop(eng, PROP_AFFIL_MAIL)}",
         ])
     if len(engineers) > 10:
@@ -642,7 +649,7 @@ def format_project_detail(project_item: dict, num_str: str) -> str:
     remote   = _select_prop(pj, PROP_REMOTE)
     period   = _text_prop(pj, PROP_PERIOD)
     budget   = _number_prop(pj, PROP_RATE)
-    age      = business_days_since(pj.get("last_edited_time"))
+    age      = business_days_since(pj.get("created_time"))
     assignee = _select_prop(pj, PROP_ASSIGNEE)
     detail   = _text_prop(pj, PROP_PJDETAIL)
 
@@ -668,7 +675,7 @@ def format_engineer_detail(eng_item: dict, idx: int) -> str:
         f"【詳細 {idx}】{_text_prop(eng, PROP_NAME)}｜{_text_prop(eng, PROP_STA)}",
         f"スキル: {_join(_multi_select_prop(eng, PROP_SKILL))}",
         f"稼働: {_select_prop(eng, PROP_WORKST)} / 単価: {_format_number(_number_prop(eng, PROP_RATE))}万 / 粗利: {_format_number(gross)}万",
-        f"稼働可能: {_date_prop(eng, PROP_WORKON) or '未設定'} / 鮮度: {business_days_since(eng.get('last_edited_time'))}日前",
+        f"稼働可能: {_date_prop(eng, PROP_WORKON) or '未設定'} / 鮮度: {business_days_since(eng.get('created_time'))}日前",
         f"所属: {_text_prop(eng, PROP_AFFIL)} / {_text_prop(eng, PROP_AFFIL_CONT)} / {_text_prop(eng, PROP_AFFIL_MAIL)}",
     ]
     if raw_info:

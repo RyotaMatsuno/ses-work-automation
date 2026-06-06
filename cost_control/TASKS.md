@@ -28,3 +28,10 @@
 - [ ] 上限解除後72時間の実APIコストを計測（目標 $1未満/日）
 - [ ] ledger の DAILY/MONTHLY 値を実測に合わせ本調整
 - [ ] SESナレッジWikiに事故記録と恒久対策を追記
+
+## Phase 3a — 監査指摘修正
+- [x] F2: 現役importerにledgerガードとTEXT_MODEL参照を適用
+- [x] F3: LINE照会の鮮度判定をcreated_time基準へ変更
+- [x] F6: 担当者別の粗利下限を適用
+- [x] F8: mail_pipelineのFETCH_LIMITを200へ低減
+- [x] F10: 処理済みIDの読み書き失敗を記録し、破損時は処理中断

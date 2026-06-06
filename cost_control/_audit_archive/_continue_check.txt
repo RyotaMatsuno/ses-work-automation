@@ -1,0 +1,43 @@
+=== FINALIZER REPORT ===
+18:58:58 FINALIZER START - waiting for prune UPDATE DONE
+19:39:58 prune finished: 19:39:54 UPDATE DONE updated=1636 err=1 total=1637 完了
+19:41:38 募集中 件数(プルーニング後)= 4066 (pages=41)
+19:41:38 SES_MatchingV3 re-enable rc=0
+19:41:38   v3 次回の実行時刻:  2026/06/05 21:00:00
+19:41:38   v3 状態:            準備完了
+19:41:38 FINALIZER DONE
+
+=== PRUNE tail3 ===
+19:33:53 updated=1499 err=1 / 1637
+19:38:11 updated=1599 err=1 / 1637
+19:39:54 UPDATE DONE updated=1636 err=1 total=1637 完了
+
+=== pipeline.log: broadcast filter activity (tail) ===
+  最新起動行: (なし)
+  配信除外ログ件数(tail): 0
+  分類対象サマリ行(最新3):
+
+=== double_check 利用箇所 (who imports/calls) ===
+  \final_audit.py:26: out.write("\n=== [3] run_double_check残存確認 ===\n")
+  \final_audit.py:28: if 'run_double_check' in line:
+  \final_audit.py:30: if not any('run_double_check' in l for l in lines if 'def run_double_check' in l):
+  \final_audit.py:31: out.write("  -> def run_double_check 関数定義なし OK\n")
+  \_continue_check.py:34: w("\n=== double_check 利用箇所 (who imports/calls) ===")
+  \_continue_check.py:44: if "double_check" in l.lower() and ("import" in l or "from" in l or "double_check(" in l.lower() or "run_doubl
+  \line_webhook\patch_v10.py:15: def run_double_check(proposal_text, candidates_info):
+  \line_webhook\patch_v10.py:34: print(f"[run_double_check] parse error: {e}")
+  \line_webhook\patch_v10.py:39: if 'run_double_check' not in content:
+  \line_webhook\patch_v10.py:41: print("run_double_check 追加済み")
+  \line_webhook\patch_v10.py:43: print("run_double_check 既存")
+  \line_webhook\patch_v10.py:48: dc_ok, dc_issues, draft = run_double_check(draft, cand_info)
+  \line_webhook\patch_v10.py:81: print(f"v10: {'v10' in content[:100]}, run_double_check: {'run_double_check' in content}, DC_block: {'ダブルチェック'
+  \line_webhook\webhook_clean.py:142: def run_double_check(proj_name: str, proposal: str, candidates: list) -> tuple:
+  \line_webhook\webhook_clean.py:331: is_ok, check_result, final_proposal = run_double_check(proj_name, proposal_draft, candidates)
+  \line_webhook\write_webhook.py:142: def run_double_check(proj_name: str, proposal: str, candidates: list) -> tuple:
+  \line_webhook\write_webhook.py:347: is_ok, check_result, final_proposal = run_double_check(proj_name, proposal_draft, candidates)
+  \mail_pipeline\mail_pipeline.py:798: def double_check(text: str) -> str:
+  \mail_pipeline\mail_pipeline.py:1202: check_result = double_check(check_input)
+  \mail_pipeline\mail_pipeline_test1.py:322: def double_check(text: str) -> str:
+  \mail_pipeline\mail_pipeline_test1.py:529: check_result = double_check(check_input)
+  -- 参照箇所: 21件
+  double_check関連タスク: ['"\\freee_payment_check_15","2026/06/15 8:00:00","準備完了"', '"\\freee_payment_check_eom","2026/06/28 8:00:00","準備完了"', '"\\Hewlett-Packard\\HP Support Assistant\\WarrantyChecker","2027/01/11 18:50:47","準備完了"', '"\\Microsoft\\Windows\\AppID\\VerifiedPublisherCertStoreCheck","N/A","準備完了"', '"\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Check And Scan","2026/06/05 23:12:00","準備完了"', '"\\Microsoft\\Windows\\Data Integrity Scan\\Data Integrity Check And Scan","2026/06/05 23:53:25","準備完了"', '"\\Microsoft\\Windows\\Workplace Join\\Recovery-Check","N/A","無効"', '"\\Microsoft\\Windows\\Workplace Join\\Recovery-Check","N/A","無効"']

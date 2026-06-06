@@ -1,0 +1,206 @@
+=== COST LEDGER FILES ===
+
+FILE: \usage_tracker\cost_log.jsonl  (147 lines)
+   {"ts": "2026-05-27T04:06:41", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1038, "output_tokens": 376, "cached_tokens": 0, "cost_usd": 0.008754}
+   {"ts": "2026-05-27T04:06:42", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 848, "output_tokens": 19, "cached_tokens": 0, "cost_usd": 0.002829}
+   {"ts": "2026-05-27T04:06:53", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 212, "output_tokens": 160, "cached_tokens": 0, "cost_usd": 0.003036}
+   {"ts": "2026-05-27T04:06:56", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 216, "output_tokens": 134, "cached_tokens": 0, "cost_usd": 0.002658}
+   {"ts": "2026-05-27T04:07:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 230, "output_tokens": 166, "cached_tokens": 0, "cost_usd": 0.00318}
+   {"ts": "2026-05-27T04:07:06", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1292, "output_tokens": 299, "cached_tokens": 0, "cost_usd": 0.008361}
+   {"ts": "2026-05-27T04:07:09", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1115, "output_tokens": 18, "cached_tokens": 0, "cost_usd": 0.003615}
+   {"ts": "2026-05-27T04:07:12", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 210, "output_tokens": 123, "cached_tokens": 0, "cost_usd": 0.002475}
+   {"ts": "2026-05-27T04:07:40", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 2344, "output_tokens": 2000, "cached_tokens": 0, "cost_usd": 0.037032}
+   {"ts": "2026-05-27T04:07:46", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1165, "output_tokens": 345, "cached_tokens": 0, "cost_usd": 0.00867}
+   {"ts": "2026-05-27T04:07:47", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 973, "output_tokens": 10, "cached_tokens": 0, "cost_usd": 0.003069}
+   {"ts": "2026-05-27T04:08:05", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1320, "output_tokens": 674, "cached_tokens": 0, "cost_usd": 0.01407}
+   {"ts": "2026-05-27T04:08:06", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1151, "output_tokens": 16, "cached_tokens": 0, "cost_usd": 0.003693}
+   {"ts": "2026-05-27T04:08:11", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1289, "output_tokens": 226, "cached_tokens": 0, "cost_usd": 0.007257}
+   {"ts": "2026-05-27T04:08:12", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1104, "output_tokens": 15, "cached_tokens": 0, "cost_usd": 0.003537}
+   {"ts": "2026-05-27T04:08:23", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1667, "output_tokens": 363, "cached_tokens": 0, "cost_usd": 0.010446}
+   {"ts": "2026-05-27T04:08:24", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1465, "output_tokens": 17, "cached_tokens": 0, "cost_usd": 0.00465}
+   {"ts": "2026-05-27T04:08:35", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 2105, "output_tokens": 411, "cached_tokens": 0, "cost_usd": 0.01248}
+   {"ts": "2026-05-27T04:08:36", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1681, "output_tokens": 17, "cached_tokens": 0, "cost_usd": 0.005298}
+   {"ts": "2026-05-27T04:08:50", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 883, "output_tokens": 181, "cached_tokens": 0, "cost_usd": 0.005364}
+   {"ts": "2026-05-27T04:08:52", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 709, "output_tokens": 14, "cached_tokens": 0, "cost_usd": 0.002337}
+   {"ts": "2026-05-27T04:08:59", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1059, "output_tokens": 425, "cached_tokens": 0, "cost_usd": 0.009552}
+   {"ts": "2026-05-27T04:09:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 868, "output_tokens": 9, "cached_tokens": 0, "cost_usd": 0.002739}
+   {"ts": "2026-05-27T10:09:22", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 231, "output_tokens": 139, "cached_tokens": 0, "cost_usd": 0.0007408}
+   {"ts": "2026-05-27T10:09:24", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 222, "output_tokens": 88, "cached_tokens": 0, "cost_usd": 0.0005296}
+
+FILE: \usage_tracker\cost_log_archive_2026-05.jsonl  (3 lines)
+   {"ts": "2026-05-25T04:47:22", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 5000, "output_tokens": 800, "cached_tokens": 3000, "cost_usd": 0.00072}
+   {"ts": "2026-05-25T04:47:22", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 4200, "output_tokens": 650, "cached_tokens": 2800, "cost_usd": 0.00061}
+   {"ts": "2026-05-25T04:47:22", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1200, "output_tokens": 300, "cached_tokens": 0, "cost_usd": 0.00217}
+
+FILE: \usage_tracker\cost_log_archive_2026-06.jsonl  (17621 lines)
+   {"ts": "2026-06-02T23:57:50", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 6523, "output_tokens": 1306, "cached_tokens": 0, "cost_usd": 0.0104424}
+   {"ts": "2026-06-02T23:57:52", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 770, "output_tokens": 262, "cached_tokens": 0, "cost_usd": 0.001664}
+   {"ts": "2026-06-02T23:58:00", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15427, "output_tokens": 1136, "cached_tokens": 0, "cost_usd": 0.0168856}
+   {"ts": "2026-06-02T23:58:03", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 900, "output_tokens": 608, "cached_tokens": 0, "cost_usd": 0.003152}
+   {"ts": "2026-06-02T23:58:12", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17158, "output_tokens": 1826, "cached_tokens": 0, "cost_usd": 0.0210304}
+   {"ts": "2026-06-02T23:58:18", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 936, "output_tokens": 1597, "cached_tokens": 0, "cost_usd": 0.0071368}
+   {"ts": "2026-06-02T23:58:23", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 818, "output_tokens": 996, "cached_tokens": 0, "cost_usd": 0.0046384}
+   {"ts": "2026-06-02T23:58:31", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15440, "output_tokens": 1483, "cached_tokens": 0, "cost_usd": 0.018284}
+   {"ts": "2026-06-02T23:58:35", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 883, "output_tokens": 1082, "cached_tokens": 0, "cost_usd": 0.0050344}
+   {"ts": "2026-06-02T23:58:43", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 10023, "output_tokens": 1136, "cached_tokens": 0, "cost_usd": 0.0125624}
+   {"ts": "2026-06-02T23:58:45", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 883, "output_tokens": 536, "cached_tokens": 0, "cost_usd": 0.0028504}
+   {"ts": "2026-06-02T23:58:54", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15434, "output_tokens": 1406, "cached_tokens": 0, "cost_usd": 0.0179712}
+   {"ts": "2026-06-02T23:58:59", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1724, "output_tokens": 26, "cached_tokens": 0, "cost_usd": 0.0014832}
+   {"ts": "2026-06-02T23:58:59", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 948, "output_tokens": 1197, "cached_tokens": 0, "cost_usd": 0.0055464}
+   {"ts": "2026-06-02T23:59:06", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17155, "output_tokens": 1360, "cached_tokens": 0, "cost_usd": 0.019164}
+   {"ts": "2026-06-02T23:59:13", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 947, "output_tokens": 1455, "cached_tokens": 0, "cost_usd": 0.0065776}
+   {"ts": "2026-06-02T23:59:16", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 786, "output_tokens": 658, "cached_tokens": 0, "cost_usd": 0.0032608}
+   {"ts": "2026-06-02T23:59:24", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17153, "output_tokens": 1196, "cached_tokens": 0, "cost_usd": 0.0185064}
+   {"ts": "2026-06-02T23:59:28", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 927, "output_tokens": 922, "cached_tokens": 0, "cost_usd": 0.0044296}
+   {"ts": "2026-06-02T23:59:35", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15427, "output_tokens": 1122, "cached_tokens": 0, "cost_usd": 0.0168296}
+   {"ts": "2026-06-02T23:59:38", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 938, "output_tokens": 613, "cached_tokens": 0, "cost_usd": 0.0032024}
+   {"ts": "2026-06-02T23:59:48", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15434, "output_tokens": 1810, "cached_tokens": 0, "cost_usd": 0.0195872}
+   {"ts": "2026-06-02T23:59:53", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 939, "output_tokens": 1174, "cached_tokens": 0, "cost_usd": 0.0054472}
+   {"ts": "2026-06-02T23:59:55", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 684, "output_tokens": 186, "cached_tokens": 0, "cost_usd": 0.0012912}
+   {"ts": "2026-06-02T23:59:58", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1697, "output_tokens": 20, "cached_tokens": 0, "cost_usd": 0.0014376}
+
+FILE: \usage_tracker\cost_log_archive_202605.jsonl  (1 lines)
+   {"ts": "2026-05-25T09:00:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 100, "output_tokens": 20, "cached_tokens": 0, "cost_usd": 0.0006}
+
+FILE: \usage_tracker\cost_log.jsonl  (147 lines)
+   {"ts": "2026-05-27T04:06:41", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1038, "output_tokens": 376, "cached_tokens": 0, "cost_usd": 0.008754}
+   {"ts": "2026-05-27T04:06:42", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 848, "output_tokens": 19, "cached_tokens": 0, "cost_usd": 0.002829}
+   {"ts": "2026-05-27T04:06:53", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 212, "output_tokens": 160, "cached_tokens": 0, "cost_usd": 0.003036}
+   {"ts": "2026-05-27T04:06:56", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 216, "output_tokens": 134, "cached_tokens": 0, "cost_usd": 0.002658}
+   {"ts": "2026-05-27T04:07:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 230, "output_tokens": 166, "cached_tokens": 0, "cost_usd": 0.00318}
+   {"ts": "2026-05-27T04:07:06", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1292, "output_tokens": 299, "cached_tokens": 0, "cost_usd": 0.008361}
+   {"ts": "2026-05-27T04:07:09", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1115, "output_tokens": 18, "cached_tokens": 0, "cost_usd": 0.003615}
+   {"ts": "2026-05-27T04:07:12", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 210, "output_tokens": 123, "cached_tokens": 0, "cost_usd": 0.002475}
+   {"ts": "2026-05-27T04:07:40", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 2344, "output_tokens": 2000, "cached_tokens": 0, "cost_usd": 0.037032}
+   {"ts": "2026-05-27T04:07:46", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1165, "output_tokens": 345, "cached_tokens": 0, "cost_usd": 0.00867}
+   {"ts": "2026-05-27T04:07:47", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 973, "output_tokens": 10, "cached_tokens": 0, "cost_usd": 0.003069}
+   {"ts": "2026-05-27T04:08:05", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1320, "output_tokens": 674, "cached_tokens": 0, "cost_usd": 0.01407}
+   {"ts": "2026-05-27T04:08:06", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1151, "output_tokens": 16, "cached_tokens": 0, "cost_usd": 0.003693}
+   {"ts": "2026-05-27T04:08:11", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1289, "output_tokens": 226, "cached_tokens": 0, "cost_usd": 0.007257}
+   {"ts": "2026-05-27T04:08:12", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1104, "output_tokens": 15, "cached_tokens": 0, "cost_usd": 0.003537}
+   {"ts": "2026-05-27T04:08:23", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1667, "output_tokens": 363, "cached_tokens": 0, "cost_usd": 0.010446}
+   {"ts": "2026-05-27T04:08:24", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1465, "output_tokens": 17, "cached_tokens": 0, "cost_usd": 0.00465}
+   {"ts": "2026-05-27T04:08:35", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 2105, "output_tokens": 411, "cached_tokens": 0, "cost_usd": 0.01248}
+   {"ts": "2026-05-27T04:08:36", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1681, "output_tokens": 17, "cached_tokens": 0, "cost_usd": 0.005298}
+   {"ts": "2026-05-27T04:08:50", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 883, "output_tokens": 181, "cached_tokens": 0, "cost_usd": 0.005364}
+   {"ts": "2026-05-27T04:08:52", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 709, "output_tokens": 14, "cached_tokens": 0, "cost_usd": 0.002337}
+   {"ts": "2026-05-27T04:08:59", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 1059, "output_tokens": 425, "cached_tokens": 0, "cost_usd": 0.009552}
+   {"ts": "2026-05-27T04:09:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 868, "output_tokens": 9, "cached_tokens": 0, "cost_usd": 0.002739}
+   {"ts": "2026-05-27T10:09:22", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 231, "output_tokens": 139, "cached_tokens": 0, "cost_usd": 0.0007408}
+   {"ts": "2026-05-27T10:09:24", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 222, "output_tokens": 88, "cached_tokens": 0, "cost_usd": 0.0005296}
+
+FILE: \usage_tracker\cost_log_archive_2026-05.jsonl  (3 lines)
+   {"ts": "2026-05-25T04:47:22", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 5000, "output_tokens": 800, "cached_tokens": 3000, "cost_usd": 0.00072}
+   {"ts": "2026-05-25T04:47:22", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 4200, "output_tokens": 650, "cached_tokens": 2800, "cost_usd": 0.00061}
+   {"ts": "2026-05-25T04:47:22", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1200, "output_tokens": 300, "cached_tokens": 0, "cost_usd": 0.00217}
+
+FILE: \usage_tracker\cost_log_archive_2026-06.jsonl  (17621 lines)
+   {"ts": "2026-06-02T23:57:50", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 6523, "output_tokens": 1306, "cached_tokens": 0, "cost_usd": 0.0104424}
+   {"ts": "2026-06-02T23:57:52", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 770, "output_tokens": 262, "cached_tokens": 0, "cost_usd": 0.001664}
+   {"ts": "2026-06-02T23:58:00", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15427, "output_tokens": 1136, "cached_tokens": 0, "cost_usd": 0.0168856}
+   {"ts": "2026-06-02T23:58:03", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 900, "output_tokens": 608, "cached_tokens": 0, "cost_usd": 0.003152}
+   {"ts": "2026-06-02T23:58:12", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17158, "output_tokens": 1826, "cached_tokens": 0, "cost_usd": 0.0210304}
+   {"ts": "2026-06-02T23:58:18", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 936, "output_tokens": 1597, "cached_tokens": 0, "cost_usd": 0.0071368}
+   {"ts": "2026-06-02T23:58:23", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 818, "output_tokens": 996, "cached_tokens": 0, "cost_usd": 0.0046384}
+   {"ts": "2026-06-02T23:58:31", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15440, "output_tokens": 1483, "cached_tokens": 0, "cost_usd": 0.018284}
+   {"ts": "2026-06-02T23:58:35", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 883, "output_tokens": 1082, "cached_tokens": 0, "cost_usd": 0.0050344}
+   {"ts": "2026-06-02T23:58:43", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 10023, "output_tokens": 1136, "cached_tokens": 0, "cost_usd": 0.0125624}
+   {"ts": "2026-06-02T23:58:45", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 883, "output_tokens": 536, "cached_tokens": 0, "cost_usd": 0.0028504}
+   {"ts": "2026-06-02T23:58:54", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15434, "output_tokens": 1406, "cached_tokens": 0, "cost_usd": 0.0179712}
+   {"ts": "2026-06-02T23:58:59", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1724, "output_tokens": 26, "cached_tokens": 0, "cost_usd": 0.0014832}
+   {"ts": "2026-06-02T23:58:59", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 948, "output_tokens": 1197, "cached_tokens": 0, "cost_usd": 0.0055464}
+   {"ts": "2026-06-02T23:59:06", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17155, "output_tokens": 1360, "cached_tokens": 0, "cost_usd": 0.019164}
+   {"ts": "2026-06-02T23:59:13", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 947, "output_tokens": 1455, "cached_tokens": 0, "cost_usd": 0.0065776}
+   {"ts": "2026-06-02T23:59:16", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 786, "output_tokens": 658, "cached_tokens": 0, "cost_usd": 0.0032608}
+   {"ts": "2026-06-02T23:59:24", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 17153, "output_tokens": 1196, "cached_tokens": 0, "cost_usd": 0.0185064}
+   {"ts": "2026-06-02T23:59:28", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 927, "output_tokens": 922, "cached_tokens": 0, "cost_usd": 0.0044296}
+   {"ts": "2026-06-02T23:59:35", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15427, "output_tokens": 1122, "cached_tokens": 0, "cost_usd": 0.0168296}
+   {"ts": "2026-06-02T23:59:38", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 938, "output_tokens": 613, "cached_tokens": 0, "cost_usd": 0.0032024}
+   {"ts": "2026-06-02T23:59:48", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 15434, "output_tokens": 1810, "cached_tokens": 0, "cost_usd": 0.0195872}
+   {"ts": "2026-06-02T23:59:53", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 939, "output_tokens": 1174, "cached_tokens": 0, "cost_usd": 0.0054472}
+   {"ts": "2026-06-02T23:59:55", "script": "matching_v2", "model": "claude-haiku-4-5-20251001", "input_tokens": 684, "output_tokens": 186, "cached_tokens": 0, "cost_usd": 0.0012912}
+   {"ts": "2026-06-02T23:59:58", "script": "mail_pipeline", "model": "claude-haiku-4-5-20251001", "input_tokens": 1697, "output_tokens": 20, "cached_tokens": 0, "cost_usd": 0.0014376}
+
+FILE: \usage_tracker\cost_log_archive_202605.jsonl  (1 lines)
+   {"ts": "2026-05-25T09:00:00", "script": "mail_pipeline", "model": "claude-sonnet-4-6", "input_tokens": 100, "output_tokens": 20, "cached_tokens": 0, "cost_usd": 0.0006}
+
+=== DOES PRODUCTION CODE IMPORT/USE cost_guard? ===
+mail_pipeline.py: NOT FOUND
+
+matching_v2\matching_v2.py: cost_guard用=False
+   PROCESS_LIMIT=[]
+   max_tokens=[]
+   model指定=[]
+   本文truncate候補(body[:N])=[]
+
+matching_v2\skill_judge.py: cost_guard用=False
+   PROCESS_LIMIT=[]
+   max_tokens=['max_tokens=4000']
+   model指定=[]
+   本文truncate候補(body[:N])=[]
+
+=== mail_pipeline.log: TODAY volume + tail ===
+size=53260970 bytes (53.3 MB)
+tail-window lines mentioning 2026-06-05: 0
+   tail kw[件]=4
+   tail kw[error]=361
+   tail kw[スキップ]=1
+   tail kw[新規]=1
+--- last 25 lines ---
+     スキル判定バッチ: 451〜460/671名
+     [WARN] バッチ 451〜460 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 461〜470/671名
+     [WARN] バッチ 461〜470 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 471〜480/671名
+     [WARN] バッチ 471〜480 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 481〜490/671名
+     [WARN] バッチ 481〜490 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 491〜500/671名
+     [WARN] バッチ 491〜500 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 501〜510/671名
+     [WARN] バッチ 501〜510 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 511〜520/671名
+     [WARN] バッチ 511〜520 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 521〜530/671名
+     [WARN] バッチ 521〜530 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 531〜540/671名
+     [WARN] バッチ 531〜540 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 541〜550/671名
+     [WARN] バッチ 541〜550 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 551〜560/671名
+     [WARN] バッチ 551〜560 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 561〜570/671名
+     [WARN] バッチ 561〜570 判定失敗: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'You have reached your specified API usage limits. You will reg
+     スキル判定バッチ: 571〜580/671名
+
+=== daily_report.log tail ===
+   [2026/06/01 11:11:59.06] 日次進捗通知開始 
+   [start] mode=send active_projects=1637
+   [sent] to=松野 status=200 response={"sentMessages":[{"id":"616476512165823018","quoteToken":"gea15SzZVDMQusRnPYktC2PYnHyMB8ly8ohAl4uHRiO8O3EzsKjBPzMDwuu5HZ5gnimTH-Clh6q51eI2_oVZLHpQX
+   [sent] to=岡本 status=200 response={"sentMessages":[{"id":"616476512787104205","quoteToken":"9HqcWw5w_URqUaxesXnhd_7HbJvk2aCMVD9ZKdufUIvqSPI3oXZAs0j1b6h_W7pAZyMswpvq0e5F_yaGKIcl53kkL
+   [done]
+   [2026/06/01 11:12:22.78] 完了 
+   [2026/06/02  8:00:01.96] 日次進捗通知開始 
+   [start] mode=send active_projects=3163
+   [sent] to=松野 status=429 response={"message":"You have reached your monthly limit."}
+   [sent] to=岡本 status=200 response={"sentMessages":[{"id":"616602199853629956","quoteToken":"LMr97gP_AUSt0aejpb8JWvVCZo8fvECLskln6MpTx4uRpvaQi9IuDPPKgiiD01BKewha3yZlMCn3skVyyejJVxdJS
+   [done]
+   [2026/06/02  8:00:54.82] 完了 
+   [2026/06/03  8:00:02.22] 日次進捗通知開始 
+   [start] mode=send active_projects=5381
+   [sent] to=松野 status=429 response={"message":"You have reached your monthly limit."}
+   [sent] to=岡本 status=200 response={"sentMessages":[{"id":"616747236051124548","quoteToken":"7fIVMzpOQ_mBeToQ-17vRE83gmtYPY2Wj1M-ggty3zjQpmQk-c1OrsASo6tkNR4KNW0IvVzfSsg61rRp84OhMI6FD
+   [done]
+   [2026/06/03  8:01:42.85] 完了 
+   [2026/06/04  8:00:01.98] 日次進捗通知開始 
+   [start] mode=send active_projects=5654
+   [sent] to=松野 status=429 response={"message":"You have reached your monthly limit."}
+   [sent] to=岡本 status=200 response={"sentMessages":[{"id":"616892142090715717","quoteToken":"5SwwYceMLif7cOnwR8AbEtkMsrc3UepNVdMwWhT3hLYTPWu6W2_vzy3Zf8v-JSmrT-rfgUO0CFFOphBPdF8bJxT60
+   [done]
+   [2026/06/04  8:01:13.42] 完了 
+   [2026/06/05  8:00:01.77] 日次進捗通知開始 
+   [start] mode=send active_projects=5970
+   [sent] to=松野 status=429 response={"message":"You have reached your monthly limit."}
+   [sent] to=岡本 status=200 response={"sentMessages":[{"id":"617037119718162638","quoteToken":"RavwDDG51Y_Nwbl6nigQ8XOrMIrh3bsrWEJbMAwY-BZepRFuhdpXibDoAdzwCU4aTUOsCiTJvT3IeYPtqpIzK7rWC
+   [done]
+   [2026/06/05  8:01:26.75] 完了 

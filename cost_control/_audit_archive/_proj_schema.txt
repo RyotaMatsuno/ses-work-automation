@@ -1,0 +1,32 @@
+schema status 200
+PROP 仕入単価（万円） (number)
+PROP 入力元 (select) :: ['松野メール', '岡本メール', '共通メール', '松野LINE', '岡本LINE']
+PROP 元MessageID (rich_text)
+PROP 営業終了 (number)
+PROP 所属会社名 (rich_text)
+PROP 担当者 (select) :: ['松野', '岡本', '共通']
+PROP ステータス (select) :: ['募集中', '選考中', '成約', '終了', '稼働中']
+PROP 案件詳細 (rich_text)
+PROP クライアント (rich_text)
+PROP 面談希望 (number)
+PROP 合格 (number)
+PROP 勤務地 (rich_text)
+PROP 成約 (number)
+PROP NG (number)
+PROP 開始日 (date)
+PROP リモート (select) :: ['フルリモート', '一部リモート', '常駐']
+PROP 案件情報原文 (rich_text)
+PROP 尚可スキル (multi_select)
+PROP 期間 (rich_text)
+PROP 単価（万円） (number)
+PROP 必要スキル (multi_select)
+PROP 提案中 (number)
+PROP 案件名 (title)
+
+sample status 200
+  created_time(meta): 2026-06-04T19:35:00.000Z
+  ROW: {"入力元": "共通メール", "担当者": null, "ステータス": "募集中", "開始日": null, "リモート": null, "案件名": "AI翻訳システム事業推進PM対応（フロント対応・Fireba"}
+  created_time(meta): 2026-06-04T19:34:00.000Z
+  ROW: {"入力元": "共通メール", "担当者": null, "ステータス": "募集中", "開始日": null, "リモート": null, "案件名": "大手損保会社 代理店向けＷｅｂアプリケーション保守対応社員支"}
+  created_time(meta): 2026-06-04T19:34:00.000Z
+  ROW: {"入力元": "共通メール", "担当者": null, "ステータス": "募集中", "開始日": "2026-07-01", "リモート": null, "案件名": "製造業向け基盤更改プロジェクト ネットワーク＆セキュリティイ"}

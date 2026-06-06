@@ -1,0 +1,73 @@
+### #1 can_spend / record 両方の有無
+  mail_pipeline/mail_pipeline.py: can_spend呼=4行[38, 495, 620] / record呼=0行[]
+  skill_reader/skill_reader.py: can_spend呼=4行[21, 104, 128] / record呼=0行[]
+  outlook/outlook_to_notion.py: can_spend呼=3行[48, 116] / record呼=0行[]
+
+### mail_pipeline call_claude/classify (485-560)
+  488:     return [eng for _, eng in scored[:top_n]]
+  492: def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
+  493:     model = TEXT_MODEL
+  495:     if not ledger_can_spend(est_in, max_tokens, model):
+  496:         log(f"cost_guard: Claude呼び出し停止 model={model}")
+  497:         return ""
+  507:                 "model": model,
+  519:                 model=data.get("model") or model,
+  524:             ledger_record(
+  527:                 data.get("model") or model,
+  530:             return data["content"][0]["text"]
+  532:         return ""
+  535:         return ""
+  538: def classify_email(subject: str, body: str) -> dict:
+  554:         return parsed if isinstance(parsed, dict) else {"type": "other", "note": "予期しない形式"}
+  556:         return {"type": "other", "note": "解析失敗"}
+  559: def classify_email_v2(emails: list) -> dict:
+
+### #6 engineer_query L353-401 (粗利下限の適用?)
+  353:                 continue
+  354:             budget = _number_prop(project, PROP_RATE)
+  355:             if budget > 150:
+  356:                 continue  # 異常単価除外
+  357:             gross  = calc_gross_profit(budget, eng_rate)
+  358:             if gross > 15:
+  359:                 continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+  360:             if gross < 0:
+  361:                 continue  # 粗利マイナス=交渉しても利益見込めない
+  362:             matched.append({"page": project, "gross_profit": gross})
+  363:         matched.sort(key=lambda x: x["gross_profit"], reverse=True)
+  364:         # 詳細照会用にキャッシュ保存
+  365:         cache_key = f"{initial}_{station}"
+  366:         _LAST_PROJ_RESULTS[cache_key] = matched
+  367:         _LAST_PROJ_RESULTS["latest"] = matched
+  368:         replies.append(format_project_result(engineer, matched))
+  369:     return "\n\n".join(replies)
+  370: 
+  371: 
+  372: def project_query(name: str) -> str:
+  373:     _filter = {"property": PROP_STATUS, "select": {"equals": VAL_RECRUITING}}
+  374:     projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_filter)
+  375:     matched = [p for p in projects if _contains(_text_prop(p, PROP_PJNAME), name)]
+  376:     if not matched:
+  377:         return f"\u4e00\u81f4\u3059\u308b\u6848\u4ef6\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f:
+  378:     project = matched[0]
+  379:     required  = _multi_select_prop(project, PROP_REQSK)
+  380:     budget    = _number_prop(project, PROP_RATE)
+  381:     threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
+  382:     engineers = fetch_all_pages(ENGINEER_DB_ID)
+  383:     matched_engs = []
+  384:     for eng in engineers:
+  385:         if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
+  386:             continue
+  387:         if business_days_since(eng.get("last_edited_time")) > 21:
+  388:             continue
+  389:         if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
+  390:             continue
+  391:         gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+  392:         if gross > 15:
+  393:             continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+  394:         if gross < 0:
+  395:             continue  # 粗利マイナス=交渉しても利益見込めない
+  396:         matched_engs.append({"page": eng, "gross_profit": gross})
+  397:     matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
+  398:     _LAST_ENG_RESULTS["latest"] = matched_engs
+  399:     return format_engineer_result(project, matched_engs)
+  400: 

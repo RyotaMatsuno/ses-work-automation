@@ -25,6 +25,8 @@ PROCESSED_IDS_PATH = Path(__file__).parent / "processed_ids.json"
 
 
 def load_processed_ids() -> dict:
+    if not PROCESSED_IDS_PATH.exists():
+        return {"sessales": [], "matsuno": [], "okamoto": []}
     try:
         with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -34,8 +36,10 @@ def load_processed_ids() -> dict:
                 for account in ["sessales", "matsuno", "okamoto"]:
                     data.setdefault(account, [])
                 return data
-    except Exception:
-        pass
+            raise ValueError("processed_ids.jsonの形式がlist/dictではありません")
+    except Exception as e:
+        logger.error(f"processed_ids読み込みエラー: {e}")
+        raise
     return {"sessales": [], "matsuno": [], "okamoto": []}
 
 
@@ -45,8 +49,12 @@ def save_processed_id(uid: str, account: str = "sessales"):
         ids[account] = []
     if uid not in ids[account]:
         ids[account].append(uid)
-    with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
-        json.dump(ids, f, ensure_ascii=False)
+    try:
+        with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
+            json.dump(ids, f, ensure_ascii=False)
+    except Exception as e:
+        logger.error(f"processed_ids保存エラー: {e}")
+        raise
 
 
 def process_attachments(attachments: list, meta: dict) -> dict:
