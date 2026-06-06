@@ -316,7 +316,13 @@ def _clean_detail(text: str, max_len: int = 250) -> str:
 
 
 def engineer_query(initial: str, station: str) -> str:
-    engineers = fetch_all_pages(ENGINEER_DB_ID)
+    engineers = fetch_all_pages(
+        ENGINEER_DB_ID,
+        filter_body={
+            "timestamp": "created_time",
+            "created_time": {"on_or_after": "2026-05-06"},
+        },
+    )
     matched_engineers = [
         e for e in engineers
         if _match_initial(e, initial) and _match_station(e, station)
@@ -324,7 +330,15 @@ def engineer_query(initial: str, station: str) -> str:
     if not matched_engineers:
         return f"\u4e00\u81f4\u3059\u308b\u4eba\u54e1\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {initial} {station}"
 
-    _prj_filter = {"property": PROP_RATE, "number": {"greater_than": 0}}
+    _prj_filter = {
+        "and": [
+            {"property": PROP_RATE, "number": {"greater_than": 0}},
+            {
+                "timestamp": "created_time",
+                "created_time": {"on_or_after": "2026-05-27"},
+            },
+        ]
+    }
     projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_prj_filter)
 
     # dedup: 先頭20文字で重複排除（同一案件の複数メール送信に対応）
@@ -375,7 +389,15 @@ def engineer_query(initial: str, station: str) -> str:
 
 
 def project_query(name: str) -> str:
-    _filter = {"property": PROP_STATUS, "select": {"equals": VAL_RECRUITING}}
+    _filter = {
+        "and": [
+            {"property": PROP_STATUS, "select": {"equals": VAL_RECRUITING}},
+            {
+                "timestamp": "created_time",
+                "created_time": {"on_or_after": "2026-05-27"},
+            },
+        ]
+    }
     projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_filter)
     matched = [p for p in projects if _contains(_text_prop(p, PROP_PJNAME), name)]
     if not matched:
@@ -384,7 +406,13 @@ def project_query(name: str) -> str:
     required  = _multi_select_prop(project, PROP_REQSK)
     budget    = _number_prop(project, PROP_RATE)
     threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
-    engineers = fetch_all_pages(ENGINEER_DB_ID)
+    engineers = fetch_all_pages(
+        ENGINEER_DB_ID,
+        filter_body={
+            "timestamp": "created_time",
+            "created_time": {"on_or_after": "2026-05-06"},
+        },
+    )
     matched_engs = []
     for eng in engineers:
         if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
