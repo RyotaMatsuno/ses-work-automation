@@ -309,6 +309,9 @@ def run_gate_check(phase: str, file_arg: str, tasks_arg: str | None) -> int:
             "daily_count": current_count,
         }
         save_result(payload)
+        # EXIT CODE 2 = 日次上限超過によるスキップ
+        # これはコスト管理上の都合であり、コード品質の問題ではない。
+        # Cursorはこのexit codeを受け取った場合、次のフェーズに進んでよい（ブロック不要）。
         return 2
 
     try:
