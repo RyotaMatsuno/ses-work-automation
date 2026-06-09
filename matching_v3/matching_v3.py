@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import sys as _sys
 from pathlib import Path as _Path
+_MATCHING_V3_DIR = str(_Path(__file__).resolve().parent)
 _SES_WORK = str(_Path(__file__).resolve().parent.parent)
+if _MATCHING_V3_DIR not in _sys.path:
+    _sys.path.insert(0, _MATCHING_V3_DIR)
 if _SES_WORK not in _sys.path:
-    _sys.path.insert(0, _SES_WORK)
+    _sys.path.insert(1, _SES_WORK)
 
 import argparse
 import json

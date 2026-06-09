@@ -13,7 +13,9 @@ except Exception:
 import yaml
 from dotenv import dotenv_values
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+_SES_WORK = str(Path(__file__).resolve().parent.parent)
+if _SES_WORK not in sys.path:
+    sys.path.insert(1, _SES_WORK)
 from common.model_config import STRUCTURER_MODEL
 
 
