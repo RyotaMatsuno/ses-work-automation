@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 
@@ -32,6 +32,62 @@ def _gross_threshold(assignee: str | None) -> float:
     return float(GROSS_THRESHOLDS.get(assignee or "", 5))
 
 
+def _actual_price(value) -> float | None:
+    if value is None:
+        return None
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return None
+    return parsed if parsed > 0 else None
+
+
+def _contains_any(text: str, keywords: list[str]) -> bool:
+    return any(keyword in text for keyword in keywords)
+
+
+def _case_search_text(case_json: dict) -> str:
+    parts = [str(skill) for skill in (case_json.get("required_skills") or [])]
+    job_description = case_json.get("job_description") or ""
+    return " ".join(parts + [job_description])
+
+
+def _engineer_search_text(engineer: dict) -> str:
+    return " ".join(str(skill) for skill in (engineer.get("スキル") or []))
+
+
+def _estimate_case_price(case_json: dict) -> float:
+    text = _case_search_text(case_json)
+    years = case_json.get("experience_years")
+    years_val = float(years) if years is not None else None
+
+    if years_val is not None and years_val >= 5:
+        if _contains_any(text, ["要件定義", "基本設計"]):
+            return 80.0
+        if _contains_any(text, ["基本設計", "詳細設計"]):
+            return 70.0
+    if years_val is not None and years_val >= 3:
+        if _contains_any(text, ["詳細設計", "製造", "実装"]):
+            return 60.0
+    return 50.0
+
+
+def _estimate_engineer_price(engineer: dict) -> float:
+    text = _engineer_search_text(engineer)
+    years = engineer.get("経験年数")
+    years_val = float(years) if years is not None else None
+
+    if years_val is not None and years_val >= 5:
+        if _contains_any(text, ["要件定義", "基本設計"]):
+            return 75.0
+        if _contains_any(text, ["基本設計", "詳細設計"]):
+            return 65.0
+    if years_val is not None and years_val >= 3:
+        if _contains_any(text, ["詳細設計", "製造", "実装"]):
+            return 55.0
+    return 45.0
+
+
 def judge(
     case_json: dict,
     engineer: dict,
@@ -40,15 +96,23 @@ def judge(
 ) -> tuple[str, list[str]]:
     reasons: list[str] = []
 
-    eng_price = float(engineer.get("単価（万円）") or 0)
-    case_max = float(case_json.get("price_max") or 0)
-    if not case_max or not eng_price:
-        reasons.append("単価情報不足（確認要）")
+    eng_actual = _actual_price(engineer.get("単価（万円）"))
+    case_actual = _actual_price(case_json.get("price_max"))
+    if eng_actual is not None:
+        eng_price = eng_actual
     else:
-        gross = case_max - eng_price
-        floor = _gross_threshold(assignee or case_json.get("担当者"))
-        if gross < floor:
-            return "NG", [f"粗利不足: {gross}万円 < {int(floor)}万円"]
+        eng_price = _estimate_engineer_price(engineer)
+        reasons.append(f"エンジニア単価推定: {eng_price}万")
+    if case_actual is not None:
+        case_max = case_actual
+    else:
+        case_max = _estimate_case_price(case_json)
+        reasons.append(f"案件単価推定: {case_max}万（スキル見合い案件）")
+
+    gross = case_max - eng_price
+    floor = _gross_threshold(assignee or case_json.get("担当者"))
+    if gross < floor:
+        return "NG", [f"粗利不足: {gross}万円 < {int(floor)}万円"]
 
     required_raw = case_json.get("required_skills") or []
     eng_skills_raw = engineer.get("スキル") or []
@@ -59,9 +123,7 @@ def judge(
     missing = []
     for skill in required_raw:
         normalized = normalizer.normalize(skill)
-        if normalized is None:
-            reasons.append(f"未登録必須スキル要確認: {skill}")
-        elif normalized not in eng_skills:
+        if normalized and normalized not in eng_skills:
             missing.append(normalized)
     if missing:
         return "NG", [f"必須スキル不足: {missing}"]
@@ -84,7 +146,7 @@ def judge(
     if reasons:
         non_ambig = [r for r in reasons if not r.startswith("曖昧スキルあり")]
         if not non_ambig:
-            return "REVIEW", reasons
+            return "NG", ["曖昧スキルのみ: 判定不可"]
         return "REVIEW", reasons
     return "MATCH", []
 
@@ -102,7 +164,54 @@ def optional_skill_bonus_ok(case_json: dict, engineer: dict, normalizer: SkillNo
     return owned / len(comparable) >= 0.5
 
 
-def _calc_parallel_score(engineer: dict) -> float:
+def _parse_date(value) -> date | None:
+    if value is None:
+        return None
+    if isinstance(value, date) and not isinstance(value, datetime):
+        return value
+    if isinstance(value, datetime):
+        return value.date()
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text[:10])
+    except ValueError:
+        return None
+
+
+def _score_result_waiting(days_waiting: int) -> float:
+    if days_waiting <= 2:
+        return 2.5
+    if days_waiting <= 7:
+        return 2.0
+    if days_waiting <= 14:
+        return 1.5
+    return 1.0
+
+
+def _calc_parallel_score(engineer: dict, *, today: date | None = None) -> float:
+    reference = today or date.today()
+    parallel_items = engineer.get("並行案件") or engineer.get("parallel_items") or []
+    if parallel_items:
+        score = 0.0
+        for parallel in parallel_items:
+            status = str(parallel.get("ステータス") or parallel.get("status") or "")
+            if status == "オファー中":
+                score += 5.0
+            elif status == "面談予定":
+                score += 2.0
+            elif status == "面談調整中":
+                score += 1.5
+            elif status == "結果待ち":
+                interview_date = _parse_date(parallel.get("面談日"))
+                if interview_date is None:
+                    score += 1.0
+                else:
+                    days_waiting = (reference - interview_date).days
+                    score += _score_result_waiting(days_waiting)
+        return score
+
     memo = engineer.get("備考（LINEメモ）") or ""
     score = 0.0
     if "オファー中" in memo or "offer" in memo.lower():

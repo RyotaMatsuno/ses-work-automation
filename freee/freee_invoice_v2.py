@@ -18,7 +18,7 @@ freee_invoice_v2.py
   粗利×60%
 """
 
-import os, sys, requests
+import os, sys, requests, json, argparse
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import openpyxl
@@ -29,8 +29,14 @@ from token_manager import get_headers
 
 # ===== 設定 =====
 EXCEL_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
-FREEE_BASE = "https://api.freee.co.jp/api/1"
+FREEE_BASE_ACCT = "https://api.freee.co.jp/api/1"
+FREEE_BASE_INV = "https://api.freee.co.jp/iv"
+FREEE_BASE = FREEE_BASE_ACCT
 COMPANY_ID = 11712776
+TEMPLATE_ID = 3323260
+# 源泉徴収ルール（確定）: TERRA=あり / GL=なし / FT=なし
+WITHHOLDING = False
+LINE_UNIT = "式"  # freee invoice API requires unit length >= 1 (empty not allowed)
 
 def freee_headers():
     h = get_headers()
@@ -64,6 +70,7 @@ def is_valid_name(v):
     return True
 
 # ===== Excel読み込み =====
+# [DEPRECATED 2026-06-08] Excel読込。現在は sheets_reader.load_active_entries() を使用。
 def load_active_entries():
     wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
     entries = []
@@ -209,38 +216,85 @@ def load_active_entries():
     return entries
 
 # ===== freee: 取引先取得/作成 =====
-def get_or_create_partner(name):
+def get_or_create_partner(name, dry_run=False):
     res = requests.get(f"{FREEE_BASE}/partners",
         headers=freee_headers(),
         params={"company_id": COMPANY_ID, "keyword": name})
     partners = res.json().get("partners", [])
     if partners: return partners[0]["id"]
+    if dry_run:
+        print(f"  [DRY] partner-missing:{name}")
+        return 0
     res2 = requests.post(f"{FREEE_BASE}/partners",
         headers=freee_headers(),
         json={"company_id": COMPANY_ID, "name": name, "partner_type": "customer"})
     return res2.json()["partner"]["id"]
 
 # ===== freee: 請求書ドラフト作成 =====
-def create_invoice(entry, issue_date, due_date):
-    partner_id = get_or_create_partner(entry["partner"])
+def fetch_existing_subjects(issue_date):
+    """対象請求月(billing_date==issue_date)の既存請求書 subject 集合を返す。取得失敗時は None。"""
+    target = issue_date.strftime("%Y-%m-%d")
+    subs = set()
+    offset = 0
+    while True:
+        try:
+            r = requests.get(f"{FREEE_BASE_INV}/invoices",
+                             headers=freee_headers(),
+                             params={"company_id": COMPANY_ID, "limit": 100, "offset": offset})
+        except Exception as e:
+            print(f"[dedup] 一覧取得エラー: {e}")
+            return None
+        if r.status_code != 200:
+            print(f"[dedup] 一覧取得失敗 status={r.status_code}: {r.text[:150]}")
+            return None
+        invs = r.json().get("invoices") or []
+        for inv in invs:
+            if inv.get("billing_date") == target:
+                s = inv.get("subject")
+                if s:
+                    subs.add(s)
+        if len(invs) < 100:
+            break
+        offset += 100
+    return subs
+
+def create_invoice(entry, issue_date, due_date, dry_run=False, existing_subjects=None):
     mon = f"{issue_date.year}年{issue_date.month}月"
+    subject = f"{mon}分 業務委託料（{entry['name']}様）"
+    if existing_subjects and subject in existing_subjects:
+        print(f"  SKIP {entry['name']} / {entry['partner']} / 既に{mon}分の請求書あり")
+        return "skip"
+    partner_id = get_or_create_partner(entry["partner"], dry_run=dry_run)
     payload = {
         "company_id": COMPANY_ID,
-        "issue_date":  issue_date.strftime("%Y-%m-%d"),
-        "due_date":    due_date.strftime("%Y-%m-%d"),
         "partner_id":  partner_id,
-        "invoice_status": "draft",
-        "title": f"{mon}分 業務委託料（{entry['name']}様）",
-        "description": f"[{entry['rule']}] 粗利: {entry['profit']:,}円",
-        "invoice_lines": [{
-            "name":       f"業務委託料（{entry['name']}様）{mon}分",
-            "quantity":   1,
-            "unit_price": entry["seikyu"],
-            "tax_code":   1,
-            "type":       "normal"
+        "template_id": TEMPLATE_ID,
+        "billing_date": issue_date.strftime("%Y-%m-%d"),
+        "payment_date": due_date.strftime("%Y-%m-%d"),
+        "subject": subject,
+        "payment_type": "transfer",
+        "tax_entry_method": "out",
+        "tax_fraction": "omit",
+        "withholding_tax_entry_method": "out",
+        "partner_title": "御中",
+        "sending_status": "unsent",
+        "lines": [{
+            "type": "item",
+            "description": f"業務委託料（{entry['name']}様）{mon}分",
+            "quantity": 1,
+            "unit": LINE_UNIT,
+            "unit_price": str(entry["seikyu"]),
+            "tax_rate": 10,
+            "reduced_tax_rate": False,
+            "withholding": WITHHOLDING
         }]
     }
-    res = requests.post(f"{FREEE_BASE}/invoices", headers=freee_headers(), json=payload)
+    if dry_run:
+        print(f"  [DRY] payload {entry['name']} / {entry['partner']}")
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
+        return True
+
+    res = requests.post(f"{FREEE_BASE_INV}/invoices", headers=freee_headers(), json=payload)
     if res.status_code in (200, 201):
         inv_id = res.json()["invoice"]["id"]
         print(f"  OK {entry['name']} / {entry['partner']} / {entry['seikyu']:,}円 [{entry['rule']}] -> ID:{inv_id}")
@@ -250,7 +304,7 @@ def create_invoice(entry, issue_date, due_date):
         return False
 
 # ===== メイン =====
-def run(target_month=None):
+def run(target_month=None, dry_run=False, limit=None):
     today = date.today()
     if target_month is None:
         target_month = (today.replace(day=1) + relativedelta(months=1))
@@ -258,26 +312,49 @@ def run(target_month=None):
     due_date   = issue_date + relativedelta(months=1) - relativedelta(days=1)
 
     print(f"=== freee請求書自動生成 v2 ===")
+    if dry_run:
+        print("DRY-RUN: 請求書・取引先の作成/更新は行いません")
     print(f"請求対象月: {target_month.year}年{target_month.month}月分")
     print(f"請求日: {issue_date}  支払期限: {due_date}")
     print()
 
-    entries = load_active_entries()
+    # 契約マスター = Googleスプレッドシートのみ（Excel廃止 2026-06-08）
+    _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _root not in sys.path:
+        sys.path.insert(0, _root)
+    import sheets_reader
+    entries = sheets_reader.load_active_entries()
+    if limit is not None:
+        entries = entries[:limit]
     print(f"対象人員: {len(entries)}名")
     for e in entries:
         print(f"  {e['source']} | {e['name']} | 粗利{e['profit']:,}円 | 請求{e['seikyu']:,}円 | {e['rule']}")
     print()
 
-    ok = ng = 0
+    existing = fetch_existing_subjects(issue_date)
+    if existing is None:
+        print("[dedup] 冪等チェックに失敗したため、二重請求防止のため処理を中止します。")
+        return
+    print(f"[dedup] {issue_date.strftime('%Y-%m-%d')} の既存請求書 {len(existing)} 件")
+
+    ok = ng = skipped = 0
     for e in entries:
-        if create_invoice(e, issue_date, due_date): ok += 1
-        else: ng += 1
+        r = create_invoice(e, issue_date, due_date, dry_run=dry_run, existing_subjects=existing)
+        if r == "skip":
+            skipped += 1
+        elif r:
+            ok += 1
+        else:
+            ng += 1
 
     print()
-    print(f"=== 完了: 作成{ok}件 / エラー{ng}件 ===")
+    if dry_run:
+        print(f"=== DRY-RUN完了: 作成予定{ok}件 / SKIP{skipped}件 / エラー{ng}件 ===")
+    else:
+        print(f"=== 完了: 作成{ok}件 / SKIP{skipped}件 / エラー{ng}件 ===")
     print(f"-> https://secure.freee.co.jp/invoices")
     # ===== 請求書作成完了後: 契約マスターのステータスを自動更新 =====
-    if ok > 0:
+    if ok > 0 and not dry_run:
         try:
             import sys as _sys2
             import os as _os2
@@ -290,9 +367,13 @@ def run(target_month=None):
             print(f"[auto_status] ステータス更新スキップ（エラー: {_e}）")
 
 if __name__ == "__main__":
-    import sys as _sys
-    if len(_sys.argv) > 1:
-        y, m = map(int, _sys.argv[1].split("-"))
-        run(date(y, m, 1))
+    parser = argparse.ArgumentParser(description="freee請求書自動生成 v2")
+    parser.add_argument("target_month", nargs="?", help="請求対象月 YYYY-MM")
+    parser.add_argument("--dry-run", action="store_true", help="payloadを表示し、POST/作成は行わない")
+    parser.add_argument("--limit", type=int, help="先頭N件のみ処理")
+    args = parser.parse_args()
+    if args.target_month:
+        y, m = map(int, args.target_month.split("-"))
+        run(date(y, m, 1), dry_run=args.dry_run, limit=args.limit)
     else:
-        run()
+        run(dry_run=args.dry_run, limit=args.limit)
