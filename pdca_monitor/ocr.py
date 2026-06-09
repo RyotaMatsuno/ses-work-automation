@@ -31,7 +31,7 @@ def configure_tesseract() -> bool:
 
     for path in _TESSERACT_PATHS:
         if path.exists():
-            pytesseract.pytesseract.tesseract_cmd = str(path)
+            pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
             return True
     try:
         pytesseract.get_tesseract_version()
