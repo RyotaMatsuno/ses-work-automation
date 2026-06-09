@@ -23,3 +23,7 @@ ngrok_screen.png
 
 # 不要な一時スクリプト（tmp_系）
 tmp_*.py
+
+# PDCA monitor - local data
+pdca_monitor/screenshots/
+pdca_monitor/data/
