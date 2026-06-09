@@ -4,7 +4,7 @@
 - [x] ゲート①：SPEC＋TEST_PLANをGPTで設計レビュー → OK取得（2026-06-09 GPT-4o判定:GO）
 
 ## 実装（ゲート①通過後）
-- [ ] Notion「AI作業キュー」DB作成（スキーマ通り。担当enumに girard/shibusawa含む）
+- [x] Notion「AI作業キュー」DB作成（スキーマ通り。担当enumに girard/shibusawa含む）（2026-06-09 DB_ID=37a450ff-37c0-819a-981b-c2e06ed282bb）
 - [x] ルーターに種別判定を追加（即時/営業重作業/経理/開発/要確認）
 - [x] 曖昧時の1問確認（replyで選択肢提示）
 - [x] キュー登録処理（task_id採番・各フィールド設定）
@@ -17,5 +17,5 @@
 
 ## 検証・デプロイ
 - [x] ゲート②：コードレビュー（別個体）＋py_compile＋実データシミュレーション（2026-06-09 GPT-4o判定:GO）
-- [ ] Cloud Run明示デプロイ（gcloud run deploy line-webhook ...）※松野確認後
+- [x] Cloud Run明示デプロイ（2026-06-09 revision=line-webhook-00064-mfl /health:200 /line-bridge/worker:200）
 - [x] 松野へ完了報告
