@@ -6,7 +6,9 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -24,7 +26,19 @@ CLAUDE_MODEL = MODEL
 
 _CONFIRMATIONS: dict[str, dict[str, Any]] = {}
 _CONFIRMATION_TTL_SECONDS = 600
-_PICKUP_LOCK = threading.Lock()
+_HANDOFF_MARKERS = ("■", "【", "】", "最優先", "未完了")
+_HANDOFF_SECTION_RE = re.compile(
+    r"■\s*(?:最優先|未完了[・･]?続きが必要なもの|次チャットで最初にやること)"
+)
+_HANDOFF_BULLET_RE = re.compile(
+    r"^\s*(?:[-－ー•·]|・|\d+[.)．、])\s*(.+?)\s*$"
+)
+_HANDOFF_ROUTE = {
+    "route": "research",
+    "kind": "research",
+    "assignee": "jobz",
+    "human_confirmation": "不要",
+}
 
 
 class CostLimitError(RuntimeError):
@@ -128,15 +142,12 @@ class CostGuard:
         estimated = (2000 * 1.0 + max_tokens * 5.0) / 1_000_000
         daily_limit = float(os.environ.get("LINE_BRIDGE_DAILY_USD", "1.0"))
         monthly_limit = float(os.environ.get("LINE_BRIDGE_MONTHLY_USD", "6.0"))
-        batch_limit = int(os.environ.get("LINE_BRIDGE_BATCH_LLM_LIMIT", "3"))
         with cls._lock:
-            if cls._batch_active and cls._batch_calls >= batch_limit:
-                raise RuntimeError("CostGuard: batch limit exceeded")
             state = cls._load()
             if float(state["daily_usd"]) + estimated > daily_limit:
-                raise RuntimeError("CostGuard: daily limit exceeded")
+                raise CostLimitError("CostGuard: daily limit exceeded")
             if float(state["monthly_usd"]) + estimated > monthly_limit:
-                raise RuntimeError("CostGuard: monthly limit exceeded")
+                raise CostLimitError("CostGuard: monthly limit exceeded")
             state["daily_usd"] = round(float(state["daily_usd"]) + estimated, 8)
             state["monthly_usd"] = round(
                 float(state["monthly_usd"]) + estimated, 8
@@ -414,6 +425,61 @@ def _find_task(task_id: str) -> dict[str, Any] | None:
     return results[0] if results else None
 
 
+def _is_handoff_message(text: str) -> bool:
+    return any(marker in text for marker in _HANDOFF_MARKERS)
+
+
+def _extract_handoff_tasks(text: str) -> list[str]:
+    matches = list(_HANDOFF_SECTION_RE.finditer(text))
+    if not matches:
+        return []
+    tasks: list[str] = []
+    for index, match in enumerate(matches):
+        start = match.end()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        section_body = text[start:end]
+        for line in section_body.splitlines():
+            bullet = _HANDOFF_BULLET_RE.match(line.strip())
+            if not bullet:
+                continue
+            item = bullet.group(1).strip()
+            if item:
+                tasks.append(item)
+    return tasks
+
+
+def parse_handoff_message(
+    text: str,
+    user_id: str,
+    reply_token: str,
+    event_timestamp_ms: int,
+    message_id: str = "",
+) -> dict[str, str] | None:
+    """Parse Claude handoff messages and enqueue research tasks for jobz."""
+    if not _is_handoff_message(text):
+        return None
+    items = _extract_handoff_tasks(text)
+    if not items:
+        return None
+    created_count = 0
+    for index, item in enumerate(items):
+        item_message_id = f"{message_id}:handoff:{index}"
+        created, _task_id = enqueue_task(
+            item,
+            _HANDOFF_ROUTE,
+            user_id,
+            item_message_id,
+            event_timestamp_ms,
+            reply_token,
+        )
+        if created:
+            created_count += 1
+    return {
+        "action": "reply",
+        "text": f"{created_count}件をキューに登録しました",
+    }
+
+
 def enqueue_task(
     text: str,
     route: dict[str, str],
@@ -471,6 +537,15 @@ def route_line_message(
     stripped = text.strip()
     if stripped.startswith(("/run ", "/bg ")) or stripped in ("/log", "/health"):
         return {"action": "pass"}
+    handoff = parse_handoff_message(
+        stripped,
+        user_id,
+        reply_token,
+        event_timestamp_ms,
+        message_id,
+    )
+    if handoff is not None:
+        return handoff
     if not stripped:
         return {"action": "reply", "text": "テキストで指示を送ってください。"}
     now = datetime.now(JST).timestamp()
@@ -657,78 +732,91 @@ def _run_worker(task: dict[str, Any]) -> str:
     return result
 
 
-def pickup_and_run(limit: int | None = None) -> list[dict[str, str]]:
-    """Claim queued tasks serially and dispatch draft-only workers."""
-    configured = int(os.environ.get("LINE_BRIDGE_PICKUP_LIMIT", "3"))
-    max_tasks = min(limit or configured, configured, 10)
-    completed: list[dict[str, str]] = []
-    if not _PICKUP_LOCK.acquire(blocking=False):
-        return completed
-    CostGuard.begin_batch()
+def _process_single_task(page: dict[str, Any]) -> dict[str, str] | None:
+    """Claim one queued task and run its worker (thread-safe via CAS on status)."""
+    task = _task_payload(page)
     try:
-        for page in _query_queued(max_tasks):
-            task = _task_payload(page)
-            try:
-                _update_page(task["page_id"], {"状態": _select("running")})
-                latest = _notion_request("GET", f"pages/{task['page_id']}")
-                status = _extract_select(
-                    latest.get("properties", {}).get("状態", {})
-                )
-                if status != "running":
-                    continue
-                result = _run_worker(task)
-                final_status = (
-                    "review"
-                    if task["human_confirmation"] == "要"
-                    else "done"
-                )
-                _update_page(
-                    task["page_id"],
-                    {
-                        "状態": _select(final_status),
-                        "結果リンク": _rich_text(result),
-                        "完了日時": _date(datetime.now(JST)),
-                    },
-                )
-                completed.append(
-                    {
-                        "task_id": task["task_id"],
-                        "status": final_status,
-                        "user_id": str(
-                            task["metadata"].get("line_user_id", "")
-                        ),
-                        "message": (
-                            f"作業完了: {task['task_id']}\n"
-                            f"状態: {final_status}\n"
-                            "「進捗」で結果を確認できます。"
-                        ),
-                    }
-                )
-            except Exception as exc:
-                reason = str(exc)[:1500]
-                _update_page(
-                    task["page_id"],
-                    {
-                        "状態": _select("blocked"),
-                        "結果リンク": _rich_text(f"blocked: {reason}"),
-                        "完了日時": _date(datetime.now(JST)),
-                    },
-                )
-                completed.append(
-                    {
-                        "task_id": task["task_id"],
-                        "status": "blocked",
-                        "user_id": str(
-                            task["metadata"].get("line_user_id", "")
-                        ),
-                        "message": (
-                            f"作業停止: {task['task_id']}\n理由: {reason[:300]}"
-                        ),
-                    }
-                )
-    finally:
-        CostGuard.end_batch()
-        _PICKUP_LOCK.release()
+        _update_page(task["page_id"], {"状態": _select("running")})
+        latest = _notion_request("GET", f"pages/{task['page_id']}")
+        status = _extract_select(latest.get("properties", {}).get("状態", {}))
+        if status != "running":
+            return None
+        result = _run_worker(task)
+        final_status = (
+            "review" if task["human_confirmation"] == "要" else "done"
+        )
+        _update_page(
+            task["page_id"],
+            {
+                "状態": _select(final_status),
+                "結果リンク": _rich_text(result),
+                "完了日時": _date(datetime.now(JST)),
+            },
+        )
+        return {
+            "task_id": task["task_id"],
+            "status": final_status,
+            "user_id": str(task["metadata"].get("line_user_id", "")),
+            "message": (
+                f"作業完了: {task['task_id']}\n"
+                f"状態: {final_status}\n"
+                "「進捗」で結果を確認できます。"
+            ),
+        }
+    except CostLimitError as exc:
+        reason = str(exc)[:1500]
+        _update_page(
+            task["page_id"],
+            {
+                "状態": _select("blocked"),
+                "結果リンク": _rich_text(f"blocked: {reason}"),
+                "完了日時": _date(datetime.now(JST)),
+            },
+        )
+        return {
+            "task_id": task["task_id"],
+            "status": "blocked",
+            "user_id": str(task["metadata"].get("line_user_id", "")),
+            "message": (
+                f"作業停止: {task['task_id']}\n理由: {reason[:300]}"
+            ),
+        }
+    except Exception as exc:
+        reason = str(exc)[:1500]
+        _update_page(
+            task["page_id"],
+            {
+                "状態": _select("blocked"),
+                "結果リンク": _rich_text(f"blocked: {reason}"),
+                "完了日時": _date(datetime.now(JST)),
+            },
+        )
+        return {
+            "task_id": task["task_id"],
+            "status": "blocked",
+            "user_id": str(task["metadata"].get("line_user_id", "")),
+            "message": (
+                f"作業停止: {task['task_id']}\n理由: {reason[:300]}"
+            ),
+        }
+
+
+def pickup_and_run(limit: int | None = None) -> list[dict[str, str]]:
+    """Claim queued tasks in parallel and dispatch draft-only workers."""
+    configured = int(os.environ.get("LINE_BRIDGE_PICKUP_LIMIT", "50"))
+    max_tasks = min(limit or configured, 100)
+    pages = _query_queued(max_tasks)
+    if not pages:
+        return []
+    completed: list[dict[str, str]] = []
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        futures = [
+            executor.submit(_process_single_task, page) for page in pages
+        ]
+        for future in as_completed(futures):
+            result = future.result()
+            if result:
+                completed.append(result)
     return completed
 
 
