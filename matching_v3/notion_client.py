@@ -155,6 +155,7 @@ class NotionClient:
             "稼働状況": _select(props.get("稼働状況")),
             "担当者": _select(props.get("担当者")),
             "備考（LINEメモ）": _rich_text(props.get("備考（LINEメモ）")),
+            "最終更新日": _date_value(props.get("最終更新日")),
             "_last_edited_time": page.get("last_edited_time", ""),
         }
 

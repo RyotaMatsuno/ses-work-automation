@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -30,6 +30,42 @@ class SkillNormalizer:
 
 def _gross_threshold(assignee: str | None) -> float:
     return float(GROSS_THRESHOLDS.get(assignee or "", 5))
+
+
+def calc_gross_profit(case_rate: float, engineer_rate: float) -> float:
+    """粗利計算（単位: 万円）"""
+    return case_rate - engineer_rate
+
+
+def meets_profit_floor(case_rate: float, engineer_rate: float, floor_man: float = 5.0) -> bool:
+    """最低粗利チェック。floor_man は万円単位（デフォルト5万円）。"""
+    return calc_gross_profit(case_rate, engineer_rate) >= floor_man
+
+
+def _engineer_last_updated_str(engineer: dict) -> str | None:
+    for key in ("最終更新日", "last_updated", "_last_edited_time"):
+        value = engineer.get(key)
+        if value:
+            return str(value)
+    return None
+
+
+def is_engineer_fresh(engineer: dict, threshold_days: int = ENGINEER_STALENESS_DAYS) -> bool:
+    """人材情報の鮮度チェック。最終更新から threshold_days 日以内なら True。"""
+    last_updated_str = _engineer_last_updated_str(engineer)
+    if not last_updated_str:
+        return False
+    try:
+        text = last_updated_str.replace("Z", "+00:00")
+        last_updated = datetime.fromisoformat(text)
+        now = datetime.now(timezone.utc)
+        if last_updated.tzinfo is None:
+            last_updated = last_updated.replace(tzinfo=timezone.utc)
+        else:
+            last_updated = last_updated.astimezone(timezone.utc)
+        return (now - last_updated).days <= threshold_days
+    except (ValueError, TypeError):
+        return False
 
 
 def _actual_price(value) -> float | None:
@@ -109,10 +145,10 @@ def judge(
         case_max = _estimate_case_price(case_json)
         reasons.append(f"案件単価推定: {case_max}万（スキル見合い案件）")
 
-    gross = case_max - eng_price
     floor = _gross_threshold(assignee or case_json.get("担当者"))
-    if gross < floor:
-        return "NG", [f"粗利不足: {gross}万円 < {int(floor)}万円"]
+    if not meets_profit_floor(case_max, eng_price, floor):
+        gross = calc_gross_profit(case_max, eng_price)
+        return "NG", [f"粗利不足: {gross}万円 < 最低粗利{int(floor)}万円"]
 
     required_raw = case_json.get("required_skills") or []
     eng_skills_raw = engineer.get("スキル") or []
@@ -132,9 +168,12 @@ def judge(
     if p_score >= 5.0:
         return "NG", [f"並行過多: スコア{p_score:.1f}（上限5.0）"]
 
-    last_edit = engineer.get("_last_edited_time", "")
-    if last_edit and _days_since(last_edit) > ENGINEER_STALENESS_DAYS:
-        reasons.append(f"エンジニア情報古い（{_days_since(last_edit)}日前更新）")
+    if not is_engineer_fresh(engineer):
+        last_edit = _engineer_last_updated_str(engineer)
+        if last_edit:
+            reasons.append(f"エンジニア情報古い（{_days_since(last_edit)}日前更新）")
+        else:
+            reasons.append("エンジニア情報古い（最終更新日不明）")
 
     if case_json.get("ambiguous_skills"):
         reasons.append(f"曖昧スキルあり: {case_json['ambiguous_skills']}")
@@ -185,9 +224,7 @@ def _score_result_waiting(days_waiting: int) -> float:
         return 2.5
     if days_waiting <= 7:
         return 2.0
-    if days_waiting <= 14:
-        return 1.5
-    return 1.0
+    return 0.0
 
 
 def _calc_parallel_score(engineer: dict, *, today: date | None = None) -> float:
@@ -235,10 +272,7 @@ def _days_since(iso_str: str) -> int:
 
 
 def is_stale_engineer(engineer: dict) -> bool:
-    last_edit = engineer.get("_last_edited_time", "")
-    if not last_edit:
-        return False
-    return _days_since(last_edit) > ENGINEER_STALENESS_DAYS
+    return not is_engineer_fresh(engineer)
 
 
 def filter_fresh_engineers(
@@ -249,17 +283,13 @@ def filter_fresh_engineers(
     active_logger = log or logger
     fresh: list[dict] = []
     for engineer in engineers:
-        last_edit = engineer.get("_last_edited_time", "")
-        if not last_edit:
+        if is_engineer_fresh(engineer):
             fresh.append(engineer)
             continue
-        days = _days_since(last_edit)
-        if days > ENGINEER_STALENESS_DAYS:
-            active_logger.info(
-                "stale: %s (%d日経過)",
-                engineer.get("名前", engineer.get("id", "")),
-                days,
-            )
-            continue
-        fresh.append(engineer)
+        name = engineer.get("名前", engineer.get("id", ""))
+        last_edit = _engineer_last_updated_str(engineer)
+        if not last_edit:
+            active_logger.info("stale: %s (最終更新日不明)", name)
+        else:
+            active_logger.info("stale: %s (%d日経過)", name, _days_since(last_edit))
     return fresh
