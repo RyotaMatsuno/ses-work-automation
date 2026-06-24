@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os as _os
@@ -212,15 +213,23 @@ def structure(
     if not _ledger_can_spend(est_input_tokens, est_output_tokens, DEFAULT_STRUCTURER_MODEL):
         logger.warning("Global cost limit reached, skipping")
         raise RuntimeError("global cost limit reached")
-    if not cost_guard.can_call(est_input_tokens, est_output_tokens):
+    if not cost_guard.can_call(
+        est_input_tokens,
+        est_output_tokens,
+        target_id=hashlib.sha256(f"{subject}\n{body[:500]}".encode()).hexdigest()[:32],
+    ):
         logger.warning("Cost limit reached, skipping")
         raise RuntimeError("cost limit reached")
 
     model = cost_guard.get_model()
-    if model.startswith("gpt-") or model.startswith("o"):
-        response = _call_openai(prompt_text, model, cfg)
-    else:
-        response = _call_anthropic(prompt_text, model, cfg)
+    try:
+        if model.startswith("gpt-") or model.startswith("o"):
+            response = _call_openai(prompt_text, model, cfg)
+        else:
+            response = _call_anthropic(prompt_text, model, cfg)
+    except Exception:
+        cost_guard.abort_pending()
+        raise
     usage = getattr(response, "usage", None)
     input_tokens = int(
         getattr(usage, "prompt_tokens", None) or getattr(usage, "input_tokens", None) or est_input_tokens
@@ -398,7 +407,11 @@ def _retry_structure(
     prompt = f"件名: {subject}\n\n本文:\n{_truncate_body(body)}"
     est_input_tokens = len(prompt) // 4 + 100
     est_output_tokens = 200
-    if not cost_guard.can_call(est_input_tokens, est_output_tokens):
+    if not cost_guard.can_call(
+        est_input_tokens,
+        est_output_tokens,
+        target_id=hashlib.sha256(f"{subject}\n{body[:500]}".encode()).hexdigest()[:32],
+    ):
         logger.warning("Cost limit reached, skipping extraction retry")
         return None
     model = cost_guard.get_model()
@@ -408,6 +421,7 @@ def _retry_structure(
         else:
             response = _call_anthropic_retry(prompt, model, config)
     except Exception as exc:
+        cost_guard.abort_pending()
         logger.warning("Extraction retry failed: %s", exc)
         return None
     usage = getattr(response, "usage", None)

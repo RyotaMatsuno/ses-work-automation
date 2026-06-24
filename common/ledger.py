@@ -137,6 +137,10 @@ def _call_limit(phase: str) -> int:
     per_phase = _int_env(f"DAILY_CALL_LIMIT_{phase.upper()}", 0)
     if per_phase > 0:
         return per_phase
+    if phase in ("matching_batch", "matching_pipeline"):
+        legacy = _int_env("DAILY_CALL_LIMIT_MATCHING", 0)
+        if legacy > 0:
+            return legacy
     return _int_env("DAILY_CALL_LIMIT_DEFAULT", 30)
 
 

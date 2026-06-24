@@ -1191,7 +1191,7 @@ def ai_matching(project: dict, engineers: list) -> dict:
 返答フォーマット:
 {"candidates":[{"name":"氏名","price":0,"summary":"サマリー","required_match":{},"optional_match":{},"parallel":"なし"}],"proposal_draft":"提案メール本文"}"""
     payload = {"project": project, "engineers": engineers}
-    result = call_claude(system, json.dumps(payload, ensure_ascii=False), max_tokens=2000, phase="matching")
+    result = call_claude(system, json.dumps(payload, ensure_ascii=False), max_tokens=2000, phase="matching_pipeline")
     try:
         clean = re.sub(r"```json|```", "", result).strip()
         return json.loads(clean)

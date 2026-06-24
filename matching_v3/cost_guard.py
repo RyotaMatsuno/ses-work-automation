@@ -15,6 +15,8 @@ except ImportError:
     _global_can_spend = None
 
 BASE_DIR = Path(__file__).resolve().parent
+MATCHING_BATCH_PHASE = "matching_batch"
+MATCHING_BATCH_BLOCK_TYPE = "matching_v3"
 
 
 class CostGuard:
@@ -29,8 +31,15 @@ class CostGuard:
 
     def __init__(self, cost_log_path: str | Path = COST_LOG_PATH) -> None:
         self.cost_log_path = Path(cost_log_path)
+        self._pending_decision: Any | None = None
 
-    def can_call(self, est_input_tokens: int, est_output_tokens: int) -> bool:
+    def can_call(
+        self,
+        est_input_tokens: int,
+        est_output_tokens: int,
+        *,
+        target_id: str = "",
+    ) -> bool:
         if _global_can_spend is not None:
             from config import DEFAULT_STRUCTURER_MODEL
 
@@ -44,6 +53,24 @@ class CostGuard:
             return False
         if self._get_monthly_cost() >= self.MONTHLY_STOP_USD:
             return False
+
+        from cost_guard import allowed
+
+        model = self.get_model()
+        tid = target_id or f"matching_v3-{est_input_tokens}-{est_output_tokens}"
+        decision = allowed(
+            phase=MATCHING_BATCH_PHASE,
+            block_type=MATCHING_BATCH_BLOCK_TYPE,
+            target_id=tid,
+            est_in=est_input_tokens,
+            est_out=est_output_tokens,
+            model_hint=model,
+            script="matching_v3",
+        )
+        if not decision.allowed:
+            self._pending_decision = None
+            return False
+        self._pending_decision = decision
         return True
 
     def record_cost(self, input_tokens: int, output_tokens: int, model: str) -> None:
@@ -59,6 +86,24 @@ class CostGuard:
         }
         with self.cost_log_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+        if self._pending_decision is not None:
+            from cost_guard import finalize
+
+            finalize(
+                self._pending_decision,
+                in_tokens=input_tokens,
+                out_tokens=output_tokens,
+                success=True,
+            )
+            self._pending_decision = None
+
+    def abort_pending(self, error_kind: str = "transient") -> None:
+        if self._pending_decision is None:
+            return
+        from cost_guard import finalize
+
+        finalize(self._pending_decision, success=False, error_kind=error_kind)
+        self._pending_decision = None
 
     def get_model(self) -> str:
         from config import DEFAULT_STRUCTURER_MODEL

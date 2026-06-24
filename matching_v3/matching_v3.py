@@ -42,11 +42,29 @@ from notion_client import NotionClient
 from processed_db import ProcessedDB
 
 from config import Config
-from cost_guard import CostGuard
+from cost_guard import MATCHING_BATCH_PHASE, CostGuard
 
 BASE_DIR = Path(__file__).resolve().parent
 JST = timezone(timedelta(hours=9))
 logger = logging.getLogger(__name__)
+LEGACY_MATCHING_PHASE = "matching"
+
+
+def _fetch_matching_pending_entries(limit: int = 200) -> list[dict[str, Any]]:
+    """matching_batch と旧 matching の保留エントリを FIFO で返す。"""
+    from common.ledger import fetch_pending_queue
+
+    batch_entries = fetch_pending_queue(phase=MATCHING_BATCH_PHASE, limit=limit)
+    legacy_entries = fetch_pending_queue(phase=LEGACY_MATCHING_PHASE, limit=limit)
+    return sorted(legacy_entries + batch_entries, key=lambda item: item["id"])
+
+
+def _count_matching_pending() -> int:
+    from common.ledger import count_pending_queue
+
+    return count_pending_queue(phase=MATCHING_BATCH_PHASE) + count_pending_queue(
+        phase=LEGACY_MATCHING_PHASE
+    )
 
 
 class LockFile:
@@ -146,13 +164,13 @@ def _run_live() -> None:
     # pending_queue: 失効処理 + 優先ソート
     pending_by_target: dict[str, int] = {}
     try:
-        from common.ledger import count_pending_queue, expire_old_pending, fetch_pending_queue
+        from common.ledger import expire_old_pending
 
         expire_old_pending(7)
-        pq_count = count_pending_queue(phase="matching")
-        logger.info("pending_queue (matching): %d件", pq_count)
+        pq_count = _count_matching_pending()
+        logger.info("pending_queue (matching_batch): %d件", pq_count)
         if pq_count > 0:
-            pending_entries = fetch_pending_queue(phase="matching", limit=200)
+            pending_entries = _fetch_matching_pending_entries(limit=200)
             pending_by_target = {
                 e["target_id"]: e["id"] for e in pending_entries if e.get("target_id")
             }
@@ -280,13 +298,18 @@ def _process_cases(
             db.update_status(case_id, "SKIPPED", case_last_edited_at=last_edited or None)
             _mark_pending_done(case_id)
             continue
-        if not cost_guard.can_call(len(body) // 4 + 200, 300):
+        if not cost_guard.can_call(len(body) // 4 + 200, 300, target_id=case_id):
             logger.warning("コスト上限到達: case_id=%s をpending_queueに登録", case_id)
             try:
                 from common.ledger import enqueue_pending, has_pending_target
 
-                if not has_pending_target("matching", case_id):
-                    enqueue_pending("matching", block_type="matching_v3", target_id=case_id, script="matching_v3")
+                if not has_pending_target(MATCHING_BATCH_PHASE, case_id):
+                    enqueue_pending(
+                        MATCHING_BATCH_PHASE,
+                        block_type="matching_v3",
+                        target_id=case_id,
+                        script="matching_v3",
+                    )
             except Exception as pq_err:
                 logger.error("pending_queue 登録エラー: %s", pq_err)
             continue
