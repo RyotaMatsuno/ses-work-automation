@@ -214,6 +214,67 @@ VALID_JOB_CATEGORIES = {
     "other",
 }
 
+CANONICAL_CLASSIFY_LABELS = frozenset({"project", "engineer", "skip", "other"})
+LABEL_NORMALIZE_MAP = {
+    "talent": "engineer",
+    "resume": "engineer",
+    "resource": "engineer",
+    "personnel": "engineer",
+    "recruitment": "engineer",
+    "candidate": "engineer",
+    "human_resource": "engineer",
+    "staff": "engineer",
+    "job": "project",
+    "position": "project",
+    "requirement": "project",
+    "opening": "project",
+    "spam": "skip",
+    "newsletter": "skip",
+    "advertisement": "skip",
+}
+_label_norm_count = 0
+
+
+def reset_label_norm_count() -> None:
+    global _label_norm_count
+    _label_norm_count = 0
+
+
+def get_label_norm_count() -> int:
+    return _label_norm_count
+
+
+def normalize_classify_label(raw_type: str, msg_id: str = "") -> str:
+    """非標準分類ラベルを正規ラベルへ変換する。"""
+    global _label_norm_count
+    token = (raw_type or "").lower().strip()
+    if token in CANONICAL_CLASSIFY_LABELS:
+        return token
+    if token in LABEL_NORMALIZE_MAP:
+        normalized = LABEL_NORMALIZE_MAP[token]
+        log(f'[LABEL_NORM] "{raw_type}" → "{normalized}" (msg_id={msg_id})')
+        _label_norm_count += 1
+        return normalized
+    log(f'[LABEL_NORM] "{raw_type}" → "other" (msg_id={msg_id})')
+    _label_norm_count += 1
+    return "other"
+
+
+def normalize_classify_result(result: dict, msg_id: str = "") -> dict:
+    if not isinstance(result, dict):
+        return result
+    normalized = dict(result)
+    normalized["type"] = normalize_classify_label(str(normalized.get("type", "")), msg_id)
+    return normalized
+
+
+def _normalize_classify_results(results: dict[int, dict], email_by_index: dict[int, dict]) -> dict[int, dict]:
+    normalized: dict[int, dict] = {}
+    for idx, result in results.items():
+        msg_id = str(email_by_index.get(idx, {}).get("msg_id", ""))
+        normalized[idx] = normalize_classify_result(result, msg_id)
+    return normalized
+
 PROJECT_DB_REQUIRED_PROPERTIES = {
     "職種カテゴリ": {"select": {"options": [{"name": name} for name in sorted(VALID_JOB_CATEGORIES)]}},
     "年齢制限": {"rich_text": {}},
@@ -1111,7 +1172,10 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
                 results[idx] = parsed
             elif custom_id.startswith("classify_"):
                 idx = int(custom_id.rsplit("_", 1)[1])
-                mail_type = parsed.get("type", "skip")
+                mail_type = normalize_classify_label(
+                    str(parsed.get("type", "skip")),
+                    str(email_by_index.get(idx, {}).get("msg_id", "")),
+                )
                 if mail_type == "other":
                     em = email_by_index[idx]
                     if should_promote_other_to_project(em.get("subject", "")):
@@ -1138,7 +1202,7 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             idx = em.get("index", i)
             if idx not in results:
                 results[idx] = {"type": "other", "note": "Batch結果なし"}
-        return results
+        return _normalize_classify_results(results, email_by_index)
     except Exception as e:
         if "CostGuard blocked" in str(e):
             log(f"  CostGuard呼び出し上限: {len(batch_requests)}件をpending扱いに変更")
@@ -1154,7 +1218,7 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
                 idx = em.get("index", i)
                 if idx not in results:
                     results[idx] = {"type": "other", "note": "Batch結果なし"}
-            return results
+            return _normalize_classify_results(results, email_by_index)
         log(f"  Batch API例外、個別分類へフォールバック: {e}")
         return {
             em.get("index", i): classify_email(em.get("subject", ""), em.get("body", "")) for i, em in enumerate(emails)
@@ -2023,7 +2087,9 @@ def _main_body(metrics: "MetricsRecorder", fetch_limit: int, process_limit: int)
     target_offset = 0
 
     if fresh_items:
+        reset_label_norm_count()
         fresh_results = classify_email_v2([{**em, "index": i} for i, em in enumerate(fresh_items)])
+        metrics.set("label_norm_count", get_label_norm_count())
         for i in range(len(fresh_items)):
             all_classified[target_offset + i] = fresh_results.get(i, {"type": "other", "note": "分類失敗"})
         target_offset += len(fresh_items)

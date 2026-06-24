@@ -87,18 +87,17 @@ def test_matching_v3_cost_guard_uses_matching_batch_phase(monkeypatch, tmp_path)
         model = "gpt-4.1-nano"
         reservation_id = "rid-test"
 
-    import importlib.util
     from pathlib import Path
+
+    matching_v3_dir = Path(__file__).resolve().parents[1] / "matching_v3"
+    if str(matching_v3_dir) not in sys.path:
+        sys.path.insert(0, str(matching_v3_dir))
 
     monkeypatch.setattr("cost_guard.allowed", lambda **kwargs: _Decision())
     monkeypatch.setattr("cost_guard.finalize", lambda *args, **kwargs: None)
 
-    matching_guard_path = Path(__file__).resolve().parents[1] / "matching_v3" / "cost_guard.py"
-    spec = importlib.util.spec_from_file_location("matching_v3_cost_guard_ba", matching_guard_path)
-    mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    spec.loader.exec_module(mod)
+    from matching_cost_guard import MATCHING_BATCH_PHASE, CostGuard
 
-    guard = mod.CostGuard(tmp_path / "cost.jsonl")
+    guard = CostGuard(tmp_path / "cost.jsonl")
     assert guard.can_call(100, 100, target_id="case-abc") is True
-    assert mod.MATCHING_BATCH_PHASE == "matching_batch"
+    assert MATCHING_BATCH_PHASE == "matching_batch"

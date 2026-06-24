@@ -28,7 +28,7 @@ for _p in (str(_MATCHING_V3), str(_SES_WORK)):
 import matcher  # noqa: E402
 import structurer  # noqa: E402
 from config import Config  # noqa: E402
-from cost_guard import CostGuard  # noqa: E402
+from matching_cost_guard import CostGuard  # noqa: E402
 from matcher import (  # noqa: E402
     SkillNormalizer,
     build_skill_index,

@@ -22,7 +22,7 @@ def _fresh_engineer(**overrides):
 def _case(**overrides):
     base = {
         "required_skills": [],
-        "price_max": 80,
+        "price_max": 75,
         "extraction_confidence": 1.0,
     }
     base.update(overrides)

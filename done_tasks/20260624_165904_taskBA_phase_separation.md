@@ -51,3 +51,13 @@ DAILY_CALL_LIMIT_MATCHING_PIPELINE=30
 ## 注意事項
 - CostGuardのfail-close原則を維持（envが壊れたらブロック方向に倒す）
 - state.sqlite3のphase_callsテーブルのスキーマ変更は不要（phaseはTEXT型）
+
+---
+
+## 完了メモ (2026-06-24)
+- `config/.env`: `DAILY_CALL_LIMIT_MATCHING_BATCH=40`, `DAILY_CALL_LIMIT_MATCHING_PIPELINE=30` 追加
+- `common/ledger.py`: `_call_limit()` に matching_batch/pipeline → MATCHING フォールバック
+- `matching_v3/matching_cost_guard.py`: `matching_batch` phase で `allowed()/finalize()` 連携（旧 cost_guard.py をリネーム）
+- `matching_v3.py` / `structurer.py` / `realtime_match_worker.py`: matching_batch + pending_queue 更新
+- `mail_pipeline.py`: `ai_matching` → `phase="matching_pipeline"`
+- `tests/test_task_ba_phase_separation.py` 6件パス

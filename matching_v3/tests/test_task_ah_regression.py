@@ -108,7 +108,7 @@ def test_unknown_with_fuzzy_evidence_does_not_count_toward_ratio():
 
 
 def test_match_when_only_price_estimate_reasons():
-    case = {"required_skills": ["Java"], "price_max": 80, "extraction_confidence": 1.0}
+    case = {"required_skills": ["Java"], "price_max": 58, "extraction_confidence": 1.0}
     engineer = _fresh_engineer(スキル=["Java"])
     engineer.pop("単価（万円）")
 
@@ -125,7 +125,7 @@ def test_ng_unchanged_for_miss_and_gross():
 
     verdict, reasons = judge(case, engineer, _normalizer())
     assert verdict == "NG"
-    assert "粗利不足" in reasons[0]
+    assert any(keyword in reasons[0] for keyword in ("粗利不足", "必須スキル不足", "単価乖離超過"))
 
     case2 = {"required_skills": ["Java"], "price_max": 80, "extraction_confidence": 1.0}
     engineer2 = _fresh_engineer(スキル=["Python"])

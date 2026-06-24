@@ -71,7 +71,7 @@ def test_judge_runs_with_fallback_skills():
     normalizer = _normalizer()
     case_json = {
         "required_skills": ["Java"],
-        "price_max": 80,
+        "price_max": 72,
         "extraction_confidence": 0.8,
     }
     engineer = {

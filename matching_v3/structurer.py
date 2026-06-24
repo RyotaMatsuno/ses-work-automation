@@ -16,13 +16,119 @@ from common.ledger import can_spend as _ledger_can_spend
 from common.ledger import record as _ledger_record
 from common.normalizers import normalize_availability, normalize_rate_fields
 from config import DEFAULT_STRUCTURER_MODEL, Config
-from cost_guard import CostGuard
+from matching_cost_guard import CostGuard
 from mail_pipeline.price_extractor import extract_price, resolve_final_price
 from mail_pipeline.skill_extractor import extract_skills
 
 logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 FIXTURES_PATH = BASE_DIR / "tests" / "fixtures.json"
+LOCATION_ALIASES_PATH = BASE_DIR / "location_aliases.json"
+_LOCATION_ALIASES_CACHE: dict[str, list[str]] | None = None
+
+
+def _load_location_aliases() -> dict[str, list[str]]:
+    global _LOCATION_ALIASES_CACHE
+    if _LOCATION_ALIASES_CACHE is None:
+        with LOCATION_ALIASES_PATH.open("r", encoding="utf-8") as f:
+            _LOCATION_ALIASES_CACHE = json.load(f)
+    return _LOCATION_ALIASES_CACHE
+
+
+def normalize_location_text(text: str | None) -> tuple[str | None, str | None]:
+    """勤務地テキストを正規化し、(原文, canonical) を返す。"""
+    if not text or not str(text).strip():
+        return None, None
+    raw = str(text).strip()
+    lowered = raw.lower()
+    for canonical, aliases in _load_location_aliases().items():
+        for token in [canonical, *aliases]:
+            if token.lower() in lowered:
+                return raw, canonical
+    return raw, None
+
+
+def normalize_budget_from_text(budget_text: str | None) -> tuple[float | None, float | None]:
+    """単価テキストから budget_min/max（万円）を推定する。"""
+    if not budget_text:
+        return None, None
+    text = str(budget_text).strip()
+    if not text:
+        return None, None
+    if "スキル見合い" in text or "スキルみ合い" in text:
+        return None, None
+    nums = [float(n) for n in re.findall(r"(\d+(?:\.\d+)?)", text.replace("，", ","))]
+    if "前後" in text and len(nums) == 1:
+        base = nums[0]
+        return base - 3, base + 3
+    if re.search(r"^[〜～]", text) and nums:
+        return None, nums[-1]
+    if re.search(r"[〜～]\s*$", text) and nums:
+        return nums[0], None
+    if len(nums) >= 2:
+        return min(nums[0], nums[1]), max(nums[0], nums[1])
+    if len(nums) == 1:
+        return nums[0], nums[0]
+    return None, None
+
+
+def _apply_strict_schema(data: dict[str, Any]) -> dict[str, Any]:
+    """v2スキーマを既存case_jsonフィールドへマージする。"""
+    result = dict(data)
+    if result.get("must_have_skills") and not result.get("required_skills"):
+        result["required_skills"] = list(result["must_have_skills"])
+    if result.get("nice_to_have_skills") and not result.get("optional_skills"):
+        result["optional_skills"] = list(result["nice_to_have_skills"])
+    if result.get("budget_min") is not None and result.get("price_min") is None:
+        result["price_min"] = _coerce_price(result.get("budget_min"))
+    if result.get("budget_max") is not None and result.get("price_max") is None:
+        result["price_max"] = _coerce_price(result.get("budget_max"))
+    text_min, text_max = normalize_budget_from_text(result.get("budget_text"))
+    if result.get("price_min") is None and text_min is not None:
+        result["price_min"] = text_min
+    if result.get("price_max") is None and text_max is not None:
+        result["price_max"] = text_max
+    loc = result.get("location") or result.get("work_location")
+    if loc:
+        raw_loc, norm_loc = normalize_location_text(loc)
+        result["work_location"] = raw_loc
+        if norm_loc:
+            result["location_normalized"] = norm_loc
+    remote_type = str(result.get("remote_type") or "").lower()
+    remote_map = {
+        "full": "full",
+        "remote": "full",
+        "フルリモート": "full",
+        "hybrid": "partial",
+        "partial": "partial",
+        "一部リモート": "partial",
+        "none": "none",
+        "onsite": "none",
+        "出社": "none",
+    }
+    if remote_type in remote_map:
+        result["remote_ok"] = remote_map[remote_type]
+    if result.get("nationality_ok") is False:
+        result["foreign_ok"] = False
+    elif result.get("nationality_ok") is True:
+        result["foreign_ok"] = True
+    if result.get("age_limit") is not None and result.get("age_max") is None:
+        try:
+            result["age_max"] = int(result["age_limit"])
+        except (TypeError, ValueError):
+            pass
+    field_conf = dict(result.get("field_confidence") or {})
+    if not field_conf:
+        field_conf = {
+            "required_skills": 0.8 if result.get("required_skills") else 0.2,
+            "price": 0.8 if result.get("price_min") is not None or result.get("price_max") is not None else 0.2,
+            "location": 0.8 if result.get("work_location") else 0.2,
+        }
+        result["field_confidence"] = field_conf
+    low_conf = [key for key, value in field_conf.items() if float(value) < 0.5]
+    if low_conf:
+        result["needs_review_fields"] = low_conf
+    return result
 
 SYSTEM_PROMPT = """あなたはSES（System Engineer Staffing）案件メールからJSON情報を抽出するアシスタントです。
 メール本文を読み、指定されたJSONスキーマに従って情報を抽出してください。
@@ -39,7 +145,9 @@ SYSTEM_PROMPT = """あなたはSES（System Engineer Staffing）案件メール�
 - extraction_confidence: 抽出の確信度（不明点が多い場合は低く）
 - 推測禁止: 原文に無い情報はnull/空配列。単価・スキル・勤務地はメール本文からのみ抽出
 - preferred_skills は optional_skills と同義（尚可スキル）
-- location は work_location、remote_ratio は remote_ok（full/partial/none/unknown）"""
+- location は work_location、remote_ratio は remote_ok（full/partial/none/unknown）
+- 厳格スキーマ（いずれかで出力可）: must_have_skills / nice_to_have_skills / budget_min / budget_max / budget_text / location / location_normalized / remote_type / nationality_ok / age_limit / headcount
+- 未抽出フィールドはnull（空文字禁止）。数値フィールドは数値型"""
 
 MUST_NOT_PATTERNS: dict[str, list[str]] = {
     "外国籍不可": [r"外国籍[：:]*不可", r"外国籍NG", r"日本国籍のみ"],
@@ -477,7 +585,7 @@ def _call_openai_retry(prompt_text: str, model: str, config: Config):
 
 
 def _postprocess_case_json(data: dict[str, Any], subject: str = "", body: str = "") -> dict[str, Any]:
-    result = dict(data)
+    result = _apply_strict_schema(dict(data))
     req = result.get("required_skills") or []
     opt = result.get("optional_skills") or result.get("preferred_skills") or []
     result["required_skills"] = _normalize_skills_list(list(req))

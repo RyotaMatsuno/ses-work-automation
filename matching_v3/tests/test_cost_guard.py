@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from datetime import datetime, timezone
 
-from cost_guard import CostGuard
+from matching_cost_guard import CostGuard
 
 
 def _write_cost(path, cost: float) -> None:

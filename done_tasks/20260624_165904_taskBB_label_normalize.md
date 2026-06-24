@@ -54,3 +54,10 @@ LABEL_NORMALIZE_MAP = {
 2. 未知ラベル → "other" への変換テスト
 3. 正規ラベル（project/engineer/skip/other）はそのまま通過
 4. 既存テスト全PASS
+
+---
+
+## 完了メモ (2026-06-24)
+- `LABEL_NORMALIZE_MAP` / `normalize_classify_label()` / `_normalize_classify_results()` 追加
+- `classify_email_v2` Batch後に正規化、`label_norm_count` メトリクス
+- `mail_pipeline/tests/test_task_bb_label_normalize.py` 7件パス

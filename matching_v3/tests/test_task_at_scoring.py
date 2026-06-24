@@ -10,7 +10,7 @@ if str(SES_WORK) not in sys.path:
     sys.path.insert(0, str(SES_WORK))
 
 from common.failure_collector import collect_failure
-from matcher import SkillNormalizer, _calc_match_score, judge_with_meta
+from matcher import SkillNormalizer, calc_match_score_with_breakdown, judge_with_meta
 from scripts.discover_unknown_skills import _extract_unknown_tokens, discover
 
 
@@ -29,27 +29,20 @@ def _fresh_engineer(**overrides):
     return base
 
 
-def test_calc_match_score_prefers_fresh_and_skill_hits():
-    high = _calc_match_score(
-        _fresh_engineer(),
-        ["Java", "Spring", "MySQL"],
-        [],
-        [],
-        80,
-        60,
+def test_calc_match_score_prefers_more_must_have_hits():
+    high, _ = calc_match_score_with_breakdown(
+        must_hits=["Java", "Spring", "MySQL"],
+        nice_hits=[],
+        price_bonus=True,
+        location_bonus=False,
+        remote_bonus=False,
     )
-    stale = _fresh_engineer(
-        スキル=["Java"],
-        _last_edited_time="2026-01-01T00:00:00+00:00",
-    )
-    stale["備考（LINEメモ）"] = "面談予定"
-    low = _calc_match_score(
-        stale,
-        ["Java"],
-        [],
-        [],
-        62,
-        60,
+    low, _ = calc_match_score_with_breakdown(
+        must_hits=["Java"],
+        nice_hits=[],
+        price_bonus=False,
+        location_bonus=False,
+        remote_bonus=False,
     )
     assert high > low
 

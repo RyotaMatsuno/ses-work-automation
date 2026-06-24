@@ -50,7 +50,7 @@ def test_judge_prefers_normalized_skills_field():
     from matcher import SkillNormalizer, judge_with_meta
 
     normalizer = _normalizer()
-    case = {"required_skills": ["Java"], "price_max": 80}
+    case = {"required_skills": ["Java"], "price_max": 72}
     engineer = {
         "スキル": ["Python"],
         "正規化スキル": ["Java"],

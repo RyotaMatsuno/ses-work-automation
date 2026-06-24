@@ -42,7 +42,7 @@ from notion_client import NotionClient
 from processed_db import ProcessedDB
 
 from config import Config
-from cost_guard import MATCHING_BATCH_PHASE, CostGuard
+from matching_cost_guard import MATCHING_BATCH_PHASE, CostGuard
 
 BASE_DIR = Path(__file__).resolve().parent
 JST = timezone(timedelta(hours=9))

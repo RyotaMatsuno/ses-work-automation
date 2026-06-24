@@ -71,3 +71,10 @@ LLMプロンプトの出力スキーマを以下に統一:
 2. 単価パターン変換の単体テスト
 3. 勤務地正規化の単体テスト
 4. skill_aliases.jsonの拡張後に既存テスト全PASS
+
+---
+
+## 完了メモ (2026-06-24)
+- `location_aliases.json` 新規、`normalize_location_text` / `normalize_budget_from_text` / `_apply_strict_schema`
+- `skill_aliases.json` canonical 182→250
+- `tests/test_task_bc_structurer_accuracy.py` 10件、matching_v3全207件パス
