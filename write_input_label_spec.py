@@ -14,8 +14,8 @@ spec = """# SPEC.md - 入力元ラベル・所属会社名 追加
 | r-matsuno@ | 松野メール |
 | r-okamoto@ | 岡本メール |
 | sessales@ | 共通メール |
-| 松野LINE（user_id: REDACTED-SECRET） | 松野LINE |
-| 岡本LINE（user_id: REDACTED-SECRET） | 岡本LINE |
+| 松野LINE（user_id: Ue3508b43b84991f5a68281da5bf4cf39） | 松野LINE |
+| 岡本LINE（user_id: Uac1d23408573586affa37577c4e2b2ab） | 岡本LINE |
 
 ## 対象ファイル
 1. ses_work/mail_pipeline/mail_pipeline.py
@@ -79,9 +79,9 @@ claude_md = """# CLAUDE.md - 入力元ラベル・所属会社名
 - ses_work/matching_v2/notify_line.py
 """
 
-base = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\input_label_spec'
+base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\input_label_spec"
 os.makedirs(base, exist_ok=True)
-open(os.path.join(base,'SPEC.md'),'w',encoding='utf-8').write(spec)
-open(os.path.join(base,'TASKS.md'),'w',encoding='utf-8').write(tasks)
-open(os.path.join(base,'CLAUDE.md'),'w',encoding='utf-8').write(claude_md)
+open(os.path.join(base, "SPEC.md"), "w", encoding="utf-8").write(spec)
+open(os.path.join(base, "TASKS.md"), "w", encoding="utf-8").write(tasks)
+open(os.path.join(base, "CLAUDE.md"), "w", encoding="utf-8").write(claude_md)
 print("3点セット作成完了")

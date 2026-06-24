@@ -1,5 +1,7 @@
-import os, sys, subprocess
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 for label, log in [
     ("daily_report", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_daily_report.log"),

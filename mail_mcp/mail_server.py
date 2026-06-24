@@ -4,24 +4,24 @@ SES Mail MCP Server
 Claude Desktopからメール送信・受信確認ができるMCPサーバー
 """
 
-import json
-import smtplib
-import imaplib
-import email
 import base64
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.header import decode_header
-from email import encoders
-import os
-from datetime import datetime
-import sys
+import email
+import imaplib
 import io
+import json
+import os
+import smtplib
+import sys
+from datetime import datetime
+from email import encoders
+from email.header import decode_header
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Windows stdout/stdinをUTF-8に強制
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding="utf-8")
 
 ACCOUNTS = {
     "matsuno": {
@@ -47,8 +47,9 @@ ACCOUNTS = {
         "imap_port": 993,
         "smtp_server": "mail65.onamae.ne.jp",
         "smtp_port": 465,
-    }
+    },
 }
+
 
 def send_email(account_name: str, to: str, subject: str, body: str, attachments: list | None = None) -> dict:
     account = ACCOUNTS.get(account_name)
@@ -60,7 +61,7 @@ def send_email(account_name: str, to: str, subject: str, body: str, attachments:
         msg["To"] = to
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain", "utf-8"))
-        for att in (attachments or []):
+        for att in attachments or []:
             mime_type = att.get("mime") or "application/octet-stream"
             main_type, sub_type = mime_type.split("/", 1) if "/" in mime_type else ("application", "octet-stream")
             part = MIMEBase(main_type, sub_type)
@@ -77,7 +78,7 @@ def send_email(account_name: str, to: str, subject: str, body: str, attachments:
             "from": account["email"],
             "to": to,
             "subject": subject,
-            "sent_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            "sent_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
     except Exception as e:
         return {"success": False, "error": str(e)}
@@ -120,13 +121,9 @@ def get_recent_emails(account_name: str, limit: int = 10) -> dict:
                 payload = msg.get_payload(decode=True)
                 if payload:
                     body = payload.decode("utf-8", errors="ignore")[:500]
-            emails.append({
-                "id": msg_id.decode(),
-                "subject": subject,
-                "from": sender,
-                "date": date,
-                "body_preview": body
-            })
+            emails.append(
+                {"id": msg_id.decode(), "subject": subject, "from": sender, "date": date, "body_preview": body}
+            )
         mail.logout()
         return {"success": True, "emails": emails, "count": len(emails)}
     except Exception as e:
@@ -144,8 +141,8 @@ def handle_request(request: dict) -> dict:
             "result": {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}},
-                "serverInfo": {"name": "ses-mail-mcp", "version": "1.0.0"}
-            }
+                "serverInfo": {"name": "ses-mail-mcp", "version": "1.0.0"},
+            },
         }
 
     if method == "tools/list":
@@ -160,7 +157,10 @@ def handle_request(request: dict) -> dict:
                         "inputSchema": {
                             "type": "object",
                             "properties": {
-                                "account": {"type": "string", "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)"},
+                                "account": {
+                                    "type": "string",
+                                    "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)",
+                                },
                                 "to": {"type": "string", "description": "送信先メールアドレス"},
                                 "subject": {"type": "string", "description": "件名"},
                                 "body": {"type": "string", "description": "本文"},
@@ -171,15 +171,18 @@ def handle_request(request: dict) -> dict:
                                         "type": "object",
                                         "properties": {
                                             "filename": {"type": "string", "description": "添付ファイル名"},
-                                            "data": {"type": "string", "description": "base64エンコード済みファイルデータ"},
-                                            "mime": {"type": "string", "description": "MIMEタイプ"}
+                                            "data": {
+                                                "type": "string",
+                                                "description": "base64エンコード済みファイルデータ",
+                                            },
+                                            "mime": {"type": "string", "description": "MIMEタイプ"},
                                         },
-                                        "required": ["filename", "data"]
-                                    }
-                                }
+                                        "required": ["filename", "data"],
+                                    },
+                                },
                             },
-                            "required": ["account", "to", "subject", "body"]
-                        }
+                            "required": ["account", "to", "subject", "body"],
+                        },
                     },
                     {
                         "name": "get_recent_emails",
@@ -187,14 +190,17 @@ def handle_request(request: dict) -> dict:
                         "inputSchema": {
                             "type": "object",
                             "properties": {
-                                "account": {"type": "string", "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)"},
-                                "limit": {"type": "integer", "description": "取得件数（デフォルト10）", "default": 10}
+                                "account": {
+                                    "type": "string",
+                                    "description": "'matsuno'(松野アドレス) / 'okamoto'(岡本アドレス) / 'sessales'(TERRA共通)",
+                                },
+                                "limit": {"type": "integer", "description": "取得件数（デフォルト10）", "default": 10},
                             },
-                            "required": ["account"]
-                        }
-                    }
+                            "required": ["account"],
+                        },
+                    },
                 ]
-            }
+            },
         }
 
     if method == "tools/call":
@@ -209,15 +215,13 @@ def handle_request(request: dict) -> dict:
         return {
             "jsonrpc": "2.0",
             "id": request.get("id"),
-            "result": {
-                "content": [{"type": "text", "text": json.dumps(result, ensure_ascii=True, indent=2)}]
-            }
+            "result": {"content": [{"type": "text", "text": json.dumps(result, ensure_ascii=True, indent=2)}]},
         }
 
     return {
         "jsonrpc": "2.0",
         "id": request.get("id"),
-        "error": {"code": -32601, "message": f"Method not found: {method}"}
+        "error": {"code": -32601, "message": f"Method not found: {method}"},
     }
 
 
@@ -225,7 +229,7 @@ def main():
     # stderrにログ出力（デバッグ用）
     sys.stderr.write("ses-mail-mcp: starting...\n")
     sys.stderr.flush()
-    
+
     while True:
         try:
             line = sys.stdin.readline()
@@ -234,17 +238,17 @@ def main():
             line = line.strip()
             if not line:
                 continue
-            
+
             request = json.loads(line)
             method = request.get("method", "")
             req_id = request.get("id")
-            
+
             # 通知メッセージ（idなし）は応答不要
             if req_id is None:
                 sys.stderr.write(f"ses-mail-mcp: notification received: {method}\n")
                 sys.stderr.flush()
                 continue
-            
+
             response = handle_request(request)
             out = json.dumps(response, ensure_ascii=True)
             sys.stdout.write(out + "\n")
@@ -254,12 +258,8 @@ def main():
         except Exception as e:
             sys.stderr.write(f"ses-mail-mcp: error: {e}\n")
             sys.stderr.flush()
-            if 'req_id' in dir() and req_id is not None:
-                error_response = {
-                    "jsonrpc": "2.0",
-                    "id": req_id,
-                    "error": {"code": -32700, "message": str(e)}
-                }
+            if "req_id" in dir() and req_id is not None:
+                error_response = {"jsonrpc": "2.0", "id": req_id, "error": {"code": -32700, "message": str(e)}}
                 sys.stdout.write(json.dumps(error_response) + "\n")
                 sys.stdout.flush()
 

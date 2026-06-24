@@ -1,5 +1,8 @@
-import time, sys, os
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+import os
+import sys
+import time
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 time.sleep(90)
 
 logs = {
@@ -9,7 +12,7 @@ logs = {
 for name, log in logs.items():
     print(f"\n===== {name} =====")
     if os.path.exists(log):
-        with open(log, 'r', encoding='utf-8', errors='replace') as f:
+        with open(log, "r", encoding="utf-8", errors="replace") as f:
             content = f.read()
         print(content[-800:] if len(content) > 800 else content)
     else:

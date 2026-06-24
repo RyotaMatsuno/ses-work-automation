@@ -1,12 +1,20 @@
-import requests, sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-from dotenv import dotenv_values
+import sys
+
+import requests
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 from datetime import datetime
 
-config = dotenv_values(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
-headers = {"Authorization": f"Bearer {config['NOTION_API_KEY']}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
+from dotenv import dotenv_values
 
-content = f"""{datetime.now().strftime('%Y-%m-%d')} 未実装タスク実装進捗
+config = dotenv_values(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+headers = {
+    "Authorization": f"Bearer {config['NOTION_API_KEY']}",
+    "Content-Type": "application/json",
+    "Notion-Version": "2022-06-28",
+}
+
+content = f"""{datetime.now().strftime("%Y-%m-%d")} 未実装タスク実装進捗
 
 ■ 完了
   返信自動解析（reply_parser/reply_parser.py）
@@ -36,7 +44,14 @@ content = f"""{datetime.now().strftime('%Y-%m-%d')} 未実装タスク実装進�
 res = requests.patch(
     "https://api.notion.com/v1/blocks/353450ff-37c0-8145-9e3e-d80c8c8ed594/children",
     headers=headers,
-    json={"children": [{"object": "block", "type": "paragraph",
-                        "paragraph": {"rich_text": [{"type": "text", "text": {"content": content}}]}}]}
+    json={
+        "children": [
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {"rich_text": [{"type": "text", "text": {"content": content}}]},
+            }
+        ]
+    },
 )
 print(f"Notion Wiki: {res.status_code}")

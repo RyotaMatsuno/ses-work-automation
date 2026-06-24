@@ -1,5 +1,7 @@
-import os, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 for label, logfile in [
     ("webhook affiliation", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_affiliation.log"),
@@ -15,9 +17,12 @@ for label, logfile in [
 
 # composer.pyの変更確認
 import subprocess
+
 result = subprocess.run(
     ["python", "-c", "from composer import attach_drafts; print('import OK')"],
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1",
-    capture_output=True, text=True, encoding="utf-8"
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
 )
 print(f"\ncomposer import: {result.stdout.strip() or result.stderr.strip()[:200]}")

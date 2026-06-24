@@ -13,6 +13,6 @@ content = """# TASKS.md - matching_v2 精度改善 v3
 - [ ] 9. python -c "from matching_v2.matching_v2 import get_min_gross; assert get_min_gross('岡本','松野')==3; assert get_min_gross('松野','松野')==5; print('OK')"
 """
 
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\TASKS.md', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\TASKS.md", "w", encoding="utf-8") as f:
     f.write(content)
 print("TASKS.md v3 書き込み完了")

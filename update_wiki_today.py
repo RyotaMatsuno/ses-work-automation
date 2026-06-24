@@ -1,6 +1,7 @@
+from datetime import datetime
+
 import requests
 from dotenv import dotenv_values
-from datetime import datetime
 
 ENV_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
 config = dotenv_values(ENV_PATH)
@@ -10,7 +11,7 @@ WIKI_PAGE_ID = "353450ff-37c0-8145-9e3e-d80c8c8ed594"
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
 today = datetime.now().strftime("%Y-%m-%d")
@@ -46,16 +47,12 @@ blocks = [
     {
         "object": "block",
         "type": "paragraph",
-        "paragraph": {
-            "rich_text": [{"type": "text", "text": {"content": content}}]
-        }
+        "paragraph": {"rich_text": [{"type": "text", "text": {"content": content}}]},
     }
 ]
 
 res = requests.patch(
-    f"https://api.notion.com/v1/blocks/{WIKI_PAGE_ID}/children",
-    headers=headers,
-    json={"children": blocks}
+    f"https://api.notion.com/v1/blocks/{WIKI_PAGE_ID}/children", headers=headers, json={"children": blocks}
 )
 print(f"status: {res.status_code}")
 if res.status_code != 200:

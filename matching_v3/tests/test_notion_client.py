@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from unittest.mock import Mock, patch
 
+import pytest
+import requests
 from notion_client import NotionClient
 
 
@@ -43,3 +45,19 @@ def test_request_retries_two_500_then_success():
         client.get_new_cases(days=4)
 
     assert session.request.call_count == 3
+
+
+def test_get_active_engineers_raises_on_400_filter_error():
+    session = Mock()
+    response = Mock()
+    response.status_code = 400
+    response.text = "error"
+    exc = requests.HTTPError("bad request")
+    exc.response = response
+    response.raise_for_status.side_effect = exc
+    session.request.return_value = response
+    client = NotionClient(config=DummyConfig(), session=session)
+
+    with patch("notion_client.time.sleep"):
+        with pytest.raises(RuntimeError, match="提案対象フラグフィルタ利用不可"):
+            client.get_active_engineers()

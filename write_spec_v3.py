@@ -65,6 +65,6 @@ def is_within_business_days(created_time, n=4):
 5. jpholiday import確認
 """
 
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\SPEC.md', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\SPEC.md", "w", encoding="utf-8") as f:
     f.write(content)
 print("SPEC.md v3 書き込み完了")

@@ -1,5 +1,6 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 # webhook_server.pyに「進捗」コマンドを直接追加
 wh_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
@@ -7,7 +8,7 @@ with open(wh_path, encoding="utf-8") as f:
     content = f.read()
 
 # 「マッチング」コマンドの直後に「進捗」コマンドを挿入
-target = '''    # マッチング結果照会
+target = """    # マッチング結果照会
     if "マッチング" in text_stripped and len(text_stripped) <= 10:
         matching_reply = build_matching_result_reply()
         chunks = split_line_message(matching_reply)
@@ -15,9 +16,9 @@ target = '''    # マッチング結果照会
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
         for chunk in chunks[1:]:
             push_message(push_user_id, chunk, sender_token)
-        return'''
+        return"""
 
-progress_cmd = '''
+progress_cmd = """
     # 案件進捗照会
     if "進捗" in text_stripped and len(text_stripped) <= 6:
         progress_reply = build_progress_reply()
@@ -26,9 +27,9 @@ progress_cmd = '''
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
         for chunk in chunks[1:]:
             push_message(push_user_id, chunk, sender_token)
-        return'''
+        return"""
 
-insert_after = '''        return'''
+insert_after = """        return"""
 
 # targetブロックの後に挿入
 if target in content and progress_cmd not in content:
@@ -39,7 +40,7 @@ else:
         print("既に挿入済み")
     else:
         print("挿入対象が見つからない")
-        print(content[content.find("マッチング"):content.find("マッチング")+300])
+        print(content[content.find("マッチング") : content.find("マッチング") + 300])
 
 # build_progress_reply関数を追加（build_matching_result_replyの直後）
 progress_func = '''

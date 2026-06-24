@@ -1,5 +1,5 @@
-import time
 import subprocess
+import time
 
 time.sleep(20)
 
@@ -15,7 +15,10 @@ except Exception as e:
 # プロセス確認
 result = subprocess.run(
     ["tasklist", "/fi", "pid eq 26472", "/fo", "list"],
-    capture_output=True, text=True, encoding="utf-8", errors="replace"
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
 )
 print("\nProcess check:")
 print(result.stdout[:300])

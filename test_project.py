@@ -1,6 +1,11 @@
-import hmac, hashlib, base64, json, requests
+import base64
+import hashlib
+import hmac
+import json
 
-secret = 'REDACTED-SECRET'
+import requests
+
+secret = "648247890a88176af56fa17a5d88d216"
 text = """これ原さんどうですか？
 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 【C#／.NET】某医療機器メーカー向けシステム開発案件
@@ -26,23 +31,29 @@ text = """これ原さんどうですか？
 ・商流制限：貴社所属（社員）まで
 ・備考：個人、フリーランス、外国籍の方は不可となります。正社員の場合は、一定の入社歴がある方を優先いたします。"""
 
-body = json.dumps({
-    'destination': 'test',
-    'events': [{
-        'type': 'message',
-        'message': {'type': 'text', 'id': '2', 'text': text},
-        'timestamp': 1715676000000,
-        'source': {'type': 'user', 'userId': 'U123test'},
-        'replyToken': 'test-reply-token-99999',
-        'mode': 'active'
-    }]
-}, ensure_ascii=False)
-body_bytes = body.encode('utf-8')
+body = json.dumps(
+    {
+        "destination": "test",
+        "events": [
+            {
+                "type": "message",
+                "message": {"type": "text", "id": "2", "text": text},
+                "timestamp": 1715676000000,
+                "source": {"type": "user", "userId": "U123test"},
+                "replyToken": "test-reply-token-99999",
+                "mode": "active",
+            }
+        ],
+    },
+    ensure_ascii=False,
+)
+body_bytes = body.encode("utf-8")
 sig = base64.b64encode(hmac.new(secret.encode(), body_bytes, hashlib.sha256).digest()).decode()
 res = requests.post(
-    'https://ses-work-automation-production.up.railway.app/webhook',
-    headers={'Content-Type': 'application/json', 'X-Line-Signature': sig},
-    data=body_bytes, timeout=30
+    "https://ses-work-automation-production.up.railway.app/webhook",
+    headers={"Content-Type": "application/json", "X-Line-Signature": sig},
+    data=body_bytes,
+    timeout=30,
 )
-print(f'status: {res.status_code}')
-print(f'body: {res.text[:500]}')
+print(f"status: {res.status_code}")
+print(f"body: {res.text[:500]}")

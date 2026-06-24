@@ -1,4 +1,7 @@
-import sys, io, requests
+import io
+import sys
+
+import requests
 from dotenv import dotenv_values
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -25,7 +28,7 @@ for page_id in no_name_ids:
     page = r.json()
     props = page.get("properties", {})
     url = page.get("url", "")
-    
+
     # 全プロパティを出力
     print(f"=== {page_id} ===")
     print(f"URL: {url}")
@@ -56,7 +59,7 @@ for page_id in no_name_ids:
             date_v = val.get("date")
             if date_v:
                 print(f"  [{key}] date: {date_v['start']}")
-    
+
     # ページ内コンテンツ（ブロック）も確認
     r2 = requests.get(f"https://api.notion.com/v1/blocks/{page_id}/children", headers=headers)
     blocks = r2.json().get("results", [])

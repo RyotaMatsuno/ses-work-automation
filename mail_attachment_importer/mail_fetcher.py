@@ -3,9 +3,10 @@ mail_fetcher.py v3 - メール取得モジュール
 対象: sessales / matsuno / okamoto
 タイムアウト対策済み・パターンA/B/C対応
 """
+
 import argparse
-import imaplib
 import email
+import imaplib
 import json
 import logging
 import os
@@ -13,6 +14,7 @@ import re
 import socket
 from email.header import decode_header
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
@@ -33,22 +35,13 @@ def _get_account_config(account: str) -> dict:
     prefix = account.upper()
     password = os.environ.get(f"{prefix}_PASSWORD") or ""
     if account == "sessales":
-        password = (
-            os.environ.get("SESSALES_MAIL_PASSWORD")
-            or password
-            or os.environ.get("OUTLOOK_PASSWORD")
-            or ""
-        )
+        password = os.environ.get("SESSALES_MAIL_PASSWORD") or password or os.environ.get("OUTLOOK_PASSWORD") or ""
 
     return {
         "account": account,
         "email": os.environ.get(f"{prefix}_EMAIL", "sessales@terra-ltd.co.jp" if account == "sessales" else ""),
         "password": password,
-        "imap_server": (
-            os.environ.get("IMAP_HOST")
-            or os.environ.get("OUTLOOK_IMAP_SERVER")
-            or "118.27.122.112"
-        ),
+        "imap_server": (os.environ.get("IMAP_HOST") or os.environ.get("OUTLOOK_IMAP_SERVER") or "118.27.122.112"),
         "imap_port": int(os.environ.get("IMAP_PORT") or os.environ.get("OUTLOOK_IMAP_PORT") or 993),
     }
 
@@ -176,8 +169,7 @@ def _fetch_new_emails_for_account(config: dict, days_back: int, processed_ids: l
 
     try:
         logger.info(
-            f"IMAP接続開始: account={account} "
-            f"{config['imap_server']}:{config['imap_port']} (timeout={IMAP_TIMEOUT}s)"
+            f"IMAP接続開始: account={account} {config['imap_server']}:{config['imap_port']} (timeout={IMAP_TIMEOUT}s)"
         )
         mail = imaplib.IMAP4_SSL(config["imap_server"], config["imap_port"])
         mail.login(config["email"], config["password"])
@@ -196,6 +188,7 @@ def _fetch_new_emails_for_account(config: dict, days_back: int, processed_ids: l
 
         # 日付絞り込み（直近N日）
         from datetime import datetime, timedelta
+
         since_date = (datetime.now() - timedelta(days=days_back)).strftime("%d-%b-%Y")
         _, data = mail.uid("search", None, f'(SINCE "{since_date}")')
         all_uids = data[0].split() if data[0] else []
@@ -251,16 +244,18 @@ def _fetch_new_emails_for_account(config: dict, days_back: int, processed_ids: l
                     logger.debug(f"スキップ（添付・URLなし）: account={account} UID={uid}")
                     continue
 
-                results.append({
-                    "uid": uid,
-                    "subject": subject,
-                    "from": from_,
-                    "date": date_,
-                    "account": account,
-                    "attachments": attachments,
-                    "sheet_urls": sheet_urls,
-                    "body_text": body_text[:5000],
-                })
+                results.append(
+                    {
+                        "uid": uid,
+                        "subject": subject,
+                        "from": from_,
+                        "date": date_,
+                        "account": account,
+                        "attachments": attachments,
+                        "sheet_urls": sheet_urls,
+                        "body_text": body_text[:5000],
+                    }
+                )
 
             except Exception as e:
                 logger.error(f"メール処理エラー (account={account} UID={uid}): {e}")

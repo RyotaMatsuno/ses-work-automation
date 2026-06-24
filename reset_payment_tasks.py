@@ -1,5 +1,7 @@
-import subprocess, sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+import subprocess
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # 既存3タスク削除
 delete_tasks = ["freee_payment_check", "freee_payment_check_20", "freee_payment_check_28"]

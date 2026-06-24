@@ -1,0 +1,30 @@
+{
+  "diagnosis": "実データ上の主問題は『分類器精度』ではなく、『マッチング入力DBの構造化欠損』です。特に案件DBの必須スキルmulti_select欠損(60%)と、エンジニアDBのスキル/単価未整備(実質100%)が、matching_v3の判定品質を直接毀損しています。直近6467件の40.4%という分類精度も、観測された不一致の多くがDBラベル汚染由来であり、分類器そのものより保存・正解管理フローの問題が大きいと判断できます。質問1については、コード未確認のため断定不可ですが、一般的な実装では required_skills が空の場合は『スキル必須条件なし』として緩和判定されるか、逆に『情報不足でSKIP』に倒れるかの二択です。現状データ欠損率から見て、もし全員MATCH寄り実装ならノイズ大量発生、全員SKIP寄り実装なら取りこぼし大量発生になります。いずれでも致命的です。質問3については、案件名にスキルが入っている例が既に確認されており、案件詳細(rich_text)にも高確率でスキル・工程・環境・単価・年齢情報が含まれている可能性が高いです。質問4については、はい、structurer抽出結果をNotion保存時にmulti_select/number/select/rich_textへ正規反映するパイプライン修正が最優先です。matching_v3側だけ直しても、上流の構造化欠損を放置すると再発します。",
+  "root_cause": [
+    "最上流の構造化結果がNotion案件DBへ正しくマッピング保存されていない可能性が高い。特に structurer.py で抽出した必須スキル・尚可スキル・単価等が、mail_pipeline.py 経由で案件DBの対応プロパティへ反映されていない疑いが強い。",
+    "案件DB設計上、年齢制限や詳細条件が rich_text 自由記述に寄っており、matching_v3 が安定利用できる構造化属性が不足している。",
+    "エンジニアDBが手入力前提にもかかわらず、スキルrich_text・単価numberが未入力のまま運用されている。multi_select『スキル』に一部情報があっても、matching_v3 が参照していない/参照優先順位が低い場合、実質空データ扱いになる。",
+    "正解ラベルDB/分類結果DB側の汚染により、分類器評価指標が実態より低く見えている。改善優先順位を誤らせるリスクがある。",
+    "matching_v3 が『空フィールドをどう扱うか』のポリシーを明示していないか、空値時フォールバック(案件名/詳細テキスト解析)を持たないため、データ欠損に脆弱。"
+  ],
+  "fix_plan": [
+    "最優先で matching_v3 の入力参照ロジックを監査する。required_skills, preferred_skills, engineer_skills, unit_price, age の取得元プロパティ名、空値時挙動、フォールバック有無を確認し、ログ出力を追加する。確認項目: 『required_skills空時はmatch_allかskipか』『engineer_skills空時はunknownかnon_matchか』『単価空時は条件無視か除外か』。",
+    "案件登録パイプラインを修正する。structurer.py の抽出結果(JSON等)を mail_pipeline.py から Notion案件DBへ保存する際、少なくとも以下を構造化反映する: 必須スキルmulti_select、尚可スキルmulti_select、単価number、勤務地select/text、商流select/text、年齢下限/上限number、案件詳細rich_text原文。",
+    "案件名・案件詳細からの再抽出バッチを作成し、既存案件DBをバックフィルする。対象は特に必須スキル空の6/10サンプルを含む直近数千件。LLM/ルール併用で『案件名+詳細→必須/尚可スキル候補』を再生成し、confidence付きで保存する。",
+    "matching_v3 に空値フォールバックを実装する。案件必須スキルmulti_selectが空なら、1) 案件名、2) 案件詳細(rich_text)、3) 添付/本文抽出済み構造化JSON の順に補完。エンジニアスキルも rich_text 空なら multi_select を優先利用するように変更する。",
+    "エンジニアDBの参照ロジックを一本化する。スキル情報源が rich_text と multi_select に分散しているなら、matching_v3 は multi_select を主、rich_text を副に変更するか、前処理で canonical_skills フィールドを生成する。単価も未入力なら希望単価unknownとして扱い、単価条件が厳密必須でない限り即除外しない。",
+    "Notionスキーマを見直す。自由記述の年齢制限を age_min / age_max number に分離し、単価を min/max number、稼働率、出社頻度、外国籍可否なども構造化する。matching_v3 が rich_text を直接読む割合を減らす。",
+    "分類評価基盤を修正する。DBラベル汚染を訂正し、skip→engineer などサンプル監査済みの誤ラベルパターンを修復する。評価データと運用データの品質を分離して可視化する。",
+    "保存時検証を追加する。案件登録時に『案件名に主要スキル語があるのに必須スキルmulti_select空』なら warning、エンジニア登録時に『スキルmulti_select空かつrich_text空』なら warning を出し、運用上の取りこぼしを防ぐ。",
+    "短期的な暫定措置として、matching_v3 の判定前に軽量スキル抽出を差し込む。Notion空欄のままでも案件名/詳細とエンジニアmulti_selectから最低限のスキル一致判定ができるようにする。"
+  ],
+  "priority_order": [
+    "1. matching_v3 の空値時挙動をコード確認し、ログ追加で事実確定",
+    "2. structurer抽出結果→mail_pipeline→Notion案件DB 保存マッピング修正",
+    "3. matching_v3 に空値フォールバック実装（案件名/詳細、engineer multi_select活用）",
+    "4. 既存案件DBのバックフィル（案件名・詳細からスキル再抽出）",
+    "5. エンジニアDBの canonical_skills / 単価運用整備",
+    "6. Notionスキーマ改善（年齢・単価・条件の構造化）",
+    "7. 分類ラベル汚染の修復と評価基盤再構築"
+  ]
+}

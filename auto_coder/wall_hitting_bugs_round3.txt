@@ -1,0 +1,158 @@
+=== wall_hitting bugs round3 by gpt-5.4 ===
+in=818 out=1728 cost=$0.0183
+
+以下を**Round3確定**にします。
+
+---
+
+# 結論
+
+## Q1. 今夜、本当に「松野が管理者PSで手を動かす」必要があるもの
+### **必須**
+**1位: ① Operational Log有効化**  
+- **今夜の唯一の必須手作業**
+- 理由: 19:00/20:00スキップの再発時に、次回は原因を取れるようにするため
+- リスク: 実質ゼロ
+
+### **任意（余力があれば）**
+**2位: ② StartWhenAvailable=true**
+- 必須ではない
+- ただし「PCスリープ/取りこぼし」対策としては今夜入れても安全
+- Round2評価どおり、**Queued短縮の本丸ではない**
+
+### **手作業ではなく承認だけ**
+**3位: ⑤ A1-α維持の明示承認**
+- 既に反映済み
+- 松野の作業は**「このまま維持でOK」と返答するだけ**
+- 管理者PS作業ではない
+
+---
+
+## Q2. 「CEO帰還後でいい / 自走で済む / 不要」の分類
+
+### **CEO帰還後でいい**
+**④ jobz-watchdog小文字版 delete**
+- 今夜やる必要なし
+- ノイズ除去目的のみ
+- 一般権限で止められないので、**管理者で後日削除**
+
+### **今夜は触らない（Round2維持）**
+**③ UseUnifiedSchedulingEngine=false**
+- **今夜は不要**
+- タスク再作成級で、変更の重さに対してリターンが小さい
+- Round2の「今夜は触るな」を**維持**
+
+### **不要 / まだ早い**
+**⑥ PROCESS_LIMIT Day1=20 昇格**
+- **不要**
+- Round2の「4連続OK確認後」維持
+- 今夜やるべきではない
+
+### **自走で済む**
+**⑤ A1-α維持の明示承認**
+- 実装済み
+- 承認だけでよい
+- PS作業不要
+
+---
+
+# 松野作業リスト
+
+## 今夜やるもの
+### 必須
+1. **Operational Log有効化**
+
+### 余力があれば
+2. **StartWhenAvailable=true**  
+   ※対象タスク名が確定している場合のみ
+
+---
+
+# Q3. 貼るだけで完結する管理者PowerShell一行
+
+## ① Operational Log有効化
+```powershell
+wevtutil sl Microsoft-Windows-TaskScheduler/Operational /e:true
+```
+
+## ② StartWhenAvailable=true
+**TODO: 対象タスク名を確定してから実行**  
+（例: `jobz-watchdog`, `JobZ_DailyBatch` など対象を列挙して実行）
+
+```powershell
+$tn='<TODO:タスク名>';$ts=New-ScheduledTaskSettingsSet -StartWhenAvailable;$t=Get-ScheduledTask -TaskName $tn;$a=$t.Actions;$tr=$t.Triggers;$p=$t.Principal;Register-ScheduledTask -TaskName $tn -TaskPath $t.TaskPath -Action $a -Trigger $tr -Principal $p -Settings $ts -Force
+```
+
+> 注: 既存設定を完全保持したいなら個別確認が必要。  
+> **なので②は「余力があれば」扱い**です。  
+> **今夜の必須は①だけ**で十分です。
+
+## ④ jobz-watchdog小文字版 delete（今夜不要、後日用）
+```powershell
+schtasks /delete /tn "<TODO:小文字版タスク名>" /f
+```
+
+---
+
+# Q4. ロールバック手順（各1行）
+
+## ① Operational Log有効化
+```powershell
+wevtutil sl Microsoft-Windows-TaskScheduler/Operational /e:false
+```
+
+## ② StartWhenAvailable=true
+```powershell
+$tn='<TODO:タスク名>';Unregister-ScheduledTask -TaskName $tn -TaskPath '\' -Confirm:$false; # ※事前エクスポート or 元設定で再登録が前提
+```
+
+> ②はロールバックが軽くないため、**だからこそ必須扱いにしない**です。
+
+## ④ jobz-watchdog小文字版 delete
+```powershell
+schtasks /create /xml "<事前退避XMLパス>" /tn "<元タスク名>"
+```
+
+---
+
+# Q5. Round2で「触るな」と言われた項目は、Round3でも維持すべきか
+
+## **維持する**
+- **③ UseUnifiedSchedulingEngine=false**  
+  → **今夜は触らない**
+- **⑥ PROCESS_LIMIT Day1=20**  
+  → **まだ上げない**
+- **④ jobz-watchdog小文字版 delete**  
+  → **今夜は保留でよい**
+
+## **変更しない**
+- **⑤ A1-α維持**  
+  → そのまま継続
+
+---
+
+# 最終確定版
+
+## 松野が今夜やるべきこと
+### **必須**
+- **① Operational Log有効化**
+
+### **余力があれば**
+- **② StartWhenAvailable=true**  
+  ただし対象タスク名確定時のみ
+
+## 松野が今夜やらなくてよいこと
+- **③ UseUnifiedSchedulingEngine=false** → 今夜は触らない
+- **④ jobz-watchdog小文字版 delete** → CEO帰還後でよい
+- **⑤ A1-α維持承認** → 承認だけ、PS不要
+- **⑥ PROCESS_LIMIT=20** → 不要、まだ早い
+
+---
+
+## 一番短い出口
+**今夜の管理者PSはこれだけでよい**
+```powershell
+wevtutil sl Microsoft-Windows-TaskScheduler/Operational /e:true
+```
+
+必要なら次に、**StartWhenAvailable対象タスク名込みの実行用1行**だけこちらで確定形にします。

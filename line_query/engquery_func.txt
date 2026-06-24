@@ -1,0 +1,81 @@
+def engineer_query(initial: str, station: str) -> str:
+
+    engineers = fetch_all_pages(ENGINEER_DB_ID)
+
+    matched_engineers = [
+
+        engineer
+
+        for engineer in engineers
+
+        if _match_initial(engineer, initial)
+
+        and _match_station(engineer, station)
+
+    ]
+
+
+
+    if not matched_engineers:
+
+        return f"一致する人員が見つかりませんでした: {initial} {station}"
+
+
+
+    projects = fetch_all_pages(PROJECT_DB_ID)
+
+    replies = []
+
+    for engineer in matched_engineers:
+
+        engineer_skills = _multi_select_prop(engineer, "スキル")
+
+        engineer_rate = _number_prop(engineer, "単価（万円）")
+
+        matched_projects = []
+
+
+
+        for project in projects:
+
+            if _select_prop(project, "ステータス") != "募集中":
+
+                continue
+
+            if business_days_since(project.get("last_edited_time")) > 4:
+
+                continue
+
+            required = _multi_select_prop(project, "必要スキル")
+
+            if not skill_match(required, engineer_skills):
+
+                continue
+
+
+
+            budget = _number_prop(project, "単価（万円）")
+
+            gross = calc_gross_profit(budget, engineer_rate)
+
+            if gross < _gross_threshold(_select_prop(project, "担当者")):
+
+                continue
+
+
+
+            matched_projects.append({"page": project, "gross_profit": gross})
+
+
+
+        matched_projects.sort(key=lambda item: item["gross_profit"], reverse=True)
+
+        replies.append(format_project_result(engineer, matched_projects))
+
+
+
+    return "\n\n".join(replies)
+
+
+
+

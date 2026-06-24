@@ -6,73 +6,120 @@ LINE Webhook Server v13
 
 """
 
-
-
-import os, hmac, hashlib, base64, json, re, traceback, threading, time
-
-from datetime import date, datetime
-
-from flask import Flask, request, abort
+import base64
+import hashlib
+import hmac
+import json
+import os
+import re
+import sys
+import threading
+import time
+import traceback
+from datetime import datetime
 
 import requests
-
 from dotenv import dotenv_values, set_key
-from remote_command_handler import execute_remote, execute_bg, get_log, get_health
+from flask import Flask, abort, request
+from invoice_cron import (
+    invoice_draft_handler,
+    invoice_prep_handler,
+    invoice_reminder_handler,
+)
+from remote_command_handler import execute_bg, execute_remote, get_health, get_log
+
+from line_bridge import (
+    build_queue_progress,
+    cron_authorized,
+    expire_finished,
+    guarded_anthropic_call,
+    pickup_and_run,
+    route_line_message,
+)
+
 try:
-    from matching_logic import deduplicate_projects, build_reverse_match_message_v2
+    from matching_logic import build_reverse_match_message_v2, deduplicate_projects
+
     MATCHING_LOGIC_AVAILABLE = True
 except ImportError:
     MATCHING_LOGIC_AVAILABLE = False
-    def deduplicate_projects(p): return p
+
+    def deduplicate_projects(p):
+        return p
 
 
+try:
+    from skill_utils import build_normalized_skill_set, skill_match as _skill_match
 
-ENV_PATH = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+    SKILL_UTILS_AVAILABLE = True
+except ImportError:
+    SKILL_UTILS_AVAILABLE = False
+
+    def build_normalized_skill_set(skills):
+        return {s.lower().strip() for s in skills if s}
+
+    def _skill_match(req, eng_set):
+        return req.lower().strip() in eng_set
+
+
+ENV_PATH = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
+SES_WORK_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+def _import_canonical_line_query():
+    """line_webhook/line_query.py (新版: 詳細コマンド・鮮度フィルタ・表示上限対応) を読み込む。"""
+    import importlib.util
+
+    module_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "line_query.py")
+    spec = importlib.util.spec_from_file_location("_lw_line_query", module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"line_webhook/line_query.py not found: {module_path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.handle_line_query
+
+
+handle_line_query = _import_canonical_line_query()
 
 if os.path.exists(ENV_PATH):
-
     config = dotenv_values(ENV_PATH)
 
     for key, value in config.items():
-
         if key not in os.environ:
-
             os.environ[key] = value
 
 
+MATSUNO_CHANNEL_SECRET = os.environ.get("LINE_CHANNEL_SECRET", "")
 
-MATSUNO_CHANNEL_SECRET = os.environ.get('LINE_CHANNEL_SECRET', '')
+MATSUNO_CHANNEL_TOKEN = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", "")
 
-MATSUNO_CHANNEL_TOKEN  = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN', '')
+MATSUNO_USER_ID = os.environ.get("MATSUNO_LINE_USER_ID") or "Ue3508b43b84991f5a68281da5bf4cf39"
 
-MATSUNO_USER_ID        = os.environ.get('MATSUNO_LINE_USER_ID') or 'REDACTED-SECRET'
+OKAMOTO_CHANNEL_SECRET = os.environ.get("LINE_OKAMOTO_CHANNEL_SECRET") or os.environ.get(
+    "OKAMOTO_LINE_CHANNEL_SECRET", ""
+)
 
-OKAMOTO_CHANNEL_SECRET = os.environ.get('LINE_OKAMOTO_CHANNEL_SECRET') or os.environ.get('OKAMOTO_LINE_CHANNEL_SECRET', '')
+OKAMOTO_CHANNEL_TOKEN = os.environ.get("LINE_OKAMOTO_CHANNEL_TOKEN") or os.environ.get(
+    "OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN", ""
+)
 
-OKAMOTO_CHANNEL_TOKEN  = os.environ.get('LINE_OKAMOTO_CHANNEL_TOKEN') or os.environ.get('OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN', '')
+OKAMOTO_USER_ID = os.environ.get("OKAMOTO_LINE_USER_ID") or "Uac1d23408573586affa37577c4e2b2ab"
 
-OKAMOTO_USER_ID        = os.environ.get('OKAMOTO_LINE_USER_ID') or 'REDACTED-SECRET'
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
 
-NOTION_API_KEY         = os.environ.get('NOTION_API_KEY', '')
+NOTION_ENGINEER_DB_ID = os.environ.get("NOTION_ENGINEER_DB_ID", "")
 
-NOTION_ENGINEER_DB_ID  = os.environ.get('NOTION_ENGINEER_DB_ID', '')
+NOTION_PROJECT_DB_ID = os.environ.get("NOTION_PROJECT_DB_ID", "")
 
-NOTION_PROJECT_DB_ID   = os.environ.get('NOTION_PROJECT_DB_ID', '')
-
-ANTHROPIC_API_KEY      = os.environ.get('ANTHROPIC_API_KEY', '')
-
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
 app = Flask(__name__)
 
 NOTION_HEADERS = {
-
     "Authorization": f"Bearer {NOTION_API_KEY}",
-
     "Content-Type": "application/json",
-
-    "Notion-Version": "2022-06-28"
-
+    "Notion-Version": "2022-06-28",
 }
 
 DB_PROPERTY_CACHE = {}
@@ -85,43 +132,175 @@ def get_line_source_label(user_id: str) -> str:
         return "岡本LINE"
     return ""
 
+
 VALID_SKILLS = [
-    "Java","Python","PHP","JavaScript","TypeScript","C#","C++","C","Go","Ruby",
-    "Swift","Kotlin","R","COBOL","VB.NET","VBA","Scala","Rust","Perl","Bash",
-    "React","Vue.js","Angular","Next.js","Nuxt.js","HTML","CSS","jQuery",
-    "Node.js","Spring","Spring Boot","Django","Flask","Laravel","Rails",".NET",
-    "Express","FastAPI",
-    "AWS","GCP","Azure","Docker","Kubernetes","Terraform","Ansible","Linux",
-    "Windows Server","VMware","OpenStack","Nginx","Apache",
-    "MySQL","PostgreSQL","Oracle","SQL Server","MongoDB","Redis","Elasticsearch",
-    "DynamoDB","Cassandra","SQLite",
-    "Jenkins","GitLab","GitHub Actions","CircleCI","Git","Jira","Confluence",
-    "Tableau","PowerBI","Spark","Hadoop","TensorFlow","PyTorch","scikit-learn",
-    "Salesforce","SAP","ServiceNow","SharePoint","Power Apps","Power Automate",
-    "CCNA","CCNP","Cisco","Fortinet","Zabbix","Prometheus",
-    "FPGA","PLC","Unity","Android Studio","Xcode"
+    "Java",
+    "Python",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "C#",
+    "C++",
+    "C",
+    "Go",
+    "Ruby",
+    "Swift",
+    "Kotlin",
+    "R",
+    "COBOL",
+    "VB.NET",
+    "VBA",
+    "Scala",
+    "Rust",
+    "Perl",
+    "Bash",
+    "React",
+    "Vue.js",
+    "Angular",
+    "Next.js",
+    "Nuxt.js",
+    "HTML",
+    "CSS",
+    "jQuery",
+    "Node.js",
+    "Spring",
+    "Spring Boot",
+    "Django",
+    "Flask",
+    "Laravel",
+    "Rails",
+    ".NET",
+    "Express",
+    "FastAPI",
+    "AWS",
+    "GCP",
+    "Azure",
+    "Docker",
+    "Kubernetes",
+    "Terraform",
+    "Ansible",
+    "Linux",
+    "Windows Server",
+    "VMware",
+    "OpenStack",
+    "Nginx",
+    "Apache",
+    "MySQL",
+    "PostgreSQL",
+    "Oracle",
+    "SQL Server",
+    "MongoDB",
+    "Redis",
+    "Elasticsearch",
+    "DynamoDB",
+    "Cassandra",
+    "SQLite",
+    "Jenkins",
+    "GitLab",
+    "GitHub Actions",
+    "CircleCI",
+    "Git",
+    "Jira",
+    "Confluence",
+    "Tableau",
+    "PowerBI",
+    "Spark",
+    "Hadoop",
+    "TensorFlow",
+    "PyTorch",
+    "scikit-learn",
+    "Salesforce",
+    "SAP",
+    "ServiceNow",
+    "SharePoint",
+    "Power Apps",
+    "Power Automate",
+    "CCNA",
+    "CCNP",
+    "Cisco",
+    "Fortinet",
+    "Zabbix",
+    "Prometheus",
+    "FPGA",
+    "PLC",
+    "Unity",
+    "Android Studio",
+    "Xcode",
 ]
 
 
+SHEET_URL_PATTERN = re.compile(r"https://docs\.google\.com/spreadsheets/[^\s]+")
 
-SHEET_URL_PATTERN = re.compile(r'https://docs\.google\.com/spreadsheets/[^\s]+')
-
-EMAIL_PATTERN = re.compile(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
+EMAIL_PATTERN = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
 
 KANTO_CHUBU_PREFECTURES = {
-    "東京都", "神奈川県", "埼玉県", "千葉県", "茨城県", "栃木県", "群馬県",
-    "愛知県", "岐阜県", "三重県", "静岡県", "長野県", "富山県", "石川県",
-    "福井県", "山梨県", "新潟県",
+    "東京都",
+    "神奈川県",
+    "埼玉県",
+    "千葉県",
+    "茨城県",
+    "栃木県",
+    "群馬県",
+    "愛知県",
+    "岐阜県",
+    "三重県",
+    "静岡県",
+    "長野県",
+    "富山県",
+    "石川県",
+    "福井県",
+    "山梨県",
+    "新潟県",
 }
 
 ALL_PREFECTURES = [
-    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
-    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
-    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
-    "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
-    "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
-    "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
-    "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+    "北海道",
+    "青森県",
+    "岩手県",
+    "宮城県",
+    "秋田県",
+    "山形県",
+    "福島県",
+    "茨城県",
+    "栃木県",
+    "群馬県",
+    "埼玉県",
+    "千葉県",
+    "東京都",
+    "神奈川県",
+    "新潟県",
+    "富山県",
+    "石川県",
+    "福井県",
+    "山梨県",
+    "長野県",
+    "岐阜県",
+    "静岡県",
+    "愛知県",
+    "三重県",
+    "滋賀県",
+    "京都府",
+    "大阪府",
+    "兵庫県",
+    "奈良県",
+    "和歌山県",
+    "鳥取県",
+    "島根県",
+    "岡山県",
+    "広島県",
+    "山口県",
+    "徳島県",
+    "香川県",
+    "愛媛県",
+    "高知県",
+    "福岡県",
+    "佐賀県",
+    "長崎県",
+    "熊本県",
+    "大分県",
+    "宮崎県",
+    "鹿児島県",
+    "沖縄県",
 ]
 
 PREFECTURE_ALIASES = {
@@ -133,7 +312,6 @@ PREFECTURE_ALIASES["北海道"] = "北海道"
 
 ENGINEER_NAME_NOT_FOUND_REPLY = "名前が取得できませんでした。「氏名: 〇〇」の形式で再送してください。"
 AREA_OUT_OF_SCOPE_REPLY = "対応エリア外のため登録をスキップしました（関東・中部のみ対応）"
-
 
 
 PENDING_PROPOSALS = {}
@@ -150,65 +328,35 @@ PROCESSED_EVENT_IDS = set()
 MAX_EVENT_IDS = 1000
 
 
-
-
-
 def verify_signature(body, signature, secret):
 
-    h = hmac.new(secret.encode('utf-8'), body, hashlib.sha256).digest()
+    h = hmac.new(secret.encode("utf-8"), body, hashlib.sha256).digest()
 
-    return hmac.compare_digest(base64.b64encode(h).decode('utf-8'), signature)
-
-
-
+    return hmac.compare_digest(base64.b64encode(h).decode("utf-8"), signature)
 
 
 def call_claude(system, user_msg, max_tokens=120, caller="unknown"):
-
-    res = requests.post(
-
-        "https://api.anthropic.com/v1/messages",
-
-        headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-
-        json={"model": "claude-haiku-4-5-20251001", "max_tokens": max_tokens,
-
-              "system": system, "messages": [{"role": "user", "content": user_msg}]},
-
-        timeout=60
-
-    )
-
-    if res.status_code == 200:
-
-        data = res.json()
-        usage = data.get("usage", {})
-        print(f"[claude_api] caller={caller} model=haiku max_tokens={max_tokens} "
-              f"in={usage.get('input_tokens','?')} out={usage.get('output_tokens','?')}")
-        return data["content"][0]["text"]
-
-    print(f"Claude API error: {res.status_code} {res.text[:100]}")
-
-    return ""
-
-
-
+    try:
+        return guarded_anthropic_call(
+            system,
+            user_msg,
+            max_tokens=max_tokens,
+            caller=caller,
+        )
+    except Exception as e:
+        print(f"Claude API error: {e}")
+        return ""
 
 
 def normalize_price(price):
 
     if price is None or price == 0:
-
         return price
 
     if price >= 1000:
-
         price = round(price / 10000)
 
     return price
-
-
-
 
 
 def classify_message(text):
@@ -247,31 +395,25 @@ Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"pric
 Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
 Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"optional_skills":["Next.js"],"price":57,"start_date":"2026-07-01","location":"Shibuya","remote":"shu3","period":"long","interview_count":1,"note":"kyuubo"}
 """
-    result = call_claude(system, text, max_tokens=120, caller="classify_message")
+    result = call_claude(system, text, max_tokens=500, caller="classify_message")
 
     try:
-
-        result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
+        result_obj = json.loads(re.sub(r"```json|```", "", result).strip())
 
         if not isinstance(result_obj, dict):
-
             return {"type": "other", "note": text[:300]}
 
         return result_obj
 
     except Exception as e:
-
         print(f"[classify_message] parse error: {e} / raw: {result[:100]}")
 
         return {"type": "other", "note": text[:300]}
 
 
-
-
-
 def classify_sheet_content(text):
 
-    system = '''You are a classifier for SES (System Engineer Staffing) business documents in Japanese.
+    system = """You are a classifier for SES (System Engineer Staffing) business documents in Japanese.
 Classify the content as "engineer" (skill sheet / resume / 経歴書 / スキルシート) 
 or "project" (job requirement / 案件 / 求人 / 募集要項).
 
@@ -280,80 +422,60 @@ Rules:
 - If it contains required skills, job description, client info, contract period → "project"  
 - When unclear, default to "engineer"
 
-Reply JSON only: {"content_type": "engineer"} or {"content_type": "project"}'''
+Reply JSON only: {"content_type": "engineer"} or {"content_type": "project"}"""
 
     result = call_claude(system, text[:2000], max_tokens=100, caller="classify_sheet_content")
 
     try:
-
-        return json.loads(re.sub(r'```json|```', '', result).strip()).get("content_type", "engineer")
+        return json.loads(re.sub(r"```json|```", "", result).strip()).get("content_type", "engineer")
 
     except Exception:
-
         return "engineer"
-
-
-
 
 
 def fetch_sheet_text(url):
 
     try:
-
         import sys
 
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'mail_attachment_importer'))
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "mail_attachment_importer"))
 
         from sheet_fetcher import fetch_sheet_text as _fetch
 
         return _fetch(url)
 
     except Exception as e:
-
         return {"status": "error", "error": str(e)}
-
-
-
 
 
 def extract_engineers_from_text(text):
 
     try:
-
         import sys
 
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'mail_attachment_importer'))
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "mail_attachment_importer"))
 
         from ai_extractor import extract_engineers
 
         return extract_engineers(text, "sheet_from_line")
 
-    except Exception as e:
-
+    except Exception:
         return []
-
-
-
 
 
 def extract_projects_from_text(text):
 
     try:
-
         import sys
 
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'mail_attachment_importer'))
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "mail_attachment_importer"))
 
         from ai_extractor import extract_projects
 
         return extract_projects(text, "sheet_from_line")
 
-    except Exception as e:
-
+    except Exception:
         return []
-
-
-
 
 
 def run_matching(project, engineers):
@@ -381,18 +503,20 @@ def run_matching(project, engineers):
         opt_pts = int(20 * (sum(opt_match.values()) / len(opt_match))) if opt_match else 20
         gross_pts = min(20, int(20 * gross / 7)) if gross >= 5 else 0
         score = req_pts + opt_pts + gross_pts
-        candidates.append({
-            "name": eng.get("name", ""),
-            "price": eng_price,
-            "available_date": "",
-            "score": score,
-            "gross_profit": gross,
-            "required_match": req_match,
-            "optional_match": opt_match,
-            "required_ok": required_ok,
-            "ng_reasons": ng_reasons,
-            "summary": "",
-        })
+        candidates.append(
+            {
+                "name": eng.get("name", ""),
+                "price": eng_price,
+                "available_date": "",
+                "score": score,
+                "gross_profit": gross,
+                "required_match": req_match,
+                "optional_match": opt_match,
+                "required_ok": required_ok,
+                "ng_reasons": ng_reasons,
+                "summary": "",
+            }
+        )
     candidates.sort(key=lambda x: x["score"], reverse=True)
     return {"candidates": candidates, "proposal_draft": ""}
 
@@ -400,44 +524,91 @@ def run_matching(project, engineers):
 def run_reverse_matching(engineer, projects):
     """ルールベース逆マッチング（API不要）"""
     eng_skills = set(engineer.get("skills", []))
+    eng_skills_normalized = build_normalized_skill_set(eng_skills)
     eng_price = normalize_price(engineer.get("price", 0)) or 0
+    # 異常単価ガード
+    if eng_price > 200 or (eng_price > 0 and eng_price < 15):
+        return {
+            "matches": [],
+            "stats": {
+                "total_projects": len(projects),
+                "excluded_negative_margin": 0,
+                "excluded_no_skill_match": 0,
+                "passed": 0,
+                "error": "engineer_price_anomaly",
+            },
+        }
+    # #skill_skip フラグ: 備考に記載がある場合はスキルフィルタを除外し単価のみでマッチ
+    note = engineer.get("note", "") or ""
+    skill_skip = "#skill_skip" in note
     matches = []
+    stats = {
+        "total_projects": len(projects),
+        "excluded_negative_margin": 0,
+        "excluded_no_skill_match": 0,
+        "excluded_no_skill_both": 0,
+        "passed": 0,
+    }
     for proj in projects:
         req_skills = set(proj.get("required_skills", []))
         opt_skills = set(proj.get("optional_skills", []))
         proj_price = normalize_price(proj.get("price", 0)) or 0
+        # スキル0件エンジニアは必須スキルあり案件のみ（粗利のみマッチ防止）
+        if not eng_skills_normalized and not req_skills:
+            stats["excluded_no_skill_both"] += 1
+            continue
         gross = (proj_price - eng_price) if (proj_price > 0 and eng_price > 0) else 0
         if eng_price > 0 and proj_price > 0:
-            if gross < 5: continue
-            if gross > 15: continue
-        req_match = {s: (s in eng_skills) for s in req_skills}
-        opt_match = {s: (s in eng_skills) for s in opt_skills}
-        if req_skills and not any(req_match.values()): continue
+            if gross < 0:
+                stats["excluded_negative_margin"] += 1
+                continue  # 粗利マイナスのみ除外
+            # gross > 15 は除外しない。スコア調整のみ
+        req_match = {s: _skill_match(s, eng_skills_normalized) for s in req_skills}
+        opt_match = {s: _skill_match(s, eng_skills_normalized) for s in opt_skills}
+        # スキルフィルタ（#skill_skipがある場合はスキップ）
+        if not skill_skip:
+            if req_skills and not all(req_match.values()):
+                stats["excluded_no_skill_match"] += 1
+                continue
+        if gross is None or gross == 0:
+            gross_pts = 15  # 価格不明/同額: ニュートラル
+        elif 5 <= gross <= 15:
+            gross_pts = min(30, int(30 * gross / 7))  # 理想帯: 加点
+        elif gross > 15:
+            gross_pts = 10  # 高粗利: 軽い加点（除外しない）
+        else:
+            gross_pts = 0  # 粗利5万未満: 加点なし
         skill_pts = int(70 * (sum(req_match.values()) / len(req_match))) if req_match else 70
-        gross_pts = min(30, int(30 * gross / 7)) if gross >= 5 else (15 if gross == 0 else 0)
         score = skill_pts + gross_pts
-        matches.append({
-            "project_name": proj.get("name", ""),
-            "project_price": proj_price,
-            "score": score,
-            "gross_profit": gross,
-            "required_match": req_match,
-            "optional_match": opt_match,
-            "note": proj.get("note", ""),
-            "assignee": proj.get("assignee", ""),
-        })
+        stats["passed"] += 1
+        matches.append(
+            {
+                "project_name": proj.get("name", ""),
+                "project_price": proj_price,
+                "score": score,
+                "gross_profit": gross,
+                "required_match": req_match,
+                "optional_match": opt_match,
+                "note": proj.get("note", ""),
+                "assignee": proj.get("assignee", ""),
+            }
+        )
     matches.sort(key=lambda x: x["score"], reverse=True)
-    return {"matches": matches}
+    matches = matches[:20]
+    return {"matches": matches, "stats": stats}
 
 
 def run_reverse_matching_full(engineer, projects):
     """全案件を30件バッチで処理してマッチング結果をマージ"""
     BATCH_SIZE = 30
     all_matches = []
+    agg_stats = {"total_projects": 0, "excluded_negative_margin": 0, "excluded_no_skill_match": 0, "passed": 0}
     for i in range(0, len(projects), BATCH_SIZE):
-        batch = projects[i:i+BATCH_SIZE]
+        batch = projects[i : i + BATCH_SIZE]
         result = run_reverse_matching(engineer, batch)
         all_matches.extend(result.get("matches", []))
+        for k in agg_stats:
+            agg_stats[k] += result.get("stats", {}).get(k, 0)
 
     seen = set()
     unique = []
@@ -446,13 +617,7 @@ def run_reverse_matching_full(engineer, projects):
         if name not in seen:
             seen.add(name)
             unique.append(m)
-    # ハードフィルタ: 上振れ15万超を強制除外（単価0=スキル見合いは含める）
-    eng_price = engineer.get("price", 0) or 0
-    if eng_price > 0:
-        unique = [m for m in unique
-                  if (m.get("project_price") or 0) == 0
-                  or ((m.get("project_price") or 0) - eng_price) <= 15]
-    return {"matches": unique}
+    return {"matches": unique[:20], "stats": agg_stats}
 
 
 def evaluate_candidate(candidate, project_price):
@@ -485,8 +650,10 @@ def evaluate_candidate(candidate, project_price):
     opt_str = " ".join(f"{'O' if v else 'D'}{k}" for k, v in opt_match.items()) if opt_match else ""
 
     detail_parts = []
-    if req_str: detail_parts.append(f"hissu: {req_str}")
-    if opt_str: detail_parts.append(f"shoko: {opt_str}")
+    if req_str:
+        detail_parts.append(f"hissu: {req_str}")
+    if opt_str:
+        detail_parts.append(f"shoko: {opt_str}")
 
     return is_ok, ng_reasons, " / ".join(detail_parts)
 
@@ -495,82 +662,58 @@ def build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_dra
 
     msg = f"📊 案件『{proj_name}』登録・マッチング完了\n\n"
 
-
-
     if ok_candidates:
-
         msg += f"✅ OK候補: {len(ok_candidates)}名\n"
 
         for i, (c, detail) in enumerate(ok_candidates, 1):
-
             price = normalize_price(c.get("price", 0)) or 0
 
             msg += f"{i}. {c['name']} / {price}万\n"
 
-            if detail: msg += f"   {detail}\n"
+            if detail:
+                msg += f"   {detail}\n"
 
     else:
-
         msg += "✅ OK候補なし\n"
 
-
-
     if ng_candidates:
-
         msg += f"\n⚠️ 参考候補: {len(ng_candidates)}名\n"
 
         for i, (c, ng_reasons, detail) in enumerate(ng_candidates, 1):
-
             price = normalize_price(c.get("price", 0)) or 0
 
             msg += f"{i}. {c['name']} / {price}万\n"
 
             msg += f"   NG: {' / '.join(ng_reasons)}\n"
 
-            if detail: msg += f"   {detail}\n"
-
-
+            if detail:
+                msg += f"   {detail}\n"
 
     if proposal_draft:
-
         msg += f"\n提案文:\n{proposal_draft[:800]}"
-
-
 
     msg += "\n\n"
 
     if ok_candidates and ng_candidates:
-
         msg += "「送信して xxx@yyy.com」→ OK候補のみ\n「NGも含めて送信して xxx@yyy.com」→ 全員"
 
     elif ok_candidates:
-
         msg += "「送信して xxx@yyy.com」で意向確認メールを送ります"
 
     else:
-
         msg += "「NGも含めて送信して xxx@yyy.com」で参考候補を送れます"
 
-
-
     return msg
-
-
-
 
 
 def build_reverse_match_message(eng_name, matches):
 
     if not matches:
-
         return f"📋 登録完了: {eng_name}\n\n⚠️ マッチする募集中案件なし"
-
-
 
     msg = f"📋 登録完了: {eng_name}\n\n🔎 マッチする案件 {len(matches)}件\n"
 
     for i, m in enumerate(matches[:3], 1):
-
         pname = m.get("project_name", "不明")
 
         pprice = m.get("project_price", 0)
@@ -583,86 +726,62 @@ def build_reverse_match_message(eng_name, matches):
 
         req_str = " ".join(f"{'○' if v else '×'}{k}" for k, v in req_match.items()) if req_match else ""
 
-
-
         msg += f"\n{i}. {pname}\n"
 
         msg += f"   案件単価: {pprice}万 / 粗利予想: {gross}万 / スコア: {score}\n"
 
-        if req_str: msg += f"   必須: {req_str}\n"
-
-
+        if req_str:
+            msg += f"   必須: {req_str}\n"
 
     if len(matches) > 3:
-
-        msg += f"\n...他{len(matches)-3}件"
-
-
+        msg += f"\n...他{len(matches) - 3}件"
 
     return msg
 
 
-
-
-
 # run_double_check 削除済み（未使用・コスト削減）
-
-
-
 
 
 def notion_query(db_id, filter_obj=None):
 
     results, payload = [], {"page_size": 100}
 
-    if filter_obj: payload["filter"] = filter_obj
+    if filter_obj:
+        payload["filter"] = filter_obj
 
     while True:
-
-        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query",
-
-                         headers=NOTION_HEADERS, json=payload)
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query", headers=NOTION_HEADERS, json=payload)
 
         data = r.json()
 
         results.extend(data.get("results", []))
 
-        if not data.get("has_more"): break
+        if not data.get("has_more"):
+            break
 
         payload["start_cursor"] = data["next_cursor"]
 
     return results
 
 
-
-
-
 def get_database_property_names(db_id):
 
     if not db_id:
-
         return set()
 
     if db_id not in DB_PROPERTY_CACHE:
-
         try:
-
-            r = requests.get(f"https://api.notion.com/v1/databases/{db_id}",
-
-                             headers=NOTION_HEADERS, timeout=30)
+            r = requests.get(f"https://api.notion.com/v1/databases/{db_id}", headers=NOTION_HEADERS, timeout=30)
 
             if r.status_code == 200:
-
                 DB_PROPERTY_CACHE[db_id] = set(r.json().get("properties", {}).keys())
 
             else:
-
                 print(f"[Notion schema skip] {r.status_code}: {r.text[:120]}")
 
                 DB_PROPERTY_CACHE[db_id] = set()
 
         except Exception as e:
-
             print(f"[Notion schema error] {e}")
 
             DB_PROPERTY_CACHE[db_id] = set()
@@ -670,47 +789,37 @@ def get_database_property_names(db_id):
     return DB_PROPERTY_CACHE[db_id]
 
 
-
 def add_input_source_property(props, db_id, input_source):
 
     if input_source and "入力元" in get_database_property_names(db_id):
-
         props["入力元"] = {"select": {"name": input_source}}
-
 
 
 def find_prefecture_from_text(text):
 
     if not text:
-
         return ""
 
     candidates = []
 
     for pref in ALL_PREFECTURES:
-
         pos = text.find(pref)
 
         if pos >= 0:
-
             candidates.append((pos, pref))
 
     for alias, pref in PREFECTURE_ALIASES.items():
-
         pos = text.find(alias)
 
         if pos >= 0:
-
             candidates.append((pos, pref))
 
     if not candidates:
-
         return ""
 
     candidates.sort(key=lambda item: item[0])
 
     return candidates[0][1]
-
 
 
 def build_engineer_location_text(info, raw_text):
@@ -728,13 +837,11 @@ def build_engineer_location_text(info, raw_text):
     return "\n".join(str(v) for v in fields if v)
 
 
-
 def validate_engineer_for_registration(info, raw_text):
 
     name = str(info.get("name") or "").strip()
 
     if not name or name.lower() == "(no name)":
-
         print(f"[SKIP] name not found: {(raw_text or '')[:100]}")
 
         return False, "name_not_found"
@@ -742,9 +849,25 @@ def validate_engineer_for_registration(info, raw_text):
     # 外国籍チェック
     nationality = str(info.get("nationality") or info.get("note") or "").lower()
     raw_lower = (raw_text or "").lower()
-    foreign_keywords = ["外国籍", "中国", "韓国", "ベトナム", "インド", "フィリピン", "ネパール",
-                        "バングラ", "パキスタン", "スリランカ", "ミャンマー", "インドネシア",
-                        "chinese", "korean", "vietnamese", "indian", "foreign"]
+    foreign_keywords = [
+        "外国籍",
+        "中国",
+        "韓国",
+        "ベトナム",
+        "インド",
+        "フィリピン",
+        "ネパール",
+        "バングラ",
+        "パキスタン",
+        "スリランカ",
+        "ミャンマー",
+        "インドネシア",
+        "chinese",
+        "korean",
+        "vietnamese",
+        "indian",
+        "foreign",
+    ]
     for kw in foreign_keywords:
         if kw in nationality or kw in raw_lower:
             print(f"[SKIP] foreign nationality: {kw} / {(raw_text or '')[:100]}")
@@ -753,7 +876,6 @@ def validate_engineer_for_registration(info, raw_text):
     pref = find_prefecture_from_text(build_engineer_location_text(info, raw_text))
 
     if pref and pref not in KANTO_CHUBU_PREFECTURES:
-
         print(f"[SKIP] area out of scope: {pref} / {(raw_text or '')[:100]}")
 
         return False, "area_out_of_scope"
@@ -761,13 +883,32 @@ def validate_engineer_for_registration(info, raw_text):
     return True, ""
 
 
+def _extract_nearest_station_from_text(text):
+    """備考テキストから最寄駅を正規表現でフォールバック抽出する。"""
+    if not text:
+        return ""
+    patterns = [
+        r"【最寄駅】\s*([^\n【】]+)",
+        r"【最寄り駅】\s*([^\n【】]+)",
+        r"最寄り駅[:：]\s*([^\n【】]+)",
+        r"最寄駅[:：]\s*([^\n【】]+)",
+    ]
+    for pat in patterns:
+        m = re.search(pat, text)
+        if m:
+            station = m.group(1).strip()
+            station = re.sub(r"[\(（][^)）]*[\)）]", "", station).strip()
+            station = re.sub(r"駅$", "", station).strip()
+            if station:
+                return station[:50]
+    return ""
+
 
 def register_engineer(info, raw_text, sender, user_id=""):
 
     valid, skip_reason = validate_engineer_for_registration(info, raw_text)
 
     if not valid:
-
         return False, skip_reason
 
     name = str(info.get("name") or "").strip()
@@ -775,13 +916,9 @@ def register_engineer(info, raw_text, sender, user_id=""):
     note = f"[LINE auto-register: {sender}]\n{info.get('note', raw_text[:1500])}"
 
     props = {
-
         "名前": {"title": [{"text": {"content": name}}]},
-
         "稼働状況": {"select": {"name": "稼働可能"}},
-
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
-
+        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
 
     assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
@@ -790,17 +927,21 @@ def register_engineer(info, raw_text, sender, user_id=""):
     raw_skills = info.get("skills", [])
     if raw_skills and isinstance(raw_skills[0], dict):
         from skill_extractor import filter_and_sort_skills
+
         skills = filter_and_sort_skills(raw_skills)
     else:
         skills = [s for s in raw_skills if s in VALID_SKILLS]
 
-    if skills: props["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+    if skills:
+        props["スキル"] = {"multi_select": [{"name": s} for s in skills]}
 
     price_val = normalize_price(info.get("price", 0))
 
-    if price_val: props["単価（万円）"] = {"number": price_val}
+    if price_val:
+        props["単価（万円）"] = {"number": price_val}
 
-    if info.get("experience_years"): props["経験年数"] = {"number": info["experience_years"]}
+    if info.get("experience_years"):
+        props["経験年数"] = {"number": info["experience_years"]}
 
     if info.get("affiliation"):
         props["所属会社"] = {"rich_text": [{"text": {"content": info["affiliation"][:500]}}]}
@@ -816,6 +957,16 @@ def register_engineer(info, raw_text, sender, user_id=""):
         props["所属メール"] = {"email": info["contact_email"]}
 
     # イニシャルと最寄り駅を保存（line_query照会に必須）
+    if not info.get("nearest_station") or not info.get("initial"):
+        fallback_station = _extract_nearest_station_from_text(raw_text)
+        if fallback_station and not info.get("nearest_station"):
+            info["nearest_station"] = fallback_station
+    # initialフォールバック: 名前から自動生成（"P.H" → "PH", 未設定時）
+    if not info.get("initial") and name:
+        _ini = re.sub(r"[.．・\s\u3000]", "", name).upper()
+        _ini = _ini[:4] if _ini.isalpha() else "".join(c for c in _ini if c.isalpha())[:4]
+        if _ini:
+            info["initial"] = _ini
     if info.get("initial"):
         props["イニシャル"] = {"rich_text": [{"text": {"content": info["initial"][:20]}}]}
     if info.get("nearest_station"):
@@ -824,22 +975,20 @@ def register_engineer(info, raw_text, sender, user_id=""):
     input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
     add_input_source_property(props, NOTION_ENGINEER_DB_ID, input_source)
 
-    res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
-
-                       json={"parent": {"database_id": NOTION_ENGINEER_DB_ID}, "properties": props})
+    res = requests.post(
+        "https://api.notion.com/v1/pages",
+        headers=NOTION_HEADERS,
+        json={"parent": {"database_id": NOTION_ENGINEER_DB_ID}, "properties": props},
+    )
 
     print(f"register_engineer status: {res.status_code}")
 
     if res.status_code == 200:
-
         return True, res.json()["id"]
 
     print(res.text[:300])
 
     return False, ""
-
-
-
 
 
 def register_project(info, raw_text, sender, user_id=""):
@@ -849,13 +998,9 @@ def register_project(info, raw_text, sender, user_id=""):
     note = f"[LINE auto-register: {sender}]\n{info.get('note', raw_text[:1500])}"
 
     props = {
-
         "案件名": {"title": [{"text": {"content": name}}]},
-
         "ステータス": {"select": {"name": "稼働中"}},
-
-        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
-
+        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
 
     assignee_name = "岡本" if user_id and user_id == OKAMOTO_USER_ID else "松野"
@@ -865,29 +1010,35 @@ def register_project(info, raw_text, sender, user_id=""):
 
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
 
-    if req: props["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
+    if req:
+        props["必要スキル"] = {"multi_select": [{"name": s} for s in req]}
 
-    if opt: props["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
+    if opt:
+        props["尚可スキル"] = {"multi_select": [{"name": s} for s in opt]}
 
     price_val = normalize_price(info.get("price", 0))
 
-    if price_val: props["単価（万円）"] = {"number": price_val}
+    if price_val:
+        props["単価（万円）"] = {"number": price_val}
 
-    if info.get("location"): props["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+    if info.get("location"):
+        props["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
 
-    if info.get("period"): props["期間"] = {"rich_text": [{"text": {"content": info["period"]}}]}
+    if info.get("period"):
+        props["期間"] = {"rich_text": [{"text": {"content": info["period"]}}]}
 
     input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
     add_input_source_property(props, NOTION_PROJECT_DB_ID, input_source)
 
-    res = requests.post("https://api.notion.com/v1/pages", headers=NOTION_HEADERS,
-
-                       json={"parent": {"database_id": NOTION_PROJECT_DB_ID}, "properties": props})
+    res = requests.post(
+        "https://api.notion.com/v1/pages",
+        headers=NOTION_HEADERS,
+        json={"parent": {"database_id": NOTION_PROJECT_DB_ID}, "properties": props},
+    )
 
     print(f"register_project status: {res.status_code}")
 
     if res.status_code == 200:
-
         return True, res.json()["id"]
 
     print(res.text[:300])
@@ -895,21 +1046,13 @@ def register_project(info, raw_text, sender, user_id=""):
     return False, ""
 
 
-
-
-
 def get_available_engineers():
 
-    pages = notion_query(NOTION_ENGINEER_DB_ID, {
-
-        "property": "稼働状況", "select": {"equals": "稼働可能"}
-
-    })
+    pages = notion_query(NOTION_ENGINEER_DB_ID, {"property": "稼働状況", "select": {"equals": "稼働可能"}})
 
     result = []
 
     for p in pages:
-
         props = p["properties"]
 
         name_items = props.get("名前", {}).get("title", [])
@@ -926,32 +1069,33 @@ def get_available_engineers():
 
         source = "unknown"
 
-        if "line auto-register: matsuno" in note.lower(): source = "matsuno"
+        if "line auto-register: matsuno" in note.lower():
+            source = "matsuno"
 
-        elif "line auto-register: okamoto" in note.lower(): source = "okamoto"
+        elif "line auto-register: okamoto" in note.lower():
+            source = "okamoto"
 
         result.append({"name": name, "skills": skills, "price": price, "note": note[:300], "source": source})
 
     return result
 
 
-
-
-
 def get_active_projects():
     # 募集中・稼働中・選考中すべてをマッチング対象とする
-    pages = notion_query(NOTION_PROJECT_DB_ID, {
-        "or": [
-            {"property": "ステータス", "select": {"equals": "募集中"}},
-            {"property": "ステータス", "select": {"equals": "稼働中"}},
-            {"property": "ステータス", "select": {"equals": "選考中"}}
-        ]
-    })
+    pages = notion_query(
+        NOTION_PROJECT_DB_ID,
+        {
+            "or": [
+                {"property": "ステータス", "select": {"equals": "募集中"}},
+                {"property": "ステータス", "select": {"equals": "稼働中"}},
+                {"property": "ステータス", "select": {"equals": "選考中"}},
+            ]
+        },
+    )
 
     result = []
 
     for p in pages:
-
         props = p["properties"]
 
         name_items = props.get("案件名", {}).get("title", [])
@@ -976,74 +1120,61 @@ def get_active_projects():
 
         assignee = co_items[0].get("plain_text", "") if co_items else ""
 
-        result.append({
-
-            "name": name,
-
-            "required_skills": req_skills,
-
-            "optional_skills": opt_skills,
-
-            "price": price,
-
-            "location": location,
-
-            "note": note,
-
-            "assignee": assignee,
-
-        })
+        result.append(
+            {
+                "name": name,
+                "required_skills": req_skills,
+                "optional_skills": opt_skills,
+                "price": price,
+                "location": location,
+                "note": note,
+                "assignee": assignee,
+            }
+        )
 
     return result
 
 
-
-
-
 def send_email_via_callback(account, to_addr, subject, body):
 
-    import smtplib, ssl
-
+    import smtplib
+    import ssl
+    from email.header import Header as EmailHeader
     from email.mime.text import MIMEText
 
-    from email.header import Header as EmailHeader
-
-
-
     accounts_cfg = {
-
-        'matsuno': {'user': 'r-matsuno@terra-ltd.co.jp', 'pw': os.environ.get('MATSUNO_MAIL_PASSWORD', os.environ.get('SESSALES_MAIL_PASSWORD', ''))},
-
-        'okamoto': {'user': 'r-okamoto@terra-ltd.co.jp', 'pw': os.environ.get('OKAMOTO_MAIL_PASSWORD', os.environ.get('SESSALES_MAIL_PASSWORD', ''))},
-
-        'sessales': {'user': 'sessales@terra-ltd.co.jp', 'pw': os.environ.get('SESSALES_MAIL_PASSWORD', '')},
-
+        "matsuno": {
+            "user": "r-matsuno@terra-ltd.co.jp",
+            "pw": os.environ.get("MATSUNO_MAIL_PASSWORD", os.environ.get("SESSALES_MAIL_PASSWORD", "")),
+        },
+        "okamoto": {
+            "user": "r-okamoto@terra-ltd.co.jp",
+            "pw": os.environ.get("OKAMOTO_MAIL_PASSWORD", os.environ.get("SESSALES_MAIL_PASSWORD", "")),
+        },
+        "sessales": {"user": "sessales@terra-ltd.co.jp", "pw": os.environ.get("SESSALES_MAIL_PASSWORD", "")},
     }
 
-    acc = accounts_cfg.get(account, accounts_cfg['sessales'])
+    acc = accounts_cfg.get(account, accounts_cfg["sessales"])
 
-    user, pw = acc['user'], acc['pw']
+    user, pw = acc["user"], acc["pw"]
 
     if not pw:
-
         print(f"[send_email] ERROR: パスワード未設定 account={account}")
 
         return False
 
     try:
+        msg = MIMEText(body, "plain", "utf-8")
 
-        msg = MIMEText(body, 'plain', 'utf-8')
+        msg["Subject"] = EmailHeader(subject, "utf-8")
 
-        msg['Subject'] = EmailHeader(subject, 'utf-8')
+        msg["From"] = user
 
-        msg['From'] = user
-
-        msg['To'] = to_addr
+        msg["To"] = to_addr
 
         ctx = ssl.create_default_context()
 
-        with smtplib.SMTP_SSL('mail65.onamae.ne.jp', 465, context=ctx) as s:
-
+        with smtplib.SMTP_SSL("mail65.onamae.ne.jp", 465, context=ctx) as s:
             s.login(user, pw)
 
             s.sendmail(user, [to_addr], msg.as_bytes())
@@ -1053,62 +1184,72 @@ def send_email_via_callback(account, to_addr, subject, body):
         return True
 
     except Exception as e:
-
         print(f"[send_email] ERROR: {e}")
 
         return False
 
 
-
-
-
 def reply_message(reply_token, text, token):
 
-    if len(text) > 4900: text = text[:4900] + "\n...(truncated)"
+    if len(text) > 4900:
+        text = text[:4900] + "\n...(truncated)"
 
-    requests.post("https://api.line.me/v2/bot/message/reply",
-
+    requests.post(
+        "https://api.line.me/v2/bot/message/reply",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-
-        json={"replyToken": reply_token, "messages": [{"type": "text", "text": text}]})
-
-
-
+        json={"replyToken": reply_token, "messages": [{"type": "text", "text": text}]},
+    )
 
 
 def push_message(user_id, text, token):
 
-    if not user_id: return
+    if not user_id:
+        return
 
-    if len(text) > 4900: text = text[:4900] + "\n...(truncated)"
+    if len(text) > 4900:
+        text = text[:4900] + "\n...(truncated)"
 
-    requests.post("https://api.line.me/v2/bot/message/push",
-
+    requests.post(
+        "https://api.line.me/v2/bot/message/push",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-
-        json={"to": user_id, "messages": [{"type": "text", "text": text}]})
-
-
+        json={"to": user_id, "messages": [{"type": "text", "text": text}]},
+    )
 
 
 # ── ステータス略語マッピング ──────────────────────────────────────
 STATUS_ALIASES = {
     "前": "意向確認前",
-    "確認": "意向確認中", "確認中": "意向確認中", "いこう": "意向確認中",
-    "面談": "面談希望", "面談希望": "面談希望", "希望": "面談希望",
-    "調整": "面談調整中", "調整中": "面談調整中",
-    "済": "面談済み", "面談済": "面談済み", "済み": "面談済み",
-    "合格": "合格", "ok": "合格", "OK": "合格", "〇": "合格",
-    "ng": "NG", "NG": "NG", "×": "NG", "ばつ": "NG",
+    "確認": "意向確認中",
+    "確認中": "意向確認中",
+    "いこう": "意向確認中",
+    "面談": "面談希望",
+    "面談希望": "面談希望",
+    "希望": "面談希望",
+    "調整": "面談調整中",
+    "調整中": "面談調整中",
+    "済": "面談済み",
+    "面談済": "面談済み",
+    "済み": "面談済み",
+    "合格": "合格",
+    "ok": "合格",
+    "OK": "合格",
+    "〇": "合格",
+    "ng": "NG",
+    "NG": "NG",
+    "×": "NG",
+    "ばつ": "NG",
 }
+
 
 def normalize_status(raw):
     """略語をステータス正式名に変換"""
     return STATUS_ALIASES.get(raw.strip(), raw.strip())
 
+
 def normalize_candidate_name(raw):
     """イニシャル・略称を正規化（ドット・スペース除去・大文字化）"""
     return raw.replace(".", "").replace(" ", "").replace("　", "").upper()
+
 
 def find_candidate_in_text(text, name_query):
     """案件詳細テキストから候補者行を探す（部分一致）"""
@@ -1124,10 +1265,10 @@ def find_candidate_in_text(text, name_query):
                 return line, cname
     return None, None
 
+
 def update_candidate_status(page_id, candidate_name, new_status):
     """案件詳細の候補者ステータスを更新する"""
-    r = requests.get(f"https://api.notion.com/v1/pages/{page_id}",
-                     headers=NOTION_HEADERS, timeout=10)
+    r = requests.get(f"https://api.notion.com/v1/pages/{page_id}", headers=NOTION_HEADERS, timeout=10)
     if r.status_code != 200:
         return False, f"案件取得失敗: {r.status_code}"
 
@@ -1149,7 +1290,7 @@ def update_candidate_status(page_id, candidate_name, new_status):
         f"https://api.notion.com/v1/pages/{page_id}",
         headers=NOTION_HEADERS,
         json={"properties": {"案件詳細": {"rich_text": [{"type": "text", "text": {"content": updated_text}}]}}},
-        timeout=10
+        timeout=10,
     )
     if r2.status_code == 200:
         return True, matched_name
@@ -1158,13 +1299,16 @@ def update_candidate_status(page_id, candidate_name, new_status):
 
 def find_projects_with_candidate(name_query):
     """候補者名で全案件を横断検索してヒットした(page_id, proj_name, matched_name)を返す"""
-    pages = notion_query(NOTION_PROJECT_DB_ID, {
-        "or": [
-            {"property": "ステータス", "select": {"equals": "募集中"}},
-            {"property": "ステータス", "select": {"equals": "稼働中"}},
-            {"property": "ステータス", "select": {"equals": "選考中"}},
-        ]
-    })
+    pages = notion_query(
+        NOTION_PROJECT_DB_ID,
+        {
+            "or": [
+                {"property": "ステータス", "select": {"equals": "募集中"}},
+                {"property": "ステータス", "select": {"equals": "稼働中"}},
+                {"property": "ステータス", "select": {"equals": "選考中"}},
+            ]
+        },
+    )
     results = []
     for p in pages:
         props = p.get("properties", {})
@@ -1184,16 +1328,17 @@ def build_matching_result_reply():
     """Notion DBからリアルタイムでマッチング結果を取得してフォーマット"""
     try:
         # アクティブな案件を取得
-        project_pages = notion_query(NOTION_PROJECT_DB_ID, {
-            "or": [
-                {"property": "ステータス", "select": {"equals": "募集中"}},
-                {"property": "ステータス", "select": {"equals": "稼働中"}},
-            ]
-        })
+        project_pages = notion_query(
+            NOTION_PROJECT_DB_ID,
+            {
+                "or": [
+                    {"property": "ステータス", "select": {"equals": "募集中"}},
+                    {"property": "ステータス", "select": {"equals": "稼働中"}},
+                ]
+            },
+        )
         # 稼働可能なエンジニアを取得
-        engineer_pages = notion_query(NOTION_ENGINEER_DB_ID, {
-            "property": "稼働状況", "select": {"equals": "稼働可能"}
-        })
+        engineer_pages = notion_query(NOTION_ENGINEER_DB_ID, {"property": "稼働状況", "select": {"equals": "稼働可能"}})
     except Exception as e:
         print(f"[matching_reply] notion error: {e}")
         return "【マッチング結果】\nデータ取得失敗"
@@ -1243,10 +1388,10 @@ def build_matching_result_reply():
         lines.append(f"■ {proj_name}（{len(matched)}名マッチ）")
         lines.append(notion_url)
         for idx, m in enumerate(matched[:2]):
-            price_str = f"{m['price']}万" if m['price'] else "未設定"
+            price_str = f"{m['price']}万" if m["price"] else "未設定"
             lines.append(f"  {number_labels[idx]} {m['name']} /{price_str}")
         if len(matched) > 2:
-            lines.append(f"  他{len(matched)-2}名")
+            lines.append(f"  他{len(matched) - 2}名")
         match_count += 1
 
     if match_count == 0:
@@ -1255,21 +1400,23 @@ def build_matching_result_reply():
     return "\n".join(lines)
 
 
-
 def build_progress_reply():
     """案件進捗をReply API用にフォーマット"""
     try:
-        pages = notion_query(NOTION_PROJECT_DB_ID, {
-            "or": [
-                {"property": "ステータス", "select": {"equals": "募集中"}},
-                {"property": "ステータス", "select": {"equals": "選考中"}},
-            ]
-        })
+        pages = notion_query(
+            NOTION_PROJECT_DB_ID,
+            {
+                "or": [
+                    {"property": "ステータス", "select": {"equals": "募集中"}},
+                    {"property": "ステータス", "select": {"equals": "選考中"}},
+                ]
+            },
+        )
     except Exception as e:
         print(f"[progress] notion error: {e}")
         return "【案件進捗】\nデータ取得失敗"
 
-    weekdays = ["月","火","水","木","金","土","日"]
+    weekdays = ["月", "火", "水", "木", "金", "土", "日"]
     now = datetime.now()
     header = f"【案件進捗】{now.strftime('%m/%d')}（{weekdays[now.weekday()]}）"
     lines = [header, ""]
@@ -1291,11 +1438,11 @@ def build_progress_reply():
             price = int(price)
         price_str = str(price) if price not in (None, "") else "-"
 
-        teian    = props.get("提案中",   {}).get("number") or 0
-        mendan   = props.get("面談希望", {}).get("number") or 0
-        ng       = props.get("NG",       {}).get("number") or 0
-        goukaku  = props.get("合格",     {}).get("number") or 0
-        seiyaku  = props.get("成約",     {}).get("number") or 0
+        teian = props.get("提案中", {}).get("number") or 0
+        mendan = props.get("面談希望", {}).get("number") or 0
+        ng = props.get("NG", {}).get("number") or 0
+        goukaku = props.get("合格", {}).get("number") or 0
+        seiyaku = props.get("成約", {}).get("number") or 0
         eigyo_end = props.get("営業終了", {}).get("number") or 0
 
         lines.append(f"■ {name}（{price_str}万）")
@@ -1318,6 +1465,7 @@ def build_progress_reply():
 
     return "\n".join(lines).rstrip()
 
+
 def split_line_message(text, limit=4900):
 
     chunks = []
@@ -1325,29 +1473,22 @@ def split_line_message(text, limit=4900):
     current = ""
 
     for line in text.splitlines():
-
         next_line = line if not current else current + "\n" + line
 
         if len(next_line) <= limit:
-
             current = next_line
 
             continue
 
         if current:
-
             chunks.append(current)
 
         current = line
 
     if current:
-
         chunks.append(current)
 
     return chunks or [text[:limit]]
-
-
-
 
 
 def analyze_skill_sheet(b64_data, mime_type):
@@ -1355,78 +1496,79 @@ def analyze_skill_sheet(b64_data, mime_type):
     if mime_type == "application/pdf":
         content = [
             {"type": "document", "source": {"type": "base64", "media_type": "application/pdf", "data": b64_data}},
-            {"type": "text", "text": "このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {\"name\":\"\",\"skills\":[],\"price\":0,\"available_date\":\"\",\"experience_years\":0,\"location\":\"\",\"affiliation\":\"\",\"note\":\"\"}"}
+            {
+                "type": "text",
+                "text": 'このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {"name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","affiliation":"","note":""}',
+            },
         ]
     else:
         mt = mime_type if mime_type.startswith("image/") else "image/jpeg"
         content = [
             {"type": "image", "source": {"type": "base64", "media_type": mt, "data": b64_data}},
-            {"type": "text", "text": "このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {\"name\":\"\",\"skills\":[],\"price\":0,\"available_date\":\"\",\"experience_years\":0,\"location\":\"\",\"affiliation\":\"\",\"note\":\"\"}"}
+            {
+                "type": "text",
+                "text": 'このスキルシートから人材情報をJSONのみで抽出してください。マークダウン不要。\n形式: {"name":"","skills":[],"price":0,"available_date":"","experience_years":0,"location":"","affiliation":"","note":""}',
+            },
         ]
     system = "SES業界のスキルシート解析AI。JSON形式のみ返答。price=万円整数。experience_years=業界経験年数の整数。"
-    res = requests.post(
-        "https://api.anthropic.com/v1/messages",
-        headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-        json={"model": "claude-sonnet-4-5", "max_tokens": 1000, "system": system, "messages": [{"role": "user", "content": content}]},
-        timeout=90
-    )
-    if res.status_code == 200:
-        try:
-            data = res.json()
-            usage = data.get("usage", {})
-            print(f"[claude_api] caller=analyze_skill_sheet model=sonnet max_tokens=1000 "
-                  f"in={usage.get('input_tokens','?')} out={usage.get('output_tokens','?')}")
-            text = data["content"][0]["text"]
-            return json.loads(re.sub(r'```json|```', '', text).strip())
-        except Exception as e:
-            print(f"[analyze_skill_sheet] parse error: {e}")
-            return {}
-    print(f"[analyze_skill_sheet] API error: {res.status_code} {res.text[:200]}")
-    return {}
+    try:
+        text = guarded_anthropic_call(
+            system,
+            content,
+            max_tokens=1000,
+            caller="analyze_skill_sheet",
+            model="claude-sonnet-4-5",
+        )
+        return json.loads(re.sub(r"```json|```", "", text).strip())
+    except Exception as e:
+        print(f"[analyze_skill_sheet] error: {e}")
+        return {}
 
 
 def handle_file_message(message_id, mime_type, reply_token, sender, sender_token, user_id=""):
-
     """LINEから送られたPDF/画像ファイルをClaude APIで直接解析してNotion登録"""
 
     try:
-
         # LINEからファイルコンテンツ取得
 
         token = MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN
 
         res = requests.get(
-
             f"https://api-data.line.me/v2/bot/message/{message_id}/content",
-
             headers={"Authorization": f"Bearer {token}"},
-
-            timeout=30
-
+            timeout=30,
         )
 
         if res.status_code != 200:
-
             reply_message(reply_token, f"❌ ファイル取得失敗: {res.status_code}", sender_token)
 
             return
 
-
-
         # PDFサイズ制限（5MB超）
         file_size = len(res.content)
         if file_size > 5 * 1024 * 1024:
-            reply_message(reply_token, f"❌ ファイルが大きすぎます（{file_size//1024//1024}MB）。5MB以内のファイルを送ってください。", sender_token)
+            reply_message(
+                reply_token,
+                f"❌ ファイルが大きすぎます（{file_size // 1024 // 1024}MB）。5MB以内のファイルを送ってください。",
+                sender_token,
+            )
             return
 
         # PDFページ数制限！10ページ超はブロック）
         if mime_type == "application/pdf":
             try:
-                import pdfplumber, io
+                import io
+
+                import pdfplumber
+
                 with pdfplumber.open(io.BytesIO(res.content)) as pdf:
                     page_count = len(pdf.pages)
                 if page_count > 10:
-                    reply_message(reply_token, f"❌ PDFが{page_count}ページあります、10ページ以内のスキルシートを送ってください。", sender_token)
+                    reply_message(
+                        reply_token,
+                        f"❌ PDFが{page_count}ページあります、10ページ以内のスキルシートを送ってください。",
+                        sender_token,
+                    )
                     return
             except Exception:
                 pass  # PDF解析失敗時はスキップして続行
@@ -1438,11 +1580,14 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
         summary = USER_BUFFER.get(push_user_id, {}).get("summary", "")
         from skill_extractor import analyze_skill_sheet_v2
+
         info = analyze_skill_sheet_v2(res.content, mime_type, summary_text=summary)
         if push_user_id in USER_BUFFER:
             del USER_BUFFER[push_user_id]
         if not info or not info.get("name"):
-            push_message(push_user_id, "❌ スキル情報を抽出できませんでした。テキスト形式で再送してください。", sender_token)
+            push_message(
+                push_user_id, "❌ スキル情報を抽出できませんでした。テキスト形式で再送してください。", sender_token
+            )
             return
 
         name = info.get("name", "不明")
@@ -1467,7 +1612,8 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         if MATCHING_LOGIC_AVAILABLE:
             msg = build_reverse_match_message_v2(
-                name, matches, normalize_price(info.get("price", 0)) or 0)
+                name, matches, normalize_price(info.get("price", 0)) or 0, stats=result_m.get("stats")
+            )
         else:
             msg = build_reverse_match_message(name, matches)
 
@@ -1479,9 +1625,6 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
         traceback.print_exc()
 
 
-
-
-
 def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
 
     reply_message(reply_token, "🔄 スプレッドシートを取得中...", sender_token)
@@ -1489,41 +1632,30 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
     result = fetch_sheet_text(url)
 
     if result["status"] == "login_required":
-
         reply_message(reply_token, "⚠️ ログインが必要なスプレッドシートのためスキップしました", sender_token)
 
         return
 
     elif result["status"] == "error":
-
-        reply_message(reply_token, f"❌ スプレッドシート取得失敗: {result.get('error','')[:100]}", sender_token)
+        reply_message(reply_token, f"❌ スプレッドシート取得失敗: {result.get('error', '')[:100]}", sender_token)
 
         return
-
-
 
     text = result.get("text", "")
 
     if not text or len(text.strip()) < 50:
-
         reply_message(reply_token, "⚠️ スプレッドシートの内容が取得できませんでした", sender_token)
 
         return
-
-
 
     content_type = classify_sheet_content(text)
 
     raw_text = f"[スプレッドシート: {url}]\n{text}"
 
-
-
     if content_type == "project":
-
         projects = extract_projects_from_text(text)
 
         if not projects:
-
             reply_message(reply_token, "⚠️ 案件情報が抽出できませんでした", sender_token)
 
             return
@@ -1531,29 +1663,28 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
         success_count = skip_count = 0
 
         for proj in projects:
-
             ok, _ = register_project(proj, raw_text, sender, user_id=user_id)
 
-            if ok: success_count += 1
+            if ok:
+                success_count += 1
 
-            else: skip_count += 1
+            else:
+                skip_count += 1
 
         msg = f"📊 スプレッドシートから案件登録完了\n\n登録: {success_count}件 / スキップ: {skip_count}件\n"
 
         for i, p in enumerate(projects[:5], 1):
+            msg += f"{i}. {p.get('name', '(no name)')} / {p.get('price', 0)}万\n"
 
-            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}万\n"
-
-        if len(projects) > 5: msg += f"...他{len(projects)-5}件"
+        if len(projects) > 5:
+            msg += f"...他{len(projects) - 5}件"
 
         reply_message(reply_token, msg, sender_token)
 
     else:
-
         engineers = extract_engineers_from_text(text)
 
         if not engineers:
-
             reply_message(reply_token, "⚠️ 人員情報が抽出できませんでした", sender_token)
 
             return
@@ -1565,55 +1696,45 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
         registered = []
 
         for eng in engineers:
-
             ok, reason = register_engineer(eng, raw_text, sender, user_id=user_id)
 
             if ok:
-
                 success_count += 1
 
                 registered.append(eng)
 
             else:
-
                 skip_count += 1
 
                 if reason:
-
                     skip_reasons.add(reason)
 
         msg = f"📊 スプレッドシートから人員登録完了\n\n登録: {success_count}名 / スキップ: {skip_count}名\n"
 
         if "name_not_found" in skip_reasons:
-
             msg += f"{ENGINEER_NAME_NOT_FOUND_REPLY}\n"
 
         if "area_out_of_scope" in skip_reasons:
-
             msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
 
         if "foreign_nationality" in skip_reasons:
-
             msg += "外国籍のため登録をスキップしました\n"
 
         for i, e in enumerate(engineers[:5], 1):
+            msg += f"{i}. {e.get('name', '(no name)')} / {e.get('price', 0)}万\n"
 
-            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}万\n"
-
-        if len(engineers) > 5: msg += f"...他{len(engineers)-5}名"
+        if len(engineers) > 5:
+            msg += f"...他{len(engineers) - 5}名"
 
         if registered:
-
             active_projects = deduplicate_projects(get_active_projects())
 
             if active_projects:
-
                 msg += f"\n\n🔎 {len(registered)}名の逆マッチング中..."
 
                 reply_message(reply_token, msg, sender_token)
 
                 for eng in registered[:3]:
-
                     result_m = run_reverse_matching_full(eng, active_projects)
 
                     matches = result_m.get("matches", [])[:3]
@@ -1621,23 +1742,30 @@ def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
                     if matches:
                         if MATCHING_LOGIC_AVAILABLE:
                             rev_msg = build_reverse_match_message_v2(
-                                eng.get("name","?"), matches,
-                                normalize_price(eng.get("price", 0)) or 0)
+                                eng.get("name", "?"), matches, normalize_price(eng.get("price", 0)) or 0
+                            )
                         else:
-                            rev_msg = build_reverse_match_message(eng.get("name","?"), matches)
-                        push_message(MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
-                                     rev_msg,
-                                     MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN)
+                            rev_msg = build_reverse_match_message(eng.get("name", "?"), matches)
+                        push_message(
+                            MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID,
+                            rev_msg,
+                            MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN,
+                        )
 
                 return
 
         reply_message(reply_token, msg, sender_token)
 
 
-
-
-
-def process_message(text, reply_token, sender, sender_token, user_id=""):
+def process_message(
+    text,
+    reply_token,
+    sender,
+    sender_token,
+    user_id="",
+    message_id="",
+    event_timestamp_ms=0,
+):
 
     print(f"[{sender}] {text[:80]}")
     try:
@@ -1654,7 +1782,39 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     text_stripped = text.strip()
 
-    import sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'line_query')); from line_query import handle_line_query
+    if text_stripped.startswith("詳細"):
+        result = handle_line_query(text_stripped)
+        if result is not None:
+            chunks = split_line_message(result)
+            reply_message(reply_token, chunks[0], sender_token)
+            for chunk in chunks[1:]:
+                push_message(user_id, chunk, sender_token)
+            return
+
+    if user_id == MATSUNO_USER_ID:
+        try:
+            route_result = route_line_message(
+                text_stripped,
+                user_id,
+                message_id,
+                event_timestamp_ms or int(time.time() * 1000),
+                reply_token,
+            )
+            if route_result.get("action") == "reply":
+                reply_message(reply_token, route_result["text"], sender_token)
+                return
+            if route_result.get("action") == "immediate":
+                text = route_result["text"]
+                text_stripped = text.strip()
+        except Exception as e:
+            print(f"[line_bridge] router error: {e}")
+            reply_message(
+                reply_token,
+                "作業キュー登録に失敗しました。キュー設定を確認してください。",
+                sender_token,
+            )
+            return
+
     result = handle_line_query(text)
     if result is not None:
         chunks = split_line_message(result)
@@ -1685,15 +1845,9 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
             result = get_health()
             reply_message(reply_token, result, sender_token)
             return
-    elif (
-        text_stripped.startswith("/run ")
-        or text_stripped.startswith("/bg ")
-        or text_stripped in ("/log", "/health")
-    ):
+    elif text_stripped.startswith("/run ") or text_stripped.startswith("/bg ") or text_stripped in ("/log", "/health"):
         reply_message(reply_token, "❌ エラー\n権限がありません", sender_token)
         return
-
-
 
     # ── 送信指示の処理 ───────────────────────────────────────────
 
@@ -1701,14 +1855,11 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
     is_mail_send = "メール送信して" in text_stripped
 
-    is_send_ok  = text_stripped.startswith("送信して") or text_stripped.startswith("送信 ")
-
-
+    is_send_ok = text_stripped.startswith("送信して") or text_stripped.startswith("送信 ")
 
     # スキルシート解析後の意向確認メール送信
 
     if is_mail_send and skill_key in PENDING_SKILL_MAIL:
-
         emails = EMAIL_PATTERN.findall(text_stripped)
 
         to_addr = emails[0] if emails else None
@@ -1716,7 +1867,6 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         iko_mail = PENDING_SKILL_MAIL[skill_key]
 
         if to_addr:
-
             account = "matsuno" if sender == "matsuno" else "okamoto"
 
             subject = "案件ご検討のお願い"
@@ -1724,22 +1874,25 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
             sent = send_email_via_callback(account, to_addr, subject, iko_mail)
 
             if sent:
-
                 reply_message(reply_token, f"✅ 意向確認メール送信完了\n送信先: {to_addr}", sender_token)
 
                 del PENDING_SKILL_MAIL[skill_key]
 
             else:
-
-                reply_message(reply_token, f"❌ 送信失敗。以下をコピーして手動送信してください:\n宛先: {to_addr}\n\n{iko_mail[:2000]}", sender_token)
+                reply_message(
+                    reply_token,
+                    f"❌ 送信失敗。以下をコピーして手動送信してください:\n宛先: {to_addr}\n\n{iko_mail[:2000]}",
+                    sender_token,
+                )
 
         else:
-
-            reply_message(reply_token, f"📧 送信先メールアドレスを指定してください\n例: メール送信して xxx@yyy.com\n\n{iko_mail[:1500]}", sender_token)
+            reply_message(
+                reply_token,
+                f"📧 送信先メールアドレスを指定してください\n例: メール送信して xxx@yyy.com\n\n{iko_mail[:1500]}",
+                sender_token,
+            )
 
         return
-
-
 
     # ── ステータス更新コマンド（簡略版）──────────────────────────────
     # 書式: 「更新 候補者名 ステータス略語」
@@ -1747,20 +1900,22 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
     if text_stripped.startswith("更新 ") or text_stripped.startswith("更新　"):
         parts = text_stripped[2:].strip().split()
         if len(parts) < 2:
-            reply_message(reply_token,
+            reply_message(
+                reply_token,
                 "書式: 更新 候補者名 ステータス\n"
                 "例: 更新 RH 確認中 / 更新 MY 面談 / 更新 OA NG\n"
                 "ステータス略語: 前 確認 面談 調整 済 合格 OK NG",
-                sender_token)
+                sender_token,
+            )
             return
         name_query = parts[0]
         status_raw = parts[1]
         new_status = normalize_status(status_raw)
         valid = list(STATUS_ALIASES.values()) + list(STATUS_ALIASES.keys())
-        if new_status not in ["意向確認前","意向確認中","面談希望","面談調整中","面談済み","合格","NG"]:
-            reply_message(reply_token,
-                f"「{status_raw}」は無効です\n略語: 前 確認 面談 調整 済 合格 OK NG",
-                sender_token)
+        if new_status not in ["意向確認前", "意向確認中", "面談希望", "面談調整中", "面談済み", "合格", "NG"]:
+            reply_message(
+                reply_token, f"「{status_raw}」は無効です\n略語: 前 確認 面談 調整 済 合格 OK NG", sender_token
+            )
             return
         # 候補者名で案件を横断検索
         hits = find_projects_with_candidate(name_query)
@@ -1769,7 +1924,7 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
             return
         if len(hits) > 1:
             # 複数案件にいる場合は一覧を返す → 「更新 RH 確認中 Java」で案件を絞れる案内
-            names = "\n".join(f"{i+1}. {n}（{m}）" for i, (_, n, m) in enumerate(hits[:5]))
+            names = "\n".join(f"{i + 1}. {n}（{m}）" for i, (_, n, m) in enumerate(hits[:5]))
             if len(parts) >= 3:
                 # 3つ目の引数を案件キーワードとして絞り込み
                 proj_kw = parts[2]
@@ -1777,14 +1932,18 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
                 if len(filtered) == 1:
                     hits = filtered
                 else:
-                    reply_message(reply_token,
+                    reply_message(
+                        reply_token,
                         f"複数案件にヒット:\n{names}\n\n絞り込み例: 更新 {name_query} {status_raw} Java",
-                        sender_token)
+                        sender_token,
+                    )
                     return
             else:
-                reply_message(reply_token,
+                reply_message(
+                    reply_token,
                     f"「{name_query}」は複数案件に候補中:\n{names}\n\n案件を絞る場合: 更新 {name_query} {status_raw} 案件キーワード\n全件更新する場合: 更新 {name_query} {status_raw} 全部",
-                    sender_token)
+                    sender_token,
+                )
                 return
         if len(parts) >= 3 and parts[2] == "全部":
             # 全案件一括更新
@@ -1793,16 +1952,16 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
                 ok, result = update_candidate_status(pid, mn, new_status)
                 if ok:
                     success_list.append(pn[:20])
-            reply_message(reply_token,
+            reply_message(
+                reply_token,
                 f"✅ {len(success_list)}件更新\nステータス: {new_status}\n" + "\n".join(success_list),
-                sender_token)
+                sender_token,
+            )
             return
         page_id, proj_name, matched_name = hits[0]
         ok, result = update_candidate_status(page_id, matched_name, new_status)
         if ok:
-            reply_message(reply_token,
-                f"✅ {matched_name} → {new_status}\n{proj_name[:30]}",
-                sender_token)
+            reply_message(reply_token, f"✅ {matched_name} → {new_status}\n{proj_name[:30]}", sender_token)
         else:
             reply_message(reply_token, f"❌ 更新失敗: {result}", sender_token)
         return
@@ -1810,7 +1969,6 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
     # マッチング結果照会
 
     if "マッチング" in text_stripped and len(text_stripped) <= 10:
-
         matching_reply = build_matching_result_reply()
 
         chunks = split_line_message(matching_reply)
@@ -1820,17 +1978,20 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
 
         for chunk in chunks[1:]:
-
             push_message(push_user_id, chunk, sender_token)
 
         return
 
-
     # 案件進捗照会
 
     if "進捗" in text_stripped and len(text_stripped) <= 10:
-
         progress_reply = build_progress_reply()
+        if user_id == MATSUNO_USER_ID:
+            try:
+                progress_reply += "\n\n" + build_queue_progress()
+            except Exception as e:
+                print(f"[line_bridge] progress error: {e}")
+                progress_reply += "\n\nAI作業キュー: 取得失敗"
 
         chunks = split_line_message(progress_reply)
 
@@ -1839,48 +2000,35 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
 
         for chunk in chunks[1:]:
-
             push_message(push_user_id, chunk, sender_token)
 
         return
 
-
     if is_send_ok or is_send_all:
-
         pending = PENDING_PROPOSALS.get(pending_key)
 
         if not pending:
-
             reply_message(reply_token, "⚠️ 送信待ちの提案がありません", sender_token)
 
             return
-
-
 
         emails = EMAIL_PATTERN.findall(text_stripped)
 
         to_addr = emails[0] if emails else None
 
+        ok_list = pending.get("ok", [])
 
+        ng_list = pending.get("ng", [])
 
-        ok_list  = pending.get("ok", [])
-
-        ng_list  = pending.get("ng", [])
-
-        draft    = pending.get("proposal_draft", "")
+        draft = pending.get("proposal_draft", "")
 
         proj_name = pending.get("proj_name", "案件")
-
-
 
         target = ok_list + (ng_list if is_send_all else [])
 
         target_names = [c["name"] for c, *_ in target]
 
-
-
         if to_addr:
-
             account = "matsuno" if sender == "matsuno" else "okamoto"
 
             subject = f"【ご提案】{proj_name}"
@@ -1890,52 +2038,42 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
             sent = send_email_via_callback(account, to_addr, subject, body)
 
             if sent:
-
-                reply_message(reply_token,
-
+                reply_message(
+                    reply_token,
                     f"✅ メール送信完了\n送信先: {to_addr}\n件名: {subject}\n対象: {len(target_names)}名",
-
-                    sender_token)
+                    sender_token,
+                )
 
             else:
-
-                reply_message(reply_token,
-
+                reply_message(
+                    reply_token,
                     f"❌ 自動送信失敗。以下をコピーして手動送信してください:\n送信先: {to_addr}\n\n{body[:1500]}",
-
-                    sender_token)
+                    sender_token,
+                )
 
         else:
-
             label = "全員" if is_send_all else "OK候補のみ"
 
-            reply_message(reply_token,
-
+            reply_message(
+                reply_token,
                 f"📋 提案内容確認（{label} {len(target_names)}名）\n送信先メールを「送信して xxx@yyy.com」で指定してください\n\n{draft[:1500]}",
-
-                sender_token)
+                sender_token,
+            )
 
             return
-
-
 
         del PENDING_PROPOSALS[pending_key]
 
         return
-
-
 
     # ── スプレッドシートURL ──────────────────────────────────────
 
     sheet_urls = SHEET_URL_PATTERN.findall(text)
 
     if sheet_urls:
-
         handle_sheet_url(sheet_urls[0], reply_token, sender, sender_token, user_id=user_id)
 
         return
-
-
 
     # ── 通常メッセージ分類 ───────────────────────────────────────
 
@@ -1968,8 +2106,11 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
                 matches = result_m.get("matches", [])[:3]
                 if MATCHING_LOGIC_AVAILABLE:
                     msg = build_reverse_match_message_v2(
-                        info.get("name", "(no name)"), matches,
-                        normalize_price(info.get("price", 0)) or 0)
+                        info.get("name", "(no name)"),
+                        matches,
+                        normalize_price(info.get("price", 0)) or 0,
+                        stats=result_m.get("stats"),
+                    )
                 else:
                     msg = build_reverse_match_message(info.get("name", "(no name)"), matches)
                 reply_message(reply_token, msg, sender_token)
@@ -1987,25 +2128,20 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         return
 
     if False and msg_type == "engineer":  # ファイル受信待機フローに一本化（此ブロックは使わない）
-
         success, reason = register_engineer(info, text, sender, user_id=user_id)
 
         if not success:
-
             if reason == "name_not_found":
-
                 reply_message(reply_token, ENGINEER_NAME_NOT_FOUND_REPLY, sender_token)
 
                 return
 
             if reason == "area_out_of_scope":
-
                 reply_message(reply_token, AREA_OUT_OF_SCOPE_REPLY, sender_token)
 
                 return
 
             if reason == "foreign_nationality":
-
                 reply_message(reply_token, "外国籍のため登録をスキップしました", sender_token)
 
                 return
@@ -2017,18 +2153,17 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         active_projects = deduplicate_projects(get_active_projects())
 
         if not active_projects:
-
             name = info.get("name", "(no name)")
 
             skills_str = ", ".join(info.get("skills", [])) or "N/A"
 
             price = normalize_price(info.get("price", 0))
 
-            reply_message(reply_token,
-
+            reply_message(
+                reply_token,
                 f"📋 登録完了\n名前: {name}\nスキル: {skills_str}\n単価: {price}万\n\n稼働中案件なし",
-
-                sender_token)
+                sender_token,
+            )
 
             return
 
@@ -2039,21 +2174,20 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         if MATCHING_LOGIC_AVAILABLE:
             msg = build_reverse_match_message_v2(
-                info.get("name", "(no name)"), matches,
-                normalize_price(info.get("price", 0)) or 0)
+                info.get("name", "(no name)"),
+                matches,
+                normalize_price(info.get("price", 0)) or 0,
+                stats=result_m.get("stats"),
+            )
         else:
             msg = build_reverse_match_message(info.get("name", "(no name)"), matches)
 
         reply_message(reply_token, msg, sender_token)
 
-
-
     elif msg_type == "engineers":
-
         engineers_list = info.get("engineers", [])
 
         if not engineers_list:
-
             reply_message(reply_token, "❌ 人員情報が取得できませんでした", sender_token)
 
             return
@@ -2065,77 +2199,62 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         registered = []
 
         for eng in engineers_list:
-
             ok, reason = register_engineer(eng, text, sender, user_id=user_id)
 
             if ok:
-
                 success_count += 1
 
                 registered.append(eng)
 
             else:
-
                 skip_count += 1
 
                 if reason:
-
                     skip_reasons.add(reason)
 
         msg = f"📊 複数人員登録完了\n登録: {success_count}名 / スキップ: {skip_count}名\n"
 
         if "name_not_found" in skip_reasons:
-
             msg += f"{ENGINEER_NAME_NOT_FOUND_REPLY}\n"
 
         if "area_out_of_scope" in skip_reasons:
-
             msg += f"{AREA_OUT_OF_SCOPE_REPLY}\n"
 
         if "foreign_nationality" in skip_reasons:
-
             msg += "外国籍のため登録をスキップしました\n"
 
         for i, e in enumerate(engineers_list[:5], 1):
-
-            msg += f"{i}. {e.get('name','(no name)')} / {e.get('price',0)}万\n"
+            msg += f"{i}. {e.get('name', '(no name)')} / {e.get('price', 0)}万\n"
 
         reply_message(reply_token, msg, sender_token)
 
         active_projects = deduplicate_projects(get_active_projects())
 
         if active_projects and registered:
-
             uid = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
 
             tok = MATSUNO_CHANNEL_TOKEN if sender == "matsuno" else OKAMOTO_CHANNEL_TOKEN
 
             for eng in registered[:3]:
-
                 rm = run_reverse_matching_full(eng, active_projects)
 
                 matches = rm.get("matches", [])[:3]
 
                 if matches:
-
                     if MATCHING_LOGIC_AVAILABLE:
                         _rmsg = build_reverse_match_message_v2(
-                            eng.get("name","?"), matches,
-                            normalize_price(eng.get("price", 0)) or 0)
+                            eng.get("name", "?"), matches, normalize_price(eng.get("price", 0)) or 0
+                        )
                     else:
-                        _rmsg = build_reverse_match_message(eng.get("name","?"), matches)
+                        _rmsg = build_reverse_match_message(eng.get("name", "?"), matches)
                     push_message(uid, _rmsg, tok)
 
-
-
     elif msg_type == "project":
-
         success, _ = register_project(info, text, sender, user_id=user_id)
 
         proj_name = info.get("name", "project")
 
         if not success:
-
             reply_message(reply_token, "❌ 案件登録失敗", sender_token)
 
             return
@@ -2150,46 +2269,32 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
 
         proposal_draft = matching.get("proposal_draft", "")
 
-
-
         ok_candidates, ng_candidates = [], []
 
         for c in all_candidates:
-
             is_ok, ng_reasons, detail_str = evaluate_candidate(c, project_price)
 
-            if is_ok: ok_candidates.append((c, detail_str))
+            if is_ok:
+                ok_candidates.append((c, detail_str))
 
-            else: ng_candidates.append((c, ng_reasons, detail_str))
-
-
+            else:
+                ng_candidates.append((c, ng_reasons, detail_str))
 
         PENDING_PROPOSALS[pending_key] = {
-
             "ok": ok_candidates,
-
             "ng": ng_candidates,
-
             "proposal_draft": proposal_draft,
-
             "proj_name": proj_name,
-
         }
-
-
 
         msg = build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_draft)
 
         reply_message(reply_token, msg, sender_token)
 
-
-
     elif msg_type == "projects":
-
         projects_list = info.get("projects", [])
 
         if not projects_list:
-
             reply_message(reply_token, "❌ 案件情報が取得できませんでした", sender_token)
 
             return
@@ -2197,59 +2302,50 @@ def process_message(text, reply_token, sender, sender_token, user_id=""):
         success_count = skip_count = 0
 
         for proj in projects_list:
-
             ok, _ = register_project(proj, text, sender, user_id=user_id)
 
-            if ok: success_count += 1
+            if ok:
+                success_count += 1
 
-            else: skip_count += 1
+            else:
+                skip_count += 1
 
         msg = f"📊 複数案件登録完了\n登録: {success_count}件 / スキップ: {skip_count}件\n"
 
         for i, p in enumerate(projects_list[:5], 1):
-
-            msg += f"{i}. {p.get('name','(no name)')} / {p.get('price',0)}万\n"
+            msg += f"{i}. {p.get('name', '(no name)')} / {p.get('price', 0)}万\n"
 
         reply_message(reply_token, msg, sender_token)
 
-
-
     else:
-
         print(f"[other] ignored: {text[:50]}")
-
-
-
 
 
 def handle_webhook(channel_secret, channel_token, sender_name):
 
-    signature = request.headers.get('X-Line-Signature', '')
+    signature = request.headers.get("X-Line-Signature", "")
 
     body = request.get_data()
 
     if not verify_signature(body, signature, channel_secret):
-
         abort(400)
 
-    events = request.json.get('events', [])
+    events = request.json.get("events", [])
 
     for event in events:
+        event_type = event["type"]
 
-        event_type = event['type']
-
-        if event_type != 'message':
-
+        if event_type != "message":
             continue
 
         # グループ/ルームチャットは弾く（個人チャットのみ受け付ける）
-        source_type = event.get('source', {}).get('type', '')
-        if source_type not in ('user', ''):
+        source_type = event.get("source", {}).get("type", "")
+        if source_type not in ("user", ""):
             print(f"[skip] non-user source: {source_type}")
             continue
 
         # webhookEventId重複処理防止
-        event_id = event.get('webhookEventId', '')
+        event_id = event.get("webhookEventId", "")
         if event_id:
             if event_id in PROCESSED_EVENT_IDS:
                 print(f"[skip] duplicate event: {event_id}")
@@ -2259,136 +2355,179 @@ def handle_webhook(channel_secret, channel_token, sender_name):
                 oldest = next(iter(PROCESSED_EVENT_IDS))
                 PROCESSED_EVENT_IDS.discard(oldest)
 
-        msg = event['message']
+        msg = event["message"]
 
-        msg_type = msg.get('type', '')
+        msg_type = msg.get("type", "")
 
-        reply_token = event['replyToken']
+        reply_token = event["replyToken"]
 
-        user_id = event.get('source', {}).get('userId', '')
-
-
+        user_id = event.get("source", {}).get("userId", "")
 
         global MATSUNO_USER_ID
 
         if sender_name == "matsuno" and user_id and not MATSUNO_USER_ID:
-
             MATSUNO_USER_ID = user_id
 
             print("[userId-matsuno] captured", flush=True)
 
             if os.path.exists(ENV_PATH):
-
                 set_key(ENV_PATH, "MATSUNO_LINE_USER_ID", user_id)
 
-
-
         try:
+            if msg_type == "text":
+                process_message(
+                    msg["text"],
+                    reply_token,
+                    sender_name,
+                    channel_token,
+                    user_id=user_id,
+                    message_id=msg.get("id", ""),
+                    event_timestamp_ms=int(event.get("timestamp") or 0),
+                )
 
-            if msg_type == 'text':
-
-                process_message(msg['text'], reply_token, sender_name, channel_token, user_id=user_id)
-
-            elif msg_type in ('image', 'file'):
-
+            elif msg_type in ("image", "file"):
                 # PDF/画像スキルシート受信
 
-                mime = msg.get('contentType', 'image/jpeg') if msg_type == 'image' else msg.get('fileName', '')
+                mime = msg.get("contentType", "image/jpeg") if msg_type == "image" else msg.get("fileName", "")
 
                 # ファイル名からMIME判定
 
-                if msg_type == 'file':
+                if msg_type == "file":
+                    fname = msg.get("fileName", "").lower()
 
-                    fname = msg.get('fileName', '').lower()
+                    if fname.endswith(".pdf"):
+                        mime = "application/pdf"
 
-                    if fname.endswith('.pdf'):
+                    elif fname.endswith(".docx"):
+                        mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
-                        mime = 'application/pdf'
+                    elif fname.endswith(".xlsx"):
+                        mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
-                    elif fname.endswith('.docx'):
-
-                        mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-
-                    elif fname.endswith('.xlsx'):
-
-                        mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-
-                    elif fname.endswith(('.png', '.jpg', '.jpeg')):
-
+                    elif fname.endswith((".png", ".jpg", ".jpeg")):
                         mime = f"image/{'png' if fname.endswith('.png') else 'jpeg'}"
 
                     else:
+                        mime = "application/octet-stream"
 
-                        mime = 'application/octet-stream'
-
-                handle_file_message(msg['id'], mime, reply_token, sender_name, channel_token, user_id=user_id)
+                handle_file_message(msg["id"], mime, reply_token, sender_name, channel_token, user_id=user_id)
 
         except Exception as e:
-
             print(f"Error [{sender_name}]: {e}")
 
             traceback.print_exc()
 
+    return "OK", 200
 
 
-    return 'OK', 200
-
-
-
-
-
-@app.route('/webhook', methods=['POST'])
-
+@app.route("/webhook", methods=["POST"])
 def webhook_matsuno():
 
     return handle_webhook(MATSUNO_CHANNEL_SECRET, MATSUNO_CHANNEL_TOKEN, "matsuno")
 
 
-
-@app.route('/webhook_okamoto', methods=['POST'])
-
+@app.route("/webhook_okamoto", methods=["POST"])
 def webhook_okamoto():
 
     return handle_webhook(OKAMOTO_CHANNEL_SECRET, OKAMOTO_CHANNEL_TOKEN, "okamoto")
 
 
-
-@app.route('/health', methods=['GET'])
-
+@app.route("/health", methods=["GET"])
 def health():
 
-    return 'OK', 200
+    return "OK", 200
 
+
+@app.route("/line-bridge/worker", methods=["POST"])
+def line_bridge_worker():
+    if not cron_authorized(request.headers):
+        abort(403)
+    try:
+        results = pickup_and_run()
+        # 自発的push通知は廃止（2026-06-15）
+        # 松野は「作業進捗」コマンドでLINEからpullする方式に統一
+        # コスト異常・エラー等の緊急通知はhuman_review_itemsに記録し作業進捗で確認
+        pushed = 0
+        return {
+            "processed": len(results),
+            "pushed": pushed,
+            "expired": expire_finished(),
+            "results": results,
+        }, 200
+    except Exception as e:
+        print(f"[line_bridge_worker] error: {e}")
+        return {"ok": False, "error": str(e)[:300]}, 500
+
+
+@app.route("/line-bridge/expire", methods=["POST"])
+def line_bridge_expire():
+    if not cron_authorized(request.headers):
+        abort(403)
+    try:
+        return {"expired": expire_finished()}, 200
+    except Exception as e:
+        print(f"[line_bridge_expire] error: {e}")
+        return {"ok": False, "error": str(e)[:300]}, 500
+
+
+@app.route("/invoice_prep", methods=["POST"])
+def invoice_prep():
+    if not cron_authorized(request.headers):
+        abort(403)
+    try:
+        body, status = invoice_prep_handler()
+        return body, status
+    except Exception as e:
+        print(f"[invoice_prep] error: {e}")
+        return {"ok": False, "error": str(e)[:300]}, 500
+
+
+@app.route("/invoice_draft", methods=["POST"])
+def invoice_draft():
+    if not cron_authorized(request.headers):
+        abort(403)
+    try:
+        body, status = invoice_draft_handler()
+        return body, status
+    except Exception as e:
+        print(f"[invoice_draft] error: {e}")
+        return {"ok": False, "error": str(e)[:300]}, 500
+
+
+@app.route("/invoice_reminder", methods=["POST"])
+def invoice_reminder():
+    if not cron_authorized(request.headers):
+        abort(403)
+    try:
+        body, status = invoice_reminder_handler()
+        return body, status
+    except Exception as e:
+        print(f"[invoice_reminder] error: {e}")
+        return {"ok": False, "error": str(e)[:300]}, 500
 
 
 def _keepalive():
 
     time.sleep(60)
 
-    url = os.environ.get('CLOUD_RUN_URL', 'https://line-webhook-74735301292.asia-northeast1.run.app')
+    url = os.environ.get("CLOUD_RUN_URL", "https://line-webhook-74735301292.asia-northeast1.run.app")
 
     while True:
-
         try:
+            requests.get(f"{url}/health", timeout=10)
 
-            requests.get(f'{url}/health', timeout=10)
-
-            print('[keepalive] ping OK')
+            print("[keepalive] ping OK")
 
         except Exception as e:
+            print(f"[keepalive] ping failed: {e}")
 
-            print(f'[keepalive] ping failed: {e}')
-
-        time.sleep(600)
-
+        time.sleep(120)  # 2分おきにping（コールドスタート抑制）
 
 
 threading.Thread(target=_keepalive, daemon=True).start()
 
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
 
-if __name__ == '__main__':
-
-    port = int(os.environ.get('PORT', 5000))
-
-    app.run(host='0.0.0.0', port=port)
+    app.run(host="0.0.0.0", port=port)

@@ -18,14 +18,14 @@ if _SES_WORK not in sys.path:
     sys.path.insert(1, _SES_WORK)
 from common.model_config import STRUCTURER_MODEL
 
-
 BASE_DIR = Path(__file__).resolve().parent
 ENV_PATH = BASE_DIR.parent / "config" / ".env"
 USERS_PATH = BASE_DIR / "users.yaml"
 
 ENGINEER_DB_ID = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
 CASE_DB_ID = "343450ff-37c0-81e4-934e-f25f90284a3c"
-DEFAULT_STRUCTURER_MODEL = STRUCTURER_MODEL
+DEFAULT_STRUCTURER_MODEL = STRUCTURER_MODEL or "gpt-4.1-nano"
+MAX_PROFILE_AGE_DAYS = int(os.environ.get("MAX_PROFILE_AGE_DAYS", "21"))
 
 
 class Config:
@@ -36,9 +36,11 @@ class Config:
         self.users = self._load_users(self.users_path)
         self.engineer_db_id = ENGINEER_DB_ID
         self.case_db_id = CASE_DB_ID
-        self.structurer_model = os.environ.get(
-            "STRUCTURER_MODEL",
-            self.env.get("STRUCTURER_MODEL") or DEFAULT_STRUCTURER_MODEL,
+        self.structurer_model = (
+            os.environ.get("STRUCTURER_MODEL")
+            or self.env.get("STRUCTURER_MODEL")
+            or DEFAULT_STRUCTURER_MODEL
+            or "gpt-4.1-nano"
         )
 
     def get(self, key: str, default: str | None = None) -> str | None:

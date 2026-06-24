@@ -12,11 +12,7 @@ TASK_NAME = "line_bridge_worker_health"
 
 
 def register() -> None:
-    cmd = (
-        f'schtasks /create /tn "{TASK_NAME}" '
-        f'/tr "{BAT_PATH}" '
-        "/sc HOURLY /mo 1 /f"
-    )
+    cmd = f'schtasks /create /tn "{TASK_NAME}" /tr "{BAT_PATH}" /sc HOURLY /mo 1 /f'
     result = subprocess.run(
         cmd,
         shell=True,

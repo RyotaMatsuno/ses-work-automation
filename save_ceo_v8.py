@@ -1,4 +1,4 @@
-content = '''# CEO指示書 v8（経営参謀ジョブズ用）
+content = """# CEO指示書 v8（経営参謀ジョブズ用）
 
 最終更新: 2026-05-26
 
@@ -115,8 +115,8 @@ content = '''# CEO指示書 v8（経営参謀ジョブズ用）
 - 松野・岡本への通知は**松野公式LINEチャンネルから送信**（岡本公式は使わない）
 - 岡本公式LINEは「提案ナレッジ蓄積専用」
 - 担当者判定は**LINEのuser_id**で行う（senderではない）
-  - 松野user_id: REDACTED-SECRET（2026-05-25確認）
-  - 岡本user_id: REDACTED-SECRET
+  - 松野user_id: Ue3508b43b84991f5a68281da5bf4cf39（2026-05-25確認）
+  - 岡本user_id: Uac1d23408573586affa37577c4e2b2ab
 - 通知ロジック4ケース:
   - 同担当案件×同担当エンジニア → その担当者に通知
   - 岡本案件×松野エンジニア → 岡本に「松野に意向確認依頼済み」＋松野に「意向確認お願い」
@@ -270,8 +270,8 @@ cwd: 対象プロジェクトのディレクトリ
 | 2026-05-21 | v6。Codex CLI導入を全体に反映。実装分業体制確定。テスラ廃止。 |
 | 2026-05-25 | v7。全チャット査定ルール反映。LINE運用ルール確定版追加。jobz-command制約追加。 |
 | 2026-05-26 | v8。環境判定ルール確定（Desktop/ブラウザ両対応）。技術的行き詰まり時プロトコル追加。完成システム一覧を最新化。松野user_id確定値反映。 |
-'''
+"""
 
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\project_files\CEO指示書v8.md', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\project_files\CEO指示書v8.md", "w", encoding="utf-8") as f:
     f.write(content)
 print("CEO指示書v8 保存完了", flush=True)

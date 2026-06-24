@@ -14,7 +14,6 @@ from email.utils import formatdate, make_msgid
 from pathlib import Path
 from typing import Any
 
-
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -274,11 +273,7 @@ def print_project_result(
     marks = "①②③"
     for index, proposal in enumerate(proposals):
         name = proposal.data.get("engineer_name", "氏名未設定")
-        print(
-            f"  {marks[index]}{name} "
-            f"単価{yen_to_man(proposal.price_yen)}万 "
-            f"粗利{yen_to_man(proposal.gross_yen)}万"
-        )
+        print(f"  {marks[index]}{name} 単価{yen_to_man(proposal.price_yen)}万 粗利{yen_to_man(proposal.gross_yen)}万")
 
 
 def main() -> int:

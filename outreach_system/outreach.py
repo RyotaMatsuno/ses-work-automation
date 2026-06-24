@@ -8,7 +8,6 @@ from pathlib import Path
 
 from send_mail import MATSUNO_EMAIL, OUTREACH_FROM_EMAIL, SENDER_NAME, send_mail
 
-
 BASE_DIR = Path(__file__).resolve().parent
 TARGETS_PATH = BASE_DIR / "targets.csv"
 HISTORY_PATH = BASE_DIR / "history.json"
@@ -18,10 +17,7 @@ RESEND_DAYS = 180
 
 def load_targets(path: Path = TARGETS_PATH) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8-sig", newline="") as file:
-        return [
-            {key: (value or "").strip() for key, value in row.items()}
-            for row in csv.DictReader(file)
-        ]
+        return [{key: (value or "").strip() for key, value in row.items()} for row in csv.DictReader(file)]
 
 
 def load_history(path: Path = HISTORY_PATH) -> dict[str, str]:

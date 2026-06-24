@@ -1,5 +1,6 @@
+import os
+import sys
 
-import sys, os
 sys.path.insert(0, r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook")
 os.chdir(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook")
 
@@ -12,11 +13,12 @@ os.environ.setdefault("ANTHROPIC_API_KEY", "dummy")
 
 # build_matching_result_reply の中身を直接トレース
 import json
-result_path = os.path.join(os.path.dirname(__file__), '..', 'matching_v2', 'result.json')
+
+result_path = os.path.join(os.path.dirname(__file__), "..", "matching_v2", "result.json")
 print(f"result_path exists: {os.path.exists(result_path)}")
 print(f"result_path resolved: {os.path.abspath(result_path)}")
 
-with open(result_path, 'r', encoding='utf-8') as f:
+with open(result_path, "r", encoding="utf-8") as f:
     data = json.load(f)
 
 print(f"type(data): {type(data)}")

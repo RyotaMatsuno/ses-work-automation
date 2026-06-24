@@ -1,7 +1,12 @@
-import sys, io, requests
+import io
+import sys
+
+import requests
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 from dotenv import dotenv_values
+
 config = dotenv_values(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
 
 TOKEN = config.get("LINE_CHANNEL_ACCESS_TOKEN", "")
@@ -18,6 +23,6 @@ r = requests.post(
     "https://api.line.me/v2/bot/message/push",
     headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"},
     json={"to": MATSUNO_USER_ID, "messages": [{"type": "text", "text": msg}]},
-    timeout=10
+    timeout=10,
 )
 print(f"LINE push status: {r.status_code}", flush=True)

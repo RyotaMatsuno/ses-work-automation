@@ -4,18 +4,18 @@
 - Notionエンジニア4,642名をそのままAIに渡すとトークン超過 → Python側でフィルタリング後に渡す
 """
 
-import imaplib
 import email
-import re
+import imaplib
 import json
 import os
+import re
 import ssl
-import requests
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from email.header import decode_header
-from email.utils import parsedate_to_datetime
-from dotenv import dotenv_values
 from pathlib import Path
+
+import requests
+from dotenv import dotenv_values
 
 # ===== 設定 =====
 BASE_DIR = Path(__file__).parent
@@ -33,26 +33,48 @@ for k, v in config.items():
     if k not in os.environ:
         os.environ[k] = v
 
-IMAP_SERVER   = os.environ.get("OUTLOOK_IMAP_SERVER", "mail65.onamae.ne.jp")
-IMAP_PORT     = int(os.environ.get("OUTLOOK_IMAP_PORT", 993))
-EMAIL_USER    = os.environ.get("OUTLOOK_EMAIL", "sessales@terra-ltd.co.jp")
-EMAIL_PASS    = os.environ.get("OUTLOOK_PASSWORD", "")
+IMAP_SERVER = os.environ.get("OUTLOOK_IMAP_SERVER", "mail65.onamae.ne.jp")
+IMAP_PORT = int(os.environ.get("OUTLOOK_IMAP_PORT", 993))
+EMAIL_USER = os.environ.get("OUTLOOK_EMAIL", "sessales@terra-ltd.co.jp")
+EMAIL_PASS = os.environ.get("OUTLOOK_PASSWORD", "")
 ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-NOTION_KEY    = os.environ.get("NOTION_API_KEY", "")
-ENGINEER_DB   = os.environ.get("NOTION_ENGINEER_DB_ID", "")
-PROJECT_DB    = os.environ.get("NOTION_PROJECT_DB_ID", "")
+NOTION_KEY = os.environ.get("NOTION_API_KEY", "")
+ENGINEER_DB = os.environ.get("NOTION_ENGINEER_DB_ID", "")
+PROJECT_DB = os.environ.get("NOTION_PROJECT_DB_ID", "")
 
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
 VALID_SKILLS = [
-    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
-    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
-    "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
-    "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
+    "Java",
+    "Python",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "C#",
+    "Node.js",
+    "React",
+    "AWS",
+    "インフラ",
+    "Go",
+    "Ruby",
+    "Swift",
+    "Kotlin",
+    "Vue.js",
+    "Angular",
+    "Docker",
+    "Kubernetes",
+    "GCP",
+    "Azure",
+    "Spring",
+    "MySQL",
+    "PostgreSQL",
+    "Oracle",
+    "MongoDB",
+    "Linux",
 ]
 
 DOUBLE_CHECK_SYSTEM = f"""あなたはSES業界のダブルチェック専門AIです。
@@ -191,16 +213,21 @@ def fetch_recent_emails(limit: int = 50):
                 continue
             raw = msg_data[0][1]
             msg = email.message_from_bytes(raw)
-            subject  = decode_str(msg.get("Subject", ""))
-            sender   = decode_str(msg.get("From", ""))
+            subject = decode_str(msg.get("Subject", ""))
+            sender = decode_str(msg.get("From", ""))
             reply_to = decode_str(msg.get("Reply-To", "")) or sender
-            msg_id   = msg.get("Message-ID", f"no-id-{mail_id.decode()}")
-            body     = get_body(msg)
-            emails.append({
-                "id": mail_id, "msg_id": msg_id,
-                "subject": subject, "sender": sender,
-                "reply_to": reply_to, "body": body
-            })
+            msg_id = msg.get("Message-ID", f"no-id-{mail_id.decode()}")
+            body = get_body(msg)
+            emails.append(
+                {
+                    "id": mail_id,
+                    "msg_id": msg_id,
+                    "subject": subject,
+                    "sender": sender,
+                    "reply_to": reply_to,
+                    "body": body,
+                }
+            )
         except Exception as e:
             log(f"メール取得エラー: {e}")
 
@@ -254,18 +281,14 @@ def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
     try:
         res = requests.post(
             "https://api.anthropic.com/v1/messages",
-            headers={
-                "x-api-key": ANTHROPIC_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json"
-            },
+            headers={"x-api-key": ANTHROPIC_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
             json={
                 "model": "claude-sonnet-4-6",
                 "max_tokens": max_tokens,
                 "system": system,
-                "messages": [{"role": "user", "content": user}]
+                "messages": [{"role": "user", "content": user}],
             },
-            timeout=60
+            timeout=60,
         )
         if res.status_code == 200:
             return res.json()["content"][0]["text"]
@@ -330,10 +353,7 @@ def notion_query(db_id: str, filter_obj: dict = None) -> list:
     if filter_obj:
         payload["filter"] = filter_obj
     while True:
-        r = requests.post(
-            f"https://api.notion.com/v1/databases/{db_id}/query",
-            headers=NOTION_HEADERS, json=payload
-        )
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query", headers=NOTION_HEADERS, json=payload)
         data = r.json()
         results.extend(data.get("results", []))
         if not data.get("has_more"):
@@ -344,11 +364,11 @@ def notion_query(db_id: str, filter_obj: dict = None) -> list:
 
 def register_project(info: dict, subject: str, sender: str) -> bool:
     name = info.get("name") or f"【{subject[:20]}】"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note', '')}"
     properties = {
         "案件名": {"title": [{"text": {"content": name}}]},
         "ステータス": {"select": {"name": "募集中"}},
-        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "案件詳細": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
@@ -365,7 +385,7 @@ def register_project(info: dict, subject: str, sender: str) -> bool:
     res = requests.post(
         "https://api.notion.com/v1/pages",
         headers=NOTION_HEADERS,
-        json={"parent": {"database_id": PROJECT_DB}, "properties": properties}
+        json={"parent": {"database_id": PROJECT_DB}, "properties": properties},
     )
     if res.status_code != 200:
         log(f"  [Notion ERROR project] {res.status_code}: {res.text[:300]}")
@@ -374,11 +394,11 @@ def register_project(info: dict, subject: str, sender: str) -> bool:
 
 def register_engineer(info: dict, subject: str, sender: str) -> bool:
     name = info.get("name") or "（名前未記載）"
-    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
+    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note', '')}"
     properties = {
         "名前": {"title": [{"text": {"content": name}}]},
         "稼働状況": {"select": {"name": "稼働可能"}},
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills:
@@ -392,7 +412,7 @@ def register_engineer(info: dict, subject: str, sender: str) -> bool:
     res = requests.post(
         "https://api.notion.com/v1/pages",
         headers=NOTION_HEADERS,
-        json={"parent": {"database_id": ENGINEER_DB}, "properties": properties}
+        json={"parent": {"database_id": ENGINEER_DB}, "properties": properties},
     )
     if res.status_code != 200:
         log(f"  [Notion ERROR engineer] {res.status_code}: {res.text[:300]}")
@@ -400,37 +420,33 @@ def register_engineer(info: dict, subject: str, sender: str) -> bool:
 
 
 def get_available_engineers() -> list:
-    pages = notion_query(ENGINEER_DB, {
-        "property": "稼働状況", "select": {"equals": "稼働可能"}
-    })
+    pages = notion_query(ENGINEER_DB, {"property": "稼働状況", "select": {"equals": "稼働可能"}})
     engineers = []
     for p in pages:
         props = p["properties"]
         name_prop = props.get("名前", {}).get("title", [])
-        name   = name_prop[0]["plain_text"] if name_prop else "未記載"
+        name = name_prop[0]["plain_text"] if name_prop else "未記載"
         skills = [o["name"] for o in props.get("スキル", {}).get("multi_select", [])]
-        price  = props.get("単価（万円）", {}).get("number", 0) or 0
-        avail  = (props.get("稼働可能日", {}).get("date") or {}).get("start", "")
+        price = props.get("単価（万円）", {}).get("number", 0) or 0
+        avail = (props.get("稼働可能日", {}).get("date") or {}).get("start", "")
         note_prop = props.get("備考（LINEメモ）", {}).get("rich_text", [])
-        note   = note_prop[0]["plain_text"][:200] if note_prop else ""
-        engineers.append({"name": name, "skills": skills, "price": price,
-                          "available_date": avail, "note": note})
+        note = note_prop[0]["plain_text"][:200] if note_prop else ""
+        engineers.append({"name": name, "skills": skills, "price": price, "available_date": avail, "note": note})
     return engineers
 
 
 # ===== 提案文下書き保存 =====
-def save_draft(proj_name: str, reply_to: str, candidates: list,
-               check_result: str, final_proposal: str):
+def save_draft(proj_name: str, reply_to: str, candidates: list, check_result: str, final_proposal: str):
     DRAFTS_DIR.mkdir(exist_ok=True)
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    safe_name = re.sub(r'[\\/:*?"<>|]', '_', proj_name)[:30]
+    safe_name = re.sub(r'[\\/:*?"<>|]', "_", proj_name)[:30]
     path = DRAFTS_DIR / f"{ts}_{safe_name}.txt"
 
     is_ok = "【判定】OK" in check_result or "判定】OK" in check_result
 
     content = f"""================================================================
 提案文下書き
-生成日時: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+生成日時: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 ================================================================
 【案件名】{proj_name}
 【返信先】{reply_to}
@@ -438,12 +454,12 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
 【候補者】
 """
     for i, c in enumerate(candidates[:3], 1):
-        content += f"  {'①②③'[i-1]} {c['name']} / {c.get('price',0)}万円\n"
-        content += f"     {c.get('summary','')}\n"
+        content += f"  {'①②③'[i - 1]} {c['name']} / {c.get('price', 0)}万円\n"
+        content += f"     {c.get('summary', '')}\n"
 
     content += f"""
 【ダブルチェック結果】
-判定: {'[OK] OK' if is_ok else '[NG] NG'}
+判定: {"[OK] OK" if is_ok else "[NG] NG"}
 {check_result[:800]}
 
 【提案メール本文（送信可能版）】
@@ -458,7 +474,7 @@ def save_draft(proj_name: str, reply_to: str, candidates: list,
 # ===== メイン =====
 def main():
     log("=" * 50)
-    log(f"メールパイプライン v4 起動（スキルフィルタリング追加）")
+    log("メールパイプライン v4 起動（スキルフィルタリング追加）")
     log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
 
     processed = load_processed_ids()
@@ -478,17 +494,17 @@ def main():
 
     target_emails = new_emails[:PROCESS_LIMIT]
     if len(new_emails) > PROCESS_LIMIT:
-        log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails)-PROCESS_LIMIT}件は次回）")
+        log(f"処理上限により{PROCESS_LIMIT}件に絞り込み（残り{len(new_emails) - PROCESS_LIMIT}件は次回）")
 
     engineers = get_available_engineers()
     log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
 
     for em in target_emails:
-        subject  = em["subject"]
-        sender   = em["sender"]
+        subject = em["subject"]
+        sender = em["sender"]
         reply_to = em["reply_to"]
-        body     = em["body"]
-        msg_id   = em["msg_id"]
+        body = em["body"]
+        msg_id = em["msg_id"]
         log(f"処理中: {subject[:50]}")
 
         info = classify_email(subject, body)
@@ -525,7 +541,7 @@ def main():
 
             check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
             for c in candidates:
-                check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
+                check_input += f"- {c['name']} / {c.get('price', 0)}万円 / 並行: {c.get('parallel', 'なし')}\n"
             check_result = double_check(check_input)
 
             final_proposal = proposal_draft

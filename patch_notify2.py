@@ -1,5 +1,3 @@
-import re
-
 filepath = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\notify_line.py"
 
 with open(filepath, "r", encoding="utf-8") as f:

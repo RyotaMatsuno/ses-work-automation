@@ -8,7 +8,7 @@ result = subprocess.run(
     capture_output=True,
     text=True,
     timeout=25,
-    env={**os.environ, "SKIP_NOTION_FETCH": "1"}
+    env={**os.environ, "SKIP_NOTION_FETCH": "1"},
 )
 print("STDOUT:", result.stdout[:3000])
 if result.stderr:

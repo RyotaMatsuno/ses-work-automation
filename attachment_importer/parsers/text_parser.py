@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """テキストサマリーから人員情報を構造化抽出する。"""
 
-import json, os, re, sys
+import json
+import os
+import re
 from datetime import date
-from typing import Any
+
 import anthropic
 
-DELIMITER_PATTERNS = [r'-{10,}', r'ー{5,}', r'━{5,}', r'={10,}', r'_{10,}', r'\*{10,}']
-DELIMITER_RE = re.compile('|'.join(DELIMITER_PATTERNS))
-NAME_KEYWORDS = ['氏名', '名前', '■名前', '【名前】', '【氏名】', '■氏名', 'お名前']
-INITIAL_RE = re.compile(r'[A-Z]\.[A-Z]')
+DELIMITER_PATTERNS = [r"-{10,}", r"ー{5,}", r"━{5,}", r"={10,}", r"_{10,}", r"\*{10,}"]
+DELIMITER_RE = re.compile("|".join(DELIMITER_PATTERNS))
+NAME_KEYWORDS = ["氏名", "名前", "■名前", "【名前】", "【氏名】", "■氏名", "お名前"]
+INITIAL_RE = re.compile(r"[A-Z]\.[A-Z]")
 
 
 def split_into_blocks(text: str) -> list:
@@ -57,8 +59,8 @@ def extract_person_from_block(block: str, client, today: str) -> dict:
                 messages=[{"role": "user", "content": prompt}],
             )
             raw = msg.content[0].text.strip()
-            raw = re.sub(r'^```[a-z]*\n?', '', raw)
-            raw = re.sub(r'\n?```$', '', raw)
+            raw = re.sub(r"^```[a-z]*\n?", "", raw)
+            raw = re.sub(r"\n?```$", "", raw)
             return json.loads(raw)
         except Exception as e:
             if attempt == 2:

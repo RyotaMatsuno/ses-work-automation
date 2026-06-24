@@ -1,22 +1,29 @@
 # -*- coding: utf-8 -*-
-import base64, io, json, os, re
+import base64
+import io
+import json
+import os
+import re
 from datetime import datetime
-import requests
+
 from dotenv import dotenv_values
 
-ENV_PATH = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+from line_bridge import guarded_anthropic_call
+
+ENV_PATH = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 if os.path.exists(ENV_PATH):
     config = dotenv_values(ENV_PATH)
     for key, value in config.items():
         if key not in os.environ:
             os.environ[key] = value
 
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
 def _extract_pdf_text(file_bytes):
     try:
         import pdfplumber
+
         texts = []
         with pdfplumber.open(io.BytesIO(file_bytes)) as pdf:
             for page in pdf.pages:
@@ -32,6 +39,7 @@ def _extract_pdf_text(file_bytes):
 def _extract_xlsx_text(file_bytes):
     try:
         from openpyxl import load_workbook
+
         texts = []
         workbook = load_workbook(io.BytesIO(file_bytes), data_only=True, read_only=True)
         try:
@@ -52,6 +60,7 @@ def _extract_xlsx_text(file_bytes):
 def _extract_docx_text(file_bytes):
     try:
         from docx import Document
+
         document = Document(io.BytesIO(file_bytes))
         texts = [p.text for p in document.paragraphs if p.text and p.text.strip()]
         for table in document.tables:
@@ -88,8 +97,8 @@ def extract_skills_from_bytes(file_bytes, mime_type):
 
 def _parse_json_text(text):
     try:
-        cleaned = re.sub(r'```json|```', '', text or '').strip()
-        match = re.search(r'\{.*\}', cleaned, re.S)
+        cleaned = re.sub(r"```json|```", "", text or "").strip()
+        match = re.search(r"\{.*\}", cleaned, re.S)
         if match:
             cleaned = match.group(0)
         data = json.loads(cleaned)
@@ -131,34 +140,29 @@ def analyze_skill_sheet_v2(file_bytes, mime_type, summary_text=""):
 summary_text\u304c\u3042\u308c\u3070\u3001\u30b9\u30ad\u30eb\u30b7\u30fc\u30c8\u672c\u6587\u3092\u512a\u5148\u3057\u3064\u3064\u60f3\u5b9a\u5358\u4fa1\u30fb\u7a3c\u50cd\u5f00\u59cb\u65e5\u30fb\u5c45\u4f4f\u5730\u306a\u3069\u3092\u88dc\u5b8c\u3057\u3066\u304f\u3060\u3055\u3044\u3002
 
 summary_text:
-{summary_text or '(\u306a\u3057)'}
+{summary_text or "(\u306a\u3057)"}
 """
 
         if mime_type and mime_type.startswith("image/"):
             content = [
                 {"type": "image", "source": {"type": "base64", "media_type": mime_type, "data": extracted}},
-                {"type": "text", "text": f"{prompt}\n\n\u30b9\u30ad\u30eb\u30b7\u30fc\u30c8\u5185\u5bb9\u306f\u753b\u50cf\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002"}
+                {
+                    "type": "text",
+                    "text": f"{prompt}\n\n\u30b9\u30ad\u30eb\u30b7\u30fc\u30c8\u5185\u5bb9\u306f\u753b\u50cf\u3092\u78ba\u8a8d\u3057\u3066\u304f\u3060\u3055\u3044\u3002",
+                },
             ]
         else:
             combined_text = "\n\n".join([t for t in [summary_text, extracted] if t])
             content = f"{prompt}\n\n\u30b9\u30ad\u30eb\u30b7\u30fc\u30c8\u5185\u5bb9:\n{combined_text[:50000]}"
 
-        res = requests.post(
-            "https://api.anthropic.com/v1/messages",
-            headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
-            json={"model": "claude-haiku-4-5-20251001", "max_tokens": 2000,
-                  "system": system, "messages": [{"role": "user", "content": content}]},
-            timeout=90
+        result = guarded_anthropic_call(
+            system,
+            content,
+            max_tokens=2000,
+            caller="analyze_skill_sheet_v2",
+            model="claude-haiku-4-5-20251001",
         )
-        if res.status_code != 200:
-            print(f"[skill_extractor] API error: {res.status_code} {res.text[:200]}")
-            return {}
-
-        data = res.json()
-        usage = data.get("usage", {})
-        print(f"[claude_api] caller=analyze_skill_sheet_v2 model=haiku "
-              f"in={usage.get('input_tokens','?')} out={usage.get('output_tokens','?')}")
-        return _parse_json_text(data["content"][0]["text"])
+        return _parse_json_text(result)
     except Exception as e:
         print(f"[skill_extractor] analyze error: {e}")
         return {}
@@ -167,6 +171,7 @@ summary_text:
 def filter_and_sort_skills(skills_list):
     try:
         from webhook_server import VALID_SKILLS
+
         valid_map = {skill.lower(): skill for skill in VALID_SKILLS}
         active_skills = []
         for item in skills_list or []:

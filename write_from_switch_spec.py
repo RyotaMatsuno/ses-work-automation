@@ -53,9 +53,10 @@ claude_md = """# CLAUDE.md - Fromアドレス切り替え
 """
 
 import os
-base = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\from_switch_spec'
+
+base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\from_switch_spec"
 os.makedirs(base, exist_ok=True)
-open(os.path.join(base,'SPEC.md'),'w',encoding='utf-8').write(spec)
-open(os.path.join(base,'TASKS.md'),'w',encoding='utf-8').write(tasks)
-open(os.path.join(base,'CLAUDE.md'),'w',encoding='utf-8').write(claude_md)
+open(os.path.join(base, "SPEC.md"), "w", encoding="utf-8").write(spec)
+open(os.path.join(base, "TASKS.md"), "w", encoding="utf-8").write(tasks)
+open(os.path.join(base, "CLAUDE.md"), "w", encoding="utf-8").write(claude_md)
 print("Fromスイッチ 3点セット完了")

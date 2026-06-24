@@ -1,0 +1,121 @@
+=== webhook_server.py: 76856chars ===
+
+=== KEY LINES ===
+L365: def run_matching(project, engineers):
+    """ルールベースマッチング（API不要）"""
+    req_skills = set(project.get("required_skills", []))
+---
+L405: 
+def run_reverse_matching(engineer, projects):
+    """ルールベース逆マッチング（API不要）"""
+---
+L406: def run_reverse_matching(engineer, projects):
+    """ルールベース逆マッチング（API不要）"""
+    eng_skills = set(engineer.get("skills", []))
+---
+L438: 
+def run_reverse_matching_full(engineer, projects):
+    """全案件を30件バッチで処理してマッチング結果をマージ"""
+---
+L439: def run_reverse_matching_full(engineer, projects):
+    """全案件を30件バッチで処理してマッチング結果をマージ"""
+    BATCH_SIZE = 30
+---
+L444:         batch = projects[i:i+BATCH_SIZE]
+        result = run_reverse_matching(engineer, batch)
+        all_matches.extend(result.get("matches", []))
+---
+L501: 
+    msg = f"📊 案件『{proj_name}』登録・マッチング完了\n\n"
+
+---
+L619: 
+def notion_query(db_id, filter_obj=None):
+
+---
+L627: 
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query",
+
+---
+L775: 
+def register_engineer(info, raw_text, sender, user_id=""):
+
+---
+L829: 
+    # イニシャルと最寄り駅を保存（line_query照会に必須）
+    if info.get("initial"):
+---
+L842: 
+    print(f"register_engineer status: {res.status_code}")
+
+---
+L856: 
+def register_project(info, raw_text, sender, user_id=""):
+
+---
+L899: 
+    print(f"register_project status: {res.status_code}")
+
+---
+L915: 
+    pages = notion_query(NOTION_ENGINEER_DB_ID, {
+
+---
+L954: def get_active_projects():
+    # 募集中・稼働中・選考中すべてをマッチング対象とする
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+---
+L955:     # 募集中・稼働中・選考中すべてをマッチング対象とする
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+        "or": [
+---
+L1144: def find_project_for_reminder(project_name):
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+        "property": "案件名",
+---
+L1161: def find_engineer_for_reminder(initial, station):
+    pages = notion_query(NOTION_ENGINEER_DB_ID, {
+        "property": "名前",
+---
+L1166:     if not pages:
+        pages = notion_query(NOTION_ENGINEER_DB_ID, {
+            "property": "イニシャル",
+---
+L1244:     assignee = text[:2]
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+        "and": [
+---
+L1322: 
+def find_candidate_in_text(text, name_query):
+    """案件詳細テキストから候補者行を探す（部分一致）"""
+---
+L1324:     """案件詳細テキストから候補者行を探す（部分一致）"""
+    nq = normalize_candidate_name(name_query)
+    for line in text.split("\n"):
+---
+L1368: 
+def find_projects_with_candidate(name_query):
+    """候補者名で全案件を横断検索してヒットした(page_id, proj_name, matched_name)を返す"""
+---
+L1370:     """候補者名で全案件を横断検索してヒットした(page_id, proj_name, matched_name)を返す"""
+    pages = notion_query(NOTION_PROJECT_DB_ID, {
+        "or": [
+---
+L1386:             continue
+        matched_line, matched_name = find_candidate_in_text(detail_text, name_query)
+        if matched_line:
+---
+L1393: def build_matching_result_reply():
+    """Notion DBからリアルタイムでマッチング結果を取得してフォーマット"""
+    try:
+---
+L1396:         # アクティブな案件を取得
+        project_pages = notion_query(NOTION_PROJECT_DB_ID, {
+            "or": [
+---
+L1403:         # 稼働可能なエンジニアを取得
+        engineer_pages = notion_query(NOTION_ENGINEER_DB_ID, {
+            "property": "稼働状況", "select": {"equals": "稼働可能"}
+---
+L1408:         print(f"[matching_reply] notion error: {e}")
+        return "【マッチング結果】\nデータ取得失敗"

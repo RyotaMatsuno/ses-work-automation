@@ -1,0 +1,101 @@
+=== cost_guard_limits ===
+    DAILY_COST_LIMIT_USD = 1.00
+    MONTHLY_DEGRADE_USD = 5.00
+    MONTHLY_STOP_USD = 6.00
+    LLM_INPUT_RATE_USD = 0.10 / 1_000_000
+    LLM_OUTPUT_RATE_USD = 0.40 / 1_000_000
+        if float(daily["total_cost_usd"]) + est_cost > self.DAILY_COST_LIMIT_USD:
+        if self._get_monthly_cost() >= self.MONTHLY_STOP_USD:
+        if self._get_monthly_cost() >= self.MONTHLY_DEGRADE_USD:
+        return input_tokens * cls.LLM_INPUT_RATE_USD + output_tokens * cls.LLM_OUTPUT_RATE_USD
+
+=== structurer_openai_fn ===
+def _call_openai(prompt_text: str, model: str, config: Config):
+    try:
+        from openai import OpenAI
+    except ImportError as exc:
+        raise RuntimeError("openai package is required: pip install openai") from exc
+    api_key = config.get("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is required")
+    client = OpenAI(api_key=api_key)
+    resp = client.chat.completions.create(
+        model=model,
+        max_tokens=2000,
+        temperature=0,
+        response_format={"type": "json_object"},
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt_text},
+        ],
+    )
+    if getattr(resp.choices[0], "finish_reason", None) == "length":
+        logger.warning("OpenAI response truncated by max_tokens")
+    return resp
+
+
+=== matcher_price_check ===
+eng_price = float(engineer.get("単価（万円）") or 0)
+    case_max = float(case_json.get("price_max") or 0)
+    if not case_max or not eng_price:
+        reasons.append("単価情報不足（確認要）")
+    else:
+        gross = case_max - eng_price
+        if gross < 5.0:
+            return "NG", [f"粗利不足: 案件{case_max}万-エンジニア{eng_price}万={gross}万 (最低5万必要)"]
+
+    
+
+=== matcher_eng_skills ===
+required_raw = case_json.get("required_skills") or []
+    eng_skills_raw = engineer.get("スキル") or []
+    eng_skills = set()
+    for skill in eng_skills_raw:
+        normalized = normalizer.normalize(skill)
+        eng_skills.add(normalized if normalized else skill)
+    missing = []
+    for skill in required_raw:
+        normalized = no
+
+=== matcher_ambig_end ===
+non_ambig = [r for r in reasons if not r.startswith("曖昧スキルあり")]
+        if not non_ambig:
+            return "REVIEW", reasons
+        return "REVIEW", reasons
+    return "MATCH", []
+
+
+def optional_skill_bonus_ok(case_json: dict, engineer: dict, normalizer: SkillNormalizer) -> bool:
+    optional_raw = case_json.get("optional_skills") or []
+    if not optional_raw:
+        return False
+    eng_skills = set(engineer.get("スキル") or [])
+    normalized = [normalizer.normalize(skill) for skill in optional_raw]
+    comparable = [skill for skill in normalized if skill]
+    if not comparable:
+        return False
+    owned = sum(1 for skill in comparable if skill in eng_skills)
+    return owned / len(comparable) >= 0.5
+
+
+def _calc_parallel_score(engineer: dict) -> float:
+    memo = engineer.get("備考（LINEメモ）") or ""
+    score = 0.0
+    if "オファー中" in memo or "offer" in memo.lower():
+        score += 5.0
+    if "面談予定" in memo:
+        score += 2.0
+    if "面談調整中" in memo:
+        score += 1.5
+    if "結果待ち" in memo:
+        score += 2.0
+    return score
+
+
+def _days_since(iso_str: str) -> int:
+    try:
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        delta = datetime.now(timezone.utc) - dt.astimezone(timezone.utc)
+        return delta.days
+    except Exception:
+        return 0

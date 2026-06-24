@@ -1,5 +1,8 @@
 import openpyxl
-wb = openpyxl.load_workbook(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx', data_only=True)
+
+wb = openpyxl.load_workbook(
+    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx", data_only=True
+)
 print("シート:", wb.sheetnames)
 for sn in wb.sheetnames[:3]:
     ws = wb[sn]

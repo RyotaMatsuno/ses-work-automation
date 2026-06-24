@@ -1,0 +1,7 @@
+OK: syntax check passed
+  L32: FREEE_BASE_ACCT = "https://api.freee.co.jp/api/1"       # ‰ïŒvAPIiæˆøæ‚È‚Çj
+  L33: FREEE_BASE_INV  = "https://api.freee.co.jp/invoice/v1"  # ¿‹‘API
+  L34: FREEE_BASE = FREEE_BASE_ACCT  # Œã•ûŒİŠ·«
+  L215: res = requests.get(f"{FREEE_BASE}/partners",
+  L220: res2 = requests.post(f"{FREEE_BASE}/partners",
+  L245: res = requests.post(f"{FREEE_BASE_INV}/invoices", headers=freee_headers(), json=payload)

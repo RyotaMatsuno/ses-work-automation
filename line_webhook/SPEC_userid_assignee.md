@@ -12,7 +12,7 @@ LINEメッセージの送信者user_idで行うよう修正する。
 user_idで送信者を判定する必要がある。
 
 ## 岡本のuser_id
-OKAMOTO_LINE_USER_ID = "REDACTED-SECRET"
+OKAMOTO_LINE_USER_ID = "Uac1d23408573586affa37577c4e2b2ab"
 （config/.envにも設定済み）
 
 ## 変更対象ファイル

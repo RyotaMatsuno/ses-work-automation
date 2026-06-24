@@ -1,6 +1,8 @@
 """IMAP接続テストのみ"""
+
 import imaplib
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")

@@ -1,0 +1,101 @@
+============================================================
+[dry-run] to=松野
+【マッチング結果】
+案件: サーバーサイドエンジニア（新規開発 / 大規模トラフィック想定）
+入力元: 未設定
+案件URL: https://www.notion.so/36f450ff37c081fe8e1efa4340a2a235
+業務内容: 未設定
+必須スキル: なし
+尚可スキル: なし
+単価: 未設定
+稼働開始: 未設定
+期間: 未設定
+勤務地: 未設定
+リモート: 未設定
+面談: 未設定
+外国籍: 未設定
+──────────────
+▶ M A（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/M-A-36e450ff37c08192bcafdaf678164a10
+  単価: 未設定 / 稼働: 2026-06-01
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:◯（AWSが明示的に記載されている）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ Y.M（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/Y-M-36e450ff37c08153aa12ea8823e98fcd
+  単価: 未設定 / 稼働: 2026-07-01
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:◯（AWSが明示的に記載されている）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ F.J（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/F-J-36e450ff37c0818893d0e2b647cbdb2e
+  単価: 未設定 / 稼働: 未設定
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:◯（AWSが明示的に記載されている）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ UT（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/UT-36e450ff37c08104813fd833e7f2834b
+  単価: 未設定 / 稼働: 未設定
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:×（AWSの記載がない）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ 開発 太郎（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/36e450ff37c0816481beed25d2c69cb1
+  単価: 未設定 / 稼働: 2018-02-01
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:◯（AWSが明示的に記載されている）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ IR（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/IR-36e450ff37c0819ba444df694a08fafb
+  単価: 未設定 / 稼働: 2026-06-30
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:◯（PostgreSQLが明示的に記載されている）
+    AWS:◯（AWSが明示的に記載されている）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ K.I（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/K-I-36e450ff37c081f98de7ef6941a963c0
+  単価: 未設定 / 稼働: 2026-07-01
+  スキル: なし
+  必須判定: なし
+  尚可判定: C#:×（C#の記載がない）
+    PostgreSQL:×（PostgreSQLの記載がない）
+    AWS:×（AWSの記載がない）
+    Kubernetes:×（Kubernetesの記載がない）
+
+▶ OT（スコア: 1）
+  入力元: 未設定
+  NotionURL: https://www.notion.so/OT-36e450ff37c081f581eaeb57fc9629f0
+  単価: 未設定 / 稼働: 未設定
+  スキル: なし
+  必須判定: なし
+... (省略 96280行)

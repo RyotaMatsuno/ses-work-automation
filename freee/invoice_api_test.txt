@@ -1,0 +1,4 @@
+POST https://api.freee.co.jp/api/1/invoices
+payload: {"company_id": 11712776, "issue_date": "2026-06-01", "due_date": "2026-06-30", "partner_id": 91256138, "invoice_status": "draft", "title": "テスト請求書", "invoice_lines": [{"name": "テスト", "quantity": 1, "unit_price": 15000, "tax_code": 1, "type": "normal"}]}
+status: 404
+response: {"status_code":404,"errors":[{"type":"error","messages":["不正なURLです。リクエストしたURLが正しいかどうかお確かめ下さい。"]}]}

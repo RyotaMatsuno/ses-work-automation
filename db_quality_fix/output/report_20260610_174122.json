@@ -1,0 +1,18 @@
+{
+  "mode": "dry_run",
+  "patterns": [
+    "P6"
+  ],
+  "counts": {
+    "P6": {
+      "action": 0,
+      "warning": 0
+    }
+  },
+  "update_stats": {
+    "success": 0,
+    "fail": 0,
+    "skipped_limit": 0
+  },
+  "findings": []
+}

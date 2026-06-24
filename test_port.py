@@ -1,5 +1,8 @@
 """ポート・接続方式の診断"""
-import socket, ssl, os, time
+
+import socket
+import time
+
 from dotenv import load_dotenv
 
 load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")

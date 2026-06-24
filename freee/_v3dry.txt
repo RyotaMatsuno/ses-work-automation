@@ -1,0 +1,379 @@
+=== freee請求書自動生成 v3 / DRY-RUN ===
+DRY-RUN: payloadを表示します。POSTは行いません。
+■ グレイスライン株式会社 / 30日請求 / 支払期限2026-06-30 / 源泉なし / 合計26,400円
+    - 石崎春光様稼働分: 24,000円 
+      税抜24,000+税2,400-源泉0
+■ グレイスライン株式会社 / 45日請求 / 支払期限2026-07-15 / 源泉なし / 合計92,400円
+    - 山内清様稼働分: 42,000円 
+    - 荒井大輝様稼働分: 42,000円 
+      税抜84,000+税8,400-源泉0
+■ 株式会社TERRA / 30日請求 / 支払期限2026-06-30 / 源泉あり / 合計14,969円
+    - プロパー稼働分(数量1.0): 15,000円 [片山]
+      税抜15,000+税1,500-源泉1,531
+■ 株式会社TERRA / 45日請求 / 支払期限2026-07-15 / 源泉あり / 合計348,434円
+    - プロパー稼働分(数量12.61): 189,167円 [仲山雄輝,蒲池佑萌,白須雄太,赤木,日比野,永野,安江,相川,富永,加藤(T),橋詰(新),佐々木(入),齋藤よしまさ]
+    - 大本様稼働分: 15,000円 
+    - 森様稼働分: 30,000円 
+    - 芹澤様稼働分: 45,000円 
+    - 佐々木様稼働分: 40,000円 
+    - 小山内様稼働分: 30,000円 
+      税抜349,167+税34,916-源泉35,649
+■ 株式会社TERRA / 46日請求 / 支払期限2026-07-16 / 源泉あり / 合計119,748円
+    - プロパー稼働分(数量8.0): 120,000円 [吉田創志,大野稔貴,沼田航陽,魚谷,坪井,中村,天野,岩瀬]
+      税抜120,000+税12,000-源泉12,252
+■ 株式会社フラップテック / 45日請求 / 支払期限2026-07-15 / 源泉なし / 合計547,360円
+    - 笠井健太様稼働分: 68,000円 
+    - 原昌志様稼働分: 68,000円 
+    - 木村勇太様稼働分: 47,600円 
+    - 加藤様稼働分: 38,400円 
+    - 川崎健太様稼働分: 27,200円 
+    - 田中みさ様稼働分: 20,400円 
+    - 立野和紀様稼働分: 47,600円 
+    - 佐々木駿様稼働分: 27,200円 
+    - 橋本奈緒様稼働分: 47,600円 
+    - 鶴川慶三様稼働分: 47,600円 
+    - 吉田祥平様稼働分: 24,000円 
+    - 遠藤健太様稼働分: 34,000円 
+      税抜497,600+税49,760-源泉0
+
+=== 6枚 / 合計(源泉控除後) 1,149,311円 ===
+=== 除外 ===
+  ・ TERRA 山内清: GL/FT経由→TERRA計上せず
+  ・ TERRA 田中みさ: GL/FT経由→TERRA計上せず
+  ・ TERRA 木村勇太: GL/FT経由→TERRA計上せず
+  ・ TERRA 原: サイト/単価空白→除外
+  ・ TERRA 川崎(新): サイト/単価空白→除外
+[dedup] 2026-06-01 '5月分請求書' 既存請求書 0 件
+[DRY] グレイスライン株式会社 / 30日 / 支払期限2026-06-30
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "石崎春光様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+[DRY] グレイスライン株式会社 / 45日 / 支払期限2026-07-15
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "山内清様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "荒井大輝様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+[DRY] 株式会社TERRA / 30日 / 支払期限2026-06-30
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 1.0,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY] 株式会社TERRA / 45日 / 支払期限2026-07-15
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 12.61,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "大本様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "森様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "30000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "芹澤様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "45000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "佐々木様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "40000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "小山内様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "30000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY] 株式会社TERRA / 46日 / 支払期限2026-07-16
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-16",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 8.0,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY] 株式会社フラップテック / 45日 / 支払期限2026-07-15
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "笠井健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "68000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "原昌志様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "68000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "木村勇太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "加藤様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "38400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "川崎健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "田中みさ様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "20400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "立野和紀様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "佐々木駿様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "橋本奈緒様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "鶴川慶三様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "吉田祥平様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "遠藤健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "34000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+=== 完了: 作成予定6件 / SKIP0件 / エラー0件 / 対象6件 ===

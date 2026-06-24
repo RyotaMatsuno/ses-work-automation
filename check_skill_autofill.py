@@ -1,4 +1,6 @@
-import time, os, glob
+import glob
+import os
+import time
 
 time.sleep(120)
 

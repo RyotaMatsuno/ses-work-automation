@@ -10,7 +10,6 @@ from fetcher import fetch_engineers, fetch_projects
 from matcher import match_projects
 from skill_autofill import autofill_skills, load_anthropic_api_key
 
-
 OUTPUT_PATH = "result_pipeline.json"
 
 
@@ -45,9 +44,7 @@ def build_result(items: list[dict[str, Any]], total_projects: int) -> dict[str, 
         "items": [
             {
                 "project": clean_project(item["project"]),
-                "candidates": [
-                    clean_candidate(candidate) for candidate in item["candidates"]
-                ],
+                "candidates": [clean_candidate(candidate) for candidate in item["candidates"]],
             }
             for item in items
         ],

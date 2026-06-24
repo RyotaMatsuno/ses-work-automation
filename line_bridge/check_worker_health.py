@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import os
-import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -14,7 +13,6 @@ from typing import Any
 import requests
 from dotenv import load_dotenv
 
-
 BASE_DIR = Path(__file__).resolve().parent
 SES_WORK_DIR = BASE_DIR.parent
 ENV_PATH = SES_WORK_DIR / "config" / ".env"
@@ -22,9 +20,7 @@ LOG_PATH = BASE_DIR / "worker_health.log"
 
 JST = timezone(timedelta(hours=9))
 NOTION_VERSION = "2022-06-28"
-DEFAULT_CLOUD_RUN_URL = (
-    "https://line-webhook-74735301292.asia-northeast1.run.app"
-)
+DEFAULT_CLOUD_RUN_URL = "https://line-webhook-74735301292.asia-northeast1.run.app"
 DEFAULT_CRON_TOKEN = "jobz-bridge-2026"
 RUNNING_STALE_MINUTES = 30
 LINE_PUSH_ENDPOINT = "https://api.line.me/v2/bot/message/push"
@@ -155,10 +151,7 @@ def _query_status_pages(status: str) -> tuple[list[dict[str, Any]], str | None]:
         except requests.RequestException as exc:
             return [], f"Notion query failed ({status}): {exc}"
         if response.status_code >= 400:
-            return [], (
-                f"Notion query failed ({status}): "
-                f"HTTP {response.status_code} {response.text[:200]}"
-            )
+            return [], (f"Notion query failed ({status}): HTTP {response.status_code} {response.text[:200]}")
         data = response.json()
         pages.extend(data.get("results", []))
         if not data.get("has_more"):
@@ -211,19 +204,9 @@ def inspect_queue(stale_minutes: int = RUNNING_STALE_MINUTES) -> QueueStats:
 def build_report(
     worker: WorkerCheckResult,
     queue: QueueStats,
-    *,
-    simulate_worker_5xx: bool = False,
-    simulate_stale_running: bool = False,
 ) -> HealthReport:
     alerts: list[str] = []
 
-    if simulate_worker_5xx:
-        worker = WorkerCheckResult(
-            ok=False,
-            status_code=500,
-            body="simulated",
-            error="simulated worker HTTP 500",
-        )
     if not worker.ok:
         detail = worker.error or f"HTTP {worker.status_code}"
         alerts.append(f"worker異常: {detail}")
@@ -231,19 +214,9 @@ def build_report(
     if queue.error:
         alerts.append(f"Notion確認失敗: {queue.error}")
 
-    if simulate_stale_running:
-        queue = QueueStats(
-            queued_count=queue.queued_count,
-            running_count=max(queue.running_count, 1),
-            stale_running=[{"task_id": "simulated-task", "last_edited": "simulated"}],
-        )
-
     if queue.stale_running:
         task_ids = ", ".join(item["task_id"] for item in queue.stale_running[:5])
-        alerts.append(
-            f"running停滞({RUNNING_STALE_MINUTES}分超): {len(queue.stale_running)}件 "
-            f"[{task_ids}]"
-        )
+        alerts.append(f"running停滞({RUNNING_STALE_MINUTES}分超): {len(queue.stale_running)}件 [{task_ids}]")
 
     return HealthReport(worker=worker, queue=queue, alerts=alerts)
 
@@ -300,10 +273,7 @@ def send_line_alert(message: str) -> bool:
         log(f"ERROR: LINE通知失敗: {exc}")
         return False
     if response.status_code >= 400:
-        log(
-            f"ERROR: LINE通知失敗: status={response.status_code} "
-            f"body={response.text[:200]}"
-        )
+        log(f"ERROR: LINE通知失敗: status={response.status_code} body={response.text[:200]}")
         return False
     log("INFO: LINE異常通知を送信しました")
     return True
@@ -313,8 +283,6 @@ def run(
     *,
     dry_run: bool = False,
     skip_worker: bool = False,
-    simulate_worker_5xx: bool = False,
-    simulate_stale_running: bool = False,
 ) -> int:
     load_env()
 
@@ -324,10 +292,7 @@ def run(
     else:
         log(f"INFO: triggering worker at {cloud_run_url()}/line-bridge/worker")
         worker = trigger_worker()
-        log(
-            f"INFO: worker response status={worker.status_code} "
-            f"body={worker.body[:200]}"
-        )
+        log(f"INFO: worker response status={worker.status_code} body={worker.body[:200]}")
 
     try:
         queue = inspect_queue()
@@ -337,8 +302,6 @@ def run(
     report = build_report(
         worker,
         queue,
-        simulate_worker_5xx=simulate_worker_5xx,
-        simulate_stale_running=simulate_stale_running,
     )
     status_message = build_status_message(report)
     log(status_message.replace("\n", " | "))
@@ -359,9 +322,7 @@ def run(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="LINE bridge worker health check and Notion queue monitor"
-    )
+    parser = argparse.ArgumentParser(description="LINE bridge worker health check and Notion queue monitor")
     parser.add_argument(
         "--dry-run",
         action="store_true",
@@ -373,12 +334,10 @@ def parse_args() -> argparse.Namespace:
         help="workerトリガーを省略（Notion確認のみ）",
     )
     parser.add_argument(
-        "--simulate-worker-5xx",
         action="store_true",
         help="worker 5xx異常をシミュレート（テスト用）",
     )
     parser.add_argument(
-        "--simulate-stale-running",
         action="store_true",
         help="running停滞異常をシミュレート（テスト用）",
     )
@@ -390,8 +349,6 @@ def main() -> int:
     return run(
         dry_run=args.dry_run,
         skip_worker=args.skip_worker,
-        simulate_worker_5xx=args.simulate_worker_5xx,
-        simulate_stale_running=args.simulate_stale_running,
     )
 
 

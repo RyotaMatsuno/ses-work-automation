@@ -1,5 +1,5 @@
-import shutil
 import os
+import shutil
 import subprocess
 import time
 
@@ -11,7 +11,9 @@ time.sleep(3)
 src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config_source.json")
 
 # コピー先
-dest_dir = os.path.join(os.environ["LOCALAPPDATA"], "Packages", "Claude_pzs8sxrjxfjjc", "LocalCache", "Roaming", "Claude")
+dest_dir = os.path.join(
+    os.environ["LOCALAPPDATA"], "Packages", "Claude_pzs8sxrjxfjjc", "LocalCache", "Roaming", "Claude"
+)
 dest = os.path.join(dest_dir, "claude_desktop_config.json")
 
 print(f"コピー元: {src}")
@@ -20,7 +22,7 @@ print(f"コピー先: {dest}")
 if os.path.exists(dest_dir):
     shutil.copy2(src, dest)
     print("コピー成功")
-    
+
     # 確認
     with open(dest, "r", encoding="utf-8") as f:
         content = f.read()

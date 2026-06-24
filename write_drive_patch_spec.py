@@ -1,4 +1,3 @@
-
 spec = """# SPEC_drive_patch.md - mail_pipeline & notify_line Drive integration patch
 
 ## What's done

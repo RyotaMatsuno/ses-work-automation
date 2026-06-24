@@ -1,5 +1,6 @@
-
-import subprocess, os, time
+import os
+import subprocess
+import time
 
 ses_work = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 log_path = os.path.join(ses_work, "mail_pipeline", "codex_drive.log")
@@ -21,10 +22,7 @@ bat_path = os.path.join(ses_work, "run_codex_drive.bat")
 with open(bat_path, "w", encoding="ascii") as f:
     f.write(bat_content)
 
-proc = subprocess.Popen(
-    ["cmd", "/c", bat_path],
-    creationflags=subprocess.CREATE_NO_WINDOW
-)
+proc = subprocess.Popen(["cmd", "/c", bat_path], creationflags=subprocess.CREATE_NO_WINDOW)
 print(f"Codex PID: {proc.pid}")
 print(f"Log: {log_path}")
 time.sleep(5)

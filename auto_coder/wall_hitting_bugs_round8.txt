@@ -1,0 +1,228 @@
+=== round8 by gpt-5.4 ===
+in=945 out=2711 cost=$0.0283
+
+結論だけ先に言います。
+
+## Q1. 恒久対策の最適解
+**(B) `jobz-command(localhost:8765)` に hourly発火機能を追加**  
+これを**唯一の本命**にします。
+
+### 理由
+- **Task Schedulerの3重トラップを完全回避**できる  
+  - 手動Run→次回スキップ
+  - Set-ScheduledTask更新→次回スキップ
+  - スリープ復帰でトリガ喪失
+- **mail_pipeline.py本体は正常**なので、必要なのは「安定して起動する親」だけ
+- **一般権限で実装可能**
+- **今夜〜明日で現実的に入れられる**
+- **スリープ復帰後の取りこぼしを自前で補填できる**  
+  Task Schedulerと違って、常駐プロセス側で
+  - 最終成功時刻
+  - 本来の毎時実行予定
+  - 復帰後のcatch-up実行  
+  を制御できる
+
+---
+
+## A/C/D/Eを落とす理由
+- **A: `schedule`常駐スクリプト**
+  - jobz-commandに同じことを二重実装するだけ
+  - 監視・API・実行履歴の集約先が増えて逆に散る
+- **C: Cloud Run + Cloud Scheduler**
+  - 長期最適だが、**明後日朝までにCron依存ゼロ**という期限には重い
+  - 認証、Secrets、freee/LINE/ローカル依存確認、障害切り分けの再設計が必要
+- **D: Task Schedulerで24個の時刻トリガ**
+  - 今日の障害学習に反する
+  - スリープ復帰の取りこぼし問題は残る
+  - 「Task Scheduler依存ゼロ」にならない
+- **E: Windowsサービス化**
+  - 技術的には良いが、**権限・導入手順・運用難度**が上がる
+  - 今すぐの実装には不向き
+
+---
+
+## Q2. 実装規模 / 完成時間
+**完成目安: 4〜8時間**  
+保守的に見ても**明日中に本番化可能**です。
+
+### 内訳
+1. **hourly scheduler追加**: 1.5〜2.5h
+2. **二重起動防止(lock / in-progress管理)**: 0.5〜1h
+3. **catch-up実装(スリープ復帰・起動後の未実行補填)**: 1〜2h
+4. **ログ・履歴・health API追加**: 0.5〜1h
+5. **起動時自動開始の整備 / 手順書**: 0.5〜1h
+6. **実運用テスト**: 1h前後
+
+---
+
+## Q3. 既存システムへの影響範囲
+**影響は最小。mail_pipelineの“起動元”だけ差し替える。**
+
+### 影響しないもの
+- **matching_v3**
+- **freee**
+- **LINE bridge**
+- **AI作業キュー**
+- **mail_pipeline.py本体の業務ロジック**
+
+### 影響するもの
+- **起動経路**
+  - Task Scheduler → jobz-command内scheduler
+- **ログ保存場所 / 実行履歴**
+  - 必要なら統一
+- **障害監視**
+  - 「Task SchedulerのLastRunを見る」運用をやめる
+  - `jobz-command` の `/health` `/jobs/status` 的な監視に寄せる
+
+### 実質
+**業務処理は無改造、オーケストレーション層だけ変更**です。
+
+---
+
+## Q4. `jobz-watchdog`小文字版の203エラーは同時解決するか
+**別途対応です。自動では解決しません。**
+
+### 理由
+203系は通常、
+- 実行ファイルパス不正
+- working directory不正
+- 権限差
+- 環境変数差
+- Task Scheduler / サービス定義の食い違い
+
+の類で、**mail_pipelineの定時実行方式変更とは別問題**です。
+
+### ただし
+もし watchdog も **Task Scheduler経由で叩いている**なら、  
+**同じく jobz-command 側の管理ジョブに寄せれば再発源は減る**。
+
+結論:
+- **mail_pipeline恒久対策とは切り分け**
+- ただし将来的には **watchdogもjobz-command配下へ統合** がよい
+
+---
+
+## Q5. 松野に確認すべき大枠判断
+確認事項はこの4つだけでいいです。
+
+### 1) 方針承認
+**「Windows Task Schedulerをmail_pipelineでは捨てる」**  
+これを明確に承認してもらう。
+
+### 2) 運用前提
+**このPCを夜間スリープさせないか、復帰後catch-upで許容するか**
+- 理想: スリープ禁止
+- ただし権限や運用事情で無理なら  
+  **“復帰後に即catch-up実行” を正式仕様化**
+
+### 3) 岡本連絡の要否
+外部説明が必要か。
+- 「本体不具合ではなくWindows定時実行基盤の問題」
+- 「恒久対策として起動基盤を差し替える」
+この説明を出すかどうか。
+
+### 4) 優先順位
+**今夜はmail_pipeline安定化を最優先にして、watchdog 203は後回しでよいか**
+ここは意思決定を取るべきです。
+
+---
+
+## Q6. 今夜/明日実装して、明後日朝にはCron依存ゼロ運用できるか
+**現実的です。十分可能。**
+
+条件は1つだけです。  
+**jobz-command が常時起動できること。**
+
+もし今すでに jobz-command が普段から立ち上がる構造なら、かなり現実的です。  
+最悪でも、
+- ログオン時自動起動
+- 起動直後にcatch-up
+- HTTP経由の手動実行API
+まで入れれば、**Task Scheduler依存ゼロ**にできます。
+
+---
+
+# Cursor指示書方針
+以下の方針で実装させればよいです。
+
+---
+
+## Cursor指示書
+### 目的
+`SES_MailPipeline_R7` / Task Scheduler 依存を廃止し、`jobz-command` に mail_pipeline の毎時実行機能を内蔵する。  
+要件は **毎時00分実行、二重起動防止、スリープ復帰後catch-up、手動実行API、履歴確認**。
+
+### 実装要件
+1. **新規ジョブ定義**
+   - job name: `mail_pipeline_hourly`
+   - command: 既存の `wd_mail_pipeline.bat` もしくは直接 `python mail_pipeline.py`
+   - working directory を明示
+   - stdout/stderr をログファイルへ保存
+
+2. **scheduler**
+   - 毎時 `HH:00` に実行
+   - 秒単位ズレ許容は ±60秒程度でよい
+   - 前回予定時刻を state に保存すること
+
+3. **catch-up**
+   - プロセス起動時
+   - スリープ復帰後の最初のtick時
+   に、前回予定時刻以降で未実行の hourly slot があれば **1回だけ補填実行**
+   - 上限は直近1〜3スロット程度でよい
+   - 無限連続catch-upは禁止
+
+4. **二重起動防止**
+   - mail_pipeline 実行中なら次回 scheduled run は skip
+   - lock file または in-memory + pid/state 管理
+   - 手動APIからの実行も同じ lock を使う
+
+5. **API**
+   - `POST /jobs/mail_pipeline/run`
+   - `GET /jobs/mail_pipeline/status`
+   - `GET /jobs/mail_pipeline/history`
+   - status に以下を含める
+     - running
+     - last_started_at
+     - last_finished_at
+     - last_exit_code
+     - next_due_at
+     - last_scheduled_slot
+
+6. **永続state**
+   - `job_state/mail_pipeline_hourly.json`
+   - 項目:
+     - last_scheduled_slot
+     - last_started_at
+     - last_finished_at
+     - last_exit_code
+     - last_success_at
+
+7. **ログ**
+   - `logs/mail_pipeline_hourly/YYYY-MM-DD.log`
+   - 1実行ごとに開始・終了・exit code・scheduled slot を記録
+
+8. **異常系**
+   - exit code != 0 なら失敗記録
+   - 次の毎時実行は通常通り継続
+   - 復帰直後ネット不安定を考慮し、**起動側ではなく mail_pipeline 側で軽い retry を検討可能**だが今回は必須ではない
+
+9. **Task Scheduler廃止**
+   - mail_pipeline用のTask Schedulerは disable 推奨
+   - ただし切り戻し用に削除ではなく disable
+
+10. **受け入れ条件**
+   - 手動APIで正常実行できる
+   - 擬似的に state を過去時刻へ戻して catch-up が1回動く
+   - 実行中に再度runしても二重起動しない
+   - status/history で運用確認できる
+
+---
+
+# 最終判断
+**最適解は B。**  
+**実装時間は 4〜8時間。**  
+**影響範囲は起動基盤のみ。**  
+**watchdog 203 は別件。**  
+**明後日朝までにCron依存ゼロ運用は十分現実的。**
+
+必要なら次に、**「松野に送る決裁用の3行メッセージ」**までそのまま書きます。

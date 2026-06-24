@@ -481,6 +481,8 @@ if __name__ == \\'__main__\\':
 # シングルクォートのエスケープを元に戻す
 content = content.replace("\\'", "'")
 
-with open(r'C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\line_webhook\\webhook_server.py', 'w', encoding='utf-8') as f:
+with open(
+    r"C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\line_webhook\\webhook_server.py", "w", encoding="utf-8"
+) as f:
     f.write(content)
-print('webhook_server.py v6 written OK')
+print("webhook_server.py v6 written OK")

@@ -1,0 +1,26 @@
+﻿=== F2 2026-06-06 22:04:55 ===
+PASS mail_attachment_importer/ai_extractor.py
+SKIP reply_parser/reply_parser.py: no runtime caller or scheduled task found; treated as unused per F2.
+=== F3 2026-06-06 22:05:19 ===
+PASS line_webhook/line_query.py
+=== F6 2026-06-06 22:05:34 ===
+PASS line_webhook/line_query.py
+=== F8 2026-06-06 22:05:44 ===
+PASS mail_pipeline/mail_pipeline.py
+=== F10 mail_pipeline 2026-06-06 22:06:03 ===
+PASS mail_pipeline/mail_pipeline.py
+=== F10 outlook 2026-06-06 22:06:19 ===
+PASS outlook/outlook_to_notion.py
+=== F10 importer 2026-06-06 22:06:34 ===
+PASS mail_attachment_importer/importer.py
+=== F10 mail_fetcher 2026-06-06 22:06:54 ===
+PASS mail_attachment_importer/mail_fetcher.py
+=== F10 importer recheck 2026-06-06 22:07:14 ===
+=== F10 mail_pipeline recheck 2026-06-06 22:07:14 ===
+PASS mail_attachment_importer/importer.py
+PASS mail_pipeline/mail_pipeline.py
+N/A cost_control/TASKS.md: Markdown file; py_compile not applicable.
+=== FINAL py_compile 2026-06-06 22:07:50 ===
+PASS all changed Python files (6)
+=== #5 line_query rough filters 2026-06-06 22:10:01 ===
+PASS line_webhook/line_query.py

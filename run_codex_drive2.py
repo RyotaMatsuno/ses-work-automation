@@ -1,5 +1,6 @@
-
-import subprocess, os, time, sys
+import os
+import subprocess
+import time
 
 ses_work = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 pipeline_dir = os.path.join(ses_work, "mail_pipeline")

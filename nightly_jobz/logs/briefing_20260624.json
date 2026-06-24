@@ -1,0 +1,11 @@
+{
+  "date": "2026-06-24",
+  "dry_run": true,
+  "tasks_processed": 0,
+  "tasks_done": 0,
+  "tasks_review": 0,
+  "tasks_blocked": 0,
+  "tasks_queued": 0,
+  "cost_usd": 0.0,
+  "items": []
+}

@@ -1,0 +1,2 @@
+HS matches: 1
+name=H.S ini= sta= norm=HS mi=True ms=False

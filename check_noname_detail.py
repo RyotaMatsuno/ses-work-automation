@@ -1,4 +1,7 @@
-import sys, io, requests
+import io
+import sys
+
+import requests
 from dotenv import dotenv_values
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -24,7 +27,7 @@ for page_id in no_name_ids:
     r = requests.get(f"https://api.notion.com/v1/pages/{page_id}", headers=headers)
     page = r.json()
     props = page.get("properties", {})
-    
+
     print(f"=== {page_id} ===")
     # 全プロパティ値を出力（空でも）
     for key, val in sorted(props.items()):
@@ -32,7 +35,7 @@ for page_id in no_name_ids:
         raw = val.get(ptype)
         if raw:
             print(f"  [{ptype}] {key}: {raw}")
-    
+
     # ブロック内容（本文）を確認
     r2 = requests.get(f"https://api.notion.com/v1/blocks/{page_id}/children?page_size=50", headers=headers)
     blocks = r2.json().get("results", [])

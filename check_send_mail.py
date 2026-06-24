@@ -1,4 +1,3 @@
-
 import os
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"

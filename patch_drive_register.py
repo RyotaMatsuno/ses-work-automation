@@ -1,6 +1,3 @@
-
-import re
-
 path = "mail_pipeline/mail_pipeline.py"
 with open(path, "r", encoding="utf-8") as f:
     src = f.read()

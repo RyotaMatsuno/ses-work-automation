@@ -1,0 +1,17 @@
+log lines: 16
+    File "C:\Users\ma_py\OneDrive\?f?X?N?g?b?v\ses_work\matching_v3\matching_v3.py", line 258, in <module>
+      raise SystemExit(main())
+                       ^^^^^^
+    File "C:\Users\ma_py\OneDrive\?f?X?N?g?b?v\ses_work\matching_v3\matching_v3.py", line 63, in main
+      _run_dry(args.input)
+    File "C:\Users\ma_py\OneDrive\?f?X?N?g?b?v\ses_work\matching_v3\matching_v3.py", line 89, in _run_dry
+      cases, engineers = _load_dry_input(input_path)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\Users\ma_py\OneDrive\?f?X?N?g?b?v\ses_work\matching_v3\matching_v3.py", line 191, in _load_dry_input
+      with path.open("r", encoding="utf-8") as f:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\Users\ma_py\AppData\Local\Programs\Python\Python312\Lib\pathlib.py", line 1013, in open
+      return io.open(self, mode, buffering, encoding, errors, newline)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\ma_py\\OneDrive\\?f?X?N?g?b?v\\ses_work\\matching_v3\\matching_v3\\logs\\phase0_em
+results: not yet created

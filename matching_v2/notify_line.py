@@ -102,11 +102,13 @@ def main():
             # result.json の engineer URL を直接セット
             if not engineer_info.get("url"):
                 engineer_info["url"] = candidate.get("engineer_url") or ""
-            candidate_infos.append({
-                "candidate": candidate,
-                "engineer_info": engineer_info,
-                "engineer_assignee": engineer_assignee,
-            })
+            candidate_infos.append(
+                {
+                    "candidate": candidate,
+                    "engineer_info": engineer_info,
+                    "engineer_assignee": engineer_assignee,
+                }
+            )
 
         notifications = build_notifications(
             project_info=project_info,
@@ -330,19 +332,21 @@ def build_project_message(project_info, candidate_infos):
         lines.append(f"案件URL: {project_info.get('url')}")
 
     # 案件詳細フル表示
-    lines.extend([
-        f"業務内容: {format_value(project_info.get('detail'))}",
-        f"必須スキル: {format_list(project_info.get('required_skills'))}",
-        f"尚可スキル: {format_list(project_info.get('optional_skills'))}",
-        f"単価: {format_price(project_info.get('price'))}",
-        f"稼働開始: {format_value(project_info.get('start_date'))}",
-        f"期間: {format_value(project_info.get('period'))}",
-        f"勤務地: {format_value(project_info.get('location'))}",
-        f"リモート: {format_value(project_info.get('remote'))}",
-        f"面談: {format_value(project_info.get('interview_count'))}",
-        f"外国籍: {format_value(project_info.get('foreign_ok'))}",
-        "──────────────",
-    ])
+    lines.extend(
+        [
+            f"業務内容: {format_value(project_info.get('detail'))}",
+            f"必須スキル: {format_list(project_info.get('required_skills'))}",
+            f"尚可スキル: {format_list(project_info.get('optional_skills'))}",
+            f"単価: {format_price(project_info.get('price'))}",
+            f"稼働開始: {format_value(project_info.get('start_date'))}",
+            f"期間: {format_value(project_info.get('period'))}",
+            f"勤務地: {format_value(project_info.get('location'))}",
+            f"リモート: {format_value(project_info.get('remote'))}",
+            f"面談: {format_value(project_info.get('interview_count'))}",
+            f"外国籍: {format_value(project_info.get('foreign_ok'))}",
+            "──────────────",
+        ]
+    )
 
     for item in candidate_infos:
         candidate = item["candidate"]
@@ -359,21 +363,25 @@ def build_project_message(project_info, candidate_infos):
         # Notion URL
         if engineer_info.get("url"):
             lines.append(f"  NotionURL: {engineer_info.get('url')}")
-        lines.extend([
-            (
-                f"  単価: {format_price(engineer_info.get('price'))} / "
-                f"稼働: {format_value(engineer_info.get('available_date'))}"
-            ),
-            f"  スキル: {format_list(engineer_info.get('skills'))}",
-            f"  必須判定: {format_judgement(get_required_judgement(candidate))}",
-            f"  尚可判定: {format_judgement(get_optional_judgement(candidate))}",
-            "",
-        ])
+        lines.extend(
+            [
+                (
+                    f"  単価: {format_price(engineer_info.get('price'))} / "
+                    f"稼働: {format_value(engineer_info.get('available_date'))}"
+                ),
+                f"  スキル: {format_list(engineer_info.get('skills'))}",
+                f"  必須判定: {format_judgement(get_required_judgement(candidate))}",
+                f"  尚可判定: {format_judgement(get_optional_judgement(candidate))}",
+                "",
+            ]
+        )
 
-    lines.extend([
-        "──────────────",
-        "意向確認をお願いします。",
-    ])
+    lines.extend(
+        [
+            "──────────────",
+            "意向確認をお願いします。",
+        ]
+    )
 
     proj_raw = project_info.get("raw_body", "").strip()
     if proj_raw:

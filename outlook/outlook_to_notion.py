@@ -29,42 +29,49 @@ Outlook（IMAP）→ Notion 自動登録スクリプト v3
   OUTLOOK_IMAP_PORT3=993
 """
 
-import imaplib
 import email
+import imaplib
 import json
 import os
 import re
 import sys
+
 try:
-    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except Exception:
     pass
-import requests
 from datetime import datetime
 from email.header import decode_header
+from pathlib import Path
+
+import requests
 from dotenv import dotenv_values
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from common.ledger import can_spend as ledger_can_spend, record as ledger_record
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from common.ledger import can_spend as ledger_can_spend
+from common.ledger import record as ledger_record
 from common.model_config import TEXT_MODEL
+from common.notion_register import register_engineer as notion_register_engineer
+from common.notion_register import register_project as notion_register_project
 
-env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 if os.path.exists(env_path):
     config = dotenv_values(env_path)
     for key, value in config.items():
         if key not in os.environ:
             os.environ[key] = value
 
-NOTION_API_KEY        = os.environ.get('NOTION_API_KEY', '')
-NOTION_ENGINEER_DB_ID = os.environ.get('NOTION_ENGINEER_DB_ID', '')
-NOTION_PROJECT_DB_ID  = os.environ.get('NOTION_PROJECT_DB_ID', '')
-ANTHROPIC_API_KEY     = os.environ.get('ANTHROPIC_API_KEY', '')
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+NOTION_ENGINEER_DB_ID = os.environ.get("NOTION_ENGINEER_DB_ID", "")
+NOTION_PROJECT_DB_ID = os.environ.get("NOTION_PROJECT_DB_ID", "")
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
+
 
 # 複数アカウント設定を自動収集
 def get_accounts() -> list:
@@ -73,41 +80,84 @@ def get_accounts() -> list:
     OUTLOOK_EMAIL, OUTLOOK_EMAIL2, OUTLOOK_EMAIL3... に対応。
     """
     accounts = []
-    suffixes = ['', '2', '3', '4', '5']
+    suffixes = ["", "2", "3", "4", "5"]
     for s in suffixes:
-        email_addr = os.environ.get(f'OUTLOOK_EMAIL{s}', '')
-        password   = os.environ.get(f'OUTLOOK_PASSWORD{s}', '')
-        server     = os.environ.get(f'OUTLOOK_IMAP_SERVER{s}', 'outlook.office365.com')
-        port       = int(os.environ.get(f'OUTLOOK_IMAP_PORT{s}', '993'))
+        email_addr = os.environ.get(f"OUTLOOK_EMAIL{s}", "")
+        password = os.environ.get(f"OUTLOOK_PASSWORD{s}", "")
+        server = os.environ.get(f"OUTLOOK_IMAP_SERVER{s}", "outlook.office365.com")
+        port = int(os.environ.get(f"OUTLOOK_IMAP_PORT{s}", "993"))
         if email_addr and password:
-            accounts.append({
-                'email': email_addr,
-                'password': password,
-                'server': server,
-                'port': port,
-                'label': f'アカウント{s if s else "1"}({email_addr})'
-            })
+            accounts.append(
+                {
+                    "email": email_addr,
+                    "password": password,
+                    "server": server,
+                    "port": port,
+                    "label": f"アカウント{s if s else '1'}({email_addr})",
+                }
+            )
     return accounts
 
-PROCESSED_IDS_FILE = os.path.join(os.path.dirname(__file__), 'processed_ids.txt')
+
+PROCESSED_IDS_FILE = os.path.join(os.path.dirname(__file__), "processed_ids.txt")
 
 SUBJECT_KEYWORDS = [
-    '要員', 'エンジニア', 'スキル', '単価', '稼働', '提案', 'ご紹介',
-    '案件', '募集', '参画', '開発', 'PG', 'SE', 'インフラ', 'Java',
-    'Python', 'PHP', 'AWS', 'クラウド', 'システム'
+    "要員",
+    "エンジニア",
+    "スキル",
+    "単価",
+    "稼働",
+    "提案",
+    "ご紹介",
+    "案件",
+    "募集",
+    "参画",
+    "開発",
+    "PG",
+    "SE",
+    "インフラ",
+    "Java",
+    "Python",
+    "PHP",
+    "AWS",
+    "クラウド",
+    "システム",
 ]
 
 VALID_SKILLS = [
-    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
-    "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
-    "Angular", "Docker", "Kubernetes", "GCP", "Azure", "Spring",
-    "MySQL", "PostgreSQL", "Oracle", "MongoDB", "Linux"
+    "Java",
+    "Python",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "C#",
+    "Node.js",
+    "React",
+    "AWS",
+    "インフラ",
+    "Go",
+    "Ruby",
+    "Swift",
+    "Kotlin",
+    "Vue.js",
+    "Angular",
+    "Docker",
+    "Kubernetes",
+    "GCP",
+    "Azure",
+    "Spring",
+    "MySQL",
+    "PostgreSQL",
+    "Oracle",
+    "MongoDB",
+    "Linux",
 ]
 
 
 # ============================================================
 # Claude AI呼び出し
 # ============================================================
+
 
 def call_claude(system_prompt: str, user_message: str) -> str:
     model = TEXT_MODEL
@@ -118,18 +168,14 @@ def call_claude(system_prompt: str, user_message: str) -> str:
         return ""
     res = requests.post(
         "https://api.anthropic.com/v1/messages",
-        headers={
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json"
-        },
+        headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
         json={
             "model": model,
             "max_tokens": 1000,
             "system": system_prompt,
-            "messages": [{"role": "user", "content": user_message}]
+            "messages": [{"role": "user", "content": user_message}],
         },
-        timeout=30
+        timeout=30,
     )
     if res.status_code == 200:
         data = res.json()
@@ -182,7 +228,7 @@ def ai_classify_email(subject: str, body: str) -> dict:
 
     result = call_claude(system, f"件名: {subject}\n\n本文:\n{body[:3000]}")
     try:
-        clean = re.sub(r'```json|```', '', result).strip()
+        clean = re.sub(r"```json|```", "", result).strip()
         return json.loads(clean)
     except:
         return {"type": "other", "note": f"{subject}"}
@@ -192,13 +238,14 @@ def ai_classify_email(subject: str, body: str) -> dict:
 # Notion登録
 # ============================================================
 
+
 def register_engineer(info: dict, subject: str, sender: str, account_label: str) -> bool:
     name = info.get("name") or "（名前未記載）"
     note = f"【Outlookから自動登録 - {account_label}】\n件名: {subject}\n送信者: {sender}\n\n{info.get('note', '')}"
     properties = {
         "名前": {"title": [{"text": {"content": name}}]},
         "稼働状況": {"select": {"name": "稼働可能"}},
-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
     if skills:
@@ -210,15 +257,15 @@ def register_engineer(info: dict, subject: str, sender: str, account_label: str)
     if info.get("experience_years"):
         properties["経験年数"] = {"number": info["experience_years"]}
 
-    res = requests.post(
-        "https://api.notion.com/v1/pages",
-        headers=NOTION_HEADERS,
-        json={"parent": {"database_id": NOTION_ENGINEER_DB_ID}, "properties": properties}
-    )
-    if res.status_code == 200:
-        print(f"  ✅ エンジニア登録: {name}")
-        return True
-    print(f"  ❌ エンジニア登録エラー: {res.status_code}")
+    try:
+        result = notion_register_engineer(properties, NOTION_ENGINEER_DB_ID, headers=NOTION_HEADERS)
+        if result.get("ok"):
+            print(f"  ✅ エンジニア登録: {name} ({result.get('action')})")
+            return True
+    except Exception as exc:
+        print(f"  ❌ エンジニア登録エラー: {exc}")
+        return False
+    print("  ❌ エンジニア登録エラー")
     return False
 
 
@@ -228,7 +275,7 @@ def register_project(info: dict, subject: str, sender: str, account_label: str) 
     properties = {
         "案件名": {"title": [{"text": {"content": name}}]},
         "ステータス": {"select": {"name": "募集中"}},
-        "備考": {"rich_text": [{"text": {"content": note[:2000]}}]}
+        "備考": {"rich_text": [{"text": {"content": note[:2000]}}]},
     }
     req = [s for s in info.get("required_skills", []) if s in VALID_SKILLS]
     opt = [s for s in info.get("optional_skills", []) if s in VALID_SKILLS]
@@ -243,15 +290,15 @@ def register_project(info: dict, subject: str, sender: str, account_label: str) 
     if info.get("location"):
         properties["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
 
-    res = requests.post(
-        "https://api.notion.com/v1/pages",
-        headers=NOTION_HEADERS,
-        json={"parent": {"database_id": NOTION_PROJECT_DB_ID}, "properties": properties}
-    )
-    if res.status_code == 200:
-        print(f"  ✅ 案件登録: {name}")
-        return True
-    print(f"  ❌ 案件登録エラー: {res.status_code}")
+    try:
+        result = notion_register_project(properties, NOTION_PROJECT_DB_ID, headers=NOTION_HEADERS)
+        if result.get("ok"):
+            print(f"  ✅ 案件登録: {name} ({result.get('action')})")
+            return True
+    except Exception as exc:
+        print(f"  ❌ 案件登録エラー: {exc}")
+        return False
+    print("  ❌ 案件登録エラー")
     return False
 
 
@@ -259,14 +306,15 @@ def register_project(info: dict, subject: str, sender: str, account_label: str) 
 # メール処理
 # ============================================================
 
+
 def decode_str(s):
     if s is None:
-        return ''
+        return ""
     parts = decode_header(s)
-    result = ''
+    result = ""
     for part, enc in parts:
         if isinstance(part, bytes):
-            result += part.decode(enc or 'utf-8', errors='ignore')
+            result += part.decode(enc or "utf-8", errors="ignore")
         else:
             result += str(part)
     return result
@@ -275,20 +323,20 @@ def decode_str(s):
 def get_email_body(msg) -> str:
     if msg.is_multipart():
         for part in msg.walk():
-            if part.get_content_type() == 'text/plain' and 'attachment' not in str(part.get('Content-Disposition', '')):
-                charset = part.get_content_charset() or 'utf-8'
-                return part.get_payload(decode=True).decode(charset, errors='ignore')
+            if part.get_content_type() == "text/plain" and "attachment" not in str(part.get("Content-Disposition", "")):
+                charset = part.get_content_charset() or "utf-8"
+                return part.get_payload(decode=True).decode(charset, errors="ignore")
     else:
-        charset = msg.get_content_charset() or 'utf-8'
-        return msg.get_payload(decode=True).decode(charset, errors='ignore')
-    return ''
+        charset = msg.get_content_charset() or "utf-8"
+        return msg.get_payload(decode=True).decode(charset, errors="ignore")
+    return ""
 
 
 def load_processed_ids() -> set:
     if not os.path.exists(PROCESSED_IDS_FILE):
         return set()
     try:
-        with open(PROCESSED_IDS_FILE, 'r', encoding='utf-8') as f:
+        with open(PROCESSED_IDS_FILE, "r", encoding="utf-8") as f:
             return set(line.strip() for line in f if line.strip())
     except Exception as e:
         print(f"processed_ids読み込みエラー: {e}", flush=True)
@@ -297,8 +345,8 @@ def load_processed_ids() -> set:
 
 def save_processed_id(msg_id: str):
     try:
-        with open(PROCESSED_IDS_FILE, 'a', encoding='utf-8') as f:
-            f.write(msg_id + '\n')
+        with open(PROCESSED_IDS_FILE, "a", encoding="utf-8") as f:
+            f.write(msg_id + "\n")
     except Exception as e:
         print(f"processed_ids保存エラー: {e}", flush=True)
         raise
@@ -310,36 +358,36 @@ def should_process(subject: str) -> bool:
 
 def process_account(account: dict, processed_ids: set) -> tuple[int, int, int]:
     """1アカウントの未読メールを処理。(eng登録数, proj登録数, スキップ数)を返す"""
-    label = account['label']
+    label = account["label"]
     print(f"\n--- {label} ---")
 
     try:
-        mail = imaplib.IMAP4_SSL(account['server'], account['port'])
-        mail.login(account['email'], account['password'])
+        mail = imaplib.IMAP4_SSL(account["server"], account["port"])
+        mail.login(account["email"], account["password"])
     except Exception as e:
         print(f"  ❌ 接続失敗: {e}")
         return 0, 0, 0
 
-    mail.select('INBOX')
-    _, msg_nums = mail.search(None, 'UNSEEN')
+    mail.select("INBOX")
+    _, msg_nums = mail.search(None, "UNSEEN")
     all_ids = msg_nums[0].split()
     print(f"  未読: {len(all_ids)}件")
 
     eng = proj = skip = 0
 
     for num in all_ids:
-        _, data = mail.fetch(num, '(BODY[HEADER.FIELDS (MESSAGE-ID)])')
-        raw_header = data[1][1] if len(data) > 1 and data[1] else b''
-        msg_id = email.message_from_bytes(raw_header).get('Message-ID', str(num))
+        _, data = mail.fetch(num, "(BODY[HEADER.FIELDS (MESSAGE-ID)])")
+        raw_header = data[1][1] if len(data) > 1 and data[1] else b""
+        msg_id = email.message_from_bytes(raw_header).get("Message-ID", str(num))
 
         if msg_id in processed_ids:
             continue
 
-        _, data = mail.fetch(num, '(RFC822)')
-        msg     = email.message_from_bytes(data[0][1])
-        subject = decode_str(msg.get('Subject', ''))
-        sender  = decode_str(msg.get('From', ''))
-        body    = get_email_body(msg)
+        _, data = mail.fetch(num, "(RFC822)")
+        msg = email.message_from_bytes(data[0][1])
+        subject = decode_str(msg.get("Subject", ""))
+        sender = decode_str(msg.get("From", ""))
+        body = get_email_body(msg)
 
         print(f"  処理中: {subject[:40]}")
 
@@ -350,7 +398,7 @@ def process_account(account: dict, processed_ids: set) -> tuple[int, int, int]:
             continue
 
         info = ai_classify_email(subject, body)
-        t    = info.get("type", "other")
+        t = info.get("type", "other")
         print(f"    AI判定: {t}")
 
         if t == "engineer":
@@ -378,6 +426,7 @@ def process_account(account: dict, processed_ids: set) -> tuple[int, int, int]:
 # メイン
 # ============================================================
 
+
 def run():
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Outlook チェック開始（複数アカウント対応）")
 
@@ -396,13 +445,22 @@ def run():
 
     for account in accounts:
         eng, proj, skip = process_account(account, processed_ids)
-        total_eng  += eng
+        total_eng += eng
         total_proj += proj
         total_skip += skip
 
-    print(f"\n{'='*40}")
+    print(f"\n{'=' * 40}")
     print(f"完了: エンジニア登録 {total_eng}件 / 案件登録 {total_proj}件 / スキップ {total_skip}件")
 
 
-if __name__ == '__main__':
-    run()
+if __name__ == "__main__":
+    import traceback as _tb
+
+    _log_path = Path(__file__).parent / "outlook_error.log"
+    try:
+        run()
+    except Exception:
+        with open(_log_path, "a", encoding="utf-8") as _f:
+            _f.write(f"\n[{datetime.now()}] FATAL ERROR\n")
+            _tb.print_exc(file=_f)
+        raise SystemExit(1)

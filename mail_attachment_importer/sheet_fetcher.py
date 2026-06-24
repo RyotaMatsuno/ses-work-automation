@@ -2,10 +2,9 @@
 sheet_fetcher.py - Google Spreadsheetのテキスト取得モジュール
 Playwright sync_apiでブラウザ経由取得
 """
+
 import logging
-import json
 import sys
-import re
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +22,10 @@ def fetch_sheet_text(url: str) -> dict:
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
-        return {"status": "error", "error": "playwright未インストール: pip install playwright && python -m playwright install chromium"}
+        return {
+            "status": "error",
+            "error": "playwright未インストール: pip install playwright && python -m playwright install chromium",
+        }
 
     try:
         with sync_playwright() as p:
@@ -57,7 +59,11 @@ def fetch_sheet_text(url: str) -> dict:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    test_url = sys.argv[1] if len(sys.argv) > 1 else "https://docs.google.com/spreadsheets/d/1F1vHkcta_oUpEu-BxLIO1c0FBp4TfRJ0/edit"
+    test_url = (
+        sys.argv[1]
+        if len(sys.argv) > 1
+        else "https://docs.google.com/spreadsheets/d/1F1vHkcta_oUpEu-BxLIO1c0FBp4TfRJ0/edit"
+    )
     result = fetch_sheet_text(test_url)
     print(f"status: {result['status']}")
     if result.get("text"):

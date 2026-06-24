@@ -8,11 +8,12 @@ webhook_server.pyから分離
 
 import os
 import sys
-import requests
 from datetime import date
+
+import requests
 from dotenv import dotenv_values
 
-env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 if os.path.exists(env_path):
     config = dotenv_values(env_path)
     for key, value in config.items():
@@ -25,9 +26,9 @@ if BASE_DIR not in sys.path:
 
 from matching_v2.matching_v2 import get_min_gross
 
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
-OKAMOTO_MIN_GROSS = get_min_gross('岡本', '松野')
-DEFAULT_MIN_GROSS = get_min_gross('松野', '松野')
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+OKAMOTO_MIN_GROSS = get_min_gross("岡本", "松野")
+DEFAULT_MIN_GROSS = get_min_gross("松野", "松野")
 
 DOUBLE_CHECK_SYSTEM = f"""あなたはSES業界のダブルチェック専門AIです。
 提案文と候補者情報を受け取り、以下のルールで厳密にチェックしてください。
@@ -92,18 +93,14 @@ NGの場合は修正した提案文、OKの場合は「修正不要」
 def double_check(proposal_text: str) -> str:
     res = requests.post(
         "https://api.anthropic.com/v1/messages",
-        headers={
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json"
-        },
+        headers={"x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"},
         json={
             "model": "claude-sonnet-4-20250514",
             "max_tokens": 2000,
             "system": DOUBLE_CHECK_SYSTEM,
-            "messages": [{"role": "user", "content": proposal_text}]
+            "messages": [{"role": "user", "content": proposal_text}],
         },
-        timeout=30
+        timeout=30,
     )
     if res.status_code == 200:
         return res.json()["content"][0]["text"]
@@ -138,5 +135,5 @@ def main():
     print("=" * 50)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

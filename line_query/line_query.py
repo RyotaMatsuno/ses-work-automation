@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import sys
 from datetime import date, datetime, timedelta
 from typing import Any
 
@@ -11,6 +12,22 @@ from dotenv import dotenv_values
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ENV_PATH = os.path.abspath(os.path.join(BASE_DIR, "..", "config", ".env"))
+
+# skill_utils を line_webhook/ から共有インポート
+_WEBHOOK_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "line_webhook"))
+if _WEBHOOK_DIR not in sys.path:
+    sys.path.insert(0, _WEBHOOK_DIR)
+try:
+    from skill_utils import has_skill_skip, normalize_skill_set, skill_match as shared_skill_match
+except ImportError:
+    def has_skill_skip(note):
+        return "#skill_skip" in (note or "")
+
+    def normalize_skill_set(skills):
+        return {s.lower().strip() for s in skills if s}
+
+    def shared_skill_match(req, eng_set):
+        return req.lower().strip() in eng_set
 CONFIG = dotenv_values(ENV_PATH)
 
 NOTION_TOKEN = (
@@ -39,39 +56,48 @@ NOTION_VERSION = "2022-06-28"
 NOTION_QUERY_URL = "https://api.notion.com/v1/databases/{db_id}/query"
 ERROR_MESSAGE = "\u7167\u4f1a\u4e2d\u306b\u30a8\u30e9\u30fc\u304c\u767a\u751f\u3057\u307e\u3057\u305f\u3002\u3057\u3070\u3089\u304f\u5f8c\u306b\u518d\u8a66\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002"
 LINE_LIMIT = 100000  # 全件表示（LINEは5000文字/メッセージだがsplit_line_messageで分割）
-TOP_LIMIT = 9999   # 全件表示
+TOP_LIMIT = 9999  # 全件表示
 GROSS_THRESHOLDS = {"\u677e\u91ce": 5, "\u5ca1\u672c": 3}
 
 logger = logging.getLogger(__name__)
 
-PROP_INPUT_SRC = bytes.fromhex("e585a5e58a9be58583").decode()              # 入力元
+PROP_INPUT_SRC = bytes.fromhex("e585a5e58a9be58583").decode()  # 入力元
 # ======================================================================
 # Notion property constants  (UTF-8 bytes — no Japanese literals)
 # ======================================================================
-PROP_INI        = bytes.fromhex("e382a4e3838be382b7e383a3e383ab").decode()  # イニシャル
-PROP_NAME       = bytes.fromhex("e5908de5898d").decode()                    # 名前
-PROP_STA        = bytes.fromhex("e69c80e5af84e3828ae9a785").decode()        # 最寄り駅
-PROP_MEMO       = bytes.fromhex("e58299e88083efbc884c494e45e383a1e383a2efbc89").decode()  # 備考（LINEメモ）
-PROP_SKILL      = bytes.fromhex("e382b9e382ade383ab").decode()              # スキル
-PROP_RATE       = bytes.fromhex("e58d98e4bea1efbc88e4b887e58686efbc89").decode()  # 単価（万円）
-PROP_STATUS     = bytes.fromhex("e382b9e38386e383bce382bfe382b9").decode()  # ステータス
-PROP_REQSK      = bytes.fromhex("e5bf85e8a681e382b9e382ade383ab").decode()  # 必要スキル
-PROP_OPTSK      = bytes.fromhex("e5b09ae58fafe382b9e382ade383ab").decode()  # 尚可スキル   ← faf(可)
-PROP_ASSIGNEE   = bytes.fromhex("e68b85e5bd93e88085").decode()              # 担当者
-PROP_PJNAME     = bytes.fromhex("e6a188e4bbb6e5908d").decode()              # 案件名
-PROP_PJDETAIL   = bytes.fromhex("e6a188e4bbb6e8a9b3e7b4b0").decode()       # 案件詳細
-PROP_REMOTE     = bytes.fromhex("e383aae383a2e383bce38388").decode()        # リモート
-PROP_LOCATION   = bytes.fromhex("e58ba4e58b99e59cb0").decode()              # 勤務地
-PROP_PERIOD     = bytes.fromhex("e69c9fe99693").decode()                    # 期間
-PROP_WORKON     = bytes.fromhex("e7a8bce5838de58fafe883bde697a5").decode()  # 稼働可能日
-PROP_WORKST     = bytes.fromhex("e7a8bce5838de78ab6e6b381").decode()        # 稼働状況
-PROP_AFFIL      = bytes.fromhex("e68980e5b19ee4bc9ae7a4be").decode()        # 所属会社
+PROP_INI = bytes.fromhex("e382a4e3838be382b7e383a3e383ab").decode()  # イニシャル
+PROP_NAME = bytes.fromhex("e5908de5898d").decode()  # 名前
+PROP_STA = bytes.fromhex("e69c80e5af84e3828ae9a785").decode()  # 最寄り駅
+PROP_MEMO = bytes.fromhex("e58299e88083efbc884c494e45e383a1e383a2efbc89").decode()  # 備考（LINEメモ）
+PROP_SKILL = bytes.fromhex("e382b9e382ade383ab").decode()  # スキル
+PROP_RATE = bytes.fromhex("e58d98e4bea1efbc88e4b887e58686efbc89").decode()  # 単価（万円）
+PROP_STATUS = bytes.fromhex("e382b9e38386e383bce382bfe382b9").decode()  # ステータス
+PROP_REQSK = bytes.fromhex("e5bf85e8a681e382b9e382ade383ab").decode()  # 必要スキル
+PROP_OPTSK = bytes.fromhex("e5b09ae58fafe382b9e382ade383ab").decode()  # 尚可スキル   ← faf(可)
+PROP_ASSIGNEE = bytes.fromhex("e68b85e5bd93e88085").decode()  # 担当者
+PROP_PJNAME = bytes.fromhex("e6a188e4bbb6e5908d").decode()  # 案件名
+PROP_PJDETAIL = bytes.fromhex("e6a188e4bbb6e8a9b3e7b4b0").decode()  # 案件詳細
+PROP_REMOTE = bytes.fromhex("e383aae383a2e383bce38388").decode()  # リモート
+PROP_LOCATION = bytes.fromhex("e58ba4e58b99e59cb0").decode()  # 勤務地
+PROP_PERIOD = bytes.fromhex("e69c9fe99693").decode()  # 期間
+PROP_WORKON = bytes.fromhex("e7a8bce5838de58fafe883bde697a5").decode()  # 稼働可能日
+PROP_WORKST = bytes.fromhex("e7a8bce5838de78ab6e6b381").decode()  # 稼働状況
+PROP_AFFIL = bytes.fromhex("e68980e5b19ee4bc9ae7a4be").decode()  # 所属会社
 PROP_AFFIL_CONT = bytes.fromhex("e68980e5b19ee68b85e5bd93e88085e5908d").decode()  # 所属担当者名
 PROP_AFFIL_MAIL = bytes.fromhex("e68980e5b19ee383a1e383bce383ab").decode()  # 所属メール
-VAL_RECRUITING  = bytes.fromhex("e58b9fe99b86e4b8ad").decode()              # 募集中
-VAL_ACTIVE2     = bytes.fromhex("e7a8bce5838de58fafe883bd").decode()        # 稼働可能
-VAL_ADJUSTING   = bytes.fromhex("e8aabfe695b4e4b8ad").decode()              # 調整中
+VAL_RECRUITING = bytes.fromhex("e58b9fe99b86e4b8ad").decode()  # 募集中
+VAL_ACTIVE2 = bytes.fromhex("e7a8bce5838de58fafe883bd").decode()  # 稼働可能
+VAL_ADJUSTING = bytes.fromhex("e8aabfe695b4e4b8ad").decode()  # 調整中
 # ======================================================================
+
+MATCH_RESULT_LIMIT = 20
+
+
+def _is_price_anomaly(price: float | int | None) -> bool:
+    if price is None:
+        return False
+    p = float(price)
+    return p > 200 or (p > 0 and p < 15)
 
 
 def _notion_headers() -> dict[str, str]:
@@ -167,9 +193,10 @@ def _match_station(engineer: dict, station: str) -> bool:
         return True
     sta = _text_prop(engineer, PROP_STA)
     if sta:
-        return station in sta
+        # 双方向包含: 「京成電鉄 船橋競馬場駅」と「船橋競馬場駅」の両方でマッチ
+        return station in sta or sta in station
     memo = _text_prop(engineer, PROP_MEMO)
-    if memo and station in memo:
+    if memo and (station in memo or any(s in station for s in memo.split())):
         return True
     return False  # station specified but no matching station data
 
@@ -200,10 +227,10 @@ def _affil_contact(engineer: dict) -> str | None:
     """所属連絡先を返す（空なら None）
     優先順: PROP_AFFIL(日本語) > 備考の送信元 > 手動登録弊社社員 > None
     """
-    affil      = _text_prop(engineer, PROP_AFFIL)
+    affil = _text_prop(engineer, PROP_AFFIL)
     affil_cont = _text_prop(engineer, PROP_AFFIL_CONT)
     affil_mail = _text_prop(engineer, PROP_AFFIL_MAIL)
-    memo       = _text_prop(engineer, PROP_MEMO)
+    memo = _text_prop(engineer, PROP_MEMO)
 
     # 1. 有効な日本語所属データ
     if affil and any("\u4e00" <= c <= "\u9fff" or "\u3040" <= c <= "\u30ff" for c in affil):
@@ -218,7 +245,7 @@ def _affil_contact(engineer: dict) -> str | None:
         return "\u81ea\u793e\u793e\u54e1"
 
     # 3. 自動取込メール → 送信元から抽出
-    _EMAIL_RE2  = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
+    _EMAIL_RE2 = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
     _SENDER_RE2 = re.compile(
         r"(?:\u9001\u4fe1\u5143|\u9001\u4fe1\u8005)[:\s\uff1a]+(.{1,80}?)"
         r"(?:\s*/\s*\u53d7\u4fe1\u65e5|$)",
@@ -248,9 +275,9 @@ def _clean_detail(text: str, max_len: int = 250) -> str:
     if not text:
         return ""
     _SKIP = ("\u9001\u4fe1\u8005:", "\u4ef6\u540d:", "Subject:", "From:", "[LINE auto-register")
-    _EMAIL_RE = re.compile(r'[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}')
-    _PHONE_RE = re.compile(r'0[0-9]{1,4}[\-\s]?[0-9]{3,4}[\-\s]?[0-9]{4}')
-    _CTCT_RE  = re.compile(r'^\u62c5\u5f53[^\u8005\u304c]{0,3}[\uff1a:]\s*\S')
+    _EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}")
+    _PHONE_RE = re.compile(r"0[0-9]{1,4}[\-\s]?[0-9]{3,4}[\-\s]?[0-9]{4}")
+    _CTCT_RE = re.compile(r"^\u62c5\u5f53[^\u8005\u304c]{0,3}[\uff1a:]\s*\S")
     contacts: list[str] = []
     for _ln in text.split("\n"):
         _s = _ln.strip()
@@ -307,10 +334,7 @@ def _clean_detail(text: str, max_len: int = 250) -> str:
 
 def engineer_query(initial: str, station: str) -> str:
     engineers = fetch_all_pages(ENGINEER_DB_ID)
-    matched_engineers = [
-        e for e in engineers
-        if _match_initial(e, initial) and _match_station(e, station)
-    ]
+    matched_engineers = [e for e in engineers if _match_initial(e, initial) and _match_station(e, station)]
     if not matched_engineers:
         return f"\u4e00\u81f4\u3059\u308b\u4eba\u54e1\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {initial} {station}"
 
@@ -331,29 +355,42 @@ def engineer_query(initial: str, station: str) -> str:
     replies = []
     for engineer in matched_engineers:
         eng_skills = _multi_select_prop(engineer, PROP_SKILL)
-        eng_rate   = _number_prop(engineer, PROP_RATE)
+        eng_rate = _number_prop(engineer, PROP_RATE)
+        note = _text_prop(engineer, PROP_MEMO)
+        initial = _text_prop(engineer, PROP_INI) or _normalize_initial(_text_prop(engineer, PROP_NAME))
+        station = _text_prop(engineer, PROP_STA)
+        if _is_price_anomaly(eng_rate):
+            replies.append(f"【{initial}｜{station}】単価異常のためマッチングスキップ")
+            continue
+        is_skill_skip = has_skill_skip(note)
+        eng_skills_norm = normalize_skill_set(eng_skills)
         matched: list[dict] = []
+        stats = {"total": len(projects), "excluded_margin": 0, "excluded_skill": 0, "passed": 0}
         for project in projects:
             if _select_prop(project, PROP_STATUS) not in (VAL_RECRUITING, VAL_ADJUSTING):
                 continue
             if business_days_since(project.get("last_edited_time")) > 4:
                 continue
             required = _multi_select_prop(project, PROP_REQSK)
-            if not required:
-                continue  # スキル未設定案件はマッチング対象外
-            if not skill_match(required, eng_skills):
+            if not eng_skills and not required:
+                stats["excluded_skill"] += 1
                 continue
+            if not is_skill_skip and required:
+                if not all(shared_skill_match(r, eng_skills_norm) for r in required):
+                    stats["excluded_skill"] += 1
+                    continue
             budget = _number_prop(project, PROP_RATE)
-            if budget > 150:
-                continue  # 異常単価除外
-            gross  = calc_gross_profit(budget, eng_rate)
-            if gross > 15:
-                continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+            if _is_price_anomaly(budget):
+                continue
+            gross = calc_gross_profit(budget, eng_rate)
             if gross < 0:
+                stats["excluded_margin"] += 1
                 continue  # 粗利マイナス=交渉しても利益見込めない
+            stats["passed"] += 1
             matched.append({"page": project, "gross_profit": gross})
         matched.sort(key=lambda x: x["gross_profit"], reverse=True)
-        replies.append(format_project_result(engineer, matched))
+        matched = matched[:MATCH_RESULT_LIMIT]
+        replies.append(format_project_result(engineer, matched, stats=stats))
     return "\n\n".join(replies)
 
 
@@ -364,42 +401,63 @@ def project_query(name: str) -> str:
     if not matched:
         return f"\u4e00\u81f4\u3059\u308b\u6848\u4ef6\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {name}"
     project = matched[0]
-    required  = _multi_select_prop(project, PROP_REQSK)
-    budget    = _number_prop(project, PROP_RATE)
+    required = _multi_select_prop(project, PROP_REQSK)
+    budget = _number_prop(project, PROP_RATE)
     threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
     engineers = fetch_all_pages(ENGINEER_DB_ID)
+    stats = {"total": len(engineers), "excluded_margin": 0, "excluded_skill": 0, "passed": 0}
     matched_engs = []
     for eng in engineers:
         if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
             continue
         if business_days_since(eng.get("last_edited_time")) > 21:
             continue
-        if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
+        eng_skills = _multi_select_prop(eng, PROP_SKILL)
+        eng_rate = _number_prop(eng, PROP_RATE)
+        if _is_price_anomaly(eng_rate):
             continue
-        gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
-        if gross > 15:
-            continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+        note = _text_prop(eng, PROP_MEMO)
+        is_skill_skip = has_skill_skip(note)
+        if not eng_skills and not required:
+            stats["excluded_skill"] += 1
+            continue
+        if not is_skill_skip and required:
+            eng_skills_norm = normalize_skill_set(eng_skills)
+            if not all(shared_skill_match(r, eng_skills_norm) for r in required):
+                stats["excluded_skill"] += 1
+                continue
+        gross = calc_gross_profit(budget, eng_rate)
         if gross < 0:
+            stats["excluded_margin"] += 1
             continue  # 粗利マイナス=交渉しても利益見込めない
+        stats["passed"] += 1
         matched_engs.append({"page": eng, "gross_profit": gross})
     matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
-    return format_engineer_result(project, matched_engs)
+    matched_engs = matched_engs[:MATCH_RESULT_LIMIT]
+    return format_engineer_result(project, matched_engs, stats=stats)
 
 
-def format_project_result(engineer: dict, projects: list) -> str:
+def format_project_result(engineer: dict, projects: list, stats: dict = None) -> str:
     initial = _text_prop(engineer, PROP_INI) or _normalize_initial(_text_prop(engineer, PROP_NAME))
     station = _text_prop(engineer, PROP_STA)
 
     # 所属連絡先（意向確認用）
-    affil      = _text_prop(engineer, PROP_AFFIL)
+    affil = _text_prop(engineer, PROP_AFFIL)
     affil_cont = _text_prop(engineer, PROP_AFFIL_CONT)
     affil_mail = _text_prop(engineer, PROP_AFFIL_MAIL)
 
     if not projects:
-        return (
-            f"\u3010{initial}\uff5c{station}\u3011\u30de\u30c3\u30c1\u6848\u4ef6\u306a\u3057\n"
-            "\uff08\u6761\u4ef6: \u6709\u52b9\u6848\u4ef6\u306a\u3057 or \u30b9\u30ad\u30eb\u30fb\u7c97\u5229\u4e0d\u4e00\u81f4\uff09"
+        msg = (
+            f"【{initial}｜{station}】マッチ案件なし\n"
+            "（条件: 有効案件なし or スキル・粗利不一致）"
         )
+        if stats:
+            msg += (
+                f"\n[統計: 全{stats['total']}件"
+                f" スキル除外{stats['excluded_skill']}件"
+                f" 粗利除外{stats['excluded_margin']}件]"
+            )
+        return msg
 
     lines = [f"\u3010{initial}\uff5c{station}\u3011\u30de\u30c3\u30c1\u6848\u4ef6 {len(projects)}\u4ef6"]
     _esrc = _engineer_source(engineer)
@@ -412,51 +470,66 @@ def format_project_result(engineer: dict, projects: list) -> str:
         lines.append("\u6240\u5c5e: " + _ac)  # 所属:
 
     for idx, item in enumerate(projects, 1):
-        pj       = item["page"]
-        pj_name  = _text_prop(pj, PROP_PJNAME)
-        req_sk   = _join(_multi_select_prop(pj, PROP_REQSK))
-        opt_sk   = _join(_multi_select_prop(pj, PROP_OPTSK))
-        loc      = _text_prop(pj, PROP_LOCATION)
-        remote   = _select_prop(pj, PROP_REMOTE)
-        period   = _text_prop(pj, PROP_PERIOD)
-        budget   = _number_prop(pj, PROP_RATE)
-        gross    = item["gross_profit"]
-        age      = business_days_since(pj.get("last_edited_time"))
+        pj = item["page"]
+        pj_name = _text_prop(pj, PROP_PJNAME)
+        req_sk = _join(_multi_select_prop(pj, PROP_REQSK))
+        opt_sk = _join(_multi_select_prop(pj, PROP_OPTSK))
+        loc = _text_prop(pj, PROP_LOCATION)
+        remote = _select_prop(pj, PROP_REMOTE)
+        period = _text_prop(pj, PROP_PERIOD)
+        budget = _number_prop(pj, PROP_RATE)
+        gross = item["gross_profit"]
+        age = business_days_since(pj.get("last_edited_time"))
         assignee = _select_prop(pj, PROP_ASSIGNEE)
-        detail   = _clean_detail(_text_prop(pj, PROP_PJDETAIL))
+        detail = _clean_detail(_text_prop(pj, PROP_PJDETAIL))
 
-        lines.extend([
-            "",
-            f"{_num_label(idx)} {pj_name}",
-            f"  \u5fc5\u9808: {req_sk}" + (f" / \u5c1a\u53ef: {opt_sk}" if opt_sk else ""),
-            f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07" + (f" / {assignee}\u62c5\u5f53" if assignee else ""),
-            f"  {loc}" + (f" ({remote})" if remote else "") + (f" / {period}" if period else "") + f" [{age}\u65e5\u524d]",
-            (f"  \u9001\u4fe1\u5143: {_case_source(pj)}" if _case_source(pj) else ""),  # 送信元:
-        ])
+        lines.extend(
+            [
+                "",
+                f"{_num_label(idx)} {pj_name}",
+                f"  \u5fc5\u9808: {req_sk}" + (f" / \u5c1a\u53ef: {opt_sk}" if opt_sk else ""),
+                f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07"
+                + (f" / {assignee}\u62c5\u5f53" if assignee else ""),
+                f"  {loc}"
+                + (f" ({remote})" if remote else "")
+                + (f" / {period}" if period else "")
+                + f" [{age}\u65e5\u524d]",
+                (f"  \u9001\u4fe1\u5143: {_case_source(pj)}" if _case_source(pj) else ""),  # 送信元:
+            ]
+        )
         if detail:
             lines.append(f"  \u6982\u8981: {detail}")  # 概要:
 
     return _limit_reply(lines, projects, format_project_result, engineer)
 
 
-def format_engineer_result(project: dict, engineers: list) -> str:
+def format_engineer_result(project: dict, engineers: list, stats: dict = None) -> str:
     pj_name = _text_prop(project, PROP_PJNAME)
     if not engineers:
-        return (
-            f"\u3010{pj_name}\u3011\u30de\u30c3\u30c1\u4eba\u54e1\u306a\u3057\n"
-            "\uff08\u6761\u4ef6: \u30b9\u30ad\u30eb\u30fb\u7c97\u5229\u30fb\u9256\u5ea6\u6761\u4ef6\u4e0d\u4e00\u81f4\uff09"
+        msg = (
+            f"【{pj_name}】マッチ人員なし\n"
+            "（条件: スキル・粗利・鮮度条件不一致）"
         )
+        if stats:
+            msg += (
+                f"\n[統計: 全{stats['total']}件"
+                f" スキル除外{stats['excluded_skill']}件"
+                f" 粗利除外{stats['excluded_margin']}件]"
+            )
+        return msg
     lines = [f"\u3010{pj_name}\u3011\u30de\u30c3\u30c1\u4eba\u54e1 {len(engineers)}\u540d"]
     for idx, item in enumerate(engineers, 1):
         eng = item["page"]
-        lines.extend([
-            "",
-            f"{_num_label(idx)}{_text_prop(eng, PROP_NAME)}\uff5c{_text_prop(eng, PROP_STA)}",
-            f"  \u30b9\u30ad\u30eb: {_join(_multi_select_prop(eng, PROP_SKILL))}",
-            f"  \u7a3c\u50cd: {_select_prop(eng, PROP_WORKST)} / \u5358\u4fa1: {_format_number(_number_prop(eng, PROP_RATE))}\u4e07 / \u7c97\u5229: {_format_number(item['gross_profit'])}\u4e07",
-            f"  \u7a3c\u50cd\u53ef: {_date_prop(eng, PROP_WORKON) or '\u672a\u8a2d\u5b9a'} / \u9256\u5ea6: {business_days_since(eng.get('last_edited_time'))}\u65e5\u524d",
-            f"  \u6240\u5c5e: {_text_prop(eng, PROP_AFFIL)} / {_text_prop(eng, PROP_AFFIL_CONT)} / {_text_prop(eng, PROP_AFFIL_MAIL)}",
-        ])
+        lines.extend(
+            [
+                "",
+                f"{_num_label(idx)}{_text_prop(eng, PROP_NAME)}\uff5c{_text_prop(eng, PROP_STA)}",
+                f"  \u30b9\u30ad\u30eb: {_join(_multi_select_prop(eng, PROP_SKILL))}",
+                f"  \u7a3c\u50cd: {_select_prop(eng, PROP_WORKST)} / \u5358\u4fa1: {_format_number(_number_prop(eng, PROP_RATE))}\u4e07 / \u7c97\u5229: {_format_number(item['gross_profit'])}\u4e07",
+                f"  \u7a3c\u50cd\u53ef: {_date_prop(eng, PROP_WORKON) or '\u672a\u8a2d\u5b9a'} / \u9256\u5ea6: {business_days_since(eng.get('last_edited_time'))}\u65e5\u524d",
+                f"  \u6240\u5c5e: {_text_prop(eng, PROP_AFFIL)} / {_text_prop(eng, PROP_AFFIL_CONT)} / {_text_prop(eng, PROP_AFFIL_MAIL)}",
+            ]
+        )
     return _limit_reply(lines, engineers, format_engineer_result, project)
 
 
@@ -485,8 +558,10 @@ def handle_line_query(text: str) -> str | None:
 
 # ── Notion helpers ──────────────────────────────────────────────────
 
+
 def _prop(page: dict, name: str) -> dict:
     return page.get("properties", {}).get(name, {})
+
 
 def _text_prop(page: dict, name: str) -> str:
     prop = _prop(page, name)
@@ -501,38 +576,48 @@ def _text_prop(page: dict, name: str) -> str:
         return ""
     return "".join(item.get("plain_text", "") for item in values).strip()
 
+
 def _multi_select_prop(page: dict, name: str) -> list[str]:
     return [x.get("name", "") for x in _prop(page, name).get("multi_select", []) if x.get("name")]
+
 
 def _select_prop(page: dict, name: str) -> str:
     v = _prop(page, name).get("select")
     return v.get("name", "") if v else ""
 
+
 def _number_prop(page: dict, name: str) -> float:
     v = _prop(page, name).get("number")
     return float(v or 0)
+
 
 def _date_prop(page: dict, name: str) -> str:
     v = _prop(page, name).get("date")
     return v.get("start", "") if v else ""
 
+
 def _contains(value: str, keyword: str) -> bool:
     return keyword.lower() in value.lower()
+
 
 def _gross_threshold(assignee: str) -> int:
     return GROSS_THRESHOLDS.get(assignee, 5)
 
+
 def _join(values: list[str]) -> str:
     return " / ".join(values)
+
 
 def _format_number(value: float) -> str:
     if value == int(value):
         return str(int(value))
     return f"{value:.1f}".rstrip("0").rstrip(".")
 
+
 def _num_label(index: int) -> str:
     labels = "\u2460\u2461\u2462\u2463\u2464\u2465\u2466\u2467\u2468\u2469"
     return labels[index - 1] if 1 <= index <= len(labels) else f"{index}."
+
 
 def _limit_reply(lines: list[str], items: list, formatter, header_page: dict) -> str:
     # 全件表示（split_line_message側でLINE送信時に分割する）

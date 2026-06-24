@@ -1,0 +1,2261 @@
+{
+  "mode": "dry_run",
+  "patterns": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6",
+    "P7"
+  ],
+  "counts": {
+    "P1": {
+      "action": 19,
+      "warning": 0
+    },
+    "P2": {
+      "action": 18,
+      "warning": 0
+    },
+    "P3": {
+      "action": 3,
+      "warning": 3
+    },
+    "P4": {
+      "action": 37,
+      "warning": 0
+    },
+    "P5": {
+      "action": 15,
+      "warning": 0
+    },
+    "P6": {
+      "action": 153,
+      "warning": 40
+    },
+    "P7": {
+      "action": 0,
+      "warning": 28
+    }
+  },
+  "update_stats": {
+    "success": 0,
+    "fail": 0,
+    "skipped_limit": 0
+  },
+  "findings": [
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81c8-b696-cb1b23bd80b1",
+      "name": "SN",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c2-aa16-d3d43bb0365d",
+      "name": "I.A",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81ee-bd78-f3a183bed35a",
+      "name": "TO",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-818c-960c-f8551e86b985",
+      "name": "KC",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8173-b53f-d735f1333c67",
+      "name": "TR",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81bf-804e-d03a6261120b",
+      "name": "SM",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81da-be08-fd96d37582bc",
+      "name": "FT",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81a5-94f2-fee5eda10614",
+      "name": "AI",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-816b-91f1-d1b5def739f1",
+      "name": "HS",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e5-81f3-e2acf45e69aa",
+      "name": "FK",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81e5-81f3-e2acf45e69aa",
+      "name": "FK",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8182-8161-c1b97cd201a2",
+      "name": "OY",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81c2-b2c7-cd8a51719dc2",
+      "name": "YA",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81c2-b2c7-cd8a51719dc2",
+      "name": "YA",
+      "message": "P7:単価異常値疑い（750.0万円）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-810b-a773-fb4574f66b57",
+      "name": "NK",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-815a-aba0-cd577395cded",
+      "name": "HW",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8197-b626-cab299185141",
+      "name": "Y.N",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81ef-9364-e3589a217b8c",
+      "name": "YA",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-816f-9eff-e994c625d6ef",
+      "name": "US",
+      "message": "P6:案件メール疑い（score=3）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f2-96d9-e8f5a3915e92",
+      "name": "T.O",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a5-9906-dc8257e4d9da",
+      "name": "MM",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-812c-be0a-f8fdc93cd60f",
+      "name": "RT",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8176-9eac-c41b71565618",
+      "name": "TN",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e6-91d1-f3c2d44e23ed",
+      "name": "KK",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8198-9440-c76d73ba374e",
+      "name": "AH",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8198-9440-c76d73ba374e",
+      "name": "AH",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-811b-8936-d11949097d5b",
+      "name": "KS",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-813c-b8e3-edf90f2b8805",
+      "name": "KN",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8147-a22a-f1e2ec140914",
+      "name": "KY",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-ac0b-e5efe6e94df1",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-ac0b-e5efe6e94df1",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81d9-ac0b-e5efe6e94df1",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a6-a38a-c4afb0ae2c08",
+      "name": "王WQ（オウ）",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8170-aa75-c482899c4843",
+      "name": "N.S",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-816f-8f6a-fadd47f23047",
+      "name": "M.H",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-814c-972c-ea5de3f2cd0c",
+      "name": "SA",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c2-a41a-c0f260366a1e",
+      "name": "N.Y",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8163-ab9e-d64990a16ffb",
+      "name": "N A",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8163-ab9e-d64990a16ffb",
+      "name": "N A",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81eb-b68c-fb10b22c5c1f",
+      "name": "I.S",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8130-bd9a-fc6b7b8ea866",
+      "name": "A.M",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818b-95fb-fcefd86b2b59",
+      "name": "F.M",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-818b-95fb-fcefd86b2b59",
+      "name": "F.M",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-816e-8559-da7f2b7c84fe",
+      "name": "R.K",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81a3-ae5f-c0bad2dafb21",
+      "name": "N.K",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-817a-a2a0-ef27c80994b3",
+      "name": "M.K",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-811f-ae7a-d9e22c2dc40b",
+      "name": "T.K",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e6-baf1-c048a5b3d95f",
+      "name": "H.E",
+      "message": "稼働可能日異常値 2025-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81e6-baf1-c048a5b3d95f",
+      "name": "H.E",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f0-8553-c1155e93414e",
+      "name": "AF",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-810f-9f09-c06e33296a89",
+      "name": "TK",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-812d-a1cc-c86b2e1824c0",
+      "name": "KH",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810e-b061-f9010f14e28b",
+      "name": "HK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81b4-b094-e1e820c56a9e",
+      "name": "YH",
+      "message": "稼働可能日異常値 2025-01-05 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810d-a789-e7560bd6012a",
+      "name": "RI",
+      "message": "稼働可能日異常値 2025-02-01 をnull化"
+    },
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-814a-9dcb-f71eec9ade65",
+      "name": "TK",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e4-80f5-c60b8568919d",
+      "name": "SK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81b2-ab0f-f1bd9a9361f0",
+      "name": "ON",
+      "message": "稼働可能日異常値 2024-07-13 をnull化"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fc-846b-c2dbf1ae9d7a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fc-846b-c2dbf1ae9d7a",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810f-85db-e1c2a850752b",
+      "name": "S.K",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d2-9dcf-eb56faec739d",
+      "name": "譚.E（タン.E）",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81dd-b692-ddc6ebfab572",
+      "name": "記載なし",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ad-9d81-f19538bf381c",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ad-9d81-f19538bf381c",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81ad-9d81-f19538bf381c",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-92e4-c17828ac695a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-92e4-c17828ac695a",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-818c-92e4-c17828ac695a",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d4-8afa-c132da60e6e5",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d4-8afa-c132da60e6e5",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81d4-8afa-c132da60e6e5",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8156-b7ee-c0dbc0e7a2a5",
+      "name": "MS",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8187-91fd-d75628059f80",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8187-91fd-d75628059f80",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8187-91fd-d75628059f80",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8174-8d2d-e9dd91c882dd",
+      "name": "YT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8174-8d2d-e9dd91c882dd",
+      "name": "YT",
+      "message": "稼働可能日異常値 2025-07-01 をnull化"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-8fb9-fccd616d00dc",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-8fb9-fccd616d00dc",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-818c-8fb9-fccd616d00dc",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a5-b5e1-c458e9097c8f",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a5-b5e1-c458e9097c8f",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81a5-b5e1-c458e9097c8f",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8103-a7be-d067ead2754a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8103-a7be-d067ead2754a",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8103-a7be-d067ead2754a",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e7-a855-d7dcea906cf2",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e7-a855-d7dcea906cf2",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81e7-a855-d7dcea906cf2",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8103-ba20-de4cb0ce9c03",
+      "name": "SH",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8103-ba20-de4cb0ce9c03",
+      "name": "SH",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8137-96dd-d53542b6bb6d",
+      "name": "M.O",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8188-a3ce-cb2e66ce3705",
+      "name": "M.T",
+      "message": "稼働可能日異常値 2024-08-01 をnull化"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8149-a42b-cdcd4b77169c",
+      "name": "鄢.H",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818d-a984-ffeb853e1821",
+      "name": "SK",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-818d-a984-ffeb853e1821",
+      "name": "SK",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8135-88d5-f0ceb4c1a994",
+      "name": "YY",
+      "message": "経験年数異常値 53.0 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8150-bfc1-d27b01bbea61",
+      "name": "KI",
+      "message": "稼働可能日異常値 2024-05-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8150-bfc1-d27b01bbea61",
+      "name": "KI",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8175-bc97-da4e1cee828b",
+      "name": "KM",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8175-bc97-da4e1cee828b",
+      "name": "KM",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8112-9918-cd7fb3073845",
+      "name": "R.T",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f5-b558-c47037f66352",
+      "name": "MU",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c3-9109-d9bf35477f80",
+      "name": "SM（男性・45歳）",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-816e-af98-c6e1441c4c94",
+      "name": "N.T",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8167-8a9a-f7af88b00a2c",
+      "name": "ID:50BZ35（女性）",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8167-8a9a-f7af88b00a2c",
+      "name": "ID:50BZ35（女性）",
+      "message": "P7:単価異常値疑い（750.0万円）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8129-bc02-c344cd211347",
+      "name": "S.A",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8125-bf94-eaf78cbd2b1a",
+      "name": "S.T",
+      "message": "稼働可能日異常値 2024-07-01 をnull化"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fb-87ee-e8f1622c2a69",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fb-87ee-e8f1622c2a69",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810e-8f7c-f3ee4c200cf4",
+      "name": "YT",
+      "message": "稼働可能日異常値 2024-04-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8172-b0ae-f9d1ae054b80",
+      "name": "TO",
+      "message": "稼働可能日異常値 2025-06-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a7-aa45-d47e4aa277c5",
+      "name": "TO",
+      "message": "稼働可能日異常値 2025-07-01 をnull化"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ec-90a4-cd006201f1dc",
+      "name": "YT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8193-9a8f-f60f32d54868",
+      "name": "TT",
+      "message": "稼働可能日異常値 2025-06-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f0-870c-d373e4791751",
+      "name": "MS",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8119-acc4-f13b0d5b9cfa",
+      "name": "YH",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-814e-9a81-ec4d00bd2661",
+      "name": "HT",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-814c-a5a5-f6da62817cb2",
+      "name": "YS",
+      "message": "稼働可能日異常値 2025-06-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819c-ad3f-e5cbdf854e30",
+      "name": "YM",
+      "message": "稼働可能日異常値 2025-05-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8156-92d2-ca16e58b7696",
+      "name": "TY",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fe-b8df-ec70f9ef34ac",
+      "name": "K.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d1-8e43-d3d126b10809",
+      "name": "TG",
+      "message": "稼働可能日異常値 2025-05-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810f-8e2f-d3e764d77019",
+      "name": "NY",
+      "message": "稼働可能日異常値 2025-07-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8124-8191-d53c75d31089",
+      "name": "SS",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8156-92cd-edd685d5eb56",
+      "name": "TF",
+      "message": "稼働可能日異常値 2025-08-01 をnull化"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8129-8c11-ca49d76adae8",
+      "name": "NK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81f5-89a4-df4f1d268614",
+      "name": "MS",
+      "message": "P7:単価異常値疑い（750.0万円）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813d-81f9-fe28625b58fe",
+      "name": "KD",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d2-9010-de4ee7573059",
+      "name": "MO",
+      "message": "稼働可能日異常値 2024-06-01 をnull化"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8128-96eb-e896cc54099f",
+      "name": "YT1001",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-a21c-daab9700f435",
+      "name": "I.H",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e4-b383-d91da2f085d7",
+      "name": "SM",
+      "message": "稼働可能日異常値 2025-04-01 をnull化"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819e-b959-c3f0f882e1ff",
+      "name": "IC",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-812b-beb1-cae064e2200a",
+      "name": "YK",
+      "message": "稼働可能日異常値 2024-04-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81e1-bb38-da0de26b371a",
+      "name": "MS☆中延",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81d3-8da2-e382785e3339",
+      "name": "IT（29歳男性）",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8118-8ef2-e5ac598b7b6c",
+      "name": "EA",
+      "message": "稼働可能日異常値 2025-05-01 をnull化"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8110-bd5d-ea6e45a38b5a",
+      "name": "TA",
+      "message": "稼働可能日異常値 2025-05-01 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81b3-9828-c913c0c75641",
+      "name": "Y.K",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-8278-f5842a2185d5",
+      "name": "JK",
+      "message": "経験年数異常値 49.0 をnull化"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-811e-b1aa-ee594b4f68c3",
+      "name": "AW",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-81c9-98d2-c434c5b03f55",
+      "name": "SN",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-816f-88b1-ec76d2481a8e",
+      "name": "YN",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810b-8950-ce112a57be38",
+      "name": "S.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8108-aaea-c0241f97388d",
+      "name": "T.Y",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-815c-9fb1-e4ae8fb5229b",
+      "name": "RI",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8178-9641-ce14d5c3c0ed",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8178-9641-ce14d5c3c0ed",
+      "name": "不明",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8178-9641-ce14d5c3c0ed",
+      "name": "不明",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81de-9d53-c7c5d34cde19",
+      "name": "S.Y",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8102-9d5f-d6683a8f87de",
+      "name": "AY",
+      "message": "P6:案件メール疑い（score=2）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-817e-b6e6-ca03e6a8da70",
+      "name": "S.T",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8123-946e-ef28d559fff6",
+      "name": "A.K",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ab-8593-d3526d7e0669",
+      "name": "I.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c5-af81-e40c05ff9d6b",
+      "name": "T.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810f-8292-fd1c202ef8d2",
+      "name": "N.Y",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81df-b308-e5809918810f",
+      "name": "A.Y",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-814b-bc23-d3df9358641a",
+      "name": "HS",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-814c-bb18-c9901c77c1ac",
+      "name": "GS",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8156-bfca-e6e376ac7f47",
+      "name": "SR",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8174-a0a1-de157b170590",
+      "name": "YY",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d3-b707-e3c72467bedf",
+      "name": "AH",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e7-957d-fde596ebb154",
+      "name": "IK",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813e-a8f8-d4ba27332f00",
+      "name": "TH",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8120-9242-f01be4aa9927",
+      "name": "MS",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8169-8574-c7599e4f7f04",
+      "name": "TK",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e1-9d5d-d3d6274bb0b6",
+      "name": "K.F",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8185-a586-fc6a24bf7f8b",
+      "name": "MT",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e6-9af7-e48de94bcf63",
+      "name": "MM",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810a-8184-c135d1361d0c",
+      "name": "T.O",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a2-8791-d975013d28bf",
+      "name": "T.H",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fd-bdcf-d79e014653a4",
+      "name": "T.H",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-b7ed-f3be0d363b5f",
+      "name": "K.K",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818a-9b16-ce8bc8906663",
+      "name": "H_T",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818a-9b16-ce8bc8906663",
+      "name": "H_T",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e2-865a-f25cb5191034",
+      "name": "TO",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8155-b9ba-ca8eaa01bc68",
+      "name": "J.A",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-811a-b390-e3c92157912c",
+      "name": "HT",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f7-8966-d1a6b5eaa05c",
+      "name": "AY",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8127-8d24-c7c4541f823e",
+      "name": "NS",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-811e-a508-d3f8bccf161e",
+      "name": "S.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819e-8f60-ec17c5188fad",
+      "name": "BT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819e-8f60-ec17c5188fad",
+      "name": "BT",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8170-b3b1-c84d8a236fe6",
+      "name": "DN",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ab-a4be-eb4ad4f5dbaf",
+      "name": "HY",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81b7-9058-e433b75fa1e4",
+      "name": "K.U",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8140-9de7-d26496f86e9c",
+      "name": "RU",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8105-a7a1-f3ac2e76f623",
+      "name": "TY",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8105-9267-f4dcf7b865cd",
+      "name": "MH",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8187-be33-deff2e889b39",
+      "name": "HS",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-817e-8af8-efa1666c5358",
+      "name": "KN",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81cc-8883-ed5b1e5b7707",
+      "name": "YA",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-816f-8567-f2395812914a",
+      "name": "R.I",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c4-9118-f2f99d437666",
+      "name": "FS",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813e-a8f5-c61d4cb0cb60",
+      "name": "SC",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813e-a8f5-c61d4cb0cb60",
+      "name": "SC",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a8-80a3-e657ee539b76",
+      "name": "AI",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819a-928a-e50d9886556b",
+      "name": "NM",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813a-b5e1-fa2e8fd76777",
+      "name": "RO",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8178-ad14-f54ba285a664",
+      "name": "OY",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8132-aafa-e15a6528456e",
+      "name": "TT",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8108-bba6-e68060eb12a1",
+      "name": "HO",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8136-8aa1-c63c0c6a6865",
+      "name": "KT",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8172-9d97-c89993b55aa0",
+      "name": "KT",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8121-bae3-c67e7ddea5f7",
+      "name": "HK",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8131-a77d-cf542fdddb05",
+      "name": "KM",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8131-a77d-cf542fdddb05",
+      "name": "KM",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8174-b361-c129e0863a6c",
+      "name": "YH",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8161-8b93-d671d081fef4",
+      "name": "KA",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8138-b9ef-fb7bd0c2e5e2",
+      "name": "MJ",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818f-9071-f170394e27d2",
+      "name": "HS",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81b7-8a3e-f949e536401b",
+      "name": "RT",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81da-885c-c4769ef266b1",
+      "name": "HS",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f3-a85b-e52b146555b1",
+      "name": "Y.S",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-812e-a41a-d2c28967e7b4",
+      "name": "W.T",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8158-af27-fcee741bc617",
+      "name": "T.F",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f6-bff2-f9debbcc595e",
+      "name": "S.I",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81cb-9d4d-d82fe5333477",
+      "name": "K.K",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8167-aa91-f89699c5b7a9",
+      "name": "SU",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81be-b603-e2b38a1d16ed",
+      "name": "T.T",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8168-abb9-e2f66b35a78f",
+      "name": "SM",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-815d-96d9-d1f678cf6c13",
+      "name": "K.S",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8124-a8c9-c1c701612dfc",
+      "name": "S.I",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8141-8368-f15c65b4d6df",
+      "name": "T.K",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a7-8be8-e86c2f6fe15a",
+      "name": "ND",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818d-898b-dfe1883b3c06",
+      "name": "M.T",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-817f-bb8c-fedeef61aa0e",
+      "name": "ST",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ac-993e-c2098ea53137",
+      "name": "S.M",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813d-aad0-c8f9c9b1ca5f",
+      "name": "TY",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8131-9feb-ee5fcb6e70c7",
+      "name": "T.N",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81d8-894f-f3e422d0359f",
+      "name": "Y.W",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-814a-8ec4-de064e54fb8a",
+      "name": "SD",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-819a-bf42-edc14eef8b44",
+      "name": "S.N",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8117-b383-df12a6ed7658",
+      "name": "M.S",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81a1-8a62-f3fb3c0f44f6",
+      "name": "H.M",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-814e-b799-e8bc9e96e846",
+      "name": "S.T",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81e2-b50f-c9928532935d",
+      "name": "ID（28歳／男性）",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81d6-9e4f-f6aba37f75c6",
+      "name": "TK",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81c0-a59b-fad73960bd81",
+      "name": "IH",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8149-a530-d619106c3f37",
+      "name": "I.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8199-a2aa-c53b1e5b7fb8",
+      "name": "HY",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81db-a03d-c19632bae5f1",
+      "name": "KY",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8126-8350-d9850f33e43e",
+      "name": "NS",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81cc-b982-f2402d9ea67f",
+      "name": "S.A",
+      "message": "P6:案件メール誤登録（score=6）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81bd-b7af-e509b6e53114",
+      "name": "T.D",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81e4-bfee-c558a5b31242",
+      "name": "HA",
+      "message": "P6:案件メール誤登録（score=5）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8105-91cd-d0d9c0cca496",
+      "name": "E.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81f5-afc9-e10403b800dc",
+      "name": "W.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8194-ac6b-da2be18c49f6",
+      "name": "O.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81a0-8586-e1ccf3a2416c",
+      "name": "HK",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81b2-b013-e20cdafb1ac6",
+      "name": "T.R",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8167-9c33-fa3f0e183481",
+      "name": "T.D",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-812a-8751-cb17e74c60e5",
+      "name": "S.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8140-8580-ec12ab3f3a81",
+      "name": "S.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8114-ad77-c44e278c1278",
+      "name": "R.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81f5-9951-c3b16d6602dc",
+      "name": "HK",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81f3-8b61-ea79b44bb0fc",
+      "name": "T.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8169-a6d6-ebaf540ee5a4",
+      "name": "UK",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-811d-b0fc-f329a9de56ef",
+      "name": "M.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81c2-8106-c09bbe0a9d34",
+      "name": "M.N",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81dd-9867-d864aaf4271d",
+      "name": "K.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81b4-ae7f-cab9d2e3b27d",
+      "name": "H.O",
+      "message": "P6:案件メール誤登録（score=8）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81c8-806c-e900406b468a",
+      "name": "S.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8166-a8a2-d2bb2553f9b3",
+      "name": "R.F",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8131-a55f-e37861c4c940",
+      "name": "M.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8193-b8fe-ca6799d733c3",
+      "name": "M.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-816f-b2b3-d01ffa19e3c8",
+      "name": "K.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8195-9e74-efbb4efa330f",
+      "name": "D.T",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8144-95c6-fd1ea88493ff",
+      "name": "H.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8119-b637-fe365211bdb9",
+      "name": "HS",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8116-b14f-e50c4b13d0a5",
+      "name": "K.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-816c-b00f-c80da3d648f4",
+      "name": "K.S",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81d5-a4f4-f4a30238bc94",
+      "name": "KT",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8164-b530-c4b3c75d2dd9",
+      "name": "T.J",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8135-bc3a-fae22e5d5dd2",
+      "name": "M.T",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8151-8293-fff64a4eeb0e",
+      "name": "N.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8121-b96b-dc8d32ae7f57",
+      "name": "S.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81f3-a425-c1fd33c92f30",
+      "name": "KS",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81a2-b471-d9de07892f09",
+      "name": "K.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-815c-9117-cdf4d24bed63",
+      "name": "K.T",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-818c-a5ae-ea85224ae2f2",
+      "name": "MK",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81e2-88af-c6a31c382595",
+      "name": "MC",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-811d-bf60-e11ca84963fa",
+      "name": "K.A",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8109-b6aa-ec6808b63602",
+      "name": "K.T",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-810f-9a44-fa09e525b7b0",
+      "name": "A.K",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81f1-83a5-dcebbc9ef226",
+      "name": "K.M",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8113-8aad-e3bbf4c1a798",
+      "name": "W.J",
+      "message": "P6:案件メール誤登録（score=7）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81c9-aee5-c6b6af117854",
+      "name": "MK",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8136-a60e-e1b6962699b2",
+      "name": "MK",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-8146-900b-e48e02eb5588",
+      "name": "MC",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P6",
+      "severity": "action",
+      "page_id": "373450ff-37c0-81d6-9530-f8dbb806a72d",
+      "name": "UH",
+      "message": "P6:案件メール誤登録（score=4）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8104-813f-d833e7f2834b",
+      "name": "UT",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P4",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8164-81be-ed25d2c69cb1",
+      "name": "開発 太郎",
+      "message": "稼働可能日異常値 2018-02-01 をnull化"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8164-81be-ed25d2c69cb1",
+      "name": "開発 太郎",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8164-81be-ed25d2c69cb1",
+      "name": "開発 太郎",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-81ad-adbb-e5e757f3fe8a",
+      "name": "174BZ06",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-81ad-adbb-e5e757f3fe8a",
+      "name": "174BZ06",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-813c-a30a-cd0e48cbb4b1",
+      "name": "根本将吾",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-81f9-8de7-ef6941a963c0",
+      "name": "K.I",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8188-93d0-e2b647cbdb2e",
+      "name": "F.J",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8146-9591-ec876e45be20",
+      "name": "名前",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8146-9591-ec876e45be20",
+      "name": "名前",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-81f5-81ea-eb57fc9629f0",
+      "name": "OT",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8192-bcaf-daf678164a10",
+      "name": "M A",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8192-bcaf-daf678164a10",
+      "name": "M A",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8114-8636-c003c8e22b1e",
+      "name": "W・Y",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P5",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8169-a4ca-c9a69b87472b",
+      "name": "開発太郎",
+      "message": "P5:プレースホルダ名（要確認）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8169-a4ca-c9a69b87472b",
+      "name": "開発太郎",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-8153-aa12-ea8823e98fcd",
+      "name": "Y.M",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-819b-a444-df694a08fafb",
+      "name": "IR",
+      "message": "経験年数異常値 56.0 をnull化"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-819b-a444-df694a08fafb",
+      "name": "IR",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-813e-8b8d-d440d0d16044",
+      "name": "鄧.Z",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P7",
+      "severity": "warning",
+      "page_id": "36e450ff-37c0-813e-8b8d-d440d0d16044",
+      "name": "鄧.Z",
+      "message": "P7:単価未設定かつ提案対象フラグ=True"
+    }
+  ]
+}

@@ -4,7 +4,6 @@ import sys
 import requests
 from dotenv import dotenv_values
 
-
 sys.stdout.reconfigure(encoding="utf-8")
 
 BASE_DIR = os.path.dirname(__file__)

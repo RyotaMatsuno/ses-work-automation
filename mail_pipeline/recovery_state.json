@@ -1,0 +1,14 @@
+{
+  "current_phase": "day0_emergency",
+  "phase_started_at": "2026-06-17T19:48:00+09:00",
+  "process_limit": 10,
+  "fetch_limit": 50,
+  "consecutive_success_count": 0,
+  "consecutive_failure_count": 0,
+  "last_metrics_ts": null,
+  "promotion_proposal_pending": false,
+  "promotion_proposal_to": null,
+  "promotion_proposal_at": null,
+  "promotion_decided_by": null,
+  "promotion_decided_at": null
+}

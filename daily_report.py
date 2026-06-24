@@ -19,7 +19,6 @@ from typing import Any
 import requests
 from dotenv import dotenv_values
 
-
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
@@ -69,12 +68,7 @@ def notion_query(database_id: str, api_key: str) -> list[dict[str, Any]]:
     url = f"https://api.notion.com/v1/databases/{database_id}/query"
     payload: dict[str, Any] = {
         "page_size": 100,
-        "filter": {
-            "or": [
-                {"property": "ステータス", "select": {"equals": status}}
-                for status in ACTIVE_STATUSES
-            ]
-        },
+        "filter": {"or": [{"property": "ステータス", "select": {"equals": status}} for status in ACTIVE_STATUSES]},
     }
     results: list[dict[str, Any]] = []
 
@@ -176,7 +170,7 @@ def build_report(projects: list[dict[str, Any]], now: datetime | None = None) ->
 
     action_items: list[str] = []
     # 数字が入っている案件のみ表示（全部0は省略）
-    active = [p for p in projects if any(p.get(k, 0) or 0 > 0 for k in ["提案中","面談希望","NG","合格","成約"])]
+    active = [p for p in projects if any(p.get(k, 0) or 0 > 0 for k in ["提案中", "面談希望", "NG", "合格", "成約"])]
     display_projects = active if active else []
     for project in display_projects:
         lines.append(f"■ {project['name']}（{format_price(project['price'])}万）")
@@ -239,11 +233,7 @@ def projects_for_assignee(
     projects: list[dict[str, Any]],
     assignee: str,
 ) -> list[dict[str, Any]]:
-    return [
-        project
-        for project in projects
-        if project["assignee"] == assignee or project["assignee"] == COMMON
-    ]
+    return [project for project in projects if project["assignee"] == assignee or project["assignee"] == COMMON]
 
 
 def parse_args() -> argparse.Namespace:

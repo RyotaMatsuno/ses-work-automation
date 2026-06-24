@@ -1,0 +1,6 @@
+log lines: 0
+
+results: 100 cases, 6,105,066 bytes
+  MATCH:  155 (1.1%)
+  REVIEW: 14180 (98.9%)
+  NG:     0 (0.0%)

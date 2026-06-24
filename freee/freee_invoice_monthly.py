@@ -3,15 +3,22 @@ freee_invoice_monthly.py
 前月稼働分のfreee請求書を月次で作成する。
 
 既定はdry-run。実POSTは --execute 指定時のみ行う。
+
+※廃止: freee_invoice_v2.py に一本化（2026-06-19）
 """
+
+import sys
+
+print("このスクリプトは廃止されました。freee_invoice_v2.py を使用してください。")
+sys.exit(0)
 
 import argparse
 import calendar
-from collections import defaultdict
-from datetime import date, timedelta
 import json
 import os
 import sys
+from collections import defaultdict
+from datetime import date, timedelta
 
 import requests
 
@@ -25,8 +32,9 @@ if ROOT_DIR not in sys.path:
 if AUTH_DIR not in sys.path:
     sys.path.insert(0, AUTH_DIR)
 
-import sheets_reader as SR
 from token_manager import get_headers
+
+import sheets_reader as SR
 
 FREEE_BASE_INV = "https://api.freee.co.jp/iv"
 COMPANY_ID = 11712776
@@ -163,7 +171,9 @@ def load_people(target_month):
             if kubun == "P" and explicit_amount == 15000:
                 people.append({"partner": GENSHEN, "name": name, "site": site, "prop": True})
             else:
-                people.append({"partner": GENSHEN, "name": name, "site": site, "prop": False, "amount": explicit_amount})
+                people.append(
+                    {"partner": GENSHEN, "name": name, "site": site, "prop": False, "amount": explicit_amount}
+                )
             continue
 
         if kubun == "P":

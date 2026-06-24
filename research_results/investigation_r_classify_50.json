@@ -1,0 +1,310 @@
+{
+  "total": 50,
+  "agreement": 42,
+  "agreement_pct": 84.0,
+  "mismatch_breakdown": {
+    "project->engineer": 8
+  },
+  "samples": [
+    {
+      "subject": "【エンド直】95万円以上 /  Ruby on Rails / フルリモート / 福祉向けSaaSサービスにおけるRubyエンジニア",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "PMO案件/〜65万/損保/ポータルシステム保守開発/7月〜/面談1回/＠小川町駅、淡路町駅、神田駅【レルモ櫻井】",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【注力案件】Flutterスマホアプリ開発/7月または8月〜/虎ノ門※基本常駐",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【BTM案件】【Salesforce】【リモートメイン】【Max92万】（7月：Salesforceレポート設計案件)",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "【7月〜案件】AccessVBA、ExcelVBA、SQLServer開発経験が豊富な方【TJ-micro細井】",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "★弊社直個人事業主★ゲームプランナー・ディレクション(25年以上)/Unity/Unreal Engine/45～55万/51歳(男性)/即日～/津田沼駅【株式",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "案件情報/NXTech_1664_NW構築/維持運用",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件No.FY26-617】仮想基盤構築プロジェクトのPMO",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "0710【Astro?案件】▼50〜70万／PG▼・ETLツール（Talend）・詳細設計〜開発・＠高田馬場（テレワーク併用可）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "コスメディア案件票【6/19-1】",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【要員情報】1社先社員/7月〜/C言語、Java/常駐可能",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "*弊社増員枠、2名*【React案件/6月】React（Nextjs）/3年以上〜/詳細設計〜/リモート",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "[WT案件]≪62歳まで≫【 COBOL |〜40万円 】7月〜 / 江田（常駐）/ YPSCOBOL・NetCOBOL / クレジットカード",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【JP1/AWS/Linux】銀行系10年以上｜運用監視・障害対応・インフラ保守｜長期安定参画可",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "【募集終了】BTMAIZ案件：【フルリモート】統合AI基盤構築および運用ガバナンス整備／データ・AI基盤構築PL　7月～",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "9936【Astro?案件】▼＊80〜max100万／アーキ！▼・クラウド・GCP（or AWS／or Azure）・インフラ上流〜・＠江東区（リモート併用）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件配信】7月〜/セキュリティ技術者募集/運用保守/基本リモート/丸の内",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件情報】COMPANY/CSR/CJK/CWS/基本リモート/人事システム/保守/導入/就労（D-code 安富祖）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【単価見直しました！】常駐可/RHEL 3年5カ月/AWS CLI/Shell Script/VMware",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件】即日案件/RHEL/パッチ適用",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【アドレイズ・エンド直】PM / ゲーム開発 / 40代まで / 常駐 / 東京 / スマホ向けゲーム開発におけるPM案件",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【RBT案件】＠中央線豊田駅/7月開始/運用保守要/障害調査/SQL",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "7月～【案件情報】C#/.NETサーバーアプリ開発｜設計～テスト｜C#経験5年以上｜～70万｜常駐＠豊洲",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【コラボテクノ案件】7月 M365運用支援 PowerPlatform @本郷三丁目（常駐）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "年齢不問/COBOL案件",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "TOS-0069【VB.NET】業務システム開発案件",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【面談組んでいます！】JavaかPython/自走力ある方/増員見込み/複数名募集/進み早いです！！",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【BTM案件】【React/Node.js】【100万】【常駐※リモート相談可】【渋谷】（随時：React/Node.jsエンジニア募集案件)",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "☆【弊社フリーランスのご紹介】Go案件募集してます！☆",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "【BTM案件】【C++】【Max62万円】【フル常駐】（7月：JR西向け新型ローカル改札機開発)",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "  Linuxインフラ技術者募集（AWS系）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "★貴社所属まで(個人事業主可)★【アドレイズ・案件】Java (Seasar2) / 40代まで / 原則出社 / 青山一丁目 or 麹町 / 大手スポーツクラ",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "[WT案件]≪若手：調整案件≫【 PMO・展開統制 |〜31万円 】[5名枠]7月〜 / 高津・武蔵小杉 / ユーザ調整・展開統制 / PC展開",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "速報：日立グループ出身,PMO,PMP保有【Phoenixテクノロジーズ福島】",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "Vue・JavaScript・PHP・Laravel／フロント開発／製造〜／顧客折衝経験あり／7月〜",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": " 7月中旬～ HubSpot経験1年以上 フルリモート / TKG千葉",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "案件【早ければ7月〜/IT経験5年必須/明るい方募集/品川港】",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "注力★直個人【出社可能！AI/開発PM/開発ディレクター/コンサル(AWS,GCP)　43歳/男性/即日~】18634",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【BTM案件】【PMO】【MAX78万】【六本木一丁目】（即日or7月：大手ネット証券グループの認証認可基盤開発会社におけるPMO支援)",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【参画優先：九州プロパー】常駐OK/福岡案件募集！言語/内容不問！バグ票起票・環境構築補助〜AIツール活用までこなす若手人材！【単価相談】",
+      "stored": "project",
+      "predicted": "engineer",
+      "match": false
+    },
+    {
+      "subject": "【7月：大量募集案件】IT未経験OK＆単価40万！全国出張サポート業務案件/施工管理/工事現場立ち合い経験者募集！",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件情報】即日〜/ロースキル案件/電気通信工事補助業務/イオン修復工事（光が丘）/日給1.5万円",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "オファー出てました！データ分析要員探してます/ SQL / Python / 面談1回！/リモート併用 / すぐ結果出ます！",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件】（Swift／Xcode）飲食店向けモバイルアプリ開発案件/リモート多め",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【アドレイズ・エンド直】PM / プリセールス / 50代まで / 常駐 / 西新宿 / AI関連Saasプロダクトのプリセールス案件",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件紹介/常駐/面談2回】7月/開発経験があるPMO/派遣契約/80~85万 株式会社TERRA様 株式会社テクニケーションシード",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【BTM案件】【Max35万】【代々木】（随時：法人向けアウトバウンド業務／アポインター募集)",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【案件配信】急募セキュリティ案件",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【現場直案件 / 基本リモート】フルスタックエンジニア募集（Spring Boot/React）",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    },
+    {
+      "subject": "【FloBoard案件】GCP分析基盤統合データ連携機能開発案件のご紹介",
+      "stored": "project",
+      "predicted": "project",
+      "match": true
+    }
+  ]
+}

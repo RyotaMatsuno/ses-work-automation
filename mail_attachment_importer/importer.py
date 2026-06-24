@@ -4,11 +4,22 @@ importer.py v3 - メール添付スキルシート自動取り込みシステム
 スプレッドシートに複数案件がまとまっているパターン（案件版C）も対応
 エントリポイント: python importer.py
 """
+
+from __future__ import annotations
+
 import json
 import logging
 import os
 import sys
+import traceback
 from pathlib import Path
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 LOG_PATH = Path(__file__).parent / "importer.log"
 logging.basicConfig(
@@ -17,7 +28,7 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler(LOG_PATH, encoding="utf-8"),
         logging.StreamHandler(sys.stdout),
-    ]
+    ],
 )
 logger = logging.getLogger("importer")
 
@@ -59,9 +70,9 @@ def save_processed_id(uid: str, account: str = "sessales"):
 
 def process_attachments(attachments: list, meta: dict) -> dict:
     """パターンA: 添付ファイルを人員/案件に分類してNotion登録"""
-    from file_parser import parse_file
-    from ai_extractor import extract_engineers, extract_projects, classify_content
-    from notion_writer import register_engineer, register_project
+    from ai_extractor import classify_content, extract_engineers, extract_projects
+    from parsers.file_parser import parse_file
+    from utils.notion_writer import register_engineer, register_project
 
     stats = {"success": 0, "skip": 0, "error": 0}
 
@@ -106,9 +117,9 @@ def process_attachments(attachments: list, meta: dict) -> dict:
 
 def process_sheet_urls(sheet_urls: list, meta: dict) -> dict:
     """パターンB/C: スプレッドシートURLからエンジニア情報を抽出してNotion登録（複数人対応）"""
-    from sheet_fetcher import fetch_sheet_text
     from ai_extractor import extract_engineers
-    from notion_writer import register_engineer
+    from sheet_fetcher import fetch_sheet_text
+    from utils.notion_writer import register_engineer
 
     stats = {"success": 0, "skip": 0, "error": 0}
 
@@ -150,9 +161,9 @@ def process_sheet_urls(sheet_urls: list, meta: dict) -> dict:
 
 def process_sheet_urls_projects(sheet_urls: list, meta: dict) -> dict:
     """案件版C: スプレッドシートURLから複数案件を抽出してNotion案件DBに登録"""
-    from sheet_fetcher import fetch_sheet_text
     from ai_extractor import extract_projects
-    from notion_writer import register_project
+    from sheet_fetcher import fetch_sheet_text
+    from utils.notion_writer import register_project
 
     stats = {"success": 0, "skip": 0, "error": 0}
 
@@ -191,10 +202,12 @@ def process_sheet_urls_projects(sheet_urls: list, meta: dict) -> dict:
     return stats
 
 
-def main():
+def main() -> int:
     logger.info("===== インポート開始 =====")
+    logger.info("ログファイル: %s", LOG_PATH.resolve())
 
-    from mail_fetcher import fetch_new_emails, save_processed_id as mark_processed
+    from mail_fetcher import fetch_new_emails
+    from mail_fetcher import save_processed_id as mark_processed
 
     try:
         account = "all"
@@ -205,27 +218,29 @@ def main():
             account = sys.argv[account_index + 1]
         emails = fetch_new_emails(days_back=1, account=account)
     except ConnectionError as e:
-        logger.error(f"IMAP接続失敗 → 中断: {e}")
-        return
+        logger.error("IMAP接続失敗 → 中断: %s", e)
+        return 1
     except Exception as e:
-        logger.error(f"メール取得失敗 → 中断: {e}")
-        return
+        logger.error("メール取得失敗 → 中断: %s", e)
+        logger.error(traceback.format_exc())
+        return 1
 
     if not emails:
         logger.info("新規メールなし → 終了")
-        return
+        return 0
 
-    logger.info(f"処理対象メール: {len(emails)}件")
+    logger.info("処理対象メール: %d件", len(emails))
 
     if os.environ.get("DRY_RUN") == "1":
         logger.info("DRY_RUN=1 のためメール取得確認のみで終了（Notion登録・処理済み記録なし）")
-        return
+        return 0
 
     total_success = 0
     total_skip = 0
     total_error = 0
+    mail_errors = 0
 
-    for mail_item in emails:
+    for mail_index, mail_item in enumerate(emails, start=1):
         uid = mail_item["uid"]
         subject = mail_item["subject"]
         account_name = mail_item.get("account", "sessales")
@@ -236,37 +251,69 @@ def main():
             "account": account_name,
         }
 
-        logger.info(f"--- 処理開始: account={account_name} UID={uid} 件名={subject[:50]} ---")
+        logger.info(
+            "--- [%d/%d] 処理開始: account=%s UID=%s 件名=%s ---",
+            mail_index,
+            len(emails),
+            account_name,
+            uid,
+            subject[:50],
+        )
 
-        # パターンA: 添付ファイル → エンジニア登録
-        if mail_item["attachments"]:
-            logger.info(f"パターンA: 添付ファイル {len(mail_item['attachments'])}件")
-            stats = process_attachments(mail_item["attachments"], meta)
-            total_success += stats["success"]
-            total_skip += stats["skip"]
-            total_error += stats["error"]
+        try:
+            # パターンA: 添付ファイル → エンジニア登録
+            if mail_item["attachments"]:
+                logger.info("パターンA: 添付ファイル %d件", len(mail_item["attachments"]))
+                stats = process_attachments(mail_item["attachments"], meta)
+                total_success += stats["success"]
+                total_skip += stats["skip"]
+                total_error += stats["error"]
 
-        # パターンB/C: スプレッドシートURL → エンジニア登録（複数人対応）
-        if mail_item.get("sheet_urls"):
-            logger.info(f"パターンB/C: スプレッドシートURL（人員） {len(mail_item['sheet_urls'])}件")
-            stats = process_sheet_urls(mail_item["sheet_urls"], meta)
-            total_success += stats["success"]
-            total_skip += stats["skip"]
-            total_error += stats["error"]
+            # パターンB/C: スプレッドシートURL → エンジニア登録（複数人対応）
+            if mail_item.get("sheet_urls"):
+                logger.info("パターンB/C: スプレッドシートURL（人員） %d件", len(mail_item["sheet_urls"]))
+                stats = process_sheet_urls(mail_item["sheet_urls"], meta)
+                total_success += stats["success"]
+                total_skip += stats["skip"]
+                total_error += stats["error"]
 
-        # 案件版C: スプレッドシートURL → 案件登録（複数案件対応）
-        if mail_item.get("project_sheet_urls"):
-            logger.info(f"案件版C: スプレッドシートURL（案件） {len(mail_item['project_sheet_urls'])}件")
-            stats = process_sheet_urls_projects(mail_item["project_sheet_urls"], meta)
-            total_success += stats["success"]
-            total_skip += stats["skip"]
-            total_error += stats["error"]
+            # 案件版C: スプレッドシートURL → 案件登録（複数案件対応）
+            if mail_item.get("project_sheet_urls"):
+                logger.info("案件版C: スプレッドシートURL（案件） %d件", len(mail_item["project_sheet_urls"]))
+                stats = process_sheet_urls_projects(mail_item["project_sheet_urls"], meta)
+                total_success += stats["success"]
+                total_skip += stats["skip"]
+                total_error += stats["error"]
 
-        mark_processed(uid, account_name)
-        logger.info(f"account={account_name} UID={uid} 処理済み記録完了")
+            mark_processed(uid, account_name)
+            logger.info("account=%s UID=%s 処理済み記録完了", account_name, uid)
+        except Exception as e:
+            mail_errors += 1
+            logger.error(
+                "[%d/%d] メール処理失敗: account=%s UID=%s 件名=%s error=%s",
+                mail_index,
+                len(emails),
+                account_name,
+                uid,
+                subject[:50],
+                e,
+            )
+            logger.error(traceback.format_exc())
+            continue
 
-    logger.info(f"===== 完了 登録:{total_success} スキップ:{total_skip} エラー:{total_error} =====")
+    logger.info(
+        "===== 完了 登録:%d スキップ:%d エラー:%d メール処理失敗:%d =====",
+        total_success,
+        total_skip,
+        total_error,
+        mail_errors,
+    )
+    return 1 if mail_errors else 0
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        raise SystemExit(main())
+    except Exception:
+        logger.critical("致命的エラー:\n%s", traceback.format_exc())
+        raise SystemExit(1)

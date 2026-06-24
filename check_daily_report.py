@@ -1,5 +1,9 @@
-import time, os, sys, subprocess
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import subprocess
+import sys
+import time
+
+sys.stdout.reconfigure(encoding="utf-8")
 time.sleep(180)
 
 # ログ確認
@@ -25,7 +29,11 @@ if os.path.exists(daily):
     r = subprocess.run(
         ["python", "daily_report.py", "--dry-run"],
         cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work",
-        capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=30
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=30,
     )
     print(f"\n--- dry-run ---\n{r.stdout[:800]}")
     if r.returncode != 0:

@@ -6,7 +6,6 @@ from email.utils import formatdate
 
 from dotenv import dotenv_values
 
-
 ENV_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
 SMTP_HOST = "mail65.onamae.ne.jp"
 SMTP_PORT = 465

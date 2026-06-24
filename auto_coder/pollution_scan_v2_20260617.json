@@ -1,0 +1,97 @@
+{
+  "scan_time": "2026-06-17T17:20:44.270232+09:00",
+  "records_614_count": 31,
+  "records_ended_count": 5998,
+  "self_duplicates": 1,
+  "contamination": [
+    {
+      "page_id": "37f450ff-37c0-8194-b7b5-e24bcf02b9c7",
+      "title": "Prisma Access設計構築",
+      "created_jst": "2026-06-15 08:02",
+      "exact_match_count": 0,
+      "similar_count": 3,
+      "matched_existing_ids": [
+        "373450ff-37c0-8162-9fe8-dfff441ae79f",
+        "373450ff-37c0-8162-9fe8-dfff441ae79f",
+        "373450ff-37c0-8162-9fe8-dfff441ae79f"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-818e-a95b-f605e9979af2",
+      "title": "建設業向けのERPパッケージ導入(会計領域)",
+      "created_jst": "2026-06-15 08:02",
+      "exact_match_count": 0,
+      "similar_count": 3,
+      "matched_existing_ids": [
+        "373450ff-37c0-813b-bc30-d68404552d01",
+        "373450ff-37c0-813b-bc30-d68404552d01",
+        "373450ff-37c0-813b-bc30-d68404552d01"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-8183-91db-e4b59e894091",
+      "title": "業務サポート案件（PMO、業務整理）",
+      "created_jst": "2026-06-15 02:03",
+      "exact_match_count": 2,
+      "similar_count": 0,
+      "matched_existing_ids": [
+        "37f450ff-37c0-8183-91db-e4b59e894091",
+        "37f450ff-37c0-8173-bb4f-e1626cf97d34"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-8163-89a4-cfac4b3f4ace",
+      "title": "テスト、ヘルプデスク、運用保守、データ移行@南行徳",
+      "created_jst": "2026-06-15 02:03",
+      "exact_match_count": 0,
+      "similar_count": 3,
+      "matched_existing_ids": [
+        "36d450ff-37c0-8139-8b90-d8babc247698",
+        "36d450ff-37c0-8108-ba4f-e7d700e78d13",
+        "36d450ff-37c0-81b3-b4c2-c0d5e402e8cd"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-8173-bb4f-e1626cf97d34",
+      "title": "業務サポート案件（PMO・業務整理）",
+      "created_jst": "2026-06-15 01:04",
+      "exact_match_count": 2,
+      "similar_count": 0,
+      "matched_existing_ids": [
+        "37f450ff-37c0-8183-91db-e4b59e894091",
+        "37f450ff-37c0-8173-bb4f-e1626cf97d34"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-8183-b755-cd04a44260e1",
+      "title": "AWS案件/運用ツール構築/運用自動化@五反田",
+      "created_jst": "2026-06-15 01:03",
+      "exact_match_count": 0,
+      "similar_count": 1,
+      "matched_existing_ids": [
+        "373450ff-37c0-8103-b5ef-e38e61df46e2"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-812e-b8a1-c14418fe9aa7",
+      "title": "AWS案件/運用ツール構築/運用自動化",
+      "created_jst": "2026-06-15 00:05",
+      "exact_match_count": 1,
+      "similar_count": 0,
+      "matched_existing_ids": [
+        "373450ff-37c0-8103-b5ef-e38e61df46e2"
+      ]
+    },
+    {
+      "page_id": "37f450ff-37c0-811a-bdc6-fdab1cba2bc5",
+      "title": "置局サポート業務",
+      "created_jst": "2026-06-15 00:04",
+      "exact_match_count": 0,
+      "similar_count": 1,
+      "matched_existing_ids": [
+        "36e450ff-37c0-8105-8544-d4dd86ee06b2"
+      ]
+    }
+  ],
+  "not_contaminated_count": 23
+}

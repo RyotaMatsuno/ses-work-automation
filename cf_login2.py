@@ -1,4 +1,5 @@
-import subprocess, time
+import subprocess
+import time
 
 CF = r"C:\Users\ma_py\AppData\Local\Microsoft\WinGet\Packages\Cloudflare.cloudflared_Microsoft.Winget.Source_8wekyb3d8bbwe\cloudflared.exe"
 LOG = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\cf_login2.log"
@@ -9,7 +10,7 @@ proc = subprocess.Popen(
     stderr=subprocess.STDOUT,
     text=True,
     encoding="utf-8",
-    errors="replace"
+    errors="replace",
 )
 
 url_found = None

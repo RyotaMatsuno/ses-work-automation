@@ -88,6 +88,7 @@ text_strippedが「進捗」を含み10文字以下
 """
 
 import os
+
 os.makedirs(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs", exist_ok=True)
 with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\SPEC_daily_report.md", "w", encoding="utf-8") as f:
     f.write(spec)

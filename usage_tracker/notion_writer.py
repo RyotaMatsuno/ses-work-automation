@@ -1,10 +1,12 @@
 """
 notion_writer.py - コスト管理DBの作成とレコード書き込み
 """
+
 from __future__ import annotations
-import json
-import requests
+
 from pathlib import Path
+
+import requests
 from dotenv import dotenv_values
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,15 +36,15 @@ def _get_or_create_db() -> str:
         "parent": {"type": "page_id", "page_id": PARENT_PAGE_ID},
         "title": [{"type": "text", "text": {"content": DB_NAME}}],
         "properties": {
-            "日付":        {"date": {}},
-            "スクリプト":  {"select": {}},
-            "モデル":      {"select": {}},
-            "入力トークン":   {"number": {"format": "number"}},
-            "出力トークン":   {"number": {"format": "number"}},
+            "日付": {"date": {}},
+            "スクリプト": {"select": {}},
+            "モデル": {"select": {}},
+            "入力トークン": {"number": {"format": "number"}},
+            "出力トークン": {"number": {"format": "number"}},
             "コスト(USD)": {"number": {"format": "number"}},
-            "コスト(円)":  {"number": {"format": "number"}},
+            "コスト(円)": {"number": {"format": "number"}},
             "月次累計(円)": {"number": {"format": "number"}},
-            "名前":        {"title": {}},
+            "名前": {"title": {}},
         },
     }
     resp = requests.post("https://api.notion.com/v1/databases", headers=HEADERS, json=payload, timeout=30)
@@ -69,14 +71,14 @@ def write_cost_record(
         payload = {
             "parent": {"database_id": db_id},
             "properties": {
-                "名前":        {"title": [{"text": {"content": title}}]},
-                "日付":        {"date": {"start": date_str}},
-                "スクリプト":  {"select": {"name": script_name}},
-                "モデル":      {"select": {"name": model}},
-                "入力トークン":   {"number": input_tokens},
-                "出力トークン":   {"number": output_tokens},
+                "名前": {"title": [{"text": {"content": title}}]},
+                "日付": {"date": {"start": date_str}},
+                "スクリプト": {"select": {"name": script_name}},
+                "モデル": {"select": {"name": model}},
+                "入力トークン": {"number": input_tokens},
+                "出力トークン": {"number": output_tokens},
                 "コスト(USD)": {"number": round(cost_usd, 6)},
-                "コスト(円)":  {"number": round(cost_jpy, 2)},
+                "コスト(円)": {"number": round(cost_jpy, 2)},
                 "月次累計(円)": {"number": round(monthly_total_jpy, 2)},
             },
         }

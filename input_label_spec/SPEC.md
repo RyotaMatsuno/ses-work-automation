@@ -12,8 +12,8 @@
 | r-matsuno@ | 松野メール |
 | r-okamoto@ | 岡本メール |
 | sessales@ | 共通メール |
-| 松野LINE（user_id: REDACTED-SECRET） | 松野LINE |
-| 岡本LINE（user_id: REDACTED-SECRET） | 岡本LINE |
+| 松野LINE（user_id: Ue3508b43b84991f5a68281da5bf4cf39） | 松野LINE |
+| 岡本LINE（user_id: Uac1d23408573586affa37577c4e2b2ab） | 岡本LINE |
 
 ## 対象ファイル
 1. ses_work/mail_pipeline/mail_pipeline.py

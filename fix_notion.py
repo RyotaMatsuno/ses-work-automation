@@ -1,36 +1,43 @@
-
 # -*- coding: utf-8 -*-
-import requests, os, json, sys
-sys.stdout.reconfigure(encoding='utf-8')
-from dotenv import load_dotenv
-load_dotenv(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
+import os
+import sys
 
-NOTION_API_KEY = os.environ.get('NOTION_API_KEY', '')
-PROJECT_DB  = '343450ff-37c0-81e4-934e-f25f90284a3c'
-ENGINEER_DB = '343450ff-37c0-819d-8769-fb0a8a4ceeb1'
+import requests
+
+sys.stdout.reconfigure(encoding="utf-8")
+from dotenv import load_dotenv
+
+load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+PROJECT_DB = "343450ff-37c0-81e4-934e-f25f90284a3c"
+ENGINEER_DB = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
 
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
+
 
 def query_db(db_id, filter_obj=None):
     results, payload = [], {"page_size": 100}
-    if filter_obj: payload["filter"] = filter_obj
+    if filter_obj:
+        payload["filter"] = filter_obj
     while True:
-        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query",
-                         headers=headers, json=payload)
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query", headers=headers, json=payload)
         data = r.json()
         results.extend(data.get("results", []))
-        if not data.get("has_more"): break
+        if not data.get("has_more"):
+            break
         payload["start_cursor"] = data["next_cursor"]
     return results
 
+
 def update_page(page_id, properties):
-    r = requests.patch(f"https://api.notion.com/v1/pages/{page_id}",
-                      headers=headers, json={"properties": properties})
+    r = requests.patch(f"https://api.notion.com/v1/pages/{page_id}", headers=headers, json={"properties": properties})
     return r.status_code, r.json()
+
 
 fixed = 0
 errors = 0
@@ -65,26 +72,25 @@ for p in proj_all:
     price = props.get("単価（万円）", {}).get("number", 0) or 0
     status_obj = props.get("ステータス", {}).get("select", {})
     current_status = status_obj.get("name", "") if status_obj else ""
-    
+
     update_props = {}
-    
+
     # テスト案件はゴミ箱へ
     is_test = any(t in name for t in test_names)
     if is_test:
-        r = requests.patch(f"https://api.notion.com/v1/pages/{p['id']}",
-                          headers=headers, json={"archived": True})
+        r = requests.patch(f"https://api.notion.com/v1/pages/{p['id']}", headers=headers, json={"archived": True})
         print(f"  🗑 削除: {name}")
         fixed += 1
         continue
-    
+
     # 単価バグ修正
     if price >= 1000:
         update_props["単価（万円）"] = {"number": round(price / 10000)}
-    
+
     # 「募集中」→「稼働中」に変更
     if current_status == "募集中":
         update_props["ステータス"] = {"select": {"name": "稼働中"}}
-    
+
     if update_props:
         status, _ = update_page(p["id"], update_props)
         changes = []
@@ -110,7 +116,7 @@ for p in eng_all:
     name = props.get("名前", {}).get("title", [{}])[0].get("plain_text", "?")
     note_items = props.get("備考（LINEメモ）", {}).get("rich_text", [])
     note = note_items[0].get("plain_text", "").lower() if note_items else ""
-    
+
     reasons = []
     # 外国籍チェック（明記されているもの）
     if "外国籍" in note or ("王" in name and "日本" not in note):
@@ -120,10 +126,10 @@ for p in eng_all:
         reasons.append("コンサル/PMO系")
     # 単価が高すぎる（100万超）
     price = props.get("単価（万円）", {}).get("number", 0) or 0
-    corrected = round(price/10000) if price >= 1000 else price
+    corrected = round(price / 10000) if price >= 1000 else price
     if corrected >= 100:
         reasons.append(f"単価{corrected}万（高すぎ）")
-    
+
     if reasons:
         exclude_candidates.append({"name": name, "reasons": reasons})
         print(f"  ⚠ {name}: {', '.join(reasons)}")

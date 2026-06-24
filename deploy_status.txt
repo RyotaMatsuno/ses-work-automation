@@ -1,0 +1,12 @@
+=== Cloud Run revisions ===
+REVISION                STATUS  CREATE_TIME
+line-webhook-00061-pd9  True
+line-webhook-00060-js8  True
+line-webhook-00059-844  True
+
+=== git log ===
+3f06b5e fix: 全角数字・丸数字対応（詳細コマンド normalize_number追加）
+c7c2d22 feat: 一覧は連絡先のみ1通・詳細Nコマンドで全文表示
+b3866aa fix: 概要を全文表示（文字数制限撤廃）
+d9c496b fix: gunicornタイムアウト120秒 + Notionフェッチ時間ログ追加
+64f3ec8 fix: line_query/line_query.py を line_webhook版(全件表示)に同期

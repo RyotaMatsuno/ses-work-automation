@@ -1,0 +1,164 @@
+{
+  "scan_date": "2026-06-17T17:17:34.524346+09:00",
+  "total": 31,
+  "contaminated": [],
+  "suspicious": [],
+  "clean_count": 0,
+  "no_date": [
+    {
+      "page_id": "37f450ff-37c0-8119-b12c-c0ac83cc2908",
+      "title": "国保向け健康保険組合向けシステム改修・保守（8月）",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-817c-a773-ee16aa2f5559",
+      "title": "化学品メーカー S/4HANAへのコンバージョン（SystemwalkerOperationMana",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8103-b1ee-ccb390fd49e6",
+      "title": "国保向け健康保険組合向けシステム改修・保守",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-818f-8edc-f3253f956c70",
+      "title": "PNET コンフィグ作成",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-81ad-858f-d836a8e6dbf9",
+      "title": "某大手信販会の運用保守(半年短期予定)",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8117-8e54-f58e839cce08",
+      "title": "某大手信販会の運用保守",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8127-aefd-da60c4433693",
+      "title": "官公庁向けSplunkの設計・構築",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-81a1-85c4-c86b3d10c240",
+      "title": "クレジットカード会社様向けFEPシステムの維持開発・更改検討",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8104-a9f8-cf3bdb9170d4",
+      "title": "後期高齢者医療標準システムの保守開発（COBOL）",
+      "created_time_jst": "2026-06-15 08:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-81e0-9fe3-ec56edd00ffb",
+      "title": "証拠金取引ストレステストシステム AWS へのプラットフォーム移行に掛かる作業",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8194-b7b5-e24bcf02b9c7",
+      "title": "Prisma Access設計構築",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8103-acb4-c12cd160b92d",
+      "title": "某金融機関向け401K(確定拠出年金)システム更改",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8116-9ab7-ce360f1b5829",
+      "title": "モバイルアプリ開発案件（iOS/Android）",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-81d8-8fdd-e8a575603c69",
+      "title": "JDE(JD Edwards)会計システム導入サポート",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-81d1-a006-d5381e35ac2b",
+      "title": "Zscaler設計構築",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-818e-a95b-f605e9979af2",
+      "title": "建設業向けのERPパッケージ導入(会計領域)",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-814a-9f9a-facefe815bc3",
+      "title": "OTセキュリティ文書作成",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8152-b15f-d52153d95435",
+      "title": "New Relic、又はJSM設計・導入",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-819a-bb00-cabc0d0e69b5",
+      "title": "MFP向けコントローラソフト開発",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8120-a045-c085d3953429",
+      "title": "Informatica運用保守",
+      "created_time_jst": "2026-06-15 08:02"
+    },
+    {
+      "page_id": "37f450ff-37c0-8183-91db-e4b59e894091",
+      "title": "業務サポート案件（PMO、業務整理）",
+      "created_time_jst": "2026-06-15 02:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8163-89a4-cfac4b3f4ace",
+      "title": "テスト、ヘルプデスク、運用保守、データ移行@南行徳",
+      "created_time_jst": "2026-06-15 02:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-8173-bb4f-e1626cf97d34",
+      "title": "業務サポート案件（PMO・業務整理）",
+      "created_time_jst": "2026-06-15 01:04"
+    },
+    {
+      "page_id": "37f450ff-37c0-8183-b755-cd04a44260e1",
+      "title": "AWS案件/運用ツール構築/運用自動化@五反田",
+      "created_time_jst": "2026-06-15 01:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-812e-b8a1-c14418fe9aa7",
+      "title": "AWS案件/運用ツール構築/運用自動化",
+      "created_time_jst": "2026-06-15 00:05"
+    },
+    {
+      "page_id": "37f450ff-37c0-81a8-97d5-e5e3a8ceff00",
+      "title": "光アクセス工事に関する施工管理業務",
+      "created_time_jst": "2026-06-15 00:05"
+    },
+    {
+      "page_id": "37f450ff-37c0-81cf-b114-f90f61e8913b",
+      "title": "開発支援 / Excel VBA / VB / C# / SQL",
+      "created_time_jst": "2026-06-15 00:04"
+    },
+    {
+      "page_id": "37f450ff-37c0-811a-bdc6-fdab1cba2bc5",
+      "title": "置局サポート業務",
+      "created_time_jst": "2026-06-15 00:04"
+    },
+    {
+      "page_id": "37f450ff-37c0-81f5-9c81-c163068a781a",
+      "title": "国際郵便、物流企業向けシステム開発",
+      "created_time_jst": "2026-06-15 00:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-816b-8e20-e2cfc2010da8",
+      "title": "某企業向けIT刷新対応（開発チーム）",
+      "created_time_jst": "2026-06-15 00:03"
+    },
+    {
+      "page_id": "37f450ff-37c0-81ce-9549-ed1b2743edf4",
+      "title": "フルスタック・AWSアーキテクチャ設計・AI活用・運用自動化・英語対応",
+      "created_time_jst": "2026-06-15 00:03"
+    }
+  ]
+}

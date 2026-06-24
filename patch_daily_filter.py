@@ -1,5 +1,6 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 # 1. daily_report.pyを「数字が入っている案件のみ表示」に修正
 daily_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\daily_report.py"
@@ -22,12 +23,13 @@ if old in content:
 else:
     # 別のパターンを探す
     import re
-    m = re.search(r'for project in projects', content)
+
+    m = re.search(r"for project in projects", content)
     if m:
         print(f"別パターン発見: pos={m.start()}")
-        print(content[m.start()-100:m.start()+200])
+        print(content[m.start() - 100 : m.start() + 200])
     else:
         print("パターン見つからない。関数名確認:")
-        for i, line in enumerate(content.split('\n')):
-            if 'project' in line.lower() and ('for ' in line or 'def ' in line):
+        for i, line in enumerate(content.split("\n")):
+            if "project" in line.lower() and ("for " in line or "def " in line):
                 print(f"  {i}: {line}")

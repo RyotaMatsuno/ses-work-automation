@@ -1,5 +1,7 @@
-import subprocess, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import subprocess
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 bat_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\run_notify_weekly.bat"
 
@@ -24,14 +26,26 @@ with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\run_matching_and
 print("run_matching_and_notify.bat: notify削除OK")
 
 # ② notify週2回タスク登録（月・木 9:00）
-r = subprocess.run([
-    "schtasks", "/create",
-    "/tn", "jobz_notify_weekly",
-    "/tr", bat_path,
-    "/sc", "WEEKLY",
-    "/d", "MON,THU",
-    "/st", "09:00",
-    "/f"
-], capture_output=True, text=True, encoding="utf-8", errors="replace")
+r = subprocess.run(
+    [
+        "schtasks",
+        "/create",
+        "/tn",
+        "jobz_notify_weekly",
+        "/tr",
+        bat_path,
+        "/sc",
+        "WEEKLY",
+        "/d",
+        "MON,THU",
+        "/st",
+        "09:00",
+        "/f",
+    ],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+)
 print(f"タスク登録: {r.stdout.strip() or r.stderr.strip()}")
 print(f"returncode: {r.returncode}")

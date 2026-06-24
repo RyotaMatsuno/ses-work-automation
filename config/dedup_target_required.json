@@ -1,0 +1,7 @@
+{
+  "gate_check": {"target_id": "required", "format": "spec_file_sha256"},
+  "skill_judge": {"target_id": "required", "format": "project_id"},
+  "mail_classify": {"target_id": "required", "format": "message_id"},
+  "wall_hitting": {"target_id": "optional", "format": "free_text_first_50_chars"},
+  "manual_query": {"target_id": "optional", "format": "any"}
+}

@@ -1,7 +1,11 @@
-import requests, sys
-sys.stdout.reconfigure(encoding='utf-8')
-from dotenv import dotenv_values
+import sys
+
+import requests
+
+sys.stdout.reconfigure(encoding="utf-8")
 from datetime import datetime
+
+from dotenv import dotenv_values
 
 ENV_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
 config = dotenv_values(ENV_PATH)
@@ -11,10 +15,10 @@ WIKI_PAGE_ID = "353450ff-37c0-8145-9e3e-d80c8c8ed594"
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
-content = f"""## {datetime.now().strftime('%Y-%m-%d')} 所属情報フィールド追加・pipeline_v1強化
+content = f"""## {datetime.now().strftime("%Y-%m-%d")} 所属情報フィールド追加・pipeline_v1強化
 
 ### エンジニアDBスキーマ追加
 - 所属会社（rich_text）
@@ -45,7 +49,14 @@ content = f"""## {datetime.now().strftime('%Y-%m-%d')} 所属情報フィール�
 res = requests.patch(
     f"https://api.notion.com/v1/blocks/{WIKI_PAGE_ID}/children",
     headers=headers,
-    json={"children": [{"object": "block", "type": "paragraph",
-                        "paragraph": {"rich_text": [{"type": "text", "text": {"content": content}}]}}]}
+    json={
+        "children": [
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {"rich_text": [{"type": "text", "text": {"content": content}}]},
+            }
+        ]
+    },
 )
 print(f"Notion Wiki: {res.status_code}")

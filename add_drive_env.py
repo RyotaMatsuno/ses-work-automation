@@ -1,4 +1,3 @@
-
 # .envにDRIVE関連キーを追記
 env_path = "config/.env"
 with open(env_path, "r", encoding="utf-8") as f:

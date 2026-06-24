@@ -6,13 +6,12 @@ AIスキル判定を使った案件 × エンジニア マッチング。
   python matching_v2/matching_v2.py
 """
 
-import io
 import argparse
+import io
 import json
 import os
 import sys
-from concurrent.futures import ThreadPoolExecutor
-from concurrent.futures import as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 
 from dotenv import dotenv_values
@@ -23,7 +22,6 @@ except ImportError:
     from skill_judge import judge_skills_batch
 
 import requests
-
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
@@ -130,7 +128,6 @@ def get_min_gross(engineer_owner, project_owner):
     return 5
 
 
-
 def build_skill_text_for_engineer(engineer):
     """スキルシート原文 > Driveファイル > raw_text > multi_select の優先順位でスキルテキストを返す"""
     file_path = engineer.get("file_path", "")
@@ -142,10 +139,11 @@ def build_skill_text_for_engineer(engineer):
     if file_path:
         try:
             import os
+
             if os.path.exists(file_path):
                 ext = os.path.splitext(file_path)[1].lower()
-                if ext in ('.txt', '.md'):
-                    with open(file_path, encoding='utf-8', errors='ignore') as fp:
+                if ext in (".txt", ".md"):
+                    with open(file_path, encoding="utf-8", errors="ignore") as fp:
                         return fp.read()
         except Exception:
             pass
@@ -156,6 +154,7 @@ def build_skill_text_for_engineer(engineer):
 
     # multi_selectにフォールバック
     return ", ".join(skills_list)
+
 
 def judge_with_cache(cache, cache_lock, required_skills, optional_skills, engineers):
     key = (
@@ -294,17 +293,12 @@ def evaluate_candidate(project, engineer, judgement):
     if (
         engineer["price"] is not None
         and project["price"] is not None
-        and project["price"] - engineer["price"]
-        < get_min_gross(engineer.get("owner"), project.get("owner"))
+        and project["price"] - engineer["price"] < get_min_gross(engineer.get("owner"), project.get("owner"))
     ):
         return None
 
-    required_judgement = {
-        skill: judgement[skill] for skill in project["required_skills"]
-    }
-    optional_judgement = {
-        skill: judgement[skill] for skill in project["optional_skills"]
-    }
+    required_judgement = {skill: judgement[skill] for skill in project["required_skills"]}
+    optional_judgement = {skill: judgement[skill] for skill in project["optional_skills"]}
     score = calculate_score(required_judgement)
 
     if score == 0.0:
@@ -354,8 +348,7 @@ def print_summary(projects_results):
 
 def validate_env():
     missing = [
-        key for key in ["NOTION_API_KEY", "NOTION_ENGINEER_DB_ID", "ANTHROPIC_API_KEY"]
-        if not os.environ.get(key)
+        key for key in ["NOTION_API_KEY", "NOTION_ENGINEER_DB_ID", "ANTHROPIC_API_KEY"] if not os.environ.get(key)
     ]
     if missing:
         raise RuntimeError(f"必要な環境変数が未設定です: {', '.join(missing)}")
@@ -372,29 +365,33 @@ def load_sample_data():
 
     projects = []
     for project in data.get("projects", []):
-        projects.append({
-            "id": project["id"],
-            "url": project.get("url"),
-            "name": project["name"],
-            "client": project.get("client", "サンプル"),
-            "required_skills": project.get("required_skills", []),
-            "optional_skills": project.get("optional_skills", []),
-            "price": project.get("price"),
-            "start_date": project.get("start_date"),
-            "owner": project.get("owner", ""),
-        })
+        projects.append(
+            {
+                "id": project["id"],
+                "url": project.get("url"),
+                "name": project["name"],
+                "client": project.get("client", "サンプル"),
+                "required_skills": project.get("required_skills", []),
+                "optional_skills": project.get("optional_skills", []),
+                "price": project.get("price"),
+                "start_date": project.get("start_date"),
+                "owner": project.get("owner", ""),
+            }
+        )
 
     engineers = []
     for engineer in data.get("engineers", []):
-        engineers.append({
-            "id": engineer["id"],
-            "url": engineer.get("url"),
-            "name": engineer["name"],
-            "skills": engineer.get("skills", []),
-            "price": engineer.get("price"),
-            "available_date": engineer.get("available_date"),
-            "owner": engineer.get("owner", ""),
-        })
+        engineers.append(
+            {
+                "id": engineer["id"],
+                "url": engineer.get("url"),
+                "name": engineer["name"],
+                "skills": engineer.get("skills", []),
+                "price": engineer.get("price"),
+                "available_date": engineer.get("available_date"),
+                "owner": engineer.get("owner", ""),
+            }
+        )
 
     return projects, engineers
 
@@ -419,17 +416,23 @@ def main():
         validate_env()
         projects = [
             extract_project(page)
-            for page in query_db(PROJECT_DB_ID, {
-                "property": "ステータス",
-                "select": {"equals": "募集中"},
-            })
+            for page in query_db(
+                PROJECT_DB_ID,
+                {
+                    "property": "ステータス",
+                    "select": {"equals": "募集中"},
+                },
+            )
         ]
         engineers = [
             extract_engineer(page)
-            for page in query_db(ENGINEER_DB_ID, {
-                "property": "稼働状況",
-                "select": {"equals": "稼働可能"},
-            })
+            for page in query_db(
+                ENGINEER_DB_ID,
+                {
+                    "property": "稼働状況",
+                    "select": {"equals": "稼働可能"},
+                },
+            )
         ]
 
     print(f"募集中案件: {len(projects)}件 / 稼働可能エンジニア: {len(engineers)}名")
@@ -443,10 +446,12 @@ def main():
         candidates = []
         if not project["required_skills"] and not project["optional_skills"]:
             print(f"判定スキップ: {project['name']}（スキル要件なし）", flush=True)
-            projects_results.append({
-                "project": project,
-                "candidates": candidates,
-            })
+            projects_results.append(
+                {
+                    "project": project,
+                    "candidates": candidates,
+                }
+            )
             output_projects.append(make_project_result(project, candidates))
             continue
 
@@ -463,12 +468,14 @@ def main():
             futures = []
             for engineer in engineers:
                 judgement = batch_judgement.get(engineer["name"], {})
-                futures.append(executor.submit(
-                    evaluate_candidate,
-                    project,
-                    engineer,
-                    judgement,
-                ))
+                futures.append(
+                    executor.submit(
+                        evaluate_candidate,
+                        project,
+                        engineer,
+                        judgement,
+                    )
+                )
             for future in as_completed(futures):
                 candidate = future.result()
                 if candidate is None:
@@ -476,10 +483,12 @@ def main():
                 candidates.append(candidate)
 
         candidates.sort(key=lambda item: item["score"], reverse=True)
-        projects_results.append({
-            "project": project,
-            "candidates": candidates,
-        })
+        projects_results.append(
+            {
+                "project": project,
+                "candidates": candidates,
+            }
+        )
         output_projects.append(make_project_result(project, candidates))
 
     with open(RESULT_PATH, "w", encoding="utf-8") as file:

@@ -1,9 +1,11 @@
 """
 freee OAuth - Basic認証方式でトークン取得を試みる
 """
-import requests
-import json
+
 import base64
+import json
+
+import requests
 
 CLIENT_ID = "730165581365342"
 CLIENT_SECRET = "deK5gH1TW7wVL2Os1Fgfayqb4eK0-iiPyumvPV782uE5cJIYFN8bGl6cu_3m6mrYbt-A8-YWxH2eyI6JXNsvkg"
@@ -13,6 +15,7 @@ TOKEN_FILE = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\freee_auth\fr
 # 直前のログから取得したcode（使い捨てなので新しいcodeが必要）
 # このスクリプトはcallback_server.pyから呼ばれる想定
 import sys
+
 code = sys.argv[1] if len(sys.argv) > 1 else ""
 
 if not code:
@@ -28,10 +31,7 @@ r1 = requests.post(
         "code": code,
         "redirect_uri": REDIRECT_URI,
     },
-    headers={
-        "Authorization": f"Basic {credentials}",
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
+    headers={"Authorization": f"Basic {credentials}", "Content-Type": "application/x-www-form-urlencoded"},
 )
 print(f"[Basic認証] status={r1.status_code} body={r1.text[:200]}")
 
@@ -50,7 +50,7 @@ r2 = requests.post(
         "client_secret": CLIENT_SECRET,
         "code": code,
         "redirect_uri": REDIRECT_URI,
-    }
+    },
 )
 print(f"[JSON] status={r2.status_code} body={r2.text[:200]}")
 

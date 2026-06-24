@@ -1,6 +1,6 @@
 # TASKS.md - メール添付スキルシート自動取り込みシステム
 
-最終更新: 2026-05-26 (Phase 8完了)
+最終更新: 2026-06-09 (Phase 9完了)
 
 ---
 
@@ -63,6 +63,18 @@
 - [x] 8-7. 動作確認: python -c "from ai_extractor import classify_content; print(classify_content('氏名: 山田太郎 スキル: Java'))"
 - [x] 8-8. 動作確認: python -c "from ai_extractor import classify_content; print(classify_content('必須スキル: Java 勤務地: 東京 期間: 6ヶ月'))"
 - [x] 8-9. 動作確認: DRY_RUN=1 python importer.py で3アカウントのIMAP接続確認
+
+---
+
+## Phase 9: 本実装・ディレクトリ再構成（2026-06-09）
+- [x] 9-1. parsers/file_parser.py へ移行（openpyxl/pdfplumber/python-docx）
+- [x] 9-2. utils/notion_writer.py へ移行（名前+所属でupsert）
+- [x] 9-3. ai_extractor.py に affiliation 抽出フィールド追加
+- [x] 9-4. common.notion_register 連携・CostGuard維持
+- [x] 9-5. test_mock_patterns.py 作成（パターンA/B/Cモックテスト）
+- [x] 9-6. setup_scheduler.py 作成（SES_MailPipelineの30分後オフセット）
+- [x] 9-7. py_compile pass 確認
+- [x] 9-8. test_mock_patterns.py 全6件 pass
 
 ---
 

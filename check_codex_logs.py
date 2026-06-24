@@ -1,10 +1,11 @@
-import time, os
+import os
+import time
 
 time.sleep(30)
 
 for logfile in [
     r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\pipeline_v1_run.log",
-    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\outreach_system_run.log"
+    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\outreach_system_run.log",
 ]:
     print(f"\n=== {os.path.basename(logfile)} ===")
     try:

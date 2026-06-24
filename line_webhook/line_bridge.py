@@ -15,34 +15,48 @@ from typing import Any
 
 import requests
 
+try:
+    from dotenv import dotenv_values
+except ImportError:
+    dotenv_values = None
+
+_ENV_PATH = Path(__file__).resolve().parent.parent / "config" / ".env"
+_DEFAULT_QUEUE_DB_ID = "37a450ff-37c0-819a-981b-c2e06ed282bb"
+_DEFAULT_ENGINEER_DB_ID = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
+_HUMAN_REVIEW_FILE = Path(__file__).resolve().parent.parent / "local_server" / "human_review_items.json"
+_TASK_REPLY_RE = re.compile(r"^#(T\d+)\s+(.+)$", re.DOTALL)
+_QUESTION_PATTERNS = (
+    re.compile(r"質問[:：]\s*(.+)", re.DOTALL),
+    re.compile(r"確認[:：]\s*(.+)", re.DOTALL),
+    re.compile(r"【質問】\s*(.+)", re.DOTALL),
+)
 
 JST = timezone(timedelta(hours=9))
+REPLY_ONLY_THRESHOLD = 150
+_PUSH_SKIP_LOG = Path(__file__).resolve().parent.parent / "usage_tracker" / "line_push_skipped.jsonl"
+_PUSH_ERROR_LOG = Path(__file__).resolve().parent.parent / "logs" / "push_errors.log"
 NOTION_VERSION = "2022-06-28"
-MATSUNO_USER_ID = os.environ.get(
-    "MATSUNO_LINE_USER_ID", "Ue3508b43b84991f5a68281da5bf4cf39"
-)
+MATSUNO_USER_ID = os.environ.get("MATSUNO_LINE_USER_ID", "Ue3508b43b84991f5a68281da5bf4cf39")
 MODEL = os.environ.get("LINE_BRIDGE_MODEL", "claude-haiku-4-5-20251001")
 CLAUDE_MODEL = MODEL
 
 _CONFIRMATIONS: dict[str, dict[str, Any]] = {}
 _CONFIRMATION_TTL_SECONDS = 600
 _HANDOFF_MARKERS = ("■", "【", "】", "最優先", "未完了")
-_HANDOFF_SECTION_RE = re.compile(
-    r"■\s*(?:最優先|未完了[・･]?続きが必要なもの|次チャットで最初にやること)"
-)
-_HANDOFF_BULLET_RE = re.compile(
-    r"^\s*(?:[-－ー•·]|・|\d+[.)．、])\s*(.+?)\s*$"
-)
+_HANDOFF_SECTION_RE = re.compile(r"■\s*(?:最優先|未完了[・･]?続きが必要なもの|次チャットで最初にやること)")
+_HANDOFF_BULLET_RE = re.compile(r"^\s*(?:[-－ー•·]|・|\d+[.)．、])\s*(.+?)\s*$")
 _HANDOFF_ROUTE = {
     "route": "research",
     "kind": "research",
     "assignee": "jobz",
     "human_confirmation": "不要",
 }
+_DEV_BLOCKED_REASON = "手動対応が必要: Cursorで実行してください"
 
 
 class CostLimitError(RuntimeError):
     pass
+
 
 ROUTE_CHOICES = {
     "1": "sales",
@@ -55,38 +69,235 @@ ROUTE_CHOICES = {
     "即時": "immediate",
 }
 SENSITIVE_WORDS = (
-    "送信", "メールして", "請求", "確定", "契約", "本番", "更新",
-    "登録", "freee", "入金消込",
+    "送信",
+    "メールして",
+    "請求",
+    "確定",
+    "契約",
+    "本番",
+    "更新",
+    "登録",
+    "freee",
+    "入金消込",
 )
 SALES_HEAVY_WORDS = (
-    "重作業", "深掘り", "提案文まで", "提案文作成", "評価表",
-    "意向確認文", "面談調整",
+    "重作業",
+    "深掘り",
+    "提案文まで",
+    "提案文作成",
+    "評価表",
+    "意向確認文",
+    "面談調整",
 )
 ACCOUNTING_WORDS = (
-    "請求", "入金", "契約マスター", "試算", "節税", "法人化",
-    "払出", "freee",
+    "請求",
+    "入金",
+    "契約マスター",
+    "試算",
+    "節税",
+    "法人化",
+    "払出",
+    "freee",
 )
 DEVELOPMENT_WORDS = (
-    "costguard", "cursor", "codex", "claude code", "開発", "コード",
-    "バグ", "修正して", "実装して",
+    "costguard",
+    "cursor",
+    "codex",
+    "claude code",
+    "開発",
+    "コード",
+    "バグ",
+    "修正して",
+    "実装して",
 )
 IMMEDIATE_WORDS = (
-    "今日の案件", "この人どう", "マッチング", "案件一覧", "人材一覧",
-    "進捗", "案件", "人材", "スキルシート", "この人",
+    "今日の案件",
+    "この人どう",
+    "マッチング",
+    "案件一覧",
+    "人材一覧",
+    "進捗",
+    "案件",
+    "人材",
+    "スキルシート",
+    "この人",
 )
+
+
+def _ensure_env_loaded() -> None:
+    if os.environ.get("NOTION_API_KEY") or dotenv_values is None:
+        return
+    if not _ENV_PATH.exists():
+        return
+    for key, value in dotenv_values(_ENV_PATH).items():
+        if value and key not in os.environ:
+            os.environ[key] = value
+
+
+def _line_push_remaining() -> int:
+    """今月のLINE push残通数を返す。エラー時は-1。"""
+    _ensure_env_loaded()
+    token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", "")
+    if not token:
+        return -1
+    try:
+        r_quota = requests.get(
+            "https://api.line.me/v2/bot/message/quota",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=5,
+        )
+        r_used = requests.get(
+            "https://api.line.me/v2/bot/message/quota/consumption",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=5,
+        )
+        if r_quota.status_code == 200 and r_used.status_code == 200:
+            return max(0, r_quota.json().get("value", 200) - r_used.json().get("totalUsage", 0))
+    except Exception:
+        pass
+    return -1
+
+
+def _send_line_push_raw(user_id: str, text: str) -> bool:
+    """LINE push送信。成功したらTrue。"""
+    _ensure_env_loaded()
+    token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", "")
+    if not token:
+        return False
+    try:
+        r = requests.post(
+            "https://api.line.me/v2/bot/message/push",
+            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+            json={"to": user_id, "messages": [{"type": "text", "text": text}]},
+            timeout=10,
+        )
+        return r.status_code == 200
+    except Exception:
+        return False
+
+
+def get_human_review_items() -> list[str]:
+    """松野への確認・報告事項を読み込む。"""
+    try:
+        if _HUMAN_REVIEW_FILE.exists():
+            data = json.loads(_HUMAN_REVIEW_FILE.read_text(encoding="utf-8"))
+            return data if isinstance(data, list) else []
+    except Exception:
+        pass
+    return []
+
+
+def add_human_review_item(item: str) -> None:
+    """確認・報告事項を追加する（ジョブズからのみ呼ぶ）。"""
+    items = get_human_review_items()
+    now = datetime.now(JST).strftime("%m/%d %H:%M")
+    items.append(f"[{now}] {item}")
+    # 最大10件まで保持
+    items = items[-10:]
+    _HUMAN_REVIEW_FILE.parent.mkdir(parents=True, exist_ok=True)
+    _HUMAN_REVIEW_FILE.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def clear_human_review_items() -> None:
+    """確認事項をクリアする（松野が確認済みのとき）。"""
+    try:
+        _HUMAN_REVIEW_FILE.write_text("[]", encoding="utf-8")
+    except Exception:
+        pass
+
+
+def _log_push_skipped(text: str, reason: str) -> None:
+    """pushを送らず内容だけファイルに記録する。"""
+    try:
+        _PUSH_SKIP_LOG.parent.mkdir(parents=True, exist_ok=True)
+        entry = {
+            "ts": datetime.now(JST).isoformat(),
+            "reason": reason,
+            "text": text[:2000],
+        }
+        with _PUSH_SKIP_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _log_push_error(user_id: str, text: str, reason: str, task_id: str = "") -> None:
+    """LINE push失敗・通知未達を専用ログに記録する（Notionキューには投入しない）。"""
+    try:
+        _PUSH_ERROR_LOG.parent.mkdir(parents=True, exist_ok=True)
+        entry = {
+            "ts": datetime.now(JST).isoformat(),
+            "reason": reason,
+            "line_user_id": user_id,
+            "task_id": task_id,
+            "text": text[:2000],
+        }
+        with _PUSH_ERROR_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _handle_push_unavailable(user_id: str, text: str, reason: str, task_id: str) -> str:
+    """push不可時: 専用ログ記録。既存タスクがあれば結果リンクのみ更新。"""
+    _log_push_error(user_id, text, reason, task_id)
+    if not task_id:
+        return "error_logged"
+    try:
+        page = _find_task(task_id)
+        if not page:
+            return "error_logged"
+        now = datetime.now(JST)
+        existing = _extract_text(page.get("properties", {}).get("結果リンク", {}))
+        _update_page(
+            page["id"],
+            {
+                "結果リンク": _rich_text(
+                    existing + f"\n[通知未達 {now.strftime('%H:%M')}] {reason}。Claude.aiで確認してください。"
+                )
+            },
+        )
+        return "notion_logged"
+    except Exception:
+        return "failed"
+
+
+def push_or_log(user_id: str, text: str, task_id: str = "") -> str:
+    """
+    LINE残通数を確認してpushを試みる。
+    残0・quota取得失敗・reply-only(≤150通)の場合はpushせずログに記録する。
+    戻り値: 'pushed' | 'notion_logged' | 'error_logged' | 'failed'
+    """
+    remaining = _line_push_remaining()
+    if remaining == -1:
+        reason = "LINE quota取得失敗"
+        print(f"[line_bridge] {reason} - pushスキップしてログのみ記録")
+        _log_push_skipped(text, reason)
+        return _handle_push_unavailable(user_id, text, reason, task_id)
+    if remaining <= REPLY_ONLY_THRESHOLD:
+        reason = f"reply-onlyモード (残{remaining}通)"
+        print(f"[line_bridge] {reason} - ログのみ")
+        _log_push_skipped(text, reason)
+        return _handle_push_unavailable(user_id, text, reason, task_id)
+    if remaining > 0:
+        if _send_line_push_raw(user_id, text):
+            return "pushed"
+        reason = "LINE push失敗"
+        return _handle_push_unavailable(user_id, text, reason, task_id)
+    reason = f"LINE push失敗（残{remaining}通）"
+    return _handle_push_unavailable(user_id, text, reason, task_id)
 
 
 def _queue_db_id() -> str:
-    return os.environ.get("NOTION_AI_QUEUE_DB_ID", "")
+    _ensure_env_loaded()
+    return os.environ.get("NOTION_AI_QUEUE_DB_ID", _DEFAULT_QUEUE_DB_ID)
 
 
 class CostGuard:
     """Cost guard with kill switch and daily/monthly/batch limits."""
 
     _lock = threading.Lock()
-    _state_path = Path(
-        os.environ.get("LINE_BRIDGE_COST_STATE", "/tmp/line_bridge_cost.json")
-    )
+    _state_path = Path(os.environ.get("LINE_BRIDGE_COST_STATE", "/tmp/line_bridge_cost.json"))
     _batch_calls = 0
     _batch_active = False
 
@@ -119,9 +330,7 @@ class CostGuard:
     @classmethod
     def _save(cls, state: dict[str, Any]) -> None:
         cls._state_path.parent.mkdir(parents=True, exist_ok=True)
-        cls._state_path.write_text(
-            json.dumps(state, ensure_ascii=False), encoding="utf-8"
-        )
+        cls._state_path.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
 
     @classmethod
     def begin_batch(cls) -> None:
@@ -149,9 +358,7 @@ class CostGuard:
             if float(state["monthly_usd"]) + estimated > monthly_limit:
                 raise CostLimitError("CostGuard: monthly limit exceeded")
             state["daily_usd"] = round(float(state["daily_usd"]) + estimated, 8)
-            state["monthly_usd"] = round(
-                float(state["monthly_usd"]) + estimated, 8
-            )
+            state["monthly_usd"] = round(float(state["monthly_usd"]) + estimated, 8)
             state["last_caller"] = caller
             if cls._batch_active:
                 cls._batch_calls += 1
@@ -165,10 +372,7 @@ class CostGuard:
         monthly_limit = float(os.environ.get("LINE_BRIDGE_MONTHLY_USD", "6.0"))
         with cls._lock:
             state = cls._load()
-            return (
-                float(state["daily_usd"]) < daily_limit
-                and float(state["monthly_usd"]) < monthly_limit
-            )
+            return float(state["daily_usd"]) < daily_limit and float(state["monthly_usd"]) < monthly_limit
 
     @classmethod
     def record(
@@ -180,16 +384,11 @@ class CostGuard:
     ) -> None:
         model_name = (model or "").lower()
         rates = (3.0, 15.0) if "sonnet" in model_name else (1.0, 5.0)
-        cost = (
-            max(input_tokens, 0) * rates[0]
-            + max(output_tokens, 0) * rates[1]
-        ) / 1_000_000
+        cost = (max(input_tokens, 0) * rates[0] + max(output_tokens, 0) * rates[1]) / 1_000_000
         with cls._lock:
             state = cls._load()
             state["daily_usd"] = round(float(state["daily_usd"]) + cost, 8)
-            state["monthly_usd"] = round(
-                float(state["monthly_usd"]) + cost, 8
-            )
+            state["monthly_usd"] = round(float(state["monthly_usd"]) + cost, 8)
             state["last_caller"] = caller
             cls._save(state)
 
@@ -246,6 +445,7 @@ def guarded_anthropic_call(
 
 
 def _notion_headers() -> dict[str, str]:
+    _ensure_env_loaded()
     api_key = os.environ.get("NOTION_API_KEY", "")
     if not api_key:
         raise RuntimeError("NOTION_API_KEY is not configured")
@@ -258,9 +458,7 @@ def _notion_headers() -> dict[str, str]:
     }
 
 
-def _notion_request(
-    method: str, path: str, payload: dict[str, Any] | None = None
-) -> dict[str, Any]:
+def _notion_request(method: str, path: str, payload: dict[str, Any] | None = None) -> dict[str, Any]:
     response = requests.request(
         method,
         f"https://api.notion.com/v1/{path}",
@@ -269,9 +467,7 @@ def _notion_request(
         timeout=30,
     )
     if response.status_code >= 400:
-        raise RuntimeError(
-            f"Notion API {response.status_code}: {response.text[:300]}"
-        )
+        raise RuntimeError(f"Notion API {response.status_code}: {response.text[:300]}")
     return response.json()
 
 
@@ -280,13 +476,8 @@ def _title(value: str) -> dict[str, Any]:
 
 
 def _rich_text(value: str) -> dict[str, Any]:
-    chunks = [
-        value[index:index + 2000]
-        for index in range(0, min(len(value), 20000), 2000)
-    ]
-    return {
-        "rich_text": [{"text": {"content": chunk}} for chunk in chunks]
-    }
+    chunks = [value[index : index + 2000] for index in range(0, min(len(value), 20000), 2000)]
+    return {"rich_text": [{"text": {"content": chunk}} for chunk in chunks]}
 
 
 def _select(value: str) -> dict[str, Any]:
@@ -306,8 +497,99 @@ def _extract_select(prop: dict[str, Any]) -> str:
     return (prop.get("select") or {}).get("name", "")
 
 
+# イニシャル+地名パターン: PH 京成小岩 / A.B 渋谷 / SK 北本 → 人員確定メッセージ
+_INITIAL_PLACE_RE = re.compile(r"^/?([A-Za-z]{1,2}(?:\.[A-Za-z]{1,2})?)\s+[　-鿿゠-ヿ＀-￯一-鿿].{0,20}$")
+
+_CANDIDATE_FIELD_PATTERNS: dict[str, str] = {
+    "name": r"【(?:名前|氏名)】\s*([^\n【]+)",
+    "station": r"【(?:最寄|最寄り駅?)】\s*([^\n【]+)",
+    "price": r"【(?:単価|希望単価)】\s*(\d+)万",
+    "start_date": r"【(?:開始日?|稼働)】\s*([^\n【]+)",
+    "skills": r"【(?:スキル|技術)】\s*([^\n【]+)",
+}
+
+
+def _parse_candidate_text(text: str) -> dict | None:
+    result: dict = {}
+    for key, pat in _CANDIDATE_FIELD_PATTERNS.items():
+        m = re.search(pat, text, re.DOTALL)
+        if m:
+            result[key] = m.group(1).strip()
+
+    if not result.get("name"):
+        return None
+
+    age_m = re.search(r"(\d+歳[/／]?(?:男性|女性))", text)
+    if age_m:
+        result["age_gender"] = age_m.group(1)
+
+    if result.get("skills"):
+        result["skills"] = [s.strip() for s in re.split(r"[,、/|]", result["skills"]) if s.strip()]
+
+    url_m = re.search(r"https://(?:docs|drive)\.google\.com/[^\s]+", text)
+    if url_m:
+        result["sheet_url"] = url_m.group()
+
+    return result
+
+
+def _check_duplicate_engineer(name: str, station: str) -> bool:
+    if not name:
+        return False
+    try:
+        _ensure_env_loaded()
+        api_key = os.environ.get("NOTION_API_KEY", "")
+        if not api_key:
+            return False
+        engineer_db = os.environ.get("NOTION_ENGINEER_DB_ID", _DEFAULT_ENGINEER_DB_ID)
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "Notion-Version": NOTION_VERSION,
+        }
+        resp = requests.post(
+            f"https://api.notion.com/v1/databases/{engineer_db}/query",
+            headers=headers,
+            json={"filter": {"property": "名前", "title": {"equals": name}}, "page_size": 5},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return False
+        for eng in resp.json().get("results", []):
+            props = eng.get("properties", {})
+            st = props.get("最寄り駅", {}).get("rich_text", [])
+            existing_station = st[0].get("plain_text", "") if st else ""
+            if station and station in existing_station:
+                return True
+    except Exception:
+        pass
+    return False
+
+
 def classify_route(text: str) -> dict[str, str]:
     normalized = text.strip().lower()
+    stripped = text.strip()
+
+    # ★ URL + 候補者フォーマット検知（最優先 — DEVELOPMENT_WORDS等より前に評価）
+    has_sheet_url = bool(re.search(r"https://docs\.google\.com/spreadsheets/", stripped))
+    has_drive_url = bool(re.search(r"https://(?:docs|drive)\.google\.com/", stripped))
+    has_candidate_format = bool(re.search(r"【(?:名前|氏名|イニシャル)】", stripped))
+    if has_sheet_url or (has_drive_url and has_candidate_format) or has_candidate_format:
+        return {
+            "route": "candidate_intake",
+            "kind": "engineer_registration",
+            "assignee": "jobz",
+            "human_confirmation": "不要",
+        }
+
+    # イニシャル+地名 → 人員確定として即時マッチング
+    if _INITIAL_PLACE_RE.match(stripped):
+        return {
+            "route": "immediate",
+            "kind": "matching",
+            "assignee": "matching_v3",
+            "human_confirmation": "不要",
+        }
     if normalized.startswith("/"):
         return {
             "route": "immediate",
@@ -315,11 +597,7 @@ def classify_route(text: str) -> dict[str, str]:
             "assignee": "matching_v3",
             "human_confirmation": "不要",
         }
-    confirmation = (
-        "要"
-        if any(word.lower() in normalized for word in SENSITIVE_WORDS)
-        else "不要"
-    )
+    confirmation = "要" if any(word.lower() in normalized for word in SENSITIVE_WORDS) else "不要"
     if any(word.lower() in normalized for word in ACCOUNTING_WORDS):
         return {
             "route": "accounting",
@@ -364,9 +642,7 @@ def classify_route(text: str) -> dict[str, str]:
     }
 
 
-def _route_from_confirmation(
-    choice: str, original: str
-) -> dict[str, str] | None:
+def _route_from_confirmation(choice: str, original: str) -> dict[str, str] | None:
     route = ROUTE_CHOICES.get(choice.strip().lower())
     if not route:
         return None
@@ -401,28 +677,136 @@ def _route_from_confirmation(
 
 
 def _task_id(user_id: str, message_id: str, event_timestamp_ms: int) -> str:
-    timestamp_min = datetime.fromtimestamp(
-        event_timestamp_ms / 1000, tz=JST
-    ).strftime("%Y%m%d%H%M")
+    timestamp_min = datetime.fromtimestamp(event_timestamp_ms / 1000, tz=JST).strftime("%Y%m%d%H%M")
     source = f"{user_id}{message_id}{timestamp_min}".encode("utf-8")
     return hashlib.sha256(source).hexdigest()[:16]
 
 
 def _find_task(task_id: str) -> dict[str, Any] | None:
     db_id = _queue_db_id()
+    normalized = task_id.lstrip("#").strip()
+    for candidate in (normalized, task_id):
+        if not candidate:
+            continue
+        data = _notion_request(
+            "POST",
+            f"databases/{db_id}/query",
+            {
+                "filter": {
+                    "property": "task_id",
+                    "title": {"equals": candidate},
+                },
+                "page_size": 1,
+            },
+        )
+        results = data.get("results", [])
+        if results:
+            return results[0]
+    return None
+
+
+def _extract_question_from_input(raw: str) -> str:
+    if not raw.strip():
+        return "(質問なし)"
+    try:
+        data = json.loads(raw)
+        if isinstance(data, dict):
+            for key in ("question", "質問", "confirm_question", "human_question"):
+                value = data.get(key)
+                if value:
+                    return str(value).strip()[:500]
+            text = str(data.get("text", "")).strip()
+            if text:
+                for pattern in _QUESTION_PATTERNS:
+                    match = pattern.search(text)
+                    if match:
+                        return match.group(1).strip()[:500]
+                return text[:300]
+    except (ValueError, TypeError):
+        pass
+    for pattern in _QUESTION_PATTERNS:
+        match = pattern.search(raw)
+        if match:
+            return match.group(1).strip()[:500]
+    return raw.strip()[:300]
+
+
+def _review_task_record(page: dict[str, Any]) -> dict[str, str]:
+    props = page.get("properties", {})
+    task_id = _extract_text(props.get("task_id", {})) or _extract_text(props.get("タスクID", {}))
+    summary = _extract_text(props.get("タスク概要", {}))
+    if not summary:
+        raw_input = _extract_text(props.get("入力データ", {}))
+        try:
+            metadata = json.loads(raw_input)
+            if isinstance(metadata, dict):
+                summary = str(metadata.get("text", ""))[:80]
+        except (ValueError, TypeError):
+            summary = raw_input[:80]
+    return {
+        "page_id": page["id"],
+        "task_id": task_id,
+        "assignee": _extract_select(props.get("担当", {})),
+        "summary": summary or "(件名なし)",
+        "question": _extract_question_from_input(_extract_text(props.get("入力データ", {}))),
+    }
+
+
+def get_review_tasks() -> list[dict[str, str]]:
+    """Fetch review tasks that require human confirmation."""
     data = _notion_request(
         "POST",
-        f"databases/{db_id}/query",
+        f"databases/{_queue_db_id()}/query",
         {
             "filter": {
-                "property": "task_id",
-                "title": {"equals": task_id},
+                "and": [
+                    {"property": "状態", "select": {"equals": "review"}},
+                    {"property": "人間確認", "select": {"equals": "要"}},
+                ]
             },
-            "page_size": 1,
+            "sorts": [{"property": "作成日時", "direction": "ascending"}],
+            "page_size": 100,
         },
     )
-    results = data.get("results", [])
-    return results[0] if results else None
+    return [_review_task_record(page) for page in data.get("results", [])]
+
+
+def _format_review_task_block(task: dict[str, str]) -> str:
+    task_id = task["task_id"]
+    return (
+        f"❓【回答待ち #{task_id}】\n"
+        f"担当: {task['assignee']}\n"
+        f"件名: {task['summary']}\n"
+        f"質問: {task['question']}\n"
+        f"返信方法: 「#{task_id} {{回答}}」と送ってください"
+    )
+
+
+def handle_task_reply(text: str) -> dict[str, str] | None:
+    """Resume a review task by writing the human answer back to Notion."""
+    match = _TASK_REPLY_RE.match(text.strip())
+    if not match:
+        return None
+    task_id, answer = match.group(1), match.group(2).strip()
+    if not answer:
+        return {
+            "action": "reply",
+            "text": f"回答を入力してください。例: #{task_id} 65万で",
+        }
+    page = _find_task(task_id)
+    if not page:
+        return {
+            "action": "reply",
+            "text": f"タスク {task_id} が見つかりません",
+        }
+    _update_page(
+        page["id"],
+        {
+            "結果リンク": _rich_text(answer),
+            "状態": _select("queued"),
+        },
+    )
+    return {"action": "reply", "text": f"#{task_id} を再開します"}
 
 
 def _is_handoff_message(text: str) -> bool:
@@ -498,6 +882,7 @@ def enqueue_task(
         "event_timestamp_ms": event_timestamp_ms,
     }
     now = datetime.now(JST)
+    is_dev = route.get("kind") == "dev"
     properties = {
         "task_id": _title(task_id),
         "受付元": _select("LINE"),
@@ -507,12 +892,14 @@ def enqueue_task(
         "入力データ": _rich_text(json.dumps(metadata, ensure_ascii=False)),
         "使用許可": _select("draft-only"),
         "担当": _select(route["assignee"]),
-        "状態": _select("queued"),
+        "状態": _select("blocked" if is_dev else "queued"),
         "コスト見込み": {"number": 0.01},
-        "結果リンク": _rich_text(""),
+        "結果リンク": _rich_text(f"blocked: {_DEV_BLOCKED_REASON}" if is_dev else ""),
         "人間確認": _select(route["human_confirmation"]),
         "作成日時": _date(now),
     }
+    if is_dev:
+        properties["完了日時"] = _date(now)
     _notion_request(
         "POST",
         "pages",
@@ -537,6 +924,9 @@ def route_line_message(
     stripped = text.strip()
     if stripped.startswith(("/run ", "/bg ")) or stripped in ("/log", "/health"):
         return {"action": "pass"}
+    task_reply = handle_task_reply(stripped)
+    if task_reply is not None:
+        return task_reply
     handoff = parse_handoff_message(
         stripped,
         user_id,
@@ -573,10 +963,38 @@ def route_line_message(
         )
         return {
             "action": "reply",
-            "text": _enqueue_reply(created, task_id, route["assignee"]),
+            "text": _enqueue_reply(created, task_id, route["assignee"], route.get("kind", "")),
         }
 
     route = classify_route(text)
+    if route["route"] == "candidate_intake":
+        eng_info = _parse_candidate_text(text)
+        if eng_info:
+            if _check_duplicate_engineer(eng_info.get("name", ""), eng_info.get("station", "")):
+                return {
+                    "action": "reply",
+                    "text": (
+                        f"既に登録済みのエンジニアです。\n"
+                        f"名前: {eng_info['name']}\n"
+                        f"最寄り: {eng_info.get('station', '不明')}"
+                    ),
+                }
+            created, task_id = enqueue_task(text, route, user_id, message_id, event_timestamp_ms, reply_token)
+            skills = eng_info.get("skills", [])
+            skills_str = ", ".join(skills[:5]) if isinstance(skills, list) else str(skills)
+            reply_parts = ["候補者を検出しました。", f"名前: {eng_info['name']}"]
+            if eng_info.get("price"):
+                reply_parts.append(f"単価: {eng_info['price']}万")
+            if skills_str:
+                reply_parts.append(f"スキル: {skills_str}")
+            reply_parts.append(f"\nキューに登録しました。\ntask_id: {task_id}")
+            return {"action": "reply", "text": "\n".join(reply_parts)}
+        # フォーマット解析失敗でも受け付ける
+        created, task_id = enqueue_task(text, route, user_id, message_id, event_timestamp_ms, reply_token)
+        return {
+            "action": "reply",
+            "text": f"候補者情報として受け付けました。\ntask_id: {task_id}",
+        }
     if route["route"] == "immediate":
         return {"action": "pass"}
     if route["route"] == "ambiguous":
@@ -589,17 +1007,12 @@ def route_line_message(
         }
         return {
             "action": "reply",
-            "text": (
-                "種別を1つ選んで返信してください。\n"
-                "1 営業重作業 / 2 経理 / 3 開発 / 4 即時マッチング"
-            ),
+            "text": ("種別を1つ選んで返信してください。\n1 営業重作業 / 2 経理 / 3 開発 / 4 即時マッチング"),
         }
-    created, task_id = enqueue_task(
-        text, route, user_id, message_id, event_timestamp_ms, reply_token
-    )
+    created, task_id = enqueue_task(text, route, user_id, message_id, event_timestamp_ms, reply_token)
     return {
         "action": "reply",
-        "text": _enqueue_reply(created, task_id, route["assignee"]),
+        "text": _enqueue_reply(created, task_id, route["assignee"], route.get("kind", "")),
     }
 
 
@@ -611,11 +1024,31 @@ def handle_router_message(
 ) -> dict[str, Any]:
     """Compatibility adapter used by the existing webhook integration."""
     stripped = text.strip()
-    if (
-        stripped in ("進捗", "キュー進捗", "作業進捗")
-        or stripped.startswith(("/run ", "/bg "))
-        or stripped in ("/log", "/health")
-    ):
+
+    # 完全一致コマンド（最優先・マッチング判定より前に処理）
+    if stripped == "作業進捗":
+        return {"handled": True, "reply": build_queue_progress(limit=10)}
+    if stripped == "進捗":
+        return {
+            "handled": True,
+            "reply": (
+                "進捗コマンドは3種類あります:\n"
+                "・作業進捗 → AIキューの作業状況\n"
+                "・案件進捗 → 案件DBの状況（準備中）\n"
+                "・人員進捗 → エンジニアの稼働状況（準備中）"
+            ),
+        }
+    if stripped == "確認済み":
+        clear_human_review_items()
+        return {"handled": True, "reply": "確認事項をクリアしました✅"}
+
+    if stripped == "案件進捗":
+        return {"handled": True, "reply": "案件進捗機能は準備中です。"}
+    if stripped == "人員進捗":
+        return {"handled": True, "reply": "人員進捗機能は準備中です。"}
+
+    # 既存処理
+    if stripped.startswith(("/run ", "/bg ")) or stripped in ("/log", "/health"):
         return {"handled": False}
     result = route_line_message(
         text=stripped,
@@ -629,12 +1062,12 @@ def handle_router_message(
     return {"handled": False}
 
 
-def _enqueue_reply(created: bool, task_id: str, assignee: str) -> str:
+def _enqueue_reply(created: bool, task_id: str, assignee: str, kind: str = "") -> str:
     if not created:
         return f"既にキュー登録済みです。\ntask_id: {task_id}"
-    return (
-        f"作業キューに登録しました。\ntask_id: {task_id}\n担当: {assignee}"
-    )
+    if kind == "dev":
+        return "開発系タスクとして受け取りました。Claude.aiのCursorウィンドウで対応してください（自動処理対象外）"
+    return f"作業キューに登録しました。\ntask_id: {task_id}\n担当: {assignee}"
 
 
 def _query_queued(limit: int) -> list[dict[str, Any]]:
@@ -669,12 +1102,8 @@ def _query_queued(limit: int) -> list[dict[str, Any]]:
     return data.get("results", [])
 
 
-def _update_page(
-    page_id: str, properties: dict[str, Any]
-) -> dict[str, Any]:
-    return _notion_request(
-        "PATCH", f"pages/{page_id}", {"properties": properties}
-    )
+def _update_page(page_id: str, properties: dict[str, Any]) -> dict[str, Any]:
+    return _notion_request("PATCH", f"pages/{page_id}", {"properties": properties})
 
 
 def _task_payload(page: dict[str, Any]) -> dict[str, Any]:
@@ -719,9 +1148,7 @@ def _validate_draft(result: str) -> None:
 
 
 def _run_worker(task: dict[str, Any]) -> str:
-    system, user = _worker_prompt(
-        task["assignee"], str(task["metadata"].get("text", ""))
-    )
+    system, user = _worker_prompt(task["assignee"], str(task["metadata"].get("text", "")))
     result = guarded_anthropic_call(
         system,
         user,
@@ -742,9 +1169,7 @@ def _process_single_task(page: dict[str, Any]) -> dict[str, str] | None:
         if status != "running":
             return None
         result = _run_worker(task)
-        final_status = (
-            "review" if task["human_confirmation"] == "要" else "done"
-        )
+        final_status = "review" if task["human_confirmation"] == "要" else "done"
         _update_page(
             task["page_id"],
             {
@@ -757,11 +1182,7 @@ def _process_single_task(page: dict[str, Any]) -> dict[str, str] | None:
             "task_id": task["task_id"],
             "status": final_status,
             "user_id": str(task["metadata"].get("line_user_id", "")),
-            "message": (
-                f"作業完了: {task['task_id']}\n"
-                f"状態: {final_status}\n"
-                "「進捗」で結果を確認できます。"
-            ),
+            "message": (f"作業完了: {task['task_id']}\n状態: {final_status}\n「進捗」で結果を確認できます。"),
         }
     except CostLimitError as exc:
         reason = str(exc)[:1500]
@@ -777,9 +1198,7 @@ def _process_single_task(page: dict[str, Any]) -> dict[str, str] | None:
             "task_id": task["task_id"],
             "status": "blocked",
             "user_id": str(task["metadata"].get("line_user_id", "")),
-            "message": (
-                f"作業停止: {task['task_id']}\n理由: {reason[:300]}"
-            ),
+            "message": (f"作業停止: {task['task_id']}\n理由: {reason[:300]}"),
         }
     except Exception as exc:
         reason = str(exc)[:1500]
@@ -795,9 +1214,7 @@ def _process_single_task(page: dict[str, Any]) -> dict[str, str] | None:
             "task_id": task["task_id"],
             "status": "blocked",
             "user_id": str(task["metadata"].get("line_user_id", "")),
-            "message": (
-                f"作業停止: {task['task_id']}\n理由: {reason[:300]}"
-            ),
+            "message": (f"作業停止: {task['task_id']}\n理由: {reason[:300]}"),
         }
 
 
@@ -810,9 +1227,7 @@ def pickup_and_run(limit: int | None = None) -> list[dict[str, str]]:
         return []
     completed: list[dict[str, str]] = []
     with ThreadPoolExecutor(max_workers=5) as executor:
-        futures = [
-            executor.submit(_process_single_task, page) for page in pages
-        ]
+        futures = [executor.submit(_process_single_task, page) for page in pages]
         for future in as_completed(futures):
             result = future.result()
             if result:
@@ -840,13 +1255,16 @@ def build_queue_progress(limit: int = 10) -> str:
         if status in ("done", "review", "blocked") and result:
             line += f"\n  {result[:300]}"
         lines.append(line)
+    review_tasks = get_review_tasks()
+    if review_tasks:
+        lines.append("")
+        for task in review_tasks:
+            lines.append(_format_review_task_block(task))
     return "\n".join(lines) if len(lines) > 1 else "AI作業キューは空です。"
 
 
 def expire_finished(retention_days: int | None = None) -> int:
-    days = retention_days or int(
-        os.environ.get("LINE_BRIDGE_RETENTION_DAYS", "30")
-    )
+    days = retention_days or int(os.environ.get("LINE_BRIDGE_RETENTION_DAYS", "30"))
     cutoff = datetime.now(JST) - timedelta(days=max(days, 1))
     data = _notion_request(
         "POST",
@@ -893,15 +1311,11 @@ def worker_authorized(headers: Any) -> bool:
 
 
 def consume_completion_push_budget() -> bool:
-    limit = max(
-        0, min(int(os.environ.get("LINE_BRIDGE_PUSH_MONTHLY_LIMIT", "20")), 99)
-    )
+    limit = max(0, min(int(os.environ.get("LINE_BRIDGE_PUSH_MONTHLY_LIMIT", "20")), 99))
     if limit == 0:
         return False
     now = datetime.now(JST)
-    month_start = now.replace(
-        day=1, hour=0, minute=0, second=0, microsecond=0
-    )
+    month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     data = _notion_request(
         "POST",
         f"databases/{_queue_db_id()}/query",

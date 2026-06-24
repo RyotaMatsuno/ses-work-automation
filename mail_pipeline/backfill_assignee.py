@@ -1,7 +1,8 @@
-from dotenv import dotenv_values
-import requests
 import os
 from pathlib import Path
+
+import requests
+from dotenv import dotenv_values
 
 ENV_PATH = Path(__file__).parent.parent / "config" / ".env"
 config = dotenv_values(ENV_PATH)
@@ -12,21 +13,13 @@ for k, v in config.items():
 NOTION_KEY = os.environ["NOTION_API_KEY"]
 ENGINEER_DB = os.environ["NOTION_ENGINEER_DB_ID"]
 PROJECT_DB = os.environ["NOTION_PROJECT_DB_ID"]
-HEADERS = {
-    "Authorization": f"Bearer {NOTION_KEY}",
-    "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
-}
+HEADERS = {"Authorization": f"Bearer {NOTION_KEY}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
 
 
 def query_all(db_id):
     results, payload = [], {"page_size": 100}
     while True:
-        r = requests.post(
-            f"https://api.notion.com/v1/databases/{db_id}/query",
-            headers=HEADERS,
-            json=payload
-        )
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query", headers=HEADERS, json=payload)
         data = r.json()
         results.extend(data.get("results", []))
         if not data.get("has_more"):
@@ -46,7 +39,7 @@ def backfill(db_id, db_name):
         r = requests.patch(
             f"https://api.notion.com/v1/pages/{p['id']}",
             headers=HEADERS,
-            json={"properties": {"担当者": {"select": {"name": "松野"}}}}
+            json={"properties": {"担当者": {"select": {"name": "松野"}}}},
         )
         if r.status_code == 200:
             count += 1

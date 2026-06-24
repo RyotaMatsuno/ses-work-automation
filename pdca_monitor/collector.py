@@ -1,4 +1,5 @@
 """Collect active window + screenshot every scheduler run."""
+
 from __future__ import annotations
 
 import logging
@@ -58,6 +59,7 @@ def get_active_window() -> tuple[str, str]:
         if hwnd:
             title = win32gui.GetWindowText(hwnd) or ""
             import os
+
             import win32api
 
             _, pid = win32process.GetWindowThreadProcessId(hwnd)

@@ -1,0 +1,7 @@
+=== 最小payload（lines無し） ===
+status: 404
+response: {"status_code":404,"errors":[{"type":"error","messages":["不正なURLです。リクエストしたURLが正しいかどうかお確かめ下さい。"]}]}
+
+=== invoice_contents で試す ===
+status: 404
+response: {"status_code":404,"errors":[{"type":"error","messages":["不正なURLです。リクエストしたURLが正しいかどうかお確かめ下さい。"]}]}

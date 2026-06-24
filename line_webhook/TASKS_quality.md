@@ -16,7 +16,7 @@
 
 ## Task 3: 岡本Webhook認証情報設定
 - [x] config/.env に LINE_OKAMOTO_CHANNEL_SECRET / LINE_OKAMOTO_CHANNEL_TOKEN が存在するか確認
-- [x] なければ追記（シークレット: REDACTED-SECRET、トークンはwebhook_server.py内から取得）
+- [x] なければ追記（シークレット: 756a1484e20203ed23dfac88853f63a7、トークンはwebhook_server.py内から取得）
 - [x] webhook_server.py の /webhook_okamoto ルートに岡本チャンネルの認証設定が適用されているか確認・修正
 - [x] py_compile 通過確認
 

@@ -1,5 +1,5 @@
-
-import subprocess, sys
+import subprocess
+import sys
 
 result = subprocess.run(
     [sys.executable, "matching_v2/notify_line.py", "--dry-run"],
@@ -8,7 +8,7 @@ result = subprocess.run(
     encoding="utf-8",
     errors="replace",
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work",
-    timeout=60
+    timeout=60,
 )
 print("STDOUT:", result.stdout[:3000])
 print("STDERR:", result.stderr[:500])

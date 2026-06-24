@@ -1,10 +1,13 @@
 """
 cost_logger.py - 各スクリプトからAPIコスト1行をJSONLに追記する
 """
+
 from __future__ import annotations
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+
 from usage_tracker.cost_calculator import calc_cost_usd
 
 LOG_PATH = Path(__file__).resolve().parent / "cost_log.jsonl"

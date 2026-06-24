@@ -1,4 +1,3 @@
-
 path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\skill_judge.py"
 with open(path, encoding="utf-8") as f:
     content = f.read()
@@ -6,16 +5,16 @@ with open(path, encoding="utf-8") as f:
 # normalized_engineers生成部分を修正
 # skill_textがあればプロンプトに優先使用するよう変更
 
-OLD = '''    normalized_engineers = [
+OLD = """    normalized_engineers = [
         {
             "name": str(engineer.get("name", "")).strip(),
             "skills": _normalize_skill_list(engineer.get("skills", [])),
         }
         for engineer in engineers
         if str(engineer.get("name", "")).strip()
-    ]'''
+    ]"""
 
-NEW = '''    normalized_engineers = [
+NEW = """    normalized_engineers = [
         {
             "name": str(engineer.get("name", "")).strip(),
             "skills": _normalize_skill_list(engineer.get("skills", [])),
@@ -23,7 +22,7 @@ NEW = '''    normalized_engineers = [
         }
         for engineer in engineers
         if str(engineer.get("name", "")).strip()
-    ]'''
+    ]"""
 
 if OLD in content:
     content = content.replace(OLD, NEW)
@@ -64,14 +63,14 @@ if OLD2 in content:
 else:
     print("PATCH_PROMPT_PREFIX: NOT FOUND - trying alternate")
     # cp932デコード文字が混じっている可能性があるため行番号で検索
-    lines = content.split('\n')
+    lines = content.split("\n")
     for i, line in enumerate(lines):
-        if 'api_key = os.environ' in line and i > 270:
-            print(f"  Found at line {i+1}: {repr(line)}")
+        if "api_key = os.environ" in line and i > 270:
+            print(f"  Found at line {i + 1}: {repr(line)}")
 
 # エンジニアリストをプロンプトに渡す部分も変更
-OLD3 = 'エンジニア一覧:\n{json.dumps(normalized_engineers, ensure_ascii=False)}'
-NEW3 = 'エンジニア一覧:\n{json.dumps(engineers_for_prompt, ensure_ascii=False)}'
+OLD3 = "エンジニア一覧:\n{json.dumps(normalized_engineers, ensure_ascii=False)}"
+NEW3 = "エンジニア一覧:\n{json.dumps(engineers_for_prompt, ensure_ascii=False)}"
 
 if OLD3 in content:
     content = content.replace(OLD3, NEW3)
@@ -84,6 +83,7 @@ with open(path, "w", encoding="utf-8") as f:
 print("WRITE: OK")
 
 import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("SYNTAX: OK")

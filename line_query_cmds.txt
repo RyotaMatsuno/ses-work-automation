@@ -1,0 +1,83 @@
+line_query.py (28616chars)
+
+=== handle_line_query ===
+def handle_line_query(text: str) -> str | None:
+    global _LAST_QUERY_TYPE
+    if not text or not text.strip():
+        return None
+    # 詳細コマンド: 「詳細 ①」「詳細 6」など
+    if text.strip().startswith("詳細"):
+        return detail_query(text.strip())
+    if len(text.strip()) > 100:
+        return None
+    try:
+        query_type, params = classify_query(text)
+        if query_type == "engineer":
+            result = engineer_query(params["initial"], params["station"])
+        else:
+            result = project_query(params["name"])
+        no_match_phrases = (
+            "\u4e00\u81f4\u3059\u308b\u4eba\u54e1\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093",
+            "\u4e00\u81f4\u3059\u308b\u6848\u4ef6\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093",
+        )
+        if result and any(p in result for p in no_match_phrases):
+            return None
+        _LAST_QUERY_TYPE = query_type
+        return result if result else None
+    except Exception:
+        logger.exception("line_query failed")
+        return None
+
+
+# ── Notion helpers ──────────────────────────────────────────────────
+
+def _prop(page: dict, name: str) -> dict:
+    return page.get("properties", {}).get(name, {})
+
+def _text_prop(page: dict, name: str) -> str:
+    prop = _prop(page, name)
+    ptype = prop.get("type")
+    if ptype == "title":
+        values = prop.get("title", [])
+    elif ptype == "rich_text":
+        values = prop.get("rich_text", [])
+    elif ptype == "email":
+        return prop.get("email") or ""
+    else:
+        return ""
+    return "".join(item.get("plain_text", "") for item in values).strip()
+
+def _multi_select_prop(page: dict, name: str) -> list[str]:
+    return [x.get("name", "") for x in _prop(page, name).get("multi_select", []) if x.get("name")]
+
+def _select_prop(page: dict, name: str) -> str:
+    v = _prop(page, name).get("select")
+    return v.get("name", "") if v else ""
+
+def _number_prop(page: dict, name: str) -> float:
+    v = _prop(page, name).get("number")
+    return float(v or 0)
+
+def _date_prop(page: dict, name: str) -> str:
+    v = _prop(page, name).get("date")
+    return v.get("start", "") if v else ""
+
+def _url_or_text_prop(page: dict, name: str) -> str:
+    prop = _prop(page, name)
+    if prop.get("type") == "url":
+        return prop.get("url") or ""
+    return _text_prop(page, name)
+
+def _contains(value: str, keyword: str) -> bool:
+    return keyword.lower() in value.lower()
+
+def _gross_threshold(assignee: str) -> int:
+    return GROSS_THRESHOLDS.get(assignee, 5)
+
+def _join(values: list[str]) -> str:
+    return " / ".join(values)
+
+def _format_number(value: float) -> str:
+    if value == int(value):
+        return str(int(value))
+    return f"{value:.1f}".rstrip("0").rstrip(".")

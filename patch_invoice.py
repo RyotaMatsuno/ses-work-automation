@@ -1,8 +1,8 @@
-with open('freee/freee_invoice_v2.py', encoding='utf-8') as f:
+with open("freee/freee_invoice_v2.py", encoding="utf-8") as f:
     c = f.read()
 
 # 組み込む追加コード
-insert_code = '''
+insert_code = """
     # ===== 請求書作成完了後: 契約マスターのステータスを自動更新 =====
     if ok > 0:
         try:
@@ -15,7 +15,7 @@ insert_code = '''
             update_status_after_invoice(names=invoiced_names)
         except Exception as _e:
             print(f"[auto_status] ステータス更新スキップ（エラー: {_e}）")
-'''
+"""
 
 # run()の末尾 print("-> https://...") の直後に挿入
 old = '    print(f"-> https://secure.freee.co.jp/invoices")\n\nif __name__ == "__main__":'
@@ -23,10 +23,10 @@ new = '    print(f"-> https://secure.freee.co.jp/invoices")' + insert_code + '\n
 
 if old in c:
     c2 = c.replace(old, new)
-    with open('freee/freee_invoice_v2.py', 'w', encoding='utf-8') as f:
+    with open("freee/freee_invoice_v2.py", "w", encoding="utf-8") as f:
         f.write(c2)
     print("OK: 組み込み完了")
 else:
     print("NG: 挿入箇所が見つかりませんでした")
     # 末尾100文字確認
-    print(repr(c[c.find('https://secure.freee'):c.find('https://secure.freee')+200]))
+    print(repr(c[c.find("https://secure.freee") : c.find("https://secure.freee") + 200]))

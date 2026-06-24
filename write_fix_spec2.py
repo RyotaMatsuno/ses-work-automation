@@ -1,6 +1,6 @@
 import os
 
-base = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_notify_fix'
+base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_notify_fix"
 os.makedirs(base, exist_ok=True)
 
 claude_md = """# CLAUDE.md - pipeline_notify_fix
@@ -193,9 +193,9 @@ tasks_md = """# TASKS.md - pipeline_notify_fix
 - [ ] 16. python matching_v2/notify_line.py --dry-run -> exits 0 with raw_body shown
 """
 
-for fname, content in [('CLAUDE.md', claude_md), ('SPEC.md', spec_md), ('TASKS.md', tasks_md)]:
+for fname, content in [("CLAUDE.md", claude_md), ("SPEC.md", spec_md), ("TASKS.md", tasks_md)]:
     path = os.path.join(base, fname)
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, "w", encoding="utf-8") as f:
         f.write(content)
     size = os.path.getsize(path)
-    print(f'written: {fname} ({size}B)')
+    print(f"written: {fname} ({size}B)")

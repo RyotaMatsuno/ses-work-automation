@@ -1,8 +1,10 @@
+import io
+import sys
 
-import requests, sys, io
+import requests
 from dotenv import dotenv_values
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 cfg = dotenv_values("config/.env")
 NOTION_TOKEN = cfg["NOTION_API_KEY"]
@@ -19,7 +21,7 @@ status_prop = db.get("properties", {}).get("ステータス", {})
 options = status_prop.get("select", {}).get("options", [])
 print("ステータス選択肢:")
 for o in options:
-    print(repr(o['name']))
+    print(repr(o["name"]))
 
 # 全プロパティも確認
 print("\n全プロパティ:")

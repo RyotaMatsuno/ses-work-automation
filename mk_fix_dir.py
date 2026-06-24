@@ -24,6 +24,6 @@ UTF-8必須（# -*- coding: utf-8 -*-）
 - 動作確認: [pass/fail]
 """
 
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_notify_fix\CLAUDE.md', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_notify_fix\CLAUDE.md", "w", encoding="utf-8") as f:
     f.write(content)
-print('CLAUDE.md written')
+print("CLAUDE.md written")

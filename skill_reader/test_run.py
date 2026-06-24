@@ -1,5 +1,8 @@
 """test_run.py - 完全版テスト（--mail出力まで確認）"""
-import sys, os
+
+import os
+import sys
+
 sys.path.insert(0, os.path.dirname(__file__))
 from skill_reader import run
 
@@ -24,7 +27,8 @@ C#・Reactの経験もあり幅広い案件に対応できます。
 """
 
 # テキストファイルとして書き出してテスト
-import base64, tempfile
+import tempfile
+
 tmp = tempfile.mktemp(suffix=".txt")
 with open(tmp, "w", encoding="utf-8") as f:
     f.write(SAMPLE)
@@ -34,12 +38,7 @@ print("完全版テスト: OA（60万・Java/C#/React）")
 print("  --mail オプションで意向確認文まで出力")
 print("=" * 60 + "\n")
 
-result = run(
-    file_path=tmp,
-    engineer_price=60,
-    affiliation="アナリックス株式会社",
-    output_mail=True
-)
+result = run(file_path=tmp, engineer_price=60, affiliation="アナリックス株式会社", output_mail=True)
 
 print("\n--- 粗利ジャスト案件サマリー ---")
 just = [r for r in result["match_results"] if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12]

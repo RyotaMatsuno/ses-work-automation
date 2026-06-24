@@ -1,0 +1,139 @@
+=== [1] Claude API呼び出し全箇所 ===
+  L163 [call_claude]: def call_claude(system, user_msg, max_tokens=120):
+  L167 [call_claude]: "https://api.anthropic.com/v1/messages",
+  L241 [classify_message]: result = call_claude(system, text, max_tokens=120)
+  L276 [classify_sheet_content]: result = call_claude(system, text[:2000], max_tokens=100)
+  L1344 [analyze_skill_sheet]: "https://api.anthropic.com/v1/messages",
+
+=== [2] max_tokens設定一覧 ===
+  L163: def call_claude(system, user_msg, max_tokens=120):
+  L171: json={"model": "claude-haiku-4-5-20251001", "max_tokens": max_tokens,
+  L241: result = call_claude(system, text, max_tokens=120)
+  L276: result = call_claude(system, text[:2000], max_tokens=100)
+  L1346: json={"model": "claude-sonnet-4-5", "max_tokens": 1000, "system": system, "messages": [{"role": "use
+
+=== [3] run_double_check残存確認 ===
+  L599: # run_double_check 削除済み（未使用・コスト削減）
+  -> def run_double_check 関数定義なし OK
+
+=== [4] webhookEventId重複防止 ===
+  L145: # webhookEventId重複処理防止（メモリ内、最大1000件）
+  L146: PROCESSED_EVENT_IDS = set()
+  L2085: # webhookEventId重複処理防止
+  L2086: event_id = event.get('webhookEventId', '')
+  L2088: if event_id in PROCESSED_EVENT_IDS:
+  L2091: PROCESSED_EVENT_IDS.add(event_id)
+  L2092: if len(PROCESSED_EVENT_IDS) > MAX_EVENT_IDS:
+  L2093: oldest = next(iter(PROCESSED_EVENT_IDS))
+  L2094: PROCESSED_EVENT_IDS.discard(oldest)
+
+=== [5] グループチャットフィルタ ===
+  L2080: source_type = event.get('source', {}).get('type', '')
+  L2081: if source_type not in ('user', ''):
+  L2082: print(f"[skip] non-user source: {source_type}")
+
+=== [6] PDFサイズ制限 ===
+  L1389: file_size = len(res.content)
+  L1390: if file_size > 5 * 1024 * 1024:
+  L1391: reply_message(reply_token, f"❌ ファイルが大きすぎます（{file_size//1024//1024}MB）。5MB以内のファイルを送ってください。", sender_t
+
+=== [7] マッチング呼び出し箇所（停止確認）===
+  L350: def run_matching(project, engineers):
+  L424: def run_reverse_matching_full(engineer, projects):
+  L1979: matching = run_matching(info, engineers)
+
+=== [8] ファイル概要 ===
+  総行数: 2226
+  関数数: 45
+    def get_line_source_label(user_id: str) -> str:
+    def verify_signature(body, signature, secret):
+    def call_claude(system, user_msg, max_tokens=120):
+    def normalize_price(price):
+    def classify_message(text):
+    def classify_sheet_content(text):
+    def fetch_sheet_text(url):
+    def extract_engineers_from_text(text):
+    def extract_projects_from_text(text):
+    def run_matching(project, engineers):
+    def run_reverse_matching(engineer, projects):
+    def run_reverse_matching_full(engineer, projects):
+    def evaluate_candidate(candidate, project_price):
+    def build_matching_message(proj_name, ok_candidates, ng_candidates, proposal_dra
+    def build_reverse_match_message(eng_name, matches):
+    def notion_query(db_id, filter_obj=None):
+    def get_database_property_names(db_id):
+    def add_input_source_property(props, db_id, input_source):
+    def find_prefecture_from_text(text):
+    def build_engineer_location_text(info, raw_text):
+    def validate_engineer_for_registration(info, raw_text):
+    def register_engineer(info, raw_text, sender, user_id=""):
+    def register_project(info, raw_text, sender, user_id=""):
+    def get_available_engineers():
+    def get_active_projects():
+    def send_email_via_callback(account, to_addr, subject, body):
+    def reply_message(reply_token, text, token):
+    def push_message(user_id, text, token):
+    def normalize_status(raw):
+    def normalize_candidate_name(raw):
+    def find_candidate_in_text(text, name_query):
+    def update_candidate_status(page_id, candidate_name, new_status):
+    def find_projects_with_candidate(name_query):
+    def build_matching_result_reply():
+    def build_progress_reply():
+    def split_line_message(text, limit=4900):
+    def analyze_skill_sheet(b64_data, mime_type):
+    def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
+    def handle_sheet_url(url, reply_token, sender, sender_token, user_id=""):
+    def process_message(text, reply_token, sender, sender_token, user_id=""):
+    def handle_webhook(channel_secret, channel_token, sender_name):
+    def webhook_matsuno():
+    def webhook_okamoto():
+    def health():
+    def _keepalive():
+
+=== [9] classify_message詳細 ===
+  L207: def classify_message(text):
+  L208:     system = """You are an SES message classifier for a Japanese IT staffing company.
+  L209: Reply JSON only. No markdown. No explanation.
+  L210: 
+  L211: Rules:
+  L212: - price: man-yen integer. "65man"->65, "45-50man"->47, "650000yen"->65
+  L213: - skills: normalize to English. C-plus-plus->C++, TypeScript->TypeScript
+  L214: - location: extract city/ward. full-remote->full-remote
+  L215: - available_date: YYYY-MM-DD or "sokujitsu"
+  L216: - experience_years: integer estimate
+  L217: - affiliation: engineer's affiliation company name
+  L218: - contact_name: affiliation-side contact person name
+  L219: - contact_email: affiliation-side contact email address
+  L220: - If forwarded message, extract only the embedded job/person info
+  L221: 
+  L222: Output ONE of these JSON shapes:
+  L223: 
+  L224: Single engineer: {"type":"engineer","name":"","skills":[],"price":0,"available_date":"","experience_
+  L225: 
+  L226: Multiple engineers: {"type":"engineers","engineers":[{"type":"engineer","name":"","skills":[],"price
+  L227: 
+  L228: Single job: {"type":"project","name":"","required_skills":[],"optional_skills":[],"price":0,"start_d
+  L229: 
+  L230: Multiple jobs: {"type":"projects","projects":[...]}
+  L231: 
+  L232: Other: {"type":"other","note":""}
+  L233: 
+  L234: Examples:
+  L235: Input: "Java/Spring 5nen, Tanaka, 65man, sokujitsu, Tokyo"
+  L236: Output: {"type":"engineer","name":"Tanaka","skills":["Java","Spring Boot"],"price":65,"available_dat
+  L237: 
+  L238: Input: "Kyuubo React TypeScript hissu, Next.js shoko, 55-60man, Shibuya shu3remote, 7gatsu"
+  L239: Output: {"type":"project","name":"React/TypeScript case","required_skills":["React","TypeScript"],"o
+  L240: """
+  L241:     result = call_claude(system, text, max_tokens=120)
+  L242: 
+  L243:     try:
+  L244: 
+  L245:         result_obj = json.loads(re.sub(r'```json|```', '', result).strip())
+  L246: 
+  L247:         if not isinstance(result_obj, dict):
+  L248: 
+  L249:             return {"type": "other", "note": text[:300]}
+
+AUDIT COMPLETE

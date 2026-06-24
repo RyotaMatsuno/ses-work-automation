@@ -1,5 +1,7 @@
-import json, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import json
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1\result_pipeline.json", encoding="utf-8") as f:
     d = json.load(f)

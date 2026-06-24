@@ -1,0 +1,1 @@
+tzdata  # Windows環境でZoneInfo('Asia/Tokyo')を使うために必要

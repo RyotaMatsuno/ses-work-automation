@@ -1,13 +1,12 @@
 """Mock tests for pdca_monitor (no external API calls)."""
+
 from __future__ import annotations
 
-import json
 import sys
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest import mock
 
 BASE_DIR = Path(__file__).resolve().parent
 SES_WORK = BASE_DIR.parent

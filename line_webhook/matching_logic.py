@@ -1,29 +1,46 @@
-
 """
 matching_logic.py - SES マッチングロジック改善モジュール v1
 webhook_server.py から import して使う
 """
-import json
-import re
-
-
 
 import re as _re
 
+try:
+    from skill_utils import normalize_skill, skill_match, build_normalized_skill_set  # noqa: F401
+
+    _SKILL_UTILS_AVAILABLE = True
+except ImportError:
+    _SKILL_UTILS_AVAILABLE = False
+
+
 def clean_note(note):
     if not note:
-        return ''
+        return ""
     # 【案件要約】形式はそのまま
-    if note.startswith('【案件要約】'):
+    if note.startswith("【案件要約】"):
         return note
     # 署名・挨拶を除去して案件情報部分のみ抽出
-    skip_kw = ['TEL:', 'FAX:', '〒', 'https://', 'http://', '携帯:', 'mail :', 'HP：',
-               '＝＝＝', '───', '___', '以上よろしく', 'メールアドレス', '@']
+    skip_kw = [
+        "TEL:",
+        "FAX:",
+        "〒",
+        "https://",
+        "http://",
+        "携帯:",
+        "mail :",
+        "HP：",
+        "＝＝＝",
+        "───",
+        "___",
+        "以上よろしく",
+        "メールアドレス",
+        "@",
+    ]
     # ■案件名 or 【案件名】 から始まる行を探す
     lines_all = note.splitlines()
     start_idx = None
     for i, line in enumerate(lines_all):
-        if '■案件名' in line or '【案件名】' in line:
+        if "■案件名" in line or "【案件名】" in line:
             start_idx = i
             break
     if start_idx is None:
@@ -34,10 +51,11 @@ def clean_note(note):
         if any(kw in line for kw in skip_kw):
             break
         # 区切り線（---、===、***）で終わり
-        if _re.match(r'^[-=*_]{3,}$', line.strip()):
+        if _re.match(r"^[-=*_]{3,}$", line.strip()):
             break
         result_lines.append(line)
-    return '\n'.join(result_lines).strip()
+    return "\n".join(result_lines).strip()
+
 
 def deduplicate_projects(projects):
     """
@@ -71,8 +89,7 @@ def deduplicate_projects(projects):
             overlap = len(pi_skills & qj_skills) / max(len(union), 1) if union else 0
             price_close = abs(pi_price - qj_price) <= 10
             loc_match = (pi_loc == qj_loc) or any(
-                kw in pi_loc or kw in qj_loc
-                for kw in ["remote", "リモート", "フルリモ"]
+                kw in pi_loc or kw in qj_loc for kw in ["remote", "リモート", "フルリモ"]
             )
 
             if overlap >= 0.7 and price_close and loc_match:
@@ -100,7 +117,7 @@ def categorize_match(engineer_price, project_price, required_match, optional_mat
     pp = project_price or 0
     gross = pp - ep if (pp > 0 and ep > 0) else None
     if ep > 0 and pp > 0 and (pp - ep) > 15:
-        return {"category": "ng", "gross": gross, "reason": f"上振れ{pp-ep}万超（上限15万）"}
+        return {"category": "ng", "gross": gross, "reason": f"上振れ{pp - ep}万超（上限15万）"}
 
     req_all_ok = all(v for v in required_match.values()) if required_match else False
     opt_any_ok = any(v for v in optional_match.values()) if optional_match else False
@@ -121,9 +138,9 @@ def categorize_match(engineer_price, project_price, required_match, optional_mat
             # 所属への調整依頼額: エンジニア単価を下げてもらう
             # 目標粗利5万を達成するために必要な値下げ幅
             shortfall = 5 - gross  # 例: 粗利2万なら不足3万
-            adj_max = min(shortfall, 5)       # Max 5万
-            adj_mid = min(shortfall, 3)       # 次点 3万
-            adj_min = min(shortfall, 2)       # 最低 2万
+            adj_max = min(shortfall, 5)  # Max 5万
+            adj_mid = min(shortfall, 3)  # 次点 3万
+            adj_min = min(shortfall, 2)  # 最低 2万
         else:
             category = "ng"
     elif gross < -5:
@@ -161,14 +178,20 @@ def build_affiliate_adjustment_text(project_name, engineer_name, adj_max, adj_mi
     return "\n".join(lines)
 
 
-def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price):
+def build_reverse_match_message_v2(eng_name, raw_matches, engineer_price, stats=None):
     """
     改善版逆マッチングメッセージ。
     - OK / 調整必要 / 上振れ候補 / NG を区分け
     - 同一案件重複は deduplicate_projects で事前処理済み想定
     """
     if not raw_matches:
-        return f"[registered] {eng_name}\n\nマッチする案件なし"
+        s = stats or {}
+        detail = (
+            f"(対象{s.get('total_projects', 0)}件: "
+            f"粗利NG {s.get('excluded_negative_margin', 0)}件 / "
+            f"スキル不一致 {s.get('excluded_no_skill_match', 0)}件)"
+        ) if s else ""
+        return f"[registered] {eng_name}\n\nマッチ案件なし\n{detail}".strip()
 
     ep = engineer_price or 0
 

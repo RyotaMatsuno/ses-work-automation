@@ -1,13 +1,15 @@
 """
 run_bg_bridge.py - /run_bg エンドポイントを叩くブリッジ
 """
-import urllib.request
-import urllib.error
+
 import json
 import sys
+import urllib.error
+import urllib.request
 
 TOKEN = "jobz-terra-2026"
 BASE = "http://127.0.0.1:8765"
+
 
 def run_bg(cmd, cwd=None, job_id=None):
     payload = {"cmd": cmd}
@@ -17,7 +19,8 @@ def run_bg(cmd, cwd=None, job_id=None):
         payload["job_id"] = job_id
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
-        f"{BASE}/run_bg", data=data,
+        f"{BASE}/run_bg",
+        data=data,
         headers={"Content-Type": "application/json", "X-Auth-Token": TOKEN},
         method="POST",
     )
@@ -28,6 +31,7 @@ def run_bg(cmd, cwd=None, job_id=None):
         print(f"HTTP {e.code}: {e.read().decode()}")
     except Exception as e:
         print(f"ERROR: {e}")
+
 
 def get_log(job_id, lines=50):
     req = urllib.request.Request(
@@ -41,6 +45,7 @@ def get_log(job_id, lines=50):
         print(f"HTTP {e.code}: {e.read().decode()}")
     except Exception as e:
         print(f"ERROR: {e}")
+
 
 if __name__ == "__main__":
     action = sys.argv[1] if len(sys.argv) > 1 else "help"

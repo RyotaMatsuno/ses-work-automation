@@ -53,10 +53,11 @@ content_tasks = """# TASKS.md - ses-mail MIME添付対応
 """
 
 import os
-os.makedirs(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec', exist_ok=True)
 
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec\SPEC.md', 'w', encoding='utf-8') as f:
+os.makedirs(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec", exist_ok=True)
+
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec\SPEC.md", "w", encoding="utf-8") as f:
     f.write(content_spec)
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec\TASKS.md', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_mime_spec\TASKS.md", "w", encoding="utf-8") as f:
     f.write(content_tasks)
 print("MIME添付 SPEC/TASKS 作成完了")

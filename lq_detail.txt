@@ -1,0 +1,104 @@
+=== classify_query (L133) ===
+def classify_query(text: str) -> tuple[str, dict]:
+    stripped = text.strip()
+    _m = re.match(r"^([A-Za-z.]{1,4})[\s\u3000/]+(.+)$", stripped)
+    if _m:
+        _raw = _m.group(1).strip(".")
+        _sta = _m.group(2).strip()
+        if _raw.isalpha() and len(_raw) == 4 and not _raw.isupper():
+            return ("project", {"name": stripped})
+        if re.match(r"^[A-Za-z.]+$", _raw) and len(_raw) >= 1:
+            _ini = re.sub(r"[.]", "", _raw).upper()
+            return ("engineer", {"initial": _ini, "station": _sta})
+    return ("project", {"name": stripped})
+
+
+
+=== engineer_query (L316) ===
+def engineer_query(initial: str, station: str) -> str:
+    engineers = fetch_all_pages(ENGINEER_DB_ID)
+    matched_engineers = [
+        e for e in engineers
+        if _match_initial(e, initial) and _match_station(e, station)
+    ]
+    if not matched_engineers:
+        return f"\u4e00\u81f4\u3059\u308b\u4eba\u54e1\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {initial} {station}"
+
+    _prj_filter = {"property": PROP_RATE, "number": {"greater_than": 0}}
+    projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_prj_filter)
+
+    # dedup: 先頭20文字で重複排除（同一案件の複数メール送信に対応）
+    _seen: set[str] = set()
+    _deduped: list[dict] = []
+    for _p in projects:
+        _k = _text_prop(_p, PROP_PJNAME)
+        _k20 = _k[:20] if _k else ""
+        if _k20 and _k20 not in _seen:
+            _seen.add(_k20)
+            _deduped.append(_p)
+    projects = _deduped
+
+    replies = []
+    for engineer in matched_engineers:
+        eng_skills = _multi_select_prop(engineer, PROP_SKILL)
+        eng_rate   = _number_prop(engineer, PROP_RATE)
+        matched: list[dict] = []
+        for project in projects:
+            if _select_prop(project, PROP_STATUS) not in (VAL_RECRUITING, VAL_ADJUSTING):
+                continue
+            if business_days_since(project.get("last_edited_time")) > 4:
+                continue
+            required = _multi_select_prop(project, PROP_REQSK)
+            if not required:
+                continue  # スキル未設定案件はマッチング対象外
+            if not skill_match(required, eng_skills):
+                continue
+            budget = _number_prop(project, PROP_RATE)
+            if budget > 150:
+                continue  # 異常単価除外
+            gross  = calc_gross_profit(budget, eng_rate)
+            if gross > 15:
+                continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+            if gross < 0:
+                continue  # 粗利マイナス=交渉しても利益見込めない
+            matched.append({"page": project, "gross_profit": gross})
+        matched.sort(key=lambda x: x["gross_profit"], reverse=True)
+        # 詳細照会用にキャッシュ保存
+        cache_key = f"{initial}_{station}"
+        _LAST_PROJ_RESULTS[cache_key] = matched
+        _LAST_PROJ_RESULTS["latest"] = matched
+        replies.append(format_project_result(engineer, matched))
+    return "\n\n".join(replies)
+
+
+
+=== project_query (L372) ===
+def project_query(name: str) -> str:
+    _filter = {"property": PROP_STATUS, "select": {"equals": VAL_RECRUITING}}
+    projects = fetch_all_pages(PROJECT_DB_ID, filter_body=_filter)
+    matched = [p for p in projects if _contains(_text_prop(p, PROP_PJNAME), name)]
+    if not matched:
+        return f"\u4e00\u81f4\u3059\u308b\u6848\u4ef6\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f: {name}"
+    project = matched[0]
+    required  = _multi_select_prop(project, PROP_REQSK)
+    budget    = _number_prop(project, PROP_RATE)
+    threshold = _gross_threshold(_select_prop(project, PROP_ASSIGNEE))
+    engineers = fetch_all_pages(ENGINEER_DB_ID)
+    matched_engs = []
+    for eng in engineers:
+        if _select_prop(eng, PROP_WORKST) not in (VAL_ACTIVE2, VAL_ADJUSTING):
+            continue
+        if business_days_since(eng.get("last_edited_time")) > 21:
+            continue
+        if not skill_match(required, _multi_select_prop(eng, PROP_SKILL)):
+            continue
+        gross = calc_gross_profit(budget, _number_prop(eng, PROP_RATE))
+        if gross > 15:
+            continue  # 粗利上限15万超は単価乖離大きすぎ・スキルミスマッチリスク
+        if gross < 0:
+            continue  # 粗利マイナス=交渉しても利益見込めない
+        matched_engs.append({"page": eng, "gross_profit": gross})
+    matched_engs.sort(key=lambda x: x["gross_profit"], reverse=True)
+    _LAST_ENG_RESULTS["latest"] = matched_engs
+    return format_engineer_result(project, matched_engs)
+

@@ -6,7 +6,6 @@ from typing import Any
 import requests
 from dotenv import dotenv_values
 
-
 ENV_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
 NOTION_API_VERSION = "2022-06-28"
 PROJECT_DB_ID = "343450ff-37c0-81e4-934e-f25f90284a3c"

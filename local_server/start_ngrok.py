@@ -2,18 +2,19 @@
 ngrok起動 → Railway環境変数(NGROK_URL)を自動更新するスクリプト
 PC起動時に自動実行される
 """
+
 import subprocess
-import time
-import requests
-import json
 import sys
-import os
+import time
+
+import requests
 
 NGROK_EXE = r"C:\Users\ma_py\AppData\Local\Microsoft\WinGet\Packages\Ngrok.Ngrok_Microsoft.Winget.Source_8wekyb3d8bbwe\ngrok.exe"
 NGROK_PORT = 8765
 RAILWAY_TOKEN = "fbc5deef-ab29-4f5c-b7b8-6dc2cc2e9c81"
 SERVICE_ID = "484966c3-2d1c-4736-9f69-891f11a35128"
 ENVIRONMENT_ID = "46e90371-2c0b-4108-aefa-385df6916300"
+
 
 def start_ngrok():
     """ngrokをバックグラウンドで起動"""
@@ -22,9 +23,10 @@ def start_ngrok():
         [NGROK_EXE, "http", str(NGROK_PORT), "--log=stdout"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
-        creationflags=subprocess.CREATE_NO_WINDOW
+        creationflags=subprocess.CREATE_NO_WINDOW,
     )
     return proc
+
 
 def get_ngrok_url(retries=10, wait=2):
     """ngrok APIからパブリックURLを取得"""
@@ -37,10 +39,11 @@ def get_ngrok_url(retries=10, wait=2):
                     url = t["public_url"]
                     print(f"[ngrok] URL: {url}")
                     return url
-        except Exception as e:
-            print(f"[ngrok] Waiting for tunnel... ({i+1}/{retries})")
+        except Exception:
+            print(f"[ngrok] Waiting for tunnel... ({i + 1}/{retries})")
         time.sleep(wait)
     return None
+
 
 def update_railway_env(ngrok_url):
     """Railway環境変数のNGROK_URLを更新"""
@@ -54,19 +57,12 @@ def update_railway_env(ngrok_url):
         })
     }
     """
-    variables = {
-        "serviceId": SERVICE_ID,
-        "environmentId": ENVIRONMENT_ID,
-        "variables": {"NGROK_URL": ngrok_url}
-    }
+    variables = {"serviceId": SERVICE_ID, "environmentId": ENVIRONMENT_ID, "variables": {"NGROK_URL": ngrok_url}}
     res = requests.post(
         "https://backboard.railway.com/graphql/v2",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {RAILWAY_TOKEN}"
-        },
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {RAILWAY_TOKEN}"},
         json={"query": query, "variables": variables},
-        timeout=15
+        timeout=15,
     )
     result = res.json()
     if "errors" in result:
@@ -74,6 +70,7 @@ def update_railway_env(ngrok_url):
         return False
     print(f"[Railway] NGROK_URL updated: {ngrok_url}")
     return True
+
 
 def redeploy_railway():
     """Railway サービスを再デプロイ（環境変数を反映させるため）"""
@@ -84,12 +81,9 @@ def redeploy_railway():
     """
     res = requests.post(
         "https://backboard.railway.com/graphql/v2",
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {RAILWAY_TOKEN}"
-        },
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {RAILWAY_TOKEN}"},
         json={"query": query, "variables": {"serviceId": SERVICE_ID, "environmentId": ENVIRONMENT_ID}},
-        timeout=15
+        timeout=15,
     )
     result = res.json()
     if "errors" in result:
@@ -98,16 +92,17 @@ def redeploy_railway():
     print("[Railway] Redeploy triggered")
     return True
 
+
 if __name__ == "__main__":
     # ngrok起動
     proc = start_ngrok()
-    
+
     # URL取得
     url = get_ngrok_url()
     if not url:
         print("[ERROR] ngrok URL取得失敗")
         sys.exit(1)
-    
+
     # Railway環境変数更新
     if update_railway_env(url):
         # 再デプロイ
@@ -116,7 +111,7 @@ if __name__ == "__main__":
     else:
         print("[ERROR] Railway環境変数更新失敗")
         sys.exit(1)
-    
+
     print("ngrokトンネルを維持中... (Ctrl+Cで停止)")
     try:
         proc.wait()

@@ -1,5 +1,9 @@
-import time, os, sys, subprocess
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import subprocess
+import sys
+import time
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 time.sleep(120)
 
@@ -19,7 +23,10 @@ for label, logfile in [
 r = subprocess.run(
     ["python", "pipeline.py", "--dry-run"],
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1",
-    capture_output=True, text=True, encoding="utf-8", errors="replace"
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
 )
 print(f"\npipeline: {r.stdout.strip()}")
 if r.returncode != 0:

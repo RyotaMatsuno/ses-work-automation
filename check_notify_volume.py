@@ -1,8 +1,10 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 # 今月のマッチング結果件数確認
-import json, os
+import json
+import os
 
 result_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\result.json"
 if os.path.exists(result_path):
@@ -25,6 +27,12 @@ else:
 
 # schtasks確認
 import subprocess
-r = subprocess.run(["schtasks", "/query", "/tn", "jobz_matching_daily"],
-    capture_output=True, text=True, encoding="utf-8", errors="replace")
+
+r = subprocess.run(
+    ["schtasks", "/query", "/tn", "jobz_matching_daily"],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+)
 print(f"\nmatching定時タスク:\n{r.stdout.strip()}")

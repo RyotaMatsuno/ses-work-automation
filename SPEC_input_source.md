@@ -110,8 +110,8 @@ Notionから取得するフィールドに追加:
 
 #### (A) ユーザーIDから入力元ラベルを判定
 ```python
-MATSUNO_USER_ID = "REDACTED-SECRET"
-OKAMOTO_USER_ID = "REDACTED-SECRET"
+MATSUNO_USER_ID = "Ue3508b43b84991f5a68281da5bf4cf39"
+OKAMOTO_USER_ID = "Uac1d23408573586affa37577c4e2b2ab"
 
 def get_line_source_label(user_id: str) -> str:
     if user_id == MATSUNO_USER_ID:

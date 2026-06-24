@@ -1,0 +1,346 @@
+=== freee請求書月次自動生成 / DRY-RUN ===
+対象稼働月: 2026-05
+締め日 close: 2026-05-31
+billing_date: 2026-06-01
+subject: 5月分請求書
+DRY-RUN: payloadを表示します。POSTは行いません。
+[dedup] 2026-06-01 '5月分請求書' 既存請求書 6 件
+[DRY-SKIP] グレイスライン株式会社 / 30日 / 支払期限2026-06-30 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "石崎春光様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+[DRY-SKIP] グレイスライン株式会社 / 45日 / 支払期限2026-07-15 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "山内清様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "荒井大輝様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+[DRY-SKIP] 株式会社TERRA / 30日 / 支払期限2026-06-30 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY-SKIP] 株式会社TERRA / 45日 / 支払期限2026-07-15 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 13,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "大本様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "森様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "30000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "芹澤様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "45000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "佐々木様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "40000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    },
+    {
+      "type": "item",
+      "description": "小山内様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "30000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY-SKIP] 株式会社TERRA / 46日 / 支払期限2026-07-16 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-16",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "プロパー稼働分",
+      "quantity": 8,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": true
+    }
+  ]
+}
+[DRY-SKIP] 株式会社フラップテック / 45日 / 支払期限2026-07-15 / 既存あり
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-07-15",
+  "subject": "5月分請求書",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "笠井健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "68000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "原昌志様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "68000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "木村勇太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "加藤様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "38400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "川崎健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "田中みさ様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "20400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "立野和紀様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "佐々木駿様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "橋本奈緒様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "鶴川慶三様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "吉田祥平様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    },
+    {
+      "type": "item",
+      "description": "遠藤健太様稼働分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "34000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+=== 警告/除外 ===
+  ・TERRA 山内清: GL/FT経由のP行のためTERRA計上せず
+  ・TERRA 田中みさ: GL/FT経由のP行のためTERRA計上せず
+  ・TERRA 木村勇太: GL/FT経由のP行のためTERRA計上せず
+  ・TERRA 原: TERRA請求額が'請求なし'のため除外
+  ・TERRA 川崎(新): TERRA請求額が'請求なし'のため除外
+=== 完了: 作成予定0件 / SKIP6件 / エラー0件 / 対象6件 ===

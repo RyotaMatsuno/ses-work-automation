@@ -65,7 +65,7 @@ Cloud RunのWebhookサーバーはすでに `webhook_okamoto` エンドポイン
 
 ### 設定値
 - Webhook URL: `https://line-webhook-74735301292.asia-northeast1.run.app/webhook_okamoto`
-- チャンネルシークレット: `REDACTED-SECRET`
+- チャンネルシークレット: `756a1484e20203ed23dfac88853f63a7`
 - チャンネルアクセストークン: （memory参照）
 
 ### 作業

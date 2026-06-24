@@ -1,0 +1,364 @@
+=== wall_hitting bugs round1 by gpt-5.4 ===
+in=2723 out=3773 cost=$0.0634
+
+## 結論サマリ
+
+**今すぐ独自判断で進めるべき順**は以下です。
+
+1. **A1 対応**: `run_pipeline.bat` から `matching_v2` 起動を外す  
+   → **独自判断OK**  
+   → 無駄なLLM課金と毎時エラーを即停止できる。影響極小。
+
+2. **A2 切り分け**: `schtasks /Run /TN SES_MailPipeline` で手動起動確認  
+   → **独自判断OK**  
+   → 20:00を待つ前に、タスク自体/バッテリー条件/実行経路の問題を切り分け可能。
+
+3. **B1 対応**: `jobz-watchdog` 小文字版はまず無効化  
+   → **独自判断OK**  
+   → 重複・恒常エラーを止める。削除は後回しでよい。
+
+4. **A2 の設定変更（バッテリー条件変更など）**  
+   → **原則CEO確認推奨**  
+   → ノートPC運用ポリシーに関わる。緊急回避としてはありだが、設定変更は一段重い。
+
+---
+
+# 質問1: 独自判断OK / CEO確認必須
+
+## A1: `run_pipeline.bat` が broken な `matching_v2` を毎時起動
+### 判断
+**独自判断OK**
+
+### 理由
+- 現在すでに `matching_v2` は**実質停止中**
+- 毎時 **JSONDecodeError + LLM課金** が発生
+- mail pipeline 復旧が最優先で、matching は別系統
+- ロールバック容易
+
+### 実施範囲
+- **`run_pipeline.bat` から matching_v2 起動を外す**までは独自判断でよい
+- `matching_v3` 有効化は **CEO確認必須**
+
+---
+
+## A2: 19:00 Cron 未実行
+### 判断
+- **手動起動による切り分けまでは独自判断OK**
+- **タスク定義の恒久変更は要確認寄り**
+  - 特に `DisallowStartIfOnBatteries=false` は **CEO確認推奨**
+  - ただし 20:00 も飛ぶなど継続障害なら、暫定変更は実務上あり
+
+### 理由
+- 今必要なのは「メール案件登録の継続性確保」
+- 手動起動・ログ確認は低リスク
+- 電源条件変更は運用方針に関わる
+
+---
+
+## B1: `jobz-watchdog` 重複登録
+### 判断
+**独自判断OK（無効化まで）**
+
+### 理由
+- CamelCase版が正常稼働
+- 小文字版は `0x80070002` を5分毎に出し続けるだけ
+- まず無効化なら安全
+- 削除は後でよい
+
+---
+
+# 質問2: 各バグの最善案
+
+## A1 の最善案
+### 推奨: **A1-α**
+`run_pipeline.bat` から `matching_v2` / `notify_line` セクションを削除またはコメントアウト
+
+### 理由
+- 原因箇所が**起動経路**だと明確
+- 「mail pipeline」と「matching」を分離できる
+- `matching_v2.py` に `sys.exit(0)` を入れるより、**バッチから起動しない方が意図が明確**
+- 将来 `matching_v3` へ切替時も整理しやすい
+
+### 非推奨理由
+- **A1-β**: 応急処置としては可だが、壊れた処理を毎時起動する構造は残る
+- **A1-γ**: 今は急がない。メール基盤安定化が先
+
+---
+
+## A2 の最善案
+### 推奨: **A2-α → 必要なら A2-β**
+1. まず `schtasks /Run /TN SES_MailPipeline` で手動起動
+2. その結果と電源状態を見て、必要なら `DisallowStartIfOnBatteries=false`
+
+### 理由
+- まずは「タスク定義が生きているか」「実行パスが通るか」を確認すべき
+- 19:00スキップだけなら Windows Task Scheduler の再有効化直後挙動の可能性あり
+- **いきなり A2-β は原因未確定のまま設定変更**
+- **A2-γ は遅い**。復旧確認を1時間遅らせる理由がない
+
+### 補足
+`MultipleInstancesPolicy=IgnoreNew` も要確認です。  
+ただし `Last Run Time` が更新されていないため、現時点では**バッテリー条件 or enable直後スキップ**の方が優先候補です。
+
+---
+
+## B1 の最善案
+### 推奨: **B1-β**
+`schtasks /change /tn "jobz-watchdog" /disable`
+
+### 理由
+- 影響最小
+- ロールバック容易
+- 今は「削除」より「誤動作停止」が目的
+
+### 非推奨理由
+- **B1-α**: 削除は早い。後で参照元を確認したくなる可能性がある
+- **B1-γ**: 今は不要。正常な CamelCase 版があるため緊急性低い
+
+---
+
+# 質問3: 修正後の具体的な検証手順
+
+## 1. A1修正後: `matching_v2` 停止確認
+
+### 修正
+- `run_pipeline.bat` を編集し、以下を除去/コメントアウト
+  - `echo ===== matching_v2 開始 =====`
+  - `python matching_v2\matching_v2.py ...`
+  - その後続の `notify_line.py` 呼び出し
+
+### 検証手順
+1. バッチ単体実行
+   ```bat
+   cmd /c mail_pipeline\run_pipeline.bat
+   ```
+2. `mail_pipeline\pipeline.log` を確認
+   - `mail_pipeline 開始` は出る
+   - **`matching_v2 開始` が出ない**
+3. `cost_log.jsonl` を確認
+   - 修正後時刻以降に **`matching_v2_skill_judge` 記録が増えない**
+4. `Task Scheduler` で次回の定時実行後も同様に確認
+
+### 合格条件
+- `matching_v2` 関連ログが出ない
+- `matching_v2` 由来の LLM課金が止まる
+
+---
+
+## 2. A2修正後: 20:00 Cron 復活確認
+
+### まず手動起動
+```cmd
+schtasks /run /tn "SES_MailPipeline"
+```
+
+### 手動起動後の確認
+1. `pipeline.log` のタイムスタンプ更新確認
+2. `mail_pipeline.py` の処理が進むことを確認
+   - 取得件数
+   - 新規登録件数
+   - Notion Batch送信
+   - 例外なし
+3. `schtasks /query /tn "SES_MailPipeline" /v /fo list`
+   - `Last Run Time`
+   - `Last Result`
+   - `Status`
+
+### 20:00定時確認
+19:58〜20:05 で以下を確認
+1. `pipeline.log` に **20:00台の新規実行ログ**
+2. `schtasks /query /tn "SES_MailPipeline" /v /fo list`
+   - `Last Run Time` が 20:00 付近へ更新
+   - `Last Result: 0` が望ましい
+3. もし 20:00 も飛ぶなら要確認
+   - AC電源状態
+   - 実行中プロセス残骸
+   - タスク履歴（History有効なら確認）
+   - イベントビューア  
+     `Applications and Services Logs > Microsoft > Windows > TaskScheduler > Operational`
+
+### 追加で見るべき点
+- `ExecutionTimeLimit=PT1H`  
+  実処理が1時間超えると次回に干渉しうる
+- `MultipleInstancesPolicy=IgnoreNew`  
+  前回が残ると次回スキップ
+
+---
+
+## 3. B1修正後: watchdog エラー消失確認
+
+### 修正
+```cmd
+schtasks /change /tn "jobz-watchdog" /disable
+```
+
+### 確認
+1. `schtasks /query /fo list /v | findstr /i "jobz-watchdog JobzWatchdog"`
+2. 小文字版が `Disabled`
+3. 5〜10分待機
+4. Task Scheduler の `Last Run Time` / `Last Result` を確認
+   - 小文字版が更新されない
+   - CamelCase版のみ更新
+5. 関連ログ/イベントで `0x80070002` が新規発生しないこと
+
+### 合格条件
+- 小文字版のエラーが止まる
+- CamelCase版が正常稼働継続
+
+---
+
+# 質問4: 潜在バグ・盲点
+
+## 盲点1: ロールバックした v5.1(6/4版) と外部仕様変更の齟齬
+### これは最重要
+**要確認**
+
+### 想定リスク
+1. **Notion DB スキーマ変更**
+   - プロパティ名変更
+   - Select/Status の選択肢変更
+   - 必須プロパティ追加
+   - relation / formula 前提変更
+
+2. **LINE通知フォーマット変更**
+   - `notify_line.py` が旧テンプレを前提
+   - payload 形式差異で通知失敗
+
+3. **freee / 他連携の入力項目変更**
+   - 案件登録後の downstream 処理が旧フィールド名依存
+
+4. **重複判定キー変更**
+   - 6/4以降に dedupe ロジック変更が入っていた場合、
+     旧版へ戻すと二重登録/取りこぼしの恐れ
+
+### 最低限の確認項目
+- v5.1 が参照/更新する **Notionプロパティ一覧** を抽出
+- 現在の Notion DB スキーマと照合
+- 手動疎通 138件新規登録OK は強い材料だが、**全プロパティが正しく埋まっている保証にはならない**
+- Notion上で実データを2〜3件開いて確認
+  - 必須項目欠落
+  - select 値崩れ
+  - タイトル/会社名/単価/勤務地/スキル/URL/受信日時
+  - 後続フローで使うキー
+
+---
+
+## 盲点2: `PROCESS_LIMIT/FETCH_LIMIT` 縮小の副作用
+### リスク
+- 10件/50件に下げたことで backlog 解消が遅い
+- 毎時500件以上来る日には追いつかない可能性
+
+### 対応
+- 今は安全優先で妥当
+- ただし **3連続で安定動作確認後に段階的に戻す**べき
+  - 10→20→30
+  - 50→100→150
+- backlog件数を可視化したい
+
+---
+
+## 盲点3: `weekday_guard.py` の祝日判定依存
+### リスク
+- `jpholiday` 未インストール時の挙動次第で祝日誤実行/誤停止
+- 本日平日なので直近影響は低いが、運用上は要確認
+
+### 対応
+- `weekday_guard.py` の `ImportError` 時動作確認
+- 祝日ロジックをログ出しするとなお良い
+
+---
+
+## 盲点4: Task Scheduler の「履歴無効」
+### リスク
+- 今回のような「19:00なぜ飛んだか」が追えない
+
+### 対応
+- `SES_MailPipeline` だけでも **History を有効**にする価値あり
+- 過剰ログが嫌なら障害収束後に見直し
+
+---
+
+## 盲点5: 実行アカウント・作業ディレクトリ差異
+### リスク
+- 手動実行は通るがタスク実行だと失敗、はWindowsで多い
+- `%~dp0..` 前提、相対パス、Python PATH、権限差異
+
+### 対応
+- 手動 `schtasks /Run` と直接 `cmd /c ...bat` の両方で結果比較
+- タスクの
+  - `Start in`
+  - 実行ユーザー
+  - 「最上位の特権で実行」
+  を要確認
+
+---
+
+## 盲点6: `ExecutionTimeLimit=PT1H`
+### リスク
+- backlog時に1時間超えるとタスクが強制終了しうる
+- さらに `IgnoreNew` で次回実行スキップの連鎖が起こる
+
+### 対応
+- 今回の縮小設定なら直近は低リスク
+- ただし backlog 解消フェーズでは要注意
+- 実測処理時間をログで確認し、必要なら `PT2H` 以上を検討
+
+---
+
+## 盲点7: `Last Result 0` を信用しすぎない
+### リスク
+- bat が途中 continue しても `0` で終わることがある
+- 例: `matching_v2 失敗(続行)` のように、障害が埋もれる
+
+### 対応
+- 成否判定は
+  - `pipeline.log`
+  - 新規登録件数
+  - cost log
+  - Notion反映件数
+  を合わせて見るべき
+
+---
+
+# 推奨アクションプラン（実行順）
+
+## 今すぐ
+1. **A1-α 実施**
+   - `run_pipeline.bat` から `matching_v2` 起動を外す
+2. **A2-α 実施**
+   - `schtasks /run /tn "SES_MailPipeline"`
+   - `pipeline.log` / `schtasks /query` / Notion反映確認
+3. **B1-β 実施**
+   - `schtasks /change /tn "jobz-watchdog" /disable`
+
+## 20:00までに
+4. AC電源状態確認  
+   → バッテリー運用なら A2 の原因候補が強い
+5. `SES_MailPipeline` の履歴/イベントログ確認
+6. v5.1 と Notion現行スキーマの差分確認
+
+## 20:00後
+7. 定時起動したか確認
+8. 安定なら 2〜3回転見る
+9. backlog状況を見て `PROCESS_LIMIT/FETCH_LIMIT` 段階緩和
+
+---
+
+# 最後の判断
+
+**CEO不在中にジョブズが自走してよい範囲**は以下です。
+
+### 独自判断OK
+- `run_pipeline.bat` から `matching_v2` 起動除去
+- `SES_MailPipeline` の手動起動テスト
+- `jobz-watchdog` 小文字版の無効化
+- ログ/Task Scheduler/Notionの検証
+- v5.1 と現行スキーマの差分調査
+
+### CEO確認推奨
+- `matching_v3` への切替本番投入
+- `DisallowStartIfOnBatteries=false` など恒久的な電源条件変更
+- 1時間制限や多重起動ポリシーの恒久変更
+- backlog解消のための limit 大幅引き上げ
+
+必要なら次に、**実行コマンド一覧**と**5分で終わる確認チェックリスト**の形に落とします。

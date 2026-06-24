@@ -1,5 +1,6 @@
+import glob
+import os
 
-import glob, os
 import openpyxl
 
 downloads = r"C:\Users\ma_py\Downloads"

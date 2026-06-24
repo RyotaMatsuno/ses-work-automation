@@ -1,0 +1,4 @@
+GET https://invoice.freee.co.jp/api/1/invoices: ERROR HTTPSConnectionPool(host='invoice.freee.co.jp', port=443): Max retries exceeded with url: /api/1/invoices?company_id=11712776 (Caused by NameResolutionError("HTTPSConnection(host='invoice.freee.co.jp', port=443): Failed to resolve 'invoice.freee.co.jp' ([Errno 11001] getaddrinfo failed)"))
+GET https://api.freee.co.jp/invoice/v1/invoices: 200
+GET https://api.freee.co.jp/invoice/api/1/invoices: 200
+GET https://iv.freee.co.jp/api/1/invoices: ERROR HTTPSConnectionPool(host='iv.freee.co.jp', port=443): Max retries exceeded with url: /api/1/invoices?company_id=11712776 (Caused by NameResolutionError("HTTPSConnection(host='iv.freee.co.jp', port=443): Failed to resolve 'iv.freee.co.jp' ([Errno 11001] getaddrinfo failed)"))

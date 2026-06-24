@@ -1,4 +1,3 @@
-
 import os
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
@@ -14,10 +13,7 @@ old_note = lines[531]  # 0-indexed
 print("Before 532:", repr(old_note))
 
 # info.get('note','') → raw_body or info.get('note','')
-new_note = old_note.replace(
-    "{info.get('note','')}",
-    "{raw_body or info.get('note','')}"
-)
+new_note = old_note.replace("{info.get('note','')}", "{raw_body or info.get('note','')}")
 print("After  532:", repr(new_note))
 
 if old_note != new_note:
@@ -29,6 +25,7 @@ else:
     print("PATCH3: no change (string not found)")
 
 import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("SYNTAX: OK")

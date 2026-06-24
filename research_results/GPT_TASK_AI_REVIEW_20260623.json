@@ -1,0 +1,29 @@
+{
+  "risk_assessment": "136語の一括追加は方向性として妥当ですが、無条件GOではなく『段階投入前提でのREVISE推奨』です。主なリスクは5点あります。1) 偽陽性増加: 汎用語・上位概念語（例: クラウド, ネットワーク, ETL, DWH, RDBMS）は文脈なしヒットを起こしやすく、案件本文の説明文や業務概要に出ただけで技術保有と誤判定される可能性があります。2) 粒度不整合: Excel/Git/C++/Laravelのような具体技術と、クラウド/ネットワーク/RDBMSのような抽象カテゴリが同列にcanonical化されると、マッチ強度が不均一になります。カテゴリ語は『補助一致』、製品・言語・FWは『強一致』のように重みを分けるべきです。3) alias衝突: NW, OCI, ETL, Git などは他の意味や表記揺れに巻き込まれやすく、短い別名ほど誤爆しやすいです。特に2〜3文字略語は単純部分一致禁止が必要です。4) 親子重複: VMware と VMware vSphere、React と React Native、Oracle と OCI など近縁語が同時登録されると二重カウントや過大評価が起こります。5) 正規化不備: C++/C#/Node.js/Next.js/PowerShell/Ruby on Rails など記号・空白・大小文字・全角半角・ハイフン有無に依存する語は、前処理が弱いと期待ほどMATCH率が上がりません。結論として、一括追加自体は有効ですが、『語彙追加』だけでなく『語種別の重み付け・短縮語ルール・親子関係設計』をセットで入れないと、MATCH率改善の代わりに精度悪化が起こり得ます。",
+  "process_skill_management": "process_skillは『セット型を主、正規表現を従』のハイブリッド管理が最適です。178語をすべて正規表現で持つのは保守性・説明性・デバッグ性が悪く、過剰マッチもしやすいです。基本は canonical process skill のハッシュセット管理にして、前処理後の完全一致・別名一致で除外判定するべきです。一方で、工程系には派生表現が多いため、正規表現は補助的に使います。例えば『要件定義〜基本設計』『設計〜テスト』『運用・保守』『障害対応/障害切り分け』などの連結表現、読点区切り列挙、全半角や記号揺れ吸収にのみ使うのが良いです。推奨構成は、1) skill_dictionary.tech_skill, 2) exclusion_dictionary.process_skill, 3) exclusion_dictionary.soft_skill, 4) normalization_rules, 5) regex_fallback の5層です。判定順は normalize → exact alias match → exclusion set match → regex fallback → judge() が安全です。加えて process_skill には『除外』だけでなく『別軸保存』を推奨します。つまりスキル判定から外すが、案件/要員プロフィール上は process_experience として構造化保持する設計です。これにより、案件検索で“Java必須かつ要件定義経験歓迎”のような複合条件を将来扱えます。",
+  "process_skill_exclusion_concern": "『要件定義』『基本設計』をtech_skill判定から除外すること自体は正しいです。ただし“無視”ではなく“別軸管理”しないと実務上の価値を失います。これらは技術スキルではなく工程経験・ロール適性であり、Java/AWS/Oracle などと同列にマッチングするとノイズ源になります。特に案件票では『要件定義経験必須』『基本設計以降』のように頻出しますが、これは“どの技術で何をしたか”ではなく“工程責任範囲”を示す属性です。したがって、技術マッチ率から除外して問題ありませんが、案件側 requirement_process / candidate_side process_experience として残すべきです。むしろ除外しない場合、技術未一致でも工程語が多いだけでMATCHが高く見える危険があります。懸念点は2つです。1) PM/PL案件では工程語が本質要件になりやすいこと。対策は process skill を別スコア化し、tech_match と process_match を分離表示することです。2) 一部語は工程でもあり技術文脈でも使われること。例: 運用設計、構築、監視、移行。対策は完全除外ではなくタグ分類にし、工程語としてヒットしたら tech_score 0点・process_score 加点にすることです。結論として、除外は妥当、ただしデータモデル上は捨てずに別フィールド管理が必須です。",
+  "expected_rates": "現状69.2%/30.8%から、適切に実装できればMATCH率は概ね75〜82%、REVIEW率は18〜25%程度まで改善する見込みです。ただしこれは『語彙追加のみ』ではなく『alias正規化が機能し、process/soft除外が精度改善に寄与する』前提です。楽観ケースでは、技術語136追加により語彙外ヒットのかなりの部分が吸収され、MATCH率80%前後まで上がる可能性があります。一方、悲観ケースでは、クラウド/ネットワーク/RDBMS などの抽象語や短縮語が偽陽性を増やし、見かけ上MATCH率は上がっても精度が下がり、実運用上のREVIEW削減が限定的になる恐れがあります。そのため、期待値としては『MATCH率 +6〜10pt、REVIEW率 -6〜12pt』程度を妥当レンジとして見るのが現実的です。重要なのはMATCH率単体ではなく、Precision/Recall/F1 および REVIEW送り理由の内訳です。特に計測すべきは、1) 語彙外起因REVIEWの減少率、2) 新規偽陽性率、3) process/soft除外による誤MATCH抑制率、4) 短縮語alias由来の誤爆件数です。A/B比較なしでの見込み判断は危険です。",
+  "implementation_notes": [
+    "tech_skill / process_skill / soft_skill を同一辞書で持たず、type付き辞書に分離する。例: {canonical, aliases, type, weight, parent, status}。",
+    "canonicalごとに重みを導入する。言語・製品・FWは高、抽象カテゴリ語（クラウド, ネットワーク, RDBMS, ETL, DWH）は低〜補助一致にする。",
+    "短いaliasは部分一致禁止。NW, OCI, BI, ETL などは単語境界・区切り記号前提の厳格一致に限定する。",
+    "親子関係を設計する。例: VMware vSphere -> parent: VMware、React Native は React と別管理、Ruby on Rails は Ruby と親子連携可否を明示。",
+    "二重カウント防止が必要。1文中で VMware と vSphere が両方出ても1スキル群として集約するルールを入れる。",
+    "前処理を強化する。大文字小文字、全角半角、記号正規化、ハイフン/スラッシュ/ドットの揺れ、複数空白、改行、括弧書きを吸収する。",
+    "C++, C#, .NET, Next.js, Node.js, Vue.js など記号含み語のトークナイズを壊さない設計にする。",
+    "英日混在aliasを追加する。例: Data Warehouse/データウェアハウス、Relational Database/リレーショナルDB など。",
+    "process_skill は除外するだけでなく process_experience として保存し、将来の検索条件・スコア分離に使う。",
+    "soft_skillも同様に soft_attribute として保持すると、営業判断や面談推薦には活用できる。",
+    "除外語の過剰設定に注意。『運用』『保守』『監視』『構築』は工程語だが、Zabbix監視設計、AWS構築経験のように技術文脈と結び付くため、語単体だけ除外し周辺技術語は残す実装にする。",
+    "CAPABILITY_REを残すなら、辞書一致後の補完用に縮退させる。regex先行はデバッグが難しく誤爆源になりやすい。",
+    "辞書追加前後でオフライン評価セットを必ず作る。少なくとも100〜300件の案件票/経歴書で precision, recall, review理由を比較する。",
+    "追加136語は一括本番投入ではなく、Tier分割投入を推奨。Tier1: 明確技術語、Tier2: 製品群、Tier3: 抽象カテゴリ語。",
+    "監視指標を設ける。新規MATCH率、REVIEW率、偽陽性率、未知語率、alias衝突件数、手動差し戻し率。",
+    "辞書にsourceとconfidenceを持たせる。GPT抽出語は human_reviewed フラグを持ち、未検証語は低信頼として扱う。",
+    "案件側と要員側で同じ辞書を使う場合、案件は required/preferred、要員は actual/experienced の属性差を保持する。",
+    "『Excel』のような一般業務ツールをtech_skillに入れるかはポリシー明確化が必要。SESの技術マッチ目的なら office_tool など別カテゴリ化も検討余地がある。",
+    "JP1, VMware, Snowflake, Databricks, Power Platform など製品群はバージョン・エディション差が出るため、将来的な下位語拡張余地を残す。",
+    "REVIEW送り条件を辞書拡張に合わせて見直す。未知語が減るぶん、『抽象語しか一致していない場合はREVIEW維持』のような品質ゲートが有効。"
+  ],
+  "approval": "REVISE + 方向性は正しいが、そのまま136語を同列・一括投入するのは危険です。特に抽象語の偽陽性、略語aliasの誤爆、process_skillの情報消失、親子重複による過大評価が未解決です。『type分離・重み付け・別軸保存・段階投入・事前評価』を実装条件にすればGO判断可能です。"
+}

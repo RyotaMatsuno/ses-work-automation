@@ -1,10 +1,9 @@
-
 path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
 with open(path, encoding="utf-8") as f:
     content = f.read()
 
 # build_matching_result_reply関数全体を差し替え
-old_func = '''def build_matching_result_reply():
+old_func = """def build_matching_result_reply():
 
     result_path = os.path.join(os.path.dirname(__file__), '..', 'matching_v2', 'result.json')
 
@@ -92,7 +91,7 @@ old_func = '''def build_matching_result_reply():
 
         return "【マッチング結果】\\n結果なし"
 
-    return "\\n".join(lines)'''
+    return "\\n".join(lines)"""
 
 new_func = '''def build_matching_result_reply():
     """Notion DBからリアルタイムでマッチング結果を取得してフォーマット"""

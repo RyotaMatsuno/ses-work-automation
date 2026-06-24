@@ -1,0 +1,24 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+exclude = [
+    "_archive",
+    "_archive_tmp",
+    "node_modules",
+    ".git",
+    "canvases",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pyright]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
+exclude = [
+    "_archive",
+    "_archive_tmp",
+    "node_modules",
+    "canvases",
+]

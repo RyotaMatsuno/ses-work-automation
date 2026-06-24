@@ -1,0 +1,1077 @@
+=== freee請求書自動生成 v2 ===
+DRY-RUN: 請求書・取引先の作成/更新は行いません
+請求対象月: 2026年6月分
+請求日: 2026-06-01  支払期限: 2026-06-30
+
+対象人員: 39名
+  TERRA | 仲山雄輝 | 粗利370,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 吉田創志 | 粗利430,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 蒲池佑萌 | 粗利400,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 大野稔貴 | 粗利320,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 白須雄太 | 粗利270,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 沼田航陽 | 粗利360,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 魚谷 | 粗利400,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 赤木 | 粗利400,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 坪井 | 粗利380,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 中村 | 粗利450,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 日比野 | 粗利400,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 大本 | 粗利330,000円 | 請求165,000円 | TERRA折半→粗利×50%
+  TERRA | 森 | 粗利380,000円 | 請求190,000円 | TERRA折半→粗利×50%
+  TERRA | 永野 | 粗利680,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 安江 | 粗利480,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 相川 | 粗利400,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 芹澤 | 粗利590,000円 | 請求295,000円 | TERRA折半→粗利×50%
+  TERRA | 富永 | 粗利360,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 天野 | 粗利490,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 岩瀬 | 粗利500,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 加藤(T) | 粗利380,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 佐々木 | 粗利610,000円 | 請求488,000円 | 岡本折半→粗利×80%（岡本払出あり）
+  TERRA | 川崎(新) | 粗利0円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 橋詰(新) | 粗利450,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 佐々木(入) | 粗利610,000円 | 請求15,000円 | プロパー→15,000円固定
+  TERRA | 小山内 | 粗利600,000円 | 請求300,000円 | TERRA折半→粗利×50%
+  TERRA | 齋藤よしまさ | 粗利0円 | 請求15,000円 | プロパー→15,000円固定
+  FT | 笠井健太 | 粗利100,000円 | 請求68,000円 | 通常→粗利×68%
+  FT | 木村勇太 | 粗利70,000円 | 請求47,600円 | 通常→粗利×68%
+  FT | 加藤 | 粗利80,000円 | 請求38,400円 | 小坂折半→粗利×48%
+  FT | 川崎健太 | 粗利40,000円 | 請求27,200円 | 通常→粗利×68%
+  FT | 田中みさ | 粗利30,000円 | 請求20,400円 | 通常→粗利×68%
+  FT | 立野和紀 | 粗利70,000円 | 請求47,600円 | 通常→粗利×68%
+  FT | 佐々木駿 | 粗利40,000円 | 請求27,200円 | 通常→粗利×68%
+  FT | 橋本奈緒 | 粗利70,000円 | 請求47,600円 | 岡本折半→粗利×68%（岡本払出あり）
+  FT | 吉田祥平 | 粗利50,000円 | 請求24,000円 | 小坂折半→粗利×48%
+  GL | 石崎春光 | 粗利40,000円 | 請求24,000円 | GL→粗利×60%
+  GL | 山内清 | 粗利70,000円 | 請求42,000円 | GL→粗利×60%
+  GL | 荒井大輝 | 粗利70,000円 | 請求42,000円 | GL→粗利×60%
+
+[dedup] 2026-06-01 の既存請求書 1 件
+  SKIP 仲山雄輝 / 株式会社TERRA / 既に2026年6月分の請求書あり
+  [DRY] payload 吉田創志 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（吉田創志様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（吉田創志様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 蒲池佑萌 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（蒲池佑萌様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（蒲池佑萌様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 大野稔貴 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（大野稔貴様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（大野稔貴様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 白須雄太 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（白須雄太様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（白須雄太様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 沼田航陽 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（沼田航陽様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（沼田航陽様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 魚谷 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（魚谷様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（魚谷様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 赤木 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（赤木様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（赤木様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 坪井 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（坪井様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（坪井様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 中村 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（中村様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（中村様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 日比野 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（日比野様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（日比野様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 大本 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（大本様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（大本様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "165000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 森 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（森様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（森様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "190000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 永野 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（永野様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（永野様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 安江 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（安江様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（安江様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 相川 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（相川様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（相川様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 芹澤 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（芹澤様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（芹澤様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "295000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 富永 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（富永様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（富永様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 天野 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（天野様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（天野様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 岩瀬 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（岩瀬様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（岩瀬様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 加藤(T) / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（加藤(T)様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（加藤(T)様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 佐々木 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（佐々木様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（佐々木様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "488000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 川崎(新) / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（川崎(新)様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（川崎(新)様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 橋詰(新) / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（橋詰(新)様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（橋詰(新)様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 佐々木(入) / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（佐々木(入)様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（佐々木(入)様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 小山内 / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（小山内様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（小山内様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "300000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 齋藤よしまさ / 株式会社TERRA
+{
+  "company_id": 11712776,
+  "partner_id": 91256138,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（齋藤よしまさ様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（齋藤よしまさ様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "15000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 笠井健太 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（笠井健太様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（笠井健太様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "68000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 木村勇太 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（木村勇太様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（木村勇太様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 加藤 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（加藤様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（加藤様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "38400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 川崎健太 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（川崎健太様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（川崎健太様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 田中みさ / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（田中みさ様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（田中みさ様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "20400",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 立野和紀 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（立野和紀様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（立野和紀様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 佐々木駿 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（佐々木駿様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（佐々木駿様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "27200",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 橋本奈緒 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（橋本奈緒様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（橋本奈緒様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "47600",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 吉田祥平 / 株式会社フラップテック
+{
+  "company_id": 11712776,
+  "partner_id": 113795090,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（吉田祥平様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（吉田祥平様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 石崎春光 / グレイスライン株式会社
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（石崎春光様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（石崎春光様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "24000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 山内清 / グレイスライン株式会社
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（山内清様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（山内清様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+  [DRY] payload 荒井大輝 / グレイスライン株式会社
+{
+  "company_id": 11712776,
+  "partner_id": 117422289,
+  "template_id": 3323260,
+  "billing_date": "2026-06-01",
+  "payment_date": "2026-06-30",
+  "subject": "2026年6月分 業務委託料（荒井大輝様）",
+  "payment_type": "transfer",
+  "tax_entry_method": "out",
+  "tax_fraction": "omit",
+  "withholding_tax_entry_method": "out",
+  "partner_title": "御中",
+  "sending_status": "unsent",
+  "lines": [
+    {
+      "type": "item",
+      "description": "業務委託料（荒井大輝様）2026年6月分",
+      "quantity": 1,
+      "unit": "式",
+      "unit_price": "42000",
+      "tax_rate": 10,
+      "reduced_tax_rate": false,
+      "withholding": false
+    }
+  ]
+}
+
+=== DRY-RUN完了: 作成予定38件 / SKIP1件 / エラー0件 ===
+-> https://secure.freee.co.jp/invoices

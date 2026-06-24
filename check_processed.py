@@ -1,7 +1,8 @@
+import json
+import sys
 
-import json, sys
 try:
-    with open('mail_pipeline/processed_ids.json', encoding='utf-8') as f:
+    with open("mail_pipeline/processed_ids.json", encoding="utf-8") as f:
         d = json.load(f)
     print(f"型: {type(d)}")
     if isinstance(d, list):

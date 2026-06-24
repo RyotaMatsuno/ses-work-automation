@@ -2,7 +2,6 @@
 import os
 import subprocess
 
-
 TASK_NAME = "jobz_matching_daily"
 BAT_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\run_matching_and_notify.bat"
 LOG_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\matching_daily.log"

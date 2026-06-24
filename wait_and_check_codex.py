@@ -1,10 +1,11 @@
-import time, os
+import os
+import time
 
 time.sleep(180)  # 3分待機
 
 for logfile in [
     r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\pipeline_v1_run.log",
-    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\outreach_system_run.log"
+    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\outreach_system_run.log",
 ]:
     print(f"\n=== {os.path.basename(logfile)} ===")
     try:
@@ -20,6 +21,7 @@ for logfile in [
 # pipeline_v1のファイル確認
 print("\n=== pipeline_v1/ files ===")
 import glob
+
 files = glob.glob(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1\*.py")
 for f in files:
     print(os.path.basename(f))

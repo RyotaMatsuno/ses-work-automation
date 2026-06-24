@@ -1,4 +1,4 @@
-xml_content = '''<?xml version="1.0" encoding="UTF-16"?>
+xml_content = """<?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
   <RegistrationInfo>
     <Description>jobz-command server watchdog</Description>
@@ -47,10 +47,10 @@ xml_content = '''<?xml version="1.0" encoding="UTF-16"?>
       <Arguments>"C:\\Users\\ma_py\\OneDrive\\\u30c7\u30b9\u30af\u30c8\u30c3\u30d7\\ses_work\\local_server\\watchdog.py"</Arguments>
     </Exec>
   </Actions>
-</Task>'''
+</Task>"""
 
 xml_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\local_server\jobz_watchdog_task.xml"
-with open(xml_path, 'w', encoding='utf-16') as f:
+with open(xml_path, "w", encoding="utf-16") as f:
     f.write(xml_content)
 
 print("OK - fixed XML written")

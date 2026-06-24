@@ -1,0 +1,2 @@
+Engineer: H.S, skills=['Java', 'JavaScript', 'SQL Server', 'Oracle', 'Spring', 'C#'], rate=70.0
+Total: 1307, status_skip=11, fresh_skip=9, skill_skip=777, profit_skip=401, pass=109

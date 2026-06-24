@@ -1,0 +1,28 @@
+{
+  "mode": "live",
+  "patterns": [
+    "P1",
+    "P2",
+    "P5"
+  ],
+  "counts": {
+    "P1": {
+      "action": 0,
+      "warning": 0
+    },
+    "P2": {
+      "action": 0,
+      "warning": 0
+    },
+    "P5": {
+      "action": 0,
+      "warning": 0
+    }
+  },
+  "update_stats": {
+    "success": 0,
+    "fail": 0,
+    "skipped_limit": 0
+  },
+  "findings": []
+}

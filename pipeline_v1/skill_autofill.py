@@ -6,9 +6,7 @@ from typing import Any
 import requests
 from anthropic import Anthropic
 from dotenv import dotenv_values
-
 from fetcher import ENV_PATH, notion_headers
-
 
 MODEL_NAME = "claude-haiku-4-5-20251001"
 VALID_SKILLS = {
@@ -120,11 +118,7 @@ def extract_skills(detail_text: str, api_key: str) -> dict[str, list[str]]:
         system=SYSTEM_PROMPT,
         messages=[{"role": "user", "content": detail_text}],
     )
-    text_parts = [
-        block.text
-        for block in response.content
-        if getattr(block, "type", None) == "text"
-    ]
+    text_parts = [block.text for block in response.content if getattr(block, "type", None) == "text"]
     try:
         return parse_skill_json("".join(text_parts))
     except Exception as e:
@@ -140,13 +134,9 @@ def patch_project_skills(
 ) -> None:
     props: dict[str, Any] = {}
     if required_skills:
-        props["必要スキル"] = {
-            "multi_select": [{"name": skill} for skill in required_skills]
-        }
+        props["必要スキル"] = {"multi_select": [{"name": skill} for skill in required_skills]}
     if optional_skills:
-        props["尚可スキル"] = {
-            "multi_select": [{"name": skill} for skill in optional_skills]
-        }
+        props["尚可スキル"] = {"multi_select": [{"name": skill} for skill in optional_skills]}
     if not props:
         return
 

@@ -1,10 +1,17 @@
-import sys, os, subprocess
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import subprocess
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 checks = []
 
 # 1. cleanup_v2.py未実行確認
-r = subprocess.run(["python", "-c", """
+r = subprocess.run(
+    [
+        "python",
+        "-c",
+        """
 import requests
 from dotenv import dotenv_values
 config = dotenv_values(r'C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\config\\.env')
@@ -19,8 +26,15 @@ d = r2.json()
 cnt = len(d.get('results', []))
 has_more = d.get('has_more', False)
 print(f"エンジニアDB: {cnt}件以上" if has_more else f"エンジニアDB: {cnt}件")
-"""], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=30,
-    cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work")
+""",
+    ],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+    timeout=30,
+    cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work",
+)
 print("=== エンジニアDB件数 ===")
 print(r.stdout.strip() or r.stderr[:200])
 

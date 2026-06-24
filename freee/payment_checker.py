@@ -6,6 +6,7 @@ Usage:
   python freee/payment_checker.py --dry-run
   python freee/payment_checker.py
 """
+
 from __future__ import annotations
 
 import argparse
@@ -19,7 +20,6 @@ from typing import Any
 
 import requests
 from dotenv import dotenv_values
-
 
 BASE_DIR = Path(__file__).resolve().parent
 SES_WORK_DIR = BASE_DIR.parent
@@ -35,8 +35,8 @@ PAID_PAYMENT_STATUSES = {"paid", "settled"}
 
 sys.path.insert(0, str(FREEE_AUTH_DIR))
 sys.path.insert(0, str(LINE_NOTIFY_DIR))
-from token_manager import get_headers  # noqa: E402
 from notify_line import send_line_message  # noqa: E402
+from token_manager import get_headers  # noqa: E402
 
 
 @dataclass
@@ -79,7 +79,6 @@ def freee_headers() -> dict[str, str]:
     return headers
 
 
-
 import jpholiday as _jpholiday
 
 
@@ -112,9 +111,10 @@ def should_run_today() -> bool:
 
     target_days = [
         _next_business_day(date(year, month, 15)),  # 15日サイト
-        _next_business_day(last_day),               # 月末サイト
+        _next_business_day(last_day),  # 月末サイト
     ]
     return today in target_days
+
 
 def parse_date(value: Any) -> date | None:
     if not value:
@@ -183,11 +183,7 @@ def partner_name(invoice: dict[str, Any]) -> str:
 
 
 def amount_value(invoice: dict[str, Any]) -> int | None:
-    return as_int(
-        invoice.get("total_amount")
-        or invoice.get("amount")
-        or invoice.get("total")
-    )
+    return as_int(invoice.get("total_amount") or invoice.get("amount") or invoice.get("total"))
 
 
 def due_date_value(invoice: dict[str, Any]) -> date | None:
@@ -227,7 +223,9 @@ def collect_alerts(invoices: list[dict[str, Any]], today: date) -> list[PaymentA
             )
         )
 
-    logging.info("classification: total=%s paid=%s not_due=%s alerts=%s", len(invoices), paid_count, not_due_count, len(alerts))
+    logging.info(
+        "classification: total=%s paid=%s not_due=%s alerts=%s", len(invoices), paid_count, not_due_count, len(alerts)
+    )
     return alerts
 
 

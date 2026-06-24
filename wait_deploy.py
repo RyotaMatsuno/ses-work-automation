@@ -1,5 +1,6 @@
+import time
 
-import requests, time
+import requests
 
 TOKEN = "fbc5deef-ab29-4f5c-b7b8-6dc2cc2e9c81"
 SERVICE_ID = "484966c3-2d1c-4736-9f69-891f11a35128"
@@ -19,14 +20,13 @@ query($serviceId: String!, $environmentId: String!) {
 """
 
 for i in range(12):
-    res = requests.post(url, headers=headers, json={
-        "query": query,
-        "variables": {"serviceId": SERVICE_ID, "environmentId": ENV_ID}
-    })
+    res = requests.post(
+        url, headers=headers, json={"query": query, "variables": {"serviceId": SERVICE_ID, "environmentId": ENV_ID}}
+    )
     edges = res.json().get("data", {}).get("deployments", {}).get("edges", [])
     if edges:
         latest = edges[0]["node"]
-        print(f"[{i*10}s] status={latest['status']} id={latest['id'][:8]}")
+        print(f"[{i * 10}s] status={latest['status']} id={latest['id'][:8]}")
         if latest["status"] in ("SUCCESS", "FAILED", "CRASHED"):
             break
     time.sleep(10)

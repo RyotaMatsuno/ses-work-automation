@@ -1,12 +1,14 @@
 """
 ai_extractor.py - Claude APIでスキルシートから構造化データ抽出モジュール
 """
+
 import json
 import logging
 import os
 import sys
 from datetime import date
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 try:
@@ -14,16 +16,41 @@ try:
 except Exception:
     pass
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from common.ledger import can_spend, record
-from common.model_config import TEXT_MODEL
 
 load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+
+EXTRACTOR_MODEL = os.environ.get(
+    "LLM_MODEL_EXTRACTOR",
+    os.environ.get("LLM_MODEL", "claude-haiku-4-5-20251001"),
+)
+
+from common.ledger import can_spend, record  # noqa: E402
+
 logger = logging.getLogger(__name__)
 
 SKILL_OPTIONS = [
-    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js", "React",
-    "AWS", "インフラ", "PostgreSQL", "Oracle", "Vue.js", "MySQL", "Swift", "Azure",
-    "Linux", "Go", "Ruby", "Docker", "MongoDB", "Spring"
+    "Java",
+    "Python",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "C#",
+    "Node.js",
+    "React",
+    "AWS",
+    "インフラ",
+    "PostgreSQL",
+    "Oracle",
+    "Vue.js",
+    "MySQL",
+    "Swift",
+    "Azure",
+    "Linux",
+    "Go",
+    "Ruby",
+    "Docker",
+    "MongoDB",
+    "Spring",
 ]
 
 ENGINEER_SYSTEM_PROMPT = f"""あなたはSESエンジニアのスキルシートから情報を抽出するAIです。
@@ -34,6 +61,7 @@ JSON以外のテキストは一切出力しないでください。
 [
   {{
     "name": "氏名（フルネーム）",
+    "affiliation": "所属会社名（不明はnull）",
     "price": 単価の数値（万円、不明はnull）,
     "available_date": "稼働可能日（YYYY-MM-DD形式、即日は今日の日付、不明はnull）",
     "experience_years": 経験年数の数値（不明はnull）,
@@ -106,19 +134,19 @@ def classify_content(text: str) -> str:
     client = anthropic.Anthropic(api_key=api_key)
 
     try:
-        if not can_spend(est_in=1000, est_out=50, model=TEXT_MODEL):
+        if not can_spend(est_in=1000, est_out=50, model=EXTRACTOR_MODEL):
             logger.warning("コスト上限到達: classify_contentをフォールバック")
             return fallback_classify()
         response = client.messages.create(
-            model=TEXT_MODEL,
+            model=EXTRACTOR_MODEL,
             max_tokens=50,
             system=CLASSIFY_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": text[:3000]}]
+            messages=[{"role": "user", "content": text[:3000]}],
         )
         record(
             response.usage.input_tokens,
             response.usage.output_tokens,
-            TEXT_MODEL,
+            EXTRACTOR_MODEL,
             script="ai_extractor",
         )
         raw = response.content[0].text.strip()
@@ -157,19 +185,19 @@ def extract_engineers(text: str, filename: str) -> list:
     user_content = f"今日の日付: {today}\n\n以下のスキルシートから情報を抽出してください:\n\n{text[:8000]}"
 
     try:
-        if not can_spend(est_in=2500, est_out=2000, model=TEXT_MODEL):
+        if not can_spend(est_in=2500, est_out=2000, model=EXTRACTOR_MODEL):
             logger.warning(f"コスト上限到達: エンジニア抽出をスキップ: {filename}")
             return []
         response = client.messages.create(
-            model=TEXT_MODEL,
+            model=EXTRACTOR_MODEL,
             max_tokens=2000,
             system=ENGINEER_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_content}]
+            messages=[{"role": "user", "content": user_content}],
         )
         record(
             response.usage.input_tokens,
             response.usage.output_tokens,
-            TEXT_MODEL,
+            EXTRACTOR_MODEL,
             script="ai_extractor",
         )
         raw = response.content[0].text.strip()
@@ -216,19 +244,19 @@ def extract_projects(text: str, filename: str) -> list:
     user_content = f"今日の日付: {today}\n\n以下のテキストから案件情報を抽出してください:\n\n{text[:8000]}"
 
     try:
-        if not can_spend(est_in=2500, est_out=2000, model=TEXT_MODEL):
+        if not can_spend(est_in=2500, est_out=2000, model=EXTRACTOR_MODEL):
             logger.warning(f"コスト上限到達: 案件抽出をスキップ: {filename}")
             return []
         response = client.messages.create(
-            model=TEXT_MODEL,
+            model=EXTRACTOR_MODEL,
             max_tokens=2000,
             system=PROJECT_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": user_content}]
+            messages=[{"role": "user", "content": user_content}],
         )
         record(
             response.usage.input_tokens,
             response.usage.output_tokens,
-            TEXT_MODEL,
+            EXTRACTOR_MODEL,
             script="ai_extractor",
         )
         raw = response.content[0].text.strip()

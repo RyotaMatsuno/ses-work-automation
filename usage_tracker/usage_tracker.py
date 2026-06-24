@@ -2,11 +2,13 @@
 usage_tracker.py - 日次集計メイン
 前日分のcost_log.jsonlを集計してNotionに書き込み、アーカイブに移動する
 """
+
 from __future__ import annotations
+
 import json
 import sys
 from collections import defaultdict
-from datetime import date, timedelta, datetime, timezone
+from datetime import date, timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -92,9 +94,9 @@ def main() -> None:
     agg: dict[tuple[str, str], dict] = defaultdict(lambda: {"input": 0, "output": 0, "usd": 0.0})
     for r in target_records:
         key = (r["script"], r["model"])
-        agg[key]["input"]  += r.get("input_tokens", 0)
+        agg[key]["input"] += r.get("input_tokens", 0)
         agg[key]["output"] += r.get("output_tokens", 0)
-        agg[key]["usd"]    += r.get("cost_usd", 0.0)
+        agg[key]["usd"] += r.get("cost_usd", 0.0)
 
     # Notionに書き込み
     for (script, model), vals in agg.items():

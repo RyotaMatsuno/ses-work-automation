@@ -2,15 +2,15 @@
 test_integration.py - 統合テスト
 全モジュールの接続確認 + 実際のメール1件で動作確認
 """
+
 import json
 import logging
 import sys
-from pathlib import Path
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)]
+    handlers=[logging.StreamHandler(sys.stdout)],
 )
 logger = logging.getLogger("integration_test")
 
@@ -19,6 +19,7 @@ def test_imap_connection():
     """Step 1: IMAP接続テスト"""
     logger.info("=== Step 1: IMAP接続テスト ===")
     from mail_fetcher import fetch_new_emails
+
     try:
         emails = fetch_new_emails(days_back=1)
         logger.info(f"IMAP接続OK。直近7日のメール: {len(emails)}件")
@@ -35,6 +36,7 @@ def test_file_parser():
     """Step 2: ファイルパーサーテスト（ダミーデータ）"""
     logger.info("=== Step 2: ファイルパーサーテスト ===")
     from file_parser import parse_file
+
     # 簡易テスト: parse_file関数が存在し呼び出し可能か確認
     result = parse_file("dummy.txt", ".txt", b"")
     logger.info(f"parse_file呼び出しOK (未対応形式のテスト: result={result})")
@@ -45,6 +47,7 @@ def test_ai_extractor():
     """Step 3: Claude API抽出テスト"""
     logger.info("=== Step 3: Claude API抽出テスト ===")
     from ai_extractor import extract_engineers
+
     sample = """
 氏名: 田中太郎
 経験年数: 5年
@@ -65,6 +68,7 @@ def test_notion_writer():
     """Step 4: Notion重複チェックテスト（登録はしない）"""
     logger.info("=== Step 4: Notion重複チェックテスト ===")
     from notion_writer import check_duplicate
+
     # 存在しないであろう名前で確認
     exists = check_duplicate("テスト統合テスト12345")
     logger.info(f"Notion重複チェックOK。'テスト統合テスト12345'の重複: {exists}")
@@ -99,8 +103,8 @@ def test_full_pipeline(emails):
 
     logger.info(f"テスト対象: UID={target['uid']} 件名={target['subject'][:50]}")
 
-    from file_parser import parse_file
     from ai_extractor import extract_engineers
+    from file_parser import parse_file
     from notion_writer import check_duplicate
 
     # 添付ファイルがあればパース→抽出まで試す（登録はしない）
@@ -127,6 +131,7 @@ def test_full_pipeline(emails):
         # Playwright必要なのでここでは接続テストのみ
         try:
             from sheet_fetcher import fetch_sheet_text
+
             logger.info("sheet_fetcher import OK")
         except ImportError as e:
             logger.warning(f"sheet_fetcher import失敗: {e}")

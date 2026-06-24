@@ -1,0 +1,123 @@
+=== process_message (L1854) ===
+def process_message(text, reply_token, sender, sender_token, user_id=""):
+
+    print(f"[{sender}] {text[:80]}")
+    try:
+        now = time.time()
+        for key, value in list(USER_BUFFER.items()):
+            if now - value.get("timestamp", 0) > BUFFER_TTL:
+                del USER_BUFFER[key]
+    except Exception as e:
+        print(f"[USER_BUFFER] cleanup error: {e}")
+
+    pending_key = sender + "_latest"
+
+    skill_key = sender + "_skill"
+
+    text_stripped = text.strip()
+
+    if handle_reminder_command(text_stripped, reply_token, sender_token):
+        return
+
+    if handle_intent_status_command(text_stripped, reply_token, sender_token):
+        return
+
+    import sys; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'line_query')); from line_query import handle_line_query
+    result = handle_line_query(text)
+    if result is not None:
+        chunks = split_line_message(result)
+        if len(chunks) == 1:
+            reply_message(reply_token, chunks[0], sender_token)
+        else:
+            # 複数チャンク: 1通目はReply、2通目以降はPush
+            reply_message(reply_token, chunks[0], sender_token)
+            for chunk in chunks[1:]:
+                push_message(user_id, chunk, sender_token)
+        return
+
+    # ── リモートコマンド（松野のみ）─────────────────────────────────
+    if user_id and user_id == MATSUNO_USER_ID:
+        if text_stripped.startswith("/run "):
+            result = execute_remote(text_stripped[5:])
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped.startswith("/bg "):
+            result = execute_bg(text_stripped[4:])
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped == "/log":
+            result = get_log()
+            reply_message(reply_token, result, sender_token)
+            return
+        elif text_stripped == "/health":
+            result = get_health()
+            reply_message(reply_token, result, sender_token)
+            return
+    elif (
+        text_stripped.startswith("/run ")
+        or text_stripped.startswith("/bg ")
+        or text_stripped in ("/log", "/health")
+    ):
+        reply_message(reply_token, "❌ エラー\n権限がありません", sender_token)
+        return
+
+
+
+    # ── 送信指示の処理 ───────────────────────────────────────────
+
+    is_send_all = "NGも含めて送信" in text_stripped or "NG含めて送信" in text_stripped
+
+    is_mail_send = "メール送信して" in text_stripped
+
+    is_send_ok  = text_stripped.startswith("送信して") or text_stripped.startswith("送信 ")
+
+
+
+    # スキルシート解析後の意向確認メール送信
+
+    if is_mail_send and skill_key in PENDING_SKILL_MAIL:
+
+        emails = EMAIL_PATTERN.findall(text_stripped)
+
+        to_addr = emails[0] if emails else None
+
+        iko_mail = PENDING_SKILL_MAIL[skill_key]
+
+        if to_addr:
+
+            account = "matsuno" if sender == "matsuno" else "okamoto"
+
+            subject = "案件ご検討のお願い"
+
+            sent = send_email_via_callback(account, to_addr, subject, iko_mail)
+
+            if sent:
+
+                reply_message(reply_token, f"✅ 意向確認メール送信完了\n送信先: {to_addr}", sender_token)
+
+                del PENDING_SKILL_MAIL[skill_key]
+
+            else:
+
+                reply_message(reply_token, f"❌ 送信失敗。以下をコピーして手動送信してください:\n宛先: {to_addr}\n\n{iko_mail[:2000]}", sender_token)
+
+        else:
+
+            reply_message(reply_token, f"📧 送信先メールアドレスを指定してください\n例: メール送信して xxx@yyy.com\n\n{iko_mail[:1500]}", sender_token)
+
+        return
+
+
+
+    # ── ステータス更新コマンド（簡略版）──────────────────────────────
+    # 書式: 「更新 候補者名 ステータス略語」
+    # 例:  「更新 RH 確認中」「更新 MY 面談」「更新 OA NG」
+    if text_stripped.startswith("更新 ") or text_stripped.startswith("更新　"):
+        parts = text_stripped[2:].strip().split()
+        if len(parts) < 2:
+            reply_message(reply_token,
+                "書式: 更新 候補者名 ステータス\n"
+                "例: 更新 RH 確認中 / 更新 MY 面談 / 更新 OA NG\n"
+                "ステータス略語: 前 確認 面談 調整 済 合格 OK NG",
+
+=== line_query.py: exists=True size=31458 ===

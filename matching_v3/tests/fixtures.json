@@ -1,0 +1,146 @@
+{
+  "case_examples": [
+    {
+      "id": "case-normal",
+      "subject": "Java/Spring案件",
+      "body": "案件名: Java業務システム開発\n必須: Java, Spring, MySQL\n尚可: AWS\n単価: 60〜75万\n開始: 2026-07-01\n勤務地: 東京 常駐\n面談: 1回",
+      "expected": {
+        "role": "Javaエンジニア",
+        "required_skills": ["Java", "Spring", "MySQL"],
+        "optional_skills": ["AWS"],
+        "ambiguous_skills": [],
+        "price_min": 60.0,
+        "price_max": 75.0,
+        "start_date": "2026-07-01",
+        "duration_months": null,
+        "work_location": "東京",
+        "remote_ok": "none",
+        "interview_count": 1,
+        "foreign_ok": null,
+        "required_phases": ["開発"],
+        "settlement": null,
+        "commercial_restrictions": null,
+        "sole_proprietor_ok": null,
+        "age_max": null,
+        "night_shift": null,
+        "interview_scheduled_at": null,
+        "extraction_confidence": 0.95,
+        "raw_important_notes": null
+      }
+    },
+    {
+      "id": "case-interview",
+      "subject": "React案件 面談設定済み",
+      "body": "フロントエンド案件\n必須: React, TypeScript\n尚可: Node.js\n単価: 〜80万\nリモート: フルリモート\n面談予定: 2026-06-10T15:00:00+09:00",
+      "expected": {
+        "role": "フロントエンドエンジニア",
+        "required_skills": ["React", "TypeScript"],
+        "optional_skills": ["Node.js"],
+        "ambiguous_skills": [],
+        "price_min": null,
+        "price_max": 80.0,
+        "start_date": null,
+        "duration_months": null,
+        "work_location": null,
+        "remote_ok": "full",
+        "interview_count": null,
+        "foreign_ok": null,
+        "required_phases": [],
+        "settlement": null,
+        "commercial_restrictions": null,
+        "sole_proprietor_ok": null,
+        "age_max": null,
+        "night_shift": null,
+        "interview_scheduled_at": null,
+        "extraction_confidence": 0.93,
+        "raw_important_notes": null
+      }
+    },
+    {
+      "id": "case-skill-split",
+      "subject": "Java/Spring案件",
+      "body": "必須: Java/Spring, MySQL\n単価: 55万固定\n勤務地: 大阪",
+      "expected": {
+        "role": "Javaエンジニア",
+        "required_skills": ["Java", "Spring", "MySQL"],
+        "optional_skills": [],
+        "ambiguous_skills": [],
+        "price_min": 55.0,
+        "price_max": 55.0,
+        "work_location": "大阪",
+        "remote_ok": "unknown",
+        "extraction_confidence": 0.9
+      }
+    },
+    {
+      "id": "case-rate-string",
+      "subject": "Python案件",
+      "body": "必須: Python\n単価: 60万〜70万\n勤務地: 横浜",
+      "expected": {
+        "role": "Pythonエンジニア",
+        "required_skills": ["Python"],
+        "optional_skills": [],
+        "ambiguous_skills": [],
+        "rate_min": "60万",
+        "rate_max": "70万",
+        "work_location": "横浜",
+        "remote_ok": "unknown",
+        "extraction_confidence": 0.85
+      }
+    },
+    {
+      "id": "case-cloud-tier3",
+      "subject": "クラウド基盤案件",
+      "body": "必須: AWS, Terraform\n尚可: クラウド\n単価: 〜65万\nリモート: 週3出社",
+      "expected": {
+        "role": "インフラエンジニア",
+        "required_skills": ["AWS", "Terraform"],
+        "optional_skills": ["クラウド"],
+        "ambiguous_skills": [],
+        "price_min": null,
+        "price_max": 65.0,
+        "work_location": null,
+        "remote_ok": "partial",
+        "extraction_confidence": 0.88
+      }
+    }
+  ],
+  "engineers": [
+    {
+      "id": "eng-match",
+      "名前": "田中 太郎",
+      "スキル": ["Java", "Spring", "MySQL", "AWS"],
+      "単価（万円）": 70,
+      "経験年数": 8,
+      "稼働状況": "稼働可",
+      "担当者": "松野",
+      "提案対象フラグ": true,
+      "備考（LINEメモ）": "",
+      "_last_edited_time": "2026-06-02T00:00:00+00:00"
+    },
+    {
+      "id": "eng-ng",
+      "名前": "佐藤 花子",
+      "スキル": ["Python"],
+      "単価（万円）": 80,
+      "経験年数": 5,
+      "稼働状況": "稼働可",
+      "担当者": "岡本",
+      "提案対象フラグ": true,
+      "備考（LINEメモ）": "",
+      "_last_edited_time": "2026-06-02T00:00:00+00:00"
+    },
+    {
+      "id": "eng-review",
+      "名前": "鈴木 次郎",
+      "スキル": ["Java", "Spring", "MySQL"],
+      "単価（万円）": 65,
+      "経験年数": 7,
+      "稼働状況": "準備中",
+      "担当者": "松野",
+      "提案対象フラグ": true,
+      "備考（LINEメモ）": "面談予定",
+      "_last_edited_time": "2026-05-20T00:00:00+00:00"
+    }
+  ]
+}

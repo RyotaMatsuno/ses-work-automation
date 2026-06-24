@@ -1,0 +1,15 @@
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.git
+**/node_modules
+**/*.log
+**/*.bak*
+_archive
+_archive_tmp
+blocked_tasks
+gate_checker/results
+usage_tracker
+test
+*.md
+agent-transcripts

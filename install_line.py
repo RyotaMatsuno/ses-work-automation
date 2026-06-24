@@ -1,6 +1,6 @@
-import urllib.request
-import subprocess
 import os
+import subprocess
+import urllib.request
 
 url = "https://desktop.line-scdn.net/win/new/LineInst.exe"
 dest = os.path.join(os.path.expanduser("~"), "Downloads", "LineInst.exe")

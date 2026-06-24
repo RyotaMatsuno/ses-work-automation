@@ -1,5 +1,4 @@
-
-import os, re
+import os
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 path = os.path.join(base, "mail_pipeline", "mail_pipeline.py")
@@ -15,9 +14,9 @@ if OLD1 in content:
     print("PATCH1 (classify body limit): OK")
 else:
     # cp932混じりのため行番号で確認
-    for i, line in enumerate(content.split('\n')):
-        if 'body[:2000]' in line:
-            print(f"  Found body[:2000] at line {i+1}: {repr(line)}")
+    for i, line in enumerate(content.split("\n")):
+        if "body[:2000]" in line:
+            print(f"  Found body[:2000] at line {i + 1}: {repr(line)}")
     print("PATCH1: searching by bytes")
 
 # ===== PATCH 2: register_project の note組み立て - bodyも含める =====
@@ -32,16 +31,18 @@ else:
     print("PATCH2: NOT FOUND")
 
 # ===== PATCH 3: note組み立てにraw_bodyを追加 =====
-OLD3 = '    note = f"【メールから自動登録】\\n送信元: {sender}\\n件名: {subject}\\n\\n{info.get(\'note\',\'\')}"'
-NEW3 = '    note = f"【メールから自動登録】\\n送信元: {sender}\\n件名: {subject}\\n\\n{raw_body or info.get(\'note\',\'\')}"'
+OLD3 = "    note = f\"【メールから自動登録】\\n送信元: {sender}\\n件名: {subject}\\n\\n{info.get('note','')}\""
+NEW3 = (
+    "    note = f\"【メールから自動登録】\\n送信元: {sender}\\n件名: {subject}\\n\\n{raw_body or info.get('note','')}\""
+)
 if OLD3 in content:
     content = content.replace(OLD3, NEW3)
     print("PATCH3 (note with raw_body): OK")
 else:
     print("PATCH3: NOT FOUND - checking")
-    for i, line in enumerate(content.split('\n')):
-        if 'note = f' in line and 'sender' in line:
-            print(f"  Found at line {i+1}: {repr(line)}")
+    for i, line in enumerate(content.split("\n")):
+        if "note = f" in line and "sender" in line:
+            print(f"  Found at line {i + 1}: {repr(line)}")
 
 # ===== PATCH 4: Notionのrich_textを2000文字複数ブロックに分割する関数を追加 =====
 # register_project内の note[:2000] を split_rich_text(note) に変更
@@ -57,8 +58,8 @@ def split_rich_text(text: str, chunk_size: int = 1900) -> list:
 
 '''
 
-if 'def split_rich_text' not in content:
-    content = content.replace('def register_project(', HELPER_FUNC + 'def register_project(')
+if "def split_rich_text" not in content:
+    content = content.replace("def register_project(", HELPER_FUNC + "def register_project(")
     print("PATCH4 (split_rich_text helper): OK")
 else:
     print("PATCH4: ALREADY EXISTS")
@@ -71,15 +72,16 @@ if OLD5 in content:
     print("PATCH5 (案件詳細 split): OK")
 else:
     print("PATCH5: NOT FOUND - checking")
-    for i, line in enumerate(content.split('\n')):
-        if 'note[:2000]' in line:
-            print(f"  Found at line {i+1}: {repr(line)}")
+    for i, line in enumerate(content.split("\n")):
+        if "note[:2000]" in line:
+            print(f"  Found at line {i + 1}: {repr(line)}")
 
 with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 print("WRITE: OK")
 
 import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("SYNTAX: OK")

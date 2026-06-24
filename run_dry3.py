@@ -9,7 +9,7 @@ result = subprocess.run(
     encoding="utf-8",
     errors="replace",
     timeout=25,
-    env={**os.environ, "SKIP_NOTION_FETCH": "1", "PYTHONIOENCODING": "utf-8"}
+    env={**os.environ, "SKIP_NOTION_FETCH": "1", "PYTHONIOENCODING": "utf-8"},
 )
 print("STDOUT:", result.stdout[:3000])
 if result.stderr:

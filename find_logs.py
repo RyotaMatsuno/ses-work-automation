@@ -1,5 +1,7 @@
-import os, sys, subprocess
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # MCPサーバーのデバッグログを探す
 base = os.path.expandvars(r"%LOCALAPPDATA%\Claude")

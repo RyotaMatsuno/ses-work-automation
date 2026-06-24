@@ -1,5 +1,7 @@
-import os, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 log = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_affiliation.log"
 size = os.path.getsize(log)

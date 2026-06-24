@@ -4,6 +4,7 @@ assignee.py - 担当者自動割り振りモジュール
 受信アドレスから担当者（松野 / 岡本）を決定する。
 共通アドレスは岡本2:松野1のラウンドロビン。
 """
+
 import json
 from pathlib import Path
 
@@ -32,9 +33,7 @@ def _round_robin_assignee() -> str:
         else:
             count = 0
         assignee = "松野" if count % 3 == 2 else "岡本"
-        COUNTER_PATH.write_text(
-            json.dumps({"count": (count + 1) % 3}), encoding="utf-8"
-        )
+        COUNTER_PATH.write_text(json.dumps({"count": (count + 1) % 3}), encoding="utf-8")
         return assignee
     except Exception as e:
         print(f"[assignee] カウンターエラー: {e}")

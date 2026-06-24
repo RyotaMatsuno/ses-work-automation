@@ -1,24 +1,20 @@
-
 """
 エンジニアDB の重複・ゴミデータ調査
 - 「注力人材」タイトルのデータが何件あるか
 - 今日登録されたデータ（正常分）は何件か
 """
-import requests
-import json
-from dotenv import dotenv_values
+
 from pathlib import Path
 
-ENV_PATH = Path(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
+import requests
+from dotenv import dotenv_values
+
+ENV_PATH = Path(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
 config = dotenv_values(ENV_PATH)
 NOTION_KEY = config.get("NOTION_API_KEY", "")
 ENGINEER_DB = config.get("NOTION_ENGINEER_DB_ID", "")
 
-HEADERS = {
-    "Authorization": f"Bearer {NOTION_KEY}",
-    "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
-}
+HEADERS = {"Authorization": f"Bearer {NOTION_KEY}", "Content-Type": "application/json", "Notion-Version": "2022-06-28"}
 
 # 全件取得して集計
 all_pages = []
@@ -27,10 +23,7 @@ while True:
     payload = {"page_size": 100}
     if cursor:
         payload["start_cursor"] = cursor
-    r = requests.post(
-        f"https://api.notion.com/v1/databases/{ENGINEER_DB}/query",
-        headers=HEADERS, json=payload
-    )
+    r = requests.post(f"https://api.notion.com/v1/databases/{ENGINEER_DB}/query", headers=HEADERS, json=payload)
     data = r.json()
     all_pages.extend(data.get("results", []))
     if not data.get("has_more"):
@@ -41,6 +34,7 @@ print(f"エンジニアDB 総ページ数: {len(all_pages)}")
 
 # タイトル別集計
 from collections import Counter
+
 names = []
 no_skill = 0
 today_data = []
@@ -51,7 +45,7 @@ for p in all_pages:
     name = title_list[0]["plain_text"] if title_list else "(no title)"
     created = p["created_time"][:10]
     skills = [o["name"] for o in p["properties"].get("スキル", {}).get("multi_select", [])]
-    
+
     names.append(name)
     if not skills:
         no_skill += 1
@@ -61,7 +55,7 @@ for p in all_pages:
         legacy_data.append(name)
 
 name_counts = Counter(names)
-print(f"\n重複名上位10件:")
+print("\n重複名上位10件:")
 for name, cnt in name_counts.most_common(10):
     print(f"  {cnt}件: 「{name}」")
 

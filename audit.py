@@ -1,31 +1,39 @@
-
 # -*- coding: utf-8 -*-
-import requests, os, json, sys
-sys.stdout.reconfigure(encoding='utf-8')
-from dotenv import load_dotenv
-load_dotenv(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
+import json
+import os
+import sys
 
-NOTION_API_KEY = os.environ.get('NOTION_API_KEY', '')
-PROJECT_DB  = '343450ff-37c0-81e4-934e-f25f90284a3c'
-ENGINEER_DB = '343450ff-37c0-819d-8769-fb0a8a4ceeb1'
+import requests
+
+sys.stdout.reconfigure(encoding="utf-8")
+from dotenv import load_dotenv
+
+load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+PROJECT_DB = "343450ff-37c0-81e4-934e-f25f90284a3c"
+ENGINEER_DB = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
 
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
+
 
 def query_db(db_id, filter_obj=None):
     results, payload = [], {"page_size": 100}
-    if filter_obj: payload["filter"] = filter_obj
+    if filter_obj:
+        payload["filter"] = filter_obj
     while True:
-        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query",
-                         headers=headers, json=payload)
+        r = requests.post(f"https://api.notion.com/v1/databases/{db_id}/query", headers=headers, json=payload)
         data = r.json()
         results.extend(data.get("results", []))
-        if not data.get("has_more"): break
+        if not data.get("has_more"):
+            break
         payload["start_cursor"] = data["next_cursor"]
     return results
+
 
 # 案件DB全件のステータス確認
 proj_all = query_db(PROJECT_DB)
@@ -54,5 +62,5 @@ for p in eng_all:
 print(f"\n合計 {len(bug_list)}件の単価バグ")
 
 # JSONで保存
-with open(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\price_bugs.json', 'w', encoding='utf-8') as f:
+with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\price_bugs.json", "w", encoding="utf-8") as f:
     json.dump(bug_list, f, ensure_ascii=False, indent=2)

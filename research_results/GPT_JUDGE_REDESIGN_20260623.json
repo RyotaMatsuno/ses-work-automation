@@ -1,0 +1,34 @@
+{
+  "judge_redesign": {
+    "changes": [
+      "unknown_skillsを即REVIEW理由にしない。判定フローを『missing(確定不足)』と『unknown(未判定)』で分離する。",
+      "必須スキル判定を3値化する: HIT=辞書正規化できてeng_skillsに存在, MISS=辞書正規化できてeng_skillsに存在しない, UNKNOWN=辞書外で未判定。",
+      "NG条件は『粗利NG』または『MISSが1件以上』のみに限定する。UNKNOWNのみではNG/REVIEWに直行させない。",
+      "REVIEW条件を『UNKNOWNが多い』『並行スコア悪化』『鮮度劣化』『曖昧スキル多い』などの複合条件に変更する。UNKNOWN単独ではREVIEWにしない。",
+      "MATCH条件を新設する。例: MISS=0 かつ (UNKNOWN=0 または UNKNOWN件数<=1 または unknown_ratio<=0.2) ならMATCH。",
+      "required_skillsを重要度で分割する。must_haveとnice_to_haveを区別し、unknownがnice_to_have側なら無視または軽微減点に留める。",
+      "unknown_skillsに対して軽量フォールバック判定を追加する。辞書正規化不能でも、表記ゆれ正規化(小文字化、記号除去、全半角統一、スペース除去)後にeng_skills文字列と完全一致/部分一致/別名辞書で照合する。",
+      "eng_skills側も事前に検索用インデックスを持つ。例: raw skill token集合、n-gram、別名テーブルを構築し、辞書外でも『DB記載あり』を拾えるようにする。",
+      "最小変更案としては現行ステップ4を『unknown_skillsが一定閾値を超えた場合のみreasons追加』へ変更し、ステップ6を『reasonsのうち致命的理由がある場合のみREVIEW』へ変える。",
+      "判定結果にconfidenceを追加する。MATCH_HIGH, MATCH_LOW, REVIEW, NGのように運用上の優先度を付けると、MATCH率を上げつつ事故を抑えやすい。"
+    ],
+    "expected_match_rate": "unknown_skills単独でREVIEWに落とさないだけで0%→20-40%は十分狙える。特に『MISSのみNG』『UNKNOWN少数はMATCH』に変える最小改修で、案件必須スキルの大半が既知スキルで満たされている候補はMATCHへ復帰する。保守的運用でも15-25%、軽量フォールバック併用で20-40%が現実的。"
+  },
+  "unknown_skill_handling": {
+    "recommendation": "推奨は『保留要因ではなく不確実性スコアとして扱う』こと。つまりunknown_skillsは単独でREVIEWにせず、件数・比率・他シグナルと合算して判定する。具体的には UNKNOWN=0なら通常判定、UNKNOWNが1件以下または必須全体の20%以下ならMATCH可、UNKNOWNが多い場合のみREVIEW、MISSがあればNG。",
+    "alternatives": [
+      "厳格型: unknownが1件でもREVIEW。安全だが現状同様にMATCH率が死ぬため非推奨。",
+      "楽観型: unknownは全無視。MATCH率は上がるが、実際は必須未充足でもMATCH化する誤判定リスクがある。",
+      "閾値型: unknown件数<=Nなら無視、>NでREVIEW。最小変更として実装容易。",
+      "比率型: unknown_ratio=unknown/required_skillsで判定。案件ごとの必須数の差を吸収でき、件数閾値より安定。",
+      "重み型: must_have上のunknownは0.7件、nice_to_have上のunknownは0.2件のように重み付けしてREVIEW閾値判定。",
+      "検索併用型: unknownでもエンジニアDBに表記一致・類似一致があればHIT候補に格上げ、何も無ければUNKNOWN維持。実務上これが最もバランスが良い。"
+    ]
+  },
+  "db_skill_distinction": "区別すべき。これは重要な構造改善点。『辞書外だがエンジニアDBにも記載なし』は真の未判定/不足寄りであり、『辞書外だがエンジニアDBに類似記載あり』は辞書不足に起因する偽unknownの可能性が高い。よって unknownを少なくとも2分類に分けるべき: UNKNOWN_NO_EVIDENCE(辞書外・DB証拠なし) と UNKNOWN_WITH_EVIDENCE(辞書外・DB近似証拠あり)。後者はMATCH寄り、前者はREVIEW寄りに扱う。軽量実装としては、表記正規化後の完全一致、部分一致、別名テーブル一致、英数記号除去一致を証拠扱いにする。例: 『React.js』と『React』、『Type Script』と『TypeScript』、『Postgre』と『PostgreSQL』など。"
+  },
+  "llm_limited_use": {
+    "when": "LLMは常時使わず、unknownのうち高価値・高不確実ケースに限定する。推奨発火条件は4つ: 1) MISS=0かつUNKNOWN_WITH_EVIDENCEがあるためMATCH/REVIEW境界にいる案件、2) 粗利高・優先案件、3) unknownがmust_haveに集中している案件、4) 同じunknown語が複数回出現しており辞書追加価値が高い場合。さらにキャッシュ必須で、同一skill文字列→canonical推定結果は永続化する。",
+    "cost_estimate": "設計目安は『候補者×案件ごと』ではなく『新規unknown skill語ごと』に1回だけLLM判定すること。例えば1日あたり新規unknown語が20-50語なら、その語だけをバッチ判定して結果を辞書/別名表へ反映すれば十分。gpt-4.1-nano級や安価モデルなら数十〜数百円/日レベル、Anthropicでも短文バッチ+キャッシュ前提なら$8/日以内に収めやすい。運用ルール例: 日次上限$4を辞書拡張バッチ、残り$4を即時判定に割当。即時判定は『当日高優先案件のみ最大10-20件』に制限する。最重要なのはAPI判定結果をskill_aliasesへ再利用し、同じunknownへ二度課金しないこと。"
+  }
+}

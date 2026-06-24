@@ -1,4 +1,7 @@
-import sys, io, anthropic
+import io
+import sys
+
+import anthropic
 from dotenv import dotenv_values
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -36,8 +39,6 @@ codex exec専用の別ポート（8766）にサーバーを分離する。
 4. MCPサーバーとして使う場合の特有の考慮点があれば"""
 
 response = client.messages.create(
-    model="claude-opus-4-5",
-    max_tokens=2000,
-    messages=[{"role": "user", "content": prompt}]
+    model="claude-opus-4-5", max_tokens=2000, messages=[{"role": "user", "content": prompt}]
 )
 print(response.content[0].text)

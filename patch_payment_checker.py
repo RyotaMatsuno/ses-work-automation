@@ -1,8 +1,9 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-path = r'freee/payment_checker.py'
-with open(path, 'r', encoding='utf-8') as f:
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+path = r"freee/payment_checker.py"
+with open(path, "r", encoding="utf-8") as f:
     src = f.read()
 
 # 1. importブロックにjpholidayを追加
@@ -59,18 +60,19 @@ new_main = (
     "def main() -> int:\n"
     "    args = parse_args()\n"
     "    if not args.dry_run and not should_run_today():\n"
-    "        logging.info(\"today is not a target business day; skipped\")\n"
+    '        logging.info("today is not a target business day; skipped")\n'
     "        return 0\n"
     "    return run(dry_run=args.dry_run)"
 )
 src = src.replace(old_main, new_main, 1)
 
-with open(path, 'w', encoding='utf-8') as f:
+with open(path, "w", encoding="utf-8") as f:
     f.write(src)
 print("written")
 
 # py_compile確認
 import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("py_compile: OK")

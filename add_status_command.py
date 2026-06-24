@@ -1,9 +1,10 @@
+import io
+import sys
 
-import sys, io, re, requests
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
-with open(path, encoding='utf-8') as f:
+with open(path, encoding="utf-8") as f:
     content = f.read()
 
 # process_message内の「# マッチング結果照会」の直前に挿入
@@ -83,7 +84,7 @@ else:
     sys.exit(1)
 
 # process_message内の「# マッチング結果照会」の前にステータス更新コマンドを追加
-status_command = '''
+status_command = """
     # ── ステータス更新コマンド ─────────────────────────────────────
     # 書式: 「ステータス更新 案件キーワード / 候補者名 / 新ステータス」
     # 例:  「ステータス更新 Java基本設計 / R.H / 意向確認中」
@@ -125,7 +126,7 @@ status_command = '''
             reply_message(reply_token, f"❌ 更新失敗: {err}", sender_token)
         return
 
-'''
+"""
 
 # 「# マッチング結果照会」の前に挿入
 insert_before2 = "    # マッチング結果照会"
@@ -138,6 +139,7 @@ else:
 
 # 構文チェック
 import ast
+
 try:
     ast.parse(content)
     print("構文チェックOK")
@@ -145,6 +147,6 @@ except SyntaxError as e:
     print(f"構文エラー: {e}")
     sys.exit(1)
 
-with open(path, 'w', encoding='utf-8') as f:
+with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 print("書き込み完了")

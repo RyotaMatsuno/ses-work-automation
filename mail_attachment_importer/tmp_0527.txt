@@ -1,0 +1,12 @@
+472
+2026-05-27 10:39:19,276 [INFO] importer: ===== インポート開始 =====
+2026-05-27 10:39:19,336 [INFO] mail_fetcher: IMAP接続開始: account=sessales 118.27.122.112:993 (timeout=30s)
+2026-05-27 10:39:19,571 [INFO] mail_fetcher: IMAP接続成功: account=sessales sessales@terra-ltd.co.jp
+2026-05-27 10:39:19,853 [INFO] mail_fetcher: INBOX検索結果 account=sessales（直近1日）: 5651件
+2026-05-27 10:39:19,853 [INFO] mail_fetcher: 未処理 account=sessales: 5651件
+---
+2026-05-27 10:40:18,893 [INFO] mail_fetcher: 添付取得: 【スキルシート】Y.H（長町）.xlsx (UID=1701598)
+2026-05-27 10:40:18,970 [INFO] mail_fetcher: 添付取得: スキルシート_ T.A.xlsx (UID=1701601)
+2026-05-27 10:40:19,034 [INFO] mail_fetcher: 添付取得: 【スキルシート】M.U_ふじみ野0424.xlsx (UID=1701603)
+2026-05-27 10:40:19,072 [INFO] mail_fetcher: 添付取得: SS経堂【スキルシート】 0501.xlsx (UID=1701605)
+2026-05-27 10:40:19,171 [INFO] mail_fetcher: 添付取得: IY_名古屋（愛知）.pdf (UID=1701608)

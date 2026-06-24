@@ -1,4 +1,3 @@
-
 # run_collect.bat を作成（Windowsターミナル直接実行用）
 bat_content = r"""@echo off
 cd /d C:\Users\ma_py\OneDrive\デスクトップ\ses_work

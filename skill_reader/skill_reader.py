@@ -6,45 +6,72 @@ Task15: base64/メール連携入力対応
 Task16: LINE連携入力対応（base64と同じ経路）
 Task17: 意向確認メール文面への自動埋め込み
 """
-import os, sys, json, base64, argparse, io
+
+import argparse
+import base64
+import io
+import json
+import os
+import sys
+
 try:
-    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except Exception:
     pass
-import requests
-import pdfplumber
-from docx import Document
 import anthropic
+import pdfplumber
+import requests
+from docx import Document
 from dotenv import dotenv_values
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-from common.ledger import can_spend as ledger_can_spend, record as ledger_record
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from common.ledger import can_spend as ledger_can_spend
+from common.ledger import record as ledger_record
 from common.model_config import TEXT_MODEL, VISION_MODEL
 
 # ── 環境変数 ──────────────────────────────────────────────────────
-env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 config = dotenv_values(env_path)
 for k, v in config.items():
     if k not in os.environ:
         os.environ[k] = v
 
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
-NOTION_API_KEY    = os.environ.get('NOTION_API_KEY', '')
-PROJECT_DB_ID     = os.environ.get('NOTION_PROJECT_DB_ID', '343450ff-37c0-81e4-934e-f25f90284a3c')
-ENGINEER_DB_ID    = os.environ.get('NOTION_ENGINEER_DB_ID', '')
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+PROJECT_DB_ID = os.environ.get("NOTION_PROJECT_DB_ID", "343450ff-37c0-81e4-934e-f25f90284a3c")
+ENGINEER_DB_ID = os.environ.get("NOTION_ENGINEER_DB_ID", "")
 
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
 # エンジニアDBに登録できるスキルの標準名（DBのmulti_selectの選択肢に合わせる）
 VALID_SKILLS = {
-    "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#",
-    "Node.js", "React", "Vue.js", "AWS", "インフラ", "PostgreSQL",
-    "Oracle", "MySQL", "Docker", "GCP", "Go", "Ruby", "Swift",
-    "Azure", "Linux", "MongoDB", "Spring"
+    "Java",
+    "Python",
+    "PHP",
+    "JavaScript",
+    "TypeScript",
+    "C#",
+    "Node.js",
+    "React",
+    "Vue.js",
+    "AWS",
+    "インフラ",
+    "PostgreSQL",
+    "Oracle",
+    "MySQL",
+    "Docker",
+    "GCP",
+    "Go",
+    "Ruby",
+    "Swift",
+    "Azure",
+    "Linux",
+    "MongoDB",
+    "Spring",
 }
 
 SKILL_SYSTEM_PROMPT = """あなたはSES業界のスキルシート解析AIです。
@@ -69,6 +96,7 @@ Oracle, MySQL, PostgreSQL, MongoDB,
 
 # ── ファイル読み取り ──────────────────────────────────────────────
 
+
 def extract_text_from_pdf(data: bytes) -> str:
     try:
         with pdfplumber.open(io.BytesIO(data)) as pdf:
@@ -77,9 +105,11 @@ def extract_text_from_pdf(data: bytes) -> str:
     except Exception:
         return None
 
+
 def pdf_to_base64_image(data: bytes) -> str:
     try:
         import pypdfium2 as pdfium
+
         doc = pdfium.PdfDocument(data)
         page = doc[0]
         bitmap = page.render(scale=2)
@@ -90,12 +120,14 @@ def pdf_to_base64_image(data: bytes) -> str:
     except Exception:
         return None
 
+
 def extract_text_from_docx(data: bytes) -> str:
     doc = Document(io.BytesIO(data))
     return "\n".join(p.text for p in doc.paragraphs if p.text.strip())
 
 
 # ── Claude API スキル抽出 ─────────────────────────────────────────
+
 
 def extract_skills_from_text(text: str) -> dict:
     model = TEXT_MODEL
@@ -108,7 +140,7 @@ def extract_skills_from_text(text: str) -> dict:
         model=model,
         max_tokens=1000,
         system=SKILL_SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": f"以下のスキルシートを解析してください:\n\n{text[:8000]}"}]
+        messages=[{"role": "user", "content": f"以下のスキルシートを解析してください:\n\n{text[:8000]}"}],
     )
     usage = getattr(msg, "usage", None)
     if usage:
@@ -121,6 +153,7 @@ def extract_skills_from_text(text: str) -> dict:
     raw = msg.content[0].text.strip().strip("```").lstrip("json").strip()
     return json.loads(raw)
 
+
 def extract_skills_from_image(b64: str, mime: str = "image/png") -> dict:
     model = VISION_MODEL
     est_in = len(b64) // 4 + 500
@@ -132,13 +165,15 @@ def extract_skills_from_image(b64: str, mime: str = "image/png") -> dict:
         model=model,
         max_tokens=1000,
         system=SKILL_SYSTEM_PROMPT,
-        messages=[{
-            "role": "user",
-            "content": [
-                {"type": "image", "source": {"type": "base64", "media_type": mime, "data": b64}},
-                {"type": "text", "text": "このスキルシートを解析してください。"}
-            ]
-        }]
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "image", "source": {"type": "base64", "media_type": mime, "data": b64}},
+                    {"type": "text", "text": "このスキルシートを解析してください。"},
+                ],
+            }
+        ],
     )
     usage = getattr(msg, "usage", None)
     if usage:
@@ -154,6 +189,7 @@ def extract_skills_from_image(b64: str, mime: str = "image/png") -> dict:
 
 # ── Notion エンジニアDB 更新（Task14）───────────────────────────
 
+
 def update_engineer_notion(engineer_id: str, engineer_info: dict):
     """抽出したスキルでNotionエンジニアDBのスキル欄を更新"""
     extracted = set(engineer_info.get("skills", []))
@@ -165,15 +201,9 @@ def update_engineer_notion(engineer_id: str, engineer_info: dict):
     # levelからDBにメモがあれば備考に追記
     summary = engineer_info.get("summary", "")
     if summary:
-        payload["properties"]["備考（LINEメモ）"] = {
-            "rich_text": [{"text": {"content": f"[自動解析] {summary}"}}]
-        }
+        payload["properties"]["備考（LINEメモ）"] = {"rich_text": [{"text": {"content": f"[自動解析] {summary}"}}]}
 
-    r = requests.patch(
-        f"https://api.notion.com/v1/pages/{engineer_id}",
-        headers=NOTION_HEADERS,
-        json=payload
-    )
+    r = requests.patch(f"https://api.notion.com/v1/pages/{engineer_id}", headers=NOTION_HEADERS, json=payload)
     if r.status_code == 200:
         print(f"  Notion更新完了: {len(valid)}スキル登録（{[s['name'] for s in valid]}）")
     else:
@@ -183,16 +213,13 @@ def update_engineer_notion(engineer_id: str, engineer_info: dict):
 
 # ── Notion 案件DB 取得 ────────────────────────────────────────────
 
+
 def get_active_projects(filter_keyword: str = None) -> list:
     results = []
-    payload = {
-        "page_size": 100,
-        "filter": {"property": "ステータス", "select": {"equals": "募集中"}}
-    }
+    payload = {"page_size": 100, "filter": {"property": "ステータス", "select": {"equals": "募集中"}}}
     while True:
         r = requests.post(
-            f"https://api.notion.com/v1/databases/{PROJECT_DB_ID}/query",
-            headers=NOTION_HEADERS, json=payload
+            f"https://api.notion.com/v1/databases/{PROJECT_DB_ID}/query", headers=NOTION_HEADERS, json=payload
         )
         data = r.json()
         results.extend(data.get("results", []))
@@ -205,6 +232,7 @@ def get_active_projects(filter_keyword: str = None) -> list:
         results = [p for p in results if kw in _get_project_name(p).lower()]
     return results
 
+
 def _get_project_name(p):
     items = p["properties"].get("案件名", {}).get("title", [])
     return items[0]["plain_text"] if items else ""
@@ -212,40 +240,43 @@ def _get_project_name(p):
 
 # ── スキル照合 ────────────────────────────────────────────────────
 
+
 def match_skills(engineer_skills: list, projects: list, engineer_price: int = None) -> list:
     eng_set = set(engineer_skills)
     results = []
 
     for proj in projects:
         pp = proj["properties"]
-        pname   = _get_project_name(proj)
-        client  = (pp.get("クライアント", {}).get("rich_text") or [{}])[0].get("plain_text", "")
-        pprice  = pp.get("単価（万円）", {}).get("number")
+        pname = _get_project_name(proj)
+        client = (pp.get("クライアント", {}).get("rich_text") or [{}])[0].get("plain_text", "")
+        pprice = pp.get("単価（万円）", {}).get("number")
         required = [o["name"] for o in pp.get("必要スキル", {}).get("multi_select", [])]
         optional = [o["name"] for o in pp.get("尚可スキル", {}).get("multi_select", [])]
 
         req_result = {s: (s in eng_set) for s in required}
         opt_result = {s: (s in eng_set) for s in optional}
         req_all_ok = all(req_result.values()) if required else True
-        opt_match  = sum(1 for v in opt_result.values() if v)
-        opt_total  = len(optional)
-        opt_rate   = opt_match / opt_total if opt_total > 0 else 1.0
-        gross      = pprice - engineer_price if pprice and engineer_price else None
+        opt_match = sum(1 for v in opt_result.values() if v)
+        opt_total = len(optional)
+        opt_rate = opt_match / opt_total if opt_total > 0 else 1.0
+        gross = pprice - engineer_price if pprice and engineer_price else None
 
-        results.append({
-            "project_id":     proj["id"],
-            "project_name":   pname,
-            "client":         client,
-            "project_price":  pprice,
-            "required":       req_result,
-            "optional":       opt_result,
-            "required_all_ok": req_all_ok,
-            "opt_rate":       opt_rate,
-            "opt_match":      opt_match,
-            "opt_total":      opt_total,
-            "gross":          gross,
-            "proposable":     req_all_ok
-        })
+        results.append(
+            {
+                "project_id": proj["id"],
+                "project_name": pname,
+                "client": client,
+                "project_price": pprice,
+                "required": req_result,
+                "optional": opt_result,
+                "required_all_ok": req_all_ok,
+                "opt_rate": opt_rate,
+                "opt_match": opt_match,
+                "opt_total": opt_total,
+                "gross": gross,
+                "proposable": req_all_ok,
+            }
+        )
 
     def sort_key(r):
         if not r["proposable"]:
@@ -263,14 +294,15 @@ def match_skills(engineer_skills: list, projects: list, engineer_price: int = No
 
 # ── 意向確認メール文面生成（Task17）──────────────────────────────
 
-def generate_iko_mail(engineer_info: dict, match_results: list,
-                      engineer_price: int, affiliation_name: str = "貴社") -> str:
+
+def generate_iko_mail(
+    engineer_info: dict, match_results: list, engineer_price: int, affiliation_name: str = "貴社"
+) -> str:
     """
     提案可かつ粗利ジャスト（5〜12万）の案件TOP3について意向確認メール文面を生成。
     テンプレート集v1 テンプレート1準拠。
     """
-    candidates = [r for r in match_results if r["proposable"] and
-                  r["gross"] is not None and 5 <= r["gross"] <= 12][:3]
+    candidates = [r for r in match_results if r["proposable"] and r["gross"] is not None and 5 <= r["gross"] <= 12][:3]
 
     # 粗利ジャストがなければ提案可の上位3件
     if not candidates:
@@ -306,9 +338,9 @@ def generate_iko_mail(engineer_info: dict, match_results: list,
 ━━━━━━━━━━━━━━━━━━
 ■ 案件概要
 ━━━━━━━━━━━━━━━━━━
-案件名    : {r['project_name']}
+案件名    : {r["project_name"]}
 単価      : {price_str}
-クライアント: {r['client']}
+クライアント: {r["client"]}
 
 ━━━━━━━━━━━━━━━━━━
 ■ ご記入フォーマット
@@ -331,6 +363,7 @@ def generate_iko_mail(engineer_info: dict, match_results: list,
 
 # ── コンソール出力 ────────────────────────────────────────────────
 
+
 def print_results(engineer_info: dict, match_results: list, engineer_price: int = None):
     print("=" * 60)
     print("【スキルシート解析結果】")
@@ -344,11 +377,11 @@ def print_results(engineer_info: dict, match_results: list, engineer_price: int 
     print("【案件照合結果】（粗利5〜12万を優先）")
 
     for r in match_results:
-        ok    = "[OK]" if r["proposable"] else "[NG]"
+        ok = "[OK]" if r["proposable"] else "[NG]"
         g_str = f"粗利{r['gross']}万" if r["gross"] is not None else "粗利不明"
         p_str = f"{r['project_price']}万" if r["project_price"] else "単価未設定"
 
-        print(f"\n{'━'*55}")
+        print(f"\n{'━' * 55}")
         print(f"{ok} {r['project_name']} ({r['client']}) | {p_str} | {g_str}")
 
         req_str = "  ".join(f"{s}:{'○' if v else '×'}" for s, v in r["required"].items()) if r["required"] else "なし"
@@ -362,33 +395,45 @@ def print_results(engineer_info: dict, match_results: list, engineer_price: int 
             ng = [s for s, v in r["required"].items() if not v]
             print(f"  → 提案不可（必須NG: {', '.join(ng)}）")
         elif r["gross"] and 5 <= r["gross"] <= 12:
-            print(f"  → [S] 粗利ジャスト 提案推奨")
+            print("  → [S] 粗利ジャスト 提案推奨")
         elif r["gross"] and r["gross"] > 12:
-            print(f"  → チャレンジ提案（単価調整要）")
+            print("  → チャレンジ提案（単価調整要）")
         else:
-            print(f"  → 提案可")
+            print("  → 提案可")
 
-    print(f"\n{'='*60}")
-    ok_count   = sum(1 for r in match_results if r["proposable"])
+    print(f"\n{'=' * 60}")
+    ok_count = sum(1 for r in match_results if r["proposable"])
     just_count = sum(1 for r in match_results if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
     print(f"提案可: {ok_count}件  うち粗利ジャスト[S]: {just_count}件")
 
 
 # ── メイン ────────────────────────────────────────────────────────
 
-def run(file_path=None, b64_data=None, mime=None,
-        engineer_price=None, filter_keyword=None,
-        engineer_id=None, affiliation=None, output_mail=False):
+
+def run(
+    file_path=None,
+    b64_data=None,
+    mime=None,
+    engineer_price=None,
+    filter_keyword=None,
+    engineer_id=None,
+    affiliation=None,
+    output_mail=False,
+):
 
     # 1. ファイル読み取り → base64化
     if file_path:
         with open(file_path, "rb") as f:
             raw = f.read()
         ext = os.path.splitext(file_path)[1].lower()
-        mime_map = {".pdf": "application/pdf",
-                    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    ".doc":  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    ".png":  "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}
+        mime_map = {
+            ".pdf": "application/pdf",
+            ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".doc": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+        }
         mime = mime_map.get(ext, "application/octet-stream")
         b64_data = base64.standard_b64encode(raw).decode()
 
@@ -448,8 +493,7 @@ def run(file_path=None, b64_data=None, mime=None,
         print(mail_text)
 
     # 8. JSON保存
-    output = {"engineer": info, "engineer_price": engineer_price,
-              "match_results": results, "iko_mail": mail_text}
+    output = {"engineer": info, "engineer_price": engineer_price, "match_results": results, "iko_mail": mail_text}
     out_path = os.path.join(os.path.dirname(__file__), "last_result.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
@@ -460,17 +504,23 @@ def run(file_path=None, b64_data=None, mime=None,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="スキルシート読み取り＆案件照合")
-    parser.add_argument("--file",         help="スキルシートのファイルパス")
-    parser.add_argument("--base64",       dest="b64", help="base64エンコード済みデータ")
-    parser.add_argument("--mime",         help="MIMEタイプ（base64使用時）")
-    parser.add_argument("--price",        type=int, help="エンジニアの希望単価（万円）")
-    parser.add_argument("--filter",       help="照合案件の絞り込みキーワード")
-    parser.add_argument("--engineer-id",  help="NotionエンジニアページID（スキル自動更新）")
-    parser.add_argument("--affiliation",  help="所属会社名（意向確認メール宛先名）")
-    parser.add_argument("--mail",         action="store_true", help="意向確認メール文面も出力")
+    parser.add_argument("--file", help="スキルシートのファイルパス")
+    parser.add_argument("--base64", dest="b64", help="base64エンコード済みデータ")
+    parser.add_argument("--mime", help="MIMEタイプ（base64使用時）")
+    parser.add_argument("--price", type=int, help="エンジニアの希望単価（万円）")
+    parser.add_argument("--filter", help="照合案件の絞り込みキーワード")
+    parser.add_argument("--engineer-id", help="NotionエンジニアページID（スキル自動更新）")
+    parser.add_argument("--affiliation", help="所属会社名（意向確認メール宛先名）")
+    parser.add_argument("--mail", action="store_true", help="意向確認メール文面も出力")
     args = parser.parse_args()
 
-    run(file_path=args.file, b64_data=args.b64, mime=args.mime,
-        engineer_price=args.price, filter_keyword=args.filter,
-        engineer_id=args.engineer_id, affiliation=args.affiliation,
-        output_mail=args.mail)
+    run(
+        file_path=args.file,
+        b64_data=args.b64,
+        mime=args.mime,
+        engineer_price=args.price,
+        filter_keyword=args.filter,
+        engineer_id=args.engineer_id,
+        affiliation=args.affiliation,
+        output_mail=args.mail,
+    )

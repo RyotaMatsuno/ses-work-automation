@@ -1,6 +1,6 @@
-
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 tesla_spec = """# テスラ 指示書 v1（インフラ担当AI）
 
@@ -89,6 +89,6 @@ Notion / Filesystem / ses-mail / jobz-command / Playwright / Gmail / Google Cale
 テスラも20ラリーで引き継ぎ宣言。フォーマットはジョブズと同様。
 """
 
-with open('project_files/TESLA_SPEC_v1.md', 'w', encoding='utf-8') as f:
+with open("project_files/TESLA_SPEC_v1.md", "w", encoding="utf-8") as f:
     f.write(tesla_spec)
 print("テスラ指示書 v1 作成完了: project_files/TESLA_SPEC_v1.md")

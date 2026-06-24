@@ -4,7 +4,6 @@ from pathlib import Path
 
 from playwright.sync_api import Page, TimeoutError, sync_playwright
 
-
 BASE_DIR = Path(__file__).resolve().parent
 SESSION_FILE = BASE_DIR / "okamoto_session.json"
 CHANNELS_FILE = BASE_DIR / "okamoto_channels.json"
@@ -40,12 +39,7 @@ def save_channels(page: Page) -> None:
         if channel_id in seen_ids:
             continue
 
-        name = (
-            link.get("text")
-            or link.get("title")
-            or link.get("ariaLabel")
-            or f"channel_{channel_id}"
-        )
+        name = link.get("text") or link.get("title") or link.get("ariaLabel") or f"channel_{channel_id}"
         channels.append({"name": name, "id": channel_id})
         seen_ids.add(channel_id)
 

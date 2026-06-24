@@ -1,0 +1,157 @@
+{
+  "improvements": [
+    {
+      "id": "AJ",
+      "title": "staleness bug修正＋鮮度フィルタの共通化",
+      "impact": "high",
+      "effort": "2h",
+      "description": "ROI: 非常に高い。誤提案を即座に減らせる割に実装が軽い。エンジニア情報の最終更新日・稼働可能日・連絡不能期間をマッチング前に必ず評価し、古い人材を候補から除外する。matching_v3内の局所対応ではなく、共通関数化してmail再処理・手動実行でも同じ挙動にする。",
+      "changes": [
+        "新規ファイル filters/staleness.py を作成し、is_fresh_engineer(engineer_record, now_jst) -> tuple[bool, dict] を実装する",
+        "判定基準を config/matching_rules.json に外出しする。例: max_profile_age_days=14, max_no_contact_days=21, available_status_whitelist=[\"稼働中\", \"待機\", \"提案可\"]",
+        "NotionエンジニアDBの date fields を確認し、last_updated, last_contacted_at, available_from, status の取得キーを constants/notion_fields.py に定義する",
+        "matching_v3 の候補抽出前に鮮度フィルタを適用し、除外理由を match_debug_log に保存する",
+        "notifier.py に『除外件数』『鮮度NG件数』をサマリ出力する",
+        "scripts/backfill_staleness_audit.py を追加し、現行208名に対して stale/fresh を一覧CSV出力する",
+        "tests/test_staleness.py を追加し、更新日超過・連絡日超過・ステータス不一致・available_from未来日のケースを固定テストする"
+      ],
+      "depends_on": [],
+      "priority_order": 1
+    },
+    {
+      "id": "AK",
+      "title": "エンジニアDBのスキル正規化バッチ導入",
+      "impact": "high",
+      "effort": "4h",
+      "description": "ROI: 非常に高い。案件側の分類精度が上がっても、エンジニア側の表記ゆれが残るとMATCH率が頭打ちになる。Notion手入力スキルを正規化辞書で一括変換し、matcher入力を安定化させる。今日中に最も効く土台改善の1つ。",
+      "changes": [
+        "scripts/normalize_engineer_skills.py を新規作成し、NotionエンジニアDBの raw_skills を取得して canonical_skills を再生成する",
+        "skill_aliases.json を inverse lookup 可能な構造に変換するヘルパー build_canonical_index() を matcher/skill_normalizer.py に実装する",
+        "正規化ルールを 3段階にする: exact一致 -> alias一致 -> fuzzy一致(閾値0.92以上)",
+        "Tier1+2辞書を優先採用し、Tier3抽象語は canonical_skills には保存せず meta_skills フィールドに分離保存する",
+        "Notion側に normalized_skills_text または canonical_skills_json プロパティが未作成なら追加前提で updater を実装する",
+        "dry-run モードを付け、変更前後の diff を logs/engineer_skill_normalization_YYYYMMDD.json に出力する",
+        "未知語は logs/unknown_engineer_skills.csv に集約し、後続の辞書拡張に使えるようにする",
+        "tests/test_skill_normalizer.py に alias/fuzzy/未知語/Tier3分離のケースを追加する"
+      ],
+      "depends_on": [],
+      "priority_order": 2
+    },
+    {
+      "id": "AL",
+      "title": "matcher強化: Tier3抽象語のゲーティング化＋soft_aliasesの判定ロジック昇格",
+      "impact": "high",
+      "effort": "4h",
+      "description": "ROI: 高い。現状soft_aliasesが加点だけで、候補の取りこぼしと誤加点の両方が発生しやすい。Tier3抽象語を『補助条件』として扱い、主要スキルの欠落を埋める用途と誤マッチ抑制を両立させる。AJ/AK後に入れると効果が最大化する。",
+      "changes": [
+        "matcher.py の judge() を judge_v4 に拡張し、スキルを hard_skills / soft_alias_hits / meta_skills(Tier3) に分けて評価する",
+        "新ルール: Tier3語だけではMATCH不可、Tier1/Tier2の主要一致が1件以上ある場合のみTier3を加点対象にする",
+        "soft_aliases は『加点のみ』から『弱一致候補』へ昇格し、requiredスキルがsoft_aliasで満たされる場合は PARTIAL_MATCH 判定可能にする",
+        "案件側抽出結果JSONに required_skills / preferred_skills / abstract_domains を明示追加し、matcher入力を構造化する",
+        "score_components を詳細化し、exact, alias, soft_alias, tier3_bonus, unknown_penalty を返すようにする",
+        "閾値を config/matching_rules.json に追加する。例: partial_if_soft_alias_count>=2, tier3_bonus_cap=0.08",
+        "match_debugレポートに『なぜMATCH/非MATCHなのか』を機械可読で残す",
+        "tests/test_matcher_v4.py を追加し、Tier3のみ案件、soft_aliasで救済される案件、誤加点抑制ケースを固定化する"
+      ],
+      "depends_on": [
+        "AK"
+      ],
+      "priority_order": 3
+    },
+    {
+      "id": "AM",
+      "title": "structurer.pyの抽出精度改善: 2段階抽出＋辞書後補正＋再質問なし構造化",
+      "impact": "high",
+      "effort": "4h",
+      "description": "ROI: 高い。未分類138件再処理にも効き、案件情報の抽出漏れを減らせる。LLMを増やすのではなく、プロンプトと後処理を分離して gpt-4.1-nano のまま精度を底上げする。特に required/preferred/単価/勤務地/商流/面談回数の抽出漏れ対策が重要。",
+      "changes": [
+        "structurer.py を 2段階化する。step1: メール本文から生テキスト抽出JSON、step2: 正規化・辞書補正・不足項目補完",
+        "抽出スキーマを厳格化し、required_skills, preferred_skills, nice_to_have, rate_min, rate_max, location, remote_ratio, nationality_rule, age_limit, interview_count を必須キー化する",
+        "LLMプロンプトを『推測禁止・原文引用付き』に変更し、各フィールドに source_spans を返させる",
+        "後処理で skill_aliases.json を用いたスキル正規化を適用し、文中の略記(Java/Spring、AWS、NW等)を canonical化する",
+        "抽出不能項目は null のままにし、unknown_ratio を計算して高すぎる案件のみ review_needed=true を付与する",
+        "scripts/reprocess_unclassified_138.py を追加し、未分類138件に対して新structurerで再処理する",
+        "評価用に sample_emails/ から50件を固定サンプル化し、構造化結果を golden JSON と比較する tests/test_structurer_regression.py を作成する",
+        "抽出結果を Notion投入前に local cache(JSONL)へ保存し、LLM再実行なしでデバッグ可能にする"
+      ],
+      "depends_on": [],
+      "priority_order": 4
+    },
+    {
+      "id": "AN",
+      "title": "matching_v3高速化: 前処理インデックス＋候補絞り込み＋差分実行",
+      "impact": "high",
+      "effort": "4h",
+      "description": "ROI: 高い。30分超を5分未満まで落とせる可能性がある。208名規模でも全案件フルスキャンをやめ、スキル逆引きインデックスで候補だけ評価する。3時間自動提案の前提にもなるため優先度が高い。",
+      "changes": [
+        "matching_v3 を matching_v4.py として分離実装し、既存は温存する",
+        "起動時にエンジニア canonical_skills から inverted index を構築する。形式: skill -> set(engineer_id)",
+        "案件 required_skills から候補 engineer_id を union/intersection で先に絞る。requiredが空なら preferred_skills 上位のみで最大N件に制限する",
+        "AJの鮮度フィルタを候補抽出の最初に適用し、無駄評価を減らす",
+        "案件更新差分のみ再計算する仕組みを追加する。last_matched_at と project_last_edited_at を比較し、変更なし案件はスキップする",
+        "score計算は pure function 化して multiprocessing または ThreadPoolExecutor で並列化する。ただしNotion I/Oは並列しない",
+        "プロファイルとして stage別時間計測を logs/matching_profile.json に出力する。load, filter, candidate_select, score, notify を分解する",
+        "scripts/benchmark_matching.py を追加し、旧版/新版の処理時間とMATCH件数差分を比較する"
+      ],
+      "depends_on": [
+        "AJ",
+        "AK",
+        "AL"
+      ],
+      "priority_order": 5
+    },
+    {
+      "id": "AO",
+      "title": "案件受信から3時間以内の自動提案フロー実装",
+      "impact": "high",
+      "effort": "4h",
+      "description": "ROI: 非常に高い。売上インパクトが直接大きい。日次8:00バッチ依存をやめ、案件受信後すぐ候補抽出・通知まで流す。ANの高速化後に入れることで運用可能になる。",
+      "changes": [
+        "mail_pipeline.py の案件登録完了時に enqueue_matching(project_id) を呼ぶフックを追加する",
+        "新規 worker/realtime_match_worker.py を作成し、5分おきに『未マッチかつ受信3時間以内』案件を処理する",
+        "Notion案件DBに matching_status, first_matched_at, proposal_deadline_at, auto_proposal_sent_at フィールドを追加前提で実装する",
+        "3時間以内に条件を満たした場合のみ notifier.py 経由で自動提案候補を送る。すでに手動対応済み案件は status で除外する",
+        "重複送信防止のため idempotency key(project_id + engineer_id + date) を導入する",
+        "失敗時は retry queue に積み、3回失敗でLINE管理者通知する",
+        "scripts/backfill_proposal_deadlines.py を追加し、既存案件に proposal_deadline_at を付与する",
+        "tests/test_realtime_matching_flow.py で 受信→構造化→案件登録→候補抽出→通知 のE2E最小ケースを作成する"
+      ],
+      "depends_on": [
+        "AN",
+        "AM"
+      ],
+      "priority_order": 6
+    },
+    {
+      "id": "AP",
+      "title": "自動提案文生成のテンプレート化＋根拠付き要約生成",
+      "impact": "medium",
+      "effort": "2h",
+      "description": "ROI: 高い。工数は小さいが現場の体感品質が大きく改善する。自由生成に寄せず、match_debugの根拠を差し込むテンプレート方式に変えることで、幻覚と抽象表現を減らせる。",
+      "changes": [
+        "notifier.py に build_proposal_message(match_result, engineer, project) を新設する",
+        "文面は固定テンプレート化し、必須差し込み項目を 1) 一致スキル 2) 稼働時期 3) 単価レンジ整合 4) 補足懸念 の4ブロックに分ける",
+        "matcherの score_components と reasons を使って『なぜこの人を出したか』を1〜3文で明示する",
+        "懸念点がある場合は『補足確認事項』として末尾に自動追記する。例: Reactはsoft_alias一致、AWSは案件記載薄い等",
+        "案件向け文面と営業向け内部サマリ文面を分ける",
+        "テンプレートは templates/proposal_message_ja.txt に外出しし、A/Bしやすくする",
+        "tests/test_proposal_message.py で 必須項目欠落時のフォールバック と 日本語崩れ がないことを検証する"
+      ],
+      "depends_on": [
+        "AL",
+        "AO"
+      ],
+      "priority_order": 7
+    }
+  ],
+  "execution_order": [
+    "AJ",
+    "AK",
+    "AM",
+    "AL",
+    "AN",
+    "AO",
+    "AP"
+  ],
+  "expected_overall_impact": "今日1日でこの順に入れると、誤提案削減・MATCH率向上・提案速度向上の3点を同時に改善できる。特に AJ+AK+AL でマッチ品質、AN+AO で速度と機会損失、AM で案件データ品質、AP で最終出力品質が上がる。期待値としては、古い人材混入のほぼ解消、MATCH候補の精度改善、未分類138件の再救済、日次30分超のマッチ処理を数分台へ短縮、案件受信から3時間以内の自動提案運用開始が見込める。Cursor同時実行は、1) AJ/AK、2) AM、3) AL、4) AN の4並列で着手し、完了後に AO、最後に AP を流すのが最も安全。"
+}

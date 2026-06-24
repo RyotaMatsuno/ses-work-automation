@@ -9,26 +9,27 @@ NotionのエンジニアDBと案件DBを照合して
 """
 
 import os
-import requests
-from dotenv import dotenv_values
 from datetime import datetime
 
+import requests
+from dotenv import dotenv_values
+
 # .envロード
-env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 if os.path.exists(env_path):
     config = dotenv_values(env_path)
     for key, value in config.items():
         if key not in os.environ:
             os.environ[key] = value
 
-NOTION_API_KEY        = os.environ['NOTION_API_KEY']
-NOTION_ENGINEER_DB_ID = os.environ['NOTION_ENGINEER_DB_ID']
-NOTION_PROJECT_DB_ID  = os.environ['NOTION_PROJECT_DB_ID']
+NOTION_API_KEY = os.environ["NOTION_API_KEY"]
+NOTION_ENGINEER_DB_ID = os.environ["NOTION_ENGINEER_DB_ID"]
+NOTION_PROJECT_DB_ID = os.environ["NOTION_PROJECT_DB_ID"]
 
 HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
 
@@ -37,11 +38,7 @@ def get_all_pages(database_id: str) -> list:
     results = []
     payload = {"page_size": 100}
     while True:
-        res = requests.post(
-            f"https://api.notion.com/v1/databases/{database_id}/query",
-            headers=HEADERS,
-            json=payload
-        )
+        res = requests.post(f"https://api.notion.com/v1/databases/{database_id}/query", headers=HEADERS, json=payload)
         data = res.json()
         results.extend(data.get("results", []))
         if not data.get("has_more"):
@@ -53,11 +50,21 @@ def get_all_pages(database_id: str) -> list:
 def extract_engineer(page: dict) -> dict:
     """エンジニアページからデータ抽出"""
     props = page["properties"]
-    def text(p): return p["title"][0]["text"]["content"] if p.get("title") else ""
-    def multi(p): return [o["name"] for o in p.get("multi_select", [])]
-    def num(p): return p.get("number")
-    def sel(p): return p["select"]["name"] if p.get("select") else ""
-    def date(p): return p["date"]["start"] if p.get("date") else None
+
+    def text(p):
+        return p["title"][0]["text"]["content"] if p.get("title") else ""
+
+    def multi(p):
+        return [o["name"] for o in p.get("multi_select", [])]
+
+    def num(p):
+        return p.get("number")
+
+    def sel(p):
+        return p["select"]["name"] if p.get("select") else ""
+
+    def date(p):
+        return p["date"]["start"] if p.get("date") else None
 
     return {
         "id": page["id"],
@@ -74,11 +81,21 @@ def extract_engineer(page: dict) -> dict:
 def extract_project(page: dict) -> dict:
     """案件ページからデータ抽出"""
     props = page["properties"]
-    def text(p): return p["title"][0]["text"]["content"] if p.get("title") else ""
-    def multi(p): return [o["name"] for o in p.get("multi_select", [])]
-    def num(p): return p.get("number")
-    def sel(p): return p["select"]["name"] if p.get("select") else ""
-    def date(p): return p["date"]["start"] if p.get("date") else None
+
+    def text(p):
+        return p["title"][0]["text"]["content"] if p.get("title") else ""
+
+    def multi(p):
+        return [o["name"] for o in p.get("multi_select", [])]
+
+    def num(p):
+        return p.get("number")
+
+    def sel(p):
+        return p["select"]["name"] if p.get("select") else ""
+
+    def date(p):
+        return p["date"]["start"] if p.get("date") else None
 
     return {
         "id": page["id"],
@@ -138,7 +155,7 @@ def calculate_score(engineer: dict, project: dict) -> tuple[int, list]:
     if engineer["available_date"] and project["start_date"]:
         if engineer["available_date"] <= project["start_date"]:
             score += 10
-            reasons.append(f"稼働日OK(+10pt)")
+            reasons.append("稼働日OK(+10pt)")
         else:
             reasons.append(f"稼働日NG: {engineer['available_date']} > {project['start_date']}")
     else:
@@ -179,19 +196,14 @@ def run(min_score: int = 50):
         for engineer in active_engineers:
             score, reasons = calculate_score(engineer, project)
             if score >= min_score:
-                matches.append({
-                    "score": score,
-                    "engineer": engineer,
-                    "project": project,
-                    "reasons": reasons
-                })
+                matches.append({"score": score, "engineer": engineer, "project": project, "reasons": reasons})
 
     # スコア降順でソート
     matches.sort(key=lambda x: x["score"], reverse=True)
 
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
     print(f"マッチング結果（スコア{min_score}点以上）: {len(matches)}件")
-    print(f"{'='*60}\n")
+    print(f"{'=' * 60}\n")
 
     for m in matches:
         eng = m["engineer"]
@@ -209,7 +221,8 @@ def run(min_score: int = 50):
         print(f"（min_score={min_score}を下げて再実行してみてください）")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     min_score = int(sys.argv[1]) if len(sys.argv) > 1 else 50
     run(min_score)

@@ -1,0 +1,128 @@
+=== TASKS.md Phase E ===
+## Phase E: GPTコードレビュー修正（2026-06-05）
+
+**背景**: gpt-4.1-nano移行後のGPTコードレビュー結果を受け、P0/P1バグを修正する。
+**修正対象**: structurer.py / cost_guard.py / notion_client.py / matcher.py
+**テスト**: 既存pytest tests/ が全パスすること（回帰なし確認）
+
+- [x] **E1. [P0] structurer.py: `_call_openai` に `response_format` と `finish_reason` 対応**
+  - `response_format={"type": "json_object"}` を `client.chat.completions.create()` に追加
+  - `resp.choices[0].finish_reason == "length"` の場合、`logger.warning("OpenAI response truncated by max_tokens")` を出力する
+    （_parse_json_or_fallbackに任せるため例外は投げない）
+  - OpenAIモデル判定条件を拡張:
+    変更前: `model.startswith("gpt-") or model.startswith("o1") or model.startswith("o3")`
+    変更後: `model.startswith("gpt-") or model.startswith("o")`
+    （o4, o5等の将来モデルにも対応）
+
+- [x] **E2. [P0] cost_guard.py: コスト上限を月$6目標に修正**
+  - 変更前後:
+    - `DAILY_COST_LIMIT_USD`: 6.00 → 1.00（余裕を持たせた日次上限）
+    - `MONTHLY_DEGRADE_USD`: 120.00 → 5.00（月$6目標の手前でdegrade）
+    - `MONTHLY_STOP_USD`: 140.00 → 6.00（月次ハード上限）
+  - 変数名リネーム（機能影響なし・混乱防止）:
+    - `HAIKU_INPUT_RATE` → `LLM_INPUT_RATE_USD`
+    - `HAIKU_OUTPUT_RATE` → `LLM_OUTPUT_RATE_USD`
+  - コメントを更新: `# gpt-4.1-nano: input $0.10/1M, output $0.40/1M (2026-06時点)`
+  - `_estimate_cost()` 内の `cls.HAIKU_INPUT_RATE` / `cls.HAIKU_OUTPUT_RATE` 参照も合わせてリネーム
+  - **注意**: テストファイル `tests/test_cost_guard.py` 内のハードコード値も合わせて更新すること
+
+- [x] **E3. [P1] notion_client.py: `_parse_engineer_page` 重複キー削除**
+  - `_parse_engineer_page` の戻り値dictから以下の重複行を削除:
+    ```python
+    "稼働状況": _checkbox(props.get("稼働状況")),  # ← この1行を削除
+    ```
+  - `_select` による1行目のみを残す
+  - 理由: Notionの稼働状況フィールドはselect型（稼働中/待機中等の文字列）のため
+
+- [x] **E4. [P1] matcher.py: `ambiguous_skills` のみの場合REVIEW寄せに変更**
+  - `judge()` 末尾の判定ロジックを変更:
+    変更前:
+    ```python
+    if not non_ambig:
+        return "MATCH", reasons   # ambiguousのみならMATCH
+    ```
+    変更後:
+    ```python
+    if not non_ambig:
+        return "REVIEW", reasons   # ambiguousのみでもREVIEW（本番初期は誤提案防止優先）
+    ```
+
+- [x] **E5. [P1] matcher.py: エンジニアスキルのnormalize追加**
+  - `judge()` 内のエンジニアスキル取得部分を変更:
+    変更前:
+    ```python
+    eng_skills = set(engineer.get("スキル") or [])
+    ```
+    変更後:
+    ```python
+    eng_skills_raw = engineer.get("スキル") or []
+    eng_skills = set()
+    for s in eng_skills_raw:
+        n = normalizer.normalize(s)
+        eng_skills.add(n if n else s)
+    ```
+  - これにより「SpringBoot」と「Spring Boot」の表記ゆれによるNG誤判定を防ぐ
+
+- [x] **E6. [P1] matcher.py: 単価情報不足時にREVIEW寄せ**
+  - `judge()` の単価チェック部分を変更:
+    変更前:
+    ```python
+    if case_max > 0 and eng_price > 0:
+        gross = case_max - eng_price
+        if gross < 5.0:
+            return "NG", [...]
+    ```
+    変更後:
+    ```python
+    if not case_max or not eng_price:
+        reasons.append("単価情報不足（確認要）")
+    else:
+        gross = case_max - eng_price
+        if gross < 5.0:
+            return "NG", [f"粗利不足: 案件{case_max}万-エンジニア{eng_price}万={gross}万 (最低5万必要)"]
+    ```
+
+- [x] **E7. テスト実行・回帰確認**
+  - `pytest tests/ -v` を実行
+  - 全テストがパスすること
+  - E4/E5/E6の変更でtest_matcherが壊れた場合は期待値を新仕様に合わせて修正
+  - テスト結果をTASKS.mdの末尾に記録すること
+
+---
+
+## Phase E テスト結果（2026-06-05）
+
+- `pytest tests/ -v`
+- 結果: pass（19 passed in 0.21s）
+- 備考: E4/E5/E6 の仕様変更に合わせて `tests/test_matcher.py` の期待値を更新し、単価情報不足とエンジニアスキル正規化の回帰テストを追加。
+
+---
+
+## 実装完了後に報告すること
+
+- 全テストのパス結果（件数・カバレッジ）
+- Phase 0 ドライランが正常動作したこと
+- タスクスケジューラ登録の完了
+- 未実装・変更が必要な点（あれば明記）
+- SPEC.md の記述に曖昧な点があった場合は何を仮定して実装したか明記
+
+
+=== matching log tail ===
+ai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:19:53,382 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:19:59,383 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:07,206 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:14,648 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:21,178 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:26,933 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:33,513 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:39,749 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:46,734 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:52,663 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:20:59,225 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:05,475 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:11,705 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:16,732 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:22,117 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:27,353 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-05 17:21:33,959 INFO httpx HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

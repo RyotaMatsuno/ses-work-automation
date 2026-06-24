@@ -1,0 +1,41 @@
+エンジニアDBクレンジングレポート (dry_run)
+実行日時: 2026-06-10T17:27:21
+パターン: P1,P2
+
+=== 検出件数 ===
+  P1: action=12, warning=0
+  P2: action=15, warning=0
+
+=== 更新サマリー ===
+  成功: 0
+  失敗: 0
+  上限スキップ: 0
+
+=== 詳細 ===
+[DRY-RUN] P1 [action] S.K (374450ff-37c0-810f-85db-e1c2a850752b): P1:外国籍（自動クレンジング）
+[DRY-RUN] P1 [action] 譚.E（タン.E） (374450ff-37c0-81d2-9dcf-eb56faec739d): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-81ad-9d81-f19538bf381c): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-818c-92e4-c17828ac695a): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-81d4-8afa-c132da60e6e5): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-8187-91fd-d75628059f80): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] YT (374450ff-37c0-8174-8d2d-e9dd91c882dd): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-818c-8fb9-fccd616d00dc): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-81a5-b5e1-c458e9097c8f): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-8103-a7be-d067ead2754a): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-81e7-a855-d7dcea906cf2): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] 鄢.H (374450ff-37c0-8149-a42b-cdcd4b77169c): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] ID:50BZ35（女性） (374450ff-37c0-8167-8a9a-f7af88b00a2c): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-81fb-87ee-e8f1622c2a69): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] YT (374450ff-37c0-81ec-90a4-cd006201f1dc): P1:外国籍（自動クレンジング）
+[DRY-RUN] P1 [action] NK (374450ff-37c0-8129-8c11-ca49d76adae8): P1:外国籍（自動クレンジング）
+[DRY-RUN] P1 [action] KD (374450ff-37c0-813d-81f9-fe28625b58fe): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] YT1001 (374450ff-37c0-8128-96eb-e896cc54099f): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] IC (374450ff-37c0-819e-b959-c3f0f882e1ff): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] 不明 (374450ff-37c0-8178-9641-ce14d5c3c0ed): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] H_T (374450ff-37c0-818a-9b16-ce8bc8906663): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] BT (374450ff-37c0-819e-8f60-ec17c5188fad): P1:外国籍（自動クレンジング）
+[DRY-RUN] P1 [action] SC (374450ff-37c0-813e-a8f5-c61d4cb0cb60): P1:外国籍（自動クレンジング）
+[DRY-RUN] P1 [action] KM (374450ff-37c0-8131-a77d-cf542fdddb05): P1:外国籍（自動クレンジング）
+[DRY-RUN] P2 [action] 174BZ06 (36e450ff-37c0-81ad-adbb-e5e757f3fe8a): P2:国籍要確認（要人工確認）
+[DRY-RUN] P2 [action] M A (36e450ff-37c0-8192-bcaf-daf678164a10): P2:国籍要確認（要人工確認）
+[DRY-RUN] P1 [action] 鄧.Z (36e450ff-37c0-813e-8b8d-d440d0d16044): P1:外国籍（自動クレンジング）

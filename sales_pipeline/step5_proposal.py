@@ -26,7 +26,10 @@ def _read_projects() -> list[dict]:
 
 def _skill_summary(value) -> str:
     if isinstance(value, dict):
-        return ", ".join(f"{k}:{v.get('result', v)}" if isinstance(v, dict) else f"{k}:{v}" for k, v in value.items()) or "確認中"
+        return (
+            ", ".join(f"{k}:{v.get('result', v)}" if isinstance(v, dict) else f"{k}:{v}" for k, v in value.items())
+            or "確認中"
+        )
     if isinstance(value, list):
         return ", ".join(map(str, value)) or "確認中"
     return "確認中"
@@ -50,15 +53,17 @@ def generate_proposals() -> list[dict]:
             continue
         blocks = []
         for idx, candidate in enumerate(candidates):
-            blocks.append(CANDIDATE_TEMPLATE.format(
-                rank_label=labels[idx],
-                name=candidate.get("engineer_name") or candidate.get("name") or "候補者",
-                price=candidate.get("proposed_price") or candidate.get("price") or "確認中",
-                available_date=candidate.get("available_date") or "確認中",
-                required=_skill_summary(candidate.get("required") or candidate.get("required_match")),
-                preferred=_skill_summary(candidate.get("optional") or candidate.get("preferred_match")),
-                appeal=f"マッチングスコア {candidate.get('score', '確認中')}",
-            ))
+            blocks.append(
+                CANDIDATE_TEMPLATE.format(
+                    rank_label=labels[idx],
+                    name=candidate.get("engineer_name") or candidate.get("name") or "候補者",
+                    price=candidate.get("proposed_price") or candidate.get("price") or "確認中",
+                    available_date=candidate.get("available_date") or "確認中",
+                    required=_skill_summary(candidate.get("required") or candidate.get("required_match")),
+                    preferred=_skill_summary(candidate.get("optional") or candidate.get("preferred_match")),
+                    appeal=f"マッチングスコア {candidate.get('score', '確認中')}",
+                )
+            )
         body = PROPOSAL_TEMPLATE.format(
             project_name=project.get("project_name") or "案件名未設定",
             candidate_blocks="\n".join(blocks),

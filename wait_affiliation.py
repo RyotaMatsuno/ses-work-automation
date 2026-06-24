@@ -1,13 +1,22 @@
-import time, os, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import os
+import sys
+import time
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 time.sleep(180)
 
 for label, logfile, pydir in [
-    ("webhook affiliation", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_affiliation.log",
-     r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook"),
-    ("composer", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_composer.log",
-     r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1"),
+    (
+        "webhook affiliation",
+        r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_affiliation.log",
+        r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook",
+    ),
+    (
+        "composer",
+        r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_composer.log",
+        r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1",
+    ),
 ]:
     size = os.path.getsize(logfile)
     print(f"\n=== {label} log ({size}bytes) ===")

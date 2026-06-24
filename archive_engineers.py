@@ -1,4 +1,7 @@
-import sys, io, requests
+import io
+import sys
+
+import requests
 from dotenv import dotenv_values
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -51,11 +54,7 @@ success = []
 fail = []
 
 for page_id in target_ids:
-    r = requests.patch(
-        f"https://api.notion.com/v1/pages/{page_id}",
-        headers=headers,
-        json={"archived": True}
-    )
+    r = requests.patch(f"https://api.notion.com/v1/pages/{page_id}", headers=headers, json={"archived": True})
     if r.status_code == 200:
         success.append(names[page_id])
         print(f"✅ アーカイブ完了: {names[page_id]}")

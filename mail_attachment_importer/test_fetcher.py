@@ -1,11 +1,13 @@
 """mail_fetcher単体テスト - 直近3日分のみ"""
-import imaplib
+
 import email
+import imaplib
 import os
 import sys
+from datetime import datetime, timedelta
 from email.header import decode_header
 from pathlib import Path
-from datetime import datetime, timedelta
+
 from dotenv import load_dotenv
 
 load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
@@ -41,7 +43,7 @@ for uid_bytes in uids[:20]:  # Max 20
     _, msg_data = mail.uid("fetch", uid_bytes, "(RFC822)")
     raw = msg_data[0][1]
     msg = email.message_from_bytes(raw)
-    
+
     subj_parts = decode_header(msg.get("Subject", ""))
     subj = ""
     for part, charset in subj_parts:
@@ -49,7 +51,7 @@ for uid_bytes in uids[:20]:  # Max 20
             subj += part.decode(charset or "utf-8", errors="replace")
         else:
             subj += part
-    
+
     for part in msg.walk():
         cd = part.get("Content-Disposition", "")
         if "attachment" not in cd:

@@ -1,4 +1,5 @@
 """SQLite wrapper for PC activity logs."""
+
 from __future__ import annotations
 
 import re
@@ -34,8 +35,23 @@ CREATE TABLE IF NOT EXISTS activity_log (
 
 _TOKEN_RE = re.compile(r"[A-Za-z0-9_]{2,}|[\u3040-\u30ff\u4e00-\u9fff]{2,}")
 _STOPWORDS = {
-    "the", "and", "for", "with", "from", "this", "that", "http", "https",
-    "com", "www", "cursor", "windows", "microsoft", "file", "edit", "view",
+    "the",
+    "and",
+    "for",
+    "with",
+    "from",
+    "this",
+    "that",
+    "http",
+    "https",
+    "com",
+    "www",
+    "cursor",
+    "windows",
+    "microsoft",
+    "file",
+    "edit",
+    "view",
 }
 
 
@@ -117,18 +133,9 @@ def get_weekly_summary(start_date: str, end_date: str) -> dict[str, Any]:
         if ocr.strip():
             keyword_counts.update(_tokenize(ocr))
 
-    app_usage = [
-        {"app_name": name, "minutes": minutes}
-        for name, minutes in app_counts.most_common()
-    ]
-    top_titles = [
-        {"window_title": title, "count": count}
-        for title, count in title_counts.most_common(10)
-    ]
-    top_keywords = [
-        {"keyword": word, "count": count}
-        for word, count in keyword_counts.most_common(20)
-    ]
+    app_usage = [{"app_name": name, "minutes": minutes} for name, minutes in app_counts.most_common()]
+    top_titles = [{"window_title": title, "count": count} for title, count in title_counts.most_common(10)]
+    top_keywords = [{"keyword": word, "count": count} for word, count in keyword_counts.most_common(20)]
 
     return {
         "start_date": start_date,

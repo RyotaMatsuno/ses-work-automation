@@ -1,9 +1,9 @@
-import subprocess, os, time
+import subprocess
+import time
 
 # 既存の8765プロセスをkill
 result = subprocess.run(
-    'netstat -ano | findstr ":8765 " | findstr "LISTENING"',
-    shell=True, capture_output=True, text=True
+    'netstat -ano | findstr ":8765 " | findstr "LISTENING"', shell=True, capture_output=True, text=True
 )
 for line in result.stdout.strip().splitlines():
     parts = line.split()
@@ -18,7 +18,7 @@ time.sleep(2)
 proc = subprocess.Popen(
     ["pythonw", "command_server.py"],
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\local_server",
-    creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
+    creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
 )
 print(f"サーバー起動 PID: {proc.pid}")
 time.sleep(3)

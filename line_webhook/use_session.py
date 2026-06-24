@@ -5,7 +5,6 @@ from pathlib import Path
 
 from playwright.sync_api import Error, Locator, Page, TimeoutError, sync_playwright
 
-
 BASE_DIR = Path(__file__).resolve().parent
 SESSION_FILE = BASE_DIR / "okamoto_session.json"
 CONSOLE_URL = "https://developers.line.biz/console/"
@@ -78,15 +77,11 @@ def open_webhook_editor(page: Page) -> None:
         "section:has-text('Webhook設定'), div:has-text('Webhook設定')"
     ).first
 
-    edit_button = settings.get_by_role(
-        "button", name=re.compile(r"Edit|編集|変更", re.IGNORECASE)
-    )
+    edit_button = settings.get_by_role("button", name=re.compile(r"Edit|編集|変更", re.IGNORECASE))
     if click_first_visible(edit_button):
         return
 
-    global_edit_button = page.get_by_role(
-        "button", name=re.compile(r"Edit|編集|変更", re.IGNORECASE)
-    )
+    global_edit_button = page.get_by_role("button", name=re.compile(r"Edit|編集|変更", re.IGNORECASE))
     click_first_visible(global_edit_button, timeout=1000)
 
 
@@ -114,9 +109,7 @@ def fill_webhook_url(page: Page, webhook_url: str) -> None:
 
 
 def save_webhook_url(page: Page) -> None:
-    save_button = page.get_by_role(
-        "button", name=re.compile(r"Save|Update|保存|更新|変更", re.IGNORECASE)
-    )
+    save_button = page.get_by_role("button", name=re.compile(r"Save|Update|保存|更新|変更", re.IGNORECASE))
     if not click_first_visible(save_button):
         print("SAVE_BUTTON_NOT_FOUND")
         raise SystemExit(1)

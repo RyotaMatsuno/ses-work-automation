@@ -1,13 +1,13 @@
-path = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py'
-with open(path, 'r', encoding='utf-8') as f:
+path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
+with open(path, "r", encoding="utf-8") as f:
     content = f.read()
 
 # process_message内のマッチング結果取得後に粗利フィルタを追加
-old = '''        engineers = get_available_engineers()
+old = """        engineers = get_available_engineers()
         matching = run_matching(info, engineers)
-        candidates = matching.get("candidates", [])'''
+        candidates = matching.get("candidates", [])"""
 
-new = '''        engineers = get_available_engineers()
+new = """        engineers = get_available_engineers()
         matching = run_matching(info, engineers)
         candidates = matching.get("candidates", [])
         # 粗利フィルタ: 案件単価 - 人材単価 >= 5万円
@@ -21,10 +21,10 @@ new = '''        engineers = get_available_engineers()
             ng_count = len(candidates) - len(filtered)
             if ng_count > 0:
                 print(f"[profit_filter] {ng_count}名を粗利不足で除外")
-            candidates = filtered'''
+            candidates = filtered"""
 
 content = content.replace(old, new, 1)
 
-with open(path, 'w', encoding='utf-8') as f:
+with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 print("done")

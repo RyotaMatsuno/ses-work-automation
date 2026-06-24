@@ -1,13 +1,13 @@
-
 """
 Excel契約マスター → Googleスプレッドシートへ移行
 """
-import gspread
-from google.oauth2.service_account import Credentials
-import openpyxl
 
-CREDS_PATH  = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\google_credentials.json"
-EXCEL_PATH  = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
+import gspread
+import openpyxl
+from google.oauth2.service_account import Credentials
+
+CREDS_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\google_credentials.json"
+EXCEL_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
 SCOPES = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 creds = Credentials.from_service_account_file(CREDS_PATH, scopes=SCOPES)
@@ -30,7 +30,7 @@ for i, sheet_name in enumerate(wb.sheetnames):
         gs = ss.sheet1
         gs.update_title(sheet_name)
     else:
-        gs = ss.add_worksheet(title=sheet_name, rows=len(rows)+10, cols=30)
+        gs = ss.add_worksheet(title=sheet_name, rows=len(rows) + 10, cols=30)
 
     # データを文字列に変換してバッチ書き込み
     data = []
@@ -44,7 +44,7 @@ for i, sheet_name in enumerate(wb.sheetnames):
 # Service Accountのメールに共有は不要（オーナーがService Accountなので松野さんのアカウントに共有する）
 # 松野さんのGmailに共有
 ss.share("r-matsuno@terra-ltd.co.jp", perm_type="user", role="writer", notify=False)
-print(f"\n松野アドレスに共有完了")
+print("\n松野アドレスに共有完了")
 print(f"スプレッドシートID: {ss.id}")
 
 # IDをファイルに保存

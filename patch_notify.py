@@ -1,5 +1,3 @@
-import re
-
 filepath = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\notify_line.py"
 
 with open(filepath, "r", encoding="utf-8") as f:
@@ -9,14 +7,14 @@ with open(filepath, "r", encoding="utf-8") as f:
 content = content.replace("timeout=10,\n    )", "timeout=30,\n    )")
 
 # Fix 2: OKAMOTO channel token fallback
-old = '''        OKAMOTO: {
+old = """        OKAMOTO: {
             "channel_token": os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", ""),
             "user_id": os.environ.get("OKAMOTO_LINE_USER_ID", ""),
-        },'''
-new = '''        OKAMOTO: {
+        },"""
+new = """        OKAMOTO: {
             "channel_token": os.environ.get("OKAMOTO_LINE_CHANNEL_ACCESS_TOKEN") or os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", ""),
             "user_id": os.environ.get("OKAMOTO_LINE_USER_ID", ""),
-        },'''
+        },"""
 content = content.replace(old, new)
 
 with open(filepath, "w", encoding="utf-8") as f:

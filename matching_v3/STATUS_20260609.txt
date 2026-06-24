@@ -1,0 +1,101 @@
+matching_v3 現状確認レポート
+作成日: 2026-06-09
+対象: ses_work/matching_v3/
+
+================================================================================
+① matcher.py / notion_client.py 現状確認
+================================================================================
+
+1. judge() 内の「未知スキル（要確認）」/ unknown skill → REVIEW ロジック
+   結果: ❌ 未完了（同等ロジックが残存）
+
+   確認内容:
+   - 旧文言「未知スキル（要確認）」: 削除済み（matcher.py に該当文字列なし）
+   - 同等ロジック: matcher.py L62-63 に残存
+       if normalized is None:
+           reasons.append(f"未登録必須スキル要確認: {skill}")
+     → reasons が蓄積され L84-88 で REVIEW になる（MATCHER_FIX.md の修正方針と不一致）
+   - 参照: MATCHER_FIX.md（未知スキルは REVIEW 理由にしない方針、[DONE] だがコード未反映）
+
+2. staleness 判定閾値が 21 日（3週間）
+   結果: ✅ 実装済み
+
+   確認内容:
+   - matcher.py L10: ENGINEER_STALENESS_DAYS = 21
+   - matcher.py L74, L132, L148: _days_since() > ENGINEER_STALENESS_DAYS
+   - notion_client.py L52: timedelta(days=ENGINEER_STALENESS_DAYS)
+   - filter_fresh_engineers() で 21 日超をマッチング対象から除外
+
+3. 粗利 5 万未満 NG
+   結果: ✅ 実装済み
+
+   確認内容:
+   - matcher.py L11: GROSS_THRESHOLDS = {"松野": 5, "岡本": 3}
+   - matcher.py L31-32: デフォルト閾値 5 万円（担当者未指定時）
+   - matcher.py L48-51: gross < floor → return "NG", [f"粗利不足: ..."]
+   - tests/test_matcher.py: test_ng_gross_below_matsuno_floor 等で検証済み
+
+4. 並行スコア 5.0 超 NG
+   結果: ✅ 実装済み
+
+   確認内容:
+   - matcher.py L69-71: p_score >= 5.0 → return "NG", [f"並行過多: スコア{p_score:.1f}（上限5.0）"]
+   - _calc_parallel_score(): 「オファー中」で +5.0 等
+
+5. 提案対象フラグフィルタ（notion_client.py）
+   結果: ✅ 実装済み
+
+   確認内容:
+   - notion_client.py L56: {"property": "提案対象フラグ", "checkbox": {"equals": True}}
+   - get_active_engineers() の Notion クエリ filter.and に含まれる
+   - 追加で last_edited_time（21日以内）・稼働状況フィルタも適用
+
+================================================================================
+② pytest 実行結果
+================================================================================
+
+コマンド:
+  cd ses_work/matching_v3 && python -m pytest tests/ -v
+
+実行日時: 2026-06-09
+
+結果: ✅ 全件 PASS（23 passed in 0.42s）
+
+詳細:
+  tests/test_cost_guard.py::test_can_call_false_when_daily_cost_exceeds_limit PASSED
+  tests/test_cost_guard.py::test_can_call_false_when_monthly_stop_exceeds_limit PASSED
+  tests/test_cost_guard.py::test_get_model_returns_fallback_when_monthly_degrade_exceeds_limit PASSED
+  tests/test_matcher.py::test_ng_price_exceeded PASSED
+  tests/test_matcher.py::test_ng_required_skill_missing PASSED
+  tests/test_matcher.py::test_match_all_required_skills_and_low_parallel_score PASSED
+  tests/test_matcher.py::test_review_when_only_ambiguous_skills_exist PASSED
+  tests/test_matcher.py::test_review_when_price_information_missing PASSED
+  tests/test_matcher.py::test_engineer_skills_are_normalized_before_matching PASSED
+  tests/test_matcher.py::test_review_when_engineer_data_is_22_days_old PASSED
+  tests/test_matcher.py::test_skill_normalizer_converts_js_alias PASSED
+  tests/test_matcher.py::test_ng_gross_below_matsuno_floor PASSED
+  tests/test_matcher.py::test_match_gross_at_matsuno_floor PASSED
+  tests/test_matcher.py::test_match_gross_above_okamoto_floor PASSED
+  tests/test_matcher.py::test_ng_gross_below_okamoto_floor PASSED
+  tests/test_notion_client.py::test_get_new_cases_builds_filter PASSED
+  tests/test_notion_client.py::test_request_retries_two_500_then_success PASSED
+  tests/test_processed_db.py::test_mark_api_called_registers_new_case PASSED
+  tests/test_processed_db.py::test_update_status_updates_business_status PASSED
+  tests/test_processed_db.py::test_add_cost_accumulates PASSED
+  tests/test_structurer.py::test_fixture_input_returns_expected_json PASSED
+  tests/test_structurer.py::test_long_body_is_truncated_to_head_and_tail PASSED
+  tests/test_structurer.py::test_json_parse_failure_returns_zero_confidence PASSED
+
+================================================================================
+③ サマリ
+================================================================================
+
+チェック項目:
+  [❌] 未知スキル → REVIEW ロジック削除
+  [✅] staleness 21日
+  [✅] 粗利5万未満NG
+  [✅] 並行スコア5.0超NG
+  [✅] 提案対象フラグフィルタ
+  [✅] pytest 23/23 PASS
+
+未実装項目の詳細: SPEC_stale_fix.md を参照

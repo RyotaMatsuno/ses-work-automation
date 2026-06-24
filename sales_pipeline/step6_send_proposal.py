@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from step2_send import DRAFT_DIR, _append_log, _env, _split_draft
-
 import json
 import urllib.request
 from datetime import datetime
+
+from step2_send import DRAFT_DIR, _append_log, _env, _split_draft
 
 
 def send_proposals(dry_run: bool = True) -> list[dict]:
@@ -16,14 +16,25 @@ def send_proposals(dry_run: bool = True) -> list[dict]:
     for path in sorted(DRAFT_DIR.glob("proposal_*.txt")):
         to, subject, body = _split_draft(path.read_text(encoding="utf-8"))
         print(f"[Step6] 送信対象: {to} / {subject}", flush=True)
-        entry = {"step": "proposal", "path": str(path), "to": to, "subject": subject, "dry_run": dry_run, "at": datetime.now().isoformat()}
+        entry = {
+            "step": "proposal",
+            "path": str(path),
+            "to": to,
+            "subject": subject,
+            "dry_run": dry_run,
+            "at": datetime.now().isoformat(),
+        }
         if dry_run:
             entry["status"] = "skipped"
             print("[Step6] dry-run: 提案メール送信スキップ", flush=True)
         else:
-            payload = json.dumps({"account": "sessales", "to": to, "subject": subject, "body": body}, ensure_ascii=False).encode("utf-8")
+            payload = json.dumps(
+                {"account": "sessales", "to": to, "subject": subject, "body": body}, ensure_ascii=False
+            ).encode("utf-8")
             try:
-                req = urllib.request.Request(endpoint, data=payload, headers={"Content-Type": "application/json"}, method="POST")
+                req = urllib.request.Request(
+                    endpoint, data=payload, headers={"Content-Type": "application/json"}, method="POST"
+                )
                 with urllib.request.urlopen(req, timeout=30) as res:
                     entry["response"] = res.read().decode("utf-8", errors="replace")
                 entry["status"] = "sent"

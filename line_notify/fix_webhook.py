@@ -8,9 +8,7 @@ headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json
 # Webhook URLを正しいCloud RunのURLに更新
 new_url = "https://line-webhook-74735301292.asia-northeast1.run.app/webhook"
 resp = requests.put(
-    "https://api.line.me/v2/bot/channel/webhook/endpoint",
-    headers=headers,
-    json={"webhook_url": new_url}
+    "https://api.line.me/v2/bot/channel/webhook/endpoint", headers=headers, json={"webhook_url": new_url}
 )
 print("更新結果:", resp.status_code, resp.text)
 

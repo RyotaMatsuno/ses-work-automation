@@ -131,9 +131,7 @@ def call_claude(body: str, api_key: str) -> dict[str, Any]:
     )
     res.raise_for_status()
     data = res.json()
-    text = "".join(
-        part.get("text", "") for part in data.get("content", []) if part.get("type") == "text"
-    ).strip()
+    text = "".join(part.get("text", "") for part in data.get("content", []) if part.get("type") == "text").strip()
     return json.loads(extract_json(text))
 
 

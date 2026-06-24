@@ -1,0 +1,636 @@
+
+
+===== TASKS.md =====
+# TASKS.md — matching_v3 実装チェックリスト
+
+**Codex へ: 上から順に実装し、完了したら `[ ]` を `[x]` に更新すること。
+1タスクが完了してテストが通るまで次に進まない。**
+
+---
+
+## Phase A: 基盤モジュール（依存なし）
+
+- [x] **A1. config.py** — 設定ロード
+  - `dotenv_values("../config/.env")` で全 API キーを読み込む
+  - `users.yaml` を読み込む（存在しない場合は `users.yaml` をコピーして自動生成しない、エラーを出す）
+  - Notion DB ID を定数として定義:
+    - `ENGINEER_DB_ID = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"`
+    - `CASE_DB_ID = "343450ff-37c0-81e4-934e-f25f90284a3c"`
+  - `STRUCTURER_MODEL` 環境変数があれば優先（デフォルト: `claude-haiku-4-5-20251001`）
+  - 単体テスト不要（シンプルなローダー）
+
+- [x] **A2. processed_db.py** — SQLite 処理ステータス DB
+  - SPEC.md §7 の SQL スキーマを `__init__` で自動作成
+  - DB パス: `matching_v3/matching_v3_processed.db`
+  - 実装メソッド: `is_processed`, `mark_api_called`, `update_status`, `add_cost`, `get_today_stats`
+  - テスト: `tests/test_processed_db.py`
+    - [x] 新規ケースの登録 → `is_processed` が True を返す
+    - [x] `update_status` で business_status が更新される
+    - [x] `add_cost` が累積される
+
+- [x] **A3. cost_guard.py** — コスト上限管理
+  - SPEC.md §8 の 8 重防御を実装
+  - `can_call`, `record_cost`, `get_model`, `_get_monthly_cost` を実装
+  - `record_cost` は `../usage_tracker/cost_log.jsonl` に `script="matching_v3"` で追記
+  - テスト: `tests/test_cost_guard.py`
+    - [x] `can_call` が日次 $6 超過で False を返す
+    - [x] `can_call` が月次 $140 超過で False を返す
+    - [x] `get_model` が月次 $120 超過で fallback モデルを返す
+
+- [x] **A4. notion_client.py** — Notion REST API ラッパー
+  - ベース URL: `https://api.notion.com/v1/`
+  - Notion-Version: `2022-06-28`
+  - タイムアウト 30 秒、指数バックオフリトライ 3 回（1, 2, 4 秒）
+  - 実装メソッド:
+    - `get_new_cases(days: int) -> list[dict]` — 4 営業日以内の案件取得
+    - `get_active_engineers() -> list[dict]` — アクティブエンジニア取得（鮮度フィルタ付き）
+    - `update_match_status(case_id: str, results: list) -> None` — Notion にマッチ結果を書く（失敗しても例外を上に投げない）
+  - テスト: モックを使った単体テスト（実 API は叩かない）
+    - [x] `get_new_cases` のフィルタ構築テスト
+    - [x] リトライロジックテスト（mock で 2 回 500 → 3 回目で成功）
+
+---
+
+## Phase B: コアロジック
+
+- [x] **B1. tests/fixtures.json** — テスト用ダミーデータを作成
+  - 案件メール例 2 件（通常案件・面談設定済み案件）
+  - エンジニアデータ例 3 件（MATCH 想定・NG 想定・REVIEW 想定）
+  - 期待する JSON 構造化出力 2 件（Few-shot 例として structurer.py でも使う）
+
+- [x] **B2. structurer.py** — LLM JSON 構造化
+  - SPEC.md §4 の仕様で実装
+  - システムプロンプトは SPEC.md §4 の文章をそのまま使用
+  - `fixtures.json` から Few-shot 2 例をロードしてプロンプトに含める
+  - 本文切り詰め（3,000 字: 前 2,000 + 後 1,000）
+  - コスト記録（`cost_guard.record_cost` を呼ぶ）
+  - **PII 境界: エンジニア情報を一切 LLM に渡さない**
+  - テスト: `tests/test_structurer.py`
+    - [x] `fixtures.json` のダミー入力 → 期待 JSON が返る（`anthropic` をモック）
+    - [x] 3,000 字超の本文が正しく切り詰められる
+    - [x] レスポンスの JSON パース失敗時に `extraction_confidence=0.0` で返る
+
+- [x] **B3. matcher.py** — Python マッチングロジック
+  - `SkillNormalizer` クラス（SPEC.md §5）
+  - `judge()` 関数（SPEC.md §6.3）
+  - `_calc_parallel_score()`, `_days_since()` ヘルパー
+  - **LLM 呼び出し禁止（if 文のみ）**
+  - テスト: `tests/test_matcher.py`
+    - [x] NG: 単価超過（エンジニア80万 > 案件上限50万+15万）
+    - [x] NG: 必須スキル不足（Java 必須 → エンジニアが Python のみ）
+    - [x] MATCH: 全必須スキル○ + 並行スコア < 5.0
+    - [x] REVIEW: `ambiguous_skills` あり
+    - [x] REVIEW: エンジニアデータが 10 日前更新
+    - [x] `SkillNormalizer` のエイリアス変換（"JS" → "JavaScript"）
+
+- [x] **B4. notifier.py** — LINE 通知
+  - SPEC.md §9 の 4 ケースロジックと通知フォーマットを実装
+  - `enqueue(case, engineer, verdict, reasons)` でキューに積む
+  - `flush()` でダイジェスト送信（1 日 8 通上限チェック含む）
+  - Push 即時条件: `case_json.get("interview_scheduled_at")` が設定済み（面談設定済み案件）
+  - `LINE_CHANNEL_ACCESS_TOKEN` は config.py から読む
+
+---
+
+## Phase C: 統合
+
+- [x] **C1. matching_v3.py** — メインオーケストレーター
+  - SPEC.md §10 の `main()` フローを完全実装
+  - `--dry-run` フラグ（Phase 0 用）: LINE 通知・Notion 書き込みをスキップ
+  - `--input <path>` フラグ（Phase 0 用）: JSONL ファイルから案件を読み込む
+  - LockFile による二重起動防止（`matching_v3.lock`）
+  - 全モジュールを統合して実行
+
+- [x] **C2. Phase 0 ドライランの動作確認**
+  - `python matching_v3.py --dry-run --input tests/fixtures.json` が実行できること
+  - `logs/phase0_results.jsonl` が生成されること
+  - エラーなしで完了すること
+
+---
+
+## Phase D: スケジューラ・最終確認
+
+- [x] **D1. 全テスト実行**
+  - `pytest tests/ -v` を実行
+  - 全テストがパスすること
+  - 失敗したテストは修正してからチェック
+
+- [x] **D2. Windows タスクスケジューラ登録**
+  - タスク名: `SES_MatchingV3`
+  - 実行: 毎朝 8:00
+  - コマンド: `python ses_work/matching_v3/matching_v3.py`
+  - 以下の schtasks コマンドで作成:
+  ```
+  schtasks /Create /TN "SES_MatchingV3" /TR "python C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v3\matching_v3.py" /SC DAILY /ST 08:00 /F
+  ```
+
+---
+
+## 実装完了後に報告すること
+
+- 全テストのパス結果（件数・カバレッジ）
+- Phase 0 ドライランが正常動作したこと
+- タスクスケジューラ登録の完了
+- 未実装・変更が必要な点（あれば明記）
+- SPEC.md の記述に曖昧な点があった場合は何を仮定して実装したか明記
+
+
+===== structurer.py =====
+from __future__ import annotations
+
+import json
+import re
+import logging
+import sys as _sys
+import os as _os
+from pathlib import Path
+from typing import Any
+
+_sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__)))  # matching_v3/ を最優先
+_sys.path.insert(1, _os.path.join(_os.path.dirname(__file__), ".."))
+from common.ledger import can_spend as _ledger_can_spend, record as _ledger_record
+from config import Config, DEFAULT_STRUCTURER_MODEL
+from cost_guard import CostGuard
+
+
+logger = logging.getLogger(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+FIXTURES_PATH = BASE_DIR / "tests" / "fixtures.json"
+
+SYSTEM_PROMPT = """あなたはSES（System Engineer Staffing）案件メールからJSON情報を抽出するアシスタントです。
+メール本文を読み、指定されたJSONスキーマに従って情報を抽出してください。
+
+ルール:
+- 有効なJSONのみ出力する。説明文やMarkdownコードブロックを含めない
+- 読み取れないフィールドはnullまたは空配列
+- required_skills: 必須・必要と明記されたスキルのみ。具体的な技術・ツール名（Git, Slack, Backlog, MuleSoft, Salesforce, SQL, Terraform, LLM, AI活用, クラウド, Docker, Kubernetes等）および工程経験（要件定義経験, 設計経験, リーダー経験, PM経験, 開発経験, Webアプリ開発経験等）は必ずrequired_skillsに入れる
+- optional_skills: 尚可・歓迎と明記されたスキル
+- ambiguous_skills: ソフトスキル・非技術系・抽象的な工程表現のみ（例: "コミュニケーション能力", "主体性", "当事者意識", "営業経験", "インサイドセールス経験", "上流から一気通貫"等）。具体的な技術・工程経験・開発経験はambiguous_skillsに入れない
+- price_min/max: 万円単位の数値（"〜60万"なら max=60.0, min=null）
+- 単価が固定値の場合（例: "55万固定", "60万", "単価55万"）は price_min と price_max の両方に同じ値を入れる（55万固定 → min=55.0, max=55.0）
+- 日付に年が明記されていない場合（例: "6/10", "6月10日"）は現在の年として解釈する。現在は2026年である。過去の年（2023年等）を使ってはならない
+- extraction_confidence: 抽出の確信度（不明点が多い場合は低く）"""
+
+
+def structure(body: str, cost_guard: CostGuard, config: Config | None = None) -> dict[str, Any]:
+    cfg = config or Config()
+    prompt_text = _build_prompt(_truncate_body(body))
+    est_input_tokens = len(prompt_text) // 4 + 200
+    est_output_tokens = 300
+    if not _ledger_can_spend(est_input_tokens, est_output_tokens, DEFAULT_STRUCTURER_MODEL):
+        logger.warning("Global cost limit reached, skipping")
+        raise RuntimeError("global cost limit reached")
+    if not cost_guard.can_call(est_input_tokens, est_output_tokens):
+        logger.warning("Cost limit reached, skipping")
+        raise RuntimeError("cost limit reached")
+
+    model = cost_guard.get_model()
+    # [GPT切替] モデル名でAnthropicとOpenAIを振り分け
+    if model.startswith("gpt-") or model.startswith("o1") or model.startswith("o3"):
+        response = _call_openai(prompt_text, model, cfg)
+    else:
+        response = _call_anthropic(prompt_text, model, cfg)
+    usage = getattr(response, "usage", None)
+    # OpenAI: prompt_tokens/completion_tokens, Anthropic: input_tokens/output_tokens
+    input_tokens = int(
+        getattr(usage, "prompt_tokens", None)
+        or getattr(usage, "input_tokens", None)
+        or est_input_tokens
+    )
+    output_tokens = int(
+        getattr(usage, "completion_tokens", None)
+        or getattr(usage, "output_tokens", None)
+        or est_output_tokens
+    )
+    cost_guard.record_cost(input_tokens, output_tokens, model)
+    _ledger_record(input_tokens, output_tokens, model, "matching_v3")
+    text = _response_text(response)
+    return _parse_json_or_fallback(text)
+
+
+def _truncate_body(body: str) -> str:
+    if len(body) > 3000:
+        return body[:2000] + body[-1000:]
+    return body
+
+
+def _build_prompt(body: str) -> str:
+    examples = _load_examples()
+    lines = [
+        "以下のFew-shot例を参考に、最後のメール本文をJSON構造化してください。",
+        "",
+    ]
+    for index, item in enumerate(examples, start=1):
+        lines.extend(
+            [
+                f"例{index} 入力:",
+                item["body"],
+                f"例{index} 出力:",
+                json.dumps(item["expected"], ensure_ascii=False),
+                "",
+            ]
+        )
+    lines.extend(["対象メール本文:", body])
+    return "\n".join(lines)
+
+
+def _load_examples() -> list[dict[str, Any]]:
+    with FIXTURES_PATH.open("r", encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get("case_examples", [])[:2]
+
+
+def _call_anthropic(prompt_text: str, model: str, config: Config):
+    try:
+        import anthropic
+    except ImportError as exc:
+        raise RuntimeError("anthropic package is required") from exc
+    api_key = config.anthropic_api_key
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY is required")
+    client = anthropic.Anthropic(api_key=api_key)
+    return client.messages.create(
+        model=model,
+        max_tokens=2000,
+        temperature=0,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": prompt_text}],
+    )
+
+
+
+
+def _call_openai(prompt_text: str, model: str, config: Config):
+    try:
+        from openai import OpenAI
+    except ImportError as exc:
+        raise RuntimeError("openai package is required: pip install openai") from exc
+    api_key = config.get("OPENAI_API_KEY")
+    if not api_key:
+        raise ValueError("OPENAI_API_KEY is required")
+    client = OpenAI(api_key=api_key)
+    resp = client.chat.completions.create(
+        model=model,
+        max_tokens=2000,
+        temperature=0,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": prompt_text},
+        ],
+    )
+    return resp
+
+def _response_text(response: Any) -> str:
+    # OpenAI ChatCompletion
+    if hasattr(response, "choices"):
+        return response.choices[0].message.content or ""
+    # Anthropic Messages
+    content = getattr(response, "content", [])
+    parts: list[str] = []
+    for item in content:
+        text = getattr(item, "text", None)
+        if text is None and isinstance(item, dict):
+            text = item.get("text")
+        if text:
+            parts.append(text)
+    return "".join(parts)
+
+
+def _parse_json_or_fallback(text: str) -> dict[str, Any]:
+    # markdown fence stripping (LLMが```json...```で返した場合)
+    t = text.strip()
+    if t.startswith("```"):
+        t = re.sub(r'^```(?:json)?\s*', '', t)
+        t = re.sub(r'\s*```\s*$', '', t).strip()
+    if not t:
+        logger.warning("Structurer: empty response text")
+        stripped = ""
+    else:
+        stripped = t
+
+    try:
+        data = json.loads(stripped)
+        if isinstance(data, dict):
+            return data
+    except json.JSONDecodeError:
+        logger.warning("Structurer JSON parse failed (first 200 chars): %s", stripped[:200])
+
+    m = re.search(r'\{.*\}', stripped, re.DOTALL)
+    if m:
+        try:
+            data = json.loads(m.group())
+            if isinstance(data, dict):
+                return data
+        except json.JSONDecodeError:
+            pass
+
+    return {
+        "role": None,
+        "required_skills": [],
+        "optional_skills": [],
+        "ambiguous_skills": [],
+        "price_min": None,
+        "price_max": None,
+        "start_date": None,
+        "duration_months": None,
+        "work_location": None,
+        "remote_ok": "unknown",
+        "interview_count": None,
+        "foreign_ok": None,
+        "required_phases": [],
+        "settlement": None,
+        "commercial_restrictions": None,
+        "sole_proprietor_ok": None,
+        "age_max": None,
+        "night_shift": None,
+        "interview_scheduled_at": None,
+        "extraction_confidence": 0.0,
+        "raw_important_notes": stripped[:500] if stripped else None,
+    }
+
+
+===== cost_guard.py =====
+from __future__ import annotations
+
+import json
+import os
+import sys as _sys
+import os as _os
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+_sys.path.insert(0, _os.path.join(_os.path.dirname(__file__), ".."))
+try:
+    from common.ledger import can_spend as _global_can_spend
+except ImportError:
+    _global_can_spend = None
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+class CostGuard:
+    DAILY_CALL_LIMIT = 1500
+    DAILY_COST_LIMIT_USD = 6.00
+    MONTHLY_DEGRADE_USD = 120.00
+    MONTHLY_STOP_USD = 140.00
+    COST_LOG_PATH = BASE_DIR.parent / "usage_tracker" / "cost_log.jsonl"
+    HAIKU_INPUT_RATE = 0.10 / 1_000_000   # gpt-4.1-nano input rate
+    HAIKU_OUTPUT_RATE = 0.40 / 1_000_000  # gpt-4.1-nano output rate
+
+    def __init__(self, cost_log_path: str | Path = COST_LOG_PATH) -> None:
+        self.cost_log_path = Path(cost_log_path)
+
+    def can_call(self, est_input_tokens: int, est_output_tokens: int) -> bool:
+        if _global_can_spend is not None:
+            from config import DEFAULT_STRUCTURER_MODEL
+            if not _global_can_spend(est_input_tokens, est_output_tokens, DEFAULT_STRUCTURER_MODEL):
+                return False
+        daily = self._get_daily_stats()
+        if int(daily["api_calls"]) >= self.DAILY_CALL_LIMIT:
+            return False
+        est_cost = self._estimate_cost(est_input_tokens, est_output_tokens)
+        if float(daily["total_cost_usd"]) + est_cost > self.DAILY_COST_LIMIT_USD:
+            return False
+        if self._get_monthly_cost() >= self.MONTHLY_STOP_USD:
+            return False
+        return True
+
+    def record_cost(self, input_tokens: int, output_tokens: int, model: str) -> None:
+        cost = self._estimate_cost(input_tokens, output_tokens)
+        self.cost_log_path.parent.mkdir(parents=True, exist_ok=True)
+        entry = {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "script": "matching_v3",
+            "model": model,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+            "cost_usd": cost,
+        }
+        with self.cost_log_path.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+    def get_model(self) -> str:
+        from config import DEFAULT_STRUCTURER_MODEL
+        return os.environ.get("STRUCTURER_MODEL", DEFAULT_STRUCTURER_MODEL)
+
+    def _get_monthly_cost(self) -> float:
+        now = datetime.now(timezone.utc)
+        return self._sum_cost(lambda dt: dt.year == now.year and dt.month == now.month)
+
+    def _get_daily_stats(self) -> dict[str, float | int]:
+        today = datetime.now(timezone.utc).date()
+        calls = 0
+        total = 0.0
+        for entry in self._iter_entries():
+            if entry.get("script") != "matching_v3":
+                continue
+            dt = self._parse_ts(entry.get("ts"))
+            if dt and dt.date() == today:
+                calls += 1
+                total += float(entry.get("cost_usd") or 0.0)
+        return {"api_calls": calls, "total_cost_usd": total}
+
+    def _sum_cost(self, predicate) -> float:
+        total = 0.0
+        for entry in self._iter_entries():
+            if entry.get("script") != "matching_v3":
+                continue
+            dt = self._parse_ts(entry.get("ts"))
+            if dt and predicate(dt):
+                total += float(entry.get("cost_usd") or 0.0)
+        return total
+
+    def _iter_entries(self) -> list[dict[str, Any]]:
+        if not self.cost_log_path.exists():
+            return []
+        entries: list[dict[str, Any]] = []
+        with self.cost_log_path.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entries.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+        return entries
+
+    @classmethod
+    def _estimate_cost(cls, input_tokens: int, output_tokens: int) -> float:
+        return input_tokens * cls.HAIKU_INPUT_RATE + output_tokens * cls.HAIKU_OUTPUT_RATE
+
+    @staticmethod
+    def _parse_ts(value: Any) -> datetime | None:
+        if not isinstance(value, str):
+            return None
+        try:
+            return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+        except ValueError:
+            return None
+
+
+===== matcher.py =====
+from __future__ import annotations
+
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+class SkillNormalizer:
+    def __init__(self, aliases_path: str | Path) -> None:
+        with Path(aliases_path).open("r", encoding="utf-8") as f:
+            data = json.load(f)
+        self.hard = {k.lower(): v for k, v in data["aliases"].items()}
+        self.soft = {k.lower(): v for k, v in data["soft_aliases"].items()}
+        self.soft_enabled = data.get("soft_aliases_enabled", False)
+
+    def normalize(self, skill: str) -> str | None:
+        key = " ".join(skill.lower().strip().split())
+        if key in self.hard:
+            return self.hard[key]
+        if self.soft_enabled and key in self.soft:
+            return self.soft[key]
+        return None
+
+
+def judge(case_json: dict, engineer: dict, normalizer: SkillNormalizer) -> tuple[str, list[str]]:
+    reasons: list[str] = []
+
+    eng_price = float(engineer.get("単価（万円）") or 0)
+    case_max = float(case_json.get("price_max") or 0)
+    if case_max > 0 and eng_price > 0:
+        gross = case_max - eng_price
+        if gross < 5.0:
+            return "NG", [f"粗利不足: 案件{case_max}万-エンジニア{eng_price}万={gross}万 (最低5万必要)"]
+
+    required_raw = case_json.get("required_skills") or []
+    eng_skills = set(engineer.get("スキル") or [])
+    missing = []
+    for skill in required_raw:
+        normalized = normalizer.normalize(skill)
+        if normalized is None:
+            reasons.append(f"未登録必須スキル要確認: {skill}")
+        elif normalized not in eng_skills:
+            missing.append(normalized)
+    if missing:
+        return "NG", [f"必須スキル不足: {missing}"]
+
+    p_score = _calc_parallel_score(engineer)
+    if p_score >= 5.0:
+        return "NG", [f"並行過多: スコア{p_score:.1f}（上限5.0）"]
+
+    last_edit = engineer.get("_last_edited_time", "")
+    if last_edit and _days_since(last_edit) > 21:
+        reasons.append(f"エンジニア情報古い（{_days_since(last_edit)}日前更新）")
+
+    if case_json.get("ambiguous_skills"):
+        reasons.append(f"曖昧スキルあり: {case_json['ambiguous_skills']}")
+
+    conf = float(case_json.get("extraction_confidence", 1.0) or 0.0)
+    if conf < 0.3:
+        reasons.append(f"構造化精度低: {conf:.2f}")
+
+    if reasons:
+        non_ambig = [r for r in reasons if not r.startswith("曖昧スキルあり")]
+        if not non_ambig:
+            return "MATCH", reasons
+        return "REVIEW", reasons
+    return "MATCH", []
+
+
+def optional_skill_bonus_ok(case_json: dict, engineer: dict, normalizer: SkillNormalizer) -> bool:
+    optional_raw = case_json.get("optional_skills") or []
+    if not optional_raw:
+        return False
+    eng_skills = set(engineer.get("スキル") or [])
+    normalized = [normalizer.normalize(skill) for skill in optional_raw]
+    comparable = [skill for skill in normalized if skill]
+    if not comparable:
+        return False
+    owned = sum(1 for skill in comparable if skill in eng_skills)
+    return owned / len(comparable) >= 0.5
+
+
+def _calc_parallel_score(engineer: dict) -> float:
+    memo = engineer.get("備考（LINEメモ）") or ""
+    score = 0.0
+    if "オファー中" in memo or "offer" in memo.lower():
+        score += 5.0
+    if "面談予定" in memo:
+        score += 2.0
+    if "面談調整中" in memo:
+        score += 1.5
+    if "結果待ち" in memo:
+        score += 2.0
+    return score
+
+
+def _days_since(iso_str: str) -> int:
+    try:
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        delta = datetime.now(timezone.utc) - dt.astimezone(timezone.utc)
+        return delta.days
+    except Exception:
+        return 0
+
+
+===== config.py =====
+from __future__ import annotations
+
+import os
+from pathlib import Path
+from typing import Any
+
+import yaml
+from dotenv import dotenv_values
+
+
+BASE_DIR = Path(__file__).resolve().parent
+ENV_PATH = BASE_DIR.parent / "config" / ".env"
+USERS_PATH = BASE_DIR / "users.yaml"
+
+ENGINEER_DB_ID = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
+CASE_DB_ID = "343450ff-37c0-81e4-934e-f25f90284a3c"
+DEFAULT_STRUCTURER_MODEL = "gpt-4.1-nano"  # [GPT切替] Anthropic月次上限のためGPTに変更（nano: few-shot付きで精度8/8確認済み）
+
+
+class Config:
+    def __init__(self, env_path: str | Path = ENV_PATH, users_path: str | Path = USERS_PATH) -> None:
+        self.env_path = Path(env_path)
+        self.users_path = Path(users_path)
+        self.env = dict(dotenv_values(self.env_path, encoding="utf-8"))
+        self.users = self._load_users(self.users_path)
+        self.engineer_db_id = ENGINEER_DB_ID
+        self.case_db_id = CASE_DB_ID
+        self.structurer_model = os.environ.get(
+            "STRUCTURER_MODEL",
+            self.env.get("STRUCTURER_MODEL") or DEFAULT_STRUCTURER_MODEL,
+        )
+
+    def get(self, key: str, default: str | None = None) -> str | None:
+        return os.environ.get(key) or self.env.get(key) or default
+
+    @property
+    def notion_api_key(self) -> str | None:
+        return self.get("NOTION_API_KEY")
+
+    @property
+    def anthropic_api_key(self) -> str | None:
+        return self.get("ANTHROPIC_API_KEY")
+
+    @property
+    def line_channel_access_token(self) -> str | None:
+        return self.get("LINE_CHANNEL_ACCESS_TOKEN")
+
+    @staticmethod
+    def _load_users(path: Path) -> dict[str, Any]:
+        if not path.exists():
+            raise FileNotFoundError(f"users.yaml not found: {path}")
+        with path.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+        users = data.get("users")
+        if not isinstance(users, dict):
+            raise ValueError("users.yaml must contain a 'users' mapping")
+        return users

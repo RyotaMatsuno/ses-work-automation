@@ -1,4 +1,3 @@
-
 path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\matching_v2\matching_v2.py"
 with open(path, encoding="utf-8") as f:
     content = f.read()
@@ -13,10 +12,10 @@ if OLD1 in content:
 else:
     print("PATCH1: NOT FOUND - checking raw bytes")
     # フォールバック: Shift-JIS混じりの可能性を考慮して行番号で直接置換
-    lines = content.split('\n')
+    lines = content.split("\n")
     for i, line in enumerate(lines):
-        if 'get_select' in line and i > 200 and i < 220:
-            print(f"  Line {i+1}: {repr(line)}")
+        if "get_select" in line and i > 200 and i < 220:
+            print(f"  Line {i + 1}: {repr(line)}")
     print("PATCH1: SKIPPED")
 
 # ===== パッチ2: build_skill_text_for_engineer 関数を judge_with_cache の直前に挿入 =====
@@ -49,11 +48,11 @@ def build_skill_text_for_engineer(engineer):
 
 '''
 
-INSERT_BEFORE = 'def judge_with_cache('
-if INSERT_BEFORE in content and 'build_skill_text_for_engineer' not in content:
+INSERT_BEFORE = "def judge_with_cache("
+if INSERT_BEFORE in content and "build_skill_text_for_engineer" not in content:
     content = content.replace(INSERT_BEFORE, BUILD_SKILL_FUNC + INSERT_BEFORE)
     print("PATCH2: OK")
-elif 'build_skill_text_for_engineer' in content:
+elif "build_skill_text_for_engineer" in content:
     print("PATCH2: ALREADY EXISTS")
 else:
     print("PATCH2: INSERT POINT NOT FOUND")
@@ -74,7 +73,8 @@ with open(path, "w", encoding="utf-8") as f:
 print("WRITE: OK")
 
 # ===== 構文チェック =====
-import py_compile, sys
+import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("SYNTAX: OK")

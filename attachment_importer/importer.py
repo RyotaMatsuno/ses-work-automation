@@ -9,8 +9,11 @@ attachment_importer - メインスクリプト。
   python attachment_importer/importer.py --text "..." --file sheet.xlsx --source "松野LINE" --dry-run
 """
 
-import argparse, json, logging, os, sys
-from datetime import datetime
+import argparse
+import json
+import logging
+import os
+import sys
 from pathlib import Path
 
 # パス解決
@@ -20,6 +23,7 @@ sys.path.insert(0, str(SES_WORK_DIR))
 
 try:
     from dotenv import dotenv_values
+
     _env = dotenv_values(SES_WORK_DIR / "config" / ".env")
     for k, v in _env.items():
         if k not in os.environ and v:
@@ -27,12 +31,11 @@ try:
 except Exception:
     pass
 
+
+from attachment_importer.parsers.file_parser import parse_file
 from attachment_importer.parsers.text_parser import parse_text
-from attachment_importer.parsers.file_parser import parse_file, extract_text_from_file
 from attachment_importer.utils.drive_downloader import download_spreadsheet
 from attachment_importer.utils.notion_writer import upsert_engineer
-
-import requests
 
 NOTION_VERSION = "2022-06-28"
 LOG_PATH = BASE_DIR / "import.log"
@@ -113,8 +116,7 @@ def merge_records(text_records: list, file_records: list) -> list:
     return merged
 
 
-def run(text: str, file_path: str = None, spreadsheet_url: str = None,
-        source: str = "松野LINE", dry_run: bool = False):
+def run(text: str, file_path: str = None, spreadsheet_url: str = None, source: str = "松野LINE", dry_run: bool = False):
     """メイン処理。"""
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     notion_headers = build_notion_headers()
@@ -169,7 +171,9 @@ def run(text: str, file_path: str = None, spreadsheet_url: str = None,
             )
             action = result.get("action")
             if action == "dry_run":
-                logger.info(f"[DRY-RUN] {name} → 登録スキップ スキル={[s['name'] for s in result.get('properties', {}).get('スキル', {}).get('multi_select', [])]}")
+                logger.info(
+                    f"[DRY-RUN] {name} → 登録スキップ スキル={[s['name'] for s in result.get('properties', {}).get('スキル', {}).get('multi_select', [])]}"
+                )
             elif action == "create":
                 logger.info(f"[SUCCESS] {name} → 新規登録 page_id={result.get('page_id')}")
             elif action == "update":
@@ -202,9 +206,12 @@ def main():
     parser.add_argument("--text", required=True, help="人員情報テキスト（LINEメッセージ等）")
     parser.add_argument("--file", help="スキルシートファイルパス（.xlsx/.xls/.docx/.pdf）")
     parser.add_argument("--spreadsheet-url", help="GoogleスプレッドシートURL")
-    parser.add_argument("--source", default="松野LINE",
-                        choices=["松野LINE", "岡本LINE", "松野メール", "岡本メール", "共通メール"],
-                        help="入力元ラベル")
+    parser.add_argument(
+        "--source",
+        default="松野LINE",
+        choices=["松野LINE", "岡本LINE", "松野メール", "岡本メール", "共通メール"],
+        help="入力元ラベル",
+    )
     parser.add_argument("--dry-run", action="store_true", help="Notionに書かずログだけ出力")
     args = parser.parse_args()
 

@@ -1,4 +1,5 @@
 """Register Windows Task Scheduler jobs for pdca_monitor."""
+
 from __future__ import annotations
 
 import subprocess
@@ -96,7 +97,10 @@ def query_task(name: str) -> None:
         print(f"query failed: {name}\n{result.stderr}")
         return
     for line in result.stdout.splitlines():
-        if any(key in line for key in ("タスク名", "次回の実行", "実行するタスク", "繰り返し", "Task Name", "Next Run", "Task To Run")):
+        if any(
+            key in line
+            for key in ("タスク名", "次回の実行", "実行するタスク", "繰り返し", "Task Name", "Next Run", "Task To Run")
+        ):
             print(line.strip())
 
 

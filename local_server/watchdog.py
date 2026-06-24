@@ -3,12 +3,11 @@ jobz-command watchdog
 command_server.pyが落ちていたら自動再起動するスクリプト
 タスクスケジューラで5分おきに実行する
 """
-import urllib.request
+
+import logging
 import subprocess
 import sys
-import os
-import logging
-from datetime import datetime
+import urllib.request
 from pathlib import Path
 
 BASE_DIR = Path(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\local_server")
@@ -18,12 +17,8 @@ AUTH_TOKEN = "jobz-terra-2026"
 PYTHON_EXE = sys.executable.replace("python.exe", "pythonw.exe")
 SERVER_SCRIPT = str(BASE_DIR / "command_server.py")
 
-logging.basicConfig(
-    filename=str(LOG_FILE),
-    level=logging.INFO,
-    format="%(asctime)s %(message)s",
-    encoding="utf-8"
-)
+logging.basicConfig(filename=str(LOG_FILE), level=logging.INFO, format="%(asctime)s %(message)s", encoding="utf-8")
+
 
 def check_server():
     req = urllib.request.Request(SERVER_URL, headers={"X-Auth-Token": AUTH_TOKEN})
@@ -33,13 +28,11 @@ def check_server():
     except:
         return False
 
+
 def start_server():
-    subprocess.Popen(
-        [PYTHON_EXE, SERVER_SCRIPT],
-        cwd=str(BASE_DIR),
-        creationflags=subprocess.CREATE_NO_WINDOW
-    )
+    subprocess.Popen([PYTHON_EXE, SERVER_SCRIPT], cwd=str(BASE_DIR), creationflags=subprocess.CREATE_NO_WINDOW)
     logging.info("サーバー再起動しました")
+
 
 if __name__ == "__main__":
     if check_server():

@@ -1,4 +1,5 @@
-import subprocess, os
+import os
+import subprocess
 
 bat_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\cloudflare\run_tunnel.bat"
 startup_dir = r"C:\Users\ma_py\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
@@ -15,10 +16,7 @@ $s.Save()
 Write-Host "Created: {link_path}"
 """
 
-r = subprocess.run(
-    ["powershell", "-Command", ps_script],
-    capture_output=True, text=True, timeout=15
-)
+r = subprocess.run(["powershell", "-Command", ps_script], capture_output=True, text=True, timeout=15)
 print(r.stdout)
 if r.returncode != 0:
     print(f"ERROR: {r.stderr[:200]}")

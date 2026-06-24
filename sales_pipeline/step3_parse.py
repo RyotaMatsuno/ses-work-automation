@@ -21,7 +21,9 @@ def _fetch_recent(limit: int = 20, dry_run: bool = True) -> list[dict]:
     payload = json.dumps({"account": "sessales", "limit": limit}).encode("utf-8")
     for path in ("/unread", "/emails", "/recent"):
         try:
-            req = urllib.request.Request(f"http://{host}:{port}{path}", data=payload, headers={"Content-Type": "application/json"}, method="POST")
+            req = urllib.request.Request(
+                f"http://{host}:{port}{path}", data=payload, headers={"Content-Type": "application/json"}, method="POST"
+            )
             with urllib.request.urlopen(req, timeout=30) as res:
                 data = json.loads(res.read().decode("utf-8"))
             return data.get("emails") or data.get("messages") or []

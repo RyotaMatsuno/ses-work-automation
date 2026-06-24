@@ -67,6 +67,8 @@ content = """# TASKS.md - メール添付スキルシート自動取り込みシ
 - 処理済みUIDはprocessed_ids.jsonで管理（再処理防止）
 """
 
-with open(r'C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\mail_attachment_importer\\TASKS.md', 'w', encoding='utf-8') as f:
+with open(
+    r"C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\mail_attachment_importer\\TASKS.md", "w", encoding="utf-8"
+) as f:
     f.write(content)
-print('TASKS.md updated OK')
+print("TASKS.md updated OK")

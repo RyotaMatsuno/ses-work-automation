@@ -1,0 +1,283 @@
+{
+  "mode": "live",
+  "patterns": [
+    "P1",
+    "P2"
+  ],
+  "counts": {
+    "P1": {
+      "action": 19,
+      "warning": 0
+    },
+    "P2": {
+      "action": 18,
+      "warning": 0
+    }
+  },
+  "update_stats": {
+    "success": 10,
+    "fail": 0,
+    "skipped_limit": 27
+  },
+  "findings": [
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-ac0b-e5efe6e94df1",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a6-a38a-c4afb0ae2c08",
+      "name": "王WQ（オウ）",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8170-aa75-c482899c4843",
+      "name": "N.S",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-816f-8f6a-fadd47f23047",
+      "name": "M.H",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81c2-a41a-c0f260366a1e",
+      "name": "N.Y",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8163-ab9e-d64990a16ffb",
+      "name": "N A",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81f0-8553-c1155e93414e",
+      "name": "AF",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810e-b061-f9010f14e28b",
+      "name": "HK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e4-80f5-c60b8568919d",
+      "name": "SK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fc-846b-c2dbf1ae9d7a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-810f-85db-e1c2a850752b",
+      "name": "S.K",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d2-9dcf-eb56faec739d",
+      "name": "譚.E（タン.E）",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ad-9d81-f19538bf381c",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-92e4-c17828ac695a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d4-8afa-c132da60e6e5",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8187-91fd-d75628059f80",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8174-8d2d-e9dd91c882dd",
+      "name": "YT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818c-8fb9-fccd616d00dc",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81a5-b5e1-c458e9097c8f",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8103-a7be-d067ead2754a",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81e7-a855-d7dcea906cf2",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8149-a42b-cdcd4b77169c",
+      "name": "鄢.H",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8167-8a9a-f7af88b00a2c",
+      "name": "ID:50BZ35（女性）",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81fb-87ee-e8f1622c2a69",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81ec-90a4-cd006201f1dc",
+      "name": "YT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8129-8c11-ca49d76adae8",
+      "name": "NK",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813d-81f9-fe28625b58fe",
+      "name": "KD",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8128-96eb-e896cc54099f",
+      "name": "YT1001",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819e-b959-c3f0f882e1ff",
+      "name": "IC",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8178-9641-ce14d5c3c0ed",
+      "name": "不明",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "374450ff-37c0-818a-9b16-ce8bc8906663",
+      "name": "H_T",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-819e-8f60-ec17c5188fad",
+      "name": "BT",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-813e-a8f5-c61d4cb0cb60",
+      "name": "SC",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8131-a77d-cf542fdddb05",
+      "name": "KM",
+      "message": "P1:外国籍（自動クレンジング）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-81ad-adbb-e5e757f3fe8a",
+      "name": "174BZ06",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P2",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-8192-bcaf-daf678164a10",
+      "name": "M A",
+      "message": "P2:国籍要確認（要人工確認）"
+    },
+    {
+      "pattern": "P1",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-813e-8b8d-d440d0d16044",
+      "name": "鄧.Z",
+      "message": "P1:外国籍（自動クレンジング）"
+    }
+  ]
+}

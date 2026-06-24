@@ -1,4 +1,3 @@
-
 import requests
 from dotenv import dotenv_values
 
@@ -17,4 +16,4 @@ status_prop = db.get("properties", {}).get("ステータス", {})
 options = status_prop.get("select", {}).get("options", [])
 print("ステータス選択肢（raw）:")
 for o in options:
-    print(repr(o['name']))
+    print(repr(o["name"]))

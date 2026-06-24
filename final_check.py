@@ -1,27 +1,41 @@
-import os, sys, subprocess
-sys.stdout.reconfigure(encoding='utf-8')
+# -*- coding: utf-8 -*-
+import subprocess
+import sys
 
-for label, logfile in [
-    ("webhook", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_affiliation.log"),
-    ("composer", r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\codex_composer.log"),
-]:
-    size = os.path.getsize(logfile)
-    print(f"{label}: {size}bytes")
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.path.insert(0, r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work")
 
-# pipeline動作確認
-r = subprocess.run(
-    ["python", "pipeline.py", "--dry-run"],
-    cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1",
-    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=60
-)
-print(f"pipeline: {r.stdout.strip()}")
-if r.returncode != 0:
-    print(f"ERR: {r.stderr[-400:]}")
+results = {}
 
-# fetcher.pyにaffiliationあるか確認
-r2 = subprocess.run(
-    ["python", "-c", "from fetcher import normalize_engineer; import inspect; src=inspect.getsource(normalize_engineer); print('affiliation' in src)"],
-    cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\pipeline_v1",
-    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=10
-)
-print(f"fetcher has affiliation: {r2.stdout.strip()}")
+# 006
+try:
+    from line_webhook.line_bridge import _line_push_remaining
+
+    results["006 push_or_log"] = f"✅ OK / LINE残={_line_push_remaining()}通"
+except Exception as e:
+    results["006 push_or_log"] = f"❌ {e}"
+
+# 007
+try:
+    from line_webhook.line_bridge import handle_router_message
+
+    r1 = handle_router_message("作業進捗", "u", "m", 0)
+    r2 = handle_router_message("進捗", "u", "m", 0)
+    r3 = handle_router_message("進捗どうですか", "u", "m", 0)
+    ok = r1["handled"] and "3種類" in r2["reply"] and not r3["handled"]
+    results["007 進捗コマンド"] = f"{'✅ OK' if ok else '❌ NG'}"
+except Exception as e:
+    results["007 進捗コマンド"] = f"❌ {e}"
+
+# 008
+from pathlib import Path
+
+w = Path(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\local_server\pending_watcher.py")
+results["008 watcher"] = "✅ 存在" if w.exists() else "❌ NOT FOUND"
+
+r = subprocess.run(["schtasks", "/query", "/tn", "SES_PendingWatcher", "/fo", "LIST"], capture_output=True, timeout=10)
+out = r.stdout.decode("cp932", errors="replace")
+results["008 scheduler"] = "✅ 登録済み" if "準備完了" in out or "実行中" in out else "❌ 未登録"
+
+for k, v in results.items():
+    print(f"[{k}] {v}")

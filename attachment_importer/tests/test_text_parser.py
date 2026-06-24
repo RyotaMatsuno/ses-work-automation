@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """text_parserの単体テスト（区切り線分割のみ、API不要）"""
 
-import sys, os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from attachment_importer.parsers.text_parser import split_into_blocks
 

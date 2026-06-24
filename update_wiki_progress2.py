@@ -1,7 +1,7 @@
+from datetime import datetime
 
 import requests
 from dotenv import dotenv_values
-from datetime import datetime
 
 cfg = dotenv_values("config/.env")
 NOTION_TOKEN = cfg["NOTION_API_KEY"]
@@ -15,17 +15,22 @@ headers = {
 
 today = datetime.now().strftime("%Y-%m-%d %H:%M")
 
+
 def t(content, bold=False):
     return {"type": "text", "text": {"content": content}, "annotations": {"bold": bold}}
+
 
 def para(content, bold=False):
     return {"type": "paragraph", "paragraph": {"rich_text": [t(content, bold)]}}
 
+
 def bullet(content):
     return {"type": "bulleted_list_item", "bulleted_list_item": {"rich_text": [t(content)]}}
 
+
 def num(content):
     return {"type": "numbered_list_item", "numbered_list_item": {"rich_text": [t(content)]}}
+
 
 blocks = [
     {"type": "divider", "divider": {}},
@@ -51,9 +56,7 @@ blocks = [
 ]
 
 resp = requests.patch(
-    f"https://api.notion.com/v1/blocks/{WIKI_PAGE_ID}/children",
-    headers=headers,
-    json={"children": blocks}
+    f"https://api.notion.com/v1/blocks/{WIKI_PAGE_ID}/children", headers=headers, json={"children": blocks}
 )
 
 if resp.status_code == 200:

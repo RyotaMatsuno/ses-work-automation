@@ -1,0 +1,61 @@
+{
+  "mode": "live",
+  "patterns": [
+    "P3"
+  ],
+  "counts": {
+    "P3": {
+      "action": 3,
+      "warning": 3
+    }
+  },
+  "update_stats": {
+    "success": 1,
+    "fail": 0,
+    "skipped_limit": 2
+  },
+  "findings": [
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-810f-9f09-c06e33296a89",
+      "name": "TK",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-814a-9dcb-f71eec9ade65",
+      "name": "TK",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "warning",
+      "page_id": "374450ff-37c0-8103-ba20-de4cb0ce9c03",
+      "name": "SH",
+      "message": "経験年数 40.0 は要確認（36〜45）"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "374450ff-37c0-8135-88d5-f0ceb4c1a994",
+      "name": "YY",
+      "message": "経験年数異常値 53.0 をnull化"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "374450ff-37c0-81d9-8278-f5842a2185d5",
+      "name": "JK",
+      "message": "経験年数異常値 49.0 をnull化"
+    },
+    {
+      "pattern": "P3",
+      "severity": "action",
+      "page_id": "36e450ff-37c0-819b-a444-df694a08fafb",
+      "name": "IR",
+      "message": "経験年数異常値 56.0 をnull化"
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+=== wall_hitting bugs round5 by gpt-5.4 ===
+in=744 out=3045 cost=$0.0314
+
+以下、断定で回答。
+
+## Q1. 「11:54更新→12:00トリガがスキップ」は実在するか
+**ある。実務上は普通に起こる。**  
+ただし **明文化された仕様というより、再登録/再評価のタイミングで直近発火を落とす既知挙動寄り**。  
+特に **境界時刻の数分前に `Set-ScheduledTask` で更新**すると、**次回トリガ再計算で 1 回飛ぶ**ことがある。
+
+今回の 11:54 更新 → 12:00 無発火は、**今回の更新が直接原因である可能性が高い**。
+
+確認用:
+```powershell
+Get-ScheduledTask -TaskName 'SES_MailPipeline' | Select TaskName,State
+Get-ScheduledTaskInfo -TaskName 'SES_MailPipeline' | Select LastRunTime,NextRunTime,LastTaskResult
+wevtutil qe Microsoft-Windows-TaskScheduler/Operational /q:"*[System[(EventID=140 or EventID=106 or EventID=107 or EventID=129 or EventID=200 or EventID=201 or EventID=203)]]" /f:text /rd:true /c:50
+```
+
+---
+
+## Q2. 今後、再設定後の発火を確実化する手段
+**結論: 本番の次回境界60分以内ではタスク更新しない。これが最重要。**
+
+確実化手段はこの順。
+
+1. **次回発火の直前に `Set-ScheduledTask` しない**
+   - 安全圏は **次回発火の1時間以上前**
+   - 最低でも **15分前以降は触らない**
+
+2. **更新後に `NextRunTime` を必ず再確認**
+```powershell
+Get-ScheduledTaskInfo -TaskName 'SES_MailPipeline' | Select LastRunTime,NextRunTime
+```
+
+3. **更新が必要なら、更新直後に手動Runで健全性確認**
+```powershell
+Start-ScheduledTask -TaskName 'SES_MailPipeline'
+```
+
+4. **本命対策は `StartWhenAvailable=true`**
+   - ただし **設定変更権限が必要**
+   - 一般権限では通常不可
+
+管理者がやるべき設定例:
+```powershell
+$task = Get-ScheduledTask -TaskName 'SES_MailPipeline'
+$task.Settings.StartWhenAvailable = $true
+Set-ScheduledTask -InputObject $task
+```
+
+---
+
+## Q3. 16時間スキップの真因として最有力
+**最有力は「スリープ/不在中のトリガ喪失」**。  
+その上で **`StartWhenAvailable=false` または UnifiedSchedulingEngine の癖/相性** が重なった可能性が高い。
+
+優先度順に言うと:
+
+1. **PCスリープ中に 20:00〜11:00 の定時発火が全部捨てられた**
+2. **`StartWhenAvailable` が無効で取りこぼしを回収しなかった**
+3. **UnifiedSchedulingEngine=true が絡み、取りこぼし回復がさらに弱かった**
+4. **19:53完了後の内部状態更新だけで16時間飛ぶ**  
+   → **単独原因としては弱い**
+
+要するに、**「更新で16時間飛んだ」より「睡眠中の missed trigger を回収できなかった」説が強い。**
+
+確認用:
+```powershell
+powercfg /a
+wevtutil qe System /q:"*[System[(EventID=42 or EventID=1 or EventID=107 or EventID=506)]]" /f:text /rd:true /c:100
+```
+
+---
+
+## Q4. 13:00 Cronを確実に発火させるため、12:14〜12:59で追加実施すべきこと
+**一般権限だけで安全にできる設定変更は、実質なし。**  
+**`StartWhenAvailable=true` は通常、変更権限が必要。一般権限ではほぼ不可。**
+
+### 今やるべきこと
+1. **これ以上 `Set-ScheduledTask` しない**
+2. **12:14の手動Runが13:00時点で残らないか監視**
+3. **13:00の前後で Operational Log と `LastRunTime` を即確認**
+4. **必要なら 13:01 に手動Runのフォールバック準備**
+
+監視:
+```powershell
+1..10 | % {
+  Get-Date
+  Get-ScheduledTaskInfo -TaskName 'SES_MailPipeline' | Select LastRunTime,NextRunTime,LastTaskResult
+  Start-Sleep 300
+}
+```
+
+13:00直前確認:
+```powershell
+Get-ScheduledTask -TaskName 'SES_MailPipeline' | Select TaskName,State
+Get-ScheduledTaskInfo -TaskName 'SES_MailPipeline' | Select LastRunTime,NextRunTime,LastTaskResult
+```
+
+13:01フォールバック:
+```powershell
+Start-ScheduledTask -TaskName 'SES_MailPipeline'
+```
+
+### 補足
+もし **12:14の実行が13:00時点でも Running/Queued** で、タスクが **多重起動禁止** なら、**13:00は発火しても新規起動されない**。  
+だから **今は「13時前に詰まっていないこと」の確認が最優先**。
+
+---
+
+## Q5. `jobz-watchdog` 小文字版を一般権限で実質無効化する手段
+**`del` で消すのは非推奨。悪化リスクが高い。**  
+**空ファイル化も原則非推奨。**  
+**やるなら「正常終了するスタブへ差し替え」だけ。**
+
+### 妥当な条件
+- タスク Action が **ユーザー書込可能パス** を指している
+- 実体が `.cmd` / `.bat` / `.ps1` などで差し替え可能
+- 監視用途で、**呼ばれても副作用なく 0 終了でよい**
+
+### 推奨スタブ例
+PowerShellスクリプト差し替え:
+```powershell
+'Exit 0' | Set-Content -Path 'C:\path\to\jobz-watchdog.ps1' -Encoding ASCII
+```
+
+BAT差し替え:
+```powershell
+"@echo off`r`nexit /b 0" | Set-Content -Path 'C:\path\to\jobz-watchdog.bat' -Encoding ASCII
+```
+
+### リスク評価
+- **メリット**: 203エラー連打を止められる可能性
+- **リスク中**: 本来の監視機能が止まる
+- **リスク高**: パス違いなら無意味、更新で戻る、監査上まずい
+- **最悪**: `del` すると **「見つからない」系エラーに変わるだけでログ汚染継続**
+
+結論:
+- **削除はダメ**
+- **差し替えスタブは条件付きで可**
+- **まず Action 実体を確認してから**
+
+確認:
+```powershell
+schtasks /query /tn "jobz-watchdog" /xml
+schtasks /query /tn "jobz-watchdog" /v /fo list
+```
+
+---
+
+## Q6. 今夜中に取るべき優先度3つ
+### 1位: 13:00発火の観測を最優先
+**もう設定を触らない。**  
+13:00前後で **Operational Log / LastRunTime / State** を採取。
+
+```powershell
+Get-Date
+Get-ScheduledTaskInfo -TaskName 'SES_MailPipeline' | Select LastRunTime,NextRunTime,LastTaskResult
+wevtutil qe Microsoft-Windows-TaskScheduler/Operational /q:"*[System[(EventID=106 or EventID=107 or EventID=129 or EventID=140 or EventID=200 or EventID=201 or EventID=203)]]" /f:text /rd:true /c:30
+```
+
+### 2位: 13:00失敗時の即時フォールバック準備
+**13:01で手動Runできるよう待機。**
+
+```powershell
+Start-ScheduledTask -TaskName 'SES_MailPipeline'
+```
+
+### 3位: 証拠保全
+**今夜中に XML とイベントを退避。**  
+明日の管理者対応に必須。
+
+```powershell
+schtasks /query /tn "SES_MailPipeline" /xml > "$env:USERPROFILE\Desktop\SES_MailPipeline.xml"
+wevtutil epl Microsoft-Windows-TaskScheduler/Operational "$env:USERPROFILE\Desktop\TaskScheduler-Operational.evtx"
+schtasks /query /tn "jobz-watchdog" /xml > "$env:USERPROFILE\Desktop\jobz-watchdog.xml"
+```
+
+---
+
+## 最終結論
+- **Q1:** 実在する。11:54更新が12:00スキップの有力原因。
+- **Q2:** 次回境界直前に更新しない。更新後は `NextRunTime` 再確認。理想は `StartWhenAvailable=true`。
+- **Q3:** 16時間スキップの本命は **睡眠中 missed trigger + 回収設定不足**。
+- **Q4:** 一般権限で有効な追加設定変更はほぼない。**今は触らないのが最適**。
+- **Q5:** `del` はダメ。やるなら **0終了スタブ差し替え** のみ、条件付き。
+- **Q6:** **13:00観測 → 失敗時手動Run → 証拠保全** の順。
+
+必要なら次で、**13:00直前〜13:05の観測コマンドを1本のPowerShell監視スクリプト**にして渡します。

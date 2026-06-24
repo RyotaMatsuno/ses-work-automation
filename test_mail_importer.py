@@ -1,5 +1,6 @@
-
-import os, subprocess, sys
+import os
+import subprocess
+import sys
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 
@@ -8,7 +9,7 @@ result = subprocess.run(
     [sys.executable, "mail_attachment_importer/importer.py", "--dry-run", "--limit", "1"],
     capture_output=True,
     cwd=base,
-    timeout=60
+    timeout=60,
 )
 out = result.stdout.decode("utf-8", errors="replace")
 err = result.stderr.decode("utf-8", errors="replace")

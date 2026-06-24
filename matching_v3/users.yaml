@@ -1,0 +1,9 @@
+users:
+  matsuno:
+    line_user_id: "Ue3508b43b84991f5a68281da5bf4cf39"
+    notion_assignee: "松野"
+    min_gross_profit: 5
+  okamoto:
+    line_user_id: "Uac1d23408573586affa37577c4e2b2ab"
+    notion_assignee: "岡本"
+    min_gross_profit: 3

@@ -1,0 +1,1476 @@
+--- "C:/Users/ma_py/OneDrive/\343\203\207\343\202\271\343\202\257\343\203\210\343\203\203\343\203\227/ses_work/mail_pipeline/mail_pipeline.py.bak_phase4"	2026-06-04 22:27:40.632658300 +0900
++++ "C:/Users/ma_py/OneDrive/\343\203\207\343\202\271\343\202\257\343\203\210\343\203\203\343\203\227/ses_work/mail_pipeline/mail_pipeline.py.bak_emergency_20260617_182923"	2026-06-16 11:54:03.942311700 +0900
+@@ -7,6 +7,7 @@
+ - 案件登録時もskill_readerのget_active_projects/match_skillsを利用
+ """
+ 
++import argparse
+ import imaplib
+ import email
+ import re
+@@ -14,34 +15,44 @@
+ import os
+ import ssl
+ import base64
+-import mimetypes
+-import shutil
+-import smtplib
++import sys
+ import requests
+ from datetime import date, datetime, timedelta
+ from email.header import decode_header
+-from email.mime.base import MIMEBase
+-from email.mime.multipart import MIMEMultipart
+-from email.mime.text import MIMEText
+-from email import encoders
+-from email.utils import parsedate_to_datetime
++from email.utils import getaddresses, parsedate_to_datetime
+ from dotenv import dotenv_values
+ from pathlib import Path
++from zoneinfo import ZoneInfo
+ 
+ import jpholiday
+ 
+ # skill_readerをインポート
+-import sys
+ try:
+     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+ except Exception:
+     pass
+ sys.path.insert(0, str(Path(__file__).parent.parent))
++from common.notion_register import NotionAPIError
++from mail_pipeline.validation import (
++    REMARK_APPEND_MAX_LEN,
++    ValidationResult,
++    append_remark,
++    describe_price_field,
++    missing_engineer_properties,
++    normalize_price_yen,
++    price_field_unit,
++    resolve_engineer_property_names,
++    validate_engineer,
++)
+ from skill_reader.skill_reader import (
+     extract_skills_from_text, extract_skills_from_image,
+     extract_text_from_pdf, extract_text_from_docx, pdf_to_base64_image,
+     get_active_projects as _get_active_projects, match_skills, generate_iko_mail
+ )
++from common.ledger import can_spend as ledger_can_spend, record as ledger_record
++from common.model_config import TEXT_MODEL
++from common.notion_register import register_engineer as notion_register_engineer
++from common.notion_register import register_project as notion_register_project
+ from usage_tracker.cost_logger import log_cost
+ 
+ # ===== 設定 =====
+@@ -50,17 +61,69 @@
+ DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
+ LOG_PATH = BASE_DIR / "pipeline.log"
+ PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"
+-ATTACHMENTS_DIR = BASE_DIR.parent / "attachments"
+-SEND_COUNTER_PATH = BASE_DIR.parent / "config" / "send_counter.json"
+ 
+-# [COSTFIX] 取得・処理件数を制限してAPIコール暴走を防ぐ
+ FETCH_LIMIT = 200
+-PROCESS_LIMIT = 50
++CLASSIFY_LIMIT = 150
+ MATCH_TOP_N = 10
+-# [COSTFIX] 日次API上限（ドル）
+-DAILY_COST_LIMIT_USD = 2.0
+ DB_PROPERTY_CACHE = {}
+ 
++# ===== 件名キーワード事前分類（LLM不使用・v4確定版） =====
++# dry-run 230件検証済み: LLM削減率63.9%（2026-06-16）
++SUBJECT_SKIP_PATTERNS = [
++    "請求書", "注文書", "発注書", "見積書", "見積もり", "御見積",
++    "納品書", "領収書", "勤務表", "勤怠", "稼働報告", "工数",
++    "契約書", "覚書", "基本契約", "業務委託契約", "秘密保持",
++    "支払", "入金", "振込", "口座", "押印", "捺印",
++    "年末調整", "源泉", "インボイス", "適格請求書",
++    "セミナー", "ウェビナー", "イベント", "勉強会", "登壇",
++    "メンテナンス", "障害通知", "障害復旧", "アップデート通知",
++    "おめでとう", "新年", "年始", "年末", "夏季休業", "休業",
++    "アンケート", "ニュースレター", "メルマガ", "配信停止",
++]
++SUBJECT_PROJECT_PATTERNS = [
++    "案件", "募集", "求人", "BP案件",
++    "★案件", "■案件", "【案件",
++    "万円", "万／",
++    "リモート案件", "常駐案件", "PMO案件", "インフラ案件",
++]
++SUBJECT_ENGINEER_PATTERNS = [
++    "弊社社員", "弊社正社員", "弊社プロパー", "弊社フリーランス",
++    "弊社エンジニア", "弊社技術者", "自社社員",
++    "弊社直", "弊社増員", "弊社候補",
++    "要員",
++    "技術者のご紹介", "エンジニアのご紹介",
++    "経歴書", "スキルシート", "プロパー",
++    "営業中", "稼働可能",
++    "ご紹介です", "のご紹介", "さんのご紹介",
++    "人材】", "おすすめ人材",
++    "歳】男性", "歳】女性", "歳／男性", "歳／女性",
++    "実務", "年超／", "年以上／",
++    "経験", "年・",
++]
++
++
++def classify_subject_keyword(subject: str) -> "str | None":
++    """件名キーワードで事前分類（LLM不使用）。
++    戻り値: "project" | "engineer" | "skip" | None（判断不能→LLMへ）
++    v4確定版: dry-run 230件で63.9%削減確認済み（2026-06-16）
++    """
++    if not subject:
++        return None
++    s = subject
++    for kw in SUBJECT_SKIP_PATTERNS:
++        if kw in s:
++            return "skip"
++    eng_hit = sum(1 for kw in SUBJECT_ENGINEER_PATTERNS if kw in s)
++    prj_hit = sum(1 for kw in SUBJECT_PROJECT_PATTERNS if kw in s)
++    if "案件" in s and eng_hit == 0:
++        return "project"
++    if eng_hit >= 1 and eng_hit >= prj_hit:
++        return "engineer"
++    if prj_hit >= 2 and prj_hit > eng_hit:
++        return "project"
++    return None
++# ===== /件名キーワード事前分類 =====
++
+ config = dotenv_values(ENV_PATH)
+ for k, v in config.items():
+     if k not in os.environ:
+@@ -98,6 +161,9 @@
+     "Notion-Version": "2022-06-28"
+ }
+ 
++JST = ZoneInfo("Asia/Tokyo")
++ENGINEER_PROP_NAMES: dict[str, str] = {}
++
+ VALID_SKILLS = [
+     "Java", "Python", "PHP", "JavaScript", "TypeScript", "C#", "Node.js",
+     "React", "AWS", "インフラ", "Go", "Ruby", "Swift", "Kotlin", "Vue.js",
+@@ -158,29 +224,6 @@
+         pass  # OneDrive同期ロック等でファイルが書けない場合はスキップ
+ 
+ 
+-def get_today_cost_usd() -> float:
+-    """usage_tracker/cost_log.jsonl から今日の累計コストを返す"""
+-    try:
+-        cost_log = BASE_DIR.parent / "usage_tracker" / "cost_log.jsonl"
+-        if not cost_log.exists():
+-            return 0.0
+-        today = date.today().isoformat()  # "2026-06-04"
+-        total = 0.0
+-        with open(cost_log, encoding="utf-8") as f:
+-            for line in f:
+-                line = line.strip()
+-                if not line:
+-                    continue
+-                entry = json.loads(line)
+-                # dateフィールドまたはtsフィールドの先頭10文字で判定
+-                entry_date = entry.get("date") or (entry.get("ts", "")[:10])
+-                if entry_date == today:
+-                    total += entry.get("cost_usd", 0.0)
+-        return total
+-    except Exception:
+-        return 0.0
+-
+-
+ def is_valid_iso_date(s) -> bool:
+     if not s or not isinstance(s, str):
+         return False
+@@ -213,6 +256,55 @@
+     return get_source_label(email_user)
+ 
+ 
++def _env_list(name: str) -> list[str]:
++    value = os.environ.get(name) or config.get(name) or ""
++    return [item.strip().lower() for item in value.split(",") if item.strip()]
++
++
++BROADCAST_SENDER_ALLOWLIST = set(_env_list("BROADCAST_SENDER_ALLOWLIST"))
++BROADCAST_FOOTER_PATTERNS = (
++    "配信停止", "配信の停止", "配信解除", "購読解除", "登録解除",
++    "メルマガ", "メールマガジン", "一斉配信", "一括配信",
++    "unsubscribe", "opt-out", "mail magazine",
++)
++BROADCAST_RECIPIENT_THRESHOLD = int(os.environ.get("BROADCAST_RECIPIENT_THRESHOLD") or config.get("BROADCAST_RECIPIENT_THRESHOLD") or 15)
++
++
++def _sender_allowed(sender: str) -> bool:
++    if not BROADCAST_SENDER_ALLOWLIST:
++        return False
++    sender_lower = (sender or "").lower()
++    domain = sender_lower.split("@")[-1].split(">")[0].strip() if "@" in sender_lower else ""
++    return any(
++        allowed == sender_lower or
++        (domain and (allowed == domain or allowed == f"@{domain}"))
++        for allowed in BROADCAST_SENDER_ALLOWLIST
++    )
++
++
++def _recipient_count(msg: dict) -> int:
++    addresses = getaddresses([msg.get("to", ""), msg.get("cc", "")])
++    return len({addr.lower() for _, addr in addresses if addr})
++
++
++def is_broadcast(msg) -> bool:
++    """分類前に配信メールを除外する。allowlist指定があれば最優先で除外しない。"""
++    if not isinstance(msg, dict):
++        return False
++    if _sender_allowed(msg.get("sender", "")):
++        return False
++
++    headers = msg.get("headers", {}) or {}
++    if headers.get("list-unsubscribe") or headers.get("list-id"):
++        return True
++
++    footer = (msg.get("body", "") or "")[-2000:].lower()
++    if any(pattern.lower() in footer for pattern in BROADCAST_FOOTER_PATTERNS):
++        return True
++
++    return _recipient_count(msg) >= BROADCAST_RECIPIENT_THRESHOLD
++
++
+ def parse_notion_datetime(value):
+     if not value:
+         return None
+@@ -271,26 +363,30 @@
+ 
+ # ===== 処理済みID管理 =====
+ def load_processed_ids() -> set:
++    if not PROCESSED_IDS_PATH.exists():
++        return set()
+     try:
+-        if PROCESSED_IDS_PATH.exists():
+-            with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
+-                return set(json.load(f))
++        with open(PROCESSED_IDS_PATH, "r", encoding="utf-8") as f:
++            data = json.load(f)
++        if not isinstance(data, list):
++            raise ValueError("processed_ids.jsonの形式がlistではありません")
++        return set(data)
+     except Exception as e:
+         log(f"processed_ids読み込みエラー: {e}")
+-    return set()
++        raise
+ 
+ 
+ def save_processed_id(msg_id: str, processed: set):
+     processed.add(msg_id)
+     ids_list = list(processed)
+-    # [COSTFIX] 上限を10000件に引き上げ。最新10000件を保持する
+-    if len(ids_list) > 10000:
+-        ids_list = ids_list[-10000:]
++    if len(ids_list) > 2000:
++        ids_list = ids_list[1000:]
+     try:
+         with open(PROCESSED_IDS_PATH, "w", encoding="utf-8") as f:
+             json.dump(ids_list, f, ensure_ascii=False)
+     except Exception as e:
+         log(f"processed_ids保存エラー: {e}")
++        raise
+ 
+ 
+ # ===== メール取得（添付ファイル対応 v5新規）=====
+@@ -316,6 +412,25 @@
+ 
+ SKILL_SHEET_EXTENSIONS = {".pdf", ".docx", ".doc", ".png", ".jpg", ".jpeg"}
+ 
++SKIP_ATTACHMENT_KEYWORDS = (
++    "発注書", "請求書", "注文書", "勤務表", "明細", "納品書",
++    "契約書", "見積書", "領収書", "PO-",
++    "invoice", "statement", "receipt", "quotation", "delivery",
++    # "order" と "contract" は除外: スキルシートファイル名に含まれる可能性あり
++)
++
++
++def _is_skill_sheet_by_filename(filename: str) -> bool:
++    """ファイル名から業務文書（発注書・請求書等）を除外する。
++    ファイル名不明の場合は保守的にTrueを返す。"""
++    if not filename:
++        return True
++    lower = filename.lower()
++    for kw in SKIP_ATTACHMENT_KEYWORDS:
++        if kw.lower() in lower:
++            return False
++    return True
++
+ 
+ def get_body_and_attachments(msg):
+     """本文テキストと添付スキルシート（バイナリ+MIMEタイプ）を取得"""
+@@ -340,8 +455,8 @@
+         # 添付ファイル判定
+         ext = Path(filename).suffix.lower() if filename else ""
+         is_skill_sheet = (
+-            content_type in SKILL_SHEET_MIME_TYPES or
+-            ext in SKILL_SHEET_EXTENSIONS
++            (content_type in SKILL_SHEET_MIME_TYPES or ext in SKILL_SHEET_EXTENSIONS)
++            and _is_skill_sheet_by_filename(filename)
+         )
+ 
+         if is_skill_sheet and ("attachment" in disposition or filename):
+@@ -363,7 +478,22 @@
+     return body.strip(), attachments
+ 
+ 
+-def fetch_emails_from_account(account: dict, limit: int, since_days: int = 7) -> list:
++def _parse_imap_internaldate(raw: bytes | str) -> datetime | None:
++    text = raw.decode() if isinstance(raw, bytes) else str(raw)
++    match = re.search(
++        r'INTERNALDATE "([^"]+)"',
++        text,
++    )
++    if not match:
++        return None
++    try:
++        parsed = datetime.strptime(match.group(1), "%d-%b-%Y %H:%M:%S %z")
++        return parsed.astimezone(JST)
++    except ValueError:
++        return None
++
++
++def fetch_emails_from_account(account: dict, limit: int) -> list:
+     """1アカウント分のメールを取得して返す"""
+     user = account["user"]
+     password = account["password"]
+@@ -380,11 +510,13 @@
+         log(f"IMAP接続エラー ({user}): {e}")
+         return []
+ 
+-    # [COSTFIX] 直近since_days日だけ取得して全件スキャンを避ける
+-    since_date = (date.today() - timedelta(days=since_days)).strftime("%d-%b-%Y")
+-    status, messages = mail.search(None, f"SINCE {since_date}")
++    today_str = datetime.now().strftime("%d-%b-%Y")
++    status, messages = mail.search(None, f"SINCE {today_str}")
+     all_ids = messages[0].split() if status == "OK" and messages[0] else []
+     if not all_ids:
++        status, messages = mail.search(None, "ALL")
++        all_ids = messages[0].split() if status == "OK" and messages[0] else []
++    if not all_ids:
+         log(f"  対象メールなし ({user})")
+         mail.logout()
+         return []
+@@ -395,24 +527,36 @@
+     emails = []
+     for mail_id in target_ids:
+         try:
+-            status, msg_data = mail.fetch(mail_id, "(RFC822)")
++            status, msg_data = mail.fetch(mail_id, "(RFC822 INTERNALDATE)")
+             if status != "OK":
+                 continue
++            fetch_meta = msg_data[0][0] if msg_data and msg_data[0] else b""
+             raw = msg_data[0][1]
++            received_at = _parse_imap_internaldate(fetch_meta) or datetime.now(JST)
+             msg = email.message_from_bytes(raw)
+             subject  = decode_str(msg.get("Subject", ""))
+             sender   = decode_str(msg.get("From", ""))
+             reply_to = decode_str(msg.get("Reply-To", "")) or sender
++            to_addr  = decode_str(msg.get("To", ""))
++            cc_addr  = decode_str(msg.get("Cc", ""))
+             msg_id   = msg.get("Message-ID", f"no-id-{mail_id.decode()}-{user}")
++            headers  = {
++                key.lower(): decode_str(value)
++                for key, value in msg.items()
++            }
+             body, attachments = get_body_and_attachments(msg)
+             emails.append({
+                 "id": mail_id, "msg_id": msg_id,
+                 "subject": subject,
+                 "sender": sender or user,  # Fromが空の場合はアカウントアドレスを使う
+                 "reply_to": reply_to,
++                "to": to_addr,
++                "cc": cc_addr,
++                "headers": headers,
+                 "body": body,
+                 "attachments": attachments,
+                 "account_label": label,  # どのアカウントから来たか記録
++                "received_at": received_at,
+             })
+         except Exception as e:
+             log(f"メール取得エラー ({user}): {e}")
+@@ -430,7 +574,7 @@
+         if not account["password"]:
+             log(f"  スキップ（パスワード未設定）: {account['user']}")
+             continue
+-        emails = fetch_emails_from_account(account, limit, since_days=7)
++        emails = fetch_emails_from_account(account, limit)
+         added = 0
+         for em in emails:
+             if em["msg_id"] not in seen_ids:
+@@ -464,11 +608,11 @@
+ 
+ # ===== Claude AI =====
+ def call_claude(system: str, user: str, max_tokens: int = 1500) -> str:
+-    # [COSTFIX] 日次コストガード
+-    if get_today_cost_usd() >= DAILY_COST_LIMIT_USD:
+-        log(f"[COSTFIX] 日次コスト上限 ${DAILY_COST_LIMIT_USD} に達したためAPIコールをスキップ")
++    model = TEXT_MODEL
++    est_in = (len(system) + len(user)) // 4 + 200
++    if not ledger_can_spend(est_in, max_tokens, model):
++        log(f"cost_guard: Claude呼び出し停止 model={model}")
+         return ""
+-    model = "claude-haiku-4-5-20251001"
+     try:
+         res = requests.post(
+             "https://api.anthropic.com/v1/messages",
+@@ -495,6 +639,12 @@
+                 output_tokens=usage.get("output_tokens", 0),
+                 cached_tokens=usage.get("cache_read_input_tokens", 0),
+             )
++            ledger_record(
++                usage.get("input_tokens", 0),
++                usage.get("output_tokens", 0),
++                data.get("model") or model,
++                "mail_pipeline",
++            )
+             return data["content"][0]["text"]
+         log(f"Claude APIエラー: {res.status_code} {res.text[:200]}")
+         return ""
+@@ -503,6 +653,55 @@
+         return ""
+ 
+ 
++def _keyword_classify(subject: str, body: str) -> dict | None:
++    """LLM失敗時のキーワードベース分類フォールバック。"""
++    s = subject + " " + body[:500]
++    s_lower = s.lower()
++
++    # 案件キーワード
++    project_kw = [
++        "案件", "募集", "求人", "ポジション", "プロジェクト",
++        "開発支援", "要員", "エンジニア募集", "即日", "7月",
++        "稼働", "面談", "単価", "万円", "リモート", "常駐",
++    ]
++    # 人材キーワード
++    engineer_kw = [
++        "技術者", "人材", "スキルシート", "経歴書", "ご紹介",
++        "ご提案", "弊社エンジニア", "候補者", "稼働可能",
++        "弊社技術者", "human resource", "ご登録",
++    ]
++    # 除外（請求・挨拶等）
++    other_kw = [
++        "請求書", "見積", "挨拶", "お礼", "ありがとう",
++        "休業", "営業時間", "ニュースレター", "メルマガ",
++    ]
++
++    for kw in other_kw:
++        if kw in s:
++            return None  # フォールバック不能
++
++    eng_score = sum(1 for kw in engineer_kw if kw in s)
++    prj_score = sum(1 for kw in project_kw if kw in s)
++
++    if eng_score == 0 and prj_score == 0:
++        return None
++
++    # 単価を件名から抽出試み
++    price = 0
++    m = re.search(r'(\d{2,3})万', subject)
++    if m:
++        price = int(m.group(1))
++
++    if eng_score > prj_score:
++        return {"type": "engineer", "name": "", "skills": [], "price": price,
++                "available_date": "", "experience_years": 0, "company": "", "note": subject}
++    else:
++        return {"type": "project", "name": subject, "required_skills": [],
++                "optional_skills": [], "price": price, "start_date": "",
++                "location": "", "remote": "不明", "period": "",
++                "interview_count": 1, "foreign_ok": False, "note": ""}
++
++
+ def classify_email(subject: str, body: str) -> dict:
+     system = """あなたはSES業界の情報解析AIです。メールを解析してJSON形式のみで返答してください。
+ 
+@@ -519,9 +718,17 @@
+     try:
+         clean = re.sub(r"```json|```", "", result).strip()
+         parsed = json.loads(clean)
+-        return parsed if isinstance(parsed, dict) else {"type": "other", "note": "予期しない形式"}
++        if isinstance(parsed, dict) and parsed.get("type") in ("project", "engineer", "other"):
++            return parsed
+     except:
+-        return {"type": "other", "note": "解析失敗"}
++        pass
++
++    # LLM失敗 → キーワードフォールバック
++    fallback = _keyword_classify(subject, body)
++    if fallback:
++        log(f"  [keyword fallback] {fallback['type']}: {subject[:50]}")
++        return fallback
++    return {"type": "other", "note": "解析失敗"}
+ 
+ 
+ def classify_email_v2(emails: list) -> dict:
+@@ -529,7 +736,7 @@
+     import io
+     import time
+ 
+-    model = "claude-haiku-4-5-20251001"
++    model = TEXT_MODEL
+     headers = {
+         "x-api-key": ANTHROPIC_KEY,
+         "anthropic-version": "2023-06-01",
+@@ -583,6 +790,10 @@
+     def send_batch(batch_items: list) -> list:
+         if not batch_items:
+             return []
++        est_in = sum(len(json.dumps(item, ensure_ascii=False)) // 4 + 200 for item in batch_items)
++        est_out = sum(item.get("params", {}).get("max_tokens", 400) for item in batch_items)
++        if not ledger_can_spend(est_in, est_out, model):
++            raise RuntimeError(f"cost_guard: Batch API停止 model={model}")
+         res = requests_module.post(
+             "https://api.anthropic.com/v1/messages/batches",
+             headers=headers,
+@@ -617,7 +828,19 @@
+         if results_res.status_code != 200:
+             raise RuntimeError(f"Batch結果取得エラー: {results_res.status_code} {results_res.text[:300]}")
+         lines = [line for line in results_res.text.splitlines() if line.strip()]
+-        return [json.loads(line) for line in lines]
++        items = [json.loads(line) for line in lines]
++        for item in items:
++            result = item.get("result", {})
++            message = result.get("message", {}) if result.get("type") == "succeeded" else {}
++            usage = message.get("usage", {}) if isinstance(message, dict) else {}
++            if usage:
++                ledger_record(
++                    usage.get("input_tokens", 0),
++                    usage.get("output_tokens", 0),
++                    message.get("model") or model,
++                    "mail_pipeline",
++                )
++        return items
+ 
+     def result_text(item: dict) -> str:
+         result = item.get("result", {})
+@@ -650,6 +873,9 @@
+     results = {}
+     batch_requests = []
+     email_by_index = {}
++    kw_skip_count = 0
++    kw_decided_count = 0
++    llm_classify_count = 0
+ 
+     try:
+         for i, em in enumerate(emails):
+@@ -658,12 +884,28 @@
+             sender = em.get("sender", "")
+             body = em.get("body", "")
+             email_by_index[idx] = em
++
++            # --- 件名キーワード事前分類（LLM削減: 63.9%） ---
++            kw_type = classify_subject_keyword(subject)
++            if kw_type == "skip":
++                log(f"  [KW-SKIP] {subject[:60]}")
++                results[idx] = {"type": "other", "note": "件名KWスキップ"}
++                kw_skip_count += 1
++                continue
++            elif kw_type in ("project", "engineer"):
++                log(f"  [KW-{kw_type.upper()}] {subject[:60]}")
++                batch_requests.append(build_extract_request(f"extract_{kw_type}_{idx}", subject, body, kw_type))
++                kw_decided_count += 1
++                continue
++            # kw_type is None → ルール分類→LLMへ
++
+             rule_type = classify_by_rule(subject, sender)
+             if rule_type == "skip":
+                 results[idx] = {"type": "other", "note": "ルール分類skip"}
+             elif rule_type in ("project", "engineer"):
+                 batch_requests.append(build_extract_request(f"extract_{rule_type}_{idx}", subject, body, rule_type))
+             else:
++                llm_classify_count += 1
+                 batch_requests.append({
+                     "custom_id": f"classify_{idx}",
+                     "params": {
+@@ -674,6 +916,7 @@
+                     },
+                 })
+ 
++        log(f"[コスト効率] KWスキップ: {kw_skip_count}件 / KW確定: {kw_decided_count}件 / LLM分類: {llm_classify_count}件 / 削減率: {(kw_skip_count+kw_decided_count)/(max(kw_skip_count+kw_decided_count+llm_classify_count,1))*100:.1f}%")
+         second_extract_requests = []
+         for item in send_batch(batch_requests):
+             custom_id = item.get("custom_id", "")
+@@ -752,6 +995,24 @@
+ 
+ 
+ # ===== Notion操作 =====
++def ensure_engineer_db_properties() -> None:
++    """起動時に必須Notionプロパティの存在を確認する。"""
++    global ENGINEER_PROP_NAMES
++    if not ENGINEER_DB:
++        log("[ERROR] NOTION_ENGINEER_DB_ID が未設定です")
++        raise SystemExit(1)
++    prop_names = get_database_property_names(ENGINEER_DB)
++    missing = missing_engineer_properties(prop_names)
++    if missing:
++        log("[ERROR] NotionエンジニアDBに以下のプロパティが存在しません:")
++        for name in missing:
++            log(f"  - {name}")
++        raise SystemExit(1)
++    ENGINEER_PROP_NAMES = resolve_engineer_property_names(prop_names)
++    log(f"Notionプロパティ確認OK: {', '.join(sorted(ENGINEER_PROP_NAMES))}")
++    log(describe_price_field(ENGINEER_PROP_NAMES))
++
++
+ def get_database_property_names(db_id: str) -> set:
+     if not db_id:
+         return set()
+@@ -807,240 +1068,19 @@
+         chunks.append({"text": {"content": text[i:i+chunk_size]}})
+     return chunks or [{"text": {"content": ""}}]
+ 
+-
+-def add_rich_text_if_exists(properties: dict, db_id: str, prop_name: str, text: str, chunked: bool = False):
+-    if prop_name in get_database_property_names(db_id):
+-        value = text or ""
+-        properties[prop_name] = {
+-            "rich_text": split_rich_text(value) if chunked else [{"text": {"content": value[:2000]}}]
+-        }
+-
+-
+-def add_url_if_exists(properties: dict, db_id: str, prop_name: str, url: str):
+-    if prop_name in get_database_property_names(db_id):
+-        properties[prop_name] = {"url": url or None}
+-
+-
+-def update_page_properties(page_id: str, properties: dict) -> bool:
+-    if not page_id or not properties:
+-        return True
+-    if os.environ.get("DRY_RUN") == "1":
+-        log(f"[DRY_RUN] Notion更新スキップ: page={page_id} props={list(properties.keys())}")
+-        return True
+-    res = requests.patch(
+-        f"https://api.notion.com/v1/pages/{page_id}",
+-        headers=NOTION_HEADERS,
+-        json={"properties": properties},
+-        timeout=30,
+-    )
+-    if res.status_code != 200:
+-        log(f"  [Notion PATCH ERROR] {res.status_code}: {res.text[:300]}")
+-        return False
+-    return True
+-
+-
+-def save_attachments_for_page(page_id: str, attachments: list) -> list:
+-    if not page_id or not attachments:
+-        return []
+-    target_dir = ATTACHMENTS_DIR / page_id
+-    target_dir.mkdir(parents=True, exist_ok=True)
+-    saved_paths = []
+-    for idx, attachment in enumerate(attachments, 1):
+-        filename = attachment.get("filename") or f"attachment_{idx}"
+-        safe_name = re.sub(r'[\\/:*?"<>|]', "_", filename)
+-        path = target_dir / safe_name
+-        with open(path, "wb") as f:
+-            f.write(attachment.get("data", b""))
+-        saved_paths.append(str(path))
+-        log(f"  添付保存: {path}")
+-    return saved_paths
+-
+-
+-def collect_drive_url(body: str, saved_paths: list) -> str | None:
+-    try:
+-        from drive_uploader import extract_spreadsheet_url, upload_to_drive
+-    except Exception as e:
+-        log(f"  [Drive] import error: {e}")
+-        return None
+-
+-    sheet_url = extract_spreadsheet_url(body)
+-    if sheet_url:
+-        log(f"  [Drive] spreadsheet URL抽出: {sheet_url}")
+-        return sheet_url
+-
+-    for path in saved_paths:
+-        if Path(path).suffix.lower() in (".xlsx", ".xls"):
+-            try:
+-                drive_url = upload_to_drive(path)
+-                if drive_url:
+-                    log(f"  [Drive] Excelアップロード: {drive_url}")
+-                    return drive_url
+-            except Exception as e:
+-                log(f"  [Drive] upload error: {e}")
+-    return None
+-
+-
+-def load_send_counter() -> dict:
+-    try:
+-        if SEND_COUNTER_PATH.exists():
+-            with open(SEND_COUNTER_PATH, "r", encoding="utf-8") as f:
+-                data = json.load(f)
+-            return {"matsuno": int(data.get("matsuno", 0)), "okamoto": int(data.get("okamoto", 0))}
+-    except Exception as e:
+-        log(f"send_counter読み込みエラー: {e}")
+-    return {"matsuno": 0, "okamoto": 0}
+-
+-
+-def save_send_counter(counter: dict):
+-    SEND_COUNTER_PATH.parent.mkdir(parents=True, exist_ok=True)
+-    with open(SEND_COUNTER_PATH, "w", encoding="utf-8") as f:
+-        json.dump(counter, f, ensure_ascii=False)
+-
+-
+-def choose_from_account(owner: str = "") -> str:
+-    owner = owner or ""
+-    if "松野" in owner:
+-        return "matsuno"
+-    if "岡本" in owner:
+-        return "okamoto"
+-    counter = load_send_counter()
+-    if counter["okamoto"] < counter["matsuno"] * 2 + 2:
+-        account = "okamoto"
+-    else:
+-        account = "matsuno"
+-    counter[account] += 1
+-    save_send_counter(counter)
+-    return account
+-
+-
+-def send_proposal_email(to_addr: str, subject: str, body: str, project: dict = None, engineer: dict = None) -> bool:
+-    project = project or {}
+-    engineer = engineer or {}
+-    owner = project.get("担当者") or project.get("owner") or project.get("assignee") or ""
+-    account = choose_from_account(owner)
+-    accounts_cfg = {
+-        "matsuno": {"user": "r-matsuno@terra-ltd.co.jp", "pw": os.environ.get("MATSUNO_MAIL_PASSWORD", os.environ.get("OUTLOOK_PASSWORD", ""))},
+-        "okamoto": {"user": "r-okamoto@terra-ltd.co.jp", "pw": os.environ.get("OKAMOTO_MAIL_PASSWORD", os.environ.get("OUTLOOK_PASSWORD", ""))},
+-        "sessales": {"user": EMAIL_USER, "pw": EMAIL_PASS},
+-    }
+-    acc = accounts_cfg.get(account, accounts_cfg["sessales"])
+-    original_message_id = project.get("元MessageID") or project.get("message_id") or ""
+-    original_body = project.get("案件情報原文") or project.get("raw_body") or ""
+-    if original_body:
+-        body = f"{body}\n\n------ 元のメッセージ ------\n{original_body}"
+-
+-    msg = MIMEMultipart()
+-    msg["Subject"] = subject
+-    msg["From"] = acc["user"]
+-    msg["To"] = to_addr
+-    if original_message_id:
+-        msg["In-Reply-To"] = original_message_id
+-        msg["References"] = original_message_id
+-    msg.attach(MIMEText(body, "plain", "utf-8"))
+-
+-    attachment_path = engineer.get("添付ファイルパス") or engineer.get("attachment_path") or ""
+-    if attachment_path and Path(attachment_path).exists():
+-        ctype = mimetypes.guess_type(attachment_path)[0] or "application/octet-stream"
+-        maintype, subtype = ctype.split("/", 1)
+-        with open(attachment_path, "rb") as f:
+-            part = MIMEBase(maintype, subtype)
+-            part.set_payload(f.read())
+-        encoders.encode_base64(part)
+-        part.add_header("Content-Disposition", "attachment", filename=Path(attachment_path).name)
+-        msg.attach(part)
+-
+-    if os.environ.get("DRY_RUN") == "1":
+-        log(f"[DRY_RUN] メール送信スキップ: from={acc['user']} to={to_addr} subject={subject}")
+-        return True
+-    if not acc["pw"]:
+-        log(f"メール送信エラー: パスワード未設定 account={account}")
+-        return False
+-    ctx = ssl.create_default_context()
+-    with smtplib.SMTP_SSL(IMAP_SERVER, 465, context=ctx) as smtp:
+-        smtp.login(acc["user"], acc["pw"])
+-        smtp.sendmail(acc["user"], [to_addr], msg.as_bytes())
+-    return True
+-
+-
+-# ===== イニシャル・所属メール自動抽出ヘルパー =====
+-import re as _re
+-
+-_INITIAL_DOT_RE = _re.compile(r'^[A-Z]\.[A-Z]$')
+-_INITIAL_PLAIN_RE = _re.compile(r'^[A-Z]{2,3}$')
+-_EXISTING_INITIAL_RE = _re.compile(r'^[A-Z\s.]{2,6}$')
+-_SKILL_CODE_RE = _re.compile(r'^(?=.*\d)(?=.*[A-Za-z])[A-Za-z0-9]{4,}$')
+-_SHORT_ASCII_RE = _re.compile(r'^[A-Z]{1,3}$')
+-_ANGLE_EMAIL_RE2 = _re.compile(r'<\s*([^<>\s]+@[^<>\s]+)\s*>')
+-_EMAIL_RE2 = _re.compile(r'[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}')
+-_COMPANY_KW = ["株式会社", "合同会社", "Inc", "Corp", "Ltd", "LLC",
+-               "エンジニア", "テック", "リンク", "ソリューション"]
+-
+-
+-def _derive_initial(name: str):
+-    """名前フィールドからイニシャルを生成。日本語名はNoneを返す。"""
+-    v = (name or "").strip()
+-    if not v:
+-        return None
+-    if _INITIAL_DOT_RE.fullmatch(v) or _INITIAL_PLAIN_RE.fullmatch(v) or _EXISTING_INITIAL_RE.fullmatch(v):
+-        return v
+-    if _SKILL_CODE_RE.fullmatch(v) or _SHORT_ASCII_RE.fullmatch(v):
+-        return None  # スキルコードは設定しない
+-    if _re.search(r'[^\x00-\x7f]', v):
+-        return None  # 日本語は手動
+-    if " " in v:
+-        parts = [p for p in v.split() if p]
+-        initials = [p[0].upper() for p in parts if _re.match(r'^[A-Za-z]', p)]
+-        if len(initials) >= 2:
+-            return ".".join(initials[:2])
+-    return None
+-
+-
+-def _looks_like_company(text: str) -> bool:
+-    if not text:
+-        return False
+-    if any(kw in text for kw in _COMPANY_KW):
+-        return True
+-    if _re.fullmatch(r'[A-Z]+', text):
+-        return True
+-    if " " not in text and "." in text:
+-        return True
+-    if _re.search(r'[\u30a0-\u30ff]', text):  # katakana
+-        return True
+-    return False
+-
+-
+-def _extract_affil_from_sender(sender: str):
+-    """Fromアドレス(sender)からメールアドレスと担当者名を抽出。"""
+-    if not sender:
+-        return None, None
+-    # Email extraction
+-    angle = _ANGLE_EMAIL_RE2.search(sender)
+-    email = None
+-    if angle:
+-        m = _EMAIL_RE2.search(angle.group(1))
+-        email = m.group(0) if m else None
+-    else:
+-        m = _EMAIL_RE2.search(sender)
+-        email = m.group(0) if m else None
+-    # Person name extraction
+-    angle_idx = sender.find("<")
+-    person = None
+-    if angle_idx > 0:
+-        before = sender[:angle_idx].strip().strip('"').strip("'")
+-        # Remove company in parens
+-        pm = _re.match(r'^(.*?)\s*[\(\uff08][^\)\uff09]+[\)\uff09]\s*$', before)
+-        if pm:
+-            before = pm.group(1).strip()
+-        if before and not _looks_like_company(before):
+-            person = before
+-    return email, person
+-# ===== end helpers =====
+-
+-
+-def register_project(info: dict, subject: str, sender: str, input_source: str = "", affiliation: str = "",
+-                     raw_body: str = "", drive_url: str = None, message_id: str = "") -> tuple:
++def register_project(
++    info: dict,
++    subject: str,
++    sender: str,
++    input_source: str = "",
++    affiliation: str = "",
++    raw_body: str = "",
++    drive_url: str = None,
++    *,
++    dry_run: bool = False,
++) -> bool:
+     name = info.get("name") or f"【{subject[:20]}】"
+-    note = f"[自動取込] 件名: {subject}\n送信元: {sender}\n\n{raw_body or info.get('note','')}"
++    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{raw_body or info.get('note','')}"
+     properties = {
+         "案件名": {"title": [{"text": {"content": name}}]},
+         "ステータス": {"select": {"name": "募集中"}},
+@@ -1062,76 +1102,96 @@
+     if info.get("location"):
+         properties["勤務地"] = {"rich_text": [{"text": {"content": info["location"]}}]}
+     add_input_source_properties(properties, PROJECT_DB, input_source, affiliation)
+-    add_rich_text_if_exists(properties, PROJECT_DB, "元MessageID", message_id)
+-    add_rich_text_if_exists(properties, PROJECT_DB, "案件情報原文", raw_body or info.get("note", ""), chunked=True)
+     if drive_url:
+-        add_url_if_exists(properties, PROJECT_DB, "DriveリンクURL", drive_url)
+-        if "Driveリンク" in get_database_property_names(PROJECT_DB):
+-            properties["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
+-    if os.environ.get("DRY_RUN") == "1":
+-        log(f"[DRY_RUN] 案件Notion登録スキップ: {name}")
+-        return True, "dry-run-project"
+-    res = requests.post(
+-        "https://api.notion.com/v1/pages",
+-        headers=NOTION_HEADERS,
+-        json={"parent": {"database_id": PROJECT_DB}, "properties": properties}
+-    )
+-    if res.status_code == 200:
+-        return True, res.json().get("id", "")
+-    log(f"  [Notion ERROR project] {res.status_code}: {res.text[:300]}")
+-    return False, ""
++        properties["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
++    if dry_run:
++        log(f"  [DRY-RUN] 案件登録スキップ: {name}")
++        return True
++    result = notion_register_project(properties, PROJECT_DB, headers=NOTION_HEADERS)
++    return bool(result.get("ok"))
+ 
+ 
+-def register_engineer(info: dict, subject: str, sender: str, input_source: str = "", affiliation: str = "",
+-                      drive_url: str = None, raw_body: str = "", attachment_path: str = "") -> tuple:
++def register_engineer(
++    info: dict,
++    subject: str,
++    sender: str,
++    input_source: str = "",
++    affiliation: str = "",
++    drive_url: str = None,
++    *,
++    validation: ValidationResult | None = None,
++    received_at: datetime | None = None,
++    dry_run: bool = False,
++) -> tuple:
+     """エンジニア登録、NotionページIDも返す"""
+-    name = info.get("name") or "（名前未記載）"
+-    note = f"[自動取込] 件名: {subject}\n送信元: {sender}\n\n{raw_body or info.get('note','')}"
+-    properties = {
+-        "名前": {"title": [{"text": {"content": name}}]},
++    prop_map = ENGINEER_PROP_NAMES or resolve_engineer_property_names(
++        get_database_property_names(ENGINEER_DB)
++    )
++    name = info.get("name") or info.get("氏名") or "（名前未記載）"
++    note = f"【メールから自動登録】\n送信者: {sender}\n件名: {subject}\n\n{info.get('note','')}"
++    if validation and validation.remark_additions:
++        if len(note) > REMARK_APPEND_MAX_LEN:
++            log(f"  [WARN] {name} — 備考が長すぎるため追記スキップ（{len(note)}文字）")
++        else:
++            note = append_remark(note, validation.remark_additions)
++
++    properties: dict = {
++        prop_map["氏名"]: {"title": [{"text": {"content": name}}]},
+         "稼働状況": {"select": {"name": "稼働可能"}},
+-        "備考（LINEメモ）": {"rich_text": [{"text": {"content": note[:2000]}}]}
++        prop_map["備考"]: {"rich_text": split_rich_text(note)},
+     }
++
+     skills = [s for s in info.get("skills", []) if s in VALID_SKILLS]
+     if skills:
+-        properties["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+-    if info.get("price"):
+-        raw_price = info["price"]
+-        # Claudeが円単位で返すことがある（例: 700000）→ 万円単位に変換
+-        price_man = raw_price / 10000 if raw_price >= 1000 else raw_price
+-        properties["単価（万円）"] = {"number": price_man}
+-    if is_valid_iso_date(info.get("available_date")):
+-        properties["稼働可能日"] = {"date": {"start": info["available_date"].strip()}}
++        properties[prop_map["スキル"]] = {"multi_select": [{"name": s} for s in skills]}
++
++    price_yen = info.get("単価")
++    if price_yen is None:
++        price_yen = normalize_price_yen(info.get("price"))
++    if price_yen is not None:
++        price_prop = prop_map["単価"]
++        if price_field_unit(price_prop) == "yen":
++            properties[price_prop] = {"number": price_yen}
++        else:
++            properties[price_prop] = {"number": price_yen / 10000}
++
++    available_date = info.get("available_date") or info.get("稼働開始日")
++    if is_valid_iso_date(available_date):
++        properties[prop_map["稼働開始日"]] = {"date": {"start": available_date.strip()}}
++
+     if info.get("experience_years"):
+         properties["経験年数"] = {"number": info["experience_years"]}
++
++    if validation is not None:
++        properties[prop_map["提案対象フラグ"]] = {"checkbox": validation.proposal_target}
++
++    if received_at is not None and "情報取得日" in prop_map:
++        properties[prop_map["情報取得日"]] = {
++            "date": {"start": received_at.astimezone(JST).date().isoformat()}
++        }
++
+     add_input_source_properties(properties, ENGINEER_DB, input_source, affiliation)
+-    # --- イニシャル自動生成 & 所属メール抽出 ---
+-    _initial = _derive_initial(name)
+-    if _initial:
+-        properties["イニシャル"] = {"rich_text": [{"text": {"content": _initial}}]}
+-    _aff_email, _aff_person = _extract_affil_from_sender(sender)
+-    if _aff_email:
+-        properties["所属メール"] = {"email": _aff_email}
+-    if _aff_person:
+-        properties["所属担当者名"] = {"rich_text": [{"text": {"content": _aff_person}}]}
+-    # --- end ---
+     if drive_url:
+-        add_url_if_exists(properties, ENGINEER_DB, "DriveリンクURL", drive_url)
+-        if "Driveリンク" in get_database_property_names(ENGINEER_DB):
+-            properties["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
+-    add_rich_text_if_exists(properties, ENGINEER_DB, "人員情報原文", raw_body or info.get("note", ""), chunked=True)
+-    add_rich_text_if_exists(properties, ENGINEER_DB, "添付ファイルパス", attachment_path)
+-    if os.environ.get("DRY_RUN") == "1":
+-        log(f"[DRY_RUN] 人材Notion登録スキップ: {name}")
+-        return True, "dry-run-engineer"
+-    res = requests.post(
+-        "https://api.notion.com/v1/pages",
+-        headers=NOTION_HEADERS,
+-        json={"parent": {"database_id": ENGINEER_DB}, "properties": properties}
+-    )
+-    if res.status_code == 200:
+-        return True, res.json().get("id", "")
+-    log(f"  [Notion ERROR engineer] {res.status_code}: {res.text[:300]}")
++        properties["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
++
++    if dry_run:
++        log(f"  [DRY-RUN] エンジニア登録スキップ: {name}")
++        return True, "dry-run"
++
++    try:
++        result = notion_register_engineer(properties, ENGINEER_DB, headers=NOTION_HEADERS)
++        if result.get("ok"):
++            return True, result.get("page_id", "")
++    except NotionAPIError as exc:
++        log(f"  [Notion ERROR engineer] {exc.status}: {exc}")
++        return False, ""
++    except requests.RequestException as exc:
++        log(f"  [Notion ERROR engineer] 通信失敗: {exc}")
++        return False, ""
++    except Exception as exc:
++        log(f"  [Notion ERROR engineer] {exc}")
++        return False, ""
++    log("  [Notion ERROR engineer] registration failed")
+     return False, ""
+ 
+ 
+@@ -1313,15 +1373,24 @@
+     return path
+ 
+ 
++def maybe_save_processed_id(msg_id: str, processed: set, dry_run: bool) -> None:
++    if not dry_run:
++        save_processed_id(msg_id, processed)
++
++
++def _is_llm_classify_failure(info: dict) -> bool:
++    note = str(info.get("note", ""))
++    return note in ("解析失敗", "予期しない形式", "Batch結果なし")
++
++
+ # ===== メイン =====
+-def main():
++def main(dry_run: bool = False):
+     log("=" * 50)
+-    log("メールパイプライン v5.1 起動（入力元ラベル・所属会社名追加）")
+-    log(f"設定: 取得{FETCH_LIMIT}件 / 処理{PROCESS_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+-    if os.environ.get("DRY_RUN") == "1" and os.environ.get("DRY_RUN_PROCESS_EMAILS") != "1":
+-        log("[DRY_RUN] 外部取得・Notion書き込み・メール送信をスキップして起動確認完了")
+-        log("=" * 50)
+-        return
++    log("メールパイプライン v5.2 起動（バリデーション強化・情報取得日対応）")
++    if dry_run:
++        log("DRY-RUNモード: Notion create/update・processed_ids更新をスキップ")
++    ensure_engineer_db_properties()
++    log(f"設定: 取得{FETCH_LIMIT}件 / 分類上限{CLASSIFY_LIMIT}件 / マッチング上位{MATCH_TOP_N}名")
+     processed = load_processed_ids()
+     log(f"処理済みID: {len(processed)}件")
+ 
+@@ -1337,7 +1406,22 @@
+         log("全て処理済み・終了")
+         return
+ 
+-    target_emails = new_emails[:PROCESS_LIMIT]
++    target_emails = []
++    broadcast_count = 0
++    for em in new_emails:
++        if is_broadcast(em):
++            broadcast_count += 1
++            log(f"配信除外: {em.get('subject', '')[:50]} / {em.get('sender', '')[:80]}")
++            maybe_save_processed_id(em["msg_id"], processed, dry_run)
++            continue
++        if len(target_emails) < CLASSIFY_LIMIT:
++            target_emails.append(em)
++
++    log(f"分類対象: {len(target_emails)}件 / 配信除外: {broadcast_count}件 / 上限{CLASSIFY_LIMIT}件")
++    if not target_emails:
++        log("分類対象なし・終了")
++        return
++
+     classified = classify_email_v2([
+         {**em, "index": i} for i, em in enumerate(target_emails)
+     ])
+@@ -1345,187 +1429,222 @@
+     log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
+ 
+     for i, em in enumerate(target_emails):
+-        msg_id = em["msg_id"]
+-        try:
+-            subject     = em["subject"]
+-            sender      = em["sender"]
+-            reply_to    = em["reply_to"]
+-            body        = em["body"]
+-            attachments = em.get("attachments", [])
+-            input_source = get_source_label(sender)
+-    
+-            log(f"処理中: {subject[:50]}")
+-            log(f"  入力元: {input_source}")
++        subject     = em["subject"]
++        sender      = em["sender"]
++        reply_to    = em["reply_to"]
++        body        = em["body"]
++        msg_id      = em["msg_id"]
++        attachments = em.get("attachments", [])
++        input_source = get_source_label(sender)
++
++        log(f"処理中: {subject[:50]}")
++        log(f"  入力元: {input_source}")
++        if attachments:
++            log(f"  添付: {len(attachments)}件")
++
++        info = classified.get(i) or classify_email(subject, body)
++        msg_type = info.get("type", "other")
++        log(f"  判定: {msg_type}")
++        mark_processed = True
++
++        if _is_llm_classify_failure(info):
++            log(f"  [NG] LLM分類失敗のため再処理対象に残す: {subject[:40]}")
++            mark_processed = False
++            continue
++
++        if msg_type == "project":
++            project_owner = (
++                info.get("owner") or info.get("担当者") or
++                info.get("project_owner") or input_source
++            )
++            from_account = get_from_account(project_owner)
++            log(f"  送信アカウント: {from_account}")
++            affiliation = extract_affiliation(body)
++            ok = register_project(
++                info, subject, sender, input_source, affiliation,
++                raw_body=body, dry_run=dry_run,
++            )
++            proj_name = info.get("name") or subject[:30]
++            if not ok:
++                log(f"  [NG] 案件Notion登録失敗")
++                mark_processed = False
++                continue
++            log(f"  [OK] 案件登録: {proj_name}")
++
++            filtered = filter_engineers_by_skills(info, engineers, top_n=3)
++            log(f"  スキルフィルタ: {len(engineers)}名 → {len(filtered)}名")
++
++            if not filtered:
++                log(f"  [!!] 候補者なし")
++                continue
++
++            matching = ai_matching(info, filtered)
++            candidates = matching.get("candidates", [])
++            proposal_draft = matching.get("proposal_draft", "")
++
++            if not candidates:
++                log(f"  [!!] AIマッチング候補なし")
++                continue
++            log(f"  AIマッチング: {len(candidates)}名")
++
++            check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
++            for c in candidates:
++                check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
++            check_result = double_check(check_input)
++
++            final_proposal = proposal_draft
++            marker = "【修正済み提案文】"
++            if marker in check_result:
++                after = check_result.split(marker, 1)[1].strip()
++                if "【所見】" in after:
++                    after = after.split("【所見】")[0].strip()
++                if after and after != "修正不要":
++                    final_proposal = after
++
++            # 案件メールにも添付スキルシートがある場合は処理
++            skill_result = None
+             if attachments:
+-                log(f"  添付: {len(attachments)}件")
+-    
+-            info = classified.get(i) or classify_email(subject, body)
+-            msg_type = info.get("type", "other")
+-            log(f"  判定: {msg_type}")
+-    
+-            if msg_type == "project":
+-                project_owner = (
+-                    info.get("owner") or info.get("担当者") or
+-                    info.get("project_owner") or input_source
++                skill_result = process_skill_sheet(
++                    attachments[0],
++                    engineer_price=None,
++                    affiliation="貴社"
+                 )
+-                from_account = get_from_account(project_owner)
+-                log(f"  送信アカウント: {from_account}")
+-                affiliation = extract_affiliation(body)
+-                initial_drive_url = None
++
++            # Drive添付アップロード（案件メール添付）
++            proj_drive_url = None
++            if attachments and not dry_run:
+                 try:
+-                    from drive_uploader import extract_spreadsheet_url
+-                    initial_drive_url = extract_spreadsheet_url(body)
+-                except Exception as e:
+-                    log(f"  [Drive] URL抽出スキップ: {e}")
+-                ok, notion_id = register_project(
+-                    info, subject, sender, input_source, affiliation,
+-                    raw_body=body, drive_url=initial_drive_url, message_id=msg_id
+-                )
+-                proj_name = info.get("name") or subject[:30]
+-                if not ok:
+-                    log(f"  [NG] 案件Notion登録失敗")
+-                    save_processed_id(msg_id, processed)
+-                    continue
+-                log(f"  [OK] 案件登録: {proj_name}")
+-    
+-                saved_paths = save_attachments_for_page(notion_id, attachments)
+-                drive_url = initial_drive_url or collect_drive_url(body, saved_paths)
+-                if drive_url and drive_url != initial_drive_url:
+-                    props = {}
+-                    add_url_if_exists(props, PROJECT_DB, "DriveリンクURL", drive_url)
+-                    if "Driveリンク" in get_database_property_names(PROJECT_DB):
+-                        props["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
+-                    update_page_properties(notion_id, props)
+-    
+-                filtered = filter_engineers_by_skills(info, engineers, top_n=3)
+-                log(f"  スキルフィルタ: {len(engineers)}名 → {len(filtered)}名")
+-    
+-                if not filtered:
+-                    log(f"  [!!] 候補者なし")
+-                    save_processed_id(msg_id, processed)
+-                    continue
+-    
+-                matching = ai_matching(info, filtered)
+-                candidates = matching.get("candidates", [])
+-                proposal_draft = matching.get("proposal_draft", "")
+-    
+-                if not candidates:
+-                    log(f"  [!!] AIマッチング候補なし")
+-                    save_processed_id(msg_id, processed)
+-                    continue
+-                log(f"  AIマッチング: {len(candidates)}名")
+-    
+-                check_input = f"【案件名】{proj_name}\n\n【提案文ドラフト】\n{proposal_draft}\n\n【候補者】\n"
+-                for c in candidates:
+-                    check_input += f"- {c['name']} / {c.get('price',0)}万円 / 並行: {c.get('parallel','なし')}\n"
+-                check_result = double_check(check_input)
+-    
+-                final_proposal = proposal_draft
+-                marker = "【修正済み提案文】"
+-                if marker in check_result:
+-                    after = check_result.split(marker, 1)[1].strip()
+-                    if "【所見】" in after:
+-                        after = after.split("【所見】")[0].strip()
+-                    if after and after != "修正不要":
+-                        final_proposal = after
+-    
+-                # 案件メールにも添付スキルシートがある場合は処理
+-                skill_result = None
+-                if attachments:
+-                    skill_result = process_skill_sheet(
+-                        attachments[0],
+-                        engineer_price=None,
+-                        affiliation="貴社"
+-                    )
+-    
+-                draft_path = save_draft(proj_name, reply_to, candidates,
+-                                        check_result, final_proposal, skill_result,
+-                                        from_account)
+-                log(f"  [OK] 提案文下書き保存: {draft_path.name}")
+-    
+-            elif msg_type == "engineer":
+-                name = info.get("name", "（名前未記載）")
+-                eng_price = info.get("price") or None
+-                info_owner = (
+-                    info.get("owner") or info.get("担当者") or
+-                    info.get("project_owner") or input_source
+-                )
+-                from_account = get_from_account(info_owner)
+-                log(f"  送信アカウント: {from_account}")
+-    
+-                affiliation = extract_affiliation(body)
+-                skill_affiliation = affiliation or (sender.split("<")[0].strip() if "<" in sender else "貴社")
+-    
+-                skill_result = None
+-    
+-                # 添付スキルシートがある場合はskill_readerで処理
+-                if attachments:
+-                    log(f"  添付スキルシートを処理: {attachments[0]['filename']}")
+-                    skill_result = process_skill_sheet(
+-                        attachments[0],
+-                        engineer_price=eng_price,
+-                        affiliation=skill_affiliation
+-                    )
+-                    if skill_result:
+-                        # スキル抽出結果でinfo.skillsを上書き（より精度が高い）
+-                        info["skills"] = skill_result["info"].get("skills", info.get("skills", []))
+-                        log(f"  スキルシートからスキル上書き: {info['skills']}")
+-    
+-                # Notion登録
+-                ok, notion_id = register_engineer(
+-                    info, subject, sender, input_source, affiliation,
+-                    raw_body=body
++                    from mail_pipeline.drive_uploader import upload_to_drive
++                    att = attachments[0]
++                    proj_drive_url = upload_to_drive(att["filename"], att["data"], att["mime"])
++                    if proj_drive_url:
++                        log(f"  [Drive] {proj_drive_url}")
++                except Exception as _de:
++                    log(f"  [Drive] upload error: {_de}")
++
++            draft_path = save_draft(proj_name, reply_to, candidates,
++                                    check_result, final_proposal, skill_result,
++                                    from_account)
++            log(f"  [OK] 提案文下書き保存: {draft_path.name}")
++
++        elif msg_type == "engineer":
++            eng_price = info.get("price") or None
++            info_owner = (
++                info.get("owner") or info.get("担当者") or
++                info.get("project_owner") or input_source
++            )
++            from_account = get_from_account(info_owner)
++            log(f"  送信アカウント: {from_account}")
++
++            affiliation = extract_affiliation(body)
++            skill_affiliation = affiliation or (sender.split("<")[0].strip() if "<" in sender else "貴社")
++
++            skill_result = None
++            if attachments:
++                log(f"  添付スキルシートを処理: {attachments[0]['filename']}")
++                skill_result = process_skill_sheet(
++                    attachments[0],
++                    engineer_price=eng_price,
++                    affiliation=skill_affiliation,
+                 )
+-                if ok:
+-                    log(f"  [OK] 人材登録: {name} (Notion ID: {notion_id[:8]}...)")
+-                    saved_paths = save_attachments_for_page(notion_id, attachments)
+-                    drive_url = collect_drive_url(body, saved_paths)
+-                    attachment_path = saved_paths[0] if saved_paths else ""
+-                    props = {}
+-                    add_rich_text_if_exists(props, ENGINEER_DB, "添付ファイルパス", attachment_path)
++                if skill_result:
++                    info["skills"] = skill_result["info"].get("skills", info.get("skills", []))
++                    log(f"  スキルシートからスキル上書き: {info['skills']}")
++
++            validation_record = {
++                **info,
++                "note": info.get("note", ""),
++                "remark": info.get("note", ""),
++                "備考": info.get("note", ""),
++            }
++            validation = validate_engineer(validation_record)
++            log(
++                f"  バリデーション: {validation.status} / "
++                f"proposal_target={validation.proposal_target}"
++            )
++            if validation.reasons:
++                log(f"  理由: {', '.join(validation.reasons)}")
++
++            if validation.status == "SKIP":
++                maybe_save_processed_id(msg_id, processed, dry_run)
++                continue
++
++            price_yen = normalize_price_yen(info.get("price"))
++            if price_yen is not None:
++                info["単価"] = price_yen
++
++            drive_url = None
++            if attachments and not dry_run:
++                try:
++                    from mail_pipeline.drive_uploader import upload_to_drive
++                    att = attachments[0]
++                    drive_url = upload_to_drive(att["filename"], att["data"], att["mime"])
+                     if drive_url:
+-                        add_url_if_exists(props, ENGINEER_DB, "DriveリンクURL", drive_url)
+-                        if "Driveリンク" in get_database_property_names(ENGINEER_DB):
+-                            props["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
+-                    update_page_properties(notion_id, props)
+-    
+-                    # skill_readerの結果があればNotionスキル欄も更新済み（register_engineerで登録）
+-                    # 人材下書き保存
+-                    if skill_result:
+-                        draft_path = save_engineer_draft(
+-                            skill_result["info"],
+-                            skill_result["match_results"],
+-                            skill_result["iko_mail"],
+-                            reply_to, sender, from_account
+-                        )
+-                        log(f"  [OK] 人材下書き保存: {draft_path.name}")
+-                        just = sum(1 for r in skill_result["match_results"]
+-                                   if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
+-                        log(f"  粗利ジャスト案件: {just}件 → 意向確認文生成済み")
+-                    else:
+-                        # 添付なし：本文から抽出した情報で照合のみ
+-                        projects = get_active_projects()
+-                        match_results = match_skills(info.get("skills", []), projects, eng_price)
+-                        iko_mail = generate_iko_mail(info, match_results, eng_price, skill_affiliation)
+-                        draft_path = save_engineer_draft(info, match_results, iko_mail, reply_to, sender, from_account)
+-                        log(f"  [OK] 本文ベース人材下書き保存: {draft_path.name}")
++                        log(f"  [Drive] {drive_url}")
++                except Exception as _de:
++                    log(f"  [Drive] upload error: {_de}")
++
++            name = info.get("name", "（名前未記載）")
++            ok, notion_id = register_engineer(
++                info,
++                subject,
++                sender,
++                input_source,
++                affiliation,
++                drive_url=drive_url,
++                validation=validation,
++                received_at=em.get("received_at"),
++                dry_run=dry_run,
++            )
++            if ok:
++                if dry_run:
++                    log(f"  [DRY-RUN] 人材検証完了: {name}")
+                 else:
+-                    log(f"  [NG] 人材Notion登録失敗: {name}")
+-    
++                    log(f"  [OK] 人材登録: {name} (Notion ID: {notion_id[:8]}...)")
++
++                if skill_result and not dry_run:
++                    draft_path = save_engineer_draft(
++                        skill_result["info"],
++                        skill_result["match_results"],
++                        skill_result["iko_mail"],
++                        reply_to, sender, from_account,
++                    )
++                    log(f"  [OK] 人材下書き保存: {draft_path.name}")
++                    just = sum(1 for r in skill_result["match_results"]
++                               if r["proposable"] and r["gross"] and 5 <= r["gross"] <= 12)
++                    log(f"  粗利ジャスト案件: {just}件 → 意向確認文生成済み")
++                elif not skill_result and not dry_run:
++                    projects = get_active_projects()
++                    match_results = match_skills(info.get("skills", []), projects, eng_price)
++                    iko_mail = generate_iko_mail(info, match_results, eng_price, skill_affiliation)
++                    draft_path = save_engineer_draft(
++                        info, match_results, iko_mail, reply_to, sender, from_account,
++                    )
++                    log(f"  [OK] 本文ベース人材下書き保存: {draft_path.name}")
+             else:
+-                log(f"  スキップ（その他）: {subject[:40]}")
+-    
+-            save_processed_id(msg_id, processed)
+-    
+-        except Exception as ex:
+-            log(f"  [COSTFIX] 処理例外（スキップ）: {ex}")
+-        finally:
+-            # [COSTFIX] 例外時も必ずIDを保存して再処理を防ぐ
+-            save_processed_id(msg_id, processed)
++                log(f"  [NG] 人材Notion登録失敗: {name}")
++                mark_processed = False
+ 
+-    log("メールパイプライン v5.1 完了")
++        else:
++            log(f"  スキップ（その他）: {subject[:40]}")
++
++        if mark_processed:
++            maybe_save_processed_id(msg_id, processed, dry_run)
++
++    log("メールパイプライン v5.2 完了")
+     log("=" * 50)
+ 
+ 
++def _parse_args() -> argparse.Namespace:
++    parser = argparse.ArgumentParser(description="メールパイプライン")
++    parser.add_argument(
++        "--dry-run",
++        action="store_true",
++        help="Notion create/update・processed_ids更新をスキップ（LLM呼び出しは実行）",
++    )
++    return parser.parse_args()
++
++
+ if __name__ == "__main__":
+-    main()
++    cli_args = _parse_args()
++    main(dry_run=cli_args.dry_run)

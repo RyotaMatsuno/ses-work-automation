@@ -1,8 +1,10 @@
+import io
+import sys
 
-import requests, sys, io
+import requests
 from dotenv import dotenv_values
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 cfg = dotenv_values("config/.env")
 NOTION_TOKEN = cfg["NOTION_API_KEY"]

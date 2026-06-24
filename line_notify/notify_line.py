@@ -8,7 +8,6 @@ from typing import Any
 import requests
 from dotenv import load_dotenv
 
-
 BASE_DIR = Path(__file__).resolve().parent
 SES_WORK_DIR = BASE_DIR.parent
 RESULT_JSON_PATH = SES_WORK_DIR / "matching_v2" / "result.json"
@@ -199,11 +198,13 @@ def get_recipients() -> list[dict[str, str]]:
             )
             continue
 
-        valid_recipients.append({
-            "label": recipient["label"],
-            "token": token,
-            "user_id": user_id,
-        })
+        valid_recipients.append(
+            {
+                "label": recipient["label"],
+                "token": token,
+                "user_id": user_id,
+            }
+        )
 
     return valid_recipients
 

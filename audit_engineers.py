@@ -1,4 +1,7 @@
-import sys, io, json, requests
+import io
+import sys
+
+import requests
 from dotenv import dotenv_values
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -34,20 +37,20 @@ old_date = []
 for page in results:
     props = page["properties"]
     page_id = page["id"]
-    
+
     # 名前取得
     title_items = props.get("名前", {}).get("title", [])
     name = title_items[0]["plain_text"] if title_items else ""
-    
+
     # 稼働可能日
     date_val = props.get("稼働可能日", {}).get("date")
     avail_date = date_val["start"] if date_val else None
-    
+
     # スキル
     skills = [s["name"] for s in props.get("スキル", {}).get("multi_select", [])]
-    
+
     print(f"  [{page_id}] 名前='{name}' 稼働日={avail_date} スキル={skills[:3]}")
-    
+
     if not name or name.strip() == "":
         no_name.append({"id": page_id, "name": name, "avail_date": avail_date, "skills": skills})
     if name == "田中太郎":

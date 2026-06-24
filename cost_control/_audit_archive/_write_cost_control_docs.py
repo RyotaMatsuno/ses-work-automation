@@ -1,5 +1,7 @@
-import os, io, sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+import os
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 BASE = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\cost_control"
 os.makedirs(BASE, exist_ok=True)
 

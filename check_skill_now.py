@@ -1,4 +1,5 @@
-import os, glob
+import glob
+import os
 
 log_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\logs\skill_autofill_codex.log"
 size = os.path.getsize(log_path)

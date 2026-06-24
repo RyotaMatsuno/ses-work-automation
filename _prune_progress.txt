@@ -1,0 +1,20 @@
+18:33:33 START prune cutoff(created_before)=2026-05-29T09:33:33.000Z target_status=募集中 -> 終了
+18:33:50 read pages=10 ids=1000
+18:34:03 READ DONE to_update=1637 (これから終了ステータスへ更新)
+18:37:22 updated=100 err=0 / 1637
+18:41:30 updated=200 err=0 / 1637
+18:44:59 updated=300 err=0 / 1637
+18:48:38 updated=400 err=0 / 1637
+18:52:35 updated=500 err=0 / 1637
+18:56:39 updated=600 err=0 / 1637
+19:00:00 updated=699 err=1 / 1637
+19:03:54 updated=799 err=1 / 1637
+19:08:16 updated=899 err=1 / 1637
+19:12:27 updated=999 err=1 / 1637
+19:16:54 updated=1099 err=1 / 1637
+19:21:16 updated=1199 err=1 / 1637
+19:25:13 updated=1299 err=1 / 1637
+19:29:31 updated=1399 err=1 / 1637
+19:33:53 updated=1499 err=1 / 1637
+19:38:11 updated=1599 err=1 / 1637
+19:39:54 UPDATE DONE updated=1636 err=1 total=1637 完了

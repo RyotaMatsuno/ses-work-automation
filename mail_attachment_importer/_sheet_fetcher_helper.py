@@ -1,6 +1,7 @@
-
 import asyncio
+
 from playwright.async_api import async_playwright
+
 
 async def get_sheet_text(url):
     async with async_playwright() as p:
@@ -27,6 +28,8 @@ async def get_sheet_text(url):
             await browser.close()
             print(json.dumps({"status": "error", "url": url, "error": str(e)}))
 
+
 import sys
+
 url = sys.argv[1] if len(sys.argv) > 1 else ""
 asyncio.run(get_sheet_text(url))

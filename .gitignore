@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .env
+config/.env
 
 # 認証・トークン系（漏洩防止）
 token_sheets.json
@@ -27,3 +28,60 @@ tmp_*.py
 # PDCA monitor - local data
 pdca_monitor/screenshots/
 pdca_monitor/data/
+
+# State files (do not sync)
+*.sqlite3
+cost_guard_state.json
+*.db
+
+# Large data files
+*.jsonl
+match_results.jsonl
+cost_log.jsonl
+structured.jsonl
+phase0_results.jsonl
+
+# Virtual environments
+.venv/
+venv/
+
+# Archive/temp
+_archive/
+_archive_tmp/
+_tmp_*
+_deep_*
+_gpt_*
+_reverify*
+_save_*
+_fix_*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Node
+node_modules/
+
+# Generated
+*.egg-info/
+dist/
+build/
+  
+# Large files  
+matching_v2/result.json  
+*.jsonl.bak_*  
+line_webhook/config/drive_token.json  
+setup_drive_oauth2.py  
+**/drive_token.json  
+  
+# Runtime state files  
+local_server/pending_notified.json  
+  
+# Pipeline drafts (generated)  
+mail_pipeline/pipeline_drafts/ 

@@ -1,0 +1,4 @@
+{
+  "gpt": "GPT Error: 429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions",
+  "gemini": "Gemini Error: 403 Client Error: Forbidden for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyBr_Xbawa7DR9RVJDqrv9YUwMzGbQcRCes"
+}

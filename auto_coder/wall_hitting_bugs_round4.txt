@@ -1,0 +1,322 @@
+=== wall_hitting bugs round4 by gpt-5.4 ===
+in=976 out=3421 cost=$0.0354
+
+以下、断言で行きます。
+
+---
+
+## Q1. 17秒で無言死の最有力
+
+### 結論
+**最有力は B + D の複合です。**  
+つまり、
+
+- **復帰直後や一時的なネットワーク不安定**
+- **`mail65.onamae.ne.jp` の DNS/IMAP 接続失敗**
+- **その結果、接続系タイムアウトで約15〜20秒後に例外終了**
+
+これが最も自然です。
+
+### 理由
+- `pipeline.log` に **START以降1行もない**  
+  → かなり早い段階、つまり **main冒頭〜最初のIMAP接続周辺** で死んでいる可能性が高い。
+- `python -V`、`-P`、syntax、主要importは単体確認済み  
+  → Python自体や構文崩れの線は薄い。
+- **17〜18秒** という長さが不自然に一定  
+  → 即死ではなく、**通信タイムアウト系** に見える。
+- 6/18 11:13は **11:00きっかりではない**  
+  → スリープ復帰やタスク再評価の匂いが強い。
+
+### 優先順位
+1. **B: DNS/IMAP接続失敗**
+2. **A: スリープ復帰直後でネットワーク未安定**
+3. **D: ライブラリの接続タイムアウト**
+4. **C: バッファ未flush**
+   - これは副次要因。  
+   - 「なぜ失敗したか」の本体ではなく「なぜログが出なかったか」の説明にはなり得る。
+
+### A/B/C/D以外で疑うべきもの
+**E: タスクスケジューラ実行時だけ環境差分がある**
+- 作業ディレクトリ違い
+- ユーザープロファイル未ロード
+- `.env` 読み込みパス違い
+- `%APPDATA%`/`LOCALAPPDATA%` 周辺差異
+
+**F: タスクスケジューラからの `pythonw` / 標準入出力差**
+- ただし `sys.stdout.reconfigure` は対策済みなので主因では薄い
+
+**G: セキュリティソフト/Defender による通信遮断**
+- 復帰直後や初回通信時だけ握りつぶされることがある
+
+**H: `mail_pipeline.py` 冒頭で実は外部通信する import 副作用**
+- 単体import OKでも、タスク実行時の環境変化で失敗する余地は残る
+
+---
+
+## Q2. 手動実行するべきか、12:00 Cron観測を優先すべきか
+
+### 結論
+**12:00 Cron観測を優先。今すぐ “本番手動実行” はしない。**
+
+### 理由
+- 16時間スキップの原因は **タスクスケジューラ側** の可能性が高い  
+  → 手動実行ではそこが再現できない。
+- 今ほしいのは  
+  1. **12:00に起動されるか**  
+  2. **起動後どこで死ぬか**  
+  の2点。
+- ただし、**手動の“非破壊プレフライト” は今すぐ実施してよい。**  
+  これは推奨。
+
+### 方針
+- **今すぐ**: 非破壊のネットワーク切り分け
+- **12:00**: Cron実行観測
+- **12:00で再現したら**: その時点で原因をほぼ確定
+
+---
+
+## Q3. 手動実行する場合の最短手順（副作用最小）
+
+### 結論
+**本体 `mail_pipeline.py` はまだ手動実行しない。**  
+まず **接続プレフライトだけ** やる。  
+これなら Notion登録もメール取得も発生しない。
+
+---
+
+### Step 1. DNS確認
+```powershell
+nslookup mail65.onamae.ne.jp
+Resolve-DnsName mail65.onamae.ne.jp
+```
+
+**失敗したら B濃厚。**
+
+---
+
+### Step 2. 993/TCP疎通確認
+```powershell
+Test-NetConnection mail65.onamae.ne.jp -Port 993
+Test-NetConnection 118.27.122.112 -Port 993
+```
+
+見る点:
+- `TcpTestSucceeded : True` か
+- ホスト名だけ失敗してIPは成功するか
+
+**ホスト名NG / IP OK なら DNS問題ほぼ確定。**
+
+---
+
+### Step 3. PythonでDNSだけ確認
+```powershell
+python -c "import socket; print(socket.getaddrinfo('mail65.onamae.ne.jp', 993))"
+python -c "import socket; print(socket.getaddrinfo('118.27.122.112', 993))"
+```
+
+---
+
+### Step 4. PythonでIMAP SSL接続だけ確認
+これは**ログインしない**ので副作用ほぼゼロ。
+
+```powershell
+python -c "import imaplib; M=imaplib.IMAP4_SSL('mail65.onamae.ne.jp',993,timeout=10); print('OK'); M.shutdown()"
+```
+
+IP直打ち比較:
+```powershell
+python -c "import imaplib; M=imaplib.IMAP4_SSL('118.27.122.112',993,timeout=10); print('OK'); M.shutdown()"
+```
+
+**hostname失敗 / IP成功なら仮説B当たり。**
+
+---
+
+### Step 5. 復帰直後不安定の確認
+```powershell
+Get-NetAdapter | Format-Table Name, Status, LinkSpeed
+Get-Date
+```
+
+Wi-Fi再接続直後っぽいなら A を補強。
+
+---
+
+### どうしても本体を手動実行するなら
+**メール取得・Notion登録の副作用があるので非推奨。**  
+やるならまず **ネットワークが安定してから**。
+
+ログを最大化:
+```powershell
+$env:PYTHONUNBUFFERED="1"
+python -u .\mail_pipeline.py *>> .\manual_pipeline.log
+```
+
+補助:
+```powershell
+echo %ERRORLEVEL%
+```
+
+ただしこれは**副作用あり**です。
+
+---
+
+## Q4. 仮説Bが当たりなら `.env` をIP化するか hosts相当か
+
+### 結論
+**短期回避は `.env` の IMAPサーバをIP化。**  
+**hosts固定は原則やらない。**
+
+### 理由
+- `.env` 変更は **アプリ局所** で完結し、巻き込みが少ない。
+- hosts は **OS全体に効く**。他サービス・他ユーザー・将来保守に悪い。
+- IMAP先が将来IP変更した場合、hosts固定は事故る。
+
+### 推奨
+まず `.env` で切る。
+
+例:
+```env
+OUTLOOK_IMAP_SERVER=118.27.122.112
+OUTLOOK_IMAP_PORT=993
+```
+
+### ただし注意
+**SSL証明書名検証** の観点では、IP接続で問題が出る可能性があります。  
+`imaplib.IMAP4_SSL()` が証明書CN/SANを厳格検証する構成だと、  
+**ホスト名 `mail65.onamae.ne.jp` と証明書名が一致しない** 問題が起こり得ます。
+
+なので安全策は本来こうです:
+1. まず **IP直打ちで接続可否を確認**
+2. 可能なら **DNS安定化** を優先
+3. 恒久策として hosts より **DNS側/回線側/スリープ条件見直し**
+
+**短期回避の第一候補は `.env`、恒久策としてはDNS原因潰し。**
+
+---
+
+## Q5. 仮説Aが当たりなら対策は何か
+
+### 結論
+**スリープ無効化より、タスクの起動条件変更を優先。**  
+CEOにはその粒度で上げるべきです。
+
+### 理由
+スリープ全面無効は副作用が大きい:
+- 消費電力増
+- 端末負荷
+- 運用ルール変更になる
+
+一方、タスク条件変更なら局所対処で済む:
+- 「スリープ解除で実行」
+- 「ネットワーク使用可能時のみ実行」
+- 「失敗時リトライ」
+- 「スケジュールを逃した場合はできるだけ早く実行」
+
+### 推奨設定
+タスクスケジューラで以下を見直す:
+
+1. **[条件]**
+   - 「タスクを実行するためにスリープを解除する」= ON
+   - 「次のネットワーク接続が使用可能な場合のみ開始」= ON（必要なら）
+
+2. **[設定]**
+   - 「スケジュールされた開始時刻にタスクを開始できなかった場合、できるだけ早く開始する」= ON
+   - 「タスクが失敗した場合の再試行」= 1〜3分間隔で3回以上
+   - 「既に実行中の場合の規則」= 新しいインスタンスを開始しない
+
+3. **トリガー**
+   - 毎時実行
+   - さらに補助で「ワークステーションロック解除時」「起動時」も検討可
+
+### CEO向けの言い方
+- **短期対策**: タスク条件最適化
+- **恒久対策**: スリープ復帰直後の通信不安定を吸収するリトライ実装
+- **非推奨**: いきなりPCのスリープ全面禁止
+
+---
+
+## Q6. ジョブズが今この場で自走できること / CEO確認が必要なこと
+
+---
+
+### 今すぐ自走でやること
+**1. 非破壊プレフライト**
+```powershell
+nslookup mail65.onamae.ne.jp
+Resolve-DnsName mail65.onamae.ne.jp
+Test-NetConnection mail65.onamae.ne.jp -Port 993
+Test-NetConnection 118.27.122.112 -Port 993
+python -c "import socket; print(socket.getaddrinfo('mail65.onamae.ne.jp', 993))"
+python -c "import imaplib; M=imaplib.IMAP4_SSL('mail65.onamae.ne.jp',993,timeout=10); print('OK'); M.shutdown()"
+python -c "import imaplib; M=imaplib.IMAP4_SSL('118.27.122.112',993,timeout=10); print('OK'); M.shutdown()"
+```
+
+**2. 12:00 Cron観測準備**
+- `pipeline.log` を tail
+- タスクスケジューラの「前回の実行結果」「次回の実行時刻」を確認
+
+```powershell
+Get-ScheduledTask -TaskName "mail_pipeline" | Get-ScheduledTaskInfo
+```
+
+**3. 失敗時のイベント確認**
+```powershell
+Get-WinEvent -LogName Microsoft-Windows-TaskScheduler/Operational -MaxEvents 50 |
+  Select-Object TimeCreated, Id, LevelDisplayName, Message | Format-List
+```
+
+※ Operational Log がまだ無効なら、ここは空振りあり。
+
+**4. 手動本番実行は保留**
+- 12:00まで待つ
+- ただし接続プレフライトでDNS/IMAP異常が出たら、その時点でB濃厚と判断してよい
+
+---
+
+### CEO確認が必要なこと
+**1. タスクスケジューラ設定変更**
+- 起動条件
+- スリープ解除
+- リトライ設定
+- missed run の即時実行
+
+**2. `.env` のIMAPサーバ設定変更**
+- 特にIP固定にする場合
+
+**3. PCの電源設定変更**
+- スリープ無効化
+- NIC省電力設定変更
+- Wake設定変更
+
+**4. コード変更**
+- 接続タイムアウト明示
+- 例外ログ追加
+- `flush=True` / `PYTHONUNBUFFERED`
+- 起動直後プレフライト追加
+
+**5. hosts書き換え**
+- OS全体影響のため必ず確認対象
+
+---
+
+## いま取るべき最短アクション
+
+### 優先順位
+1. **今すぐ非破壊プレフライト**
+2. **12:00 Cron観測**
+3. **12:00再現なら Task Scheduler / スリープ復帰起因を確定方向**
+4. **hostname失敗・IP成功なら `.env` IP化をCEO承認依頼**
+
+---
+
+## 最終結論
+
+- **Q1**: 最有力は **B+D**、次点で **A**。  
+- **Q2**: **本番手動実行は待ち、12:00 Cron観測優先。** ただし **非破壊プレフライトは今すぐ実施。**
+- **Q3**: `nslookup` / `Test-NetConnection` / `imaplib.IMAP4_SSL()` までで切り分ける。**本体はまだ回さない。**
+- **Q4**: 当面は **`.env` IP化**。**hostsは避ける。**
+- **Q5**: **スリープ全面無効ではなく、タスク条件変更を優先。**
+- **Q6**: ネットワーク疎通確認と12:00観測は自走可。タスク条件変更、`.env`変更、電源設定変更はCEO確認対象。
+
+必要なら次に、**12:00前にそのまま貼って実行できる PowerShell観測セット** を10行で作ります。

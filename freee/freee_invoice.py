@@ -15,50 +15,43 @@ Freee APIドキュメント:
 """
 
 import os
-import requests
 from datetime import date
+
+import requests
 from dateutil.relativedelta import relativedelta
 from dotenv import dotenv_values
 
 # .envロード
-env_path = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 if os.path.exists(env_path):
     config = dotenv_values(env_path)
     for key, value in config.items():
         if key not in os.environ:
             os.environ[key] = value
 
-NOTION_API_KEY        = os.environ.get('NOTION_API_KEY', '')
-NOTION_ENGINEER_DB_ID = os.environ.get('NOTION_ENGINEER_DB_ID', '')
-FREEE_ACCESS_TOKEN    = os.environ.get('FREEE_ACCESS_TOKEN', '')
-FREEE_COMPANY_ID      = os.environ.get('FREEE_COMPANY_ID', '')
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+NOTION_ENGINEER_DB_ID = os.environ.get("NOTION_ENGINEER_DB_ID", "")
+FREEE_ACCESS_TOKEN = os.environ.get("FREEE_ACCESS_TOKEN", "")
+FREEE_COMPANY_ID = os.environ.get("FREEE_COMPANY_ID", "")
 
 NOTION_HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
-FREEE_HEADERS = {
-    "Authorization": f"Bearer {FREEE_ACCESS_TOKEN}",
-    "Content-Type": "application/json"
-}
+FREEE_HEADERS = {"Authorization": f"Bearer {FREEE_ACCESS_TOKEN}", "Content-Type": "application/json"}
 
 FREEE_BASE_URL = "https://api.freee.co.jp/api/1"
 
 
 # ===== Notion: 稼働中エンジニア取得 =====
 
+
 def get_active_engineers() -> list:
     """Notionから稼働状況=稼働中のエンジニアを取得"""
     url = f"https://api.notion.com/v1/databases/{NOTION_ENGINEER_DB_ID}/query"
-    payload = {
-        "filter": {
-            "property": "稼働状況",
-            "select": {"equals": "稼働中"}
-        },
-        "page_size": 100
-    }
+    payload = {"filter": {"property": "稼働状況", "select": {"equals": "稼働中"}}, "page_size": 100}
 
     res = requests.post(url, headers=NOTION_HEADERS, json=payload)
     if res.status_code != 200:
@@ -81,19 +74,16 @@ def get_active_engineers() -> list:
         project_prop = props.get("稼働案件", {}).get("rich_text", [])
         project = project_prop[0]["text"]["content"] if project_prop else "稼働案件未記載"
 
-        engineers.append({
-            "name": name,
-            "price": price,
-            "company": company,
-            "project": project,
-            "notion_id": page["id"]
-        })
+        engineers.append(
+            {"name": name, "price": price, "company": company, "project": project, "notion_id": page["id"]}
+        )
 
     print(f"稼働中エンジニア: {len(engineers)}名取得")
     return engineers
 
 
 # ===== Freee: 取引先 取得 or 作成 =====
+
 
 def find_partner(company_name: str) -> int | None:
     url = f"{FREEE_BASE_URL}/partners"
@@ -104,13 +94,10 @@ def find_partner(company_name: str) -> int | None:
     partners = res.json().get("partners", [])
     return partners[0]["id"] if partners else None
 
+
 def create_partner(company_name: str) -> int | None:
     url = f"{FREEE_BASE_URL}/partners"
-    payload = {
-        "company_id": int(FREEE_COMPANY_ID),
-        "name": company_name,
-        "partner_type": "customer"
-    }
+    payload = {"company_id": int(FREEE_COMPANY_ID), "name": company_name, "partner_type": "customer"}
     res = requests.post(url, headers=FREEE_HEADERS, json=payload)
     if res.status_code in (200, 201):
         pid = res.json()["partner"]["id"]
@@ -119,6 +106,7 @@ def create_partner(company_name: str) -> int | None:
     print(f"  取引先作成エラー: {res.status_code} {res.text}")
     return None
 
+
 def get_or_create_partner(company_name: str) -> int | None:
     pid = find_partner(company_name)
     return pid if pid else create_partner(company_name)
@@ -126,21 +114,22 @@ def get_or_create_partner(company_name: str) -> int | None:
 
 # ===== Freee: 請求書作成 =====
 
+
 def create_invoice(engineer: dict, issue_date: date, due_date: date) -> bool:
     """
     Freeeに請求書をドラフト作成する。
     作成後はFreeeの画面で確認 → 手動で送付。
     """
     company_name = engineer["company"]
-    name         = engineer["name"]
-    price_man    = engineer["price"]
-    project      = engineer["project"]
+    name = engineer["name"]
+    price_man = engineer["price"]
+    project = engineer["project"]
 
     if price_man == 0:
         print(f"  スキップ: {name}（単価未登録）")
         return False
 
-    price_yen  = price_man * 10000
+    price_yen = price_man * 10000
     partner_id = get_or_create_partner(company_name)
     if not partner_id:
         print(f"  エラー: {company_name} の取引先IDが取得できません")
@@ -151,7 +140,7 @@ def create_invoice(engineer: dict, issue_date: date, due_date: date) -> bool:
     payload = {
         "company_id": int(FREEE_COMPANY_ID),
         "issue_date": issue_date.strftime("%Y-%m-%d"),
-        "due_date":   due_date.strftime("%Y-%m-%d"),
+        "due_date": due_date.strftime("%Y-%m-%d"),
         "partner_id": partner_id,
         "invoice_status": "draft",
         "title": title,
@@ -161,10 +150,10 @@ def create_invoice(engineer: dict, issue_date: date, due_date: date) -> bool:
                 "name": f"業務委託料（{name}様）{issue_date.year}年{issue_date.month}月分",
                 "quantity": 1,
                 "unit_price": price_yen,
-                "tax_code": 1,   # 10%消費税
-                "type": "normal"
+                "tax_code": 1,  # 10%消費税
+                "type": "normal",
             }
-        ]
+        ],
     }
 
     res = requests.post(f"{FREEE_BASE_URL}/invoices", headers=FREEE_HEADERS, json=payload)
@@ -179,6 +168,7 @@ def create_invoice(engineer: dict, issue_date: date, due_date: date) -> bool:
 
 # ===== メイン =====
 
+
 def run(target_month: date | None = None):
     today = date.today()
 
@@ -187,9 +177,9 @@ def run(target_month: date | None = None):
         target_month = today.replace(day=1) + relativedelta(months=1)
 
     issue_date = target_month.replace(day=1)
-    due_date   = issue_date + relativedelta(months=1) - relativedelta(days=1)
+    due_date = issue_date + relativedelta(months=1) - relativedelta(days=1)
 
-    print(f"=== Freee請求書自動生成 ===")
+    print("=== Freee請求書自動生成 ===")
     print(f"請求対象月 : {target_month.year}年{target_month.month}月分")
     print(f"請求日     : {issue_date}")
     print(f"支払期限   : {due_date}")
@@ -209,14 +199,15 @@ def run(target_month: date | None = None):
             failed += 1
 
     print()
-    print(f"=== 完了 ===")
+    print("=== 完了 ===")
     print(f"請求書作成: {success}件 / スキップ・エラー: {failed}件")
-    print(f"Freeeのドラフト一覧で確認してから送付してください。")
-    print(f"→ https://secure.freee.co.jp/invoices")
+    print("Freeeのドラフト一覧で確認してから送付してください。")
+    print("→ https://secure.freee.co.jp/invoices")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         # 特定月を指定: python freee_invoice.py 2026-06
         y, m = map(int, sys.argv[1].split("-"))

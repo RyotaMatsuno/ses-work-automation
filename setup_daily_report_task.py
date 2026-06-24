@@ -1,5 +1,7 @@
-import subprocess, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import subprocess
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8")
 
 bat_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\run_daily_report.bat"
 
@@ -16,14 +18,13 @@ echo [%date% %time%] 完了 >> "%LOG_PATH%"
 """)
 
 # タスクスケジューラ登録（毎日8時）
-r = subprocess.run([
-    "schtasks", "/create",
-    "/tn", "jobz_daily_report",
-    "/tr", bat_path,
-    "/sc", "DAILY",
-    "/st", "08:00",
-    "/f"
-], capture_output=True, text=True, encoding="utf-8", errors="replace")
+r = subprocess.run(
+    ["schtasks", "/create", "/tn", "jobz_daily_report", "/tr", bat_path, "/sc", "DAILY", "/st", "08:00", "/f"],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+)
 print(f"タスク登録: returncode={r.returncode}")
 print(r.stdout.strip() or r.stderr.strip())
 
@@ -31,7 +32,11 @@ print(r.stdout.strip() or r.stderr.strip())
 r2 = subprocess.run(
     ["python", "daily_report.py", "--dry-run"],
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work",
-    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=30
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
+    timeout=30,
 )
-print(f"\n--- dry-run ---")
+print("\n--- dry-run ---")
 print(r2.stdout[:400])

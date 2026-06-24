@@ -45,6 +45,8 @@ if info.get("contact_email"):
 - affiliationが空文字・Noneの場合はpropsに追加しない
 """
 
-with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\SPEC_affiliation_fields.md", "w", encoding="utf-8") as f:
+with open(
+    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\SPEC_affiliation_fields.md", "w", encoding="utf-8"
+) as f:
     f.write(spec)
 print("SPEC written")

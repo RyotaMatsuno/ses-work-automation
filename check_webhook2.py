@@ -1,4 +1,3 @@
-
 import os
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
@@ -10,4 +9,4 @@ with open(wh, encoding="utf-8") as f:
 
 for i in range(278, 340):
     line = lines[i].encode("cp932", errors="replace").decode("cp932")
-    print(f"{i+1}: {line}", end="")
+    print(f"{i + 1}: {line}", end="")

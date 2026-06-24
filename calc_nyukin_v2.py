@@ -1,12 +1,15 @@
-
 """
 2026年度 入金予測 一括生成 v2（修正版）
 """
-import gspread, json, calendar
-from google.oauth2.service_account import Credentials
-from datetime import date
-from dateutil.relativedelta import relativedelta
+
+import calendar
+import json
 from collections import defaultdict
+from datetime import date
+
+import gspread
+from dateutil.relativedelta import relativedelta
+from google.oauth2.service_account import Credentials
 
 CREDS_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\google_credentials.json"
 SS_ID = "1ORBtxtGqLAwv3YU8CGeLX7gWFgvKOivMTCZZiWtYGfI"
@@ -18,72 +21,79 @@ ss = gc.open_by_key(SS_ID)
 # 人員マスター
 STAFF = [
     # TERRA P（請求あり）
-    {"name":"仲山雄輝",    "t":"TP","site":45,"amt":15000,"ok":0,"s":(2023,12)},
-    {"name":"吉田創志",    "t":"TP","site":50,"amt":15000,"ok":0,"s":(2024,3)},
-    {"name":"蒲池佑萌",    "t":"TP","site":45,"amt":15000,"ok":0,"s":(2024,3)},
-    {"name":"大野稔貴",    "t":"TP","site":55,"amt":15000,"ok":0,"s":(2024,4)},
-    {"name":"白須雄太",    "t":"TP","site":45,"amt":15000,"ok":0,"s":(2024,5)},
-    {"name":"沼田航陽",    "t":"TP","site":55,"amt":15000,"ok":0,"s":(2024,6)},
-    {"name":"魚谷",        "t":"TP","site":55,"amt":15000,"ok":0,"s":(2025,4),"e":(2026,4)},
-    {"name":"赤木",        "t":"TP","site":40,"amt":15000,"ok":0,"s":(2025,7)},
-    {"name":"坪井",        "t":"TP","site":50,"amt":15000,"ok":0,"s":(2025,7)},
-    {"name":"中村",        "t":"TP","site":50,"amt":15000,"ok":0,"s":(2025,8)},
-    {"name":"日比野",      "t":"TP","site":40,"amt":15000,"ok":0,"s":(2025,9)},
-    {"name":"永野",        "t":"TP","site":45,"amt":15000,"ok":0,"s":(2025,10)},
-    {"name":"安江",        "t":"TP","site":45,"amt":15000,"ok":0,"s":(2025,10)},
-    {"name":"相川",        "t":"TP","site":40,"amt":15000,"ok":0,"s":(2025,10)},
-    {"name":"富永",        "t":"TP","site":40,"amt":15000,"ok":0,"s":(2026,1)},
-    {"name":"天野",        "t":"TP","site":50,"amt":15000,"ok":9000,"s":(2026,1)},
-    {"name":"岩瀬",        "t":"TP","site":50,"amt":15000,"ok":9000,"s":(2026,3)},
-    {"name":"加藤(T)",     "t":"TP","site":45,"amt":15000,"ok":9000,"s":(2026,3)},
-    {"name":"橋詰(新)",    "t":"TP","site":45,"amt":15000,"ok":0,"s":(2026,4)},
-    {"name":"佐々木(入)",  "t":"TP","site":45,"amt":15000,"ok":0,"s":(2026,4)},
-    {"name":"片山",        "t":"TP","site":30,"amt":15000,"ok":0,"s":(2025,4),"e":(2026,5)},
-    {"name":"齋藤よしまさ","t":"TP","site":45,"amt":15000,"ok":0,"s":(2026,5)},
+    {"name": "仲山雄輝", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2023, 12)},
+    {"name": "吉田創志", "t": "TP", "site": 50, "amt": 15000, "ok": 0, "s": (2024, 3)},
+    {"name": "蒲池佑萌", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2024, 3)},
+    {"name": "大野稔貴", "t": "TP", "site": 55, "amt": 15000, "ok": 0, "s": (2024, 4)},
+    {"name": "白須雄太", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2024, 5)},
+    {"name": "沼田航陽", "t": "TP", "site": 55, "amt": 15000, "ok": 0, "s": (2024, 6)},
+    {"name": "魚谷", "t": "TP", "site": 55, "amt": 15000, "ok": 0, "s": (2025, 4), "e": (2026, 4)},
+    {"name": "赤木", "t": "TP", "site": 40, "amt": 15000, "ok": 0, "s": (2025, 7)},
+    {"name": "坪井", "t": "TP", "site": 50, "amt": 15000, "ok": 0, "s": (2025, 7)},
+    {"name": "中村", "t": "TP", "site": 50, "amt": 15000, "ok": 0, "s": (2025, 8)},
+    {"name": "日比野", "t": "TP", "site": 40, "amt": 15000, "ok": 0, "s": (2025, 9)},
+    {"name": "永野", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2025, 10)},
+    {"name": "安江", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2025, 10)},
+    {"name": "相川", "t": "TP", "site": 40, "amt": 15000, "ok": 0, "s": (2025, 10)},
+    {"name": "富永", "t": "TP", "site": 40, "amt": 15000, "ok": 0, "s": (2026, 1)},
+    {"name": "天野", "t": "TP", "site": 50, "amt": 15000, "ok": 9000, "s": (2026, 1)},
+    {"name": "岩瀬", "t": "TP", "site": 50, "amt": 15000, "ok": 9000, "s": (2026, 3)},
+    {"name": "加藤(T)", "t": "TP", "site": 45, "amt": 15000, "ok": 9000, "s": (2026, 3)},
+    {"name": "橋詰(新)", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2026, 4)},
+    {"name": "佐々木(入)", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2026, 4)},
+    {"name": "片山", "t": "TP", "site": 30, "amt": 15000, "ok": 0, "s": (2025, 4), "e": (2026, 5)},
+    {"name": "齋藤よしまさ", "t": "TP", "site": 45, "amt": 15000, "ok": 0, "s": (2026, 5)},
     # TERRA BP
-    {"name":"大本",        "t":"TB","site":35,"amt":15000,"ok":0,"s":(2025,9),"e":(2026,5)},
-    {"name":"森",          "t":"TB","site":40,"amt":30000,"ok":0,"s":(2025,9)},
-    {"name":"芹澤",        "t":"TB","site":40,"amt":45000,"ok":0,"s":(2025,12)},
-    {"name":"佐々木(TERRA)","t":"TB","site":45,"amt":40000,"ok":20000,"s":(2026,4)},
-    {"name":"小山内",      "t":"TB","site":45,"amt":30000,"ok":0,"s":(2026,4)},
-    {"name":"吉田祥平(TR)","t":"TB","site":45,"amt":40000,"ok":0,"s":(2026,6)},
+    {"name": "大本", "t": "TB", "site": 35, "amt": 15000, "ok": 0, "s": (2025, 9), "e": (2026, 5)},
+    {"name": "森", "t": "TB", "site": 40, "amt": 30000, "ok": 0, "s": (2025, 9)},
+    {"name": "芹澤", "t": "TB", "site": 40, "amt": 45000, "ok": 0, "s": (2025, 12)},
+    {"name": "佐々木(TERRA)", "t": "TB", "site": 45, "amt": 40000, "ok": 20000, "s": (2026, 4)},
+    {"name": "小山内", "t": "TB", "site": 45, "amt": 30000, "ok": 0, "s": (2026, 4)},
+    {"name": "吉田祥平(TR)", "t": "TB", "site": 45, "amt": 40000, "ok": 0, "s": (2026, 6)},
     # GL
-    {"name":"石崎",        "t":"GL","site":30,"amt":24000,"ok":0,"s":(2024,9)},
-    {"name":"山内清(GL)",  "t":"GL","site":45,"amt":42000,"ok":0,"s":(2024,10)},
-    {"name":"荒井",        "t":"GL","site":45,"amt":42000,"ok":0,"s":(2025,6)},
+    {"name": "石崎", "t": "GL", "site": 30, "amt": 24000, "ok": 0, "s": (2024, 9)},
+    {"name": "山内清(GL)", "t": "GL", "site": 45, "amt": 42000, "ok": 0, "s": (2024, 10)},
+    {"name": "荒井", "t": "GL", "site": 45, "amt": 42000, "ok": 0, "s": (2025, 6)},
     # FT
-    {"name":"笠井健太",    "t":"FT","site":45,"amt":68000,"ok":0,"s":(2026,2)},
-    {"name":"原昌志",      "t":"FT","site":45,"amt":68000,"ok":0,"s":(2026,3),"e":(2026,5)},
-    {"name":"木村勇太(FT)","t":"FT","site":45,"amt":47600,"ok":0,"s":(2026,3)},
-    {"name":"加藤(FT)",    "t":"FT","site":45,"amt":38400,"ok":0,"s":(2026,3)},
-    {"name":"川崎健太",    "t":"FT","site":45,"amt":27200,"ok":0,"s":(2026,4)},
-    {"name":"田中みさ(FT)","t":"FT","site":55,"amt":20400,"ok":0,"s":(2026,4)},
-    {"name":"立野和紀",    "t":"FT","site":45,"amt":47600,"ok":0,"s":(2026,4)},
-    {"name":"佐々木駿",    "t":"FT","site":45,"amt":27200,"ok":0,"s":(2026,4)},
-    {"name":"橋本奈緒",    "t":"FT","site":45,"amt":47600,"ok":23800,"s":(2026,4)},
-    {"name":"吉田祥平(FT)","t":"FT","site":45,"amt":24000,"ok":0,"s":(2026,6)},
-    {"name":"鶴川慶三",    "t":"FT","site":45,"amt":47600,"ok":9520,"s":(2026,5)},
+    {"name": "笠井健太", "t": "FT", "site": 45, "amt": 68000, "ok": 0, "s": (2026, 2)},
+    {"name": "原昌志", "t": "FT", "site": 45, "amt": 68000, "ok": 0, "s": (2026, 3), "e": (2026, 5)},
+    {"name": "木村勇太(FT)", "t": "FT", "site": 45, "amt": 47600, "ok": 0, "s": (2026, 3)},
+    {"name": "加藤(FT)", "t": "FT", "site": 45, "amt": 38400, "ok": 0, "s": (2026, 3)},
+    {"name": "川崎健太", "t": "FT", "site": 45, "amt": 27200, "ok": 0, "s": (2026, 4)},
+    {"name": "田中みさ(FT)", "t": "FT", "site": 55, "amt": 20400, "ok": 0, "s": (2026, 4)},
+    {"name": "立野和紀", "t": "FT", "site": 45, "amt": 47600, "ok": 0, "s": (2026, 4)},
+    {"name": "佐々木駿", "t": "FT", "site": 45, "amt": 27200, "ok": 0, "s": (2026, 4)},
+    {"name": "橋本奈緒", "t": "FT", "site": 45, "amt": 47600, "ok": 23800, "s": (2026, 4)},
+    {"name": "吉田祥平(FT)", "t": "FT", "site": 45, "amt": 24000, "ok": 0, "s": (2026, 6)},
+    {"name": "鶴川慶三", "t": "FT", "site": 45, "amt": 47600, "ok": 9520, "s": (2026, 5)},
 ]
 
+
 def active(s, y, m):
-    if (y,m) < s["s"]: return False
-    if "e" in s and (y,m) > s["e"]: return False
+    if (y, m) < s["s"]:
+        return False
+    if "e" in s and (y, m) > s["e"]:
+        return False
     return True
+
 
 def pay_key(wy, wm, site):
     """稼働月→入金月の(year,month,day_type)を返す day_type=15 or 99(=末)"""
     pm = date(wy, wm, 1) + relativedelta(months=2)
     return (pm.year, pm.month, 15 if site <= 45 else 99)
 
+
 GENTEN = 0.1021
 
-buckets = defaultdict(lambda: {"TP":0,"TB":0,"GL":0,"FT":0,"OK":0,"names":[]})
-for wy in [2026,2027]:
-    for wm in range(1,13):
-        if (wy,wm)<(2026,4) or (wy,wm)>(2027,3): continue
+buckets = defaultdict(lambda: {"TP": 0, "TB": 0, "GL": 0, "FT": 0, "OK": 0, "names": []})
+for wy in [2026, 2027]:
+    for wm in range(1, 13):
+        if (wy, wm) < (2026, 4) or (wy, wm) > (2027, 3):
+            continue
         for s in STAFF:
-            if not active(s,wy,wm): continue
-            k = pay_key(wy,wm,s["site"])
+            if not active(s, wy, wm):
+                continue
+            k = pay_key(wy, wm, s["site"])
             buckets[k][s["t"]] += s["amt"]
             buckets[k]["OK"] += s["ok"]
             buckets[k]["names"].append(f"{wy}/{wm}")
@@ -91,63 +101,136 @@ for wy in [2026,2027]:
 # シート構築
 rows = []
 rows += [
-    ["入金予測（2026年度 4月稼働分〜2027年3月稼働分）","","","","","","","","","",""],
-    ["※TERRA：請求額(税抜)×10.21%を源泉控除　GL/FT：税込がそのまま実入り　※木原さん分は別途手渡し","","","","","","","","","",""],
-    ["入金予定日","稼働月","TERRA\n請求(税抜)","源泉徴収\n(×10.21%)","TERRA\n税込","TERRA\n実入り","GL\n税込","FT\n税込","岡本払出","木原さん分\n(後渡し)","総実入り"],
+    ["入金予測（2026年度 4月稼働分〜2027年3月稼働分）", "", "", "", "", "", "", "", "", "", ""],
+    [
+        "※TERRA：請求額(税抜)×10.21%を源泉控除　GL/FT：税込がそのまま実入り　※木原さん分は別途手渡し",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    ],
+    [
+        "入金予定日",
+        "稼働月",
+        "TERRA\n請求(税抜)",
+        "源泉徴収\n(×10.21%)",
+        "TERRA\n税込",
+        "TERRA\n実入り",
+        "GL\n税込",
+        "FT\n税込",
+        "岡本払出",
+        "木原さん分\n(後渡し)",
+        "総実入り",
+    ],
 ]
 
 cur_ym = None
-ym_terra=ym_gl=ym_ft=ym_ok=0
-annual = {"terra":0,"gl":0,"ft":0,"ok":0,"real":0}
+ym_terra = ym_gl = ym_ft = ym_ok = 0
+annual = {"terra": 0, "gl": 0, "ft": 0, "ok": 0, "real": 0}
 
-def last_day(y,m):
-    return calendar.monthrange(y,m)[1]
+
+def last_day(y, m):
+    return calendar.monthrange(y, m)[1]
+
 
 for k in sorted(buckets.keys()):
-    py,pm,dt = k
-    ym = (py,pm)
+    py, pm, dt = k
+    ym = (py, pm)
 
     # 月ヘッダー
     if ym != cur_ym:
         if cur_ym:
-            cy,cm = cur_ym
-            t=ym_terra; g=round(t*GENTEN); tx=round(t*1.1); ri=tx-g
-            tot=ri+ym_gl+ym_ft-ym_ok
-            rows.append([f"{cy}年{cm}月 小計","",t,g,tx,ri,ym_gl,ym_ft,ym_ok,"",tot])
-            rows.append(["","","","","","","","","","",""])
-            annual["terra"]+=t; annual["gl"]+=ym_gl; annual["ft"]+=ym_ft
-            annual["ok"]+=ym_ok; annual["real"]+=tot
-            ym_terra=ym_gl=ym_ft=ym_ok=0
+            cy, cm = cur_ym
+            t = ym_terra
+            g = round(t * GENTEN)
+            tx = round(t * 1.1)
+            ri = tx - g
+            tot = ri + ym_gl + ym_ft - ym_ok
+            rows.append([f"{cy}年{cm}月 小計", "", t, g, tx, ri, ym_gl, ym_ft, ym_ok, "", tot])
+            rows.append(["", "", "", "", "", "", "", "", "", "", ""])
+            annual["terra"] += t
+            annual["gl"] += ym_gl
+            annual["ft"] += ym_ft
+            annual["ok"] += ym_ok
+            annual["real"] += tot
+            ym_terra = ym_gl = ym_ft = ym_ok = 0
         cur_ym = ym
-        rows.append([f"◆ {py}年{pm}月 入金分","","","","","","","","","",""])
+        rows.append([f"◆ {py}年{pm}月 入金分", "", "", "", "", "", "", "", "", "", ""])
 
     b = buckets[k]
-    terra = b["TP"]+b["TB"]
-    gl = b["GL"]; ft = b["FT"]; ok = b["OK"]
-    g=round(terra*GENTEN); tx=round(terra*1.1); ri=tx-g
-    tot=ri+gl+ft-ok
+    terra = b["TP"] + b["TB"]
+    gl = b["GL"]
+    ft = b["FT"]
+    ok = b["OK"]
+    g = round(terra * GENTEN)
+    tx = round(terra * 1.1)
+    ri = tx - g
+    tot = ri + gl + ft - ok
 
-    dd = 15 if dt==15 else last_day(py,pm)
+    dd = 15 if dt == 15 else last_day(py, pm)
     day_str = f"{py}/{pm:02d}/{dd:02d}"
     src = ", ".join(sorted(set(b["names"])))
 
-    rows.append([day_str,src,
-                 terra if terra else "-",g if g else "-",tx if tx else "-",ri if ri else "-",
-                 gl if gl else "-",ft if ft else "-",ok if ok else "-","-",tot])
-    ym_terra+=terra; ym_gl+=gl; ym_ft+=ft; ym_ok+=ok
+    rows.append(
+        [
+            day_str,
+            src,
+            terra if terra else "-",
+            g if g else "-",
+            tx if tx else "-",
+            ri if ri else "-",
+            gl if gl else "-",
+            ft if ft else "-",
+            ok if ok else "-",
+            "-",
+            tot,
+        ]
+    )
+    ym_terra += terra
+    ym_gl += gl
+    ym_ft += ft
+    ym_ok += ok
 
 # 最終月小計
 if cur_ym:
-    cy,cm = cur_ym
-    t=ym_terra; g=round(t*GENTEN); tx=round(t*1.1); ri=tx-g
-    tot=ri+ym_gl+ym_ft-ym_ok
-    rows.append([f"{cy}年{cm}月 小計","",t,g,tx,ri,ym_gl,ym_ft,ym_ok,"",tot])
-    annual["terra"]+=t; annual["gl"]+=ym_gl; annual["ft"]+=ym_ft
-    annual["ok"]+=ym_ok; annual["real"]+=tot
+    cy, cm = cur_ym
+    t = ym_terra
+    g = round(t * GENTEN)
+    tx = round(t * 1.1)
+    ri = tx - g
+    tot = ri + ym_gl + ym_ft - ym_ok
+    rows.append([f"{cy}年{cm}月 小計", "", t, g, tx, ri, ym_gl, ym_ft, ym_ok, "", tot])
+    annual["terra"] += t
+    annual["gl"] += ym_gl
+    annual["ft"] += ym_ft
+    annual["ok"] += ym_ok
+    annual["real"] += tot
 
-rows.append(["","","","","","","","","","",""])
-g=round(annual["terra"]*GENTEN); tx=round(annual["terra"]*1.1); ri=tx-g
-rows.append(["2026年度 年間総合計","",annual["terra"],g,tx,ri,annual["gl"],annual["ft"],annual["ok"],"",annual["real"]])
+rows.append(["", "", "", "", "", "", "", "", "", "", ""])
+g = round(annual["terra"] * GENTEN)
+tx = round(annual["terra"] * 1.1)
+ri = tx - g
+rows.append(
+    [
+        "2026年度 年間総合計",
+        "",
+        annual["terra"],
+        g,
+        tx,
+        ri,
+        annual["gl"],
+        annual["ft"],
+        annual["ok"],
+        "",
+        annual["real"],
+    ]
+)
 
 # Sheetsに書き込む
 ws = ss.worksheet("入金予測")
@@ -160,7 +243,7 @@ with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\nyukin_v2.json",
     json.dump(rows, f, ensure_ascii=False, indent=2)
 
 # 年間サマリー表示
-print(f"\n=== 2026年度 年間見込み ===")
+print("\n=== 2026年度 年間見込み ===")
 print(f"  TERRA請求(税抜): {annual['terra']:,}円")
 print(f"  GL(税込):        {annual['gl']:,}円")
 print(f"  FT(税込):        {annual['ft']:,}円")

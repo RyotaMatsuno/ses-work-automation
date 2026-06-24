@@ -1,14 +1,38 @@
 # -*- coding: utf-8 -*-
 import os
+from urllib.parse import urlparse
 
 import requests
 from dotenv import dotenv_values
 
-
-ENV_PATH = os.path.join(os.path.dirname(__file__), '..', 'config', '.env')
+ENV_PATH = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
 config = dotenv_values(ENV_PATH)
-JOBZ_COMMAND_URL = os.environ.get('JOBZ_COMMAND_URL') or config.get('JOBZ_COMMAND_URL', '')
-JOBZ_AUTH_TOKEN = os.environ.get('JOBZ_AUTH_TOKEN') or config.get('JOBZ_AUTH_TOKEN', 'jobz-terra-2026')
+
+_BLOCKED_URL_PATTERNS = ("trycloudflare.com", "cloudflared")
+_DEFAULT_COMMAND_URL = "http://127.0.0.1:8765"
+
+
+def _resolve_command_url() -> str:
+    """Resolve localhost-only command server URL. Cloudflare tunnel URLs are blocked."""
+    raw = os.environ.get("JOBZ_COMMAND_URL") or config.get("JOBZ_COMMAND_URL") or _DEFAULT_COMMAND_URL
+    url = raw.rstrip("/")
+    lower = url.lower()
+    if any(pattern in lower for pattern in _BLOCKED_URL_PATTERNS):
+        return _DEFAULT_COMMAND_URL
+    parsed = urlparse(url)
+    if parsed.hostname not in ("127.0.0.1", "localhost"):
+        raise ValueError("JOBZ_COMMAND_URLはlocalhostのみ許可されています")
+    return url
+
+
+JOBZ_COMMAND_URL = _resolve_command_url()
+JOBZ_AUTH_TOKEN = (
+    os.environ.get("JOBZ_COMMAND_TOKEN")
+    or os.environ.get("JOBZ_AUTH_TOKEN")
+    or config.get("JOBZ_COMMAND_TOKEN")
+    or config.get("JOBZ_AUTH_TOKEN")
+    or ""
+)
 HEADERS = {"X-Auth-Token": JOBZ_AUTH_TOKEN, "Content-Type": "application/json"}
 TIMEOUT = 30
 
@@ -35,7 +59,7 @@ def execute_remote(cmd):
 
     try:
         res = requests.post(
-            _endpoint('/run'),
+            _endpoint("/run"),
             headers=HEADERS,
             json={"cmd": cmd, "cwd": "ses_work"},
             timeout=TIMEOUT,
@@ -65,7 +89,7 @@ def execute_bg(cmd):
 
     try:
         res = requests.post(
-            _endpoint('/run_bg'),
+            _endpoint("/run_bg"),
             headers=HEADERS,
             json={"cmd": cmd, "cwd": "ses_work"},
             timeout=TIMEOUT,
@@ -80,7 +104,7 @@ def execute_bg(cmd):
 
 def get_log():
     try:
-        res = requests.get(_endpoint('/log'), headers=HEADERS, timeout=TIMEOUT)
+        res = requests.get(_endpoint("/log"), headers=HEADERS, timeout=TIMEOUT)
         if res.status_code >= 400:
             return _error_message(f"HTTP {res.status_code}: {res.text[:200]}")
 
@@ -98,7 +122,7 @@ def get_log():
 
 def get_health():
     try:
-        res = requests.get(_endpoint('/health'), headers=HEADERS, timeout=TIMEOUT)
+        res = requests.get(_endpoint("/health"), headers=HEADERS, timeout=TIMEOUT)
         if res.status_code >= 400:
             return f"❌ 接続失敗: HTTP {res.status_code}"
 

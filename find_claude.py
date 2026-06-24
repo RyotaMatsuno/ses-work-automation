@@ -1,5 +1,7 @@
-import os, sys, glob
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+import glob
+import sys
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # Windowsの一般的なElectronアプリのログ場所を探す
 patterns = [
@@ -15,10 +17,17 @@ for pattern in patterns:
 
 # Claude Desktopのバージョン確認
 import subprocess
+
 result = subprocess.run(
-    ['powershell', '-Command', 
-     'Get-ItemProperty "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*" | Where-Object { $_.DisplayName -like "*Claude*" } | Select-Object DisplayName, DisplayVersion'],
-    capture_output=True, text=True, encoding='utf-8', errors='replace'
+    [
+        "powershell",
+        "-Command",
+        'Get-ItemProperty "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*" | Where-Object { $_.DisplayName -like "*Claude*" } | Select-Object DisplayName, DisplayVersion',
+    ],
+    capture_output=True,
+    text=True,
+    encoding="utf-8",
+    errors="replace",
 )
 print("\n=== Claude バージョン ===")
 print(result.stdout or "レジストリ未発見")

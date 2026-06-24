@@ -1,14 +1,12 @@
-import re
-
-path = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py'
-with open(path, 'r', encoding='utf-8') as f:
+path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
+with open(path, "r", encoding="utf-8") as f:
     content = f.read()
 
 print(f"現在のバージョン: {'v9' if 'v9' in content[:100] else '?'}")
 print(f"ファイルサイズ: {len(content)}文字")
 
 # v9 → v10
-content = content.replace('LINE Webhook Server v9', 'LINE Webhook Server v10', 1)
+content = content.replace("LINE Webhook Server v9", "LINE Webhook Server v10", 1)
 
 # ダブルチェック関数を追加（notion_queryの直前）
 double_check_func = '''
@@ -36,14 +34,16 @@ If issues found, return corrected text with fixes applied."""
 
 '''
 
-if 'run_double_check' not in content:
-    content = content.replace('def notion_query(db_id, filter_obj=None):', double_check_func + 'def notion_query(db_id, filter_obj=None):', 1)
+if "run_double_check" not in content:
+    content = content.replace(
+        "def notion_query(db_id, filter_obj=None):", double_check_func + "def notion_query(db_id, filter_obj=None):", 1
+    )
     print("run_double_check 追加済み")
 else:
     print("run_double_check 既存")
 
 # 送信処理にダブルチェックを差し込む
-DC_BLOCK = '''            # ダブルチェック
+DC_BLOCK = """            # ダブルチェック
             cand_info = [{"name": c["name"], "price": c.get("price", 0)} for c, *_ in target]
             dc_ok, dc_issues, draft = run_double_check(draft, cand_info)
             if not dc_ok:
@@ -53,11 +53,14 @@ DC_BLOCK = '''            # ダブルチェック
                     sender_token)
                 PENDING_PROPOSALS[pending_key]["proposal_draft"] = draft
                 return
-'''
+"""
 
-if 'ダブルチェック' not in content:
+if "ダブルチェック" not in content:
     old = '            # 実際にメール送信\n            account = "matsuno" if sender == "matsuno" else "okamoto"'
-    new = DC_BLOCK + '            # 実際にメール送信\n            account = "matsuno" if sender == "matsuno" else "okamoto"'
+    new = (
+        DC_BLOCK
+        + '            # 実際にメール送信\n            account = "matsuno" if sender == "matsuno" else "okamoto"'
+    )
     if old in content:
         content = content.replace(old, new, 1)
         print("ダブルチェックブロック挿入済み")
@@ -66,11 +69,12 @@ if 'ダブルチェック' not in content:
 else:
     print("ダブルチェックブロック 既存")
 
-with open(path, 'w', encoding='utf-8') as f:
+with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 
 # 構文チェック
 import py_compile
+
 try:
     py_compile.compile(path, doraise=True)
     print("構文チェック: OK")
@@ -78,4 +82,6 @@ except py_compile.PyCompileError as e:
     print(f"構文エラー: {e}")
 
 print(f"最終ファイルサイズ: {len(content)}文字")
-print(f"v10: {'v10' in content[:100]}, run_double_check: {'run_double_check' in content}, DC_block: {'ダブルチェック' in content}")
+print(
+    f"v10: {'v10' in content[:100]}, run_double_check: {'run_double_check' in content}, DC_block: {'ダブルチェック' in content}"
+)

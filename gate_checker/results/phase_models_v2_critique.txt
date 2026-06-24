@@ -1,0 +1,6 @@
+=== GPT-5.5 critique sparring result ===
+in_tokens: 824
+out_tokens: 2500
+cost_usd: 0.0791
+
+

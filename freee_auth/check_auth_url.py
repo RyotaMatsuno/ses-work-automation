@@ -1,6 +1,7 @@
 """
 freee認証URLを直接叩いてレスポンスを確認
 """
+
 import requests
 
 CLIENT_ID = "730165581365342"
@@ -16,5 +17,5 @@ params = {
 
 r = requests.get(url, params=params, allow_redirects=False)
 print(f"status: {r.status_code}")
-print(f"location: {r.headers.get('Location','なし')}")
+print(f"location: {r.headers.get('Location', 'なし')}")
 print(f"body[:500]: {r.text[:500]}")

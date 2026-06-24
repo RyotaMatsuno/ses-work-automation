@@ -1,4 +1,5 @@
 """Weekly PDCA report: aggregate logs, Claude summary, LINE + Notion."""
+
 from __future__ import annotations
 
 import argparse
@@ -25,9 +26,10 @@ ENV_PATH = SES_WORK / "config" / ".env"
 LOG_DIR = BASE_DIR / "logs"
 
 sys.path.insert(0, str(SES_WORK))
+from db import get_weekly_summary, week_range_for_report  # noqa: E402
+
 from common.ledger import can_spend, record  # noqa: E402
 from common.model_config import VISION_MODEL  # noqa: E402
-from db import get_weekly_summary, week_range_for_report  # noqa: E402
 
 NOTION_API_VERSION = "2022-06-28"
 WIKI_PAGE_ID = "353450ff-37c0-8145-9e3e-d80c8c8ed594"
@@ -321,10 +323,7 @@ def _block_paragraph(text: str) -> dict[str, Any]:
     return {
         "object": "block",
         "type": "paragraph",
-        "paragraph": {
-            "rich_text": [{"type": "text", "text": {"content": chunk}}]
-            for chunk in chunks
-        },
+        "paragraph": {"rich_text": [{"type": "text", "text": {"content": chunk}}] for chunk in chunks},
     }
 
 
@@ -341,9 +340,7 @@ def _block_bullet(text: str) -> dict[str, Any]:
     return {
         "object": "block",
         "type": "bulleted_list_item",
-        "bulleted_list_item": {
-            "rich_text": [{"type": "text", "text": {"content": text[:2000]}}]
-        },
+        "bulleted_list_item": {"rich_text": [{"type": "text", "text": {"content": text[:2000]}}]},
     }
 
 
@@ -376,9 +373,7 @@ def create_notion_page(
 
     body = {
         "parent": {"page_id": WIKI_PAGE_ID},
-        "properties": {
-            "title": {"title": [{"type": "text", "text": {"content": title[:200]}}]}
-        },
+        "properties": {"title": {"title": [{"type": "text", "text": {"content": title[:200]}}]}},
         "children": children[:100],
     }
     resp = requests.post(

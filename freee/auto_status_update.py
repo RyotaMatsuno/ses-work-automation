@@ -13,17 +13,17 @@ freee_invoice_v2.pyが請求書作成後に呼び出す
 """
 
 import sys
+
 import openpyxl
-from pathlib import Path
 
 EXCEL_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
 TARGET_STATUS = "稼働中"
 
 # シート別のヘッダー行インデックスと列マッピング
 SHEET_CONFIG = {
-    "TERRA":          {"header_row": 3, "name_col": 3, "status_col": 2},
-    "グレイスライン":  {"header_row": 2, "name_col": 1, "status_col": 0},
-    "フラップテック":  {"header_row": 2, "name_col": 2, "status_col": 1},
+    "TERRA": {"header_row": 3, "name_col": 3, "status_col": 2},
+    "グレイスライン": {"header_row": 2, "name_col": 1, "status_col": 0},
+    "フラップテック": {"header_row": 2, "name_col": 2, "status_col": 1},
 }
 
 
@@ -54,7 +54,7 @@ def update_status_after_invoice(names: list, sheet_names: list = None, dry_run: 
         ws = wb[sheet_name]
         rows = list(ws.iter_rows())
 
-        for row in rows[cfg["header_row"] + 1:]:
+        for row in rows[cfg["header_row"] + 1 :]:
             name_cell = row[cfg["name_col"]]
             status_cell = row[cfg["status_col"]]
 
@@ -67,13 +67,17 @@ def update_status_after_invoice(names: list, sheet_names: list = None, dry_run: 
                 if current != TARGET_STATUS:
                     if not dry_run:
                         status_cell.value = TARGET_STATUS
-                    updated.append({
-                        "sheet": sheet_name,
-                        "name": name_str,
-                        "before": current,
-                        "after": TARGET_STATUS,
-                    })
-                    print(f"[auto_status] {'[DRY] ' if dry_run else ''}{sheet_name}/{name_str}: 「{current}」→「{TARGET_STATUS}」")
+                    updated.append(
+                        {
+                            "sheet": sheet_name,
+                            "name": name_str,
+                            "before": current,
+                            "after": TARGET_STATUS,
+                        }
+                    )
+                    print(
+                        f"[auto_status] {'[DRY] ' if dry_run else ''}{sheet_name}/{name_str}: 「{current}」→「{TARGET_STATUS}」"
+                    )
                 else:
                     print(f"[auto_status] {sheet_name}/{name_str}: 既に{TARGET_STATUS}")
 
@@ -83,7 +87,7 @@ def update_status_after_invoice(names: list, sheet_names: list = None, dry_run: 
     elif dry_run:
         print(f"[auto_status] DRY RUN完了: {len(updated)}件が更新対象")
     else:
-        print(f"[auto_status] 更新なし")
+        print("[auto_status] 更新なし")
 
     return updated
 

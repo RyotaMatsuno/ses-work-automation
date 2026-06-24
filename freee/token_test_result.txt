@@ -1,0 +1,4 @@
+token取得OK
+partners API: 200
+  取引先ヒット: 1件
+  - 株式会社TERRA id=91256138

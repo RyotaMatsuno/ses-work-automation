@@ -1,4 +1,3 @@
-
 """
 請求書作成後ステータス自動更新スクリプト
 使い方: python update_status_on_invoice.py <氏名1> [<氏名2> ...]
@@ -9,15 +8,18 @@
 - TERRA/フラップテック/グレイスライン 全シートを対象
 - バックアップ自動作成
 """
-import openpyxl
-import sys
+
 import shutil
+import sys
 from datetime import datetime
 
-EXCEL_PATH = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx'
+import openpyxl
+
+EXCEL_PATH = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\contract\契約マスター_v6.xlsx"
+
 
 def update_status(names: list[str]):
-    bak = EXCEL_PATH.replace('.xlsx', f'_bak_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx')
+    bak = EXCEL_PATH.replace(".xlsx", f"_bak_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx")
     shutil.copy2(EXCEL_PATH, bak)
     print(f"バックアップ: {bak}")
 
@@ -27,24 +29,24 @@ def update_status(names: list[str]):
 
     # シート別の氏名列・ステータス列の定義
     sheet_configs = {
-        'TERRA':         {'name_col': 4, 'status_col': 3, 'start_row': 5},
-        'フラップテック': {'name_col': 3, 'status_col': 2, 'start_row': 4},
-        'グレイスライン': {'name_col': 2, 'status_col': 1, 'start_row': 4},
+        "TERRA": {"name_col": 4, "status_col": 3, "start_row": 5},
+        "フラップテック": {"name_col": 3, "status_col": 2, "start_row": 4},
+        "グレイスライン": {"name_col": 2, "status_col": 1, "start_row": 4},
     }
 
     for name in names:
         found = False
         for sheet_name, cfg in sheet_configs.items():
             ws = wb[sheet_name]
-            nc = cfg['name_col'] - 1
-            sc = cfg['status_col'] - 1
-            for row in ws.iter_rows(min_row=cfg['start_row'], values_only=False):
+            nc = cfg["name_col"] - 1
+            sc = cfg["status_col"] - 1
+            for row in ws.iter_rows(min_row=cfg["start_row"], values_only=False):
                 cell_name = row[nc].value
                 cell_status = row[sc].value
                 if cell_name == name:
                     found = True
-                    if cell_status == '入場前':
-                        row[sc].value = '稼働中'
+                    if cell_status == "入場前":
+                        row[sc].value = "稼働中"
                         changes.append(f"[{sheet_name}] {name}: 入場前 → 稼働中")
                     else:
                         changes.append(f"[{sheet_name}] {name}: ステータス={cell_status}（変更不要or既に稼働中）")
@@ -63,7 +65,8 @@ def update_status(names: list[str]):
             print(f"  {n}")
     print("保存完了")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("使い方: python update_status_on_invoice.py <氏名1> [<氏名2> ...]")
         sys.exit(1)

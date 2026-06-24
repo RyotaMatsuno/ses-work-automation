@@ -1,11 +1,11 @@
-
-import subprocess, sys
+import subprocess
+import sys
 
 result = subprocess.run(
     [sys.executable, "outreach_system/collect_targets.py", "--dry-run"],
     capture_output=True,
     cwd=r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work",
-    timeout=120
+    timeout=120,
 )
 out = result.stdout.decode("utf-8", errors="replace")
 err = result.stderr.decode("utf-8", errors="replace")

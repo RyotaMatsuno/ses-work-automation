@@ -28,7 +28,7 @@ Claude AIで案件/人材を判別 → Notionに登録
 
 - Webhookのevent.source.userIdで判定
 - 松野のuserIdは .env の MATSUNO_LINE_USER_ID
-- 岡本のuserIdは .env の OKAMOTO_LINE_USER_ID（設定済み: REDACTED-SECRET）
+- 岡本のuserIdは .env の OKAMOTO_LINE_USER_ID（設定済み: Uac1d23408573586affa37577c4e2b2ab）
 - どちらでもないuserIdは無視
 
 ---
@@ -103,6 +103,6 @@ Claude AIで案件/人材を判別 → Notionに登録
 変更後はRailwayに自動デプロイ（git push）
 """
 
-with open(r'C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\line_webhook\\SPEC.md', 'w', encoding='utf-8') as f:
+with open(r"C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\line_webhook\\SPEC.md", "w", encoding="utf-8") as f:
     f.write(content)
-print('SPEC.md updated')
+print("SPEC.md updated")

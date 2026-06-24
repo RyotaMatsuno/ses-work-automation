@@ -1,7 +1,9 @@
 import sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 import ast
-with open(r'freee_auth/token_manager.py', 'r', encoding='utf-8') as f:
+
+with open(r"freee_auth/token_manager.py", "r", encoding="utf-8") as f:
     src = f.read()
 # 関数名だけ抽出
 tree = ast.parse(src)

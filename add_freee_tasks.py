@@ -1,9 +1,10 @@
+import os
+import sys
 
-import sys, os
-sys.stdout.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding="utf-8")
 
 # 既存のTASKS.mdがあれば読む、なければ新規作成
-tasks_path = 'project_files/TASKS.md'
+tasks_path = "project_files/TASKS.md"
 
 freee_tasks = """
 ## freee API連携・請求書自動化（優先度: 低）
@@ -33,13 +34,13 @@ freee_tasks = """
 """
 
 if os.path.exists(tasks_path):
-    with open(tasks_path, 'r', encoding='utf-8') as f:
+    with open(tasks_path, "r", encoding="utf-8") as f:
         existing = f.read()
-    with open(tasks_path, 'w', encoding='utf-8') as f:
+    with open(tasks_path, "w", encoding="utf-8") as f:
         f.write(existing + "\n---\n" + freee_tasks)
     print("既存TASKS.mdにfreeeタスクを追記しました")
 else:
-    with open(tasks_path, 'w', encoding='utf-8') as f:
+    with open(tasks_path, "w", encoding="utf-8") as f:
         f.write("# TASKS.md\n\n" + freee_tasks)
     print("TASKS.md新規作成（freeeタスク追加済み）")
 

@@ -1,15 +1,15 @@
-
 import sys
-sys.stdout.reconfigure(encoding='utf-8', errors='replace')
-from dotenv import dotenv_values
+
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 import requests
+from dotenv import dotenv_values
 
-config = dotenv_values(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
-LINE_TOKEN = config['LINE_CHANNEL_ACCESS_TOKEN']
-MATSUNO_ID = config['MATSUNO_LINE_USER_ID']
-OKAMOTO_ID = config['OKAMOTO_LINE_USER_ID']
+config = dotenv_values(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+LINE_TOKEN = config["LINE_CHANNEL_ACCESS_TOKEN"]
+MATSUNO_ID = config["MATSUNO_LINE_USER_ID"]
+OKAMOTO_ID = config["OKAMOTO_LINE_USER_ID"]
 
-NOTION_URL = 'https://www.notion.so/Roots-36d450ff37c081218e5fe40032f14ddc'
+NOTION_URL = "https://www.notion.so/Roots-36d450ff37c081218e5fe40032f14ddc"
 
 RAW = """■案件名 基幹システム移行支援
 
@@ -62,15 +62,17 @@ Notion: {NOTION_URL}
 【原文】
 {RAW}"""
 
+
 def push(user_id, name, text):
     res = requests.post(
-        'https://api.line.me/v2/bot/message/push',
-        headers={'Authorization': f'Bearer {LINE_TOKEN}', 'Content-Type': 'application/json'},
-        json={'to': user_id, 'messages': [{'type': 'text', 'text': text}]},
-        timeout=10
+        "https://api.line.me/v2/bot/message/push",
+        headers={"Authorization": f"Bearer {LINE_TOKEN}", "Content-Type": "application/json"},
+        json={"to": user_id, "messages": [{"type": "text", "text": text}]},
+        timeout=10,
     )
-    print(f'[{name}] status={res.status_code} response={res.text[:100]}')
+    print(f"[{name}] status={res.status_code} response={res.text[:100]}")
     return res.status_code
 
-push(MATSUNO_ID, '松野', MESSAGE)
-push(OKAMOTO_ID, '岡本', MESSAGE)
+
+push(MATSUNO_ID, "松野", MESSAGE)
+push(OKAMOTO_ID, "岡本", MESSAGE)

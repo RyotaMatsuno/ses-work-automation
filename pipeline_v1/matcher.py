@@ -49,9 +49,7 @@ def calculate_match(project: dict[str, Any], engineer: dict[str, Any]) -> dict[s
 
     optional_match = {skill: has_skill(engineer, skill) for skill in optional_skills}
     optional_rate = (
-        sum(1 for matched in optional_match.values() if matched) / len(optional_match)
-        if optional_match
-        else 0.0
+        sum(1 for matched in optional_match.values() if matched) / len(optional_match) if optional_match else 0.0
     )
     gross_profit_score = min(max((gross_profit - 5) / 2, 0), 1)
     score = 100 + optional_rate * 20 + gross_profit_score * 10
@@ -74,11 +72,7 @@ def match_projects(
 ) -> list[dict[str, Any]]:
     matched_items: list[dict[str, Any]] = []
     for project in projects:
-        candidates = [
-            match
-            for engineer in engineers
-            if (match := calculate_match(project, engineer)) is not None
-        ]
+        candidates = [match for engineer in engineers if (match := calculate_match(project, engineer)) is not None]
         candidates.sort(
             key=lambda item: (item["score"], item["gross_profit"], -item["price"]),
             reverse=True,
@@ -108,10 +102,7 @@ def main() -> None:
     for item in matches:
         print(f"案件: {item['project']['name']}")
         for candidate in item["candidates"]:
-            print(
-                f"- {candidate['name']} 粗利:{candidate['gross_profit']} "
-                f"score:{candidate['score']}"
-            )
+            print(f"- {candidate['name']} 粗利:{candidate['gross_profit']} score:{candidate['score']}")
 
 
 if __name__ == "__main__":

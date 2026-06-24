@@ -1,19 +1,19 @@
-
 # -*- coding: utf-8 -*-
 """
 attachment_importer 全ファイル生成スクリプト
 ses_work/ から実行: python build_importer.py
 """
+
 import os
 
-BASE = os.path.join(os.path.dirname(__file__), 'attachment_importer')
+BASE = os.path.join(os.path.dirname(__file__), "attachment_importer")
 
 FILES = {}
 
 # ============================================================
 # parsers/text_parser.py
 # ============================================================
-FILES['parsers/text_parser.py'] = r'''# -*- coding: utf-8 -*-
+FILES["parsers/text_parser.py"] = r'''# -*- coding: utf-8 -*-
 """テキストサマリーから人員情報を構造化抽出する。"""
 
 import json, os, re, sys
@@ -99,7 +99,7 @@ def parse_text(text: str, api_key: str = None) -> list:
 # ============================================================
 # parsers/file_parser.py
 # ============================================================
-FILES['parsers/file_parser.py'] = r'''# -*- coding: utf-8 -*-
+FILES["parsers/file_parser.py"] = r'''# -*- coding: utf-8 -*-
 """ファイル（Excel/Word/PDF）からテキストを抽出し、人員情報を構造化する。"""
 
 import os, re
@@ -168,7 +168,7 @@ def parse_file(filepath: str, api_key: str = None) -> list:
 # ============================================================
 # utils/drive_downloader.py
 # ============================================================
-FILES['utils/drive_downloader.py'] = r'''# -*- coding: utf-8 -*-
+FILES["utils/drive_downloader.py"] = r'''# -*- coding: utf-8 -*-
 """Google SpreadsheetをExcelとしてダウンロードする。"""
 
 import os, re, requests
@@ -203,7 +203,7 @@ def download_spreadsheet(url: str, save_dir: str) -> str:
 # ============================================================
 # utils/notion_writer.py
 # ============================================================
-FILES['utils/notion_writer.py'] = r'''# -*- coding: utf-8 -*-
+FILES["utils/notion_writer.py"] = r'''# -*- coding: utf-8 -*-
 """NotionエンジニアDBへの登録・更新処理。"""
 
 import json, os, re, requests
@@ -389,7 +389,7 @@ def upsert_engineer(record: dict, source: str, file_path: str = None,
 # ============================================================
 # importer.py (メイン)
 # ============================================================
-FILES['importer.py'] = r'''# -*- coding: utf-8 -*-
+FILES["importer.py"] = r'''# -*- coding: utf-8 -*-
 """
 attachment_importer - メインスクリプト。
 人員情報テキスト + ファイルを解析してNotionエンジニアDBに登録する。
@@ -615,15 +615,15 @@ if __name__ == "__main__":
 # ============================================================
 # __init__.py
 # ============================================================
-FILES['__init__.py'] = ''
-FILES['parsers/__init__.py'] = ''
-FILES['utils/__init__.py'] = ''
-FILES['tests/__init__.py'] = ''
+FILES["__init__.py"] = ""
+FILES["parsers/__init__.py"] = ""
+FILES["utils/__init__.py"] = ""
+FILES["tests/__init__.py"] = ""
 
 # ============================================================
 # tests/test_text_parser.py
 # ============================================================
-FILES['tests/test_text_parser.py'] = r'''# -*- coding: utf-8 -*-
+FILES["tests/test_text_parser.py"] = r'''# -*- coding: utf-8 -*-
 """text_parserの単体テスト（区切り線分割のみ、API不要）"""
 
 import sys, os
@@ -692,7 +692,7 @@ if __name__ == "__main__":
 for rel_path, content in FILES.items():
     full_path = os.path.join(BASE, rel_path)
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
-    with open(full_path, 'w', encoding='utf-8') as f:
+    with open(full_path, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"written: {rel_path}")
 

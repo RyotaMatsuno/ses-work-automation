@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "MultiEdit",
+      "NotebookEdit",
+      "Read",
+      "Glob",
+      "Grep",
+      "LS",
+      "Bash(*)"
+    ]
+  }
+}

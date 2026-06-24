@@ -1,10 +1,10 @@
-import subprocess, sys, io
+import io
+import subprocess
+import sys
+
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-r = subprocess.run(
-    ["schtasks", "/query", "/fo", "LIST", "/v"],
-    capture_output=True
-)
+r = subprocess.run(["schtasks", "/query", "/fo", "LIST", "/v"], capture_output=True)
 text = r.stdout.decode("cp932", errors="replace")
 
 # 関連タスクだけ抽出

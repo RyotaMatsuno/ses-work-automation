@@ -1,5 +1,5 @@
-
-import csv, os, re
+import csv
+import os
 
 # スプレッドシートから抽出した会社データ
 # 電話番号列にメアドが入っている会社 + 元請けリストのURL付き会社を整理
@@ -46,7 +46,7 @@ existing = set()
 if os.path.exists(csv_path):
     with open(csv_path, encoding="utf-8-sig") as f:
         for row in csv.DictReader(f):
-            existing.add(row.get("company","").strip())
+            existing.add(row.get("company", "").strip())
 
 # 追記
 new_rows = []
@@ -58,7 +58,7 @@ for name, mail, typ in valid:
 all_rows = [{"company": n, "contact_name": "", "email": m, "type": t, "memo": ""} for n, m, t in valid]
 
 with open(csv_path, "w", encoding="utf-8-sig", newline="") as f:
-    writer = csv.DictWriter(f, fieldnames=["company","contact_name","email","type","memo"])
+    writer = csv.DictWriter(f, fieldnames=["company", "contact_name", "email", "type", "memo"])
     writer.writeheader()
     writer.writerows(all_rows)
 

@@ -1,19 +1,20 @@
-
 """
 drive_uploader.py - Google Drive attachment uploader for SES mail pipeline
 Uses OAuth2 refresh token stored in config/drive_token.json
 """
 
+
 def upload_to_drive(filename: str, data_bytes: bytes, mime_type: str) -> str | None:
     try:
         import io
+        import json
         from pathlib import Path
+
         from dotenv import dotenv_values
-        from google.oauth2.credentials import Credentials
         from google.auth.transport.requests import Request
+        from google.oauth2.credentials import Credentials
         from googleapiclient.discovery import build
         from googleapiclient.http import MediaIoBaseUpload
-        import json
 
         base_dir = Path(__file__).parent.parent
         token_path = base_dir / "config" / "drive_token.json"
@@ -49,14 +50,10 @@ def upload_to_drive(filename: str, data_bytes: bytes, mime_type: str) -> str | N
         service = build("drive", "v3", credentials=creds)
         file_meta = {"name": filename, "parents": [folder_id]}
         media = MediaIoBaseUpload(io.BytesIO(data_bytes), mimetype=mime_type, resumable=False)
-        uploaded = service.files().create(
-            body=file_meta, media_body=media, fields="id,webViewLink"
-        ).execute()
+        uploaded = service.files().create(body=file_meta, media_body=media, fields="id,webViewLink").execute()
 
         file_id = uploaded.get("id")
-        service.permissions().create(
-            fileId=file_id, body={"type": "anyone", "role": "reader"}
-        ).execute()
+        service.permissions().create(fileId=file_id, body={"type": "anyone", "role": "reader"}).execute()
 
         link = uploaded.get("webViewLink", f"https://drive.google.com/file/d/{file_id}/view")
         print(f"[Drive] uploaded: {filename} -> {link}")

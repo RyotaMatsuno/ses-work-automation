@@ -6,12 +6,12 @@ Usage:
   python freee/invoice_sender.py --dry-run
   python freee/invoice_sender.py --target-month 2026-05 --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
 import calendar
 import logging
-import os
 import re
 import smtplib
 import ssl
@@ -24,7 +24,6 @@ from typing import Any
 
 import requests
 from dotenv import dotenv_values
-
 
 BASE_DIR = Path(__file__).resolve().parent
 SES_WORK_DIR = BASE_DIR.parent
@@ -340,7 +339,9 @@ def run(target_month: date, dry_run: bool) -> int:
     ok = 0
     skipped = 0
     for invoice in invoices:
-        logging.info("invoice found: id=%s partner=%s amount=%s", invoice.invoice_id, invoice.partner_name, invoice.amount)
+        logging.info(
+            "invoice found: id=%s partner=%s amount=%s", invoice.invoice_id, invoice.partner_name, invoice.amount
+        )
         try:
             invoice.pdf_path = download_invoice_pdf(config, invoice)
             logging.info("PDF downloaded: %s", invoice.pdf_path)

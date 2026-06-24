@@ -1,0 +1,343 @@
+{
+  "last_scheduled_slot": "2026-06-20T03:00:00",
+  "last_started_at": "2026-06-20T03:00:24.106833",
+  "last_finished_at": "2026-06-20T03:00:24.234268",
+  "last_exit_code": 0,
+  "last_success_at": "2026-06-20T03:00:24.234268",
+  "last_skipped_slot": null,
+  "history": [
+    {
+      "job_id": "20260620_030024",
+      "scheduled_slot": "2026-06-20T03:00:00",
+      "started_at": "2026-06-20T03:00:24.106833",
+      "finished_at": "2026-06-20T03:00:24.234268",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260620_030024.log"
+    },
+    {
+      "job_id": "20260620_020023",
+      "scheduled_slot": "2026-06-20T02:00:00",
+      "started_at": "2026-06-20T02:00:23.002551",
+      "finished_at": "2026-06-20T02:00:23.125181",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260620_020023.log"
+    },
+    {
+      "job_id": "20260620_010021",
+      "scheduled_slot": "2026-06-20T01:00:00",
+      "started_at": "2026-06-20T01:00:21.905437",
+      "finished_at": "2026-06-20T01:00:22.031790",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260620_010021.log"
+    },
+    {
+      "job_id": "20260620_000020",
+      "scheduled_slot": "2026-06-20T00:00:00",
+      "started_at": "2026-06-20T00:00:20.761693",
+      "finished_at": "2026-06-20T00:00:20.884221",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260620_000020.log"
+    },
+    {
+      "job_id": "20260619_230019",
+      "scheduled_slot": "2026-06-19T23:00:00",
+      "started_at": "2026-06-19T23:00:19.539079",
+      "finished_at": "2026-06-19T23:00:19.741607",
+      "exit_code": 1,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_230019.log"
+    },
+    {
+      "job_id": "20260619_220001",
+      "scheduled_slot": "2026-06-19T22:00:00",
+      "started_at": "2026-06-19T22:00:01.079440",
+      "finished_at": "2026-06-19T22:24:48.951301",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_220001.log"
+    },
+    {
+      "job_id": "20260619_210030",
+      "scheduled_slot": "2026-06-19T21:00:00",
+      "started_at": "2026-06-19T21:00:30.001617",
+      "finished_at": "2026-06-19T21:00:30.168706",
+      "exit_code": 1,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_210030.log"
+    },
+    {
+      "job_id": "20260619_200028",
+      "scheduled_slot": "2026-06-19T20:00:00",
+      "started_at": "2026-06-19T20:00:28.918536",
+      "finished_at": "2026-06-19T20:00:29.076399",
+      "exit_code": 1,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_200028.log"
+    },
+    {
+      "job_id": "20260619_190028",
+      "scheduled_slot": "2026-06-19T19:00:00",
+      "started_at": "2026-06-19T19:00:28.351223",
+      "finished_at": "2026-06-19T19:07:58.128567",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_190028.log"
+    },
+    {
+      "job_id": "20260619_180011",
+      "scheduled_slot": "2026-06-19T18:00:00",
+      "started_at": "2026-06-19T18:00:11.080021",
+      "finished_at": "2026-06-19T18:06:57.513452",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_180011.log"
+    },
+    {
+      "job_id": "20260619_170023",
+      "scheduled_slot": "2026-06-19T17:00:00",
+      "started_at": "2026-06-19T17:00:23.029981",
+      "finished_at": "2026-06-19T17:06:40.161043",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_170023.log"
+    },
+    {
+      "job_id": "20260619_160024",
+      "scheduled_slot": "2026-06-19T16:00:00",
+      "started_at": "2026-06-19T16:00:24.792204",
+      "finished_at": "2026-06-19T16:05:22.120023",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_160024.log"
+    },
+    {
+      "job_id": "20260619_150015",
+      "scheduled_slot": "2026-06-19T15:00:00",
+      "started_at": "2026-06-19T15:00:15.579924",
+      "finished_at": "2026-06-19T15:05:53.928017",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_150015.log"
+    },
+    {
+      "job_id": "20260619_140009",
+      "scheduled_slot": "2026-06-19T14:00:00",
+      "started_at": "2026-06-19T14:00:09.964502",
+      "finished_at": "2026-06-19T14:05:14.654066",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_140009.log"
+    },
+    {
+      "job_id": "20260619_130023",
+      "scheduled_slot": "2026-06-19T13:00:00",
+      "started_at": "2026-06-19T13:00:23.481082",
+      "finished_at": "2026-06-19T13:08:39.142328",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_130023.log"
+    },
+    {
+      "job_id": "20260619_120012",
+      "scheduled_slot": "2026-06-19T12:00:00",
+      "started_at": "2026-06-19T12:00:12.004318",
+      "finished_at": "2026-06-19T12:03:22.601965",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_120012.log"
+    },
+    {
+      "job_id": "20260619_110026",
+      "scheduled_slot": "2026-06-19T11:00:00",
+      "started_at": "2026-06-19T11:00:26.903776",
+      "finished_at": "2026-06-19T11:04:11.226409",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_110026.log"
+    },
+    {
+      "job_id": "20260619_100020",
+      "scheduled_slot": "2026-06-19T10:00:00",
+      "started_at": "2026-06-19T10:00:20.654072",
+      "finished_at": "2026-06-19T10:04:26.161943",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_100020.log"
+    },
+    {
+      "job_id": "20260619_090008",
+      "scheduled_slot": "2026-06-19T09:00:00",
+      "started_at": "2026-06-19T09:00:08.191664",
+      "finished_at": "2026-06-19T09:03:49.898886",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_090008.log"
+    },
+    {
+      "job_id": "20260619_080005",
+      "scheduled_slot": "2026-06-19T08:00:00",
+      "started_at": "2026-06-19T08:00:05.554612",
+      "finished_at": "2026-06-19T08:00:37.302866",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_080005.log"
+    },
+    {
+      "job_id": "20260619_070005",
+      "scheduled_slot": "2026-06-19T07:00:00",
+      "started_at": "2026-06-19T07:00:05.958057",
+      "finished_at": "2026-06-19T07:00:34.749633",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_070005.log"
+    },
+    {
+      "job_id": "20260619_060004",
+      "scheduled_slot": "2026-06-19T06:00:00",
+      "started_at": "2026-06-19T06:00:04.829156",
+      "finished_at": "2026-06-19T06:03:05.134490",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_060004.log"
+    },
+    {
+      "job_id": "20260619_050029",
+      "scheduled_slot": "2026-06-19T05:00:00",
+      "started_at": "2026-06-19T05:00:29.628920",
+      "finished_at": "2026-06-19T05:05:04.044036",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_050029.log"
+    },
+    {
+      "job_id": "20260619_040020",
+      "scheduled_slot": "2026-06-19T04:00:00",
+      "started_at": "2026-06-19T04:00:20.657874",
+      "finished_at": "2026-06-19T04:02:58.857618",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_040020.log"
+    },
+    {
+      "job_id": "20260619_030024",
+      "scheduled_slot": "2026-06-19T03:00:00",
+      "started_at": "2026-06-19T03:00:24.946167",
+      "finished_at": "2026-06-19T03:03:19.758268",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_030024.log"
+    },
+    {
+      "job_id": "20260619_020013",
+      "scheduled_slot": "2026-06-19T02:00:00",
+      "started_at": "2026-06-19T02:00:13.166452",
+      "finished_at": "2026-06-19T02:03:24.079073",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_020013.log"
+    },
+    {
+      "job_id": "20260619_010014",
+      "scheduled_slot": "2026-06-19T01:00:00",
+      "started_at": "2026-06-19T01:00:14.227073",
+      "finished_at": "2026-06-19T01:01:42.350240",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_010014.log"
+    },
+    {
+      "job_id": "20260619_000019",
+      "scheduled_slot": "2026-06-19T00:00:00",
+      "started_at": "2026-06-19T00:00:19.808023",
+      "finished_at": "2026-06-19T00:00:43.163483",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260619_000019.log"
+    },
+    {
+      "job_id": "20260618_230005",
+      "scheduled_slot": "2026-06-18T23:00:00",
+      "started_at": "2026-06-18T23:00:05.207234",
+      "finished_at": "2026-06-18T23:01:48.848652",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_230005.log"
+    },
+    {
+      "job_id": "20260618_220014",
+      "scheduled_slot": "2026-06-18T22:00:00",
+      "started_at": "2026-06-18T22:00:14.446190",
+      "finished_at": "2026-06-18T22:04:06.938280",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_220014.log"
+    },
+    {
+      "job_id": "20260618_210013",
+      "scheduled_slot": "2026-06-18T21:00:00",
+      "started_at": "2026-06-18T21:00:13.503828",
+      "finished_at": "2026-06-18T21:16:13.687348",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_210013.log"
+    },
+    {
+      "job_id": "20260618_200001",
+      "scheduled_slot": "2026-06-18T20:00:00",
+      "started_at": "2026-06-18T20:00:01.036910",
+      "finished_at": "2026-06-18T20:03:42.521987",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_200001.log"
+    },
+    {
+      "job_id": "20260618_190023",
+      "scheduled_slot": "2026-06-18T19:00:00",
+      "started_at": "2026-06-18T19:00:23.094873",
+      "finished_at": "2026-06-18T19:07:00.179170",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_190023.log"
+    },
+    {
+      "job_id": "20260618_180001",
+      "scheduled_slot": "2026-06-18T18:00:00",
+      "started_at": "2026-06-18T18:00:01.795586",
+      "finished_at": "2026-06-18T18:09:52.304824",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_180001.log"
+    },
+    {
+      "job_id": "20260618_170006",
+      "scheduled_slot": "2026-06-18T17:00:00",
+      "started_at": "2026-06-18T17:00:06.590742",
+      "finished_at": "2026-06-18T17:35:01.396395",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_170006.log"
+    },
+    {
+      "job_id": "20260618_160025",
+      "scheduled_slot": "2026-06-18T16:00:00",
+      "started_at": "2026-06-18T16:00:25.818932",
+      "finished_at": "2026-06-18T16:07:18.371929",
+      "exit_code": 1,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_160025.log"
+    },
+    {
+      "job_id": "20260618_150019",
+      "scheduled_slot": "2026-06-18T15:00:00",
+      "started_at": "2026-06-18T15:00:19.332081",
+      "finished_at": "2026-06-18T15:49:25.616970",
+      "exit_code": 0,
+      "manual": false,
+      "log_file": "C:\\Users\\ma_py\\OneDrive\\デスクトップ\\ses_work\\logs\\mail_pipeline_hourly\\run_20260618_150019.log"
+    }
+  ]
+}

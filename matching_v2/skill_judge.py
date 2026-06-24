@@ -18,18 +18,29 @@ try:
 except Exception:
     pass
 
-from anthropic import Anthropic
-from anthropic import NotFoundError
-from anthropic import RateLimitError
+from anthropic import Anthropic, NotFoundError, RateLimitError
 
 BASE_DIR = os.path.dirname(__file__)
 SES_WORK_DIR = os.path.dirname(BASE_DIR)
 if SES_WORK_DIR not in sys.path:
     sys.path.insert(0, SES_WORK_DIR)
 
-from usage_tracker.cost_logger import log_cost
-from common.model_config import MATCH_MODEL
+import os as _os
+import sys as _sys
 
+from usage_tracker.cost_logger import log_cost
+
+_SES_WORK_DIR = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+if _SES_WORK_DIR not in _sys.path:
+    _sys.path.insert(0, _SES_WORK_DIR)
+try:
+    from common.ledger import can_spend as _can_spend
+    from common.ledger import record as _ledger_record
+
+    _LEDGER_OK = True
+except Exception:
+    _LEDGER_OK = False
+from common.model_config import MATCH_MODEL
 
 MODEL_NAME = MATCH_MODEL
 VALID_RESULTS = {"◯", "×", "△"}
@@ -48,9 +59,7 @@ SYSTEM_PROMPT = """
 _SELECTED_MODEL = None
 _REQUEST_LOCK = Lock()
 _NEXT_REQUEST_AT = 0.0
-MIN_REQUEST_INTERVAL_SECONDS = float(
-    os.environ.get("ANTHROPIC_MIN_INTERVAL_SECONDS", "1.4")
-)
+MIN_REQUEST_INTERVAL_SECONDS = float(os.environ.get("ANTHROPIC_MIN_INTERVAL_SECONDS", "1.4"))
 RATE_LIMIT_RETRY_SECONDS = [70, 70, 70]
 
 
@@ -106,10 +115,7 @@ def _validate_batch_result(skills_to_judge, engineers, data):
 
 def _select_fallback_model(client):
     model_list = client.models.list(limit=20)
-    haiku_models = [
-        model.id for model in model_list.data
-        if "haiku" in model.id
-    ]
+    haiku_models = [model.id for model in model_list.data if "haiku" in model.id]
     if MODEL_NAME in haiku_models:
         return MODEL_NAME
     if haiku_models:
@@ -130,12 +136,15 @@ def _wait_for_rate_slot():
 
 def _messages_create(client, model_name, prompt):
     max_retries = 5
+    if _LEDGER_OK:
+        if not _can_spend(2000, 8000, model_name):
+            raise RuntimeError("[skill_judge] CostGuard: 日次/月次上限超過")
     for attempt in range(max_retries):
         try:
             _wait_for_rate_slot()
             return client.messages.create(
                 model=model_name,
-                max_tokens=4000,
+                max_tokens=8000,
                 temperature=0,
                 system=[
                     {
@@ -155,10 +164,7 @@ def _messages_create(client, model_name, prompt):
             err_str = str(e)
             if "529" in err_str or "overloaded" in err_str.lower():
                 wait = 10 * (attempt + 1)
-                print(
-                    f"[skill_judge] API過負荷(529) "
-                    f"attempt={attempt + 1}/{max_retries} wait={wait}s"
-                )
+                print(f"[skill_judge] API過負荷(529) attempt={attempt + 1}/{max_retries} wait={wait}s")
                 time.sleep(wait)
             else:
                 raise
@@ -199,13 +205,20 @@ def _log_response_cost(response, model_name):
     usage = getattr(response, "usage", None)
     if usage is None:
         return
+    in_tok = getattr(usage, "input_tokens", 0)
+    out_tok = getattr(usage, "output_tokens", 0)
     log_cost(
         script_name="matching_v2",
         model=getattr(response, "model", None) or model_name,
-        input_tokens=getattr(usage, "input_tokens", 0),
-        output_tokens=getattr(usage, "output_tokens", 0),
+        input_tokens=in_tok,
+        output_tokens=out_tok,
         cached_tokens=getattr(usage, "cache_read_input_tokens", 0),
     )
+    if _LEDGER_OK:
+        try:
+            _ledger_record(in_tok, out_tok, model_name, "matching_v2_skill_judge")
+        except Exception:
+            pass
 
 
 def judge_skills(required_skills, engineer_skills):
@@ -282,21 +295,24 @@ def judge_skills_batch(required_skills, optional_skills, engineers):
     api_key = os.environ["ANTHROPIC_API_KEY"]
     client = Anthropic(api_key=api_key)
 
-
     # skill_textがあればそれを優先してプロンプトに渡す
     engineers_for_prompt = []
     for eng in normalized_engineers:
         skill_text = eng.get("skill_text", "")
         if skill_text:
-            engineers_for_prompt.append({
-                "name": eng["name"],
-                "skill_description": skill_text,
-            })
+            engineers_for_prompt.append(
+                {
+                    "name": eng["name"],
+                    "skill_description": skill_text,
+                }
+            )
         else:
-            engineers_for_prompt.append({
-                "name": eng["name"],
-                "skills": eng["skills"],
-            })
+            engineers_for_prompt.append(
+                {
+                    "name": eng["name"],
+                    "skills": eng["skills"],
+                }
+            )
     prompt = f"""
 案件側スキル:
 {json.dumps(skills_to_judge, ensure_ascii=False)}

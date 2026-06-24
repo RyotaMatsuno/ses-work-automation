@@ -1,0 +1,7 @@
+18:58:58 FINALIZER START - waiting for prune UPDATE DONE
+19:39:58 prune finished: 19:39:54 UPDATE DONE updated=1636 err=1 total=1637 完了
+19:41:38 募集中 件数(プルーニング後)= 4066 (pages=41)
+19:41:38 SES_MatchingV3 re-enable rc=0
+19:41:38   v3 次回の実行時刻:  2026/06/05 21:00:00
+19:41:38   v3 状態:            準備完了
+19:41:38 FINALIZER DONE

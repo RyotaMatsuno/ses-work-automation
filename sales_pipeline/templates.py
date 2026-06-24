@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 IKOUKAKUNIN_SUBJECT = "{candidate_name}様 案件ご検討のお願い（{role_area}）"
 
 IKOUKAKUNIN_TEMPLATE = """{affiliation} {contact_name}様

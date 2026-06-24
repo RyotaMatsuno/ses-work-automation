@@ -1,5 +1,5 @@
-
-import os, sys
+import os
+import sys
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 sys.path.insert(0, os.path.join(base, "mail_attachment_importer"))
@@ -13,6 +13,7 @@ for p in [ai_path, nw_path, sf_path]:
     fname = os.path.basename(p)
     if os.path.exists(p):
         import py_compile
+
         try:
             py_compile.compile(p, doraise=True)
             print(f"SYNTAX OK: {fname}")

@@ -1,5 +1,5 @@
-
-import os, json
+import json
+import os
 
 base = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work"
 
@@ -13,6 +13,7 @@ if os.path.exists(result_path):
     with_cand = [d for d in data if d.get("candidates")]
     checks["result.json更新日時"] = os.path.getmtime(result_path)
     import datetime
+
     dt = datetime.datetime.fromtimestamp(checks["result.json更新日時"])
     print(f"result.json: {len(data)}件 / candidates有: {len(with_cand)}件 / 更新: {dt}")
 
@@ -35,6 +36,7 @@ print(f"collect_targets.py: {'EXISTS' if os.path.exists(collect) else 'NOT FOUND
 # freee .env確認
 env_path = os.path.join(base, "config", ".env")
 from dotenv import dotenv_values
+
 env = dotenv_values(env_path)
 print(f"FREEE_ACCESS_TOKEN: {'SET' if env.get('FREEE_ACCESS_TOKEN') else 'EMPTY'}")
 print(f"FIRECRAWL_API_KEY: {'SET' if env.get('FIRECRAWL_API_KEY') else 'EMPTY'}")

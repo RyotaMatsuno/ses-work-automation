@@ -1,5 +1,4 @@
-
-import openpyxl, sys
+import openpyxl
 
 f = r"C:\Users\ma_py\Downloads\単価マスター_v5.xlsx"
 wb = openpyxl.load_workbook(f)

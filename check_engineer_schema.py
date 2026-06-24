@@ -9,7 +9,7 @@ ENGINEER_DB_ID = "343450ff-37c0-819d-8769-fb0a8a4ceeb1"
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
 # 現在のDBスキーマを確認

@@ -1,0 +1,152 @@
+{
+  "date": "2026-06-22",
+  "dry_run": true,
+  "tasks_processed": 20,
+  "tasks_done": 0,
+  "tasks_review": 0,
+  "tasks_blocked": 20,
+  "tasks_queued": 0,
+  "cost_usd": 0.0,
+  "items": [
+    {
+      "task_id": "push_fail_20260619190754",
+      "type": "dev",
+      "title": "push_fail_20260619190754",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619180653",
+      "type": "dev",
+      "title": "push_fail_20260619180653",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619174016",
+      "type": "dev",
+      "title": "push_fail_20260619174016",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619170636",
+      "type": "dev",
+      "title": "push_fail_20260619170636",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619165843",
+      "type": "dev",
+      "title": "push_fail_20260619165843",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619160518",
+      "type": "dev",
+      "title": "push_fail_20260619160518",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619150549",
+      "type": "dev",
+      "title": "push_fail_20260619150549",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619142543",
+      "type": "dev",
+      "title": "push_fail_20260619142543",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619140510",
+      "type": "dev",
+      "title": "push_fail_20260619140510",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619130834",
+      "type": "dev",
+      "title": "push_fail_20260619130834",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619120317",
+      "type": "dev",
+      "title": "push_fail_20260619120317",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619110408",
+      "type": "dev",
+      "title": "push_fail_20260619110408",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619100423",
+      "type": "dev",
+      "title": "push_fail_20260619100423",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619090346",
+      "type": "dev",
+      "title": "push_fail_20260619090346",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619080033",
+      "type": "dev",
+      "title": "push_fail_20260619080033",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619070030",
+      "type": "dev",
+      "title": "push_fail_20260619070030",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619060301",
+      "type": "dev",
+      "title": "push_fail_20260619060301",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619050500",
+      "type": "dev",
+      "title": "push_fail_20260619050500",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619040255",
+      "type": "dev",
+      "title": "push_fail_20260619040255",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    },
+    {
+      "task_id": "push_fail_20260619030316",
+      "type": "dev",
+      "title": "push_fail_20260619030316",
+      "status": "blocked",
+      "note": "Phase1未対応: dev"
+    }
+  ]
+}

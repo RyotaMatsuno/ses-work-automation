@@ -1,0 +1,78 @@
+=== format_project_result (L402-456) ===
+def format_project_result(engineer: dict, projects: list) -> str:
+    initial = _text_prop(engineer, PROP_INI) or _normalize_initial(_text_prop(engineer, PROP_NAME))
+    station = _text_prop(engineer, PROP_STA)
+
+    # 所属連絡先（意向確認用）
+    affil      = _text_prop(engineer, PROP_AFFIL)
+    affil_cont = _text_prop(engineer, PROP_AFFIL_CONT)
+    affil_mail = _text_prop(engineer, PROP_AFFIL_MAIL)
+
+    if not projects:
+        return (
+            f"\u3010{initial}\uff5c{station}\u3011\u30de\u30c3\u30c1\u6848\u4ef6\u306a\u3057\n"
+            "\uff08\u6761\u4ef6: \u6709\u52b9\u6848\u4ef6\u306a\u3057 or \u30b9\u30ad\u30eb\u30fb\u7c97\u5229\u4e0d\u4e00\u81f4\uff09"
+        )
+
+    lines = [f"\u3010{initial}\uff5c{station}\u3011\u30de\u30c3\u30c1\u6848\u4ef6 {len(projects)}\u4ef6"]
+    _esrc = _engineer_source(engineer)
+    if _esrc:
+        lines.append(f"\u9023\u7d61\u5148: {_esrc}")  # 来源:
+
+    # 所属情報ライン（意向確認先）
+    _ac = _affil_contact(engineer)
+    if _ac:
+        lines.append("\u6240\u5c5e: " + _ac)  # 所属:
+
+    for idx, item in enumerate(projects, 1):
+        pj       = item["page"]
+        pj_name  = _text_prop(pj, PROP_PJNAME)
+        req_sk   = _join(_multi_select_prop(pj, PROP_REQSK))
+        opt_sk   = _join(_multi_select_prop(pj, PROP_OPTSK))
+        loc      = _text_prop(pj, PROP_LOCATION)
+        remote   = _select_prop(pj, PROP_REMOTE)
+        period   = _text_prop(pj, PROP_PERIOD)
+        budget   = _number_prop(pj, PROP_RATE)
+        gross    = item["gross_profit"]
+        age      = business_days_since(pj.get("last_edited_time"))
+        assignee = _select_prop(pj, PROP_ASSIGNEE)
+        raw_detail = _text_prop(pj, PROP_PJDETAIL)
+
+        lines.extend([
+            "",
+            f"{_num_label(idx)} {pj_name}",
+            f"  \u5fc5\u9808: {req_sk}" + (f" / \u5c1a\u53ef: {opt_sk}" if opt_sk else ""),
+            f"  \u5358\u4fa1: {_format_number(budget)}\u4e07 / \u7c97\u5229: {_format_number(gross)}\u4e07" + (f" / {assignee}\u62c5\u5f53" if assignee else ""),
+            f"  {loc}" + (f" ({remote})" if remote else "") + (f" / {period}" if period else "") + f" [{age}\u65e5\u524d]",
+            (f"  \u9001\u4fe1\u5143: {_case_source(pj)}" if _case_source(pj) else ""),  # 送信元:
+        ])
+        # 連絡先のみ抽出（メアド・電話・担当者名）
+        _contact = _extract_contacts(raw_detail)
+        if _contact:
+            lines.append(f"  連絡先: {_contact}")
+
+    return _limit_reply(lines, projects, format_project_result, engineer)
+
+
+
+=== format_engineer_result (L457-477) ===
+def format_engineer_result(project: dict, engineers: list) -> str:
+    pj_name = _text_prop(project, PROP_PJNAME)
+    if not engineers:
+        return (
+            f"\u3010{pj_name}\u3011\u30de\u30c3\u30c1\u4eba\u54e1\u306a\u3057\n"
+            "\uff08\u6761\u4ef6: \u30b9\u30ad\u30eb\u30fb\u7c97\u5229\u30fb\u9256\u5ea6\u6761\u4ef6\u4e0d\u4e00\u81f4\uff09"
+        )
+    lines = [f"\u3010{pj_name}\u3011\u30de\u30c3\u30c1\u4eba\u54e1 {len(engineers)}\u540d"]
+    for idx, item in enumerate(engineers, 1):
+        eng = item["page"]
+        lines.extend([
+            "",
+            f"{_num_label(idx)}{_text_prop(eng, PROP_NAME)}\uff5c{_text_prop(eng, PROP_STA)}",
+            f"  \u30b9\u30ad\u30eb: {_join(_multi_select_prop(eng, PROP_SKILL))}",
+            f"  \u7a3c\u50cd: {_select_prop(eng, PROP_WORKST)} / \u5358\u4fa1: {_format_number(_number_prop(eng, PROP_RATE))}\u4e07 / \u7c97\u5229: {_format_number(item['gross_profit'])}\u4e07",
+            f"  \u7a3c\u50cd\u53ef: {_date_prop(eng, PROP_WORKON) or '\u672a\u8a2d\u5b9a'} / \u9256\u5ea6: {business_days_since(eng.get('last_edited_time'))}\u65e5\u524d",
+            f"  \u6240\u5c5e: {_text_prop(eng, PROP_AFFIL)} / {_text_prop(eng, PROP_AFFIL_CONT)} / {_text_prop(eng, PROP_AFFIL_MAIL)}",
+        ])
+    return _limit_reply(lines, engineers, format_engineer_result, project)
+

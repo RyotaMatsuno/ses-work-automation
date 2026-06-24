@@ -14,18 +14,11 @@ cmd = f'codex exec "{instruction}" --dangerously-bypass-approvals-and-sandbox'
 
 print("Codex starting (run2)...", flush=True)
 result = subprocess.run(
-    cmd,
-    shell=True,
-    cwd=cwd,
-    capture_output=True,
-    text=True,
-    encoding='utf-8',
-    errors='replace',
-    timeout=290
+    cmd, shell=True, cwd=cwd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=290
 )
 
 output = result.stdout + result.stderr
-with open(log_path, 'w', encoding='utf-8') as f:
+with open(log_path, "w", encoding="utf-8") as f:
     f.write(output)
 
 print(f"returncode={result.returncode}", flush=True)

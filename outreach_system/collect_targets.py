@@ -11,7 +11,6 @@ from urllib.parse import parse_qs, quote_plus, urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-
 BASE_DIR = Path(__file__).resolve().parent
 TARGETS_CSV = BASE_DIR / "targets.csv"
 COLLECT_LOG_JSON = BASE_DIR / "collect_log.json"

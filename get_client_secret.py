@@ -1,11 +1,12 @@
-
 """
 GCP Identity and Access Management API を使ってOAuthクライアントのsecretを取得。
 サービスアカウントでGCP Cloud Resource Manager APIを叩く。
 """
+
 import json
-from google.oauth2 import service_account
+
 import requests
+from google.oauth2 import service_account
 
 SA_FILE = "config/service_account.json"
 with open(SA_FILE) as f:
@@ -17,8 +18,7 @@ CLIENT_NUM_ID = CLIENT_ID_FULL.split("-")[0]  # 74735301292
 
 # サービスアカウントでGCP APIトークン取得
 creds = service_account.Credentials.from_service_account_file(
-    SA_FILE,
-    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    SA_FILE, scopes=["https://www.googleapis.com/auth/cloud-platform"]
 )
 creds.refresh(requests.Request())
 

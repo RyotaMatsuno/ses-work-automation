@@ -1,7 +1,8 @@
+import json
 
-import json, requests
-from google.oauth2 import service_account
 import google.auth.transport.requests
+import requests
+from google.oauth2 import service_account
 
 SA_FILE = "config/service_account.json"
 with open(SA_FILE) as f:
@@ -11,8 +12,7 @@ PROJECT_ID = sa["project_id"]
 
 # cloud-platform スコープでSAトークン取得
 creds = service_account.Credentials.from_service_account_file(
-    SA_FILE,
-    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+    SA_FILE, scopes=["https://www.googleapis.com/auth/cloud-platform"]
 )
 req = google.auth.transport.requests.Request()
 creds.refresh(req)

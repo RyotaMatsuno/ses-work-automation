@@ -1,0 +1,190 @@
+{
+  "real_skills": [
+    "CI/CD",
+    "Terraform",
+    "Windows",
+    "PL/SQL",
+    "Cisco",
+    "Databricks",
+    "生成AI",
+    "Azure",
+    "SQL",
+    "MS365 Copilot",
+    "M365",
+    "FortiGate",
+    "Linux",
+    "Kernel/OSS",
+    "EMLinux",
+    "Debian",
+    "SAP",
+    "データドッグ",
+    "英語読み書き",
+    "UX",
+    "Windows Server",
+    "DS8K"
+  ],
+  "capability_descriptions": [
+    "設計経験",
+    "運用",
+    "要件定義経験",
+    "Webシステム開発経験",
+    "データ移行",
+    "要件定義",
+    "インフラ基盤の環境構築",
+    "ServiceNow開発経験3年以上",
+    "基本設計自走できる人",
+    "インフラ設計",
+    "構築",
+    "システム運用保守",
+    "M365管理運用",
+    "インフラ経験",
+    "システム管理業務経験",
+    "運用管理経験",
+    "未経験",
+    "システム開発または運用における上流工程",
+    "クライアントワークの経験",
+    "データドッグの構築、運用実務経験",
+    "詳細設計書をもとに一人称で製造・単体試験を実施した経験",
+    "主体的に課題解決を行いながら開発を推進できる",
+    "PL",
+    "進捗管理",
+    "保守運用経験者",
+    "SC周りのFDS/CS品質チェック",
+    "サイドカーの知見",
+    "IBPにおけるデータ要件定義",
+    "データマッピング",
+    "商品企画",
+    "Winサーバ設計構築"
+  ],
+  "new_canonical_skills": [
+    {
+      "canonical": "SQL",
+      "aliases": [
+        "PL/SQL"
+      ]
+    },
+    {
+      "canonical": "Terraform",
+      "aliases": []
+    },
+    {
+      "canonical": "CI/CD",
+      "aliases": [
+        "CI",
+        "CD",
+        "継続的インテグレーション",
+        "継続的デリバリー"
+      ]
+    },
+    {
+      "canonical": "Windows",
+      "aliases": [
+        "Win",
+        "Windows環境"
+      ]
+    },
+    {
+      "canonical": "Windows Server",
+      "aliases": [
+        "Winサーバ",
+        "Winサーバー"
+      ]
+    },
+    {
+      "canonical": "Cisco",
+      "aliases": []
+    },
+    {
+      "canonical": "Databricks",
+      "aliases": []
+    },
+    {
+      "canonical": "生成AI",
+      "aliases": [
+        "Generative AI",
+        "LLM"
+      ]
+    },
+    {
+      "canonical": "Microsoft 365",
+      "aliases": [
+        "M365",
+        "MS365",
+        "Microsoft365"
+      ]
+    },
+    {
+      "canonical": "Microsoft 365 Copilot",
+      "aliases": [
+        "MS365 Copilot",
+        "M365 Copilot",
+        "Copilot for Microsoft 365"
+      ]
+    },
+    {
+      "canonical": "FortiGate",
+      "aliases": []
+    },
+    {
+      "canonical": "Debian",
+      "aliases": []
+    },
+    {
+      "canonical": "Linux",
+      "aliases": [
+        "Linux環境"
+      ]
+    },
+    {
+      "canonical": "Kernel",
+      "aliases": [
+        "Linux Kernel"
+      ]
+    },
+    {
+      "canonical": "OSS",
+      "aliases": [
+        "Open Source Software"
+      ]
+    },
+    {
+      "canonical": "SAP",
+      "aliases": []
+    },
+    {
+      "canonical": "Datadog",
+      "aliases": [
+        "データドッグ"
+      ]
+    },
+    {
+      "canonical": "UX",
+      "aliases": [
+        "ユーザー体験",
+        "ユーザーエクスペリエンス"
+      ]
+    },
+    {
+      "canonical": "Azure",
+      "aliases": [
+        "Azure環境"
+      ]
+    },
+    {
+      "canonical": "DS8K",
+      "aliases": [
+        "IBM DS8K"
+      ]
+    },
+    {
+      "canonical": "ServiceNow",
+      "aliases": []
+    }
+  ],
+  "soft_aliases_recommendation": "enable。理由: 現在のREVIEW率の主因96%が語彙外であり、同義語・表記揺れ吸収は最も費用対効果が高い。特に M365⇔Microsoft 365、MS365 Copilot⇔Microsoft 365 Copilot、Winサーバ⇔Windows Server、データドッグ⇔Datadog、Azure環境⇔Azure のような表記差を即時に吸収できるため、MATCH率改善に直結する。リスク: 1) 誤吸収（例: PL を Project Leader と PL/SQL の PL で混同）、2) 能力記述をスキル扱いして過剰マッチ、3) ベンダー製品名と一般概念の混同。対策: hard_aliases と soft_aliases を分離し、soft はスコア加点のみ・確定一致に使わない、曖昧語は文脈条件付きにする、監査ログを保存する。",
+  "capability_handling": "能力記述は canonical skill にしない。『設計経験』『要件定義経験』『基本設計自走できる人』『進捗管理』などは skill ではなく competency/work-phase/role として別スロット管理する。判定上は 1) 必須スキル一致判定から除外、2) 補助スコアとして加点、3) 年数・レベル・工程タグに正規化して扱うのがよい。例: 『設計経験』→ 工程=設計, 『要件定義経験』→ 工程=要件定義, 『基本設計自走できる人』→ 工程=基本設計 + レベル=自走可。これにより語彙外でも即 REVIEW に落とさず、MATCH/REVIEW の判定精度を上げられる。",
+  "minimum_changes": [
+    "変更1: TOP50由来の高頻度語だけを対象に canonical skill を15〜20語追加し、同時に soft_aliases を有効化する。優先追加: SQL, Terraform, CI/CD, Windows, Windows Server, Cisco, Databricks, 生成AI, Microsoft 365, Microsoft 365 Copilot, FortiGate, Debian, SAP, Datadog, ServiceNow。これだけで『語彙外スキル』起因の REVIEW を大幅に削減できる。",
+    "変更2: 能力記述を『未知語=REVIEW』にしないルールへ変更する。具体的には、能力記述は competency タグへ退避し、スキル判定対象から外す。未知語が capability のみで、既知 skill が1件以上ある場合は REVIEW ではなく判定継続にする。これが REVIEW率50%以下に下げる最小変更。"
+  ]
+}

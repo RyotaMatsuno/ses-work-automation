@@ -1,5 +1,5 @@
-path = r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py'
-with open(path, 'r', encoding='utf-8') as f:
+path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\line_webhook\webhook_server.py"
+with open(path, "r", encoding="utf-8") as f:
     content = f.read()
 
 # normalize_price関数とその呼び出しを追加
@@ -19,7 +19,7 @@ def normalize_price(price):
 '''
 
 # classify_message関数の前に挿入
-insert_before = 'def classify_message(text):'
+insert_before = "def classify_message(text):"
 content = content.replace(insert_before, func + insert_before, 1)
 
 # register_engineer内でnormalize_priceを使う
@@ -32,6 +32,6 @@ old_prj = '    if info.get("price"): props["\\u5358\\u4fa1\\uff08\\u4e07\\u5186\
 new_prj = '    price_val = normalize_price(info.get("price", 0))\n    if price_val: props["\\u5358\\u4fa1\\uff08\\u4e07\\u5186\\uff09"] = {"number": price_val}\n    if info.get("location")'
 content = content.replace(old_prj, new_prj, 1)
 
-with open(path, 'w', encoding='utf-8') as f:
+with open(path, "w", encoding="utf-8") as f:
     f.write(content)
 print("done")

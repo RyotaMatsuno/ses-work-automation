@@ -1,4 +1,3 @@
-
 # SPEC_v4_diff.md — mail_attachment_importer 差分修正仕様
 # 既存実装への追加・修正のみ。スクラッチ実装禁止。
 
@@ -202,6 +201,8 @@ meta = {
 - .bak なしで既存ファイルを上書き（.bak_0526 を先に作成すること）
 """
 
-with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_attachment_importer\SPEC_v4_diff.md", "w", encoding="utf-8") as f:
+with open(
+    r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_attachment_importer\SPEC_v4_diff.md", "w", encoding="utf-8"
+) as f:
     f.write(content)
 print("SPEC_v4_diff.md 書き込み完了", flush=True)

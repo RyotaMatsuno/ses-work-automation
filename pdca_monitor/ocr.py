@@ -1,4 +1,5 @@
 """Screenshot OCR with sensitive text masking."""
+
 from __future__ import annotations
 
 import re
@@ -65,8 +66,8 @@ def extract_text(image_path: str | Path, lang: str = "jpn+eng") -> str:
         return ""
 
     try:
-        from PIL import Image
         import pytesseract
+        from PIL import Image
     except ImportError:
         return ""
 

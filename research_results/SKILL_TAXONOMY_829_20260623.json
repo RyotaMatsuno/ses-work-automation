@@ -1,0 +1,4132 @@
+{
+  "categories": {
+    "process_skill": 178,
+    "soft_skill": 56,
+    "tech_skill": 215,
+    "noise": 26,
+    "domain": 25,
+    "cert": 2
+  },
+  "new_tech_skills": [
+    {
+      "canonical": "Excel",
+      "aliases": [
+        "Microsoft Excel",
+        "MS Excel"
+      ],
+      "original": "Excel"
+    },
+    {
+      "canonical": "Git",
+      "aliases": [
+        "git"
+      ],
+      "original": "Git"
+    },
+    {
+      "canonical": "ネットワーク",
+      "aliases": [
+        "NW",
+        "Network"
+      ],
+      "original": "ネットワーク"
+    },
+    {
+      "canonical": "PowerPoint",
+      "aliases": [
+        "Microsoft PowerPoint",
+        "MS PowerPoint"
+      ],
+      "original": "PowerPoint"
+    },
+    {
+      "canonical": "React Native",
+      "aliases": [
+        "react-native"
+      ],
+      "original": "React Native"
+    },
+    {
+      "canonical": "C++",
+      "aliases": [
+        "CPP"
+      ],
+      "original": "C++"
+    },
+    {
+      "canonical": "クラウド",
+      "aliases": [
+        "Cloud",
+        "Cloud Computing"
+      ],
+      "original": "クラウド"
+    },
+    {
+      "canonical": "Laravel",
+      "aliases": [
+        "laravel"
+      ],
+      "original": "Laravel"
+    },
+    {
+      "canonical": "Next.js",
+      "aliases": [
+        "Nextjs",
+        "next.js"
+      ],
+      "original": "Next.js"
+    },
+    {
+      "canonical": "Zabbix",
+      "aliases": [
+        "zabbix"
+      ],
+      "original": "Zabbix"
+    },
+    {
+      "canonical": "Thymeleaf",
+      "aliases": [
+        "thymeleaf"
+      ],
+      "original": "Thymeleaf"
+    },
+    {
+      "canonical": "JP1",
+      "aliases": [
+        "JP1/AJS",
+        "JP1 AJS3"
+      ],
+      "original": "JP1"
+    },
+    {
+      "canonical": "Backlog",
+      "aliases": [
+        "Nulab Backlog"
+      ],
+      "original": "Backlog"
+    },
+    {
+      "canonical": "VMware vSphere",
+      "aliases": [
+        "vSphere"
+      ],
+      "original": "VMware vSphere"
+    },
+    {
+      "canonical": "OCI",
+      "aliases": [
+        "Oracle Cloud Infrastructure"
+      ],
+      "original": "OCI"
+    },
+    {
+      "canonical": "VMware",
+      "aliases": [
+        "VMWare",
+        "VMware"
+      ],
+      "original": "VMWare"
+    },
+    {
+      "canonical": "PowerShell",
+      "aliases": [
+        "powershell",
+        "pwsh"
+      ],
+      "original": "PowerShell"
+    },
+    {
+      "canonical": "RDBMS",
+      "aliases": [
+        "Relational Database",
+        "リレーショナルDB"
+      ],
+      "original": "RDBMS"
+    },
+    {
+      "canonical": "ETL",
+      "aliases": [
+        "Extract Transform Load"
+      ],
+      "original": "ETL"
+    },
+    {
+      "canonical": "DWH",
+      "aliases": [
+        "Data Warehouse",
+        "データウェアハウス"
+      ],
+      "original": "DWH"
+    },
+    {
+      "canonical": "GitHub",
+      "aliases": [
+        "github"
+      ],
+      "original": "GitHub"
+    },
+    {
+      "canonical": "Ruby on Rails",
+      "aliases": [
+        "Rails",
+        "RoR"
+      ],
+      "original": "Ruby on Rails"
+    },
+    {
+      "canonical": "Snowflake",
+      "aliases": [
+        "snowflake"
+      ],
+      "original": "Snowflake"
+    },
+    {
+      "canonical": "Databricks",
+      "aliases": [
+        "databricks"
+      ],
+      "original": "Databricks"
+    },
+    {
+      "canonical": "Power Platform",
+      "aliases": [
+        "Microsoft Power Platform"
+      ],
+      "original": "Power Platform"
+    },
+    {
+      "canonical": "Copilot",
+      "aliases": [
+        "Microsoft Copilot",
+        "GitHub Copilot"
+      ],
+      "original": "Copilot"
+    },
+    {
+      "canonical": "Zscaler",
+      "aliases": [
+        "zscaler"
+      ],
+      "original": "Zscaler"
+    },
+    {
+      "canonical": "Prisma Access",
+      "aliases": [
+        "PrismaAccess"
+      ],
+      "original": "Prisma Access"
+    },
+    {
+      "canonical": "Claude Code",
+      "aliases": [
+        "Claude code",
+        "ClaudeCode"
+      ],
+      "original": "Claude Code"
+    },
+    {
+      "canonical": "Codex",
+      "aliases": [
+        "OpenAI Codex",
+        "codex"
+      ],
+      "original": "Codex"
+    },
+    {
+      "canonical": "Cursor",
+      "aliases": [
+        "cursor"
+      ],
+      "original": "Cursor"
+    },
+    {
+      "canonical": "OSPF",
+      "aliases": [
+        "Open Shortest Path First",
+        "OSPF"
+      ],
+      "original": "ルーティング（OSPF）"
+    },
+    {
+      "canonical": "冗長化",
+      "aliases": [
+        "HA",
+        "高可用性"
+      ],
+      "original": "冗長化構成の理解"
+    },
+    {
+      "canonical": "Flutter",
+      "aliases": [
+        "flutter"
+      ],
+      "original": "Flutter"
+    },
+    {
+      "canonical": "Palo Alto Networks",
+      "aliases": [
+        "Paloalto",
+        "PaloAlto"
+      ],
+      "original": "Paloalto"
+    },
+    {
+      "canonical": "Power BI",
+      "aliases": [
+        "PowerBI",
+        "Microsoft Power BI"
+      ],
+      "original": "PowerBI"
+    },
+    {
+      "canonical": "Avaya PBX",
+      "aliases": [
+        "AVAYA-PBX",
+        "Avaya"
+      ],
+      "original": "AVAYA-PBX"
+    },
+    {
+      "canonical": "Django",
+      "aliases": [
+        "django"
+      ],
+      "original": "Django"
+    },
+    {
+      "canonical": "Struts",
+      "aliases": [
+        "Apache Struts"
+      ],
+      "original": "Struts"
+    },
+    {
+      "canonical": "IaaS",
+      "aliases": [
+        "Infrastructure as a Service"
+      ],
+      "original": "IaaS構成"
+    },
+    {
+      "canonical": "Android",
+      "aliases": [
+        "android"
+      ],
+      "original": "Android"
+    },
+    {
+      "canonical": "Unreal Engine",
+      "aliases": [
+        "UE",
+        "UE4",
+        "UE5"
+      ],
+      "original": "Unreal Engine"
+    },
+    {
+      "canonical": "TouchDesigner",
+      "aliases": [
+        "TouchDesigner"
+      ],
+      "original": "TouchDesignerなど）に関する幅広い知見"
+    },
+    {
+      "canonical": "Azure Repos",
+      "aliases": [
+        "Repos"
+      ],
+      "original": "Azure Repos"
+    },
+    {
+      "canonical": "Azure DevOps",
+      "aliases": [
+        "AzDO"
+      ],
+      "original": "Azure DevOps"
+    },
+    {
+      "canonical": "Jira",
+      "aliases": [
+        "JIRA"
+      ],
+      "original": "Jira"
+    },
+    {
+      "canonical": "SharePoint",
+      "aliases": [
+        "Microsoft SharePoint"
+      ],
+      "original": "SharePoint"
+    },
+    {
+      "canonical": "Visual Studio",
+      "aliases": [
+        "VS"
+      ],
+      "original": "Visual Studio"
+    },
+    {
+      "canonical": "Visual Studio Code",
+      "aliases": [
+        "VS Code",
+        "vscode"
+      ],
+      "original": "Visual Studio Code"
+    },
+    {
+      "canonical": "IntelliJ IDEA",
+      "aliases": [
+        "IntelliJ"
+      ],
+      "original": "IntelliJ"
+    },
+    {
+      "canonical": "Eclipse",
+      "aliases": [
+        "Eclipse IDE"
+      ],
+      "original": "Eclipse"
+    },
+    {
+      "canonical": "VMware ESXi",
+      "aliases": [
+        "ESXi"
+      ],
+      "original": "ESXi"
+    },
+    {
+      "canonical": "VMware vCenter",
+      "aliases": [
+        "vCenter Server",
+        "vCenter"
+      ],
+      "original": "vCenter"
+    },
+    {
+      "canonical": "CLI",
+      "aliases": [
+        "Command Line Interface"
+      ],
+      "original": "CLI"
+    },
+    {
+      "canonical": "A10",
+      "aliases": [
+        "A10 Networks",
+        "ADC"
+      ],
+      "original": "負荷分散装置（A10）"
+    },
+    {
+      "canonical": "NEC IX",
+      "aliases": [
+        "NECIX",
+        "NEC IX"
+      ],
+      "original": "ルート（NECIX）"
+    },
+    {
+      "canonical": "Microsoft Entra ID",
+      "aliases": [
+        "Azure AD",
+        "Entra ID"
+      ],
+      "original": "Entra ID"
+    },
+    {
+      "canonical": "Microsoft Intune",
+      "aliases": [
+        "Intune"
+      ],
+      "original": "Intune"
+    },
+    {
+      "canonical": "サーバ",
+      "aliases": [
+        "NW",
+        "サーバ"
+      ],
+      "original": "NWまたはサーバ"
+    },
+    {
+      "canonical": "スクリプト",
+      "aliases": [
+        "script",
+        "scripting"
+      ],
+      "original": "スクリプト"
+    },
+    {
+      "canonical": "Objective-C",
+      "aliases": [
+        "Obj-C"
+      ],
+      "original": "Objective-C"
+    },
+    {
+      "canonical": "SASE",
+      "aliases": [
+        "Secure Access Service Edge"
+      ],
+      "original": "SASE"
+    },
+    {
+      "canonical": "NVIDIA",
+      "aliases": [
+        "NVIDIA GPU"
+      ],
+      "original": "NVIDIA"
+    },
+    {
+      "canonical": "IGA",
+      "aliases": [
+        "Identity Governance and Administration"
+      ],
+      "original": "IGA"
+    },
+    {
+      "canonical": "マイクロセグメンテーション",
+      "aliases": [
+        "Microsegmentation"
+      ],
+      "original": "マイクロセグメンテーション"
+    },
+    {
+      "canonical": "GRC",
+      "aliases": [
+        "Governance Risk Compliance"
+      ],
+      "original": "GRC"
+    },
+    {
+      "canonical": "CRQ",
+      "aliases": [
+        "Change Request"
+      ],
+      "original": "CRQ"
+    },
+    {
+      "canonical": "Unity",
+      "aliases": [
+        "Unity",
+        "Unity(C#)"
+      ],
+      "original": "Unity(C#)"
+    },
+    {
+      "canonical": "LAMP",
+      "aliases": [
+        "Linux Apache MySQL PHP",
+        "LAMP環境"
+      ],
+      "original": "LAMP環境"
+    },
+    {
+      "canonical": "GitLab",
+      "aliases": [
+        "gitlab"
+      ],
+      "original": "GitLab"
+    },
+    {
+      "canonical": "AI Agent",
+      "aliases": [
+        "AIエージェント",
+        "Agentic AI"
+      ],
+      "original": "AI Agent"
+    },
+    {
+      "canonical": "Word",
+      "aliases": [
+        "Microsoft Word",
+        "MS Word"
+      ],
+      "original": "Word"
+    },
+    {
+      "canonical": "NetView",
+      "aliases": [
+        "IBM NetView"
+      ],
+      "original": "NetView"
+    },
+    {
+      "canonical": "REXX",
+      "aliases": [
+        "REXX"
+      ],
+      "original": "REXX"
+    },
+    {
+      "canonical": "CLIST",
+      "aliases": [
+        "CLIST"
+      ],
+      "original": "CLIST"
+    },
+    {
+      "canonical": "MSGTBL",
+      "aliases": [
+        "Message Table",
+        "MSGTBL"
+      ],
+      "original": "MSGTBL"
+    },
+    {
+      "canonical": "Figma",
+      "aliases": [
+        "figma"
+      ],
+      "original": "Figma"
+    },
+    {
+      "canonical": "Adobe Creative Cloud",
+      "aliases": [
+        "Adobe CC",
+        "Creative Cloud"
+      ],
+      "original": "Adobe Creative Cloud"
+    },
+    {
+      "canonical": "認証",
+      "aliases": [
+        "Authentication",
+        "AuthN"
+      ],
+      "original": "認証"
+    },
+    {
+      "canonical": "JSON",
+      "aliases": [
+        "JSONファイル",
+        "JavaScript Object Notation"
+      ],
+      "original": "JSONファイル理解"
+    },
+    {
+      "canonical": "サイボウズ Office",
+      "aliases": [
+        "サイボウズオフィス"
+      ],
+      "original": "サイボウズオフィス"
+    },
+    {
+      "canonical": "kintone",
+      "aliases": [
+        "Kintone",
+        "kintone"
+      ],
+      "original": "kintoneの有識者"
+    },
+    {
+      "canonical": "ABAP",
+      "aliases": [
+        "SAP ABAP",
+        "ABAP"
+      ],
+      "original": "ABAP"
+    },
+    {
+      "canonical": "ジョブ管理ツール",
+      "aliases": [
+        "Job Scheduler",
+        "Workload Scheduler"
+      ],
+      "original": "ジョブ管理ツール"
+    },
+    {
+      "canonical": "関数",
+      "aliases": [
+        "Function",
+        "Excel関数"
+      ],
+      "original": "関数"
+    },
+    {
+      "canonical": "Microsoft Office",
+      "aliases": [
+        "MS Office",
+        "MSoffice",
+        "MSオフィス"
+      ],
+      "original": "MSoffice"
+    },
+    {
+      "canonical": "リモート接続",
+      "aliases": [
+        "Remote Access",
+        "RDP",
+        "VPN接続"
+      ],
+      "original": "リモート接続"
+    },
+    {
+      "canonical": "Dr.Sum",
+      "aliases": [
+        "Dr.Sum"
+      ],
+      "original": "Dr.Sum"
+    },
+    {
+      "canonical": "ASTERIA Warp",
+      "aliases": [
+        "ASTERIA",
+        "Asteria Warp"
+      ],
+      "original": "ASTERIA"
+    },
+    {
+      "canonical": "PySpark",
+      "aliases": [
+        "pyspark"
+      ],
+      "original": "PySpark"
+    },
+    {
+      "canonical": "CSV",
+      "aliases": [
+        "Comma-Separated Values",
+        "CSVファイル"
+      ],
+      "original": "CSV"
+    },
+    {
+      "canonical": "メール",
+      "aliases": [
+        "Mail",
+        "E-mail",
+        "電子メール"
+      ],
+      "original": "Mail"
+    },
+    {
+      "canonical": "例外処理",
+      "aliases": [
+        "Exception Handling"
+      ],
+      "original": "例外処理"
+    },
+    {
+      "canonical": "ログ",
+      "aliases": [
+        "ログ出力",
+        "Logging"
+      ],
+      "original": "ログ出力"
+    },
+    {
+      "canonical": "認可",
+      "aliases": [
+        "Authorization",
+        "ユーザー権限"
+      ],
+      "original": "ユーザー権限"
+    },
+    {
+      "canonical": "実行環境",
+      "aliases": [
+        "Runtime Environment"
+      ],
+      "original": "実行環境の基本理解"
+    },
+    {
+      "canonical": "UIKit",
+      "aliases": [
+        "UIKit"
+      ],
+      "original": "UIKit"
+    },
+    {
+      "canonical": "WebView",
+      "aliases": [
+        "UIWebView",
+        "WKWebView",
+        "WebView"
+      ],
+      "original": "WebView"
+    },
+    {
+      "canonical": "Firebase Cloud Messaging",
+      "aliases": [
+        "FCM"
+      ],
+      "original": "Firebase Cloud Messaging"
+    },
+    {
+      "canonical": "LocalAuthentication",
+      "aliases": [
+        "Apple LocalAuthentication"
+      ],
+      "original": "LocalAuthentication"
+    },
+    {
+      "canonical": "CoreNFC",
+      "aliases": [
+        "Apple CoreNFC"
+      ],
+      "original": "CoreNFC"
+    },
+    {
+      "canonical": "eKYC SDK",
+      "aliases": [
+        "eKYC"
+      ],
+      "original": "eKYC SDK"
+    },
+    {
+      "canonical": "Bootstrap",
+      "aliases": [
+        "BootStrap",
+        "bootstrap"
+      ],
+      "original": "BootStrap"
+    },
+    {
+      "canonical": "データベース",
+      "aliases": [
+        "Database",
+        "DB"
+      ],
+      "original": "Database"
+    },
+    {
+      "canonical": "Redis",
+      "aliases": [
+        "redis"
+      ],
+      "original": "Redis"
+    },
+    {
+      "canonical": "JSP",
+      "aliases": [
+        "JavaServer Pages",
+        "JSP",
+        "jsp"
+      ],
+      "original": "JSP"
+    },
+    {
+      "canonical": "メールセキュリティ",
+      "aliases": [
+        "Mail Security",
+        "Email Security"
+      ],
+      "original": "メールのセキュリティ"
+    },
+    {
+      "canonical": "ネットワークプロトコル",
+      "aliases": [
+        "TCP/IP",
+        "HTTP",
+        "Network Protocol"
+      ],
+      "original": "ネットワークプロトコル（TCP/IP、HTTPなど）の理解"
+    },
+    {
+      "canonical": "UI/UXデザイン",
+      "aliases": [
+        "UI Design",
+        "UX Design",
+        "UI/UX"
+      ],
+      "original": "UI/UXデザイン"
+    },
+    {
+      "canonical": "HULFT",
+      "aliases": [
+        "hulft"
+      ],
+      "original": "HULFT"
+    },
+    {
+      "canonical": "MQ",
+      "aliases": [
+        "Message Queue",
+        "IBM MQ",
+        "MQ"
+      ],
+      "original": "MQ"
+    },
+    {
+      "canonical": "FTP",
+      "aliases": [
+        "File Transfer Protocol",
+        "FTP"
+      ],
+      "original": "FTP"
+    },
+    {
+      "canonical": "Nuxt.js",
+      "aliases": [
+        "Nuxt",
+        "nuxt.js"
+      ],
+      "original": "Nuxt.js"
+    },
+    {
+      "canonical": "セキュリティ",
+      "aliases": [
+        "Security",
+        "情報セキュリティ"
+      ],
+      "original": "セキュリティ"
+    },
+    {
+      "canonical": "DNS",
+      "aliases": [
+        "Domain Name System",
+        "DNS"
+      ],
+      "original": "DNS"
+    },
+    {
+      "canonical": "ジョブスケジューラ",
+      "aliases": [
+        "Job Scheduler",
+        "ジョブ管理",
+        "ジョブ管理ツール"
+      ],
+      "original": "ジョブスケジューラ"
+    },
+    {
+      "canonical": "Excel VBA",
+      "aliases": [
+        "ExcelVBA",
+        "VBA",
+        "Excelマクロ"
+      ],
+      "original": "ExcelVBA"
+    },
+    {
+      "canonical": "Selenium",
+      "aliases": [
+        "Selenium"
+      ],
+      "original": "Selenium"
+    },
+    {
+      "canonical": "Playwright",
+      "aliases": [
+        "Playwright"
+      ],
+      "original": "Playwright"
+    },
+    {
+      "canonical": "サイドカー",
+      "aliases": [
+        "サイドカー",
+        "Sidecar"
+      ],
+      "original": "サイドカーの知見"
+    },
+    {
+      "canonical": "データマッピング",
+      "aliases": [
+        "データマッピング",
+        "Data Mapping"
+      ],
+      "original": "データマッピング"
+    },
+    {
+      "canonical": "DS8000",
+      "aliases": [
+        "DS8K",
+        "IBM DS8K",
+        "IBM DS8000"
+      ],
+      "original": "DS8K設計構築"
+    },
+    {
+      "canonical": "NAT",
+      "aliases": [
+        "NAT",
+        "Network Address Translation"
+      ],
+      "original": "NAT"
+    },
+    {
+      "canonical": "Shopify",
+      "aliases": [
+        "Shopify"
+      ],
+      "original": "Shopify"
+    },
+    {
+      "canonical": "データモデリング",
+      "aliases": [
+        "データモデリング",
+        "業務要件に基づくデータモデリング",
+        "Data Modeling"
+      ],
+      "original": "業務要件に基づくデータモデリング"
+    },
+    {
+      "canonical": "Microsoft Access",
+      "aliases": [
+        "Access",
+        "Microsoft Access",
+        "MS Access"
+      ],
+      "original": "Access"
+    },
+    {
+      "canonical": "API",
+      "aliases": [
+        "RestAPI",
+        "REST API",
+        "RESTful API"
+      ],
+      "original": "RestAPI"
+    },
+    {
+      "canonical": "CDC",
+      "aliases": [
+        "CDC",
+        "Change Data Capture"
+      ],
+      "original": "CDC"
+    },
+    {
+      "canonical": "Genesys Cloud",
+      "aliases": [
+        "Genesys Cloud"
+      ],
+      "original": "Genesys Cloud"
+    },
+    {
+      "canonical": "データ前処理",
+      "aliases": [
+        "データ前処理",
+        "前処理",
+        "Preprocessing"
+      ],
+      "original": "データ前処理"
+    },
+    {
+      "canonical": "機械学習",
+      "aliases": [
+        "学習",
+        "モデル学習",
+        "Training"
+      ],
+      "original": "学習"
+    },
+    {
+      "canonical": "バッチ処理",
+      "aliases": [
+        "バッチ処理",
+        "Batch Processing"
+      ],
+      "original": "バッチ処理"
+    },
+    {
+      "canonical": "データ基盤",
+      "aliases": [
+        "データ基盤",
+        "データプラットフォーム"
+      ],
+      "original": "データ基盤"
+    },
+    {
+      "canonical": "ストレージ",
+      "aliases": [
+        "ストレージ",
+        "Storage"
+      ],
+      "original": "ストレージ"
+    },
+    {
+      "canonical": "モデル管理",
+      "aliases": [
+        "モデル管理",
+        "Model Management",
+        "MLモデル管理"
+      ],
+      "original": "モデル管理"
+    },
+    {
+      "canonical": "ネットワーク冗長化",
+      "aliases": [
+        "NW冗長化技術",
+        "ネットワーク冗長化",
+        "冗長化"
+      ],
+      "original": "NW冗長化技術"
+    }
+  ],
+  "all_results": [
+    {
+      "skill": "要件定義",
+      "category": "process_skill"
+    },
+    {
+      "skill": "コミュニケーション能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "PMO",
+      "category": "process_skill"
+    },
+    {
+      "skill": "基本設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "AI",
+      "category": "tech_skill",
+      "canonical": "生成AI",
+      "aliases": [
+        "AI",
+        "人工知能"
+      ]
+    },
+    {
+      "skill": "Excel",
+      "category": "tech_skill",
+      "canonical": "Excel",
+      "aliases": [
+        "Microsoft Excel",
+        "MS Excel"
+      ]
+    },
+    {
+      "skill": "Git",
+      "category": "tech_skill",
+      "canonical": "Git",
+      "aliases": [
+        "git"
+      ]
+    },
+    {
+      "skill": "課題管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "進捗管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ネットワーク",
+      "category": "tech_skill",
+      "canonical": "ネットワーク",
+      "aliases": [
+        "NW",
+        "Network"
+      ]
+    },
+    {
+      "skill": "詳細設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PowerPoint",
+      "category": "tech_skill",
+      "canonical": "PowerPoint",
+      "aliases": [
+        "Microsoft PowerPoint",
+        "MS PowerPoint"
+      ]
+    },
+    {
+      "skill": "テスト",
+      "category": "process_skill"
+    },
+    {
+      "skill": "運用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "実装",
+      "category": "process_skill"
+    },
+    {
+      "skill": "React Native",
+      "category": "tech_skill",
+      "canonical": "React Native",
+      "aliases": [
+        "react-native"
+      ]
+    },
+    {
+      "skill": "C",
+      "category": "tech_skill",
+      "canonical": "C言語",
+      "aliases": [
+        "C",
+        "C language"
+      ]
+    },
+    {
+      "skill": "C++",
+      "category": "tech_skill",
+      "canonical": "C++",
+      "aliases": [
+        "CPP"
+      ]
+    },
+    {
+      "skill": "AI活用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "クラウド",
+      "category": "tech_skill",
+      "canonical": "クラウド",
+      "aliases": [
+        "Cloud",
+        "Cloud Computing"
+      ]
+    },
+    {
+      "skill": "ベンダーコントロール",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Iaasサーバー構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CICDの構築",
+      "category": "tech_skill",
+      "canonical": "CI/CD",
+      "aliases": [
+        "CICD",
+        "CI/CD構築"
+      ]
+    },
+    {
+      "skill": "通信設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Cloud",
+      "category": "tech_skill",
+      "canonical": "クラウド",
+      "aliases": [
+        "Cloud",
+        "クラウド"
+      ]
+    },
+    {
+      "skill": "PdM",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Laravel",
+      "category": "tech_skill",
+      "canonical": "Laravel",
+      "aliases": [
+        "laravel"
+      ]
+    },
+    {
+      "skill": "開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Next.js",
+      "category": "tech_skill",
+      "canonical": "Next.js",
+      "aliases": [
+        "Nextjs",
+        "next.js"
+      ]
+    },
+    {
+      "skill": "リスク管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PM",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Web系システム開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "運用設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Zabbix",
+      "category": "tech_skill",
+      "canonical": "Zabbix",
+      "aliases": [
+        "zabbix"
+      ]
+    },
+    {
+      "skill": "Thymeleaf",
+      "category": "tech_skill",
+      "canonical": "Thymeleaf",
+      "aliases": [
+        "thymeleaf"
+      ]
+    },
+    {
+      "skill": "JP1",
+      "category": "tech_skill",
+      "canonical": "JP1",
+      "aliases": [
+        "JP1/AJS",
+        "JP1 AJS3"
+      ]
+    },
+    {
+      "skill": "Webシステム開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Backlog",
+      "category": "tech_skill",
+      "canonical": "Backlog",
+      "aliases": [
+        "Nulab Backlog"
+      ]
+    },
+    {
+      "skill": "VMware vSphere",
+      "category": "tech_skill",
+      "canonical": "VMware vSphere",
+      "aliases": [
+        "vSphere"
+      ]
+    },
+    {
+      "skill": "VPC",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon VPC",
+        "VPC"
+      ]
+    },
+    {
+      "skill": "EC2",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon EC2",
+        "EC2"
+      ]
+    },
+    {
+      "skill": "S3",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon S3",
+        "S3"
+      ]
+    },
+    {
+      "skill": "インフラ設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "運用保守",
+      "category": "process_skill"
+    },
+    {
+      "skill": "OCI",
+      "category": "tech_skill",
+      "canonical": "OCI",
+      "aliases": [
+        "Oracle Cloud Infrastructure"
+      ]
+    },
+    {
+      "skill": "VMWare",
+      "category": "tech_skill",
+      "canonical": "VMware",
+      "aliases": [
+        "VMWare",
+        "VMware"
+      ]
+    },
+    {
+      "skill": "PowerShell",
+      "category": "tech_skill",
+      "canonical": "PowerShell",
+      "aliases": [
+        "powershell",
+        "pwsh"
+      ]
+    },
+    {
+      "skill": "RDBMS",
+      "category": "tech_skill",
+      "canonical": "RDBMS",
+      "aliases": [
+        "Relational Database",
+        "リレーショナルDB"
+      ]
+    },
+    {
+      "skill": "障害切り分け",
+      "category": "process_skill"
+    },
+    {
+      "skill": "VM設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ETL",
+      "category": "tech_skill",
+      "canonical": "ETL",
+      "aliases": [
+        "Extract Transform Load"
+      ]
+    },
+    {
+      "skill": "DWH",
+      "category": "tech_skill",
+      "canonical": "DWH",
+      "aliases": [
+        "Data Warehouse",
+        "データウェアハウス"
+      ]
+    },
+    {
+      "skill": "問い合わせ対応",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ビジネスメール",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ネットワーク設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "勤怠良好",
+      "category": "noise"
+    },
+    {
+      "skill": "ステークホルダー調整",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ウォーターフォール",
+      "category": "process_skill"
+    },
+    {
+      "skill": "データクレンジング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "GitHub",
+      "category": "tech_skill",
+      "canonical": "GitHub",
+      "aliases": [
+        "github"
+      ]
+    },
+    {
+      "skill": "Ruby on Rails",
+      "category": "tech_skill",
+      "canonical": "Ruby on Rails",
+      "aliases": [
+        "Rails",
+        "RoR"
+      ]
+    },
+    {
+      "skill": "評価",
+      "category": "process_skill"
+    },
+    {
+      "skill": "キッティング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "関係部署調整",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "論理的思考",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Snowflake",
+      "category": "tech_skill",
+      "canonical": "Snowflake",
+      "aliases": [
+        "snowflake"
+      ]
+    },
+    {
+      "skill": "コンサル",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "コミュニケーション良好な方",
+      "category": "noise"
+    },
+    {
+      "skill": "保守",
+      "category": "process_skill"
+    },
+    {
+      "skill": "アジャイル開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Oracle Database",
+      "category": "tech_skill",
+      "canonical": "Oracle",
+      "aliases": [
+        "Oracle Database",
+        "Oracle DB"
+      ]
+    },
+    {
+      "skill": "データ移行",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Databricks",
+      "category": "tech_skill",
+      "canonical": "Databricks",
+      "aliases": [
+        "databricks"
+      ]
+    },
+    {
+      "skill": "データベース分析",
+      "category": "process_skill"
+    },
+    {
+      "skill": "正規化",
+      "category": "process_skill"
+    },
+    {
+      "skill": "非正規化",
+      "category": "process_skill"
+    },
+    {
+      "skill": "新データベースレイアウト作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "DBA論理設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Power Platform",
+      "category": "tech_skill",
+      "canonical": "Power Platform",
+      "aliases": [
+        "Microsoft Power Platform"
+      ]
+    },
+    {
+      "skill": "Copilot",
+      "category": "tech_skill",
+      "canonical": "Copilot",
+      "aliases": [
+        "Microsoft Copilot",
+        "GitHub Copilot"
+      ]
+    },
+    {
+      "skill": "Zscaler",
+      "category": "tech_skill",
+      "canonical": "Zscaler",
+      "aliases": [
+        "zscaler"
+      ]
+    },
+    {
+      "skill": "Prisma Access",
+      "category": "tech_skill",
+      "canonical": "Prisma Access",
+      "aliases": [
+        "PrismaAccess"
+      ]
+    },
+    {
+      "skill": "担当機能の要件定義",
+      "category": "process_skill"
+    },
+    {
+      "skill": "設計レビュー",
+      "category": "process_skill"
+    },
+    {
+      "skill": "長期での参画が可能な方",
+      "category": "noise"
+    },
+    {
+      "skill": "マイグレーションのご経験(PHP→Java)",
+      "category": "process_skill"
+    },
+    {
+      "skill": "少人数(2,3人)であれば、リード可能な方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "L2／L3ネットワーク設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "NW案件推進",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ステークホルダーマネジメント",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Claude Code",
+      "category": "tech_skill",
+      "canonical": "Claude Code",
+      "aliases": [
+        "Claude code",
+        "ClaudeCode"
+      ]
+    },
+    {
+      "skill": "Codex",
+      "category": "tech_skill",
+      "canonical": "Codex",
+      "aliases": [
+        "OpenAI Codex",
+        "codex"
+      ]
+    },
+    {
+      "skill": "Cursor",
+      "category": "tech_skill",
+      "canonical": "Cursor",
+      "aliases": [
+        "cursor"
+      ]
+    },
+    {
+      "skill": "ルーティング（OSPF）",
+      "category": "tech_skill",
+      "canonical": "OSPF",
+      "aliases": [
+        "Open Shortest Path First",
+        "OSPF"
+      ]
+    },
+    {
+      "skill": "L3スイッチ設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "冗長化構成の理解",
+      "category": "tech_skill",
+      "canonical": "冗長化",
+      "aliases": [
+        "HA",
+        "高可用性"
+      ]
+    },
+    {
+      "skill": "コンフィグ読解",
+      "category": "process_skill"
+    },
+    {
+      "skill": "障害監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ログ監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "メトリクス監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "主体的に監視改善を推進できる方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "PythonによるAIエージェント開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "面談時に過去参画していた経歴を説明できる方",
+      "category": "noise"
+    },
+    {
+      "skill": "勤怠・体調面問題ない方",
+      "category": "noise"
+    },
+    {
+      "skill": "AWSまたはGCP環境の知見",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS",
+        "GCP知見"
+      ]
+    },
+    {
+      "skill": "指示待ちにならず自身から報連相を行い、主体的に動ける",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "インフラ構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ビジネス英語",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "要件定義書",
+      "category": "process_skill"
+    },
+    {
+      "skill": "設計書",
+      "category": "process_skill"
+    },
+    {
+      "skill": "テスト仕様書",
+      "category": "process_skill"
+    },
+    {
+      "skill": "コーディング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "コンフィグ設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "テスト実施",
+      "category": "process_skill"
+    },
+    {
+      "skill": "技術選定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Flutter",
+      "category": "tech_skill",
+      "canonical": "Flutter",
+      "aliases": [
+        "flutter"
+      ]
+    },
+    {
+      "skill": "基本設計書作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "NW機器（Router／SW／FW／LB）のコンフィグ理解",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Paloalto",
+      "category": "tech_skill",
+      "canonical": "Palo Alto Networks",
+      "aliases": [
+        "Paloalto",
+        "PaloAlto"
+      ]
+    },
+    {
+      "skill": "クラウド環境の構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PowerBI",
+      "category": "tech_skill",
+      "canonical": "Power BI",
+      "aliases": [
+        "PowerBI",
+        "Microsoft Power BI"
+      ]
+    },
+    {
+      "skill": "AVAYA-PBX",
+      "category": "tech_skill",
+      "canonical": "Avaya PBX",
+      "aliases": [
+        "AVAYA-PBX",
+        "Avaya"
+      ]
+    },
+    {
+      "skill": "設計書をもとに実装ができること",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Django",
+      "category": "tech_skill",
+      "canonical": "Django",
+      "aliases": [
+        "django"
+      ]
+    },
+    {
+      "skill": "Oracleクラスタ構成の設計/構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Windowsサーバ運用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "監視業務",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Struts",
+      "category": "tech_skill",
+      "canonical": "Struts",
+      "aliases": [
+        "Apache Struts"
+      ]
+    },
+    {
+      "skill": "Java基本設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "AWS設計構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "IaaS構成",
+      "category": "tech_skill",
+      "canonical": "IaaS",
+      "aliases": [
+        "Infrastructure as a Service"
+      ]
+    },
+    {
+      "skill": "ウォーターフォール開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "前向きでコミュニケーション良好な方",
+      "category": "noise"
+    },
+    {
+      "skill": "Android",
+      "category": "tech_skill",
+      "canonical": "Android",
+      "aliases": [
+        "android"
+      ]
+    },
+    {
+      "skill": "企画書やアイデアを基に、必要なハードウェア、ソフトウェア、ネットワーク環境を割り出し、システム構成図に落とし込めるスキル・知見",
+      "category": "process_skill"
+    },
+    {
+      "skill": "インタラクティブ開発ツール（Unity",
+      "category": "noise"
+    },
+    {
+      "skill": "Unreal Engine",
+      "category": "tech_skill",
+      "canonical": "Unreal Engine",
+      "aliases": [
+        "UE",
+        "UE4",
+        "UE5"
+      ]
+    },
+    {
+      "skill": "TouchDesignerなど）に関する幅広い知見",
+      "category": "tech_skill",
+      "canonical": "TouchDesigner",
+      "aliases": [
+        "TouchDesigner"
+      ]
+    },
+    {
+      "skill": "システム開発の流れ理解",
+      "category": "process_skill"
+    },
+    {
+      "skill": "構成管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "プロジェクト管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "手順書作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Azure Repos",
+      "category": "tech_skill",
+      "canonical": "Azure Repos",
+      "aliases": [
+        "Repos"
+      ]
+    },
+    {
+      "skill": "Azure DevOps",
+      "category": "tech_skill",
+      "canonical": "Azure DevOps",
+      "aliases": [
+        "AzDO"
+      ]
+    },
+    {
+      "skill": "Jira",
+      "category": "tech_skill",
+      "canonical": "Jira",
+      "aliases": [
+        "JIRA"
+      ]
+    },
+    {
+      "skill": "SharePoint",
+      "category": "tech_skill",
+      "canonical": "SharePoint",
+      "aliases": [
+        "Microsoft SharePoint"
+      ]
+    },
+    {
+      "skill": "Visual Studio",
+      "category": "tech_skill",
+      "canonical": "Visual Studio",
+      "aliases": [
+        "VS"
+      ]
+    },
+    {
+      "skill": "Visual Studio Code",
+      "category": "tech_skill",
+      "canonical": "Visual Studio Code",
+      "aliases": [
+        "VS Code",
+        "vscode"
+      ]
+    },
+    {
+      "skill": "IntelliJ",
+      "category": "tech_skill",
+      "canonical": "IntelliJ IDEA",
+      "aliases": [
+        "IntelliJ"
+      ]
+    },
+    {
+      "skill": "Eclipse",
+      "category": "tech_skill",
+      "canonical": "Eclipse",
+      "aliases": [
+        "Eclipse IDE"
+      ]
+    },
+    {
+      "skill": "アプリケーション開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "プロジェクトマネジメント",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "自ら課題を発見し改善提案できる方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "インフラ設計/構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PCキッティング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ヘルプデスク作業",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ESXi",
+      "category": "tech_skill",
+      "canonical": "VMware ESXi",
+      "aliases": [
+        "ESXi"
+      ]
+    },
+    {
+      "skill": "vCenter",
+      "category": "tech_skill",
+      "canonical": "VMware vCenter",
+      "aliases": [
+        "vCenter Server",
+        "vCenter"
+      ]
+    },
+    {
+      "skill": "移行",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CLI",
+      "category": "tech_skill",
+      "canonical": "CLI",
+      "aliases": [
+        "Command Line Interface"
+      ]
+    },
+    {
+      "skill": "RDS",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon RDS",
+        "RDS"
+      ]
+    },
+    {
+      "skill": "シェルスクリプト",
+      "category": "tech_skill",
+      "canonical": "Shell",
+      "aliases": [
+        "シェルスクリプト",
+        "Shell Script",
+        "bash"
+      ]
+    },
+    {
+      "skill": "無線LAN機器（Cisco）",
+      "category": "tech_skill",
+      "canonical": "Cisco",
+      "aliases": [
+        "Cisco Wireless",
+        "無線LAN機器（Cisco）"
+      ]
+    },
+    {
+      "skill": "ファイアウォール（PaloAlto、Fortigate）",
+      "category": "tech_skill",
+      "canonical": "FortiGate",
+      "aliases": [
+        "PaloAlto",
+        "FortiGate",
+        "Firewall"
+      ]
+    },
+    {
+      "skill": "負荷分散装置（A10）",
+      "category": "tech_skill",
+      "canonical": "A10",
+      "aliases": [
+        "A10 Networks",
+        "ADC"
+      ]
+    },
+    {
+      "skill": "ルート（NECIX）",
+      "category": "tech_skill",
+      "canonical": "NEC IX",
+      "aliases": [
+        "NECIX",
+        "NEC IX"
+      ]
+    },
+    {
+      "skill": "サーバ/端末構築（RHEL、Windows）",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Entra ID",
+      "category": "tech_skill",
+      "canonical": "Microsoft Entra ID",
+      "aliases": [
+        "Azure AD",
+        "Entra ID"
+      ]
+    },
+    {
+      "skill": "Intune",
+      "category": "tech_skill",
+      "canonical": "Microsoft Intune",
+      "aliases": [
+        "Intune"
+      ]
+    },
+    {
+      "skill": "NWまたはサーバ",
+      "category": "tech_skill",
+      "canonical": "サーバ",
+      "aliases": [
+        "NW",
+        "サーバ"
+      ]
+    },
+    {
+      "skill": "システムの操作",
+      "category": "process_skill"
+    },
+    {
+      "skill": "トラブルシューティング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "スクリプト",
+      "category": "tech_skill",
+      "canonical": "スクリプト",
+      "aliases": [
+        "script",
+        "scripting"
+      ]
+    },
+    {
+      "skill": "Windows Server 2016～2022",
+      "category": "tech_skill",
+      "canonical": "Windows Server",
+      "aliases": [
+        "Windows Server 2016",
+        "Windows Server 2019",
+        "Windows Server 2022"
+      ]
+    },
+    {
+      "skill": "RHEL7,8,9",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "RHEL",
+        "Red Hat Enterprise Linux",
+        "RHEL7",
+        "RHEL8",
+        "RHEL9"
+      ]
+    },
+    {
+      "skill": "JP1 AJS3",
+      "category": "tech_skill",
+      "canonical": "JP1",
+      "aliases": [
+        "JP1 AJS3",
+        "AJS3"
+      ]
+    },
+    {
+      "skill": "Objective-C",
+      "category": "tech_skill",
+      "canonical": "Objective-C",
+      "aliases": [
+        "Obj-C"
+      ]
+    },
+    {
+      "skill": "SASE",
+      "category": "tech_skill",
+      "canonical": "SASE",
+      "aliases": [
+        "Secure Access Service Edge"
+      ]
+    },
+    {
+      "skill": "PrismaAccess",
+      "category": "tech_skill",
+      "canonical": "Prisma Access",
+      "aliases": [
+        "PrismaAccess",
+        "Prisma Access"
+      ]
+    },
+    {
+      "skill": "CloudWatch",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon CloudWatch",
+        "CloudWatch"
+      ]
+    },
+    {
+      "skill": "EventBridge",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon EventBridge",
+        "EventBridge"
+      ]
+    },
+    {
+      "skill": "監視設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "GPU基盤構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "NVIDIA",
+      "category": "tech_skill",
+      "canonical": "NVIDIA",
+      "aliases": [
+        "NVIDIA GPU"
+      ]
+    },
+    {
+      "skill": "クラスタ設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "セキュリティ基盤強化",
+      "category": "process_skill"
+    },
+    {
+      "skill": "IGA",
+      "category": "tech_skill",
+      "canonical": "IGA",
+      "aliases": [
+        "Identity Governance and Administration"
+      ]
+    },
+    {
+      "skill": "マイクロセグメンテーション",
+      "category": "tech_skill",
+      "canonical": "マイクロセグメンテーション",
+      "aliases": [
+        "Microsegmentation"
+      ]
+    },
+    {
+      "skill": "GRC",
+      "category": "tech_skill",
+      "canonical": "GRC",
+      "aliases": [
+        "Governance Risk Compliance"
+      ]
+    },
+    {
+      "skill": "CRQ",
+      "category": "tech_skill",
+      "canonical": "CRQ",
+      "aliases": [
+        "Change Request"
+      ]
+    },
+    {
+      "skill": "情報キャッチアップを主体的に行い、指示待ちではなく自走できる方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ネットワークの企画・設計・構築・運用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PM/PL/PMO",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "課題整理力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "自走できる能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ドキュメント作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "財務会計",
+      "category": "domain"
+    },
+    {
+      "skill": "管理会計",
+      "category": "domain"
+    },
+    {
+      "skill": "決算業務",
+      "category": "domain"
+    },
+    {
+      "skill": "債権債務管理",
+      "category": "domain"
+    },
+    {
+      "skill": "主要システムの管理運用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "アカウントやアクセス権限の管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PCトラブル対応",
+      "category": "process_skill"
+    },
+    {
+      "skill": "システムの選定と導入検証",
+      "category": "process_skill"
+    },
+    {
+      "skill": "システム連携",
+      "category": "process_skill"
+    },
+    {
+      "skill": "運用管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Unity(C#)",
+      "category": "tech_skill",
+      "canonical": "Unity",
+      "aliases": [
+        "Unity",
+        "Unity(C#)"
+      ]
+    },
+    {
+      "skill": "環境構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "プログラミング",
+      "category": "process_skill"
+    },
+    {
+      "skill": "LAMP環境",
+      "category": "tech_skill",
+      "canonical": "LAMP",
+      "aliases": [
+        "Linux Apache MySQL PHP",
+        "LAMP環境"
+      ]
+    },
+    {
+      "skill": "Spring boot 3",
+      "category": "tech_skill",
+      "canonical": "Spring",
+      "aliases": [
+        "Spring Boot",
+        "Spring Boot 3"
+      ]
+    },
+    {
+      "skill": "GitLab",
+      "category": "tech_skill",
+      "canonical": "GitLab",
+      "aliases": [
+        "gitlab"
+      ]
+    },
+    {
+      "skill": "DDL",
+      "category": "tech_skill",
+      "canonical": "SQL",
+      "aliases": [
+        "DDL",
+        "Data Definition Language"
+      ]
+    },
+    {
+      "skill": "DML",
+      "category": "tech_skill",
+      "canonical": "SQL",
+      "aliases": [
+        "DML",
+        "Data Manipulation Language"
+      ]
+    },
+    {
+      "skill": "Claude code",
+      "category": "tech_skill",
+      "canonical": "Claude Code",
+      "aliases": [
+        "Claude code",
+        "Claude Code"
+      ]
+    },
+    {
+      "skill": "AI Agent",
+      "category": "tech_skill",
+      "canonical": "AI Agent",
+      "aliases": [
+        "AIエージェント",
+        "Agentic AI"
+      ]
+    },
+    {
+      "skill": "サーバー",
+      "category": "tech_skill",
+      "canonical": "サーバ",
+      "aliases": [
+        "サーバー",
+        "Server"
+      ]
+    },
+    {
+      "skill": "原因特定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "外部調整",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "内部調整",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Word",
+      "category": "tech_skill",
+      "canonical": "Word",
+      "aliases": [
+        "Microsoft Word",
+        "MS Word"
+      ]
+    },
+    {
+      "skill": "NetView",
+      "category": "tech_skill",
+      "canonical": "NetView",
+      "aliases": [
+        "IBM NetView"
+      ]
+    },
+    {
+      "skill": "SA",
+      "category": "noise"
+    },
+    {
+      "skill": "REXX",
+      "category": "tech_skill",
+      "canonical": "REXX",
+      "aliases": [
+        "REXX"
+      ]
+    },
+    {
+      "skill": "CLIST",
+      "category": "tech_skill",
+      "canonical": "CLIST",
+      "aliases": [
+        "CLIST"
+      ]
+    },
+    {
+      "skill": "MSGTBL",
+      "category": "tech_skill",
+      "canonical": "MSGTBL",
+      "aliases": [
+        "Message Table",
+        "MSGTBL"
+      ]
+    },
+    {
+      "skill": "Figma",
+      "category": "tech_skill",
+      "canonical": "Figma",
+      "aliases": [
+        "figma"
+      ]
+    },
+    {
+      "skill": "Adobe Creative Cloud",
+      "category": "tech_skill",
+      "canonical": "Adobe Creative Cloud",
+      "aliases": [
+        "Adobe CC",
+        "Creative Cloud"
+      ]
+    },
+    {
+      "skill": "CCNA以上の資格",
+      "category": "cert"
+    },
+    {
+      "skill": "ネットワーク構成図の理解",
+      "category": "process_skill"
+    },
+    {
+      "skill": "サーバ",
+      "category": "tech_skill",
+      "canonical": "サーバ",
+      "aliases": [
+        "Server",
+        "サーバー"
+      ]
+    },
+    {
+      "skill": "認証",
+      "category": "tech_skill",
+      "canonical": "認証",
+      "aliases": [
+        "Authentication",
+        "AuthN"
+      ]
+    },
+    {
+      "skill": "夜勤対応",
+      "category": "noise"
+    },
+    {
+      "skill": "EC",
+      "category": "domain"
+    },
+    {
+      "skill": "Webマーケティング",
+      "category": "domain"
+    },
+    {
+      "skill": "SNS",
+      "category": "domain"
+    },
+    {
+      "skill": "広告運用",
+      "category": "domain"
+    },
+    {
+      "skill": "SEO",
+      "category": "domain"
+    },
+    {
+      "skill": "非機能要件および可用性設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Red Hat Enterprise Linux の基本設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "スクリプトの作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Grafanaダッシュボード作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "アラート設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "JSONファイル理解",
+      "category": "tech_skill",
+      "canonical": "JSON",
+      "aliases": [
+        "JSONファイル",
+        "JavaScript Object Notation"
+      ]
+    },
+    {
+      "skill": "システム調整",
+      "category": "process_skill"
+    },
+    {
+      "skill": "基幹系システム",
+      "category": "domain"
+    },
+    {
+      "skill": "勤怠工数管理システム",
+      "category": "domain"
+    },
+    {
+      "skill": "経費精算システム",
+      "category": "domain"
+    },
+    {
+      "skill": "人事マスタシステム",
+      "category": "domain"
+    },
+    {
+      "skill": "システム運用設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "QA",
+      "category": "process_skill"
+    },
+    {
+      "skill": "サイボウズオフィス",
+      "category": "tech_skill",
+      "canonical": "サイボウズ Office",
+      "aliases": [
+        "サイボウズオフィス"
+      ]
+    },
+    {
+      "skill": "kintoneの有識者",
+      "category": "tech_skill",
+      "canonical": "kintone",
+      "aliases": [
+        "Kintone",
+        "kintone"
+      ]
+    },
+    {
+      "skill": "関係各所との調整",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "一人称で動ける方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "保険料計算機能のシステム化対応",
+      "category": "domain"
+    },
+    {
+      "skill": "調査分析",
+      "category": "process_skill"
+    },
+    {
+      "skill": "資料作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "現地対応",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Linux操作",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "Linux操作",
+        "Linux"
+      ]
+    },
+    {
+      "skill": "運用保守業務",
+      "category": "process_skill"
+    },
+    {
+      "skill": "日常業務でAIを活用",
+      "category": "process_skill"
+    },
+    {
+      "skill": "端末管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "アカウント管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "議事録作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "SAP ECC6.0",
+      "category": "tech_skill",
+      "canonical": "SAP",
+      "aliases": [
+        "SAP ECC6.0",
+        "ECC6"
+      ]
+    },
+    {
+      "skill": "資源監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "OS管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ABAP",
+      "category": "tech_skill",
+      "canonical": "ABAP",
+      "aliases": [
+        "SAP ABAP",
+        "ABAP"
+      ]
+    },
+    {
+      "skill": "ジョブ管理ツール",
+      "category": "tech_skill",
+      "canonical": "ジョブ管理ツール",
+      "aliases": [
+        "Job Scheduler",
+        "Workload Scheduler"
+      ]
+    },
+    {
+      "skill": "Linux環境でのインフラ設計/構築実務",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CLIによるOS設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "インフラに留まらず、アプリ層のエンジニアと密に連携し、技術的な相談対応ができるコミュニケーション力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "インフラ刷新",
+      "category": "process_skill"
+    },
+    {
+      "skill": "導入のプロジェクト推進",
+      "category": "process_skill"
+    },
+    {
+      "skill": "各種ドキュメント作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "高いコミュニケーション能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "関数",
+      "category": "tech_skill",
+      "canonical": "関数",
+      "aliases": [
+        "Function",
+        "Excel関数"
+      ]
+    },
+    {
+      "skill": "MSoffice",
+      "category": "tech_skill",
+      "canonical": "Microsoft Office",
+      "aliases": [
+        "MS Office",
+        "MSoffice",
+        "MSオフィス"
+      ]
+    },
+    {
+      "skill": "リモート接続",
+      "category": "tech_skill",
+      "canonical": "リモート接続",
+      "aliases": [
+        "Remote Access",
+        "RDP",
+        "VPN接続"
+      ]
+    },
+    {
+      "skill": "サーバ操作",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Excel操作",
+      "category": "process_skill"
+    },
+    {
+      "skill": "長期参画",
+      "category": "noise"
+    },
+    {
+      "skill": "クラウド（OCI/AWS/Azure）",
+      "category": "tech_skill",
+      "canonical": "クラウド",
+      "aliases": [
+        "OCI",
+        "AWS",
+        "Azure"
+      ]
+    },
+    {
+      "skill": "Dr.Sum",
+      "category": "tech_skill",
+      "canonical": "Dr.Sum",
+      "aliases": [
+        "Dr.Sum"
+      ]
+    },
+    {
+      "skill": "ASTERIA",
+      "category": "tech_skill",
+      "canonical": "ASTERIA Warp",
+      "aliases": [
+        "ASTERIA",
+        "Asteria Warp"
+      ]
+    },
+    {
+      "skill": "cmd",
+      "category": "tech_skill",
+      "canonical": "CLI",
+      "aliases": [
+        "cmd",
+        "Command Prompt"
+      ]
+    },
+    {
+      "skill": "powershell",
+      "category": "tech_skill",
+      "canonical": "PowerShell",
+      "aliases": [
+        "powershell",
+        "PowerShell"
+      ]
+    },
+    {
+      "skill": "Ciscoインフラ",
+      "category": "tech_skill",
+      "canonical": "Cisco",
+      "aliases": [
+        "Ciscoインフラ",
+        "Cisco"
+      ]
+    },
+    {
+      "skill": "基本的なドキュメント作成能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "日本語ビジネスレベル",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "英語ビジネスレベル",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "品質管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "調達",
+      "category": "domain"
+    },
+    {
+      "skill": "生産",
+      "category": "domain"
+    },
+    {
+      "skill": "原価管理",
+      "category": "domain"
+    },
+    {
+      "skill": "SAP MMの知見",
+      "category": "tech_skill",
+      "canonical": "SAP",
+      "aliases": [
+        "SAP MM",
+        "Materials Management"
+      ]
+    },
+    {
+      "skill": "PySpark",
+      "category": "tech_skill",
+      "canonical": "PySpark",
+      "aliases": [
+        "pyspark"
+      ]
+    },
+    {
+      "skill": "開発方針の検討",
+      "category": "process_skill"
+    },
+    {
+      "skill": "業務自動化ロボットの設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CSV",
+      "category": "tech_skill",
+      "canonical": "CSV",
+      "aliases": [
+        "Comma-Separated Values",
+        "CSVファイル"
+      ]
+    },
+    {
+      "skill": "Mail",
+      "category": "tech_skill",
+      "canonical": "メール",
+      "aliases": [
+        "Mail",
+        "E-mail",
+        "電子メール"
+      ]
+    },
+    {
+      "skill": "例外処理",
+      "category": "tech_skill",
+      "canonical": "例外処理",
+      "aliases": [
+        "Exception Handling"
+      ]
+    },
+    {
+      "skill": "ログ出力",
+      "category": "tech_skill",
+      "canonical": "ログ",
+      "aliases": [
+        "ログ出力",
+        "Logging"
+      ]
+    },
+    {
+      "skill": "トランザクション設計の理解",
+      "category": "process_skill"
+    },
+    {
+      "skill": "要件に応じた開発・改修を自走できること",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ジョブ実行",
+      "category": "process_skill"
+    },
+    {
+      "skill": "スケジュール",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ユーザー権限",
+      "category": "tech_skill",
+      "canonical": "認可",
+      "aliases": [
+        "Authorization",
+        "ユーザー権限"
+      ]
+    },
+    {
+      "skill": "実行環境の基本理解",
+      "category": "tech_skill",
+      "canonical": "実行環境",
+      "aliases": [
+        "Runtime Environment"
+      ]
+    },
+    {
+      "skill": "運用手順書",
+      "category": "process_skill"
+    },
+    {
+      "skill": "アジャイル",
+      "category": "process_skill"
+    },
+    {
+      "skill": "データ加工",
+      "category": "process_skill"
+    },
+    {
+      "skill": "UIKit",
+      "category": "tech_skill",
+      "canonical": "UIKit",
+      "aliases": [
+        "UIKit"
+      ]
+    },
+    {
+      "skill": "WebView",
+      "category": "tech_skill",
+      "canonical": "WebView",
+      "aliases": [
+        "UIWebView",
+        "WKWebView",
+        "WebView"
+      ]
+    },
+    {
+      "skill": "Firebase Cloud Messaging",
+      "category": "tech_skill",
+      "canonical": "Firebase Cloud Messaging",
+      "aliases": [
+        "FCM"
+      ]
+    },
+    {
+      "skill": "LocalAuthentication",
+      "category": "tech_skill",
+      "canonical": "LocalAuthentication",
+      "aliases": [
+        "Apple LocalAuthentication"
+      ]
+    },
+    {
+      "skill": "App Store申請・リジェクト対応",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CoreNFC",
+      "category": "tech_skill",
+      "canonical": "CoreNFC",
+      "aliases": [
+        "Apple CoreNFC"
+      ]
+    },
+    {
+      "skill": "eKYC SDK",
+      "category": "tech_skill",
+      "canonical": "eKYC SDK",
+      "aliases": [
+        "eKYC"
+      ]
+    },
+    {
+      "skill": "SAPパブリッククラウド",
+      "category": "tech_skill",
+      "canonical": "SAP",
+      "aliases": [
+        "SAP Public Cloud"
+      ]
+    },
+    {
+      "skill": "SAP S/4 HANA",
+      "category": "tech_skill",
+      "canonical": "SAP",
+      "aliases": [
+        "SAP S/4HANA",
+        "S4 HANA"
+      ]
+    },
+    {
+      "skill": "BootStrap",
+      "category": "tech_skill",
+      "canonical": "Bootstrap",
+      "aliases": [
+        "BootStrap",
+        "bootstrap"
+      ]
+    },
+    {
+      "skill": "AM",
+      "category": "noise"
+    },
+    {
+      "skill": "ALB",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Application Load Balancer",
+        "ALB"
+      ]
+    },
+    {
+      "skill": "NLB",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Network Load Balancer",
+        "NLB"
+      ]
+    },
+    {
+      "skill": "TGW",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Transit Gateway",
+        "TGW"
+      ]
+    },
+    {
+      "skill": "Direct Connect",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS Direct Connect",
+        "Direct Connect"
+      ]
+    },
+    {
+      "skill": "英語の読み書き能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "プログラム管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "報告業務",
+      "category": "process_skill"
+    },
+    {
+      "skill": "大規模変革プログラム",
+      "category": "process_skill"
+    },
+    {
+      "skill": "エンタープライズプログラム",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CXO",
+      "category": "noise"
+    },
+    {
+      "skill": "上級リーダーシップ",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "日本語ネイティブ",
+      "category": "noise"
+    },
+    {
+      "skill": "英会話（日常会話レベル）",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "文章・口頭コミュニケーション能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "エグゼクティブ資料作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "プログラム・プロジェクト管理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ツール & テクノロジー",
+      "category": "noise"
+    },
+    {
+      "skill": "構造化した技術仕様の記述能力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Webアプリケーション開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "AWS Lambda",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Lambda",
+        "AWS Lambda"
+      ]
+    },
+    {
+      "skill": "ECS",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon ECS",
+        "ECS"
+      ]
+    },
+    {
+      "skill": "Database",
+      "category": "tech_skill",
+      "canonical": "データベース",
+      "aliases": [
+        "Database",
+        "DB"
+      ]
+    },
+    {
+      "skill": "Network",
+      "category": "tech_skill",
+      "canonical": "ネットワーク",
+      "aliases": [
+        "Network",
+        "NW"
+      ]
+    },
+    {
+      "skill": "アーキテクト",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "AI駆動",
+      "category": "process_skill"
+    },
+    {
+      "skill": "LinuxOS",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "LinuxOS",
+        "Linux OS"
+      ]
+    },
+    {
+      "skill": "Amazon Aurora",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Aurora",
+        "Amazon Aurora"
+      ]
+    },
+    {
+      "skill": "Redis",
+      "category": "tech_skill",
+      "canonical": "Redis",
+      "aliases": [
+        "redis"
+      ]
+    },
+    {
+      "skill": "JSP",
+      "category": "tech_skill",
+      "canonical": "JSP",
+      "aliases": [
+        "JavaServer Pages",
+        "JSP",
+        "jsp"
+      ]
+    },
+    {
+      "skill": "英語力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "心身ともに健康な方",
+      "category": "noise"
+    },
+    {
+      "skill": "社会人経験最低2年",
+      "category": "noise"
+    },
+    {
+      "skill": "長期参画が可能な方",
+      "category": "noise"
+    },
+    {
+      "skill": "MSオフィス",
+      "category": "tech_skill",
+      "canonical": "Microsoft Office",
+      "aliases": [
+        "MSオフィス",
+        "MS Office"
+      ]
+    },
+    {
+      "skill": "エンドユーザ向けの定着化支援",
+      "category": "process_skill"
+    },
+    {
+      "skill": "システム企画",
+      "category": "process_skill"
+    },
+    {
+      "skill": "AWS CDK",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS CDK",
+        "Cloud Development Kit"
+      ]
+    },
+    {
+      "skill": "Windowsアプリ開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "社内システムの構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "メールのセキュリティ",
+      "category": "tech_skill",
+      "canonical": "メールセキュリティ",
+      "aliases": [
+        "Mail Security",
+        "Email Security"
+      ]
+    },
+    {
+      "skill": "アプリ開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "EKS",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "Amazon EKS",
+        "EKS"
+      ]
+    },
+    {
+      "skill": "jsp",
+      "category": "tech_skill",
+      "canonical": "JSP",
+      "aliases": [
+        "jsp",
+        "JSP"
+      ]
+    },
+    {
+      "skill": "製品調査",
+      "category": "process_skill"
+    },
+    {
+      "skill": "利活用イメージ",
+      "category": "noise"
+    },
+    {
+      "skill": "AI基盤のグランドデザイン策定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "仮説思考",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "論点整理",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ネットワークプロトコル（TCP/IP、HTTPなど）の理解",
+      "category": "tech_skill",
+      "canonical": "ネットワークプロトコル",
+      "aliases": [
+        "TCP/IP",
+        "HTTP",
+        "Network Protocol"
+      ]
+    },
+    {
+      "skill": "セキュリティ業界で勤務することへの強い興味、勉強意欲",
+      "category": "noise"
+    },
+    {
+      "skill": "SOCやMSSでのセキュリティアラート解析",
+      "category": "process_skill"
+    },
+    {
+      "skill": "損害保険",
+      "category": "domain"
+    },
+    {
+      "skill": "保険金支払",
+      "category": "domain"
+    },
+    {
+      "skill": "Azure/VM設定",
+      "category": "process_skill"
+    },
+    {
+      "skill": "能動的にキャッチアップできる方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ゲーム系",
+      "category": "domain"
+    },
+    {
+      "skill": "プランナー",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "ディレクション",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "丁寧な言葉遣い",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "最低限のITリテラシー",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "販売・営業職に対する抵抗がない",
+      "category": "noise"
+    },
+    {
+      "skill": "PMO補佐",
+      "category": "process_skill"
+    },
+    {
+      "skill": "UI/UXデザイン",
+      "category": "tech_skill",
+      "canonical": "UI/UXデザイン",
+      "aliases": [
+        "UI Design",
+        "UX Design",
+        "UI/UX"
+      ]
+    },
+    {
+      "skill": "HULFT",
+      "category": "tech_skill",
+      "canonical": "HULFT",
+      "aliases": [
+        "hulft"
+      ]
+    },
+    {
+      "skill": "MQ",
+      "category": "tech_skill",
+      "canonical": "MQ",
+      "aliases": [
+        "Message Queue",
+        "IBM MQ",
+        "MQ"
+      ]
+    },
+    {
+      "skill": "RHEL",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "RHEL",
+        "Red Hat Enterprise Linux"
+      ]
+    },
+    {
+      "skill": "FTP",
+      "category": "tech_skill",
+      "canonical": "FTP",
+      "aliases": [
+        "File Transfer Protocol",
+        "FTP"
+      ]
+    },
+    {
+      "skill": "Nextjs",
+      "category": "tech_skill",
+      "canonical": "Next.js",
+      "aliases": [
+        "Nextjs",
+        "Next.js"
+      ]
+    },
+    {
+      "skill": "WAS（WebSphere Application Server）における基本設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "長期で稼働できる方",
+      "category": "noise"
+    },
+    {
+      "skill": "Nuxt.js",
+      "category": "tech_skill",
+      "canonical": "Nuxt.js",
+      "aliases": [
+        "Nuxt",
+        "nuxt.js"
+      ]
+    },
+    {
+      "skill": "IT運用保守",
+      "category": "process_skill"
+    },
+    {
+      "skill": "セキュリティ",
+      "category": "tech_skill",
+      "canonical": "セキュリティ",
+      "aliases": [
+        "Security",
+        "情報セキュリティ"
+      ]
+    },
+    {
+      "skill": "DNS",
+      "category": "tech_skill",
+      "canonical": "DNS",
+      "aliases": [
+        "Domain Name System",
+        "DNS"
+      ]
+    },
+    {
+      "skill": "システム導入",
+      "category": "process_skill"
+    },
+    {
+      "skill": "UNIX",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "UNIX",
+        "Unix系OS"
+      ]
+    },
+    {
+      "skill": "ジョブスケジューラ",
+      "category": "tech_skill",
+      "canonical": "ジョブスケジューラ",
+      "aliases": [
+        "Job Scheduler",
+        "ジョブ管理",
+        "ジョブ管理ツール"
+      ]
+    },
+    {
+      "skill": "ExcelVBA",
+      "category": "tech_skill",
+      "canonical": "Excel VBA",
+      "aliases": [
+        "ExcelVBA",
+        "VBA",
+        "Excelマクロ"
+      ]
+    },
+    {
+      "skill": "業務システム開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "業務効率化",
+      "category": "process_skill"
+    },
+    {
+      "skill": "インフラ監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "マニュアル作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "Selenium",
+      "category": "tech_skill",
+      "canonical": "Selenium",
+      "aliases": [
+        "Selenium"
+      ]
+    },
+    {
+      "skill": "Playwright",
+      "category": "tech_skill",
+      "canonical": "Playwright",
+      "aliases": [
+        "Playwright"
+      ]
+    },
+    {
+      "skill": "業務システムの要件定義",
+      "category": "process_skill"
+    },
+    {
+      "skill": "バックエンド側開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "DB運用保守",
+      "category": "process_skill"
+    },
+    {
+      "skill": "RAC",
+      "category": "tech_skill",
+      "canonical": "Oracle",
+      "aliases": [
+        "RAC",
+        "Oracle RAC",
+        "Real Application Clusters"
+      ]
+    },
+    {
+      "skill": "Androidアプリの開発",
+      "category": "tech_skill",
+      "canonical": "Android",
+      "aliases": [
+        "Androidアプリ開発",
+        "Androidアプリの開発"
+      ]
+    },
+    {
+      "skill": "ネットワーク要件定義",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ベンダコントロール",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "設計書レビュー",
+      "category": "process_skill"
+    },
+    {
+      "skill": "ドキュメント読解力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "LMM",
+      "category": "noise"
+    },
+    {
+      "skill": "インフラ基盤の環境構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "基本設計自走できる人",
+      "category": "process_skill"
+    },
+    {
+      "skill": "MS365 Copilot",
+      "category": "tech_skill",
+      "canonical": "Microsoft 365",
+      "aliases": [
+        "MS365 Copilot",
+        "Microsoft 365 Copilot",
+        "Copilot for Microsoft 365"
+      ]
+    },
+    {
+      "skill": "システム運用保守",
+      "category": "process_skill"
+    },
+    {
+      "skill": "M365管理運用",
+      "category": "tech_skill",
+      "canonical": "Microsoft 365",
+      "aliases": [
+        "M365管理運用",
+        "Microsoft 365管理運用",
+        "M365"
+      ]
+    },
+    {
+      "skill": "システム開発または運用における上流工程",
+      "category": "process_skill"
+    },
+    {
+      "skill": "PL",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "EMLinuxの知見",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "EMLinux",
+        "組み込みLinux",
+        "Embedded Linux"
+      ]
+    },
+    {
+      "skill": "SC周りのFDS/CS品質チェック",
+      "category": "noise"
+    },
+    {
+      "skill": "サイドカーの知見",
+      "category": "tech_skill",
+      "canonical": "サイドカー",
+      "aliases": [
+        "サイドカー",
+        "Sidecar"
+      ]
+    },
+    {
+      "skill": "IBPにおけるデータ要件定義",
+      "category": "process_skill"
+    },
+    {
+      "skill": "データマッピング",
+      "category": "tech_skill",
+      "canonical": "データマッピング",
+      "aliases": [
+        "データマッピング",
+        "Data Mapping"
+      ]
+    },
+    {
+      "skill": "商品企画",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "UX",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Winサーバ設計構築",
+      "category": "tech_skill",
+      "canonical": "Windows Server",
+      "aliases": [
+        "Winサーバ設計構築",
+        "Windowsサーバ設計構築",
+        "Windows Server設計構築"
+      ]
+    },
+    {
+      "skill": "DS8K設計構築",
+      "category": "tech_skill",
+      "canonical": "DS8000",
+      "aliases": [
+        "DS8K",
+        "IBM DS8K",
+        "IBM DS8000"
+      ]
+    },
+    {
+      "skill": "DISK更改",
+      "category": "process_skill"
+    },
+    {
+      "skill": "サーバ構築",
+      "category": "process_skill"
+    },
+    {
+      "skill": "NAT",
+      "category": "tech_skill",
+      "canonical": "NAT",
+      "aliases": [
+        "NAT",
+        "Network Address Translation"
+      ]
+    },
+    {
+      "skill": "電話対応",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "Shopify",
+      "category": "tech_skill",
+      "canonical": "Shopify",
+      "aliases": [
+        "Shopify"
+      ]
+    },
+    {
+      "skill": "EC領域",
+      "category": "domain"
+    },
+    {
+      "skill": "大規模システム開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "AWS設計・構築",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS設計・構築",
+        "AWS構築",
+        "AWS設計"
+      ]
+    },
+    {
+      "skill": "CloudFormation",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "CloudFormation",
+        "AWS CloudFormation"
+      ]
+    },
+    {
+      "skill": "Microsoft Office",
+      "category": "tech_skill",
+      "canonical": "Microsoft Office",
+      "aliases": [
+        "Microsoft Office",
+        "MS Office",
+        "Office"
+      ]
+    },
+    {
+      "skill": "正確性",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "業務要件に基づくデータモデリング",
+      "category": "tech_skill",
+      "canonical": "データモデリング",
+      "aliases": [
+        "データモデリング",
+        "業務要件に基づくデータモデリング",
+        "Data Modeling"
+      ]
+    },
+    {
+      "skill": "顧客課題を深掘りし本質的な対話ができるコンサルティング力",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "UI/UX設計",
+      "category": "process_skill"
+    },
+    {
+      "skill": "SE",
+      "category": "noise"
+    },
+    {
+      "skill": "PG",
+      "category": "noise"
+    },
+    {
+      "skill": "チーム進捗管理",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "インフラ（AWS）",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "インフラ（AWS）",
+        "AWSインフラ"
+      ]
+    },
+    {
+      "skill": "Access",
+      "category": "tech_skill",
+      "canonical": "Microsoft Access",
+      "aliases": [
+        "Access",
+        "Microsoft Access",
+        "MS Access"
+      ]
+    },
+    {
+      "skill": "Oracle EBS",
+      "category": "tech_skill",
+      "canonical": "Oracle",
+      "aliases": [
+        "Oracle EBS",
+        "Oracle E-Business Suite",
+        "EBS"
+      ]
+    },
+    {
+      "skill": "AccessVBA",
+      "category": "tech_skill",
+      "canonical": "Microsoft Access",
+      "aliases": [
+        "AccessVBA",
+        "Access VBA",
+        "Microsoft Access VBA"
+      ]
+    },
+    {
+      "skill": "一般工具",
+      "category": "noise"
+    },
+    {
+      "skill": "東京海上IBMホスト",
+      "category": "domain"
+    },
+    {
+      "skill": "ゲーム",
+      "category": "domain"
+    },
+    {
+      "skill": "IoT",
+      "category": "domain"
+    },
+    {
+      "skill": "マーケティングコンサル",
+      "category": "domain"
+    },
+    {
+      "skill": "データドリブンマーケター",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "RestAPI",
+      "category": "tech_skill",
+      "canonical": "API",
+      "aliases": [
+        "RestAPI",
+        "REST API",
+        "RESTful API"
+      ]
+    },
+    {
+      "skill": "VMWareESXi",
+      "category": "tech_skill",
+      "canonical": "VMware ESXi",
+      "aliases": [
+        "VMWareESXi",
+        "VMware ESXi",
+        "ESXi"
+      ]
+    },
+    {
+      "skill": "NW構成変更",
+      "category": "process_skill"
+    },
+    {
+      "skill": "CDC",
+      "category": "tech_skill",
+      "canonical": "CDC",
+      "aliases": [
+        "CDC",
+        "Change Data Capture"
+      ]
+    },
+    {
+      "skill": "Genesys Cloud",
+      "category": "tech_skill",
+      "canonical": "Genesys Cloud",
+      "aliases": [
+        "Genesys Cloud"
+      ]
+    },
+    {
+      "skill": "Web API開発",
+      "category": "process_skill"
+    },
+    {
+      "skill": "API連携",
+      "category": "tech_skill",
+      "canonical": "API",
+      "aliases": [
+        "API連携",
+        "API Integration"
+      ]
+    },
+    {
+      "skill": "Shellスクリプト",
+      "category": "tech_skill",
+      "canonical": "Shell",
+      "aliases": [
+        "Shellスクリプト",
+        "シェルスクリプト",
+        "bash"
+      ]
+    },
+    {
+      "skill": "RHELサーバ",
+      "category": "tech_skill",
+      "canonical": "Linux",
+      "aliases": [
+        "RHELサーバ",
+        "RHEL",
+        "Red Hat Enterprise Linux"
+      ]
+    },
+    {
+      "skill": "Windowsサーバ",
+      "category": "tech_skill",
+      "canonical": "Windows Server",
+      "aliases": [
+        "Windowsサーバ",
+        "Windows Server"
+      ]
+    },
+    {
+      "skill": "AWS主要サービス(Step Functions、AWS Glue、Amazon Redshift、S3、IAM、VPC)",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS主要サービス",
+        "Step Functions",
+        "AWS Glue",
+        "Amazon Redshift",
+        "S3",
+        "IAM",
+        "VPC"
+      ]
+    },
+    {
+      "skill": "IntuneやJamfを用いたプロファイル作成・デバイス制御",
+      "category": "tech_skill",
+      "canonical": "Microsoft Intune",
+      "aliases": [
+        "Intune",
+        "Jamf",
+        "プロファイル作成",
+        "デバイス制御"
+      ]
+    },
+    {
+      "skill": "AWS SageMaker",
+      "category": "tech_skill",
+      "canonical": "AWS",
+      "aliases": [
+        "AWS SageMaker",
+        "Amazon SageMaker",
+        "SageMaker"
+      ]
+    },
+    {
+      "skill": "データ前処理",
+      "category": "tech_skill",
+      "canonical": "データ前処理",
+      "aliases": [
+        "データ前処理",
+        "前処理",
+        "Preprocessing"
+      ]
+    },
+    {
+      "skill": "学習",
+      "category": "tech_skill",
+      "canonical": "機械学習",
+      "aliases": [
+        "学習",
+        "モデル学習",
+        "Training"
+      ]
+    },
+    {
+      "skill": "推論",
+      "category": "tech_skill",
+      "canonical": "機械学習",
+      "aliases": [
+        "推論",
+        "Inference"
+      ]
+    },
+    {
+      "skill": "再学習",
+      "category": "tech_skill",
+      "canonical": "機械学習",
+      "aliases": [
+        "再学習",
+        "再トレーニング",
+        "Retraining"
+      ]
+    },
+    {
+      "skill": "API",
+      "category": "tech_skill",
+      "canonical": "API",
+      "aliases": [
+        "API"
+      ]
+    },
+    {
+      "skill": "バッチ処理",
+      "category": "tech_skill",
+      "canonical": "バッチ処理",
+      "aliases": [
+        "バッチ処理",
+        "Batch Processing"
+      ]
+    },
+    {
+      "skill": "データ基盤",
+      "category": "tech_skill",
+      "canonical": "データ基盤",
+      "aliases": [
+        "データ基盤",
+        "データプラットフォーム"
+      ]
+    },
+    {
+      "skill": "ストレージ",
+      "category": "tech_skill",
+      "canonical": "ストレージ",
+      "aliases": [
+        "ストレージ",
+        "Storage"
+      ]
+    },
+    {
+      "skill": "監視",
+      "category": "process_skill"
+    },
+    {
+      "skill": "モデル管理",
+      "category": "tech_skill",
+      "canonical": "モデル管理",
+      "aliases": [
+        "モデル管理",
+        "Model Management",
+        "MLモデル管理"
+      ]
+    },
+    {
+      "skill": "デプロイ",
+      "category": "process_skill"
+    },
+    {
+      "skill": "IaC",
+      "category": "tech_skill",
+      "canonical": "Terraform",
+      "aliases": [
+        "IaC",
+        "Infrastructure as Code"
+      ]
+    },
+    {
+      "skill": "コンテナ",
+      "category": "tech_skill",
+      "canonical": "Docker",
+      "aliases": [
+        "コンテナ",
+        "Container",
+        "コンテナ技術"
+      ]
+    },
+    {
+      "skill": "情報処理安全確保支援士",
+      "category": "cert"
+    },
+    {
+      "skill": "収集",
+      "category": "process_skill"
+    },
+    {
+      "skill": "バッチ作成",
+      "category": "tech_skill",
+      "canonical": "バッチ処理",
+      "aliases": [
+        "バッチ作成",
+        "バッチ開発"
+      ]
+    },
+    {
+      "skill": "統計/機械学習",
+      "category": "tech_skill",
+      "canonical": "機械学習",
+      "aliases": [
+        "統計",
+        "機械学習",
+        "統計/機械学習",
+        "ML"
+      ]
+    },
+    {
+      "skill": "モデル実装・評価",
+      "category": "tech_skill",
+      "canonical": "機械学習",
+      "aliases": [
+        "モデル実装・評価",
+        "モデル評価",
+        "ML実装"
+      ]
+    },
+    {
+      "skill": "環境調査",
+      "category": "process_skill"
+    },
+    {
+      "skill": "構成整理",
+      "category": "process_skill"
+    },
+    {
+      "skill": "トラブル対応",
+      "category": "process_skill"
+    },
+    {
+      "skill": "OpenCOBOL",
+      "category": "tech_skill",
+      "canonical": "COBOL",
+      "aliases": [
+        "OpenCOBOL",
+        "COBOL",
+        "GnuCOBOL"
+      ]
+    },
+    {
+      "skill": "試験項目作成",
+      "category": "process_skill"
+    },
+    {
+      "skill": "社内ユーザー対応",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "主体的にキャッチアップできる方",
+      "category": "soft_skill"
+    },
+    {
+      "skill": "NW冗長化技術",
+      "category": "tech_skill",
+      "canonical": "ネットワーク冗長化",
+      "aliases": [
+        "NW冗長化技術",
+        "ネットワーク冗長化",
+        "冗長化"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5928 @@
+{
+  "summary": {
+    "skip→project": 30,
+    "skip→engineer": 455,
+    "skip→other": 3,
+    "other→engineer": 240,
+    "other→project": 248,
+    "other→skip": 10
+  },
+  "updates": [
+    {
+      "rowid": 3947,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "人事給与パッケージのクラウド化に伴う設計業務支援"
+    },
+    {
+      "rowid": 4653,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】8月稼働 C#・Java / クラウド移行・モダナイゼーション / サブリーダー経験豊富（27歳/男性）のご提案"
+    },
+    {
+      "rowid": 15686,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】先出OK/参画優先！経験2年若手PG！言語不問/テストデータ作成/自動テスト実施/テスト設計/総合テスト対応可能！"
+    },
+    {
+      "rowid": 11371,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【VB.net/PLSQL対応可】要件定義~一貫対応可能なエンジニア"
+    },
+    {
+      "rowid": 16658,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【フロントエンド】Vue.js・Nuxt3・React実動。TypeScript/JavaScript/Docker【 常駐可能 /7月～】 | Tech4U"
+    },
+    {
+      "rowid": 11299,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】9月/62歳/常駐可/80万円/PM・PM支援・PMO・コンサル・品質管理/MF鶴見"
+    },
+    {
+      "rowid": 12605,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【サーバー構築×インフラ29年】SK 淵野辺駅｜7月｜70万円｜VMware／Active Directory／Linux｜日本AIセンター"
+    },
+    {
+      "rowid": 4462,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【東北要員】PM/ブリッジSE/マネジメント経験有/要件定義〜/65万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 4667,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～現場作業可 / PM・PMO / IT・DXコンサル、AWS活用、グローバル対応PMO、SAP / 59歳 / 日本 / 男性 / "
+    },
+    {
+      "rowid": 18427,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直個人】Swift/要件定義～保守運用/フルリモート/08月【Branding Engineer営業部】"
+    },
+    {
+      "rowid": 17207,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "業務系(オープン系)まとめ４【Phoenixテクノロジーズ福島】"
+    },
+    {
+      "rowid": 16473,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Java・Vue.js開発／実務4年9ヶ月／25歳】男性／基本設計〜製造テスト一貫／複数DB対応／千歳烏山(常駐可・リモ併可)・7/1〜／70万"
+    },
+    {
+      "rowid": 20210,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【データアナリスト】弊社プロパー/即日/BigQuery/Tableau/PostgreSQL/Python/〜55万/船橋日大前"
+    },
+    {
+      "rowid": 19673,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【今週決めます】面談設定中/PHP/MySQL/70〜75万"
+    },
+    {
+      "rowid": 4464,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【東北要員】C#/要件定義〜/リーダ経験有/70万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 9883,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材-Typescript、PHP・フルスタックSE】M.Y ＠船橋駅 / 75～80万【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 12434,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【単価下がりました！日本語流暢です！Java案件ください！】即日〜弊社プロパー/Java・Spring Boot ・COBOL ・JavaScript・Vue."
+    },
+    {
+      "rowid": 1582,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【人物◎！AIX・HULFT・VMware・ストレージの上級SE(NetApp/SAN/DAS/NAS)　NUTANIX/51歳/男性/7月~】26"
+    },
+    {
+      "rowid": 2261,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "0710【Astro?案件】▼50〜70万／PG▼・ETLツール（Talend）・詳細設計〜開発・＠高田馬場（テレワーク併用可）"
+    },
+    {
+      "rowid": 15704,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【8月〜75万〜】【Vue/Nuxt/Laravel/PWA】フロント・バック横断のフルスタックエンジニアのご紹介"
+    },
+    {
+      "rowid": 1957,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】AW/PHP,Vue.js,React/基本設計から対応可能/経験6年目/7月開始"
+    },
+    {
+      "rowid": 1653,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　PM / C# / Java　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 20192,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【容姿端麗◎！弊社正社員技術者のご紹介】27歳女性/JP1、Windows Server、VBA/チームリーダー経験あり/クラリファイ株式会社"
+    },
+    {
+      "rowid": 4079,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】【PdM／PM／新規事業企画／Webサービス】プロダクトマネージャーのご紹介"
+    },
+    {
+      "rowid": 4416,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】開発歴30年以上／Flutter・iOSネイティブ対応・AI活用開発実績ありの即戦力モバイルエンジニア"
+    },
+    {
+      "rowid": 18358,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "◇弊社直フリーランス◇即日〜/テスト設計/QA＠根岸駅"
+    },
+    {
+      "rowid": 1630,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※8月人材！フル常駐OK!★【人材-PM,PMO,PL,上流SE(Java、Spring、C#、PHP,React、Angular、Vue.js、Typescr"
+    },
+    {
+      "rowid": 7413,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】先出OK/参画優先！経験2年若手PG！言語不問/テストデータ作成/自動テスト実施/テスト設計/総合テスト対応可能！"
+    },
+    {
+      "rowid": 1683,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社先正社員　O.T 37歳（6月：情シス・ヘルプデスク案件希望）"
+    },
+    {
+      "rowid": 16492,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】React・Rails・Laravel・AWS｜フルスタック対応｜7月〜"
+    },
+    {
+      "rowid": 12480,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月/要員】Linux,Win,AWS/基本設計〜/経験9年"
+    },
+    {
+      "rowid": 3980,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社正社員技術者のご紹介】53歳男性/即日～or6月～/Python , TypeScript , JavaScript , PHP , SQL , AWS/"
+    },
+    {
+      "rowid": 19695,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★Kintoneスペシャリスト！【人材-kintone、JavaScript、業務改善、DX推進】弊社直個人事業主(U.A) ＠福井 / 60～65万【サクヤ "
+    },
+    {
+      "rowid": 6288,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※単価下げました！！【弊社正社員のご紹介】7月〜/31歳女性QAエンジニア/JavaScript ServiceNow 52万円〜希望/大宮駅（埼玉県）/フルウ"
+    },
+    {
+      "rowid": 16664,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】ST/PHPエンジニア,Vue.js/経験4年目/7月開始"
+    },
+    {
+      "rowid": 4619,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～SE / React・TypeScript・Python・AI / 63歳 / 日本 / 男性 / 新浦安駅（千葉県）"
+    },
+    {
+      "rowid": 3937,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【ARI】ネットワーク要員を１名募集（ベンダーコントロール等、社員代替業務）７月〜"
+    },
+    {
+      "rowid": 12461,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員【8月～｜運用保守｜AWS・Linux｜Javaサポート／テスト】"
+    },
+    {
+      "rowid": 15730,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜70万】【Windows Server / Azure】要件定義から設計・構築・各種テストまで一連の工程を網羅するインフラSE"
+    },
+    {
+      "rowid": 16592,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス紹介】PHP　Laravel　JavaScript　TypeScript　React.js　Next.js"
+    },
+    {
+      "rowid": 11319,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】即日/63歳/週2日出社可/インフラ全般,認証基盤/80万/SF@海老名"
+    },
+    {
+      "rowid": 2665,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【共用EDI運用保守·データ連携／業界実務6年／20代後半】男性／HULFT·ACMS·AnyTran／Linux·SQLデータ検証／宮崎台(常駐可·リモ併可)"
+    },
+    {
+      "rowid": 20390,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【常駐可能】上流から下流まで幅広い経験を持ち、PMOとして更改・移行案件を得意とするエンジニア"
+    },
+    {
+      "rowid": 20826,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社直個人事業主Y.O 53歳（7月：Zabbix, Linux, Windows, AWS, VMware, Ansible）"
+    },
+    {
+      "rowid": 20349,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：関西プロパー】奈良在住！C＃/SQL Server/VB.NETでの開発・改修・テストが可能！設計書修正経験有！"
+    },
+    {
+      "rowid": 11378,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【JP1�%Zabbix】運用改善に強みを持ち、障害対応と標準化を両立できるインフラ運用エンジニア"
+    },
+    {
+      "rowid": 17828,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月/BP社員/75万】経験7年/Java/JavaScript/TypeScript/リモート併用"
+    },
+    {
+      "rowid": 2374,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C#・Java実務8年目】詳細設計〜テストの精鋭／Spring Boot・Seasar2・VBA／データ移行・保守経験豊富／75万／30歳"
+    },
+    {
+      "rowid": 17818,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ネットワーク要員・56万】【経験3年半・中浦和駅・即日・SQL、Shell（ログ調査・簡易スクリプト）】"
+    },
+    {
+      "rowid": 20252,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "即日要員　弊社プロパー　PM、PMO、Excel VBA、ツール開発など"
+    },
+    {
+      "rowid": 4705,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 フルスタックエンジニア / React・Node.js・Java / 64歳 / 日本 / 男性 / 大和高田駅"
+    },
+    {
+      "rowid": 20848,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【開発・インフラ両方できます！人柄も抜群です！】7月〜/弊社プロパー/PHP・Laravel ・C言語・Java・Typescript・Shell Script"
+    },
+    {
+      "rowid": 7477,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PMO補佐要員・48万】【7月・下丸子駅・Excel, Teams, Word, PowerPoint, ServiceNow (SNOW), ChatWor"
+    },
+    {
+      "rowid": 18521,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員/7月】キッティング/PC操作◎/人柄◎/35万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 5684,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE INプロパー】【若手PMO人材/C#/Java/人柄◎/常駐可能/50万円】"
+    },
+    {
+      "rowid": 4089,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：C#.NET人材】上流工程から一貫して対応経験有！業務系開発/組み込み双方対応可能！"
+    },
+    {
+      "rowid": 20880,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　PJ横断PMO / VBA / 運用【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 11954,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】BPR要員ご紹介！50歳/7月 ERP/業務フロー再構築/管理体制/財務会計DX推進/内部統制 など 人物スキル◎"
+    },
+    {
+      "rowid": 6359,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "★【プリセールス × GCS｜コミュ力 × NW設計構築｜飯田橋リモート併用｜〜128万】＿WhiteBox"
+    },
+    {
+      "rowid": 20262,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": " 【要員のご提案　ネクストプラス】　AS/400エンジニアのご紹介"
+    },
+    {
+      "rowid": 17902,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【注力要員/中部/車載SE】要件定義〜保守運用まで対応可｜C#・Python経験(開発ができる案件であればどんなものでも可能)｜26歳｜7月〜｜50〜60万｜エ"
+    },
+    {
+      "rowid": 2551,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【サーバー基本設計〜構築・運用保守／歴豊富】44歳・男性／Linux・Win双方対応／JP1・SystemWalker網羅／永山・即日〜／65万"
+    },
+    {
+      "rowid": 17212,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "直個人！【韓国籍_JAVA人材】来日16年_要件定義〜_リーダー経験あり_43歳_水天宮前【maruco】"
+    },
+    {
+      "rowid": 2513,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【IT事務·ヘルプデスク·ロースキル／実務4年3ヶ月／31歳】女性／各種ドキュメント·集計業務／宮崎台(常駐可·リモ併可)·即日＆7月〜／45万"
+    },
+    {
+      "rowid": 17275,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ】仮想基盤構築���嵳移行���旻矜蝌監視構築経験者(8月稼働)"
+    },
+    {
+      "rowid": 1761,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月〜／原木中山】AWS・クラウド運用保守エンジニア｜セキュリティ・自動化対応可｜55万〜｜リモート併用可"
+    },
+    {
+      "rowid": 4359,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "実績あり！AIエンジニア★【人材-Python、機械学習、データサイエンティスト】弊社個人事業主(MT) ＠藤沢 / 110万【サクヤ井田】★"
+    },
+    {
+      "rowid": 17768,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【実績あり所属】VBA／テスト設計／品質分析／テスト推進エンジニア（金町駅）"
+    },
+    {
+      "rowid": 17782,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～常駐可/ITコンサル・PM/要件定義～リリースまで豊富な実績/65歳/日本/男性/新宿御苑前駅"
+    },
+    {
+      "rowid": 4911,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主 TS 38歳（即日～：データサイエンティスト、生成AI　フルリモート案件希望）"
+    },
+    {
+      "rowid": 17743,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE / PHP・Laravel・CakePHP・AWS / 57歳 / 日本 / 男性 / 富良野駅（北海道）"
+    },
+    {
+      "rowid": 12475,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報】7月～/VB.net/ASP.net/C#/設計構築～/新潟/リモート"
+    },
+    {
+      "rowid": 12500,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "PM/PMO/ディレクション"
+    },
+    {
+      "rowid": 18408,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SQL/VBA要員・55万】【即日・馬込駅・SQL, VBA, VBS, C#, XSL, Excel, Java】"
+    },
+    {
+      "rowid": 2236,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【BTM案件】【フルリモ‼Rubyシステム開発】【Ruby5年以上、リードエンジニア経験】【7月∼長期】"
+    },
+    {
+      "rowid": 17113,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Java(Spring Boot)10年/70～80万/52歳男性/即日～/長野県【株式会社TERAZ】"
+    },
+    {
+      "rowid": 16570,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直要員】金融系/推進型PMO(約10年)／ネットバンクPJ経験／顧客折衝／ベンダーコントロール／フルリモート希望【KAD清水】1193"
+    },
+    {
+      "rowid": 11351,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月稼働】Azure×AI基盤構築経験あり｜設計〜構築対応可能な31歳インフラエンジニア"
+    },
+    {
+      "rowid": 19042,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※実績あり！オススメ！技術/人柄◎なモバイルエンジニア！★【人材-Flutter, Kotlin, Swift, Android, iOS, AWS, 開発リー"
+    },
+    {
+      "rowid": 19703,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直フリーランス】 Java案件探してます！"
+    },
+    {
+      "rowid": 4439,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【当社社員】Salesforce(LWC/classic/Lightning)/Apex/SOQL/Visualforce/PL経験/上級デベロッパー"
+    },
+    {
+      "rowid": 1912,
+      "old_label": "skip",
+      "new_label": "other",
+      "subject": "RE: 【片山様・御見積書ご送付のお願い】タレントギア・大槻"
+    },
+    {
+      "rowid": 12471,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報】8月～/Ruby on Rails/PostgreSQL/Oracle Database/Access/愛知/リモート"
+    },
+    {
+      "rowid": 11329,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP(Laravel)20年超｜要件定義・業務分析・顧客折衝に強い上流SE】"
+    },
+    {
+      "rowid": 11845,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】COBOL★★【フリテク押田】"
+    },
+    {
+      "rowid": 18509,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【OCMエンジニア紹介】DX推進・業務改善"
+    },
+    {
+      "rowid": 3970,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "☆【弊社独占フリーランスのご紹介】ゲーム系/プランナー/ディレクション案件募集してます！☆"
+    },
+    {
+      "rowid": 17784,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～ 〈常駐〉PMO・SE / TypeScript、C++、C#、AWS / 44歳 / 日本 / 男性 / YRP野比（神奈川県）"
+    },
+    {
+      "rowid": 3698,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "VB.Net案件/〜65万/DB更改/設計〜保守/7月〜/面談1回/＠上前津駅(愛知県)【レルモ櫻井】"
+    },
+    {
+      "rowid": 4276,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※値下げしました【弊社正社員】7月〜　52歳　70万 本八幡駅　AWS/UNIX/Windows Server 設計・構築・運用　人材のご紹介　＜株式会社インテ"
+    },
+    {
+      "rowid": 12485,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人材/SP中道】弊社プロパー！「7月〜」ゲーム業界経験約12年、IP運営、開発プランナー、進行管理、Unity、Excel、Word、テキスト、告知作成、外注"
+    },
+    {
+      "rowid": 4735,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人材情報】要件定義or設計〜/TypeScript, React, Next/PHP, Java, Ruby/AWS/生麦"
+    },
+    {
+      "rowid": 20819,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月Java人材】業界歴4年☆Spring Boot/JavaScript/AWS/Git/真面目でコミュ〇"
+    },
+    {
+      "rowid": 6356,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【単価40万/即日】テスト仕様書作成〜実行◆SQL抽出も可能な若手SE（29歳）"
+    },
+    {
+      "rowid": 17124,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★常駐可/PM・PMO・PdM(20年)/80～85万/55歳(男性)/5月～/志木【株式会社TERAZ】"
+    },
+    {
+      "rowid": 3722,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直要員】ITコンサル／PMO・ITD／100名規模PJ統括／要件定義／多部署調整引会社経営・役員経験／フルリモート希望【KAD清水】1178"
+    },
+    {
+      "rowid": 21432,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下個人事業主A.M 27歳（7月：Salesforce）"
+    },
+    {
+      "rowid": 6283,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社グループ正社員のご紹介】8月～/30歳 JavaScript TypeScript Python / React Next Vue.js /75万円～希望"
+    },
+    {
+      "rowid": 1946,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SBT◆技術者】Java技術者 ◆ 経験2年半 ◆ 33歳 ◆ 60万 ◆ 基本設計〜"
+    },
+    {
+      "rowid": 19553,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【運用監視　約6年】システム運用監視、サーバー運用保守"
+    },
+    {
+      "rowid": 1924,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員】テスト/保守/運用/常駐/40万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 18337,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直要員】PMO／約5年／メガバンク・証券でのインシデント管理／英語議事録作成／リモート併用【KAD石川】1201"
+    },
+    {
+      "rowid": 2707,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ設計構築·運用2年8か月／33歳】男性／基本設計·詳細設計〜環境構築検証／マルチOS·VMware·Hyper-V／経堂(常駐可·リモ併可)·7/1〜"
+    },
+    {
+      "rowid": 5692,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE IN人材】【PM・ディレクション/ECサイト等/フルリモート/85~95万円】"
+    },
+    {
+      "rowid": 18944,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C＃要員・70万】【7月・白楽駅・リーダー経験有り、C#（基本設計〜）、Transact-SQL、C#.NET、SQL Server、Outsystems、A"
+    },
+    {
+      "rowid": 8044,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社社員/ネットワークなんでも対応できます"
+    },
+    {
+      "rowid": 15761,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜70万】【PMO / 要件定義】約10年の豊富な経験！官公庁や鉄道等で進捗・課題管理、業務可視化を主導してきた即戦力SE"
+    },
+    {
+      "rowid": 3949,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　VMware / Windows Server / 構築 / 常駐可能【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 4292,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】開発歴25年以上／フルスタック＋PM対応・レガシー刷新実績豊富な即戦力エンジニア（即日稼働）"
+    },
+    {
+      "rowid": 4662,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP4年人材】57万/リモート希望/要件定義〜/Docker・AWS/"
+    },
+    {
+      "rowid": 1816,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "[WT案件]【AWS・GoogleCloud |〜75万円 】[複数枠]6月〜 / 品川（週3リモート）/ クラウドインフラ設計構築 / d払い・dポイント"
+    },
+    {
+      "rowid": 17703,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日or6月～/1社先社員/50-55万】Java運用保守エンジニア/不具合調査・改修対応可能"
+    },
+    {
+      "rowid": 2679,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【最大100名規模PM実績／開発実務15年·技術背景有／38歳】女性／企画·要件定義·進捗業務分解〜運用保守一貫／中山(リモ併用)·7/1〜／88万"
+    },
+    {
+      "rowid": 17728,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜業務改善コンサルタント / 業務改善・データ可視化・RPA / 38歳 / 日本 / 男性 / 高の原駅"
+    },
+    {
+      "rowid": 20239,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社要員】BPR/AIコンサル/PM/PdM/スクラムマスター/AI駆動開発(条件緩和)"
+    },
+    {
+      "rowid": 3719,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "React案件/〜75万/マッチングアプリ/iOS/Android/Node.js/7月〜/面談1回/＠恵比寿駅※リモート併用【レルモ櫻井】"
+    },
+    {
+      "rowid": 17218,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "業務系(オープン系)まとめ５【Phoenixテクノロジーズ福島】"
+    },
+    {
+      "rowid": 20800,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：関西プロパー】奈良在住！C＃/SQL Server/VB.NETでの開発・改修・テストが可能！設計書修正経験有！"
+    },
+    {
+      "rowid": 4300,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Go(8年)/LLM/テックリード/100～120万/43歳男性/7月～/若松河田【株式会社TERAZ】"
+    },
+    {
+      "rowid": 3713,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "セキュリティエンジニア募集/〜110万/プロンプトインジェクション対策/LLMの出力制御/即日、7月〜/面談1回/＠東京※フルリモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 2731,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C#·VB.NET開発／実務4年9ヶ月／25歳】男性／要件定義〜総合テスト一貫／複数資格保有／競艇場前(常駐可·リモ併可)·7月〜／70万"
+    },
+    {
+      "rowid": 18385,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社社員】テスター/Java/SpringBoot/Typescript/2年/テスト設計/単体・結合・総合テスト/40〜45万"
+    },
+    {
+      "rowid": 19002,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【AI駆動開発（Claude Code）フルスタック(TypeScript,Ruby,Python/要件定義~) フロント開発　80万/38歳/男性"
+    },
+    {
+      "rowid": 2680,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python·React·AWS／応用情報·AWS資格保有／26歳】男性／詳細設計〜実装·総合テスト一貫／PL-SQL·各種RDB制御／西川口(常駐可·リモ併"
+    },
+    {
+      "rowid": 20216,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【参画優先！弊社正社員のご提案】PHP、HTML、CSS、SQL/テスト、運用保守、開発製造/クラリファイ株式会社"
+    },
+    {
+      "rowid": 12633,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【常駐可能！】開発ドキュメントや既存コードの深い読み解きに基づき、仕様の行間や潜在的なバグを早期に検知し、手戻りを最小限に抑えた確実な開発と網羅的なテストができ"
+    },
+    {
+      "rowid": 12650,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【常駐可能！】長期案件対応可能なサポートエンジニア！"
+    },
+    {
+      "rowid": 4979,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日/PHP経験6年半/常駐可】PHP案件探してます!/Git,Docker,基本設計〜1人称/ルートゼロ高原"
+    },
+    {
+      "rowid": 15683,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜80万】【Salesforce】エンジニアのご紹介"
+    },
+    {
+      "rowid": 20242,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【注力要員】即日から/若手/(知見)C言語,Javascript,PHP/案件問わず/人物良好!!"
+    },
+    {
+      "rowid": 21008,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python×AWS/GCP】データ基盤構築・BigQuery/Redshift・可視化まで一気通貫対応可能な上流SE"
+    },
+    {
+      "rowid": 16089,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】Webマーケ人材ご紹介！38歳/7月 SEO×メディア運用×EC支援 訴求整理,販促,売上改善 など 人物◎"
+    },
+    {
+      "rowid": 16474,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C#·VB.NET·JavaScript／開発＆インフラ両面／56歳】男性／上流〜保守開発一貫／小規模サーバ·VPN構築／上板橋(常駐可·リモ併可)·7/1〜"
+    },
+    {
+      "rowid": 7454,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★経験10年★【弊社プロパー/8月/85万】PM/要件定義〜一人称/Java/SpringBoot/C#/ASP.NET/.Net Framework/Pyth"
+    },
+    {
+      "rowid": 2740,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "★【エンド直-広告運用 / 65～70万 】toC向けECアプリケーションにおけるBizOps支援 / 即日 ＠渋谷【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 1875,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報：株式会社アレックスソリューションズ進藤】日英中対応可能なエンジニア・運用保守経験"
+    },
+    {
+      "rowid": 19709,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直フリーランス】PHP案件！フルスタックエンジニア！"
+    },
+    {
+      "rowid": 16084,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★新着★直個人【フルスタックエンシ?ニア（Python、Java)　30歳/男性/即日~】47568"
+    },
+    {
+      "rowid": 1937,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SBT◆技術者】フルスタックエンジニア ◆ 47歳 ◆ 85万 ◆ 宮城県在住のためフルリモート希望"
+    },
+    {
+      "rowid": 18417,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直個人】インフラPM/ネットワーク/要件定義～保守運用/常駐可/即日【Branding Engineer営業部】"
+    },
+    {
+      "rowid": 19750,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP20年超】要件定義〜設計・開発まで対応可能｜Laravel・FuelPHP｜AWS｜顧客折衝経験有"
+    },
+    {
+      "rowid": 11974,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ運用保守要員/62万】【6月・要件定義以降・RPA、DataSpider、My SQL、SQL Server、JP1、Batch、Redmine、Sp"
+    },
+    {
+      "rowid": 19743,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "容姿端麗！常駐可！クラウドエンジニアのご紹介！セキュリティ／CSIRT／AWS保守運用／トリリンガル【注力要員！】"
+    },
+    {
+      "rowid": 15575,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材-PHP,Typescript,Go・フルスタックSE】N.K ＠中村公園駅 / 85万【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 12018,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SEBICS-関西プロパー紹介】 【Java※サブリーダ経験あり】 【神崎川駅/大阪】 【7月〜】"
+    },
+    {
+      "rowid": 11389,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【東北要員】Java/Vue.js/要件定義〜/73万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 15573,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材-AIコンサル/データサイエンティスト】H.E ＠溝の口 / 125万【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 19068,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "デザイナー/ゲームデザイン/WEB製作"
+    },
+    {
+      "rowid": 19064,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】業務系人材ご紹介！55歳/7月 PL/SQL×OracleEBS×データ移行×保守開発 上流対応/安定支援に強み 人物スキル◎"
+    },
+    {
+      "rowid": 12028,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】ST/PHPエンジニア,Vue.js/経験4年目/7月開始"
+    },
+    {
+      "rowid": 13078,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE IN 人材】【人柄◎/ベテランディレクション人材/リモート併用/90~95万円】"
+    },
+    {
+      "rowid": 18520,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員】QAエンジニア/常駐可〇/45万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 18990,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】PL(Python)★★【フリテク押田】"
+    },
+    {
+      "rowid": 1948,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】AN/Javaエンジニア/経験4年目/7月開始"
+    },
+    {
+      "rowid": 4734,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "☆システム再構築案件(COBOL/Java枠)☆"
+    },
+    {
+      "rowid": 9862,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Astro?人材】▼＊直人材▼・AIコンサル・PM/PdM・スクラムマスター・AI駆動開発・＠練馬区"
+    },
+    {
+      "rowid": 8007,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日/福岡社員】初月無償可/テスト・運用保守経験"
+    },
+    {
+      "rowid": 4438,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "☆全銀システムJava案件☆"
+    },
+    {
+      "rowid": 17222,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】ゲームプランナーご紹介！48歳/即 イベント運用×課金施策×SNS企画に強み QAも対応可 人物◎"
+    },
+    {
+      "rowid": 11240,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "条件緩和しました⇒【弊社プロパー】フロント/業務歴7年8カ月/詳細設計〜/Typescript、React、Vue、Next/７月〜/新江古田"
+    },
+    {
+      "rowid": 15727,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜53万】【AWS（EC2・VPC）/ Amazon Linux】オンプレからAWSへの基盤移行・構築経験を持つインフラエンジニ"
+    },
+    {
+      "rowid": 3709,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "Java、React案件/〜80万/エンタメ/SpringBoot/即日、7月〜/面談1回/＠品川※基本リモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 17814,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE/フロントエンドエンジニア / React・TypeScript・Python・AI活用 / 40歳 / 日本 / 男性 / "
+    },
+    {
+      "rowid": 1596,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★新着★直個人【PHP 要件定義~対応可能 48歳/男性/即日~】13083"
+    },
+    {
+      "rowid": 20228,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "🏵️🏵️【弊社プロパー／7月／65歳】PM／ベンダーコントロール／Java21年×社内SE20年の凄腕ベテラン／四方津駅(中央線)"
+    },
+    {
+      "rowid": 3479,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜65万】【QAエンジニア歴5年 / テスト設計〜網羅的なリスク抽出 / インフラ基礎知識有】開発と強固に連携するQAエンジニア"
+    },
+    {
+      "rowid": 16599,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "超懇意先正社員！★【人材ーLinux（RHEL）, JP1, HULFT, HDC-EDI, AOMPLUSCIF, IBM Tivoli 】1社先正社員(I."
+    },
+    {
+      "rowid": 18988,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】【ETL／PowerCenter】要件定義～運用保守・オフショア管理対応可能なSE要員のご紹介（D-code 平野）"
+    },
+    {
+      "rowid": 1586,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【常駐可/C#、ASP. NETエンジニア 54歳/男性/即日~】32632"
+    },
+    {
+      "rowid": 2531,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python・クラウド環境開発20年超／50歳】女性／要件定義〜運用保守一貫／AWS構築・Docker／PMO・管理対応可／成瀬・5月〜／75万"
+    },
+    {
+      "rowid": 19630,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ゲームプランナー要員・66万】【7月・江戸川橋駅・キャラクター、機能、ゲーム内施策のプランニング 】"
+    },
+    {
+      "rowid": 3973,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【容姿端麗◎！弊社正社員技術者のご紹介】27歳女性/JP1、Windows Server、VBA/チームリーダー経験あり/クラリファイ株式会社"
+    },
+    {
+      "rowid": 1563,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【７月〜人材】フロントエンジニア(React/Next.js)_Java経験有26歳男性_常駐可【TJ-micro細井】"
+    },
+    {
+      "rowid": 1671,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Java / JavaScript / 詳細設計～【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 15641,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【5月〜65万円】【SQL・業務改善スペシャリスト】データ連携・GAS/Node.jsによる自動化のプロ。既存業務の課題解決に踏み込め"
+    },
+    {
+      "rowid": 19146,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員/7月】JAVA/C#若手/38万〜/コミュ力抜群◎| エンジニアのミカタ"
+    },
+    {
+      "rowid": 16589,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】【即日】KS☆倉見｜Excel/Access VBA・SQL｜業務効率化スペシャリスト"
+    },
+    {
+      "rowid": 11929,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！】Java/フルリモート★★【フリテク押田】"
+    },
+    {
+      "rowid": 17857,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー/8月/PM/85万】要件定義/Java/Springboot/C#/ASP.NET/Python/若手とセットor将来体制化できる案件探してます"
+    },
+    {
+      "rowid": 19040,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【サーハ?ーエンシ?ニア・クラウト?エンシ?ニア　（リーダー経験有り）49歳/男性/即日~】47539"
+    },
+    {
+      "rowid": 12452,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【開発・インフラ両方できます！人柄も抜群です！】7月〜/弊社プロパー/PHP・Laravel ・C言語・Java・Typescript・Shell Script"
+    },
+    {
+      "rowid": 11193,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "8月〜★体制提案★【弊社社員/クラウドエンジニア×3名】AWS(EC2・AMI・ECS・CloudFormation・Lambda・CloudWatch)・Li"
+    },
+    {
+      "rowid": 15690,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜単価相談】【PHP / Laravel】設計から実装・テストまで一貫して対応可能なWebエンジニア"
+    },
+    {
+      "rowid": 20187,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人物面◎！弊社正社員技術者のご提案】27歳女性/4月～/ VBA,JavaScript,TypeScript,Python/開発製造、テスト、運用保守 /クラ"
+    },
+    {
+      "rowid": 11196,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★Go/Next.js×AI駆動開発に強いフルスタックSE！【人材- Go,Echo,TypeScript,React,Next.js,NestJS,Node."
+    },
+    {
+      "rowid": 3507,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜80万】【Flutter歴豊富 / 大手案件実績】アプリ開発を一人称で完遂する、技術感度の高いモバイルエンジニア"
+    },
+    {
+      "rowid": 19082,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "単価下げました！弊社社員/C#/VBA/テスト"
+    },
+    {
+      "rowid": 11392,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【コンサル案件希望】弊社正社員（45歳）/ IT業界経験20年 / 6月～ / マネージャー経験、MBA保有 / ERP / DX推進 / 要件定義 / 各種コ"
+    },
+    {
+      "rowid": 15722,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜53万】【AWS（EC2・VPC）】オンプレからAWSへの移行に伴うサーバー・ネットワーク構築経験を持つSE"
+    },
+    {
+      "rowid": 3992,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "！名古屋プロパー要員情報［6月/C・C++・Windows・MFC・Linux・VS Code/32歳/車載/組込み/制御系システム/地方可］T.M"
+    },
+    {
+      "rowid": 4111,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★実績あり！【人材-Java/PHP/JavaScript】一社先正社員42歳(N.K) ＠中野 /85万/7月～【サクヤ岡本】★"
+    },
+    {
+      "rowid": 6188,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【BTM案件】【NW】【Max78万円】【3名募集】【品川シーサイド】（随時：保険会社のDC移転に伴うNW構築)※体制提案歓迎！"
+    },
+    {
+      "rowid": 1876,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "[WT案件]【 PHP |〜65万円程度 】[2名枠]即日or7月〜 / 初台（常駐）/ Webアプリ開発経験3年 / 業務支援システム"
+    },
+    {
+      "rowid": 17145,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Flutter(6年)/テックリード/44歳男性/120万/8月～【株式会社TERAZ】"
+    },
+    {
+      "rowid": 15679,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜50万】【Shopify・ECサイト構築/DX推進】Shopifyエンジニアのご紹介"
+    },
+    {
+      "rowid": 9004,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Azure / AWS /設計 【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 17164,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】2Dモーションデザイナーご紹介！49歳/即 Spine×Live2D×演出設計 芝居のある動きで魅せる,外注管理まで対応 人物スキル◎"
+    },
+    {
+      "rowid": 7569,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】医療×Web系SE／設計〜実装・保守／Laravel・Rails・React／長期可"
+    },
+    {
+      "rowid": 3500,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜55万円】【フロントエンド・React/TypeScript】大手サービス4年の実績"
+    },
+    {
+      "rowid": 17764,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】5月〜 / SE / 会計, 通信制御, 組込 / 56歳 / 日本 / 男性 / 足利市（栃木県）"
+    },
+    {
+      "rowid": 11228,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "コンピューター科学博士！フルスタックエンジニア！★【人材-TypeScript、Python、PHP、モバイル】1社先正社員(K.U) ＠武蔵浦和 / 95万【"
+    },
+    {
+      "rowid": 2518,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DXデータレイク構築·PMO／46歳】女性／業界10年以上／要件定義〜ETL·DB構築1人称／Snowflake·AWSGlue／鶴見(リモートメイン)・7月"
+    },
+    {
+      "rowid": 11409,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "即日【人材】上流工程 / 複数言語での開発経験 / 30代 / C#.NET、Kotlin、Vue.js、PHP、JavaScript等"
+    },
+    {
+      "rowid": 17287,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月〜】ヘルプデスク・情シス経験者｜M365・Azure対応可"
+    },
+    {
+      "rowid": 4626,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 〈常駐可〉インフラエンジニア / Windows Server / AWS / Terraform / 26歳 / 日本 / 男性"
+    },
+    {
+      "rowid": 1964,
+      "old_label": "skip",
+      "new_label": "other",
+      "subject": "RE: 【基本契約関連書類について】トライアローズ　江口"
+    },
+    {
+      "rowid": 11335,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python×大量データ処理】官公庁・研究機関案件実績｜基本設計〜実装を一人称で担う即戦力"
+    },
+    {
+      "rowid": 19746,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員配信】7月～/Javaエンジニア/基本設計～対応可能/一社先個人事業主"
+    },
+    {
+      "rowid": 19046,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【PM,PMO Java/GO（要件定義〜）　47歳/男性/7月~】33767"
+    },
+    {
+      "rowid": 2526,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Salesforce2資格保有・詳細設計〜／28歳】男性／Administrator・Appビルダー／各種標準機能・フロー構築・自動化／運河(常駐可)・7月〜"
+    },
+    {
+      "rowid": 20180,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE INプロパー】【ベテランPMO人材/SE経験あり/COBOL/出社可能/60~65万円】"
+    },
+    {
+      "rowid": 11171,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【Javaエンジニア、バックエンドエンジニア】【70〜75万】【下吉田駅】"
+    },
+    {
+      "rowid": 20998,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※6月8日時点で並行なし【要員紹介】CCNA保有／22歳女性インフラ初級要員／7月参画可"
+    },
+    {
+      "rowid": 15698,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜80万】【C・C++ / Python / Vue.js】組み込みからWeb一気通貫開発までこなすハイブリッドエンジニア"
+    },
+    {
+      "rowid": 18401,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】Flutter／Dart／Kotlin／IT経験約4年／要件定義〜/アプリ開発／常駐可【KAD小坂】1145"
+    },
+    {
+      "rowid": 20796,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主T.T 55歳（8月：オープン系システム開発におけるPM、PL、アーキテクト案件）"
+    },
+    {
+      "rowid": 2722,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C#·VB.NET·JavaScript／開発＆インフラ両面／56歳】男性／上流〜保守開発一貫／小規模サーバ·VPN構築／上板橋(常駐可·リモ併可)·7/1〜"
+    },
+    {
+      "rowid": 11406,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】AW/PHP,Vue.js,React/基本設計から対応可能/経験6年目/7月開始"
+    },
+    {
+      "rowid": 17750,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜フルリモート / 上級SE / Laravel・ReactなどWeb開発 / 38歳 / 中国国籍 / 男性 / 最寄駅：多賀大社前"
+    },
+    {
+      "rowid": 20232,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CyTech要員情報】アプリテスト設計｜ヘルプデスク｜VR・XR開発（Unreal Engine4・5"
+    },
+    {
+      "rowid": 4731,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】M&A／PMI／事業再生｜経営コンサル｜案件開発〜実行・意思決定支援対応"
+    },
+    {
+      "rowid": 20244,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【注力要員】Java15年以上！フロント~バックまで何でもできるハイスキルエンジニアです！8月開始"
+    },
+    {
+      "rowid": 18949,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PMO補佐★常駐可】事務5年／PMO補佐4年9ヶ月／IT事務8ヶ月／40万／7月"
+    },
+    {
+      "rowid": 17083,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】デジタルマーケ要員ご紹介！51歳/即 広告運用×GA4分析×GTM×業務改善 再現性に強み 人物◎"
+    },
+    {
+      "rowid": 2552,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ統括リーダー・DB設計構築／歴豊富】50歳・男性／要件定義〜維持運用一貫／AIX・WAS・JP1・Clusterpro／浅草・7月〜／90万"
+    },
+    {
+      "rowid": 19135,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C#／ASP.NET MVC】基本設計〜試験仕様書作成まで対応｜6年以上長期参画SE"
+    },
+    {
+      "rowid": 7586,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "号外!!注力エンジニアのご紹介【汎用機COBOL 製造/テスト】 キャル(株)杉浦"
+    },
+    {
+      "rowid": 20898,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Java / Spring Boot / TypeScript / 要件定義 【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 9887,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直人材】 サーバー運用保守｜Zabbix｜7月｜リモート希望｜70~75万円　【ビズリンク柳】"
+    },
+    {
+      "rowid": 16620,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】Oracle DBA／Oracle19c移行／SQLチューニング｜データベースエンジニアのご紹介"
+    },
+    {
+      "rowid": 18479,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】RPA(UiPath)★★【フリテク押田】"
+    },
+    {
+      "rowid": 18972,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】Cisco★★【フリテク押田】"
+    },
+    {
+      "rowid": 18375,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直個人】JavaScript/Laravel/Python/要件定義～保守運用/常駐可/7月【Branding Engineer営業部】"
+    },
+    {
+      "rowid": 1838,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "「JP1・Zabbix運用の即戦力」"
+    },
+    {
+      "rowid": 4698,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～組織人財開発コンサルタント / 業務フロー整理・プロセス再設計・KPI設計・DX推進PMO / 65歳 / 日本 / 男性 / 武蔵"
+    },
+    {
+      "rowid": 17804,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月〜 データアナリスト / SQL・データ分析 / 46歳 / 日本 / 男性 / 柏の葉キャンパス駅"
+    },
+    {
+      "rowid": 4419,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【イルミナ：要員】稼働実績あり/M.S（43歳）/生成AI駆動開発×Python・Ruby/AWS/フルスタックSE"
+    },
+    {
+      "rowid": 4069,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社所属】☆即日/リモート併用/運用ディレクター、広告運用プランナー、情報メディアライター☆《50歳/女性/八王子駅》★リスティング広告、SNS広告、数値分析"
+    },
+    {
+      "rowid": 1628,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "★派遣必須! 急募! 基本リモート!【～80万! / Java, Angular 】電子申告関連システム追加開発 / 7月～@基本リモート【サクヤ 田野瀬】★"
+    },
+    {
+      "rowid": 2682,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Vue.js(2/3)·TypeScript特化／10大PJ実績網羅／32歳】男性／フロントエンド画面アーキテクト／Node·AWS·Docker／北綾瀬(リ"
+    },
+    {
+      "rowid": 16535,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Swift·モバイル開発縛り／実務5年半·某大手通信PJ実績】男性／基本設計〜製造テスト一貫／中神(リモート多め優先·常駐可)·7月〜／85万"
+    },
+    {
+      "rowid": 20378,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員】インフラ/セキュリティ/Python/リモート希望| エンジニアのミカタ"
+    },
+    {
+      "rowid": 4463,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【東北要員】Java/Vue.js/要件定義〜/73万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 4091,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "GrooveSystem【AIモデル開発　LLM　RAG　Python】要員です。"
+    },
+    {
+      "rowid": 4470,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ】仮想基盤構築・VM移行・Zabbix監視構築経験者（8月稼働）"
+    },
+    {
+      "rowid": 16500,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【容姿端麗◎！弊社正社員技術者のご紹介】27歳女性/JP1、Windows Server、VBA/チームリーダー経験あり/クラリファイ株式会社"
+    },
+    {
+      "rowid": 2506,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【NW運用保守·詳細設計／実務2年／26歳】女性／詳細設計〜構築·テスト·運用保守／小金井(常駐可·リモ多め)·7月〜／50万"
+    },
+    {
+      "rowid": 17704,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★先出しOK★【弊社プロパー/7月or8月/40万〜45万/常駐可】サポート事務/PMO補佐/ExcelVBA/Java/ExcelVBA/Linux/Wind"
+    },
+    {
+      "rowid": 19120,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "※運用設計～★【人材ーAWS、EC2、S3、インフラ、サーバ、RHEL】 一社下要員 7月 75万 【サクヤ 齋藤】★"
+    },
+    {
+      "rowid": 11215,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【エンド直】95万円以上 / Rubyエンジニア / リモート併用（基本的には週1出社） / 大手自動車販売会社の社内業務システムにおけるRubyエンジニア（保"
+    },
+    {
+      "rowid": 2703,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【M365·Azureメール移行／JP1障害2次対応／46歳】男性／リーダー経験10年·マネジメント／Windows·RHEL·VMware／亀有(常駐可·リモ"
+    },
+    {
+      "rowid": 4671,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】4月～PHPエンジニア / PHP, Laravel / 58歳 / 日本 / 男性 / 金剛駅"
+    },
+    {
+      "rowid": 20178,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE IN人材】【若手Python人材/生成AI/詳細設計~/常駐可/60万円】"
+    },
+    {
+      "rowid": 20881,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　バックエンド / C#.net / ASP.net / 要件定義～【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 19739,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社正社員のご紹介】即日or7月1日～/31歳男性/SE/TypeScript Vue JavaScript AWS /65万円～/ 武蔵浦和駅(埼玉)/ フ"
+    },
+    {
+      "rowid": 5113,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP20年超】要件定義〜設計・開発まで対応可能｜Laravel・FuelPHP｜AWS｜顧客折衝経験有"
+    },
+    {
+      "rowid": 17739,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE / JavaScript・C#・Ruby・SQL / 30歳 / 日本 / 男性 / JR白石駅（北海道）"
+    },
+    {
+      "rowid": 4680,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE / JavaScript・C#・Ruby・SQL / 30歳 / 日本 / 男性 / JR白石駅（北海道）"
+    },
+    {
+      "rowid": 4306,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Kotlin(5年半)/Swift/80～85万/35歳(男性)/4月～/蕨【株式会社TERAZ】"
+    },
+    {
+      "rowid": 19754,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【自治体向け業務システムQA｜25ヶ月長期参画】単体・結合テスト／不具合分析／AWS環境検証対応可"
+    },
+    {
+      "rowid": 11922,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【サーハ?ーエンシ?ニア・クラウト?エンシ?ニア　（リーダー経験有り）49歳/男性/即日~】47539"
+    },
+    {
+      "rowid": 21422,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】Salesforceエンジニア｜Apex・LWC・Flow対応"
+    },
+    {
+      "rowid": 19663,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員配信】7月～/サーバエンジニア/WindowsServer,Linux,AWS,HULFT,VMware/設計～対応可能/常駐希望"
+    },
+    {
+      "rowid": 1952,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【shell案件/基本設計/63万円＠初台・リモート★★】"
+    },
+    {
+      "rowid": 4475,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日】Windows/Linux・AWS対応 インフラ設計構築エンジニア"
+    },
+    {
+      "rowid": 1906,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python・PHPエンジニア｜設計〜開発一貫・データ系対応可】NI（47）"
+    },
+    {
+      "rowid": 4068,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社正社員】★関東★＜7月～/25歳女性/Web開発/Java(SpringBoot)、React、TypeScript、HTML/CSS/42～48万円/高"
+    },
+    {
+      "rowid": 1570,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【実績あり！サーバー,JP1 52歳/男性/8月~】41652"
+    },
+    {
+      "rowid": 19766,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C-TOS要員情報AY】(8月〜）ヘルプデスク、PMO支援、タスク管理、進捗管理"
+    },
+    {
+      "rowid": 4305,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PL(6年)/PM・PMO/75万/46歳(男性)/即日～/島根県【株式会社TERAZ】"
+    },
+    {
+      "rowid": 2546,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【システム運用保守・マルチクラウド／実務4年】30歳・女性／エラー対応・手順書整備／Hinemos・Grafana／逗子・7月〜／58万"
+    },
+    {
+      "rowid": 1681,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　PHP / C# / VBA 【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 15701,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜70万】【エンジニア歴30年超 / C++・Java・C#】あらゆる言語と工程に対応する、圧倒的な安定感を持つ熟練エンジニア"
+    },
+    {
+      "rowid": 4717,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【JGT】人材情報（Java・PHP主軸テックリード／AWS運用改善・35歳男性）"
+    },
+    {
+      "rowid": 4414,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】情シス・社内SE｜IT資産管理／ベンダー管理経験豊富"
+    },
+    {
+      "rowid": 8460,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　テスト/運用保守/ヘルプデスク　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 17714,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～現場作業可 / PM・PMO / IT・DXコンサル、AWS活用、グローバル対応PMO、SAP / 59歳 / 日本 / 男性 / "
+    },
+    {
+      "rowid": 21005,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP(Laravel)20年超｜要件定義・業務分析・顧客折衝に強い上流SE】"
+    },
+    {
+      "rowid": 15640,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜50万】【Python活用・簿記2級 / 26歳】自動化プログラム構築と正確なデータ管理に強いIT事務サポーター"
+    },
+    {
+      "rowid": 20193,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社正社員技術者のご紹介】34歳男性/8月～/VB.NET、VB6.0、PL/SQL、Java/クラリファイ株式会社"
+    },
+    {
+      "rowid": 5726,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【フルスタック×CTO経験】IM 戸塚駅｜即日｜90万円｜PHP／Ruby／Go｜日本AIセンター"
+    },
+    {
+      "rowid": 3495,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜80万】【mabl・Jenkins / QA歴11年】E2Eテスト自動化とCI/CD構築で開発を高速化するテストアーキテクト"
+    },
+    {
+      "rowid": 15718,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜85万】【Java・Python・TypeScript / 新規開発・PoC得意 / リーダー経験有】提案型フルスタックエンジ"
+    },
+    {
+      "rowid": 3721,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "A.T(板橋本町)｜フロントエンジニア（HTML,CSS,JavaScript,jQuery,GitHub）／デザイン経験有（Adobeソフト,Figma)／7"
+    },
+    {
+      "rowid": 1576,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主Y.K 32歳（7月：PHPを中心としたWebシステム開発案件（※フルリモート））"
+    },
+    {
+      "rowid": 15678,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【4月〜90万】【Next.js × Hono × AWS/Azure】DDDに基づいた堅牢な設計とIaC構築を完遂するフルスタックS"
+    },
+    {
+      "rowid": 2683,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【サーバー構築·維持管理10.5年／マルチOS·マルチMW／38歳】男性／詳細設計〜環境構築·運用テスト一貫／VBAツール作成／白楽(常駐可·リモ併可)·7/1"
+    },
+    {
+      "rowid": 17137,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★AWS・GCP/Terraform/LLM・RAG/Python/85～95万/29歳(男性)/即日～/石川県【株式会社TERAZ】"
+    },
+    {
+      "rowid": 5026,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【プラウド要員情報】☆彡7月〜/55万/赤羽駅/インフラエンジニア/サーバー構築より上流工程に携われる案件"
+    },
+    {
+      "rowid": 6201,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【急募/高確度】ハイスポット案件:PM補佐"
+    },
+    {
+      "rowid": 17288,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日／38万】テスト・運用保守・ヘルプデスク対応可｜VBAで業務改善経験あり若手インフラ支援要員（IA・26歳）"
+    },
+    {
+      "rowid": 19052,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】7月開始/Java開発経験/基本設計、詳細設計、製造、テスト/Java、JavaScript、TypeScript、HTML、CSS、JSON、SQL"
+    },
+    {
+      "rowid": 12445,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月人材】ネットワーク運用保守,監視 | 常駐可"
+    },
+    {
+      "rowid": 19702,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C-TOS要員情報AY】(8月〜）ヘルプデスク、PMO支援、タスク管理、進捗管理"
+    },
+    {
+      "rowid": 11924,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！】PMO★★【フリテク押田】"
+    },
+    {
+      "rowid": 4625,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月～BIエンジニア / Qlik Sense・SQL・ERP会計 / 56歳 / 日本 / 男性 / 篠崎駅"
+    },
+    {
+      "rowid": 2237,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★直個人【AI駆動開発（Claude Code）フルスタック(TypeScript,Ruby,Python/要件定義~) フロント開発　80万/38歳/男性/7"
+    },
+    {
+      "rowid": 20364,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "0623-03　5Deg正社員/ソフトウェア評価検証2年"
+    },
+    {
+      "rowid": 17106,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PL(6年)/PM・PMO/75万/46歳(男性)/即日～/島根県【株式会社TERAZ】"
+    },
+    {
+      "rowid": 11965,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】7月開始/Java開発経験/基本設計、詳細設計、製造、テスト/Java、JavaScript、TypeScript、HTML、CSS、JSON、SQL"
+    },
+    {
+      "rowid": 17146,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PM・PdM/100万円/54歳男性/7月～/立川駅【株式会社TERAZ】"
+    },
+    {
+      "rowid": 19053,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】【人材情報】PMO経験者／進捗管理・資料作成・調整業務対応可／57万（応相談）（D-code伊藤）"
+    },
+    {
+      "rowid": 6273,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【イルミナ：要員】J.A（41歳） /Python/AWSデータ基盤×生成AI実装×RAG構築可能/フル常駐も可能"
+    },
+    {
+      "rowid": 5669,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ベテランJava人材】65万/フルリモート/SpringBoot・SQL/上流〜対応可/"
+    },
+    {
+      "rowid": 11890,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "注力★直個人【PHP/Laravel / Java/React /30歳/男性/7月~】47350"
+    },
+    {
+      "rowid": 2714,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Tableau·ETLデータ移行／データ基盤刷新実績／26歳】女性／BI構築·テーブル調査〜検証一貫／JP1ジョブ運用／与野(常駐可·リモ併可)·7/1〜／6"
+    },
+    {
+      "rowid": 1571,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "件名：弊社正社員【8月～｜運用保守｜AWS・Linux｜Javaサポート／テスト】"
+    },
+    {
+      "rowid": 4775,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報】QMO/QA/テストリーダー/マネジメント経験豊富/顧客折衝/随時"
+    },
+    {
+      "rowid": 12592,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【運用監視（25年×24/365夜勤OK）】KA 綾瀬駅｜6月｜45万円｜JP1／Zabbix／Cisco｜日本AIセンター"
+    },
+    {
+      "rowid": 16462,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PMO·IT企画推進／開発エンジニア出身／29歳】女性／PJ進行管理·ベンダーコントロール／要件定義〜テスト一貫／鶴見(常駐可·リモ併可)·7/1〜／60万"
+    },
+    {
+      "rowid": 4993,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★実績あり！常駐可！【人材-Java/PHP/PM/PMO】弊社個人事業主59歳(H.Y) ＠葛西 /85万/7月～【サクヤ岡本】★"
+    },
+    {
+      "rowid": 12602,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【フロントエンド】【60万】【本千葉駅】"
+    },
+    {
+      "rowid": 1598,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★新着★直個人【AWSまたはVMware案件求めてます！49歳/女性/即日~】26706"
+    },
+    {
+      "rowid": 1759,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月/QA・テスト要員】テスト設計〜UAT/IVEC保有/Jira（アンリミ株式会社）"
+    },
+    {
+      "rowid": 11979,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "号外!!7月~【フロントエンド開発(JavaScript)/インフラ運用保守要員のご紹介】キャル(株)杉浦"
+    },
+    {
+      "rowid": 19713,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員配信】即日～/VB.NET、PLS/QLなどが得意なエンジニア/上流から経験あり/一社先個人事業主"
+    },
+    {
+      "rowid": 12516,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【セキュリティコンサル人材】元IBM/監査・内部統制・ISMS対応を一気通貫で支援できるシニアコンサル"
+    },
+    {
+      "rowid": 16063,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【サポート要員】PMO,PMサポート,ヘルプデスク"
+    },
+    {
+      "rowid": 17887,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直フリーランス】PHP案件！フルスタックエンジニア！"
+    },
+    {
+      "rowid": 8996,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　PM / C# / Java　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 11284,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報】1社先社員/即日〜/サーバー構築、NW、セキュリティ/PL経験"
+    },
+    {
+      "rowid": 11985,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ダイバージェンスBP要員】TypeScript / 詳細設計 / AI / 即日～ / 北海道"
+    },
+    {
+      "rowid": 12499,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社社員/WEB製作16年"
+    },
+    {
+      "rowid": 16494,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社正社員技術者のご紹介】55歳男性/SAP , ABAP、 S/4 HANA/企画提案 , 要件定義、基本設計、詳細設計、開発製造、テスト、運用保守/クラリ"
+    },
+    {
+      "rowid": 2689,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Java(Spring)·Webフロント/バックエンド／実務2年7ヶ月／27歳】男性／基本設計·詳細設計〜製造テスト·Java講師実績／みどりの(即日·リモ併"
+    },
+    {
+      "rowid": 21439,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【参画優先：福岡プロパー】常駐OK！経験2年！Java/SpringBoot製造/改修/テスト経験者！"
+    },
+    {
+      "rowid": 2742,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材-Go/Python/Typescript/AWS構築・テックリード、PM】T.K＠石川 / 120～125万【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 4664,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月～ インフラエンジニア / AWS, GCP, Linux / 36歳 / 日本 / 男性 / 蕨駅（埼玉県）"
+    },
+    {
+      "rowid": 2547,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Java・Python・GitHub Copilot／30歳】男性／アジャイル特化フルスタック／主要4DB網羅／製造〜単体テスト一人称／綾瀬・7月〜／58万"
+    },
+    {
+      "rowid": 7452,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【OCMエンジニア紹介】Java/JavaScript/PHP/要件定義〜"
+    },
+    {
+      "rowid": 16070,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【弊社交代枠！！】PHP/Vue.js/AWS/顧客折衝/面談1回予定！！"
+    },
+    {
+      "rowid": 5607,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報/即日or7月/55万/常駐可】Java / Spring Boot/詳細設計 / 製造（実装） / テスト"
+    },
+    {
+      "rowid": 16598,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】M.O/Javaエンジニア,ExcelVBA/経験8年目/7月開始"
+    },
+    {
+      "rowid": 4082,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社所属】☆即日/リモート併用/PM・エンジニア☆《54歳/男性/京成小岩駅》★VBA、GAS、Python、Excel、Google Workspace、A"
+    },
+    {
+      "rowid": 16491,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】AI領域に強いPdM/PM｜企画～開発まで一気通貫対応"
+    },
+    {
+      "rowid": 12531,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "☆注力案件☆azure操作経験３年以上/テレワークメイン/7月〜"
+    },
+    {
+      "rowid": 12482,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【弊社注力案件！8月〜/C#/.NET】 音楽系ECサイト開発・保守（完全フルリモート/地方可）"
+    },
+    {
+      "rowid": 16537,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【AWS·サーバーインフラ構築·運用保守／24歳】男性／障害対応·サーバ構築／京急久里浜(常駐可·リモ併可)·7月〜／62万"
+    },
+    {
+      "rowid": 20861,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "人材｜環境再現型のテスト・品質保証｜C++ / PHPによる改修対応｜※イネーブルメント 中尾"
+    },
+    {
+      "rowid": 3952,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　テスト/運用保守/ヘルプデスク　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 11293,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社契約社員】即日/67歳/全国常駐可/COBOL(40年),ACOS-4（約32年),ABAP（約6年)/60万/TO大阪"
+    },
+    {
+      "rowid": 17894,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員/8月】NW/運用保守/45万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 4364,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Flutter(3年)/53歳(男性)/7月～/大森海岸駅【株式会社TERAZ】"
+    },
+    {
+      "rowid": 2556,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【.NET・Java・Web基礎／20歳】男性／実務経験有／在庫管理・社内システム保守開発／改修・DB操作得意／和戸・6月〜／55万"
+    },
+    {
+      "rowid": 17278,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【COBOL/SQLエンジニア_即日可��ぢ即戦力】問い合わせ対応~開発��ぢリリースまで一気通貫"
+    },
+    {
+      "rowid": 17077,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【デザイン×フルスタック開発】UI/UX〜サーバー構築まで独力完遂可｜ST（大森）即日・フルリモート｜日本AIセンター"
+    },
+    {
+      "rowid": 11822,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月/一社先正社員】リーダー経験/キッティング・ヘルプデスク・インフラ運用・保守/50万円"
+    },
+    {
+      "rowid": 11301,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社社員】TT@東急沼部/7月/60歳/男性/週3出勤可/70万/導入支援,販売管理・生産管理,MC Frame"
+    },
+    {
+      "rowid": 20356,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主 TS 38歳（即日～：データサイエンティスト、生成AI　フルリモート案件希望）"
+    },
+    {
+      "rowid": 1659,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月プロパー/40〜45万】Java（springboot）/テスト設計/常駐可/案件幅広くご紹介ください！"
+    },
+    {
+      "rowid": 16133,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【常駐可能！弊社実績あり！】PHP/Laravel/LAMP環境/基本設計～運用保守/7月開始"
+    },
+    {
+      "rowid": 12512,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社個人事業主】CakePHP / jQuery / TypeScript / Python / AWS / Docker / Debian / CentOS"
+    },
+    {
+      "rowid": 17720,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月〜 SE / Java / Spring / 25歳 / 日本 / 男性 / 北楠駅（三重県）"
+    },
+    {
+      "rowid": 5686,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE IN人材】【Ruby on Rails、React（Next.js）、Vue（Nuxt.js）/フルリモート/85万円】"
+    },
+    {
+      "rowid": 17117,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★週3出社可能/Java(20年)/Vue.js・Angular/65～70万/53歳(男性)/即日～/川口【株式会社TERAZ】"
+    },
+    {
+      "rowid": 2375,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【QA・テストエンジニア／実務2年】24歳／自治体向け大規模システム実績／AWS環境・踏み台サーバ知見／月島拠点／45万"
+    },
+    {
+      "rowid": 17901,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【注力要員/中部/情シス】SQL・システム設定・問い合わせ対応・運用支援経験｜8月〜｜47万｜エンジニアのミカタ"
+    },
+    {
+      "rowid": 17248,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人財情報】Java/PHP要員ご紹介！60歳/即 要件定義〜 オブジェクト指向×springboot×Laravel 設計実装に強み リーダーも可 人物スキル"
+    },
+    {
+      "rowid": 13077,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社エンジニアのご紹介】36歳女性/Java、JSP、JavaScript、VBA、COBOL/Spring/Windows/クラリファイ株式会社"
+    },
+    {
+      "rowid": 3948,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Python / Django / AWS / 要件定義【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 17153,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★新着★直個人【PHP 要件定義~対応可能 48歳/男性/即日~】13083"
+    },
+    {
+      "rowid": 20921,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】【Python／データ分析／機械学習／Django】エンジニアのご紹介"
+    },
+    {
+      "rowid": 1635,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "★【 案件-TypeScript/Nuxt3/Node.js/65万】通信キャリア向けオンラインショップ開発支援 7月～＠竹芝/リモート【サクヤ岡本】★"
+    },
+    {
+      "rowid": 4726,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人材情報】設計〜/ Kotlin / TypeScript / vue/ Node/ Nest / Java / PHP / 北千住"
+    },
+    {
+      "rowid": 16590,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【CIP要員情報】S.K/Javaエンジニア,Vue.js/経験4年目/7月開始"
+    },
+    {
+      "rowid": 1607,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主K.H 47歳（7月～：PHP、Laravel、Javaを用いたバックエンド開発案件※kintone関連案件も可）"
+    },
+    {
+      "rowid": 1831,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "[WT案件]【 PHP |〜65万円程度 】[2名枠]即日or7月〜 / 初台（常駐）/ Webアプリ開発経験3年 / 業務支援システム"
+    },
+    {
+      "rowid": 15651,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【案件急募：福岡プロパー】赤坂駅在住/常駐可！内容/単価のご相談についても柔軟にご相談可能・お電話お待ちしております"
+    },
+    {
+      "rowid": 16467,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】経歴10年以上,NW要員,NW機器の設計・構築・保守・運用経験/フルリモ希望"
+    },
+    {
+      "rowid": 12466,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "優秀です、直要員★PM,PMO／7月／80万（応相談）"
+    },
+    {
+      "rowid": 16581,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "7月稼働 / PMO、PM補佐 / 上野毛駅（常駐可）＠65万"
+    },
+    {
+      "rowid": 20314,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【VB.Net要員・63万】【即日・経験6年!!VB.Net,PostgreSQL,PL/SQL】"
+    },
+    {
+      "rowid": 20887,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　JP1 / AWS / 運用保守 【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 11302,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社契約社員】即日/63歳/常駐可/日立汎用機環境構築, 資源管理, DB設計,XDM/RD/60万/TY竜ケ崎市"
+    },
+    {
+      "rowid": 17802,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～WEBディレクション・マーケティング / GCP・生成AI・デジタル広告 / 47歳 / 日本 / 男性 / 向ヶ丘遊園"
+    },
+    {
+      "rowid": 3460,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】先出OK/参画優先！経験2年若手PG！言語不問/テストデータ作成/自動テスト実施/テスト設計/総合テスト対応可能！"
+    },
+    {
+      "rowid": 9414,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直人材】PHP(Laravel)｜AWS｜即日｜出社可能｜~80万円　【ビズリンク柳】"
+    },
+    {
+      "rowid": 19080,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社社員/PM/PMO/プリセールス"
+    },
+    {
+      "rowid": 15653,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜90万円※75万円】PM／PMO・ITコンサル・インフラ運用に強いハイレベル人材のご紹介"
+    },
+    {
+      "rowid": 15719,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜53万（応相談）】【AWS（EC2・VPC）/ Amazon Linux】オンプレからAWSへの移行・構築経験を持つインフラS"
+    },
+    {
+      "rowid": 19642,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【テスト経験　約3年】ゲーム系から業務系まで"
+    },
+    {
+      "rowid": 12634,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【常駐可能】VB.NETおよびJavaを用いた業務システム開発において、製造から単体試験・結合試験・総合試験まで幅広く経験しているエンジニア"
+    },
+    {
+      "rowid": 20809,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下個人事業主SK 42歳（7月：PHP, AI活用）"
+    },
+    {
+      "rowid": 17067,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー/経験3年60万】Java・Springboot/基本設計から経験あり"
+    },
+    {
+      "rowid": 2750,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【品質管理マネジメント·テスト計画·IT事務／最大50名統括／41歳】男性／実務12年以上／要件定義〜運用保守一貫／駒場東大前(常駐可·リモ併可)·6月〜／80"
+    },
+    {
+      "rowid": 11310,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】即日/64歳/週2出社可/80万円/PM,PMO（戦略・管理）,英語(ビジネスレベル）,AWS/YT蒲田"
+    },
+    {
+      "rowid": 4012,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報/即日or7月/常駐可/60万】Java開発、詳細設計以降の案件を探しております！"
+    },
+    {
+      "rowid": 2710,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【投資信託EUC開発·実務豊富／VBA·SQL／60歳】男性／チームリーダー経験／要件定義·整理〜運用改善一貫／青砥(常駐可·リモ併可)·7/1〜／85万"
+    },
+    {
+      "rowid": 18954,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材- Java(Spring,SpringBoot,Struts,Struts2),Vue,Nuxt,TypeScript】弊社直個人事業主(M.M) ＠"
+    },
+    {
+      "rowid": 11265,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【エッジ要員情報】インフラ要員ご紹介！サーバー構築お任せください！"
+    },
+    {
+      "rowid": 20271,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員YO 34歳（4月：Python, SQL, JavaScript, VBA）"
+    },
+    {
+      "rowid": 8037,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社社員/PM/PMO/プリセールス"
+    },
+    {
+      "rowid": 4923,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】Salesforce★★【フリテク押田】"
+    },
+    {
+      "rowid": 8465,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下個人事業主A.M 27歳（7月：Salesforce）"
+    },
+    {
+      "rowid": 1768,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【QA】不具合分析・再検証に強み"
+    },
+    {
+      "rowid": 20878,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【7月/弊社社員/先出可能】テスト設計,QA/Java開発"
+    },
+    {
+      "rowid": 17777,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月〜 SE / PHP・Laravel・React・TypeScript / 40歳 / 日本 / 男性 / 光の森駅（熊本県）"
+    },
+    {
+      "rowid": 16057,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "8月〜【弊社社員/サーバエンジニア】SV運用保守／Linux（RHEL）・GitLab・Redmine／コミュニケーション◎／新人教育経験有／45万円程度"
+    },
+    {
+      "rowid": 4645,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】6月〜 PM/SE / PHP, Java, Swift / 44歳 / 中国 / 女性 / 筑前前原駅（福岡県）"
+    },
+    {
+      "rowid": 19715,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【イルミナ：要員】J.A（41歳） /Python/AWSデータ基盤×生成AI実装×RAG構築可能/フル常駐も可能"
+    },
+    {
+      "rowid": 12545,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "単価相談可！C#.net 基本設計～／Python、Java／DB移行／業務アプリ【弊社正社員】"
+    },
+    {
+      "rowid": 5123,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "C#（WFP）案件　【アイエンター鈴木】"
+    },
+    {
+      "rowid": 15676,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜55万円】【フロントエンド・React/TypeScript】大手サービス4年の実績"
+    },
+    {
+      "rowid": 19595,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【アビリティ人材 6-4】インフラ（サーバー構築等）技術者　53歳　Y.O（7月～）"
+    },
+    {
+      "rowid": 18948,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ERPパッケージ COMPANY設定保守コンサル·インフラ運用／31歳】男性／COMPANY(CSR·CJK·CWS)実装検証／オンプレサーバー·NW運用保守"
+    },
+    {
+      "rowid": 12462,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【案件幅広でご紹介ください！ヘルプデスク経験あります！】即日〜弊社プロパー/Java、Spring Boot、JPA、Thymeleaf、JUnit JavaS"
+    },
+    {
+      "rowid": 7525,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社プロパーのご紹介Java【BW佐々木】"
+    },
+    {
+      "rowid": 16482,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【経験7年人材】PHP・Ruby・Python/78万/要件定義〜/フルリモート"
+    },
+    {
+      "rowid": 20323,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ベテラン】ITヘルプデスク,マネージャー,コンサル営業,58歳"
+    },
+    {
+      "rowid": 7438,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員tani 38歳（6月：PHP, JavaScript, Ruby, Shell, SQL, Oracle）"
+    },
+    {
+      "rowid": 17710,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE / Python・TypeScript・Go・FastAPI・Next.js / 29歳 / 日本 / 男性 / 南行徳駅（"
+    },
+    {
+      "rowid": 20379,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【関西要員】Typescript/PHP/Ruby/要件定義〜/リモート希望〇| エンジニアのミカタ"
+    },
+    {
+      "rowid": 18962,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★新規営業★【ダイバージェンス社員】8月 / Typescript4年  / React4年 / Next5年 / UIUX"
+    },
+    {
+      "rowid": 5656,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー/7月/45万/運用保守】経験4年以上/Java知見あり/案件幅広くご紹介ください。"
+    },
+    {
+      "rowid": 12489,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】Java★★【フリテク押田】"
+    },
+    {
+      "rowid": 16588,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員】【Azure／Terraform／Kubernetes／AWS】クラウドインフラエンジニアのご紹介"
+    },
+    {
+      "rowid": 2387,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Azure·AWS設計構築／ハイブリッドインフラ／26歳】男性／要件定義·顧客折衝〜環境構築·監視障害対応一貫／読売ランド前(常駐可·リモ併可)·7/1〜／7"
+    },
+    {
+      "rowid": 15715,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜55万】【データ分析/Excel VBA/Access/マーケティング】DX推進・リサーチのプロフェッショナルのご紹介"
+    },
+    {
+      "rowid": 2258,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Astro?人材】▼＊直人材▼・AIコンサル・PM/PdM・スクラムマスター・AI駆動開発・＠練馬区"
+    },
+    {
+      "rowid": 17729,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～ SE/PG / COBOL / C言語 / Oracle / UNIX / 59歳 / 日本 / 男性 / 春日駅（福岡県）"
+    },
+    {
+      "rowid": 11966,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直個人】【人材情報】PMO経験者／進捗管理・資料作成・調整業務対応可／57万（応相談）（D-code伊藤）"
+    },
+    {
+      "rowid": 4630,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】【常駐可】12月～セキュリティコンサルタント / IPO・J-SOX・ISMS・ITガバナンス / 64歳 / 日本 / 男性 / 南行徳"
+    },
+    {
+      "rowid": 11908,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！】テスト/PMO★★【フリテク押田】"
+    },
+    {
+      "rowid": 4692,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】4月～RPAエンジニア / RPA開発・業務自動化 / 55歳 / 日本 / 女性 / 新中野"
+    },
+    {
+      "rowid": 12436,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直フリーランス】PMO / ブリッジSE / Java / PHP / Python / C# / JavaScript"
+    },
+    {
+      "rowid": 17161,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【即日要員！】C#／VB.NET／要件定義～保守一貫対応可／（津田山）"
+    },
+    {
+      "rowid": 13067,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE INプロパー】【ベテランPM/PMO人材,コードレビュー/Java/出社可能/85~95万円】"
+    },
+    {
+      "rowid": 5714,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【6,7月/常駐可/一社先個人】インフラPM・PMO・PL/エンジニア歴30年/要件定義〜/85万円"
+    },
+    {
+      "rowid": 16538,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": " 【要員情報 株式会社T-tech life】   【Java開発×プロジェクト完遂】Spring Boot・SQL・Oracle／テスト・保守運用のスペシャリ"
+    },
+    {
+      "rowid": 6331,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "常駐可Flutterフロントエンジニア！★【人材-Flutter、JavaScript（React、Vue.js）、AWS（CloudWatch、 EC2、La"
+    },
+    {
+      "rowid": 1776,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PMO/7月稼働】システム更改・移行案件に強み◆上流〜下流まで対応の30歳（60万〜）"
+    },
+    {
+      "rowid": 18979,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【ダイバージェンス社員】動画編集×SNS運用 即戦力人材のご紹介 / 7月～/ 高根木戸"
+    },
+    {
+      "rowid": 18514,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【要員情報】弊社契約社員 / ゲーム・エンタメ業界案件,カスタマーサポート / 即日 or 7月〜 "
+    },
+    {
+      "rowid": 7441,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【情シス要員・62万】【新宿・7月・Windowsサーバ、Active Directory、SQL Server、Oracle、AWS（EC2 / S3 / R"
+    },
+    {
+      "rowid": 18421,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材-Java（要件定義、基本設計～リリース）65万】サクヤ直個人29歳（S.K）＠錦糸町/6月or7月～【サクヤ西村】★"
+    },
+    {
+      "rowid": 1844,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【VBA/自動化】Power Automate・DataSpider活用の業務効率化エンジニア"
+    },
+    {
+      "rowid": 15742,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜65万（応相談）】【RHEL / CLUSTERPRO / JP1】高可用性クラスタや運用管理・監視設計の導入・設定実績を持つ"
+    },
+    {
+      "rowid": 1581,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主H.E 52歳（即日：Java,C#,VBでの業務システムの開発）"
+    },
+    {
+      "rowid": 1767,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【50万】クラウドインフラ要員 【NW×クラウド】即戦力人材"
+    },
+    {
+      "rowid": 3704,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【元請け直　リモート併用】Jira Service Management（JSM） 機能調査・検証要員 / 7月〜 / Jira構築運用経験・JSM導入経験 /"
+    },
+    {
+      "rowid": 20833,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": " 【人材情報】Linux,Windows運用サポート/AWS構築支援,情シス,システム要件調査/7月〜"
+    },
+    {
+      "rowid": 17722,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～管理部門DXコンサル/PMO / IPO、M&A、経理DX、内部統制 / 53歳 / 日本 / 男性 / 氷川台（東京都）"
+    },
+    {
+      "rowid": 16562,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "A.T(板橋本町)｜フロントエンジニア（HTML,CSS,JavaScript,jQuery,GitHub）／デザイン経験有（Adobeソフト,Figma)／7"
+    },
+    {
+      "rowid": 8462,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Python / Django / AWS / 要件定義【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 12599,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人材】Linux（RHEL/CentOS/Rocky Linux）設計構築ベテラン/7月～/常駐可"
+    },
+    {
+      "rowid": 3954,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "【週4リモート/〜85万/面談1回】【React/アプリ開発】フルスタックエンジニア【レルモ高橋】"
+    },
+    {
+      "rowid": 4020,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【直要員】大規模PJ推進PMO／経験約20年以上／情シス・セキュリティ対応／ITSMツール(ServiceNow/Jira)導入・運用フルリモート希望【KAD清"
+    },
+    {
+      "rowid": 2753,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Unity·C#開発10年／数千万DL級メインPG実績／37歳】女性／実務10年／要件定義〜運用保守一貫／C++·UI/UX·演出強み／亀有(フルリモート限定"
+    },
+    {
+      "rowid": 4477,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【VB.net／PLSQL対応可】要件定義〜一貫対応可能なエンジニア"
+    },
+    {
+      "rowid": 17281,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "Web脆弱性診断におけるPMO補佐��ぢ進行管理支援"
+    },
+    {
+      "rowid": 15733,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜65万〜70万】【TypeScript / JavaScript】業界歴10年以上！フロントエンド実装からディレクションまで一"
+    },
+    {
+      "rowid": 15637,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜72万】【ヘルプデスク・運用保守13年超 / Excel VBA自動化 / リーダー経験豊富】確かな調整力と効率化スキルを兼ね"
+    },
+    {
+      "rowid": 5578,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【参画優先／ロースキル案件ご紹介ください！】MK 二俣川駅｜即日｜40万円｜Power Automate／PowerShell／Python｜日本AIセンター"
+    },
+    {
+      "rowid": 5130,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月稼働】Linux運用保守×Python｜業務効率化を得意とする32歳エンジニア"
+    },
+    {
+      "rowid": 12023,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【人材情報】弊社プロパー　若手　Javaエンジニア　　"
+    },
+    {
+      "rowid": 7395,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "PHP要員※弊社プロパー/〜70万/Laravel/Java/C#/Vue/ゲーム開発/要件定義〜/即日、7月〜/34歳男性/@和田山駅【レルモ櫻井】"
+    },
+    {
+      "rowid": 11364,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【インフラ】仮想基盤構築���嵳移行���旻矜蝌監視構築経験者(8月稼働)"
+    },
+    {
+      "rowid": 17270,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【6月要員】テクニカルサポート・インフラ運用保守"
+    },
+    {
+      "rowid": 4594,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員【8月～｜運用保守｜AWS・Linux｜Javaサポート／テスト】"
+    },
+    {
+      "rowid": 5685,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【DIVE IN 人材】【QAエンジニア、PMO経験あり/人柄◎/フルリモート/60万円】"
+    },
+    {
+      "rowid": 20798,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【福岡：スピード優先可】経験3年！Java/JavaScript/PHP/SQL経験有！詳細設計〜経験/製造1人称！常駐OK/単価応相談！"
+    },
+    {
+      "rowid": 17773,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SEサービス】Azure,SQL,Linux,DBエンジニア / 82万円 / 7月 / エンジニアのご紹介"
+    },
+    {
+      "rowid": 2716,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【UiPath·RPA開発／実務豊富／35歳】女性／要件定義·ユーザヒアリング〜運用保守一貫／ExcelVBA／調布(常駐可·リモ併可)·7/1〜／80万"
+    },
+    {
+      "rowid": 17721,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日〜 SE / PL/SQL・Oracle・C#・T-SQL / 56歳 / 日本 / 男性 / 西武球場前駅（埼玉県）"
+    },
+    {
+      "rowid": 1809,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【東北要員】PHP/Laravel/要件定義〜/55万〜| エンジニアのミカタ"
+    },
+    {
+      "rowid": 20868,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★【人材ーDB・インフラ（Oracle/SQL Server/Azure・OCI）7月～】一社下正社員44歳（S.H）＠82万【サクヤ 西村】★"
+    },
+    {
+      "rowid": 17811,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～ SE / Flutter、ReactJS、PHP / 40歳 / ベトナム / 男性 / 京成小岩駅（東京都）"
+    },
+    {
+      "rowid": 20327,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "直個人｜ PM、PMO、PL｜システム開発管理、監査・コンサルティング、プリセールス・営業サポート｜※イネーブルメント 中尾"
+    },
+    {
+      "rowid": 11328,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【Python×AWS/GCP】データ基盤構築・BigQuery/Redshift・可視化まで一気通貫対応可能な上流SE"
+    },
+    {
+      "rowid": 5043,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "7月SAP案件【SD/MM/PP/コンサル】"
+    },
+    {
+      "rowid": 3471,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜65万】【Python/AWSサーバーレス/PL実績】バックエンドエンジニアのご紹介"
+    },
+    {
+      "rowid": 12555,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【8月/弊社社員】PM,要件定義〜,Java,Python/将来的に体制化できる案件探してます!"
+    },
+    {
+      "rowid": 20900,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Web開発～モバイルアプリ / フルスタック / TypeScript / React / 基本設計～【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 4352,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【当社社員】Python/Django/flask/Bootstrap/JavaScript/要件ヒヤリング/サーバー構築・設計/Python講師経験"
+    },
+    {
+      "rowid": 16516,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP(Laravel)実務6年超／マルチFW·言語適応／29歳】男性／詳細設計〜開発·保守運用一貫／金融·ガス業界実績／錦糸町(常駐可·リモ併可)·7/1〜"
+    },
+    {
+      "rowid": 18986,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "https://docs.google.com/spreadsheets/d/1bBAY99xN4_ATA0y0J9PmSBwQ6tOdfJmZ/edit?us"
+    },
+    {
+      "rowid": 18388,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【弊社直個人】AI/コンサル/PdM/PM/PMO/常駐可/7月参画重視！【Branding Engineer営業部】"
+    },
+    {
+      "rowid": 17109,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Go(3年)/Node.js/Next.js/75～95万/51歳男性/即日～/和歌山【株式会社TERAZ】"
+    },
+    {
+      "rowid": 10715,
+      "old_label": "skip",
+      "new_label": "other",
+      "subject": "[パスワード通知] 【BTM人材】【弊社個人事業主】【稼働：7月～】【スキル：React.js、Node.js、Vue.js、C#】／NK（41歳/男性）"
+    },
+    {
+      "rowid": 1888,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【PHP(Laravel)20年超｜要件定義・業務分析・顧客折衝に強い上流SE】"
+    },
+    {
+      "rowid": 3972,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【TL経験あり◎！弊社正社員技術者のご提案】26歳男性/7月中旬～～/ VB.net、ExcelVBA、SQL、COBOL、Java、JavaScript、Da"
+    },
+    {
+      "rowid": 17790,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～SE / React・TypeScript・Python・AI / 63歳 / 日本 / 男性 / 新浦安駅（千葉県）"
+    },
+    {
+      "rowid": 20952,
+      "old_label": "skip",
+      "new_label": "project",
+      "subject": "★91案件★B2B SaaS「決済プラットフォーム」クラウドエンジニア/SRE募集"
+    },
+    {
+      "rowid": 17715,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】7月～ インフラエンジニア / AWS, GCP, Linux / 36歳 / 日本 / 男性 / 蕨駅（埼玉県）"
+    },
+    {
+      "rowid": 8967,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "★若手PM/PMO！【人材-PM,PMO,TL,社員代替試,験統制,試験推進,品質管理,ベンダー調整】一社先代表(K.H) ＠学芸大学 / 90～110万【サク"
+    },
+    {
+      "rowid": 9006,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　ITコンサル / DX推進 / ベンダーコントロール　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 6970,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【自治体向け業務システムQA｜25ヶ月長期参画】単体・結合テスト／不具合分析／AWS環境検証対応可"
+    },
+    {
+      "rowid": 2372,
+      "old_label": "skip",
+      "new_label": "engineer",
+      "subject": "【C言語・RTOSスペシャリスト／PMO・品質改善実績】57歳／全工程対応／品質合格率を30%向上させた熟練の育成力／80万"
+    },
+    {
+      "rowid": 14850,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社正社員 S.K42歳（7月：フルスタックエンジニア　Go,Ruby,React）"
+    },
+    {
+      "rowid": 18485,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【即日,7月/案件/超急募】Intune経験者探してます!"
+    },
+    {
+      "rowid": 13835,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "[WT案件]【 Java・テスト（結合以降） |〜45万円 】[3名枠]7月〜 / 与野（常駐）/ Java・業務シナリオテスト / 損保"
+    },
+    {
+      "rowid": 13826,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★新着★直個人【AWS、SRE、アーキテクチャ　36歳/男性/即日~】32861"
+    },
+    {
+      "rowid": 13216,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】週３リモート！長期案件／インフラ／構築〜／AWS／VMware ／飯田橋"
+    },
+    {
+      "rowid": 13971,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "111【Astro?案件】▼＊70〜max120万▼・NW（ネットワーク／セキュリティ系）・インフラ・（設計・構築）・＠東京都心エリア"
+    },
+    {
+      "rowid": 5053,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社要員情報】ベテランNW要員,NW機器の設計・構築・保守・運用経験/上流〜"
+    },
+    {
+      "rowid": 13885,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材紹介】弊社正社員/38万〜/電子カルテ/院内SE/運用保守/ヘルプデスク"
+    },
+    {
+      "rowid": 4349,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Flutter(7年)/80～85万/31歳(男性)/即日～/札幌【株式会社TERAZ】"
+    },
+    {
+      "rowid": 13158,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【フルスタック(Python / TypeScript / AWS】【Max85万】【渋谷】（随時：大手ゲーム会社向けデータ分析支援)"
+    },
+    {
+      "rowid": 20859,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【TKC案件】【メンバー１名 リーダー１名 ネットワーク構築 検証 検証手順書 構築手順書】【飯田橋】【7月〜】"
+    },
+    {
+      "rowid": 6145,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Rotimプロパー】即日 / フロントエンドエンジニア / TypeScript / React / Next.js / 基本設計-運用保守"
+    },
+    {
+      "rowid": 6893,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　IDYNAM】【0619-1510：～65万／＠大崎／PMO,サーバ導入経験者募集】商流制限なし/PMO業務の実務経験/複数プロジェクトを横断的に管"
+    },
+    {
+      "rowid": 9871,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "111【Astro?案件】▼＊70〜max120万▼・NW（ネットワーク／セキュリティ系）・インフラ・（設計・構築）・＠東京都心エリア"
+    },
+    {
+      "rowid": 13902,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "AI新規事業開発/〜80万/Python/LLM/RAG/即日//一部リモート可【レルモ高橋】"
+    },
+    {
+      "rowid": 13778,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社要員情報】NW経験豊富ベテランエンジニア/要件定義〜/7月〜"
+    },
+    {
+      "rowid": 4962,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Astro人材】◆SE・29歳◆・C#・ASP.NET/VB.NET・基本設計〜・＠市川(リモート併用希望)"
+    },
+    {
+      "rowid": 3784,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "地方可能【7月/85万まで/基本リモート案件】Next.js/Typescript or AWS周り詳しい方。またはその両方経験されている方探してます。"
+    },
+    {
+      "rowid": 1696,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/プロパー】4年8ヵ月/Java/SQL/Linux/運用保守・サブリーダー/45万"
+    },
+    {
+      "rowid": 5097,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直個人】4月/58歳/週1日出社可能/PM/PMO/システム開発/営業サポート/ラインマネージャー/110万/八王子"
+    },
+    {
+      "rowid": 12009,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "＜MYK案件＞6月中旬〜／社内の情報システムおよびネットワークの管理・設定 【情シス要員】"
+    },
+    {
+      "rowid": 5586,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社社員/ネットワークなんでも対応できます"
+    },
+    {
+      "rowid": 12610,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月/面談1回/セット提案歓迎/運用保守/Cisco/RHEL/AWS/ServiceNow"
+    },
+    {
+      "rowid": 11333,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Java/SpringBoot8年｜要件定義〜開発一貫対応｜業務分析・顧客折衝に強いSE】"
+    },
+    {
+      "rowid": 19623,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "7月〜 　社内開発（ＤＸ案件）案件/ 勤務地：丸の内"
+    },
+    {
+      "rowid": 13097,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【元請直】即時～｜日野｜VB/PL-SQL開発・PM｜関連会社向けシステム開発・保守｜日本AIセンター"
+    },
+    {
+      "rowid": 4721,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【JGT】案件フルリモート（SRE兼バックエンド開発業務）テックリード経験者"
+    },
+    {
+      "rowid": 16634,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/注力案件】24日面談希望/SAP導入経験/MM/PP/SD/顧客折衝〜/100万以上出ます"
+    },
+    {
+      "rowid": 3532,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜75万】【Laravel / React Native / React】上流から実装まで対応可能なフルリモート可のPM・開発エ"
+    },
+    {
+      "rowid": 19721,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Excel,ディレクション】【Max60万円】【フルリモート】（即日：サプリのアフィリエイト広告運用（高額予算スケール経験者）)"
+    },
+    {
+      "rowid": 7573,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】動画編集・SNS運用／ディレクション・広報支援／即日～／官公庁・美容・メディア"
+    },
+    {
+      "rowid": 13946,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【元請け直 / Java(SpringBoot) ・AWS / 75～85万】生命保険会社向けWebシステム開発 / 7月～長期 ＠汐留or都内近郊【サクヤ "
+    },
+    {
+      "rowid": 5072,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材-Springboot Java Typescript・リーダー、SE】N.K ＠浦和 / 90～95万【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 13265,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【システム移行計画の策定経験｜〜144万円｜リモート併用】＿WhiteBox"
+    },
+    {
+      "rowid": 13209,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【出社◎PM.コンサル】105万PM /リモ併/ITコンサルティング◎52歳男性"
+    },
+    {
+      "rowid": 13157,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月要員】Laravel／PHP／Webアプリ開発エンジニア／若手即戦力／高田駅（常駐可〇）"
+    },
+    {
+      "rowid": 11399,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "RENO案件情報【7月・テレコムセンター】Zabbix経験者募集・インフラ運用保守／ミドルウェア類のドキュメント整備／Web面接1回"
+    },
+    {
+      "rowid": 20893,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/NW詳細設計・構築～/Cisco/HPE Aruba/NEC/YAMAHA/Fortinet/Meraki"
+    },
+    {
+      "rowid": 5105,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社直フリーランス】PM / 開発ディレクター / 制作ディレクター / WF作成 / WBS作成 / UIUX改善 / 新規立ち上げ / 運用改善"
+    },
+    {
+      "rowid": 4722,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【JG】案件【フルリモート／高単価】オンプレ運用・Web基盤改善インフラエンジニア（神田／長期）"
+    },
+    {
+      "rowid": 13720,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★91案件★LINEを活用したチャットシステム開発のフルスタックエンジニア募集"
+    },
+    {
+      "rowid": 1732,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "◆◆ 【☆ASTRO主催☆】ses交流会・★定員177名 ×（06/19(金) ）開祭★・SES業界・最大級・＠武蔵境"
+    },
+    {
+      "rowid": 3530,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜90万】【TypeScript / Go / AWS】上流工程からPJ管理・実装まで一気通貫でこなすフルスタックエンジニア"
+    },
+    {
+      "rowid": 15528,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "BTMAIZ案件：【フルリモート】統合AI基盤構築および運用ガバナンス整備／データガバナンスPL　7月～"
+    },
+    {
+      "rowid": 13913,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【バックエンド（PHP/Python/Node.js）/フルスタックエンジニア】【60〜70万】【静岡県】"
+    },
+    {
+      "rowid": 6874,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/面談2回/ネットワーク/Cicso/Catalyst/L2/L3/Firewall/上流経験者"
+    },
+    {
+      "rowid": 4060,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【 懇意先社員紹介】PM　PMO　テックリード　モバイルアプリ　Swift　Flutter"
+    },
+    {
+      "rowid": 3780,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "COBOL案件/〜50万/共済システム/8月〜/面談1回/＠市場前駅【レルモ櫻井】"
+    },
+    {
+      "rowid": 6878,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "案件ください！【PHP/Laravel】【弊社要員！常駐可能！】即日〜/45万/沼袋駅/PHP"
+    },
+    {
+      "rowid": 20954,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★91案件★SaaSプロダクト PdM補佐募集 / AWS・Backlog / 大崎（リモート併用）"
+    },
+    {
+      "rowid": 15278,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員S・Y 37歳（7月：JAVA,JavaScript,React,TypeScript,Python,Vue,VB,Shell,P"
+    },
+    {
+      "rowid": 5018,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材-Java（要件定義、基本設計～リリース）65万】サクヤ直個人29歳（S.K）＠錦糸町/6月or7月～【サクヤ西村】★"
+    },
+    {
+      "rowid": 4390,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PdM(4年)/ToC経験豊富/90～100万/30歳男性/5月～大阪【株式会社TERAZ】"
+    },
+    {
+      "rowid": 13178,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社プロパー【Pythonエンジニア】LLM・生成AI,Django・FastAPI,TypeScript,JavaScript,AWS等/（要件定義、）基本設"
+    },
+    {
+      "rowid": 13195,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【PM／PMO／Webプロデューサー】【95万】【御影駅】"
+    },
+    {
+      "rowid": 6209,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【AI自動化×PM】TT 経堂駅(東京)｜Claude/ChatGPT｜要件定義〜実装｜日本AIセンター"
+    },
+    {
+      "rowid": 3559,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【元請け直・基本リモート】建設SaaS運営企業におけるPM募集 / 7月〜 / PM経験・建設,土木 / 〜110万 【Roots案件】"
+    },
+    {
+      "rowid": 13103,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】AWSの設計・構築経験5年以上 / 7月〜 / 豊洲(出社できる方優先） ※リモート併用"
+    },
+    {
+      "rowid": 16174,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "データサイエンティスト案件/〜110万/ネットショップ事業/即日〜/＠海浜幕張駅or五反田駅※リモート併用【レルモ櫻井】"
+    },
+    {
+      "rowid": 6815,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【ヘルプデスク要員・56万】【7月・鶴見駅・ヘルプデスク／テクニカルサポート経験20年以上/Windows Server／Windows11・10/Active"
+    },
+    {
+      "rowid": 20955,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★91案件★6月〜生成AIプロジェクト PM/PMO募集 / 大手ECグループ / 二子玉川駅（常駐可）"
+    },
+    {
+      "rowid": 3575,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜80万円】【Webディレクター／PM】大規模サイト経験豊富なエンタメ系プロデューサーのご紹介"
+    },
+    {
+      "rowid": 11380,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【8月〜】ヘルプデスク・情シス経験者｜M365・Azure対応可"
+    },
+    {
+      "rowid": 19652,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Java】【Max78万】【相模原】（即日：大手製造業向けアプリ開発支援)"
+    },
+    {
+      "rowid": 13261,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【関西要員】インフラ/セキュリティ/Python/リモート希望| エンジニアのミカタ"
+    },
+    {
+      "rowid": 13881,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【店舗運営管理】【Max34万円】【渋谷or池袋】【常駐】（7月：店舗運営管理・運営サポート業務（池袋・渋谷アニメグッズショップ）)"
+    },
+    {
+      "rowid": 4327,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★AWS(6年)/CI/CD/Python/9月～/42歳男性/85～90万【株式会社TERAZ】"
+    },
+    {
+      "rowid": 5554,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Laravel·Vue·Reactフルスタック／実務13.7年／38歳】女性／要件定義·設計〜実装テスト·保守運用一貫／AWS·コンテナ·AIツール活用／こど"
+    },
+    {
+      "rowid": 13897,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【要員】AI領域に強いPdM/PM｜企画～開発まで一気通貫対応"
+    },
+    {
+      "rowid": 11255,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直人材】  フルスタックエンジニア｜テックリード｜即日｜フルリモート｜95~100万円　【ビズリンク柳】"
+    },
+    {
+      "rowid": 6841,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Windows/Linux運用保守要員・59万】【即日・Windowsサーバ運用保守／サーバ監視／情シス支援／ヘルプデスク・経験16年・Windows Ser"
+    },
+    {
+      "rowid": 13841,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※稼働実績あり【YDY人材ー組み込み、C言語、C++、Python、ubuntu、raspberry、AI、ロボティクス、自動運転】弊社直個人事業主 /即日～/"
+    },
+    {
+      "rowid": 13777,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【注力案件】ネットワーク要員募集！／Cisco／FortiGate／7月～"
+    },
+    {
+      "rowid": 13123,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【サーバ運用要員・60万】【経堂駅・7月・経験2年8か月・RHEL、Windows server、Solaris】"
+    },
+    {
+      "rowid": 19716,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材-PM, PMO, データアナリスト, Whisper, Defy, Avaya, New Relic, Tableau, PowerBI, GA4, "
+    },
+    {
+      "rowid": 13866,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【SRI案件情報】社内SE／情シス要員大募集！！社内情報システム運用支援！"
+    },
+    {
+      "rowid": 6212,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】システム運用保守経験4年半！研修熱心で改修/テスト業務等も問題なくキャッチアップ！可愛い気ある若手ほしい方是非連絡ください！"
+    },
+    {
+      "rowid": 16153,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "AWS設計構築案件/〜75万/インフラSE/大手カー用品グループ/7月〜/＠豊洲駅※リモート併用【レルモ櫻井】"
+    },
+    {
+      "rowid": 13755,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【プラウド要員情報】●単価調整しました！●7月〜/Swift製造案件希望/要件定義〜経験あり/iOSアプリ開発10年以上/フルリモ必須/＠志木駅"
+    },
+    {
+      "rowid": 13242,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【セット提案希望】大量募集！インフラ若手向け／サーバー／RHEL ／24/365／中野／7月〜順次"
+    },
+    {
+      "rowid": 6203,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【元請直】即時～｜日野｜VB/PL-SQL開発・PM｜関連会社向けシステム開発・保守｜日本AIセンター"
+    },
+    {
+      "rowid": 3555,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜110万〜】【Web3・金融IT・エンタメ / プロデューサー兼PM / 画面設計・デザイン知見有】経営層への提案から開発スコ"
+    },
+    {
+      "rowid": 16608,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "若手募集！【SQL開発案件｜Oracle｜メンバー枠】複数名募集｜基本出社｜8月開始｜ICD案件情報/その他"
+    },
+    {
+      "rowid": 16454,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【フルリモート/Ruby on Rails】大手口コミサイト運営企業におけるフルスタックエンジニア【レルモ高橋】"
+    },
+    {
+      "rowid": 16591,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【Nautik】★注力案件★大手ブランド向けECサイトおよび周辺システム企画・設計支援（顧客折衝／テスト計画／長期案件／7月～）"
+    },
+    {
+      "rowid": 16514,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "弊社注力案件！【Linux/LAMP環境】インフラ基盤の設計・構築案件！〜80万"
+    },
+    {
+      "rowid": 5637,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【iOS（歴10年以上）人材/7月】Swift,Objective-C/基本設計〜/Kotlin,Flutter"
+    },
+    {
+      "rowid": 13136,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "7月～Proxmox／Terraform／Ansible対応 クラウドインフラエンジニア（運用リーダー経験あり）"
+    },
+    {
+      "rowid": 13244,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【8月人材】CCNA | Cisco,FortiGate | ネットワーク詳細設計・構築〜 | 常駐可"
+    },
+    {
+      "rowid": 6980,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【VBA×Power BI｜業務改善・DX推進を一人称で担えるSE】"
+    },
+    {
+      "rowid": 5129,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【運用保守案件募集】設計〜テスト・保守運用まで対応可能｜7月参画可"
+    },
+    {
+      "rowid": 1735,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月/面談1回/セット提案歓迎/運用保守/Cisco/RHEL/AWS/ServiceNow"
+    },
+    {
+      "rowid": 4461,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【ロースキル案件】未経験可/商業施設でのポップアップ運営/営業・販売・商品案内等/即日～/複数拠点"
+    },
+    {
+      "rowid": 13942,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【単価調整いたしました！地方可案件希望！スキル十分なPM要員です！】6月〜弊社プロパー/プロダクトオーナー〜スクラムマスター〜PL〜企画〜要件定義〜PJ進捗管理"
+    },
+    {
+      "rowid": 4146,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "今週のおすすめクリエイター！🌰【派遣・正社員・業務委託】"
+    },
+    {
+      "rowid": 14403,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員SY 27歳（5月：Python, Linux, SQL, AWS, Zabbix）"
+    },
+    {
+      "rowid": 1787,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【若手／即日可】ヘルプデスク・テスト・運用保守エンジニア（VBA業務改善経験あり）"
+    },
+    {
+      "rowid": 14428,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材紹介】弊社正社員/50万〜/PMO/要件定義〜/ベンダー調整"
+    },
+    {
+      "rowid": 11830,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "7月~基本リモート【生成AIを活用した開発経験があれば是非ご紹介ください！】"
+    },
+    {
+      "rowid": 14415,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員K.T 32歳（4月：C# , ABAP , HTML/CSS , Unity ）"
+    },
+    {
+      "rowid": 2118,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "BTMAIZ案件：【フルリモート】統合AI基盤構築および運用ガバナンス整備／AIガバナンスPL　7月～"
+    },
+    {
+      "rowid": 6904,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※弊社で4年実績あり★【人材ーデータ分析、統計、マーケティング、R言語、BigQuery、BIツール、Python、SQL、クエリ、Excel、Access、b"
+    },
+    {
+      "rowid": 19772,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【常駐可能】上流から下流まで幅広い経験を持ち、PMOとして更改・移行案件を得意とするエンジニア"
+    },
+    {
+      "rowid": 7530,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "[WT案件]【 AWS 基盤運用保守 |〜70万円 】7月or8月〜 / 原則リモート / AWS・Linux / 不動産系"
+    },
+    {
+      "rowid": 6779,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社エンジニアのご紹介】36歳女性/Java、JSP、JavaScript、VBA、COBOL/Spring/Windows/クラリファイ株式会社"
+    },
+    {
+      "rowid": 3748,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件No.FY26-S009】Java×Azure案件／石油業界向け基幹システム開発／品川常駐／8月開始"
+    },
+    {
+      "rowid": 20836,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【6/23】トラスト募集要件の送付"
+    },
+    {
+      "rowid": 13928,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件配信】8月〜/JP1/AJS3構築経験/スクリプト言語/常駐案件/昭島"
+    },
+    {
+      "rowid": 16601,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "高単価QA!★【エンド直-QA / 70～90万】toC向けECアプリケーション開発(QAエンジニア) 【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 11231,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★基本リモート‼【元請け直-AWS・CDK・TypeScript・Python / 75～90万】通信事業者向けマルチテナントシステムのAWS基盤改修・エンハン"
+    },
+    {
+      "rowid": 1728,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材！PHP案件！幅広でご紹介ください!】弊社プロパー/製造〜/PHP/Laravel/45万/沼袋/6月〜"
+    },
+    {
+      "rowid": 18342,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【エンド直】テックリード、アーキテクト／ 障害福祉向け業務支援サービスのテックリード募集／完全フルリモート※地方在住可／～120万"
+    },
+    {
+      "rowid": 13956,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材ーDB・インフラ（Oracle/SQL Server/Azure・OCI）7月～】一社下正社員44歳（S.H）＠82万【サクヤ 西村】★"
+    },
+    {
+      "rowid": 6853,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月～/1社先正社員/75万円】Python×AWS対応/要件定義～/経験7年超/リーダー経験あり ＠日進駅"
+    },
+    {
+      "rowid": 15568,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【エンド直-広告運用 / 65～70万 】toC向けECアプリケーションにおけるBizOps支援 / 即日 ＠渋谷【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 13753,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/案件】TypeScript,Next.js/BIツール経験者探してます!"
+    },
+    {
+      "rowid": 8476,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【SAP】【スキル見合い】【基本リモート】（6月：外資系製薬業向け業務整理・グローバル連携コンサルタント募集)"
+    },
+    {
+      "rowid": 6780,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社正社員エンジニアのご紹介】26歳男性/C、C++、C#、Java、VBA/Salesforce、SVN、JIRA/クラリファイ株式会社"
+    },
+    {
+      "rowid": 13974,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "01【Astro?案件】▼＊70〜max100万▼・SAP・（設計構築 or 要件定義〜）・＠東京 or（リモート併用／フルリモ）"
+    },
+    {
+      "rowid": 3561,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜95万】【Swift（iOS）】業界歴10年以上！要件定義から設計・製造・App Store申請まで1人称で完遂するシニアSE"
+    },
+    {
+      "rowid": 7451,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報/7月/55万〜65万/リモート併用】Java8年、基本設計以降の経験ある方と若手のセット提案お待ちしております！"
+    },
+    {
+      "rowid": 1694,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員S・H 24歳（即日～：C++, C#, JAVA, HTML/CSS, SQL, Oracle, AWS, Azure）"
+    },
+    {
+      "rowid": 11170,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【6月〜8月開始/新横浜/長期】半導体検査装置の制御ソフト開発｜C++ ＆ 組込開発（3年以上）｜面談2回（最終対面）"
+    },
+    {
+      "rowid": 13917,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "《注力案件》★リモート併用可／ITソリューション営業事務・内勤営業／7月開始"
+    },
+    {
+      "rowid": 1725,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主K.S 40歳（6月～：C#を用いた基本設計以降の案件）"
+    },
+    {
+      "rowid": 13852,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】COBOL★★【フリテク押田】"
+    },
+    {
+      "rowid": 13165,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "☆注力案件☆COBOLもしくはC言語/7月〜/５０代可！！"
+    },
+    {
+      "rowid": 7591,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】iOS（Swift／Objective-C）／Python・React／Web・モバイルアプリ開発／即日～／電力・通信・エンタメ"
+    },
+    {
+      "rowid": 14414,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　IKNT】【0622-1001：～100万／［8/1～｜初期初台出社@TW併用／レガシー移行］官公庁向け大規模基幹システム刷新・基盤性能検証PMOリ"
+    },
+    {
+      "rowid": 16180,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件相談】金融機関向け／Windows 11・端末管理基盤設計（上流工程／若手歓迎）"
+    },
+    {
+      "rowid": 16165,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "AIエンジニア案件/〜100万/Python/生成AI/LLM/即日、7月〜/面談1回/＠フルリモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 20951,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★91案件★LINEを活用したチャットシステム開発のフルスタックエンジニア募集"
+    },
+    {
+      "rowid": 13152,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【即日/電話対応得意です/事務要員】コールセンター経験/27歳女性/事務案件探してます/ルートゼロ高原"
+    },
+    {
+      "rowid": 16164,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Next.js案件/〜110万/AI/LLM/チャットサービス/フルスタック/即日、7月〜/面談1回/＠フルリモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 3539,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜110万】【会計パッケージSuperStream精通 / PMP保有・100人月超のPM実績 / 多国籍・オフショア管理】上流"
+    },
+    {
+      "rowid": 19736,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【案件ーNW(ネットワーク）、Juniper】 次期VNE構築支援（リーダー／メンバー／自動化メンバー募集）　7月＠飯田橋【サクヤ 齋藤】★"
+    },
+    {
+      "rowid": 9861,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Salesforce】【Apex】【リード経験】【関西】【関東】【Max90万円】【リモート併用（週3回程度）】（即日：住宅向け 賃貸管理システ"
+    },
+    {
+      "rowid": 5060,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Astro人材】PG・30歳◆・Java・Spring・詳細設計〜・＠野方"
+    },
+    {
+      "rowid": 20929,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "！［7月/AWS・EC2の構築/IAMポリシー等のリソース管理・Lambda・APIGateway/運用保守/IPCOM/リプレイス］"
+    },
+    {
+      "rowid": 6975,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Java/SpringBoot8年｜要件定義〜開発一貫対応｜業務分析・顧客折衝に強いSE】"
+    },
+    {
+      "rowid": 2252,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※条件変更・募集枠更新済※ BTMAIZ案件：【フルリモート】生成AI×RAG×Azure_業務ナレッジ基盤開発（インフラ／AIエンジニア募集）"
+    },
+    {
+      "rowid": 9888,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★急募! 若手大歓迎! セキュリティコンサル案件!【 70～80万! / セキュリティ, コンサル, 顧客折衝 】セキュリティ全般に関するコンサルタント業務 /"
+    },
+    {
+      "rowid": 16553,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "AI新規事業開発/〜80万/Python/LLM/RAG/即日/一部リモート可【レルモ高橋】"
+    },
+    {
+      "rowid": 19614,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直要員】PM/PdM/フルリモート/即日/115万円【ビズリンク加藤】"
+    },
+    {
+      "rowid": 4778,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【案件-Claudeエンプラ導入 / 120～150万】大手SIer向けClaude Codeを用いた次世代開発支援ツール導入・展開支援/ 随時 ＠麹町【サク"
+    },
+    {
+      "rowid": 17205,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【品川/週2日リモート】生保向けSpring BootアプリのAWS EC2基盤構築（インフラSE）"
+    },
+    {
+      "rowid": 17856,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★急募! 【元請け直! / ～90万! / 社員代替, PM, PMO, 開発経験 】某オンライン証券会社内 社員代替／PM・PMO業務 / 6月～@基本リモー"
+    },
+    {
+      "rowid": 6866,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "人材【金額調整しました！PHP, Node.js,TypeScript/45歳/男性/即日〜】874"
+    },
+    {
+      "rowid": 11176,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【8月〜/浜松町常駐】大手自動車会社向け・複数システム開発エンジニア求む｜Java ＆ Spring Boot｜WEB面談1回・3名大募集 "
+    },
+    {
+      "rowid": 6920,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "複数名募集・50代も可/サーバ運用経験者募集"
+    },
+    {
+      "rowid": 13200,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/面談2回/ネットワーク/Cicso/Catalyst/L2/L3/Firewall/上流経験者"
+    },
+    {
+      "rowid": 6851,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力要員】Java15年以上！フロント~バックまで何でもできるハイスキルエンジニアです！8月開始"
+    },
+    {
+      "rowid": 5128,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Azure設計構築】31歳インフラエンジニア｜金融・大手SI案件経験あり"
+    },
+    {
+      "rowid": 13900,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★７月〜注力案件★Linuxサーバ運用経験1年以上・Windowsサーバ・24/365・パッチ適応"
+    },
+    {
+      "rowid": 13969,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "0711【Astro?案件】▼＊80〜max120万▼・Oracle EBS（DBエンジニア）・上流〜移行・＠江東区（テレワーク併用可）"
+    },
+    {
+      "rowid": 4452,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【イルミナ：直個人】2年近く稼働実績あり/K.F（29歳）/Ruby/TS×AWS/Azure｜AI駆動開発×フルスタック｜7年｜75万円～｜7月～"
+    },
+    {
+      "rowid": 3756,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "マーケティングプランナー案件/〜90万/スポーツトレカゲーム/即日〜/面談1回/@外苑前駅※リモート併用【レルモ櫻井】"
+    },
+    {
+      "rowid": 19549,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Windows/Linux要員・72万】【7月・柏駅・AIX／Windows Server／RedHat・基本設計以降】"
+    },
+    {
+      "rowid": 20863,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【元請け直 / Java(SpringBoot) ・AWS / 75～85万】生命保険会社向けWebシステム開発 / 7月～長期 ＠汐留or都内近郊【サクヤ "
+    },
+    {
+      "rowid": 7998,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月〜／品川】Kotlin・Androidネイティブ開発案件"
+    },
+    {
+      "rowid": 3571,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【6月〜60万】【OCI / AWS / Terraform】クラウドリフト設計から構築・テストまで対応可能なインフラエンジニア"
+    },
+    {
+      "rowid": 7538,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【JAVA, Ruby, AWS, Redis, Spring, Vue, Nuxt】【Max130万円】【フルリモート】（5月：【Ruby/Ra"
+    },
+    {
+      "rowid": 10302,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Azure, Terraform】【Max90万円】【基本リモート】（即日or7月：AI音声応対ソリューション導入支援)"
+    },
+    {
+      "rowid": 5025,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社要員情報】NW経験豊富ベテランエンジニア/要件定義〜/7月〜"
+    },
+    {
+      "rowid": 6766,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【React, TypeScript, Python, AWS】【Max68万円】【フルリモート】（7月：生成AIを活用したレポートチェックおよび"
+    },
+    {
+      "rowid": 18323,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】Webデザインの実務経験（3年以上目安）/ 田町駅 ※リモート併用(週3出社）/ 即日〜"
+    },
+    {
+      "rowid": 16181,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件相談】金融機関向け／Windows 11・端末管理基盤設計（上流工程／若手歓迎）"
+    },
+    {
+      "rowid": 6820,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【大量募集案件！】フルリモート／フロント／TypeScript／React／AWS／Lambda ／8月〜"
+    },
+    {
+      "rowid": 17825,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【リモート併用・東京or神戸】バイリンガル SAP SCM Consultant / 7月〜 / SAP・S/4HANA・SCM・ビジネス英語 / 〜120万【"
+    },
+    {
+      "rowid": 6949,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※新規注力人材！★【人材-データ基盤（Python/Snowflake/DataStage）要件定義～/】即or8月～＠43歳（I.Y) / 80万【サクヤ 西"
+    },
+    {
+      "rowid": 6825,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【NW案件のご紹介！】ネットワーク構築1年以上でOK！/ Juniper/ リーダー枠/メンバー枠"
+    },
+    {
+      "rowid": 6843,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【C#·VB.NETフルスタック／開発実務10年超／32歳】男性／基本·詳細設計〜実装テスト·保守一貫／ActiveReports帳票特化／高円寺(リモートメイ"
+    },
+    {
+      "rowid": 13772,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/設計・構築～/windows/Active Directory/Azure/zabbix/jp1/aj/oracle/Cohes"
+    },
+    {
+      "rowid": 4345,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Java(Spring Boot)10年/70～80万/52歳男性/即日～/長野県【株式会社TERAZ】"
+    },
+    {
+      "rowid": 11130,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【PMO要員】7月開始/要件整理/顧客折衝/WBS作成/コード作成/30分以内常駐可能/【KAD大内】"
+    },
+    {
+      "rowid": 6876,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "【エンド直】130万円以上/PM・PMO/大手不動産グループにおけるDX・システム開発推進"
+    },
+    {
+      "rowid": 5591,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "6/19【TRAVER案件情報】開発＆インフラ案件：テックリード。基幹リプレイス・エンジニア。Java。Spring Boot。CI/CD。"
+    },
+    {
+      "rowid": 13784,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件】動き良いです/ディレクター/40万/常駐【ビズリンク本橋】"
+    },
+    {
+      "rowid": 14406,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】【商談1回希望】弊社個人事業主T.K 50歳（即日：Java開発案件（要件定義から一貫して対応可）"
+    },
+    {
+      "rowid": 5621,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材ーC, C++, Linux, VxWorks】弊社直フリーランス (S.R)/ 6月～＠本厚木駅/70～75万【サクヤ 保母】★"
+    },
+    {
+      "rowid": 13770,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【WEBディレクター】【87〜92万】【祐天寺駅】"
+    },
+    {
+      "rowid": 19584,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】7月〜/C言語、Shell、Linux技術者募集/品川/@60"
+    },
+    {
+      "rowid": 17700,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【JG】(急募)フルリモート（採用管理フロントコーダー（業務委託））（弊社独占）50万まで"
+    },
+    {
+      "rowid": 6959,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人材情報】【PMO補佐｜IT事務｜ITサポート】資料作成・進行管理・問い合わせ対応に強みを持つサポート人材（K.S/26歳）（D-code 南山）"
+    },
+    {
+      "rowid": 11818,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】テストPM/75万/6月〜7月〜/フルリモート/株式会社インテリジブル"
+    },
+    {
+      "rowid": 16548,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ　※エンド直案件※　情シス要員募集／ITIL、Cisco、Fotigate、AWS、Azure、Windows、Linux、"
+    },
+    {
+      "rowid": 17882,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【案件-Claudeエンプラ導入 / 120～150万】大手SIer向けClaude Codeを用いた次世代開発支援ツール導入・展開支援/ 随時 ＠麹町【サク"
+    },
+    {
+      "rowid": 14845,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員F・S 26歳（7月：C#, Windows, Oracle, SQL, ASP.NET）"
+    },
+    {
+      "rowid": 6808,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【インフラ要員・65万】【7月・和光市駅・VBA／Python／Shell／Auth0（IDaaS）】"
+    },
+    {
+      "rowid": 8495,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91agentプロパー★即日～ 外部CFO / 経営企画責任者 / 資金調達・M&A対応 / 曳舟駅（リモート併用）"
+    },
+    {
+      "rowid": 3776,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Vue.js、Python案件/〜65万/生保/AI関連システムの開発/FastAPI/AWS/7月〜/面談1回/＠大崎駅【レルモ櫻井】"
+    },
+    {
+      "rowid": 3580,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜170万〜（相談可）】【戦略・構想策定 / 大規模PM・PMO】金融・公共領域で数千億規模のPJを牽引してきた超実力派コンサル"
+    },
+    {
+      "rowid": 5671,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】生成AI教育人材ご紹介！45歳/即 研修講師×教材制作×業務改善支援に強み Dify/n8n/Claude code/Copilot など 人物◎"
+    },
+    {
+      "rowid": 4707,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【リモート併用・東京or神戸】バイリンガル SAP SCM Consultant / 7月〜 / SAP・S/4HANA・SCM・ビジネス英語 / 〜120万【"
+    },
+    {
+      "rowid": 19768,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【常駐可能！】SQLを基本設計から対応可能なエンジニア"
+    },
+    {
+      "rowid": 19580,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【即日,7月/案件/超急募】Intune経験者探してます!"
+    },
+    {
+      "rowid": 6860,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【汎用COBOL·PL/1·アセンブラ／開発実務ベテラン／54歳】男性／調査分析·基本設計〜実装テスト·保守一貫／PL·PM経験／池袋(即日·リモ併用)／60万"
+    },
+    {
+      "rowid": 15527,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "BTMAIZ案件：【フルリモート】統合AI基盤構築および運用ガバナンス整備／データガバナンスエンジニア"
+    },
+    {
+      "rowid": 3549,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【8月〜75万〜】【Vue/Nuxt/Laravel/PWA】フロント・バック横断のフルスタックエンジニアのご紹介"
+    },
+    {
+      "rowid": 5584,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社社員/TypeScript(React/Next.js/Angular/Node.js)Java"
+    },
+    {
+      "rowid": 14860,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★急募! 若手大歓迎! セキュリティコンサル案件!【 70～80万! / セキュリティ, コンサル, 顧客折衝 】セキュリティ全般に関するコンサルタント業務 /"
+    },
+    {
+      "rowid": 20810,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【YDY案件ーDB移行/SQL/RDBMS】DB移行要件定義〜案件/7月～/95万円@赤坂見附or神谷町"
+    },
+    {
+      "rowid": 6943,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※新規人材！★【人材-データ基盤（Python/Snowflake/DataStage）/】即or8月～＠45歳（I.Y) / 80万【サクヤ 西村】"
+    },
+    {
+      "rowid": 5655,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】Java要員ご紹介！57歳/即 要件定義〜 Spring Boot×Vue×AWS 業務システム/一貫対応 人物○"
+    },
+    {
+      "rowid": 13869,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Java案件　【アイエンター鈴木】"
+    },
+    {
+      "rowid": 5021,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【UiPath/WinActor/Automation Anywher要員・73万】【7月・北品川駅・要件定義〜設計〜開発〜テスト〜リリースまで一貫対応】"
+    },
+    {
+      "rowid": 13668,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "地方可能！/Python/Linux/フルリモ/要件定義/8月〜"
+    },
+    {
+      "rowid": 11201,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Google, Meta, GA4, その他】【Max55万円】【リモート併用（週2回程度）】（即日：大手企業向けデジタルマーケティング・ディレ"
+    },
+    {
+      "rowid": 6854,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】業務改革、業務改善経験者/PM、PMO/コンサル/RPA"
+    },
+    {
+      "rowid": 11174,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【OW案件】即日〜/NW領域PM/M&A・拠点統合に伴うITインフラ統合PJ経験/事業部・経営層との折衝・合意形成スキル/本八幡（初期フル常駐→半常駐）/＠11"
+    },
+    {
+      "rowid": 5544,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員T.Y 32歳（5月：Linux, Windows, VMware, Ansible, SQL, Excel）"
+    },
+    {
+      "rowid": 19585,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【直案件】セールス募集/toBのWEB商材/リモート併用【ビズリンク加藤】"
+    },
+    {
+      "rowid": 20243,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【MIRC案件/7月or8月開始】ロースキル案件・IT未経験も大歓迎・常駐・日本籍のみ"
+    },
+    {
+      "rowid": 16626,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/面談2回/Cisco/Juniper/無線LAN設計/PM担当"
+    },
+    {
+      "rowid": 20824,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【☆決まる案件です】ロースキル/時給1800円/新卒可能/コールセンター等の経験あると確度上がります"
+    },
+    {
+      "rowid": 13890,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人材】PHP/Python/基本設計～/AWS/フルスタック/7月～"
+    },
+    {
+      "rowid": 13179,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "☆元請け直案件☆地方可！フルリモート！／遊技機 ／UI／デザイナー募集"
+    },
+    {
+      "rowid": 13733,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【Webマーケター/ディレクター】【70〜75万】【要町駅】"
+    },
+    {
+      "rowid": 1819,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Python/AWS｜要件定義〜設計構築対応】フルリモート可｜調査解析・運用改善・PMO経験有"
+    },
+    {
+      "rowid": 7434,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　株式会社T tech life】"
+    },
+    {
+      "rowid": 6259,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員Y・D 25歳（即日～：TypeScript, PHP, JavaScript, jQuery, HTML/CSS, Window"
+    },
+    {
+      "rowid": 4976,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直個人】即日開始/生成AI活用を含むWebサービス・業務支援システムの企画～開発～運用経験/OpenAI、Claude、Geminiを活用したAIチャットシス"
+    },
+    {
+      "rowid": 6868,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "人材【基盤設計〜構築・データ連携基盤に強み！HULFT/Asteria/AWS/JP1　53歳/男性/7月〜】882882"
+    },
+    {
+      "rowid": 13911,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【フロント/バックエンド(Next.js,Python,等)/AI活用】【75〜81万】【戸田公園駅】"
+    },
+    {
+      "rowid": 14443,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【FloBoard案件】金融系システムの保守開発案件のご紹介"
+    },
+    {
+      "rowid": 13084,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【容姿端麗◎！弊社正社員技術者のご紹介】27歳女性/JP1、Windows Server、VBA/チームリーダー経験あり/クラリファイ株式会社"
+    },
+    {
+      "rowid": 21427,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【SQL, AWS, GCP, Python, R, Looker, BI, MySQL】【Max73万円】【リモート併用（週2回程度）】（4月："
+    },
+    {
+      "rowid": 4765,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "フレックス高単価案件!★【エンド直-Go / 90～110万 】toC向けECアプリケーション開発(バックエンド)【サクヤ大嶽】★"
+    },
+    {
+      "rowid": 6872,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員M・N 34歳（7月：C, C++, VB, VBA, Linux, Windows, Oracle, SQL）"
+    },
+    {
+      "rowid": 4411,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/即日～/プリセールス・テクニカルセールス経験者募集/基本設計～/NW/Cisco/Palo Alto/Juniper/L2L3SW"
+    },
+    {
+      "rowid": 11155,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★フルリモート!【Typescript, Python, Go / 90万～105万】大規模Webシステム新規構築におけるフルスタックアーキテクト支援 / 6月"
+    },
+    {
+      "rowid": 5089,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直個人】5月/54歳/週2出社可/上流PMO業務(インフラ、開発）、品質管理コンサルティング/105万/HN@中野/"
+    },
+    {
+      "rowid": 16161,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "プロダクトマネージャー案件/〜100万/ファンクラブSNS/即日〜/面談1回/＠フルリモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 3547,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜65万】【Laravel / AWS / PMO】開発経験を活かして進捗管理やベンダーコントロールを主導するPM補佐SE"
+    },
+    {
+      "rowid": 6937,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★プロパー先出し可能★24/365案件可能/要件定義・製造/Java / ExcelVBA "
+    },
+    {
+      "rowid": 6810,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【8月～/1社先正社員/55万/大阪府】NW・セキュリティ運用エンジニア/Cisco・FortiGate・Palo Alto経験 ＠千代田駅"
+    },
+    {
+      "rowid": 16151,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "システムエンジニア募集/〜65万/EC、アプリ、システム開発/PHP、Vue.js、React、Laravel、Ruby/要件定義〜/7月〜/面談1回/＠麻布十"
+    },
+    {
+      "rowid": 3529,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜85万】【Java・Python・TypeScript / 新規開発・PoC得意 / リーダー経験有】提案型フルスタックエンジ"
+    },
+    {
+      "rowid": 16527,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "弊社注力案件！【Flutter/基本設計〜テスト】証券会社向け Flutterスマホアプリ開発案件　〜95万"
+    },
+    {
+      "rowid": 19625,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】データアナリストご紹介！27歳/即日〜 Python×BigQuery×Looker 分析基盤構築に強み 人物◎"
+    },
+    {
+      "rowid": 6901,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★急募★即日or7月／ヘルプデスク／英語／50〜60万／京橋（常駐）"
+    },
+    {
+      "rowid": 13953,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【バックエンド/フロントエンド/フルスタック(PHP,Go,React,Vue等)】【85〜90万】【千葉県】"
+    },
+    {
+      "rowid": 20367,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※Java案件！プロパー参画中！高確度！★【Java(Spring, Spring Boot, TERASOLUNA) / 60～65万】@豊洲駅 / 自動車登"
+    },
+    {
+      "rowid": 1730,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材！SQL案件案件！Java案件!】弊社プロパー/製造〜/SQL/Java/Spring boot/52万/リモート併用/本厚木/7月〜"
+    },
+    {
+      "rowid": 1972,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "人材【7月〜/常駐可能/テスト、ヘルプデスク、運用保守、データ移行/＠南行徳】"
+    },
+    {
+      "rowid": 4673,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SPONTO直個人】即日～ 〈常駐〉PMO・SE / TypeScript、C++、C#、AWS / 44歳 / 日本 / 男性 / YRP野比（神奈川県）"
+    },
+    {
+      "rowid": 13924,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】システム運用保守経験4年半！研修熱心で改修/テスト業務等も問題なくキャッチアップ！可愛い気ある若手ほしい方是非連絡ください！"
+    },
+    {
+      "rowid": 7587,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】動画クリエイター／YouTube・SNS運用／広告・プロモーション／即日〜"
+    },
+    {
+      "rowid": 6817,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【インフラ運用保守要員/62万】【6月・要件定義以降・RPA、DataSpider、My SQL、SQL Server、JP1、Batch、Redmine、Sp"
+    },
+    {
+      "rowid": 15268,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下個人事業主SK 42歳（7月：PHP, AI活用）"
+    },
+    {
+      "rowid": 13855,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91プロパー★7月〜 Node.js / React / TypeScript / AWS対応 / PM対応可 / フルスタック / フルリモート希望"
+    },
+    {
+      "rowid": 11850,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【実績有！弊社注力案件！7月〜／基本リモート】Vue.jsまたはNode.js実務3年以上必須／基本設計〜テスト"
+    },
+    {
+      "rowid": 13694,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/セキュリティパッチ対応要員/WindowsServer運用/MW/SQLServer/ITILベース"
+    },
+    {
+      "rowid": 13202,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件】開発支援PMO/要件整理/Javaを用いたシステム開発経験/基本リモート"
+    },
+    {
+      "rowid": 5568,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人材情報】★Java人材★7月〜/男性/41歳/要件定義から一貫した経験/西武池袋線・東長崎駅(リモート併用)＠90万"
+    },
+    {
+      "rowid": 12595,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★91案件★B2B SaaS「決済プラットフォーム」クラウドエンジニア/SRE募集"
+    },
+    {
+      "rowid": 10712,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM】【7月】【PythonまたはJavaScript】プレス案件（取材システム更新2026プロジェクト）"
+    },
+    {
+      "rowid": 14419,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員H.K 34歳（3月：PMO,情シス）"
+    },
+    {
+      "rowid": 11245,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "実績有り★【人材-AWS/アーキテクチャ/k8s/コンテナ/Iac/Terraform】サクヤ直個人(S.Y) ＠ 90万【サクヤ西村】★"
+    },
+    {
+      "rowid": 6862,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "外国籍可案件【Oracle｜アーキテクト｜英語必須｜リモート併用　~200万】★"
+    },
+    {
+      "rowid": 1695,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★元請け直★インフラ（基盤系）/PMO/課題管理/進捗管理/リモート併用"
+    },
+    {
+      "rowid": 13222,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【現場直案件 / フルリモート】AIエンジニア募集！LLM / データ分析"
+    },
+    {
+      "rowid": 15274,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主Y.T 60歳（即日：C言語、シェルを中心とした詳細設計以降の開発案件）"
+    },
+    {
+      "rowid": 13262,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】6月 / Go / Python / Java / SRE / 要件定義〜 / リモート希望 / 90万  【UPTEMPO】"
+    },
+    {
+      "rowid": 3759,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "ゲームプランナー案件/〜50万/スポーツトレカゲーム/即日〜/面談1回/@外苑前駅※基本リモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 13098,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　株式会社T tech life】"
+    },
+    {
+      "rowid": 13842,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "地方可能【7月/70万/フルリモート案件】Typescript/Next/データ周り(BIツールなど)の経験がある方探してます。"
+    },
+    {
+      "rowid": 6935,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "常駐可！★【人材-JavaScript/PHP/Vue.js】一社先正社員30歳(S.M) ＠戸塚安行/70万/即日～【サクヤ 岡本】★"
+    },
+    {
+      "rowid": 13858,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】Java★★【フリテク押田】"
+    },
+    {
+      "rowid": 3826,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "FAQを更新する時間がない…現場の負担を減らすAI活用のステップ【お役立ち記事＆セミナー】"
+    },
+    {
+      "rowid": 10295,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【NW】【Max75万円】【リモート頻度応相談】（7月：某鉄道系グループ会社向け 決済端末用NW更改案件)"
+    },
+    {
+      "rowid": 13711,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材！Java案件！】弊社プロパー/基本設計〜/Java/Spring boot/Vue.js/50万/向ヶ丘遊園/3月〜"
+    },
+    {
+      "rowid": 6947,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※千葉に通える方★【案件ーVB.NET、VBA、SQL】製造業向け システム保守開発　 7月＠リモート、八幡宿/60-65万【サクヤ 齋藤】★"
+    },
+    {
+      "rowid": 6249,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "官公庁系に強いPMO！★【人材ーPMO, 官公庁, 金融, 保険, 入札, パッケージ, セキュリティ, ガイドライン】弊社直個人(K.S) /6,7月～＠王子"
+    },
+    {
+      "rowid": 11127,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/案件/上位決裁/超急募】Windows Server/脆弱性調査経験者募集!"
+    },
+    {
+      "rowid": 20902,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【AWS刷新型移行×上流一貫】JP1／Asteria／GreenplumをAWSマネージドサービスへリプレイスする移行アーキテクト募集"
+    },
+    {
+      "rowid": 20370,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "﻿【NBW案件情報】PRO*C、C#、VB.NET、JAVAのいずれか経験者/Oracle/8月～/長後駅、湘南台駅（テレワーク併用）"
+    },
+    {
+      "rowid": 16163,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "セキュリティエンジニア募集/〜110万/プロンプトインジェクション対策/LLMの出力制御/即日、7月〜/面談1回/＠東京※フルリモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 12567,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【要員情報】C#.NET、ASP.NET、リーダー、ゲーム、スマホアプリ、出社可能"
+    },
+    {
+      "rowid": 4992,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材-PM/PMO/PL・要件定義～】1社先代表(S.T) ＠八丁畷 / 90～100万【サクヤ山本】★"
+    },
+    {
+      "rowid": 20220,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "探してます！【監視システム/設計】90万程度｜溜池山王｜7月開始｜ICD案件情報/インフラ"
+    },
+    {
+      "rowid": 9878,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "案件紹介の件"
+    },
+    {
+      "rowid": 13239,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "副業【弊社個人事業主】PM / PdM / コンサルタント / CTO / ブリッジエンジニア"
+    },
+    {
+      "rowid": 4332,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PMO(7年)/英語/中国語/55～65万/29歳女性/4月～/高田馬場【株式会社TERAZ】"
+    },
+    {
+      "rowid": 13857,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91agentプロパー★即日～ 外部CFO / 経営企画責任者 / 資金調達・M&A対応 / 曳舟駅（リモート併用）"
+    },
+    {
+      "rowid": 18455,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Java詳細〜【GVT大河内】"
+    },
+    {
+      "rowid": 6955,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★インフラ案件希望/経験16年/PM,PL,マネジメント経験あり★EBA正社員/リモート週3以上/59万"
+    },
+    {
+      "rowid": 1936,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【自治体向け業務システムQA｜25ヶ月長期参画】単体・結合テスト／不具合分析／AWS環境検証対応可"
+    },
+    {
+      "rowid": 4315,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Next.js(2年半)/Typescript(5年)/80～85万/32歳男性/7月～/草加【株式会社TERAZ】"
+    },
+    {
+      "rowid": 6220,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月：弊社プロパー】先出OK/参画優先！経験2年若手PG！言語不問/テストデータ作成/自動テスト実施/テスト設計/総合テスト対応可能！"
+    },
+    {
+      "rowid": 19106,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【DIVE IN 人材】【人柄◎/ベテランディレクション人材/リモート併用/90~95万円】"
+    },
+    {
+      "rowid": 15277,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主K.H 47歳（7月～：PHP、Laravel、Javaを用いたバックエンド開発案件※kintone関連案件も可）"
+    },
+    {
+      "rowid": 5704,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社BP要員Y.T 41歳（4月：Linux、Windows Server,設計構築）"
+    },
+    {
+      "rowid": 1933,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Cisco NW構築即戦力】Nexus/Catalyst更改・設計修正・現地構築経験｜自動化対応可"
+    },
+    {
+      "rowid": 1971,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "残2枠！【チョータツブースト】｜新チケット使い放題プランのご案内｜2400社以上のIT企業に出会える"
+    },
+    {
+      "rowid": 6958,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】Java/SQL/AWS/Webアプリ開発/JavaScript/Spring/常駐（D-code 安富祖）"
+    },
+    {
+      "rowid": 13982,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　Web開発～モバイルアプリ / フルスタック / TypeScript / React / 基本設計～【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 13203,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/7月～/面談2回/Cisco/Juniper/無線LAN設計/PM担当"
+    },
+    {
+      "rowid": 7583,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【業務委託】Webライター／広告記事・SEOコンテンツ制作／WordPress／即日～／Webマーケ・PR"
+    },
+    {
+      "rowid": 11991,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【KAD独占】営業案件／ITソリューションの既存顧客フォロー・内勤営業／インサイドセールス【KAD石川】2274"
+    },
+    {
+      "rowid": 1825,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Java/SpringBoot8年｜要件定義〜開発一貫対応｜業務分析・顧客折衝に強いSE】"
+    },
+    {
+      "rowid": 4342,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★週3出社可能/Java(20年)/Vue.js・Angular/65～70万/53歳(男性)/即日～/川口【株式会社TERAZ】"
+    },
+    {
+      "rowid": 19004,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件】7月〜、セキュリティ関連の構築・運用保守、LANSCOPE導入運用保守経験"
+    },
+    {
+      "rowid": 6951,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材！SQL案件案件！Java案件!】弊社プロパー/製造〜/SQL/Java/Spring boot/52万/リモート併用/本厚木/7月〜"
+    },
+    {
+      "rowid": 1724,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【YDY案件ー開発PMO/損保/C言語/Java】損保PMO案件/7月～/～70万円@八丁堀"
+    },
+    {
+      "rowid": 4421,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【要員】Java／Spring Boot／開発歴4年／詳細設計〜／教育・保険系システム実績／UI・UX知見／Thymeleaf／JUnit／常駐可【KAD小坂】"
+    },
+    {
+      "rowid": 6211,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【アイル要員情報】Linux設計構築要員"
+    },
+    {
+      "rowid": 1715,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91agentプロパー★7月～ Python/PG/テスター"
+    },
+    {
+      "rowid": 18371,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【エンド直】Ruby、JavaScript／動画配信システム開発／渋谷／即日 or 2月～"
+    },
+    {
+      "rowid": 7401,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月：関西プロパー】製造/テスト経験者！先出OK！常駐可/通勤1時間15分可能！通信、金融、メーカー向けPJ経験！"
+    },
+    {
+      "rowid": 5659,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】BPR要員ご紹介！50歳/7月 ERP/業務フロー再構築/管理体制/財務会計DX推進/内部統制 など 人物スキル◎"
+    },
+    {
+      "rowid": 16111,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "8月開始弊社交代枠【ほぼリモート／Java SpringBoot／公共データ連携基盤開発／80万円】【コラボテクノ株式会社】"
+    },
+    {
+      "rowid": 19118,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "7月〜　某機関向け VDI基盤リプレース案件/ 最寄り駅：東銀座"
+    },
+    {
+      "rowid": 5013,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★金融の市場リスク有識者‼【元請直-リモート柔軟に相談可 / 75～100万】銀行における金融商品の市場リスク管理システム化支援 / 7月～長期＠茅場町【サクヤ"
+    },
+    {
+      "rowid": 5646,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直個人】【人材情報】PMO経験者／進捗管理・資料作成・調整業務対応可／57万（応相談）（D-code伊藤）"
+    },
+    {
+      "rowid": 13838,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "案件ください！【PHP/Laravel】【弊社要員！常駐可能！】即日〜/45万/沼袋駅/PHP"
+    },
+    {
+      "rowid": 3778,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "PMO案件/〜60万/共済/社員支援業務/8月〜/面談1回/＠市場前駅【レルモ櫻井】"
+    },
+    {
+      "rowid": 8048,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ/即日～/面談2回/VMware/Hyper-V/仮想基盤/顧客調整/WBS"
+    },
+    {
+      "rowid": 13914,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【データ分析・ツール開発・自動化（SQL/Python/Power Automate）】【60〜75万】【南千住駅】"
+    },
+    {
+      "rowid": 20285,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【PMO案件｜PM｜Java経験尚○｜10人以上のPJ経験】基本出社｜7月開始｜ICD案件情報/管理系"
+    },
+    {
+      "rowid": 13126,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "4月～RAG構築/python/java/cloudecode要員のご紹介です。"
+    },
+    {
+      "rowid": 13704,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【最注力要員】7月から/資格複数(Python,Javasilver→Javagold7月中に取得予定)/Webアプリ開発Java(Spring boot),S"
+    },
+    {
+      "rowid": 13847,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【Python開発／和光市常駐　案件】アーキテクトコア案件情報"
+    },
+    {
+      "rowid": 6805,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【SAP】【Max70万円】【大崎、新川崎】（即日：大規模業務システム改修)"
+    },
+    {
+      "rowid": 8940,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/注力案件】ロースキル/未経験可能/時給1600円/5枠あります"
+    },
+    {
+      "rowid": 13235,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "単価UP【現場直案件】即日 / 営業 / インサイドセールス / IS / BtoB / テレアポ"
+    },
+    {
+      "rowid": 1870,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Windows/Linux運用保守10年以上｜JP1・Zabbix・Cisco・Aruba｜官公庁・金融インフラ経験】"
+    },
+    {
+      "rowid": 6771,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【DIVE IN人材】【若手Python人材/生成AI/詳細設計~/常駐可/60万円】"
+    },
+    {
+      "rowid": 11276,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【リモート併用・広島】Oracle Cloud Manufacturing Consultant・TL / 即日〜 / Oracle Cloud ERP・製造業"
+    },
+    {
+      "rowid": 6772,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【DIVE INプロパー】【若手PMO人材/C#/Java/人柄◎/常駐可能/50万円】"
+    },
+    {
+      "rowid": 13189,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "人材【データ連携・業務改善に強み！PowerApps/Asteria/SQLServer　54歳/男性/7月〜】883883"
+    },
+    {
+      "rowid": 21424,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【TypeScript,React,Next,Kotlin,Java】【リモートメイン】（7月 ※6月も相談可：商談解析システム改修案件)"
+    },
+    {
+      "rowid": 6785,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【容姿端麗人材のご紹介】上流や開発経験あり/社内SE経験あり//VB,net、VBA、SQL、Linu(UNIX)合わせて7年ほど経験あり/マルチタスクが可能な"
+    },
+    {
+      "rowid": 14848,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員E・Y 29歳（7月：Kintone, JavaScript, HTML/CSS, UiPath, Oracle, jQuery,"
+    },
+    {
+      "rowid": 13214,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "参画優先！【弊社正社員5名一覧/PMO/Java/ABAP/React/VBA/RPA/Ansibleなど】ファンタレイ株式会社"
+    },
+    {
+      "rowid": 16551,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "注力案件！【テスト計画/テスト設計/Java/C言語/基本設計/常駐】証券会社向け スマホアプリのテスト設計案件　〜80万"
+    },
+    {
+      "rowid": 6223,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直個人】7月開始/PL/SQL/oracle EBS/VBA/コミュニケーション最高（D-code 平野）"
+    },
+    {
+      "rowid": 13725,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社フリーランス】【webディレクター】【60〜80万】【笹塚駅】"
+    },
+    {
+      "rowid": 13747,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/案件/面談依頼来てます】SAP/要件定義〜1人称の方探してます!"
+    },
+    {
+      "rowid": 19062,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "☆セキュリティパッチ対応案件(WindowsServer)☆"
+    },
+    {
+      "rowid": 13987,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　ITコンサル / DX推進 / ベンダーコントロール　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 3510,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【5月〜50万】【セキュリティ監視・SAP保守・給与システム運用】インシデント対応に強みを持つ運用エンジニアのご紹介"
+    },
+    {
+      "rowid": 7431,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】<弊社交代枠>NW運用　8月〜長期　神谷町または虎ノ門（リモート併用）"
+    },
+    {
+      "rowid": 13758,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月／弊社プロパー】PMO補佐／IT事務4年／進捗管理／40万"
+    },
+    {
+      "rowid": 20346,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※フルリモ高単価！Go案件！★【エンド直案件ーGo, TypeScript(React), AI, アーキレベル】～120万！/7月1日or15日～/AIを活用"
+    },
+    {
+      "rowid": 3761,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "M.A(西武立川)｜営業事務兼バックオフィス業務約8年、カスタマーサポート／請求・受発注、議事録作成、SNS運用／kintone、Salesforce／即日～7"
+    },
+    {
+      "rowid": 3770,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【注力案件！！】Windows Server運用保守経験 / 複数名募集 / 7月～"
+    },
+    {
+      "rowid": 13906,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/弊社社員/先出可能】システム運用保守4.5年/JCL,Linux,SQL"
+    },
+    {
+      "rowid": 6194,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/注力要員】Java3年/SpringBoot/Thymelea/Junit/詳細設計〜/55〜58万"
+    },
+    {
+      "rowid": 19661,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【Rotim案件】貴社まで / インフラ / 運用設計経験者募集 / リモート / 7月"
+    },
+    {
+      "rowid": 13760,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【プロパー社員】JavaScript/TypeScript、React(Node.js)、PHP"
+    },
+    {
+      "rowid": 6827,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "★ ICD案件一覧（商流不問/フリーランス可）6/19更新★Java/PHP/C++/C#/Java/Ruby/React/Typescript/Vue/フルス"
+    },
+    {
+      "rowid": 12607,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【GFD案件】インフラ　サーバー要員募集／基本設計～、英語読解能力、Linux、k8s　Kubernetes、コンテナ、PostgreSQL"
+    },
+    {
+      "rowid": 1934,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Python/AWS｜要件定義〜設計構築対応】フルリモート可｜調査解析・運用改善・PMO経験有"
+    },
+    {
+      "rowid": 5651,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】★注力人材★Scala/Java要員ご紹介！37歳/即 要件定義〜 フルスタックも可 PlayFramework×springboot×React　"
+    },
+    {
+      "rowid": 7580,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月／注力案件】AWS基本設計〜対応できる方／週3リモート／75万"
+    },
+    {
+      "rowid": 13696,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【元請直案件】即日/リモート併用/〜100万/クリエイター獲得施策/新規サービス立上げ/事業企画推進/プラットフォーム運営/施策企画実行/ガバナンス対応"
+    },
+    {
+      "rowid": 18449,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "インフラ設計構築案件/〜70万/WindowsServer/Linux/VMWare/AWS/Powershell, bat/JP1/7月〜/面談1回/＠飯田橋"
+    },
+    {
+      "rowid": 13977,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　PM / C# / Java　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 11861,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件】アシスタント/営業アシスタント/事務/スケジュール調整/ゲーム会社"
+    },
+    {
+      "rowid": 6345,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【NW案件｜大手町常駐｜〜128万円】＿WhiteBox"
+    },
+    {
+      "rowid": 6885,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　IDYNAM】【0619-1440：～75万／＠霞が関／NW、サーバー領域のインフラ設計構築要員募集】NW、サーバー領域のインフラ設計・構築経験/上"
+    },
+    {
+      "rowid": 6861,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "外国籍可案件【Adobe｜AEM/AEP｜英語必須｜リモート併用　~110万】★"
+    },
+    {
+      "rowid": 11181,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【データ分析, その他】【Max55万円】【リモート併用（週2回程度）】（即日：広告運用スペシャリスト（複数媒体運用・GA4解析・改善）)"
+    },
+    {
+      "rowid": 20278,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【☆決まる案件です】ロースキル/時給1800円/新卒可能/コールセンター等の経験あると確度上がります"
+    },
+    {
+      "rowid": 5706,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★★【弊社正社員！】実機テスト/PMO補佐★★【フリテク押田】"
+    },
+    {
+      "rowid": 8970,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※基本リモート【AWS要員募集】大手事業会社／海外向けアプリのインフラ構築（AWSサーバーレス/IaC）7月〜"
+    },
+    {
+      "rowid": 20933,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "大手小売業テナント向け決済端末開発支援【プリプレモ株式会社】"
+    },
+    {
+      "rowid": 13957,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※8月人材！フル常駐OK!★【人材-PM,PMO,PL,上流SE(Java、Spring、C#、PHP,React、Angular、Vue.js、Typescr"
+    },
+    {
+      "rowid": 13985,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　インフラ / SOX監査 / Linux / 常駐可能【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 18320,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】システム開発(Java／JavaScript／C#／PHPなど）経験2年以上 / 即日~ / 土橋駅(愛知県) ※基本常駐"
+    },
+    {
+      "rowid": 11199,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【イルミナ：案件】MOT-126/PO案件クラウド基盤PJ"
+    },
+    {
+      "rowid": 13741,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★７月〜注力案件★インフラPMO募集・インフラ運用保守経験5年・課題抽出、原因分析、改善計画立案、進捗管理・ドキュメント作成・ITIL"
+    },
+    {
+      "rowid": 13827,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "案件【Azure及びRed Hatの経験（3年以上）｜OpenShift経験｜～60万】★"
+    },
+    {
+      "rowid": 18493,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Java案件/〜60万/ソーシャルゲーム/既存/Spring/即日〜/面談1回/@外苑前駅※基本リモート【レルモ櫻井】"
+    },
+    {
+      "rowid": 7572,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】Webマーケ／SNS運用・LP制作・SEOライティング／即日～／人材・店舗・BtoC"
+    },
+    {
+      "rowid": 6828,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "フリーランス可能【PMO案件｜Java｜金融】基本出社｜7月開始｜ICD案件情報/管理系"
+    },
+    {
+      "rowid": 6865,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【株式会社youkimi Tech】要員営業状況のご連絡／新規事務系人材のご紹介"
+    },
+    {
+      "rowid": 8980,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※8月人材！フル常駐OK!★【人材-PM,PMO,PL,上流SE(Java、Spring、C#、PHP,React、Angular、Vue.js、Typescr"
+    },
+    {
+      "rowid": 16563,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/案件】TypeScript,Next.js/BIツール経験者探してます!"
+    },
+    {
+      "rowid": 15521,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※単価調整済※【BTMAIZ人材】【正社員】 T.S 41歳（7月～：AI/Python/PM/PL）"
+    },
+    {
+      "rowid": 6797,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "進み早いです！【クラウド/NW】90万程度｜溜池山王｜7月開始｜ICD案件情報/インフラ"
+    },
+    {
+      "rowid": 13173,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー/7月/45万〜50万】Java/GO/Typescript/vue/幅広く経験のあるPGです。"
+    },
+    {
+      "rowid": 6206,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "インフロント案件配信（Intune/AWS損害保険/Mcframe)"
+    },
+    {
+      "rowid": 6830,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　IDYNAM】【0619-1530：～80万／DB、DWHデータモデリング、PM経験者募集】リモート併用@川崎/DBまたはDWHのデータモデリング経"
+    },
+    {
+      "rowid": 13174,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★大至急探してます！★面談1回★7月or8月～ COBOL開発経験 市場前 / TKG千葉"
+    },
+    {
+      "rowid": 4351,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★テックリード(3年)/フルスタック/Python/Go/Node.js/Next.js/110万/46歳(男性)/即日～/西新宿五丁目【株式"
+    },
+    {
+      "rowid": 13207,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【PHP、Python、Go、TypeScript】【渋谷駅】（随時：基幹業務システムWebアプリケーション開発エンジニア)"
+    },
+    {
+      "rowid": 1755,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【React(TypeScript)×SpringBoot｜モダン開発対応SE】"
+    },
+    {
+      "rowid": 13764,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【YDY案件ーReact/Java/Springboot/Next】 製造業向け基幹システム刷新(リプレース)プロジェクト/7月～/95万円@神谷町駅"
+    },
+    {
+      "rowid": 5654,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社正社員】7月～ Python 関東 株式会社TERRA様 株式会社テクニケーションシード 島野"
+    },
+    {
+      "rowid": 4720,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【JG】案件フルリモート【Javaアプリケーションエンジニア】自社ATS運用保守／基盤領域対応（高単価）"
+    },
+    {
+      "rowid": 11225,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【mcframe/コンサル】mcframe 7 原価管理導入コンサルティング"
+    },
+    {
+      "rowid": 6278,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/要員】経験9年/Linux,Win,AWS/基本設計〜"
+    },
+    {
+      "rowid": 15272,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員tani 38歳（6月：PHP, JavaScript, Ruby, Shell, SQL, Oracle）"
+    },
+    {
+      "rowid": 11913,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件配信】7月〜/セキュリティ技術者募集/運用保守/基本リモート/丸の内"
+    },
+    {
+      "rowid": 13230,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": " 【要員のご提案　ネクストプラス】　PMO、PM補佐のご紹介"
+    },
+    {
+      "rowid": 5118,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【VBA×Power BI｜業務改善・DX推進を一人称で担えるSE】"
+    },
+    {
+      "rowid": 13964,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Astro?人材】▼＊直人材▼・AIコンサル・PM/PdM・スクラムマスター・AI駆動開発・＠練馬区"
+    },
+    {
+      "rowid": 12552,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【即日／フルリモ／65万】要件定義〜／AI・LLM技術"
+    },
+    {
+      "rowid": 6184,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【MotherComputer株式会社】PM要員のご紹介：Y.T（川口元郷駅）42歳"
+    },
+    {
+      "rowid": 13891,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【NWエンジニア,Cisco(Catalyst/Nexus),L2/L3スイッチ,ASA,BIG-IP ,24/365対応可 要員のご紹介】キャル(株)杉浦"
+    },
+    {
+      "rowid": 13702,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "＜MYK案件＞7月〜／サイバーセキュリティ保守案件／Python・Access経験者募集"
+    },
+    {
+      "rowid": 20958,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "★すべてエンド直案件★D-Standing案件一覧をご送付いたします！"
+    },
+    {
+      "rowid": 13951,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/注力要員】Java3年/SpringBoot/Thymelea/Junit/詳細設計〜/55〜58万"
+    },
+    {
+      "rowid": 13840,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【校務支援システムの新規機能開発/PHP/MySQL/初台】アーキテクトコア案件情報"
+    },
+    {
+      "rowid": 3569,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜72万】【Access VBA / PowerShell / VBScript】ツール開発・業務効率化実績約8年の即戦力エンジ"
+    },
+    {
+      "rowid": 16148,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "インフラ運用案件/〜110万/AWS/Windows/運用改善/チームリード/即日〜/＠千駄ヶ谷駅、御茶ノ水駅※リモート併用【レルモ櫻井】"
+    },
+    {
+      "rowid": 8001,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【フルリモート】Ruby on Rails バックエンド開発案件"
+    },
+    {
+      "rowid": 19551,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【PHP/Java要員・62万】【6月・PHP（Laravel）・Java（Spring Boot）・詳細設計以降】"
+    },
+    {
+      "rowid": 20204,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "データ基盤エンジニア（BigQuery／MDS）／渋谷／93万【リードヴァンス】"
+    },
+    {
+      "rowid": 11148,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★基本リモート【案件-100万～/AIコンサル】航空系AIコンサル・エンジニア支援案件/5月 @新整備場【サクヤ阿部】★"
+    },
+    {
+      "rowid": 6196,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】Webマーケ人材ご紹介！45歳/即日〜 SEO×EC運営×SNS運用 売上改善に強み LINE運用/オウンドメディアなど 人物◎"
+    },
+    {
+      "rowid": 6247,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー】PHP/Go/要件定義から/大阪出勤可能/経験8年"
+    },
+    {
+      "rowid": 5569,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Laravel·Vue·Reactフルスタック／実務13.7年／38歳】女性／要件定義·設計〜実装テスト·保守運用一貫／AWS·コンテナ·AIツール活用／こど"
+    },
+    {
+      "rowid": 18935,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【DMM案件】DMM0467｜PM（AIサービス）｜toC向けAI関連プロダクト開発"
+    },
+    {
+      "rowid": 13699,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【PL/セキュリティ】【Max90万円】某カード会社向けインフラ支援"
+    },
+    {
+      "rowid": 1674,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社正社員のご紹介　ITコンサル / DX推進 / ベンダーコントロール　【株式会社エムティークラウド】"
+    },
+    {
+      "rowid": 4960,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "⭐DRV社員⭐【JavaSE要員・85万】【7月・八景島駅・Java / VBA / JavaScript / HTML / css / Powershell "
+    },
+    {
+      "rowid": 6250,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【イルミナ：要員】稼働実績あり/M.N（29歳）/UI/UXとPMOを両立する即戦力人材"
+    },
+    {
+      "rowid": 5580,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社社員/サーバー設計構築"
+    },
+    {
+      "rowid": 16622,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/注力案件】Ruby3年以上/詳細設計〜/70万/リモート併用"
+    },
+    {
+      "rowid": 6894,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員M・N 30歳（7月：C#, VB, PHP, JavaScript, Node, Windows, SQL, Azure, QA"
+    },
+    {
+      "rowid": 13667,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Shell, SQL, Linux,】【Max63万円】【仙台】（7月：電力品質管理システム 負荷計算機能追加開発)"
+    },
+    {
+      "rowid": 6306,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月/要員】Java,TypeScript,Python/経験9年,SL,要件定義〜"
+    },
+    {
+      "rowid": 6197,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "※弊社実績あり【YDY人材ーC#/VB.NET/ASP.NET/JavaScript/SQLServer】弊社直個人事業主/7月～/80万/ON/47歳@都立大"
+    },
+    {
+      "rowid": 3518,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【即日〜65万】【Androidアプリ開発7年超 / FIDO生体認証・PUSH通知 / フルリモート】中国拠点からの移管実績やAI活"
+    },
+    {
+      "rowid": 18433,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報】8月開始/単価40〜45万/通信基地局業務（テクニカルサポートチーム）/東新宿駅"
+    },
+    {
+      "rowid": 6921,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "開発・PMO・インフラ広くご紹介ください！【札幌 正社員】"
+    },
+    {
+      "rowid": 11157,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★★【おすすめ人材！！】PMO/.net★★【フリテク押田】"
+    },
+    {
+      "rowid": 6984,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【開発PMO要員】PHP・AWS経験あり／上流〜開発工程まで対応可能"
+    },
+    {
+      "rowid": 13856,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91agentプロパー★7月～Java/Python/MySQL/ITコンサル"
+    },
+    {
+      "rowid": 6879,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【セット提案希望】大量募集！インフラ若手向け／サーバー／RHEL ／24/365／中野／7月〜順次"
+    },
+    {
+      "rowid": 13256,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "7月〜★単価再調整★【弊社社員/ネットワークエンジニア】NW設計構築／Cisco（C9115・Catalyst・WLC）・Fortinet（FortiGate・"
+    },
+    {
+      "rowid": 6953,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人財情報】クラウド基盤人材ご紹介！46歳/7月 Azure×AWS×運用設計 設計構築に強み インフラ全般/マネジメント経験 など 人物スキル◎"
+    },
+    {
+      "rowid": 14409,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　IKNT】【0622-1001：～120万／｜7/1～｜週2-3出社（品川）］グローバルセキュリティ組織向けWFMシステム導入・選定コンサル募集"
+    },
+    {
+      "rowid": 13921,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月／65万／リモート併用可】フロント開発経験、Java／JavaScript2年経験"
+    },
+    {
+      "rowid": 13799,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【急募案件】Java要員募集／基本設計～／参画実績あり／面談1回／川崎出社・8月～"
+    },
+    {
+      "rowid": 6992,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【PM｜業務コンサル｜〜115万｜リモートメイン｜7月開始】＿WhiteBox"
+    },
+    {
+      "rowid": 14433,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【7月：関西プロパー】製造/テスト経験者！先出OK！常駐可/通勤1時間15分可能！通信、金融、メーカー向けPJ経験！"
+    },
+    {
+      "rowid": 13728,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "7月〜■新橋・錦糸町■ECサイト開発支援〈Java／PostgreSQL〉"
+    },
+    {
+      "rowid": 13186,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "人材【金額調整しました！PHP, Node.js,TypeScript/45歳/男性/即日〜】874"
+    },
+    {
+      "rowid": 21442,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "【最大100万/月】フルリモ多数｜即日/7月～の注目案件"
+    },
+    {
+      "rowid": 3545,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜87〜95万】【Ruby on Rails / TypeScript】Rails経験約8年、フロント・バックエンド双方で高い実"
+    },
+    {
+      "rowid": 13691,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【PHP, Laravel, HTML/CSS, JavaScript, SQL】【Max65万円】【常駐】（7月：製本会社社内システムリプレース"
+    },
+    {
+      "rowid": 14855,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】弊社個人事業主E.M 49歳（即日～：Tableauを用いた可視化案件／ダッシュボード開発案件）"
+    },
+    {
+      "rowid": 6242,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員OT 39歳（6月：C, C++, Python, Linux, Windows）"
+    },
+    {
+      "rowid": 13144,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　株式会社T tech life】"
+    },
+    {
+      "rowid": 6238,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月】テスト移行/テスト設計などに強いPMを探しております！"
+    },
+    {
+      "rowid": 4442,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "フルリモート！面談依頼きています★【エンド直 / Go, PHP, TypeScript, React, Next, DDD / ～120万】大規模決済プラット"
+    },
+    {
+      "rowid": 7543,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【直フリーランス】映像ディレクター／広告映像・企画演出／即日～／広告・エンタメ・メーカー"
+    },
+    {
+      "rowid": 12522,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★急募★【即日/60万】Linux、SQLの基本操作ができるサブリーダー経験ある方"
+    },
+    {
+      "rowid": 6907,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "＜MYK案件＞7月〜／クレジットカード会社向け ホスト更改テスト移行実行"
+    },
+    {
+      "rowid": 13883,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "ヘルプデスク　リーダー募集【GVT大河内】"
+    },
+    {
+      "rowid": 13105,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【PHP/Java要員・62万】【6月・PHP（Laravel）・Java（Spring Boot）・詳細設計以降】"
+    },
+    {
+      "rowid": 4333,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★Kotlin(8年)/Jetpack compose/70～80万/38歳男性/7月～/福島【株式会社TERAZ】"
+    },
+    {
+      "rowid": 12521,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "Next.js案件/〜110万/AI/LLM/チャットサービス/フルスタック/即日、7月〜/面談1回/＠フルリモート【レルモ高橋】"
+    },
+    {
+      "rowid": 17908,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "案件情報/NXTech_1664_NW構築/維持運用"
+    },
+    {
+      "rowid": 1703,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　ISAISD】【0616-1613：～75万／週2日リモート＠代官山・上流SE案件】決済データ管理システム開発（クレジットカード業務知識）"
+    },
+    {
+      "rowid": 13221,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【現場直/フルリモート】横断PdM募集"
+    },
+    {
+      "rowid": 6788,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【人物面◎！弊社正社員技術者のご提案】27歳女性/4月～/ VBA,JavaScript,TypeScript,Python/開発製造、テスト、運用保守 /クラ"
+    },
+    {
+      "rowid": 6922,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "＜MYK案件＞6月〜／某企業向けWindowsクライアントOSの更改対応"
+    },
+    {
+      "rowid": 15282,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【BTM人材】当社1社下正社員U・T 26歳（7月：JAVA, JavaScript, Python, Windows, Linux, SQL, その他）"
+    },
+    {
+      "rowid": 4347,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PHP(7年)/Python（3年半）/65～75万/34歳男性/7月～/上野【株式会社TERAZ】"
+    },
+    {
+      "rowid": 16483,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "AWS設計構築案件/〜75万/インフラSE/大手カー用品グループ/7月〜/＠豊洲駅※リモート併用【レルモ高橋】"
+    },
+    {
+      "rowid": 6174,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★★エンド直★★6月AWS構築／運用経験＠五反田駅"
+    },
+    {
+      "rowid": 3751,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【Java若手募集！】基本設計～/Spring/証券の経験"
+    },
+    {
+      "rowid": 8933,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【AWS/NW】【基本リモート※地方可】（即日or7月：データ連携基盤構築支援)"
+    },
+    {
+      "rowid": 3514,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【SasaTech 人材】【7月〜75万】【Java・Spring Boot歴5年超 / リプレース・仕様解析に強み / TOEIC 900点】要件定義から障害"
+    },
+    {
+      "rowid": 7513,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件】マーケティングストラテジスト/フルリモート/マーケティング"
+    },
+    {
+      "rowid": 8005,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【GFD人材】インフラ/7月/AWS案件希望/スキルに見合う案件はなんでもご紹介ください！/Snowflake/Databricks/AWS"
+    },
+    {
+      "rowid": 19078,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件紹介】基幹システム新規導入PJ/ハイブリット(週2,3中央区)/8月～"
+    },
+    {
+      "rowid": 13116,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "残り1枠！　【NW設計・構築×検証支援】豊洲×テレワーク半分以上／即日参画可能なネットワークエンジニア募集"
+    },
+    {
+      "rowid": 6199,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【エッジ要員情報】運用保守要員"
+    },
+    {
+      "rowid": 13734,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【Java(Spring)·PHP·VB.NET／開発実務2.5年／24歳】男性／要件定義·設計〜実装·総合テスト一貫／ローコードGeneXus·Android"
+    },
+    {
+      "rowid": 11920,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★集まってません…！地方可！フルリモート案件！【エンド直-3DCG・xR/VRコンテンツ制作 / ～70万】即日～【サクヤ佐藤】★"
+    },
+    {
+      "rowid": 1717,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★91agentプロパー★7月～Java/Python/MySQL/ITコンサル"
+    },
+    {
+      "rowid": 11881,
+      "old_label": "other",
+      "new_label": "skip",
+      "subject": "★ワクト注力案件★2026.06.22"
+    },
+    {
+      "rowid": 13679,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【Vue.js】【AI】【Max78万円】【フルリモート】【竹芝】（7月：通信キャリア系サービスの開発)"
+    },
+    {
+      "rowid": 16154,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【元請け直・急募・基本リモート】検索基盤スペシャリスト募集 / 7月〜 / Apache Solr・Elasticsearch / 〜80万【Roots案件】"
+    },
+    {
+      "rowid": 6889,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★【人材-PHP(Laravel)、Oracle、MySQL、SQLチューニング・PM/PL・要件定義～】弊社所属個人事業主(T.S) ＠木ノ本駅(滋賀) / "
+    },
+    {
+      "rowid": 6835,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【7月/注力案件】ServiceNow/基本設計/70〜80万"
+    },
+    {
+      "rowid": 2392,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "超懇意先正社員！★【人材ーLinux（RHEL系）, AIX, Windows Server, JP1 】1社先正社員(A.M) 6月～ ＠東小金井駅/ 70万"
+    },
+    {
+      "rowid": 1702,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【注力人材！インフラ案件！幅広くご紹介お願いいたします！】弊社プロパー/詳細設計〜/Windows/Linux/Pshell script/55万/中河原/7月"
+    },
+    {
+      "rowid": 12528,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "PM案件/〜75万/ECサイト/Shopify/即日〜/面談1回/＠フルリモート【レルモ高橋】"
+    },
+    {
+      "rowid": 13112,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【案件情報　株式会社T tech life】"
+    },
+    {
+      "rowid": 4367,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★サーバー構築・運用(14年)/技術選定/AWS/75～80万/54歳(男性)/6月～/不動前【株式会社TERAZ】"
+    },
+    {
+      "rowid": 5581,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "弊社社員/COBOL"
+    },
+    {
+      "rowid": 13851,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【基本リモート案件/Python】ファイル連携基盤 レベルアップ対応案件"
+    },
+    {
+      "rowid": 6936,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【BTM案件】【React, TypeScript, Kotlin, HTML/CSS, AWS, JavaScript, SQL】【Max63万円】【リモート"
+    },
+    {
+      "rowid": 6324,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "【弊社プロパー】React・TypeScript/業務歴7年8カ月/詳細設計〜製造〜テスト/Next.js・Vue.js・Angular/7月〜"
+    },
+    {
+      "rowid": 15522,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "交代枠再募集【7月/6月/リモート併用案件】C# or Java＋αでインフラや上流の経験がある方探してます。"
+    },
+    {
+      "rowid": 20333,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "★【案件ーインフラ、サーバ、Active Directory、AD、EntraID】独立行政法人 情報系システム更改PJでのグループウェアチームの要員募集　即日"
+    },
+    {
+      "rowid": 13100,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "※募集終了のお知らせ※★若手メンバー歓迎★【ネットワーク】65万｜飯田橋｜6月開始｜ICD案件情報/インフラ"
+    },
+    {
+      "rowid": 15524,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "BTMAIZ案件：【リモート】音声認識SaaSアプリ開発（SE／インフラ／AIエンジニア募集）"
+    },
+    {
+      "rowid": 13241,
+      "old_label": "other",
+      "new_label": "project",
+      "subject": "【エンド直案件】営業 / インサイドセールス / テレアポ / 代々木常駐 / 弊社実績有"
+    },
+    {
+      "rowid": 6882,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "！PHP要員情報【7月/PHP経験7年・Laravel・/最上流〜運用保守/フルスタックエンジニア/テックリード経験あり】"
+    },
+    {
+      "rowid": 4356,
+      "old_label": "other",
+      "new_label": "engineer",
+      "subject": "★弊社直個人事業主★PHP(12年)/Java(4年)/Nuxt.js/70～75万/41歳(男性)/7月～/栗橋駅【株式会社TERAZ】"
+    }
+  ]
+}

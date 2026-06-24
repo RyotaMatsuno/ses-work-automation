@@ -1,0 +1,13 @@
+def _match_station(engineer: dict, station: str) -> bool:
+    """譛蟇�繧企ｧ�繝輔ぅ繝ｼ繝ｫ繝牙━蜈医∫ｩｺ縺ｪ繧牙ｙ閠��ｼ�LINE繝｡繝｢�ｼ峨ｂ讀懃ｴ｢縲�
+    縺ｩ縺｡繧峨↓繧りｦ九▽縺九ｉ縺ｪ縺�蝣ｴ蜷医�ｯTrue繧定ｿ斐☆�ｼ医う繝九す繝｣繝ｫ縺ｮ縺ｿ縺ｧ繝槭ャ繝��ｼ�"""
+    sta = _text_prop(engineer, "譛蟇�繧企ｧ�")
+    if sta:
+        return station in sta
+    memo = _text_prop(engineer, "蛯呵��ｼ�LINE繝｡繝｢�ｼ�")
+    if memo:
+        return station in memo
+    # DB縺ｫ譛蟇�繧企ｧ�繝�繝ｼ繧ｿ縺ｪ縺� 竊� 繧､繝九す繝｣繝ｫ縺縺代〒繝偵ャ繝域桶縺�
+    return True
+
+

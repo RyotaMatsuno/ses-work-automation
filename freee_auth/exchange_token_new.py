@@ -1,5 +1,6 @@
-import requests
 import json
+
+import requests
 
 CLIENT_ID = "731109064351970"
 CLIENT_SECRET = "6rbUbEgQ1i58C7O6Ndg8TQDDQcoO6w9EGkCt_HkWADe9klxnGoN1iNd-vlF0vqkqdVOJYi8nfkYNY9M9evkBJQ"
@@ -16,7 +17,7 @@ res = requests.post(
         "code": CODE,
         "redirect_uri": REDIRECT_URI,
     },
-    headers={"Content-Type": "application/x-www-form-urlencoded"}
+    headers={"Content-Type": "application/x-www-form-urlencoded"},
 )
 
 print(f"status: {res.status_code}")
@@ -24,7 +25,7 @@ if res.status_code == 200:
     token_data = res.json()
     with open(TOKEN_FILE, "w", encoding="utf-8") as f:
         json.dump(token_data, f, indent=2, ensure_ascii=False)
-    print(f"SUCCESS: トークン保存完了")
+    print("SUCCESS: トークン保存完了")
     print(f"access_token: {token_data.get('access_token', '')[:20]}...")
     print(f"expires_in: {token_data.get('expires_in')}秒")
     print(f"refresh_token: {token_data.get('refresh_token', '')[:20]}...")

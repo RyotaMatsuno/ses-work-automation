@@ -1,33 +1,59 @@
-
 # -*- coding: utf-8 -*-
-import requests, os, sys
-sys.stdout.reconfigure(encoding='utf-8')
-from dotenv import load_dotenv
-load_dotenv(r'C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env')
+import os
+import sys
 
-NOTION_API_KEY = os.environ.get('NOTION_API_KEY', '')
-WIKI_PAGE_ID = '353450ff-37c0-8145-9e3e-d80c8c8ed594'  # SESナレッジWiki
+import requests
+
+sys.stdout.reconfigure(encoding="utf-8")
+from dotenv import load_dotenv
+
+load_dotenv(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env")
+
+NOTION_API_KEY = os.environ.get("NOTION_API_KEY", "")
+WIKI_PAGE_ID = "353450ff-37c0-8145-9e3e-d80c8c8ed594"  # SESナレッジWiki
 
 headers = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
-    "Notion-Version": "2022-06-28"
+    "Notion-Version": "2022-06-28",
 }
 
+
 def p(text):
-    return {"object": "block", "type": "paragraph", "paragraph": {"rich_text": [{"type": "text", "text": {"content": text}}]}}
+    return {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {"rich_text": [{"type": "text", "text": {"content": text}}]},
+    }
+
 
 def h2(text):
-    return {"object": "block", "type": "heading_2", "heading_2": {"rich_text": [{"type": "text", "text": {"content": text}}]}}
+    return {
+        "object": "block",
+        "type": "heading_2",
+        "heading_2": {"rich_text": [{"type": "text", "text": {"content": text}}]},
+    }
+
 
 def h3(text):
-    return {"object": "block", "type": "heading_3", "heading_3": {"rich_text": [{"type": "text", "text": {"content": text}}]}}
+    return {
+        "object": "block",
+        "type": "heading_3",
+        "heading_3": {"rich_text": [{"type": "text", "text": {"content": text}}]},
+    }
+
 
 def li(text):
-    return {"object": "block", "type": "bulleted_list_item", "bulleted_list_item": {"rich_text": [{"type": "text", "text": {"content": text}}]}}
+    return {
+        "object": "block",
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {"rich_text": [{"type": "text", "text": {"content": text}}]},
+    }
+
 
 def divider():
     return {"object": "block", "type": "divider", "divider": {}}
+
 
 # 新しいページを作成
 page_body = {
@@ -49,7 +75,9 @@ page_body = {
         li("単価バグ修正: エンジニア15件・案件7件が円単位で入力されていた（例: 550000→55万）"),
         li("原因: mail_pipeline側のnormalize_priceが円→万変換するが、Notionへの書き込み時に変換前の値が入っていた"),
         li("対処: 全件スキャンして1000以上の値を/10000で修正"),
-        li("案件DB: ステータスが全件「募集中」のままでマッチングAIに「稼働中0件」と認識されていた → 全件「稼働中」に変更"),
+        li(
+            "案件DB: ステータスが全件「募集中」のままでマッチングAIに「稼働中0件」と認識されていた → 全件「稼働中」に変更"
+        ),
         li("テスト案件2件（【テスト】Java案件、[テスト]Javaバックエンド）をアーカイブ削除"),
         li("除外対象エンジニア9件を「調整中」に変更してマッチング対象外化"),
         p(""),
@@ -81,7 +109,7 @@ page_body = {
         li("SMTP設定: mail65.onamae.ne.jp:465 SSL / 3アカウント全て動作確認済み"),
         divider(),
         p("作成: ジョブズ（2026-05-15自動生成）"),
-    ]
+    ],
 }
 
 res = requests.post("https://api.notion.com/v1/pages", headers=headers, json=page_body)
