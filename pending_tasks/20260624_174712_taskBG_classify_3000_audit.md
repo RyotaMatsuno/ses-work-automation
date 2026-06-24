@@ -1,4 +1,4 @@
-# 【Cursor作業指示】Task BG: 分類精度改善（GPT-5.4 3ラウンド合意版）
+# 【Cursor作業指示】Task BG: 分類精度改善（GPT合意+CEO修正版）
 
 対象: ses_work/mail_pipeline/
 参照: CLAUDE.md / mail_pipeline/mail_pipeline.py / mail_pipeline/raw_inbox.db
@@ -7,14 +7,16 @@
 
 ---
 
-## Phase 1: 200件評価セット作成
+## Phase 1: 3000件評価セット作成
 
 ### 1-1. 層化抽出（mail_pipeline/analysis/build_eval_set.py 新規）
-raw_inbox.dbから200件を以下の配分で抽出:
-- project判定: 80件（直近50% + 過去ランダム30% + 高リスクKW上乗せ20%）
-- engineer判定: 60件（同配分）
-- skip判定: 40件（同配分）
-- 混在/曖昧: 20件
+raw_inbox.dbから3000件を以下の配分で抽出:
+- project判定: 1500件（直近50% + 過去ランダム30% + 高リスクKW上乗せ20%）
+- engineer判定: 900件（同配分）
+- skip判定: 600件（同配分）
+
+CEO判断: 200件では全パターン網羅不可。SESメールは会社ごとにフォーマットが異なり、
+混在パターン・季節変動・個別送付vs一斉配信など多様。3000件で網羅的に分析する。
 
 高リスクKWの分類:
 - engineer強シグナル: 要員, 経歴書, スキルシート, 並行営業可, 提案可, 人材配信
@@ -34,7 +36,7 @@ raw_inbox.dbから200件を以下の配分で抽出:
 - 1通に案件+人材が混在するケースは primary_type="mixed"
 
 ### 1-3. 評価セット出力
-`mail_pipeline/analysis/eval_set_200.json` に保存
+`mail_pipeline/analysis/eval_set_3000.json` に保存
 
 ## Phase 2: 分類改善（2層構成）
 
@@ -59,7 +61,7 @@ raw_inbox.dbから200件を以下の配分で抽出:
 
 ### 2-3. テスト追加
 - `mail_pipeline/tests/test_task_bg_eval.py`（新規）
-- 200件評価セットから代表15件をテストケース化
+- 3000件分析から代表30件をテストケース化
 - 既存テスト30/30が壊れないこと
 
 ## Phase 3: DB反映
@@ -79,9 +81,9 @@ raw_inbox.dbから200件を以下の配分で抽出:
 - is_active_for_matching=trueの案件のみマッチング対象
 
 ## 完了条件
-- [ ] 200件評価セット生成
+- [ ] 3000件評価セット生成
 - [ ] ルール1層目（strong_project/strong_engineer/ambiguous）実装
 - [ ] LLM2層目（ambiguousのみ再分類）実装
-- [ ] 200件ベンチマークで修正前後比較
+- [ ] 3000件ベンチマークで修正前後比較
 - [ ] 新規テスト+既存テスト全PASS
 - [ ] DB反映（プロパティ追加+inactive慎重適用）
