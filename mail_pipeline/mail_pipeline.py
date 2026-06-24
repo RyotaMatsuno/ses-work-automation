@@ -111,6 +111,18 @@ ENV_PATH = BASE_DIR.parent / "config" / ".env"
 DRAFTS_DIR = BASE_DIR / "pipeline_drafts"
 LOG_PATH = BASE_DIR / "pipeline.log"
 LOCK_FILE = os.path.join(os.environ.get("LOCALAPPDATA", ""), "ses_work_state", "pipeline.lock")
+LOCK_TTL_MINUTES = 45
+BATCH_POLL_TIMEOUT_MINUTES = 20
+BATCH_POLL_INTERVAL_SEC = 10
+
+
+class BatchPollTimeout(Exception):
+    """Batch API ポーリングがタイムアウトした場合。"""
+
+    def __init__(self, batch_id: str, elapsed_min: float) -> None:
+        self.batch_id = batch_id
+        self.elapsed_min = elapsed_min
+        super().__init__(f"Batch poll timeout: {batch_id} after {elapsed_min:.0f}min")
 PROCESSED_IDS_PATH = BASE_DIR / "processed_ids.json"  # legacy; migrated to raw_inbox.db
 RAW_INBOX_DB = BASE_DIR / "raw_inbox.db"
 ATTACHMENTS_DIR = BASE_DIR.parent / "attachments"
@@ -214,7 +226,7 @@ VALID_JOB_CATEGORIES = {
     "other",
 }
 
-CANONICAL_CLASSIFY_LABELS = frozenset({"project", "engineer", "skip", "other"})
+CANONICAL_CLASSIFY_LABELS = frozenset({"project", "engineer", "skip", "other", "pending"})
 LABEL_NORMALIZE_MAP = {
     "talent": "engineer",
     "resume": "engineer",
@@ -335,16 +347,34 @@ def log(msg: str):
         pass  # OneDrive同期ロック等でファイルが書けない場合はスキップ
 
 
+def _remove_stale_lock_if_needed() -> None:
+    """45分超の pipeline.lock を強制解除（Batch API ハング等の復旧）。"""
+    if not os.path.exists(LOCK_FILE):
+        return
+    age_minutes = (time.time() - os.path.getmtime(LOCK_FILE)) / 60
+    if age_minutes > LOCK_TTL_MINUTES:
+        log(f"[LOCK] stale lock detected ({age_minutes:.0f}min). Force removing.")
+        try:
+            os.remove(LOCK_FILE)
+        except OSError as e:
+            log(f"[LOCK] stale lock remove failed: {e}")
+
+
 def acquire_lock() -> IO[str]:
     """二重起動防止（Task Scheduler + 手動実行の排他）。"""
     os.makedirs(os.path.dirname(LOCK_FILE), exist_ok=True)
+    _remove_stale_lock_if_needed()
     lock_fh = open(LOCK_FILE, "w", encoding="utf-8")
     try:
         msvcrt.locking(lock_fh.fileno(), msvcrt.LK_NBLCK, 1)
         return lock_fh
     except OSError:
         lock_fh.close()
-        log("別プロセスが実行中 - スキップ")
+        if os.path.exists(LOCK_FILE):
+            age_minutes = (time.time() - os.path.getmtime(LOCK_FILE)) / 60
+            log(f"別プロセスが実行中 - スキップ (lock {age_minutes:.0f}min ago)")
+        else:
+            log("別プロセスが実行中 - スキップ")
         sys.exit(0)
 
 
@@ -848,6 +878,52 @@ def _batch_budget_allowed(batch_items: list[dict], phase: str = "classify") -> b
     return _batch_budget_reserve(batch_items, phase=phase) is not None
 
 
+def wait_for_batch(batch_id: str, headers: dict) -> list[dict] | None:
+    """Batch API の完了をポーリング。タイムアウト時は None を返す。"""
+    start = time.time()
+    poll_count = 0
+    while True:
+        elapsed_min = (time.time() - start) / 60
+        if elapsed_min > BATCH_POLL_TIMEOUT_MINUTES:
+            log(f"[BATCH] TIMEOUT {batch_id} after {elapsed_min:.0f}min")
+            return None
+        if poll_count == 0 or poll_count % 6 == 0:
+            log(f"[BATCH] polling {batch_id} ({elapsed_min:.0f}min elapsed)")
+        status_res = requests.get(
+            f"https://api.anthropic.com/v1/messages/batches/{batch_id}",
+            headers=headers,
+            timeout=60,
+        )
+        if status_res.status_code != 200:
+            raise RuntimeError(f"Batch状態取得エラー: {status_res.status_code} {status_res.text[:300]}")
+        if status_res.json().get("processing_status") == "ended":
+            break
+        poll_count += 1
+        time.sleep(BATCH_POLL_INTERVAL_SEC)
+
+    results_res = requests.get(
+        f"https://api.anthropic.com/v1/messages/batches/{batch_id}/results",
+        headers=headers,
+        timeout=120,
+    )
+    if results_res.status_code != 200:
+        raise RuntimeError(f"Batch結果取得エラー: {results_res.status_code} {results_res.text[:300]}")
+    lines = [line for line in results_res.text.splitlines() if line.strip()]
+    return [json.loads(line) for line in lines]
+
+
+def _mark_batch_requests_pending(batch_requests: list[dict], results: dict) -> None:
+    """Batch タイムアウト時、未処理分を pending 扱いにする（次回再分類）。"""
+    for item in batch_requests:
+        custom_id = item.get("custom_id", "")
+        try:
+            idx = int(custom_id.rsplit("_", 1)[1])
+            if idx not in results:
+                results[idx] = {"type": "pending"}
+        except (ValueError, IndexError):
+            pass
+
+
 def _finalize_batch_usage(decision, items: list[dict], phase: str = "classify") -> None:
     """Batch API 完了後に reservation を finalize して実トークンを記録する。"""
     if not decision or not decision.allowed:
@@ -1065,32 +1141,12 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             if res.status_code not in (200, 201):
                 raise RuntimeError(f"Batch作成エラー: {res.status_code} {res.text[:300]}")
             batch_id = res.json()["id"]
-            log(f"  Batch API送信: {len(batch_items)}件 ({batch_id})")
-            deadline = time.time() + 120 * 60
-            while time.time() < deadline:
-                status_res = requests_module.get(
-                    f"https://api.anthropic.com/v1/messages/batches/{batch_id}",
-                    headers=headers,
-                    timeout=60,
-                )
-                if status_res.status_code != 200:
-                    raise RuntimeError(f"Batch状態取得エラー: {status_res.status_code} {status_res.text[:300]}")
-                status_data = status_res.json()
-                if status_data.get("processing_status") == "ended":
-                    break
-                time.sleep(30)
-            else:
-                raise TimeoutError(f"Batchタイムアウト: {batch_id}")
-
-            results_res = requests_module.get(
-                f"https://api.anthropic.com/v1/messages/batches/{batch_id}/results",
-                headers=headers,
-                timeout=120,
-            )
-            if results_res.status_code != 200:
-                raise RuntimeError(f"Batch結果取得エラー: {results_res.status_code} {results_res.text[:300]}")
-            lines = [line for line in results_res.text.splitlines() if line.strip()]
-            results = [json.loads(line) for line in lines]
+            submitted_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            log(f"[BATCH] submitted {batch_id} ({len(batch_items)}件) at {submitted_at}")
+            results = wait_for_batch(batch_id, headers)
+            if results is None:
+                finalize(decision, success=False, error_kind="transient")
+                raise BatchPollTimeout(batch_id, BATCH_POLL_TIMEOUT_MINUTES)
             _finalize_batch_usage(decision, results, phase="classify")
             return results
         except Exception:
@@ -1202,6 +1258,15 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             idx = em.get("index", i)
             if idx not in results:
                 results[idx] = {"type": "other", "note": "Batch結果なし"}
+        return _normalize_classify_results(results, email_by_index)
+    except BatchPollTimeout as e:
+        log(f"  Batch APIタイムアウト: {e.batch_id} ({e.elapsed_min:.0f}min) — 次回再分類")
+        _mark_batch_requests_pending(batch_requests, results)
+        _mark_batch_requests_pending(second_extract_requests, results)
+        for i, em in enumerate(emails):
+            idx = em.get("index", i)
+            if idx not in results:
+                results[idx] = {"type": "pending"}
         return _normalize_classify_results(results, email_by_index)
     except Exception as e:
         if "CostGuard blocked" in str(e):

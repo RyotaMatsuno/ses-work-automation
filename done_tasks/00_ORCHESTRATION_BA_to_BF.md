@@ -42,4 +42,4 @@
 
 ## 全体完了条件
 - [x] Phase 1〜3の全チェックボックスが✅
-- [ ] git commit + push済み
+- [x] git commit + push済み (017155e)

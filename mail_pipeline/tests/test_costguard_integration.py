@@ -69,7 +69,7 @@ def test_finalize_batch_usage_calls_finalize(mock_finalize):
 
 @patch("mail_pipeline.mail_pipeline._finalize_batch_usage")
 @patch("mail_pipeline.mail_pipeline._batch_budget_reserve")
-@patch("analyze_final.classify_by_rule", return_value="unknown")
+@patch("analyze_final.classify_by_rule", return_value="other")
 def test_classify_email_v2_records_batch_usage(mock_rule, mock_reserve, mock_finalize_batch):
     mock_reserve.return_value = SimpleNamespace(
         allowed=True,
