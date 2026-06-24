@@ -7,13 +7,16 @@ import structurer
 
 
 class DummyCostGuard:
-    def can_call(self, est_input_tokens, est_output_tokens):
+    def can_call(self, est_input_tokens, est_output_tokens, target_id=""):
         return True
 
     def get_model(self):
         return "model"
 
     def record_cost(self, input_tokens, output_tokens, model):
+        pass
+
+    def abort_pending(self, error_kind: str = "transient"):
         pass
 
 

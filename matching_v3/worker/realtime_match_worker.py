@@ -166,7 +166,7 @@ def run_once(*, dry_run: bool = False) -> dict[str, Any]:
                 notion.update_matching_status(case_id, "skipped")
             _mark_processed(idem_key, case_id, 0)
             continue
-        if not cost_guard.can_call(len(body) // 4 + 200, 300):
+        if not cost_guard.can_call(len(body) // 4 + 200, 300, target_id=case_id):
             logger.warning("コスト上限到達、リアルタイムワーカー停止")
             break
 

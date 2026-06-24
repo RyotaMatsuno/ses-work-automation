@@ -25,6 +25,15 @@ def _get_env(name: str, default: str = "") -> str:
     return os.environ.get(name) or _ENV.get(name, default)
 
 
+def _is_costguard_test_mode() -> bool:
+    """COSTGUARD_TEST_MODE 判定。解析失敗時は fail-close で本番モード扱い。"""
+    try:
+        val = (_get_env("COSTGUARD_TEST_MODE", "") or "").strip().lower()
+        return val in ("true", "1", "yes")
+    except Exception:
+        return False
+
+
 def _state_dir() -> Path:
     raw = _get_env("STATE_DIR", "")
     if raw:
@@ -50,6 +59,8 @@ def _configure_sqlite(conn: sqlite3.Connection) -> None:
 def get_db_path() -> Path:
     d = _state_dir()
     d.mkdir(parents=True, exist_ok=True)
+    if _is_costguard_test_mode():
+        return d / "state_test.sqlite3"
     return d / "state.sqlite3"
 
 

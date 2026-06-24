@@ -56,6 +56,15 @@ def _int_env(name: str, default: int) -> int:
         return default
 
 
+def _is_costguard_test_mode() -> bool:
+    """COSTGUARD_TEST_MODE 判定。解析失敗時は fail-close で本番制限値を使用。"""
+    try:
+        val = (_get_env("COSTGUARD_TEST_MODE", "") or "").strip().lower()
+        return val in ("true", "1", "yes")
+    except Exception:
+        return False
+
+
 # グローバル上限（SPEC §7, §13）
 DAILY_HARD_USD = _float_env("COST_GUARD_DAILY_USD", 8.0)
 MONTHLY_USD = _float_env("COST_GUARD_MONTHLY_USD", 140.0)
@@ -132,8 +141,27 @@ def _append_log(entry: dict) -> None:
         pass
 
 
+def _usd_limit(kind: str) -> float:
+    """日次/月次 USD 上限。テストモード時は TEST_* を優先（fail-close: 判定失敗時は本番値）。"""
+    try:
+        if _is_costguard_test_mode():
+            if kind == "daily":
+                return _float_env("TEST_DAILY_LIMIT_USD", 0.10)
+            if kind == "monthly":
+                return _float_env("TEST_MONTHLY_LIMIT_USD", 0.50)
+    except Exception:
+        pass
+    if kind == "daily":
+        return _float_env("COST_GUARD_DAILY_USD", DAILY_HARD_USD)
+    return _float_env("COST_GUARD_MONTHLY_USD", MONTHLY_USD)
+
+
 def _call_limit(phase: str) -> int:
     """フェーズ別の日次呼び出し上限（SPEC §3.2.2）。"""
+    if _is_costguard_test_mode():
+        test_val = _int_env(f"TEST_CALL_LIMIT_{phase.upper()}", 0)
+        if test_val > 0:
+            return test_val
     per_phase = _int_env(f"DAILY_CALL_LIMIT_{phase.upper()}", 0)
     if per_phase > 0:
         return per_phase
@@ -166,7 +194,9 @@ def can_spend(est_in: int = 200, est_out: int = 300, model: str = "") -> bool:
     finally:
         conn.close()
 
-    if daily_usd + est > DAILY_HARD_USD:
+    daily_limit = _usd_limit("daily")
+    monthly_limit = _usd_limit("monthly")
+    if daily_usd + est > daily_limit:
         _append_log(
             {
                 "ts": _now_iso(),
@@ -180,7 +210,7 @@ def can_spend(est_in: int = 200, est_out: int = 300, model: str = "") -> bool:
             }
         )
         return False
-    if monthly_usd + est > MONTHLY_USD:
+    if monthly_usd + est > monthly_limit:
         _append_log(
             {
                 "ts": _now_iso(),
@@ -578,8 +608,8 @@ def estimate_cause(state: dict) -> str:
     if reason == "stopped_budget":
         daily = state.get("daily_usd", "?")
         monthly = state.get("monthly_usd", "?")
-        dl = state.get("daily_limit", DAILY_HARD_USD)
-        ml = state.get("monthly_limit", MONTHLY_USD)
+        dl = state.get("daily_limit", _usd_limit("daily"))
+        ml = state.get("monthly_limit", _usd_limit("monthly"))
         if isinstance(daily, float) and daily >= dl:
             return f"daily_usd ${daily:.2f} > ${dl} (DAILY_HARD_USD)"
         return f"monthly_usd ${monthly:.2f} > ${ml} (MONTHLY_USD)"

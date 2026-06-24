@@ -11,7 +11,7 @@ class DummyCostGuard:
     def __init__(self) -> None:
         self.recorded = False
 
-    def can_call(self, est_input_tokens, est_output_tokens):
+    def can_call(self, est_input_tokens, est_output_tokens, target_id=""):
         return True
 
     def get_model(self):
@@ -19,6 +19,9 @@ class DummyCostGuard:
 
     def record_cost(self, input_tokens, output_tokens, model):
         self.recorded = True
+
+    def abort_pending(self, error_kind: str = "transient"):
+        pass
 
 
 class DummyConfig:

@@ -12,6 +12,7 @@ from typing import Any, Protocol
 
 from staleness_checker import STALENESS_DAYS
 from staleness_checker import check as staleness_check
+from skill_judge import skills_must_not_merge
 
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -22,6 +23,14 @@ except Exception:
 logger = logging.getLogger(__name__)
 ENGINEER_STALENESS_DAYS = STALENESS_DAYS
 GROSS_THRESHOLDS = {"松野": 5, "岡本": 3}
+GROSS_PROFIT_MAX = 15.0
+PRICE_DEVIATION_MAX = 5.0
+WEIGHT_MUST_HAVE = 10
+WEIGHT_NICE_TO_HAVE = 3
+WEIGHT_MUST_MISS = -100
+WEIGHT_PRICE_MATCH = 5
+WEIGHT_LOCATION = 3
+WEIGHT_REMOTE = 2
 UNIT_PRICE_REVIEW_TAG = "【単価REVIEW】"
 ENGINEER_MEMO_FIELD = "備考（LINEメモ）"
 _SOFT_SKILLS_PATH = Path(__file__).resolve().parent.parent / "config" / "soft_skills.json"
@@ -143,6 +152,8 @@ def _fuzzy_match(query: str, eng_skills: list[str], *, strict_keys: set[str] | N
         for q in _fuzzy_query_variants(query):
             if q == s:
                 return True
+            if skills_must_not_merge(query, skill):
+                continue
             if exact_only:
                 continue
             if q in s:
@@ -539,6 +550,120 @@ def _engineer_days_old(engineer: dict) -> int:
     return days_old if days_old >= 0 else 0
 
 
+def _price_deviation_exceeds(case_max: float, eng_price: float) -> bool:
+    return eng_price > case_max + PRICE_DEVIATION_MAX
+
+
+def _price_band_matches(case_json: dict, eng_price: float) -> bool:
+    case_max = _actual_price(case_json.get("price_max"))
+    if case_max is None:
+        return False
+    case_min = _actual_price(case_json.get("price_min"))
+    if case_min is not None and case_min <= eng_price <= case_max:
+        return True
+    return case_max - PRICE_DEVIATION_MAX <= eng_price <= case_max
+
+
+def _location_matches(case_json: dict, engineer: dict) -> bool:
+    case_location = str(case_json.get("work_location") or case_json.get("勤務地") or "").strip()
+    engineer_location = str(engineer.get("居住地") or "").strip()
+    if not case_location or not engineer_location:
+        return False
+    left = _normalize_text(case_location)
+    right = _normalize_text(engineer_location)
+    return left == right or left in right or right in left
+
+
+def _remote_matches(case_json: dict, engineer: dict) -> bool:
+    remote_ok = str(case_json.get("remote_ok") or "").lower()
+    engineer_remote = str(engineer.get("リモート") or "").strip()
+    if remote_ok in ("full", "partial") and engineer_remote in ("可", "一部可", "フルリモート", "リモート可"):
+        return True
+    return False
+
+
+def _match_optional_skills(
+    case_json: dict,
+    engineer: dict,
+    normalizer: SkillNormalizer,
+) -> list[str]:
+    optional_raw = case_json.get("optional_skills") or []
+    if not optional_raw:
+        return []
+    eng_skills: set[str] = set()
+    for skill in engineer.get("正規化スキル") or engineer.get("スキル") or []:
+        hard = normalizer.normalize_hard(str(skill))
+        if hard:
+            eng_skills.add(hard)
+        soft = normalizer.normalize_soft(str(skill))
+        if soft:
+            eng_skills.add(soft)
+        resolved = normalizer.resolve_canonical(str(skill))
+        if resolved:
+            eng_skills.add(resolved)
+    hits: list[str] = []
+    for skill in optional_raw:
+        canonical = normalizer.resolve_canonical(str(skill)) or normalizer.normalize_hard(str(skill))
+        if canonical and canonical in eng_skills:
+            hits.append(str(skill))
+    return hits
+
+
+def _evaluate_hard_exclusions(
+    *,
+    case_json: dict,
+    engineer: dict,
+    case_max: float,
+    eng_price: float,
+    miss_skills: list[str],
+    assignee: str | None,
+) -> tuple[str | None, list[str]]:
+    if miss_skills:
+        return "NG", [f"必須スキル不足: {miss_skills}"]
+
+    must_not_verdict, must_not_reasons = _evaluate_must_not(case_json, engineer)
+    if must_not_verdict == "NG":
+        return must_not_verdict, must_not_reasons
+
+    if _price_deviation_exceeds(case_max, eng_price):
+        over = eng_price - case_max
+        return "NG", [f"単価乖離超過: エンジニア単価が案件上限を{over:.1f}万円超過（許容{PRICE_DEVIATION_MAX:.0f}万円）"]
+
+    floor = _gross_threshold(assignee or case_json.get("担当者"))
+    gross = calc_gross_profit(case_max, eng_price)
+    if gross < floor:
+        return "NG", [f"粗利不足: {gross}万円 < 最低粗利{int(floor)}万円"]
+    if gross > GROSS_PROFIT_MAX:
+        return "NG", [f"粗利過大: {gross}万円 > 最高粗利{int(GROSS_PROFIT_MAX)}万円（スキル/価格ミスマッチの可能性）"]
+
+    return None, []
+
+
+def calc_match_score_with_breakdown(
+    *,
+    must_hits: list[str],
+    nice_hits: list[str],
+    price_bonus: bool,
+    location_bonus: bool,
+    remote_bonus: bool,
+) -> tuple[float, dict[str, Any]]:
+    breakdown: dict[str, Any] = {
+        "must_have": {skill: WEIGHT_MUST_HAVE for skill in must_hits},
+        "nice_to_have": {skill: WEIGHT_NICE_TO_HAVE for skill in nice_hits},
+        "price": WEIGHT_PRICE_MATCH if price_bonus else 0,
+        "location": WEIGHT_LOCATION if location_bonus else 0,
+        "remote": WEIGHT_REMOTE if remote_bonus else 0,
+    }
+    total = (
+        len(must_hits) * WEIGHT_MUST_HAVE
+        + len(nice_hits) * WEIGHT_NICE_TO_HAVE
+        + (WEIGHT_PRICE_MATCH if price_bonus else 0)
+        + (WEIGHT_LOCATION if location_bonus else 0)
+        + (WEIGHT_REMOTE if remote_bonus else 0)
+    )
+    return float(total), breakdown
+
+
 def _calc_match_score(
     engineer: dict,
     hit_skills: list[str],
@@ -546,25 +671,28 @@ def _calc_match_score(
     soft_hits: list[str],
     case_max: float,
     eng_price: float,
+    *,
+    case_json: dict | None = None,
+    normalizer: SkillNormalizer | None = None,
 ) -> float:
-    score = 1.0
-    days = _engineer_days_old(engineer)
-    if days > 14:
-        score -= 0.2
-    elif days > 7:
-        score -= 0.1
-    score += len(hit_skills) * 0.12 + len(alias_hits) * 0.08 + len(soft_hits) * 0.04
-    gross = calc_gross_profit(case_max, eng_price)
-    if gross >= 7:
-        score += 0.1
-    elif gross < 5:
-        score -= 0.1
-    parallel = _calc_parallel_score(engineer)
-    if parallel >= 3.0:
-        score -= 0.2
-    elif parallel >= 2.0:
-        score -= 0.1
-    return round(max(0.0, min(2.0, score)), 3)
+    must_hits = list(hit_skills) + list(alias_hits)
+    nice_hits: list[str] = []
+    price_bonus = False
+    location_bonus = False
+    remote_bonus = False
+    if case_json is not None and normalizer is not None:
+        nice_hits = _match_optional_skills(case_json, engineer, normalizer)
+        price_bonus = _price_band_matches(case_json, eng_price)
+        location_bonus = _location_matches(case_json, engineer)
+        remote_bonus = _remote_matches(case_json, engineer)
+    total, _ = calc_match_score_with_breakdown(
+        must_hits=must_hits,
+        nice_hits=nice_hits,
+        price_bonus=price_bonus,
+        location_bonus=location_bonus,
+        remote_bonus=remote_bonus,
+    )
+    return total
 
 
 def _finalize_judge_result(
@@ -575,16 +703,31 @@ def _finalize_judge_result(
     exact_hits: list[str],
     alias_hits: list[str],
     soft_hits: list[str],
+    *,
+    case_json: dict | None = None,
+    normalizer: SkillNormalizer | None = None,
 ) -> dict[str, Any]:
     finalized = dict(result)
-    finalized["score"] = _calc_match_score(
-        engineer,
-        exact_hits,
-        alias_hits,
-        soft_hits,
-        case_max,
-        eng_price,
+    must_hits = list(exact_hits) + list(alias_hits)
+    nice_hits: list[str] = []
+    price_bonus = False
+    location_bonus = False
+    remote_bonus = False
+    if case_json is not None and normalizer is not None:
+        nice_hits = _match_optional_skills(case_json, engineer, normalizer)
+        price_bonus = _price_band_matches(case_json, eng_price)
+        location_bonus = _location_matches(case_json, engineer)
+        remote_bonus = _remote_matches(case_json, engineer)
+    total, breakdown = calc_match_score_with_breakdown(
+        must_hits=must_hits,
+        nice_hits=nice_hits,
+        price_bonus=price_bonus,
+        location_bonus=location_bonus,
+        remote_bonus=remote_bonus,
     )
+    finalized["score"] = total
+    finalized["breakdown"] = breakdown
+    finalized["total_score"] = total
     return finalized
 
 
@@ -666,23 +809,6 @@ def judge_with_meta(
     if competencies:
         logger.info("competency requirements excluded from skill match: %s", competencies)
 
-    floor = _gross_threshold(assignee or case_json.get("担当者"))
-    if not meets_profit_floor(case_max, eng_price, floor):
-        gross = calc_gross_profit(case_max, eng_price)
-        return _finalize_judge_result(
-            {
-                "verdict": "NG",
-                "reasons": [f"粗利不足: {gross}万円 < 最低粗利{int(floor)}万円"],
-                "process_requirements": competencies,
-            },
-            engineer,
-            case_max,
-            eng_price,
-            [],
-            [],
-            [],
-        )
-
     required_skills = _dedupe_required_by_parent(required_skills, normalizer)
 
     eng_skills_raw = [str(skill) for skill in (engineer.get("正規化スキル") or engineer.get("スキル") or [])]
@@ -744,11 +870,19 @@ def judge_with_meta(
         "tier3_count": tier3_hits,
     }
 
-    if miss_skills:
+    hard_verdict, hard_reasons = _evaluate_hard_exclusions(
+        case_json=case_json,
+        engineer=engineer,
+        case_max=case_max,
+        eng_price=eng_price,
+        miss_skills=miss_skills,
+        assignee=assignee,
+    )
+    if hard_verdict == "NG":
         return _finalize_judge_result(
             {
                 "verdict": "NG",
-                "reasons": [f"必須スキル不足: {miss_skills}"],
+                "reasons": hard_reasons,
                 "process_requirements": competencies,
                 "score_components": score_components,
             },
@@ -758,6 +892,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
 
     if soft_alias_only and exact_count == 0 and alias_count == 0:
@@ -784,6 +920,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
 
     if tier3_hits > 0 and tier1_hits == 0 and tier2_hits == 0:
@@ -800,6 +938,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
 
     unknown_with_evidence: list[str] = []
@@ -827,6 +967,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
 
     if not is_engineer_fresh(engineer):
@@ -862,6 +1004,8 @@ def judge_with_meta(
                 exact_hits,
                 alias_hits,
                 soft_hits,
+                case_json=case_json,
+                normalizer=normalizer,
             )
         non_critical = all(
             reason.startswith("語彙外")
@@ -884,6 +1028,8 @@ def judge_with_meta(
                 exact_hits,
                 alias_hits,
                 soft_hits,
+                case_json=case_json,
+                normalizer=normalizer,
             )
         non_ambig = [reason for reason in reasons if not reason.startswith("曖昧スキルあり")]
         if not non_ambig:
@@ -899,6 +1045,8 @@ def judge_with_meta(
                 exact_hits,
                 alias_hits,
                 soft_hits,
+                case_json=case_json,
+                normalizer=normalizer,
             )
         return _finalize_judge_result(
             {
@@ -913,6 +1061,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
 
     if unknown_no_evidence:
@@ -933,6 +1083,8 @@ def judge_with_meta(
                 exact_hits,
                 alias_hits,
                 soft_hits,
+                case_json=case_json,
+                normalizer=normalizer,
             )
         return _finalize_judge_result(
             {
@@ -947,6 +1099,8 @@ def judge_with_meta(
             exact_hits,
             alias_hits,
             soft_hits,
+            case_json=case_json,
+            normalizer=normalizer,
         )
     return _finalize_judge_result(
         {
@@ -961,6 +1115,8 @@ def judge_with_meta(
         exact_hits,
         alias_hits,
         soft_hits,
+        case_json=case_json,
+        normalizer=normalizer,
     )
 
 

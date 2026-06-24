@@ -34,6 +34,18 @@ BLOCK_TYPE = "skill_judge"
 PHASE = "research"
 
 VALID_RESULTS = {"◯", "×", "△"}
+NEVER_MERGE: tuple[frozenset[str], ...] = (
+    frozenset({"Java", "JavaScript"}),
+    frozenset({"C", "C++", "C#", "Objective-C", "C言語"}),
+    frozenset({"PM", "PMO"}),
+    frozenset({"AWS", "Azure", "GCP"}),
+    frozenset({"React", "React Native"}),
+)
+_NEVER_MERGE_LOOKUP: dict[str, frozenset[str]] = {}
+for group in NEVER_MERGE:
+    for skill in group:
+        _NEVER_MERGE_LOOKUP[skill.lower()] = group
+
 SYSTEM_PROMPT = """
 あなたはSES案件のスキルマッチング担当です。
 案件側のスキル要件ごとに、エンジニアのスキルリストで満たせるか判定してください。
@@ -43,9 +55,49 @@ SYSTEM_PROMPT = """
 - "△": 基礎のみ、部分経験、近いが実務確認が必要
 - "×": 経験が見当たらない、または要件を満たす根拠がない
 
+同義語展開の禁止（絶対に混同しない）:
+- Java と JavaScript は別スキル
+- C / C++ / C# / Objective-C は別スキル
+- PM と PMO は別スキル
+- AWS / Azure / GCP は別スキル
+- React と React Native は別スキル
+
 必ずJSONオブジェクトだけを返してください。説明文やMarkdownは不要です。
 値は result と reason を持つオブジェクトにしてください。
 """.strip()
+
+
+def _canonical_for_never_merge(skill: str) -> str:
+    text = str(skill).strip()
+    if not text:
+        return ""
+    lowered = text.lower()
+    group = _NEVER_MERGE_LOOKUP.get(lowered)
+    if group:
+        for member in group:
+            if member.lower() == lowered:
+                return member
+    return text
+
+
+def skills_must_not_merge(skill_a: str, skill_b: str) -> bool:
+    """同義語展開してはいけないスキル同士か判定する。"""
+    left = _canonical_for_never_merge(skill_a)
+    right = _canonical_for_never_merge(skill_b)
+    if not left or not right or left.lower() == right.lower():
+        return False
+    left_group = _NEVER_MERGE_LOOKUP.get(left.lower())
+    right_group = _NEVER_MERGE_LOOKUP.get(right.lower())
+    return left_group is not None and left_group is right_group
+
+
+def filter_confusable_skill_matches(required_skill: str, engineer_skills: list[str]) -> list[str]:
+    """NEVER_MERGE 対象と混同する候補を除外したエンジニアスキル一覧を返す。"""
+    return [
+        skill
+        for skill in engineer_skills
+        if not skills_must_not_merge(required_skill, skill)
+    ]
 
 _REQUEST_LOCK = Lock()
 _NEXT_REQUEST_AT = 0.0
