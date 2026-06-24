@@ -483,6 +483,31 @@ def _notify_notion_retry_give_up(msg_id: str, subject: str, retry_count: int) ->
         log(f"[Notion再処理上限] LINE通知失敗: {exc}")
 
 
+def _prioritize_pending_work_items(work_items: list[dict], phase: str = "classify") -> dict[str, int]:
+    """pending_queue に登録済みのメールを FIFO 順で先頭に並べ替える。"""
+    pending_by_target: dict[str, int] = {}
+    try:
+        from common.ledger import fetch_pending_queue
+
+        pending_entries = fetch_pending_queue(phase=phase, limit=500)
+        pending_by_target = {e["target_id"]: e["id"] for e in pending_entries if e.get("target_id")}
+        if not pending_by_target:
+            return pending_by_target
+        order = {target_id: idx for idx, target_id in enumerate(pending_by_target)}
+
+        def _sort_key(em: dict) -> tuple[int, int]:
+            msg_id = em.get("msg_id", "")
+            if msg_id in order:
+                return (0, order[msg_id])
+            return (1, 0)
+
+        work_items.sort(key=_sort_key)
+        log(f"[pending_queue] {len(pending_by_target)}件を先頭に移動")
+    except Exception as exc:
+        log(f"[pending_queue] 優先ソートエラー: {exc}")
+    return pending_by_target
+
+
 def finalize_processed_state(
     msg_id: str,
     processed: set | None,
@@ -2013,10 +2038,14 @@ def _main_body(metrics: "MetricsRecorder", fetch_limit: int, process_limit: int)
     metrics.set("reclass_promoted", reclass_promoted)
 
     target_emails = fresh_items + reclass_items
+    for work_idx, em in enumerate(target_emails):
+        em["_work_index"] = work_idx
+    pending_by_target = _prioritize_pending_work_items(target_emails, phase="classify")
     engineers = get_available_engineers()
     log(f"エンジニアDB: {len(engineers)}名（稼働可能）")
 
-    for i, em in enumerate(target_emails):
+    for em in target_emails:
+        i = em["_work_index"]
         msg_id = em["msg_id"]
         subject = em["subject"]
         msg_type = "error"
@@ -2043,7 +2072,15 @@ def _main_body(metrics: "MetricsRecorder", fetch_limit: int, process_limit: int)
             if msg_type == "pending":
                 try:
                     from common.ledger import enqueue_pending as _enqueue_pending
-                    _enqueue_pending("classify", block_type="mail_classify", target_id=msg_id, script="mail_pipeline")
+                    from common.ledger import has_pending_target as _has_pending_target
+
+                    if not _has_pending_target("classify", msg_id):
+                        _enqueue_pending(
+                            "classify",
+                            block_type="mail_classify",
+                            target_id=msg_id,
+                            script="mail_pipeline",
+                        )
                 except Exception as _pq_err:
                     log(f"  pending_queue登録エラー: {_pq_err}")
                 log(f"  pending_queue登録: {msg_id[:40]}")
@@ -2141,13 +2178,24 @@ def _main_body(metrics: "MetricsRecorder", fetch_limit: int, process_limit: int)
         except Exception as ex:
             log(f"  [COSTFIX] 処理例外（スキップ）: {ex}")
         finally:
-            finalize_processed_state(
-                msg_id,
-                None,
-                msg_type,
-                notion_register_failed=notion_register_failed,
-                subject=subject,
-            )
+            if msg_type == "pending":
+                pass
+            else:
+                finalize_processed_state(
+                    msg_id,
+                    None,
+                    msg_type,
+                    notion_register_failed=notion_register_failed,
+                    subject=subject,
+                )
+                queue_id = pending_by_target.get(msg_id)
+                if queue_id:
+                    try:
+                        from common.ledger import mark_pending_done
+
+                        mark_pending_done(queue_id)
+                    except Exception as _pq_done_err:
+                        log(f"  pending_queue完了更新エラー: {_pq_done_err}")
 
     metrics.set("db_backlog_remaining", get_unprocessed_count())
     log("メールパイプライン v6.0 完了")

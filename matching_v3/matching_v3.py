@@ -144,24 +144,24 @@ def _run_live() -> None:
     cases = notion.get_new_cases(days=4)
 
     # pending_queue: 失効処理 + 優先ソート
+    pending_by_target: dict[str, int] = {}
     try:
-        from common.ledger import count_pending_queue, expire_old_pending, fetch_pending_queue, mark_pending_done
+        from common.ledger import count_pending_queue, expire_old_pending, fetch_pending_queue
+
         expire_old_pending(7)
         pq_count = count_pending_queue(phase="matching")
         logger.info("pending_queue (matching): %d件", pq_count)
         if pq_count > 0:
             pending_entries = fetch_pending_queue(phase="matching", limit=200)
-            pending_ids = {e["target_id"] for e in pending_entries if e.get("target_id")}
+            pending_by_target = {
+                e["target_id"]: e["id"] for e in pending_entries if e.get("target_id")
+            }
+            pending_ids = set(pending_by_target)
             if pending_ids:
                 priority_cases = [c for c in cases if c.get("id") in pending_ids]
                 rest_cases = [c for c in cases if c.get("id") not in pending_ids]
                 cases = priority_cases + rest_cases
                 logger.info("pending_queue: %d件を先頭に移動", len(priority_cases))
-                for e in pending_entries:
-                    try:
-                        mark_pending_done(e["id"])
-                    except Exception:
-                        pass
     except Exception as pq_err:
         logger.error("pending_queue 確認エラー: %s", pq_err)
 
@@ -176,7 +176,17 @@ def _run_live() -> None:
     excluded_count = before_count - len(engineers)
     if excluded_count:
         logger.info("単価REVIEW除外 %d件", excluded_count)
-    _process_cases(cases, engineers, db, cost_guard, normalizer, notifier, notion=notion, dry_run=False)
+    _process_cases(
+        cases,
+        engineers,
+        db,
+        cost_guard,
+        normalizer,
+        notifier,
+        notion=notion,
+        dry_run=False,
+        pending_by_target=pending_by_target,
+    )
     db.recompute_daily_stats()
     notifier.flush()
     _run_unknown_skill_discovery()
@@ -224,7 +234,20 @@ def _process_cases(
     notifier: Notifier,
     notion: NotionClient | None,
     dry_run: bool,
+    pending_by_target: dict[str, int] | None = None,
 ) -> None:
+    pending_by_target = pending_by_target or {}
+
+    def _mark_pending_done(case_id: str) -> None:
+        queue_id = pending_by_target.get(case_id)
+        if not queue_id:
+            return
+        try:
+            from common.ledger import mark_pending_done
+
+            mark_pending_done(queue_id)
+        except Exception as exc:
+            logger.error("pending_queue 完了更新エラー case=%s: %s", case_id, exc)
     started = time.perf_counter()
     engineers, staleness_excluded = partition_fresh_engineers(engineers, logger)
     total_engineers = staleness_excluded + len(engineers)
@@ -249,17 +272,21 @@ def _process_cases(
         if db.should_skip_unchanged_case(case_id, last_edited):
             skipped_cases += 1
             logger.info("skip unchanged case: %s", case_id)
+            _mark_pending_done(case_id)
             continue
 
         body = case.get("案件詳細") or case.get("body") or ""
         if len(body) > 8000:
             db.update_status(case_id, "SKIPPED", case_last_edited_at=last_edited or None)
+            _mark_pending_done(case_id)
             continue
         if not cost_guard.can_call(len(body) // 4 + 200, 300):
             logger.warning("コスト上限到達: case_id=%s をpending_queueに登録", case_id)
             try:
-                from common.ledger import enqueue_pending
-                enqueue_pending("matching", block_type="matching_v3", target_id=case_id, script="matching_v3")
+                from common.ledger import enqueue_pending, has_pending_target
+
+                if not has_pending_target("matching", case_id):
+                    enqueue_pending("matching", block_type="matching_v3", target_id=case_id, script="matching_v3")
             except Exception as pq_err:
                 logger.error("pending_queue 登録エラー: %s", pq_err)
             continue
@@ -376,6 +403,7 @@ def _process_cases(
 
         final_status = "matched" if results else "ng"
         db.update_status(case_id, final_status, results, case_last_edited_at=last_edited or None)
+        _mark_pending_done(case_id)
         processed_cases += 1
         if dry_run:
             _save_to_jsonl(BASE_DIR / "logs" / "phase0_results.jsonl", {"case_id": case_id, "results": results})

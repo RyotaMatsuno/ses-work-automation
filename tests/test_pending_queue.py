@@ -224,3 +224,27 @@ def test_allowed_stopped_call_limit_enqueues(monkeypatch):
     assert rows[0]["target_id"] == "test-target-123"
     assert rows[0]["block_type"] == "mail_classify"
     assert rows[0]["script"] == "mail_pipeline"
+
+
+def test_has_pending_target():
+    from common.ledger import enqueue_pending, has_pending_target
+
+    assert has_pending_target("classify", "msg-dup") is False
+    enqueue_pending("classify", target_id="msg-dup", script="mail_pipeline")
+    assert has_pending_target("classify", "msg-dup") is True
+    assert has_pending_target("matching", "msg-dup") is False
+
+
+def test_prioritize_pending_work_items_moves_queued_first():
+    from mail_pipeline.mail_pipeline import _prioritize_pending_work_items
+    from common.ledger import enqueue_pending
+
+    enqueue_pending("classify", target_id="msg-b", script="mail_pipeline")
+    items = [
+        {"msg_id": "msg-a"},
+        {"msg_id": "msg-b"},
+        {"msg_id": "msg-c"},
+    ]
+    pending_by_target = _prioritize_pending_work_items(items, phase="classify")
+    assert [item["msg_id"] for item in items] == ["msg-b", "msg-a", "msg-c"]
+    assert pending_by_target["msg-b"] > 0

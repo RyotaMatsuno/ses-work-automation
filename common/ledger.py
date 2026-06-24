@@ -350,6 +350,21 @@ def count_pending_queue(phase: str | None = None) -> int:
         conn.close()
 
 
+def has_pending_target(phase: str, target_id: str) -> bool:
+    """同一 target_id が既に pending かどうか。"""
+    if not target_id:
+        return False
+    conn = _get_conn()
+    try:
+        row = conn.execute(
+            "SELECT 1 FROM pending_queue WHERE status='pending' AND phase=? AND target_id=? LIMIT 1",
+            (phase, target_id),
+        ).fetchone()
+        return row is not None
+    finally:
+        conn.close()
+
+
 # ──────────────────────────────────────────────
 # 新規関数（SPEC §11.3）
 # ──────────────────────────────────────────────
