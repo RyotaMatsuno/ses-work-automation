@@ -226,6 +226,29 @@ VALID_SKILLS = [
     "Unity",
     "Android Studio",
     "Xcode",
+    # Notion DBオプション追加分
+    "インフラ",
+    "C言語",
+    "HTML/CSS",
+    "Shell",
+    "PMO",
+    "Excel",
+    "Word",
+    "SQL",
+    "OCI",
+    "RHEL",
+    "CLUSTERPRO",
+    "JP1",
+    "Amazon Linux",
+    "EC2",
+    "VPC",
+    "Windows",
+    "PowerShell",
+    "Access",
+    "NestJS",
+    "Struts",
+    "M365",
+    "SOC",
 ]
 
 
@@ -431,21 +454,6 @@ Reply JSON only: {"content_type": "engineer"} or {"content_type": "project"}"""
 
     except Exception:
         return "engineer"
-
-
-def fetch_sheet_text(url):
-
-    try:
-        import sys
-
-        sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "mail_attachment_importer"))
-
-        from sheet_fetcher import fetch_sheet_text as _fetch
-
-        return _fetch(url)
-
-    except Exception as e:
-        return {"status": "error", "error": str(e)}
 
 
 def extract_engineers_from_text(text):
@@ -904,7 +912,176 @@ def _extract_nearest_station_from_text(text):
     return ""
 
 
-def register_engineer(info, raw_text, sender, user_id=""):
+def _estimate_price_from_experience(experience_years: int) -> int:
+    """経験年数からSES相場の単価（万円）を推定する。"""
+    if experience_years >= 7:
+        return 78
+    if experience_years >= 5:
+        return 68
+    if experience_years >= 3:
+        return 58
+    return 48
+
+
+PERSONNEL_SUMMARY_KEYWORDS = (
+    "歳",
+    "男性",
+    "女性",
+    "経験",
+    "スキル",
+    "即日",
+    "稼働",
+    "年目",
+    "単価",
+    "最寄",
+    "基本設計",
+    "詳細設計",
+)
+AGE_GENDER_LINE_RE = re.compile(r"^\s*\d{1,2}\s*歳\s*(男性|女性)")
+
+
+def is_personnel_summary(text: str) -> bool:
+    stripped = (text or "").strip()
+    if not stripped:
+        return False
+    first_line = stripped.splitlines()[0]
+    if AGE_GENDER_LINE_RE.search(first_line):
+        return True
+    hits = sum(1 for keyword in PERSONNEL_SUMMARY_KEYWORDS if keyword in stripped)
+    return hits >= 2
+
+
+def get_user_session(user_id: str) -> dict:
+    buf = USER_BUFFER.get(user_id)
+    if not buf:
+        return {}
+    if time.time() - buf.get("timestamp", 0) > BUFFER_TTL:
+        USER_BUFFER.pop(user_id, None)
+        return {}
+    return buf
+
+
+SESSION_STATE_PENDING = "pending"
+SESSION_STATE_WAITING_FILE = "waiting_file"
+SESSION_STATE_PROCESSING_SHEET = "processing_sheet"
+SESSION_STATE_DONE = "done"
+
+QUICK_REPLY_LABEL_FILE = "ファイル送信"
+QUICK_REPLY_LABEL_SHEET = "スプレッドシート"
+
+SESSION_SHEET_URL_RE = re.compile(r"https://docs\.google\.com/spreadsheets/d/[a-zA-Z0-9_-]+(?:/[^\s]*)?")
+
+DRIVE_TOKEN_PATH = os.path.join(os.path.dirname(__file__), "config", "drive_token.json")
+
+
+def extract_sheet_url_from_text(text: str) -> str | None:
+    match = SESSION_SHEET_URL_RE.search(text or "")
+    return match.group(0) if match else None
+
+
+def start_user_session(
+    user_id: str,
+    summary: str,
+    engineer_page_id: str | None = None,
+    *,
+    state: str = SESSION_STATE_PENDING,
+) -> None:
+    USER_BUFFER[user_id] = {
+        "summary": summary,
+        "timestamp": time.time(),
+        "engineer_page_id": engineer_page_id,
+        "state": state,
+    }
+
+
+def update_user_session(user_id: str, **kwargs) -> None:
+    session = get_user_session(user_id)
+    if not session:
+        return
+    session.update(kwargs)
+    session["timestamp"] = time.time()
+    USER_BUFFER[user_id] = session
+
+
+def clear_user_session(user_id: str) -> None:
+    USER_BUFFER.pop(user_id, None)
+
+
+def build_skill_sheet_format_quick_reply() -> dict:
+    return {
+        "type": "text",
+        "text": "✅ エンジニア情報を受け付けました。\nスキルシートの形式は？",
+        "quickReply": {
+            "items": [
+                {
+                    "type": "action",
+                    "action": {
+                        "type": "message",
+                        "label": "Excel/Word/パワポ",
+                        "text": QUICK_REPLY_LABEL_FILE,
+                    },
+                },
+                {
+                    "type": "action",
+                    "action": {
+                        "type": "message",
+                        "label": "スプレッドシートURL",
+                        "text": QUICK_REPLY_LABEL_SHEET,
+                    },
+                },
+            ]
+        },
+    }
+
+
+def _patch_engineer_page(page_id: str, info: dict, drive_url: str = "") -> tuple[bool, str]:
+    """既存NotionエンジニアページをスキルシートデータでPATCH更新する。"""
+    props: dict = {}
+
+    raw_skills = info.get("skills", [])
+    if raw_skills and isinstance(raw_skills[0], dict):
+        from skill_extractor import filter_and_sort_skills
+        skills = filter_and_sort_skills(raw_skills)
+    else:
+        skills = [s for s in raw_skills if s in VALID_SKILLS]
+    if skills:
+        skill_props = {"multi_select": [{"name": s} for s in skills]}
+        props["スキル"] = skill_props
+        props["正規化スキル"] = skill_props
+
+    price_val = normalize_price(info.get("price", 0))
+    if not price_val:
+        try:
+            exp_years = int(info.get("experience_years") or 0)
+        except (TypeError, ValueError):
+            exp_years = 0
+        if exp_years > 0:
+            price_val = _estimate_price_from_experience(exp_years)
+    if price_val:
+        props["単価（万円）"] = {"number": price_val}
+
+    if info.get("experience_years"):
+        props["経験年数"] = {"number": info["experience_years"]}
+
+    if drive_url:
+        props["DriveリンクURL"] = {"url": drive_url}
+
+    if not props:
+        return True, page_id
+
+    res = requests.patch(
+        f"https://api.notion.com/v1/pages/{page_id}",
+        headers=NOTION_HEADERS,
+        json={"properties": props},
+    )
+    print(f"_patch_engineer_page status: {res.status_code}")
+    if res.status_code == 200:
+        return True, page_id
+    print(res.text[:300])
+    return False, ""
+
+
+def register_engineer(info, raw_text, sender, user_id="", drive_url=""):
 
     valid, skip_reason = validate_engineer_for_registration(info, raw_text)
 
@@ -933,9 +1110,19 @@ def register_engineer(info, raw_text, sender, user_id=""):
         skills = [s for s in raw_skills if s in VALID_SKILLS]
 
     if skills:
-        props["スキル"] = {"multi_select": [{"name": s} for s in skills]}
+        skill_props = {"multi_select": [{"name": s} for s in skills]}
+        props["スキル"] = skill_props
+        props["正規化スキル"] = skill_props
 
     price_val = normalize_price(info.get("price", 0))
+
+    if not price_val:
+        try:
+            exp_years = int(info.get("experience_years") or 0)
+        except (TypeError, ValueError):
+            exp_years = 0
+        if exp_years > 0:
+            price_val = _estimate_price_from_experience(exp_years)
 
     if price_val:
         props["単価（万円）"] = {"number": price_val}
@@ -974,6 +1161,9 @@ def register_engineer(info, raw_text, sender, user_id=""):
 
     input_source = get_line_source_label(user_id) or ("岡本LINE" if sender == "okamoto" else "松野LINE")
     add_input_source_property(props, NOTION_ENGINEER_DB_ID, input_source)
+
+    if drive_url:
+        props["DriveリンクURL"] = {"url": drive_url}
 
     res = requests.post(
         "https://api.notion.com/v1/pages",
@@ -1081,14 +1271,13 @@ def get_available_engineers():
 
 
 def get_active_projects():
-    # 募集中・稼働中・選考中すべてをマッチング対象とする
+    # 募集中・稼働中をマッチング対象とする
     pages = notion_query(
         NOTION_PROJECT_DB_ID,
         {
             "or": [
                 {"property": "ステータス", "select": {"equals": "募集中"}},
                 {"property": "ステータス", "select": {"equals": "稼働中"}},
-                {"property": "ステータス", "select": {"equals": "選考中"}},
             ]
         },
     )
@@ -1190,15 +1379,151 @@ def send_email_via_callback(account, to_addr, subject, body):
 
 
 def reply_message(reply_token, text, token):
+    reply_line_message(reply_token, text, token)
 
+
+def reply_line_message(reply_token, message, token):
+    if isinstance(message, str):
+        payload = {"type": "text", "text": message}
+    else:
+        payload = dict(message)
+    text = payload.get("text", "")
     if len(text) > 4900:
-        text = text[:4900] + "\n...(truncated)"
+        payload["text"] = text[:4900] + "\n...(truncated)"
 
     requests.post(
         "https://api.line.me/v2/bot/message/reply",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-        json={"replyToken": reply_token, "messages": [{"type": "text", "text": text}]},
+        json={"replyToken": reply_token, "messages": [payload]},
     )
+
+
+def fetch_sheet_text(url):
+    try:
+        if SES_WORK_ROOT not in sys.path:
+            sys.path.insert(0, SES_WORK_ROOT)
+        from common.sheet_fetcher import fetch_sheet_text as _fetch
+
+        return _fetch(url, oauth_token_path=DRIVE_TOKEN_PATH)
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
+def _push_reverse_match_result(info: dict, push_user_id: str, sender_token: str) -> None:
+    name = info.get("name", "不明")
+    active_projects = deduplicate_projects(get_active_projects())
+    result_m = run_reverse_matching_full(info, active_projects)
+    matches = result_m.get("matches", [])[:3]
+    if MATCHING_LOGIC_AVAILABLE:
+        msg = build_reverse_match_message_v2(
+            name,
+            matches,
+            normalize_price(info.get("price", 0)) or 0,
+            stats=result_m.get("stats"),
+        )
+    else:
+        msg = build_reverse_match_message(name, matches)
+    push_message(push_user_id, msg, sender_token)
+
+
+def _apply_engineer_skill_info(
+    info: dict,
+    session: dict,
+    *,
+    sender: str,
+    user_id: str,
+    drive_url: str = "",
+) -> tuple[bool, str]:
+    existing_page_id = session.get("engineer_page_id")
+    if existing_page_id:
+        return _patch_engineer_page(existing_page_id, info, drive_url=drive_url)
+    return register_engineer(info, str(info), sender, user_id=user_id, drive_url=drive_url)
+
+
+def _process_skill_sheet_text(
+    user_id: str,
+    session: dict,
+    sheet_text: str,
+    *,
+    sender: str,
+    sender_token: str,
+    drive_url: str = "",
+) -> None:
+    from skill_extractor import analyze_skill_sheet_v2
+
+    summary = session.get("summary", "")
+    info = analyze_skill_sheet_v2(sheet_text.encode("utf-8"), "text/plain", summary_text=summary)
+    if not info or not info.get("name"):
+        clear_user_session(user_id)
+        push_message(
+            user_id,
+            "❌ スキル情報を抽出できませんでした。テキスト形式で再送してください。",
+            sender_token,
+        )
+        return
+
+    success, reason = _apply_engineer_skill_info(
+        info,
+        session,
+        sender=sender,
+        user_id=user_id,
+        drive_url=drive_url,
+    )
+    clear_user_session(user_id)
+    if not success:
+        msg = f"📋 解析完了: {info.get('name', '不明')}\n\n"
+        if reason == "area_out_of_scope":
+            msg += AREA_OUT_OF_SCOPE_REPLY
+        elif reason == "foreign_nationality":
+            msg += "外国籍のため登録をスキップしました"
+        else:
+            msg += f"⚠️ 登録スキップ: {reason}"
+        push_message(user_id, msg, sender_token)
+        return
+
+    _push_reverse_match_result(info, user_id, sender_token)
+
+
+def handle_session_spreadsheet_choice(
+    user_id: str,
+    session: dict,
+    reply_token: str,
+    sender: str,
+    sender_token: str,
+) -> None:
+    sheet_url = extract_sheet_url_from_text(session.get("summary", ""))
+    if not sheet_url:
+        reply_message(
+            reply_token,
+            "サマリーにスプレッドシートURLが見つかりません。URLを含めて送り直すか、Excel/Wordで送信してください",
+            sender_token,
+        )
+        return
+
+    update_user_session(user_id, state=SESSION_STATE_PROCESSING_SHEET)
+    reply_message(reply_token, "🔄 スプレッドシートを取得中...", sender_token)
+
+    result = fetch_sheet_text(sheet_url)
+    if result.get("status") in ("login_required", "error"):
+        update_user_session(user_id, state=SESSION_STATE_WAITING_FILE)
+        push_message(
+            user_id,
+            "スプレッドシートにアクセスできません。Excel/Wordで送り直してください",
+            sender_token,
+        )
+        return
+
+    sheet_text = result.get("text", "")
+    if not sheet_text or len(sheet_text.strip()) < 50:
+        update_user_session(user_id, state=SESSION_STATE_WAITING_FILE)
+        push_message(
+            user_id,
+            "スプレッドシートの内容が取得できませんでした。Excel/Wordで送り直してください",
+            sender_token,
+        )
+        return
+
+    _process_skill_sheet_text(user_id, session, sheet_text, sender=sender, sender_token=sender_token)
 
 
 def push_message(user_id, text, token):
@@ -1305,7 +1630,6 @@ def find_projects_with_candidate(name_query):
             "or": [
                 {"property": "ステータス", "select": {"equals": "募集中"}},
                 {"property": "ステータス", "select": {"equals": "稼働中"}},
-                {"property": "ステータス", "select": {"equals": "選考中"}},
             ]
         },
     )
@@ -1405,12 +1729,7 @@ def build_progress_reply():
     try:
         pages = notion_query(
             NOTION_PROJECT_DB_ID,
-            {
-                "or": [
-                    {"property": "ステータス", "select": {"equals": "募集中"}},
-                    {"property": "ステータス", "select": {"equals": "選考中"}},
-                ]
-            },
+            {"property": "ステータス", "select": {"equals": "募集中"}},
         )
     except Exception as e:
         print(f"[progress] notion error: {e}")
@@ -1578,13 +1897,15 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         # 3. Claude APIで直接スキル抽出（8766不要）
         push_user_id = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
-        summary = USER_BUFFER.get(push_user_id, {}).get("summary", "")
+        buf = get_user_session(push_user_id)
+        if buf and buf.get("state") in (SESSION_STATE_PENDING, SESSION_STATE_WAITING_FILE):
+            update_user_session(push_user_id, state=SESSION_STATE_WAITING_FILE)
+        summary = buf.get("summary", "") if buf else ""
         from skill_extractor import analyze_skill_sheet_v2
 
         info = analyze_skill_sheet_v2(res.content, mime_type, summary_text=summary)
-        if push_user_id in USER_BUFFER:
-            del USER_BUFFER[push_user_id]
         if not info or not info.get("name"):
+            clear_user_session(push_user_id)
             push_message(
                 push_user_id, "❌ スキル情報を抽出できませんでした。テキスト形式で再送してください。", sender_token
             )
@@ -1592,8 +1913,45 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
 
         name = info.get("name", "不明")
 
-        # 4. Notion登録
-        success, reason = register_engineer(info, str(info), sender, user_id=push_user_id)
+        # Drive保存（Excel/Wordのみ）
+        drive_url = ""
+        _excel_mimes = (
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        if mime_type in _excel_mimes:
+            try:
+                import tempfile
+                _suffix = ".xlsx" if "spreadsheet" in (mime_type or "") else ".docx"
+                _safe_name = re.sub(r"[^\w\-]", "_", name)[:30]
+                _date_str = datetime.now().strftime("%Y%m%d")
+                with tempfile.NamedTemporaryFile(suffix=_suffix, prefix=f"{_safe_name}_{_date_str}_", delete=False) as _tmp:
+                    _tmp.write(res.content)
+                    _tmp_path = _tmp.name
+                try:
+                    from drive_uploader import upload_to_drive
+                    drive_url = upload_to_drive(_tmp_path)
+                    print(f"[Drive] uploaded: {drive_url}")
+                except Exception as _de:
+                    print(f"[Drive] upload error (non-fatal): {_de}")
+                finally:
+                    try:
+                        os.unlink(_tmp_path)
+                    except Exception:
+                        pass
+            except Exception as _e:
+                print(f"[Drive] prepare error (non-fatal): {_e}")
+
+        session = buf or {"engineer_page_id": None}
+        success, reason = _apply_engineer_skill_info(
+            info,
+            session,
+            sender=sender,
+            user_id=push_user_id,
+            drive_url=drive_url,
+        )
+        clear_user_session(push_user_id)
         if not success:
             msg = f"📋 解析完了: {name}\n\n"
             if reason == "area_out_of_scope":
@@ -1605,19 +1963,7 @@ def handle_file_message(message_id, mime_type, reply_token, sender, sender_token
             push_message(push_user_id, msg, sender_token)
             return
 
-        # 5. 逆マッチング
-        active_projects = deduplicate_projects(get_active_projects())
-        result_m = run_reverse_matching_full(info, active_projects)
-        matches = result_m.get("matches", [])[:3]
-
-        if MATCHING_LOGIC_AVAILABLE:
-            msg = build_reverse_match_message_v2(
-                name, matches, normalize_price(info.get("price", 0)) or 0, stats=result_m.get("stats")
-            )
-        else:
-            msg = build_reverse_match_message(name, matches)
-
-        push_message(push_user_id, msg, sender_token)
+        _push_reverse_match_result(info, push_user_id, sender_token)
 
     except Exception as e:
         _uid = MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID
@@ -2066,6 +2412,23 @@ def process_message(
 
         return
 
+    # ── 登録セッション: クイックリプライ分岐 ─────────────────────
+
+    buffer_key = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
+    session = get_user_session(buffer_key)
+    if session.get("state", SESSION_STATE_PENDING) == SESSION_STATE_PENDING:
+        if text_stripped == QUICK_REPLY_LABEL_FILE:
+            update_user_session(buffer_key, state=SESSION_STATE_WAITING_FILE)
+            reply_message(
+                reply_token,
+                "スキルシート（Excel/Word/パワポ）を送信してください（30分以内）",
+                sender_token,
+            )
+            return
+        if text_stripped == QUICK_REPLY_LABEL_SHEET:
+            handle_session_spreadsheet_choice(buffer_key, session, reply_token, sender, sender_token)
+            return
+
     # ── スプレッドシートURL ──────────────────────────────────────
 
     sheet_urls = SHEET_URL_PATTERN.findall(text)
@@ -2082,6 +2445,18 @@ def process_message(
     msg_type = info.get("type", "other")
 
     print(f"[type] {msg_type}")
+
+    personnel_summary = is_personnel_summary(text_stripped)
+    if personnel_summary:
+        print("[personnel_summary] detected")
+
+    if msg_type == "engineer" or personnel_summary:
+        from skill_extractor import enrich_engineer_info
+
+        info = enrich_engineer_info(info if isinstance(info, dict) else {}, text_stripped, VALID_SKILLS)
+        if personnel_summary and msg_type not in ("engineer", "engineers"):
+            info["type"] = "engineer"
+            msg_type = "engineer"
 
     if msg_type == "engineer":
         # 100文字以上のテキストはスキルシート本文として直接登録
@@ -2118,11 +2493,17 @@ def process_message(
                 print(f"[text_register] error: {e}")
                 reply_message(reply_token, f"❌ テキスト登録エラー: {str(e)[:100]}", sender_token)
             return
-        # 100文字未満 → ファイル待機（従来通り）
+        # 100文字未満 → ファイル待機。名前が取れた場合はNotionに仮登録してpage_idを保持
         try:
             buffer_key = user_id or (MATSUNO_USER_ID if sender == "matsuno" else OKAMOTO_USER_ID)
-            USER_BUFFER[buffer_key] = {"summary": text, "timestamp": time.time()}
-            reply_message(reply_token, "スキルシート（PDF/Excel/Word）を送ってください。", sender_token)
+            pending_page_id = None
+            if info.get("name") and str(info.get("name", "")).strip().lower() not in ("", "(no name)"):
+                _ok, _pid = register_engineer(info, text, sender, user_id=user_id)
+                if _ok:
+                    pending_page_id = _pid
+                    print(f"[SESSION] 仮登録完了 page_id={_pid} name={info.get('name')}")
+            start_user_session(buffer_key, text_stripped, pending_page_id)
+            reply_line_message(reply_token, build_skill_sheet_format_quick_reply(), sender_token)
         except Exception as e:
             print(f"[USER_BUFFER] save error: {e}")
         return

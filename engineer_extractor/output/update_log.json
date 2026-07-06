@@ -1,0 +1,1115 @@
+{
+  "generated_at": "2026-06-29T04:12:09.134603+00:00",
+  "updates": [
+    {
+      "id": "383450ff-37c0-817c-9916-d68d105aa9eb",
+      "name": "SY",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "護国寺駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-812b-a830-d68e8310ee97",
+      "name": "A.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "小田急登戸駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8100-85d3-dc19df2e5e6f",
+      "name": "O.A",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "鳩ヶ谷駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8101-8eed-daa23803a4ef",
+      "name": "R.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "即日・柏駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8156-b7bb-def0d54d11f0",
+      "name": "YK",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "元住吉駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81c5-a274-ec8a4609556b",
+      "name": "HH",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "南柏駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-818e-acf8-d5a357c9cceb",
+      "name": "YS",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "高円寺駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8179-899c-c336e6a8ef3e",
+      "name": "K.I",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "南大沢駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81dc-b887-ea568175dfd4",
+      "name": "B.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "綾瀬駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8186-8eb3-fe6fd5f0e651",
+      "name": "N.A",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "根岸駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-815a-accd-d6f7c0ea7191",
+      "name": "S.U",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "東武練馬駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81d6-bccd-c04ba6a67ce4",
+      "name": "R.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "川越駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81e9-b949-e952086335bc",
+      "name": "T.I",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "金町駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8189-9f10-c628878c55f8",
+      "name": "TR プロパー",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "野方駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-812c-9a00-cf03adf978b2",
+      "name": "I.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "桶川駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81cb-a9c6-e944130f7c1d",
+      "name": "T.D",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "草加駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-818d-bee5-e9754f8357cd",
+      "name": "H.Y",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "葛西駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8124-a59b-fbdd3c78c992",
+      "name": "金.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "町屋駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-813a-b1fa-ffc7244b8f68",
+      "name": "N.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "西鉄薬院駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8188-8285-f9035136611f",
+      "name": "AK",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "相原駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-814d-b299-e14bdb12c049",
+      "name": "S.I",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "北山田駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8189-9e90-d5b81307ac6a",
+      "name": "IK",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "中浦和駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8175-be48-d6768391694d",
+      "name": "H.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "五反田駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8181-9e3d-f0c7fa0b87b9",
+      "name": "US",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "学芸大学駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8176-811e-f8ef1166e59e",
+      "name": "KH",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "籠原駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81b7-a68b-d7854fc47829",
+      "name": "I.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "武蔵浦和駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-819c-9051-cf925fe9817b",
+      "name": "OK",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "新検見川最寄駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81d3-b478-f6c49f403d1c",
+      "name": "K.N",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "新川崎駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81f8-9d55-fdc56bddd2ca",
+      "name": "Y.R",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "葛西駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81f2-aece-e4de5cc7d029",
+      "name": "D.I",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "旗の台駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81f4-9a13-e8373597a229",
+      "name": "R.Y",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "麻布十番駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-81c9-934e-fff8f3f57e6c",
+      "name": "N.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "新井薬師駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8195-ae0b-f69bbb6ff9bb",
+      "name": "S.R",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "小岩駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "380450ff-37c0-8197-b840-da27fb8b5b1a",
+      "name": "K.D",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "向ヶ丘遊園駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37f450ff-37c0-811d-8453-df0daa2246cf",
+      "name": "M.S",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "平塚駅/本厚木駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37f450ff-37c0-818d-870e-eb4aa1bdbe62",
+      "name": "HY",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "南林間駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37f450ff-37c0-8135-8512-f0af9f5a3337",
+      "name": "KMN",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "・地デジ・航空管制・駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37f450ff-37c0-8162-9e2d-e8424bf79868",
+      "name": "YM",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "豊島園駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8107-9dd8-f114f615f068",
+      "name": "Y.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "瑞江駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8165-a495-f32c34753cc4",
+      "name": "A.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "即日・馬込駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8153-bd34-de3363a46c79",
+      "name": "ND",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "中神駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-816f-8209-dc5dd0d9b7a1",
+      "name": "TH",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "妙蓮寺駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8117-b059-d552e7bd77a6",
+      "name": "AY",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "葛西駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8113-90bb-d9935d28fb44",
+      "name": "TO",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "相模大塚駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-81b4-94db-cd1a3e8fa9c2",
+      "name": "KM",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "相模大野駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-816a-8070-ee1f3d92fb53",
+      "name": "K.Y",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "新中野駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-81c1-a622-e3e26e2f13a8",
+      "name": "K.U",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "藤沢駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8104-8751-cee0654447cf",
+      "name": "T.A",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "梅郷駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8122-8dde-df704499154a",
+      "name": "Y.I",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "入谷駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-814d-af71-cf065cc03500",
+      "name": "Y.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "小岩駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8106-9ed1-d7e2ac925529",
+      "name": "S.M",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "洋光台駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37d450ff-37c0-8142-9fb2-de2ccea5211c",
+      "name": "N.S",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "浦和駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81c0-b5a3-f33f0c1f99b3",
+      "name": "MT",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "上大岡駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8122-a78d-d0c47c8c89b3",
+      "name": "S.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "小山駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8178-b4b3-fb6678531a25",
+      "name": "YI",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "南浦和駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81b0-8ee4-f8dcdcb6286c",
+      "name": "T.H",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "南流山駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8125-91da-cb4cf91078a7",
+      "name": "W.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "西葛西駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81d6-8aaa-c666e29ef1e9",
+      "name": "D・T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "新横浜駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8109-9b50-d7bdc589fb1b",
+      "name": "O.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "さいたま新都心駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8195-903a-f469cd47aa22",
+      "name": "Y.T",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "昭島駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8167-923c-f2b9a5d7b99c",
+      "name": "SS",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "志木駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8192-976d-dd39afa93805",
+      "name": "SK",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "長崎県浦上駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8166-9ecc-fbf654afb682",
+      "name": "SM",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "西新井駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8130-9d32-c7af717e037f",
+      "name": "M.N",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "戸塚駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81b8-8a5d-e240243ba406",
+      "name": "FM",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "伊勢原駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8104-9d31-ee02b9f121ef",
+      "name": "sasa",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "町田駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81e9-bbff-ec93cf8ae80d",
+      "name": "KA",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "狭山ヶ丘駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8137-b724-d8b9b67fd5a7",
+      "name": "S.S",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "宇都宮駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-8157-8324-c5c0b2c0fc23",
+      "name": "HS",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "大師前駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-81ad-8bc1-da01bccd7a2d",
+      "name": "Y.N",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "瑞江駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "37c450ff-37c0-812b-a352-dde784784877",
+      "name": "M.K",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "鴨居駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "360450ff-37c0-811d-9a67-eef211dc351f",
+      "name": "U.H（33歗・男性）",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "武蔵砂川駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "360450ff-37c0-8137-9dc1-e11b8e6a022c",
+      "name": "R.H（24歳・男性）",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "学芸大学駅"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "360450ff-37c0-81cc-bf28-cc3c8969fd0a",
+      "name": "OA（33歳・女性）",
+      "updates": {
+        "最寄り駅": {
+          "rich_text": [
+            {
+              "text": {
+                "content": "森林公園駅"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

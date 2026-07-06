@@ -40,8 +40,6 @@ MATSUNO_USER_ID = os.environ.get("MATSUNO_LINE_USER_ID", "Ue3508b43b84991f5a6828
 MODEL = os.environ.get("LINE_BRIDGE_MODEL", "claude-haiku-4-5-20251001")
 CLAUDE_MODEL = MODEL
 
-_CONFIRMATIONS: dict[str, dict[str, Any]] = {}
-_CONFIRMATION_TTL_SECONDS = 600
 _HANDOFF_MARKERS = ("■", "【", "】", "最優先", "未完了")
 _HANDOFF_SECTION_RE = re.compile(r"■\s*(?:最優先|未完了[・･]?続きが必要なもの|次チャットで最初にやること)")
 _HANDOFF_BULLET_RE = re.compile(r"^\s*(?:[-－ー•·]|・|\d+[.)．、])\s*(.+?)\s*$")
@@ -51,6 +49,14 @@ _HANDOFF_ROUTE = {
     "assignee": "jobz",
     "human_confirmation": "不要",
 }
+
+# 種別選択（1営業/2経理/3開発/4即時）は廃止。未分類メッセージは webhook_server 側へ委譲する。
+# readonly  = 検知のみ、キュー登録しない（観測フェーズ）
+# redirect  = 案内返信する（移行フェーズ）
+# disabled  = 旧パーサー無効（完全移行後）
+LINE_HANDOVER_PARSER_MODE: str = os.environ.get("LINE_HANDOVER_PARSER_MODE", "readonly")
+_BI_OBS_LOG = Path(__file__).resolve().parent.parent / "logs" / "bi_channel_obs.jsonl"
+_BI_REDIRECT_MSG = "引き継ぎメッセージはスマホのClaude.aiのPJチャットに貼ってください。"
 _DEV_BLOCKED_REASON = "手動対応が必要: Cursorで実行してください"
 
 
@@ -58,16 +64,6 @@ class CostLimitError(RuntimeError):
     pass
 
 
-ROUTE_CHOICES = {
-    "1": "sales",
-    "営業": "sales",
-    "2": "accounting",
-    "経理": "accounting",
-    "3": "development",
-    "開発": "development",
-    "4": "immediate",
-    "即時": "immediate",
-}
 SENSITIVE_WORDS = (
     "送信",
     "メールして",
@@ -293,117 +289,21 @@ def _queue_db_id() -> str:
     return os.environ.get("NOTION_AI_QUEUE_DB_ID", _DEFAULT_QUEUE_DB_ID)
 
 
-class CostGuard:
-    """Cost guard with kill switch and daily/monthly/batch limits."""
+import sys as _sys
 
-    _lock = threading.Lock()
-    _state_path = Path(os.environ.get("LINE_BRIDGE_COST_STATE", "/tmp/line_bridge_cost.json"))
-    _batch_calls = 0
-    _batch_active = False
+_LINE_BRIDGE_ROOT = Path(__file__).resolve().parent.parent
+if str(_LINE_BRIDGE_ROOT) not in _sys.path:
+    _sys.path.insert(0, str(_LINE_BRIDGE_ROOT))
 
-    @classmethod
-    def _load(cls) -> dict[str, Any]:
-        now = datetime.now(JST)
-        state = {
-            "date": now.strftime("%Y-%m-%d"),
-            "month": now.strftime("%Y-%m"),
-            "daily_usd": 0.0,
-            "monthly_usd": 0.0,
-        }
-        try:
-            loaded = json.loads(cls._state_path.read_text(encoding="utf-8"))
-            if isinstance(loaded, dict):
-                state.update(loaded)
-        except (OSError, ValueError, TypeError):
-            pass
-        if state.get("month") != now.strftime("%Y-%m"):
-            state.update(
-                month=now.strftime("%Y-%m"),
-                date=now.strftime("%Y-%m-%d"),
-                daily_usd=0.0,
-                monthly_usd=0.0,
-            )
-        elif state.get("date") != now.strftime("%Y-%m-%d"):
-            state.update(date=now.strftime("%Y-%m-%d"), daily_usd=0.0)
-        return state
+try:
+    if os.environ.get("COST_GUARD_DISABLED", "0") == "1":
+        raise ImportError("CostGuard disabled by COST_GUARD_DISABLED env")
+    import cost_guard as _global_cg
 
-    @classmethod
-    def _save(cls, state: dict[str, Any]) -> None:
-        cls._state_path.parent.mkdir(parents=True, exist_ok=True)
-        cls._state_path.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
-
-    @classmethod
-    def begin_batch(cls) -> None:
-        with cls._lock:
-            cls._batch_calls = 0
-            cls._batch_active = True
-
-    @classmethod
-    def end_batch(cls) -> None:
-        with cls._lock:
-            cls._batch_active = False
-            cls._batch_calls = 0
-
-    @classmethod
-    def reserve(cls, max_tokens: int, caller: str) -> None:
-        if os.environ.get("LLM_KILL", "0") == "1":
-            raise RuntimeError("CostGuard: LLM_KILL is active")
-        estimated = (2000 * 1.0 + max_tokens * 5.0) / 1_000_000
-        daily_limit = float(os.environ.get("LINE_BRIDGE_DAILY_USD", "1.0"))
-        monthly_limit = float(os.environ.get("LINE_BRIDGE_MONTHLY_USD", "6.0"))
-        with cls._lock:
-            state = cls._load()
-            if float(state["daily_usd"]) + estimated > daily_limit:
-                raise CostLimitError("CostGuard: daily limit exceeded")
-            if float(state["monthly_usd"]) + estimated > monthly_limit:
-                raise CostLimitError("CostGuard: monthly limit exceeded")
-            state["daily_usd"] = round(float(state["daily_usd"]) + estimated, 8)
-            state["monthly_usd"] = round(float(state["monthly_usd"]) + estimated, 8)
-            state["last_caller"] = caller
-            if cls._batch_active:
-                cls._batch_calls += 1
-            cls._save(state)
-
-    @classmethod
-    def can_call(cls) -> bool:
-        if os.environ.get("LLM_KILL", "0") == "1":
-            return False
-        daily_limit = float(os.environ.get("LINE_BRIDGE_DAILY_USD", "1.0"))
-        monthly_limit = float(os.environ.get("LINE_BRIDGE_MONTHLY_USD", "6.0"))
-        with cls._lock:
-            state = cls._load()
-            return float(state["daily_usd"]) < daily_limit and float(state["monthly_usd"]) < monthly_limit
-
-    @classmethod
-    def record(
-        cls,
-        input_tokens: int,
-        output_tokens: int,
-        model: str,
-        caller: str,
-    ) -> None:
-        model_name = (model or "").lower()
-        rates = (3.0, 15.0) if "sonnet" in model_name else (1.0, 5.0)
-        cost = (max(input_tokens, 0) * rates[0] + max(output_tokens, 0) * rates[1]) / 1_000_000
-        with cls._lock:
-            state = cls._load()
-            state["daily_usd"] = round(float(state["daily_usd"]) + cost, 8)
-            state["monthly_usd"] = round(float(state["monthly_usd"]) + cost, 8)
-            state["last_caller"] = caller
-            cls._save(state)
-
-
-def cost_guard_can_call() -> bool:
-    return CostGuard.can_call()
-
-
-def cost_guard_record(
-    input_tokens: int,
-    output_tokens: int,
-    model: str,
-    caller: str,
-) -> None:
-    CostGuard.record(input_tokens, output_tokens, model, caller)
+    _GLOBAL_CG_AVAILABLE = True
+except Exception:
+    _global_cg = None  # type: ignore[assignment]
+    _GLOBAL_CG_AVAILABLE = False
 
 
 def guarded_anthropic_call(
@@ -413,35 +313,76 @@ def guarded_anthropic_call(
     caller: str,
     model: str = MODEL,
 ) -> str:
-    """Call Anthropic only after CostGuard reserves estimated cost."""
+    """Call Anthropic only after cost_guard.allowed() reserves estimated cost.
+
+    Uses global cost_guard.allowed()/finalize() (try/finally で finalize 必須)。
+    """
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         raise RuntimeError("ANTHROPIC_API_KEY is not configured")
-    CostGuard.reserve(max_tokens=max_tokens, caller=caller)
-    response = requests.post(
-        "https://api.anthropic.com/v1/messages",
-        headers={
-            "x-api-key": api_key,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        },
-        json={
-            "model": model,
-            "max_tokens": max_tokens,
-            "system": system,
-            "messages": [{"role": "user", "content": content}],
-        },
-        timeout=90,
-    )
-    response.raise_for_status()
-    data = response.json()
-    usage = data.get("usage", {})
-    print(
-        f"[line_bridge_llm] caller={caller} model={model} "
-        f"in={usage.get('input_tokens', '?')} "
-        f"out={usage.get('output_tokens', '?')}"
-    )
-    return data["content"][0]["text"]
+
+    decision = None
+    if _GLOBAL_CG_AVAILABLE:
+        decision = _global_cg.allowed(
+            phase="immediate",
+            block_type="line_bridge",
+            est_in=2000,
+            est_out=max_tokens,
+            model_hint=model,
+            script=f"line_bridge_{caller}",
+        )
+        if not decision.allowed:
+            raise CostLimitError(f"CostGuard: {decision.reason}")
+    elif os.environ.get("LLM_KILL", "0") == "1":
+        raise CostLimitError("CostGuard: LLM_KILL is active")
+
+    error_kind = ""
+    in_tok = 0
+    out_tok = 0
+    response_text = ""
+
+    try:
+        response = requests.post(
+            "https://api.anthropic.com/v1/messages",
+            headers={
+                "x-api-key": api_key,
+                "anthropic-version": "2023-06-01",
+                "content-type": "application/json",
+            },
+            json={
+                "model": model,
+                "max_tokens": max_tokens,
+                "system": system,
+                "messages": [{"role": "user", "content": content}],
+            },
+            timeout=90,
+        )
+        response.raise_for_status()
+        data = response.json()
+        usage = data.get("usage", {})
+        in_tok = int(usage.get("input_tokens", 0))
+        out_tok = int(usage.get("output_tokens", 0))
+        response_text = data["content"][0]["text"]
+        print(
+            f"[line_bridge_llm] caller={caller} model={model} "
+            f"in={in_tok} out={out_tok}"
+        )
+        return response_text
+    except Exception:
+        error_kind = "transient"
+        raise
+    finally:
+        if decision is not None and decision.allowed:
+            try:
+                _global_cg.finalize(
+                    decision,
+                    in_tokens=in_tok,
+                    out_tokens=out_tok,
+                    success=(error_kind == ""),
+                    error_kind=error_kind,
+                )
+            except Exception as fe:
+                print(f"[line_bridge_llm] finalize error (ignored): {fe}")
 
 
 def _notion_headers() -> dict[str, str]:
@@ -635,44 +576,10 @@ def classify_route(text: str) -> dict[str, str]:
             "human_confirmation": "不要",
         }
     return {
-        "route": "ambiguous",
+        "route": "pass",
         "kind": "",
         "assignee": "",
         "human_confirmation": confirmation,
-    }
-
-
-def _route_from_confirmation(choice: str, original: str) -> dict[str, str] | None:
-    route = ROUTE_CHOICES.get(choice.strip().lower())
-    if not route:
-        return None
-    confirmation = "要" if any(word in original for word in SENSITIVE_WORDS) else "不要"
-    if route == "sales":
-        return {
-            "route": route,
-            "kind": "proposal",
-            "assignee": "girard",
-            "human_confirmation": confirmation,
-        }
-    if route == "accounting":
-        return {
-            "route": route,
-            "kind": "billing",
-            "assignee": "shibusawa",
-            "human_confirmation": "要",
-        }
-    if route == "development":
-        return {
-            "route": route,
-            "kind": "dev",
-            "assignee": "codex",
-            "human_confirmation": confirmation,
-        }
-    return {
-        "route": route,
-        "kind": "matching",
-        "assignee": "matching_v3",
-        "human_confirmation": "不要",
     }
 
 
@@ -809,6 +716,48 @@ def handle_task_reply(text: str) -> dict[str, str] | None:
     return {"action": "reply", "text": f"#{task_id} を再開します"}
 
 
+def _log_bi_observation(event_type: str, text: str, message_id: str = "") -> None:
+    """BI チャネル分離観測ログ。"""
+    try:
+        _BI_OBS_LOG.parent.mkdir(parents=True, exist_ok=True)
+        entry = {
+            "ts": datetime.now(JST).isoformat(),
+            "event": event_type,
+            "message_id": message_id,
+            "text_head": text[:100],
+            "mode": LINE_HANDOVER_PARSER_MODE,
+        }
+        with _BI_OBS_LOG.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _normalized_event(
+    text: str,
+    message_id: str,
+    event_timestamp_ms: int,
+    source_channel: str = "line_matsuno",
+) -> dict[str, Any]:
+    """BI イベント正規化。Notion キューへの追加フィールドとして使用。"""
+    import re as _re
+    intent: str
+    if _HANDOFF_SECTION_RE.search(text):
+        intent = "task"
+    elif any(kw in text for kw in ("案件", "マッチング", "人材", "スキルシート")):
+        intent = "matching"
+    elif any(kw in text for kw in ("質問", "確認", "どう思う")):
+        intent = "inquiry"
+    else:
+        intent = "other"
+    return {
+        "source_channel": source_channel,
+        "intent_type": intent,
+        "dedupe_key": f"line_{message_id}",
+        "received_at": datetime.fromtimestamp(event_timestamp_ms / 1000, JST).isoformat(),
+    }
+
+
 def _is_handoff_message(text: str) -> bool:
     return any(marker in text for marker in _HANDOFF_MARKERS)
 
@@ -839,12 +788,32 @@ def parse_handoff_message(
     event_timestamp_ms: int,
     message_id: str = "",
 ) -> dict[str, str] | None:
-    """Parse Claude handoff messages and enqueue research tasks for jobz."""
+    """Parse Claude handoff messages and enqueue research tasks for jobz.
+
+    LINE_HANDOVER_PARSER_MODE:
+      readonly  = 検知ログのみ、キュー未登録
+      redirect  = 案内返信、キュー未登録
+      disabled  = パーサー無効（旧挙動: 全スルー）
+    """
+    if LINE_HANDOVER_PARSER_MODE == "disabled":
+        return None
     if not _is_handoff_message(text):
         return None
     items = _extract_handoff_tasks(text)
     if not items:
         return None
+
+    _log_bi_observation("handoff_detected", text, message_id)
+
+    if LINE_HANDOVER_PARSER_MODE == "readonly":
+        _log_bi_observation("handoff_suppressed_readonly", text, message_id)
+        return None
+
+    if LINE_HANDOVER_PARSER_MODE == "redirect":
+        _log_bi_observation("handoff_redirect", text, message_id)
+        return {"action": "reply", "text": _BI_REDIRECT_MSG}
+
+    # default: enqueue (後方互換、通常は readonly か redirect を使用)
     created_count = 0
     for index, item in enumerate(items):
         item_message_id = f"{message_id}:handoff:{index}"
@@ -883,6 +852,11 @@ def enqueue_task(
     }
     now = datetime.now(JST)
     is_dev = route.get("kind") == "dev"
+    # BI: チャネル情報を metadata に埋め込む（Notion DBスキーマ変更不要）
+    norm = _normalized_event(text, message_id, event_timestamp_ms)
+    metadata["source_channel"] = norm["source_channel"]
+    metadata["intent_type"] = norm["intent_type"]
+    metadata["dedupe_key"] = norm["dedupe_key"]
     properties = {
         "task_id": _title(task_id),
         "受付元": _select("LINE"),
@@ -938,35 +912,10 @@ def route_line_message(
         return handoff
     if not stripped:
         return {"action": "reply", "text": "テキストで指示を送ってください。"}
-    now = datetime.now(JST).timestamp()
-    pending = _CONFIRMATIONS.get(user_id)
-    if pending and now - pending["created_at"] > _CONFIRMATION_TTL_SECONDS:
-        _CONFIRMATIONS.pop(user_id, None)
-        pending = None
-    if pending:
-        _CONFIRMATIONS.pop(user_id, None)
-        route = _route_from_confirmation(text, str(pending["text"]))
-        if not route:
-            return {
-                "action": "reply",
-                "text": "判定できないためキュー未登録です。",
-            }
-        if route["route"] == "immediate":
-            return {"action": "immediate", "text": str(pending["text"])}
-        created, task_id = enqueue_task(
-            str(pending["text"]),
-            route,
-            user_id,
-            str(pending["message_id"]),
-            int(pending["event_timestamp_ms"]),
-            reply_token,
-        )
-        return {
-            "action": "reply",
-            "text": _enqueue_reply(created, task_id, route["assignee"], route.get("kind", "")),
-        }
 
     route = classify_route(text)
+    if route["route"] == "pass":
+        return {"action": "pass"}
     if route["route"] == "candidate_intake":
         eng_info = _parse_candidate_text(text)
         if eng_info:
@@ -997,18 +946,6 @@ def route_line_message(
         }
     if route["route"] == "immediate":
         return {"action": "pass"}
-    if route["route"] == "ambiguous":
-        _CONFIRMATIONS[user_id] = {
-            "text": text,
-            "created_at": now,
-            "message_id": message_id,
-            "event_timestamp_ms": event_timestamp_ms,
-            "reply_token": reply_token,
-        }
-        return {
-            "action": "reply",
-            "text": ("種別を1つ選んで返信してください。\n1 営業重作業 / 2 経理 / 3 開発 / 4 即時マッチング"),
-        }
     created, task_id = enqueue_task(text, route, user_id, message_id, event_timestamp_ms, reply_token)
     return {
         "action": "reply",

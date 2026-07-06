@@ -19,6 +19,108 @@ if os.path.exists(ENV_PATH):
 
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
+_PRICE_RE = re.compile(r"(?:単価|希望|希望単価)[:：\s]*(\d{2,3})\s*万|(\d{2,3})\s*万(?:円)?")
+_EXPERIENCE_RE = re.compile(
+    r"(?:経験|実務)\s*(\d{1,2})\s*年(?:半|目)?|(\d{1,2})\s*年(?:半|目)|(\d{1,2})年"
+)
+_SKILL_SPLIT_RE = re.compile(r"[,、/／\s・|]+")
+
+
+def extract_price_man_yen(text: str) -> int:
+    if not text:
+        return 0
+    for match in _PRICE_RE.finditer(text):
+        for group in match.groups():
+            if group:
+                try:
+                    return int(group)
+                except ValueError:
+                    continue
+    return 0
+
+
+def extract_experience_years(text: str) -> int:
+    if not text:
+        return 0
+    match = _EXPERIENCE_RE.search(text)
+    if not match:
+        return 0
+    for group in match.groups():
+        if group:
+            try:
+                years = int(group)
+                if "半" in match.group(0):
+                    return years
+                return years
+            except ValueError:
+                continue
+    return 0
+
+
+def estimate_price_from_experience(experience_years: int) -> int:
+    if experience_years >= 7:
+        return 78
+    if experience_years >= 5:
+        return 68
+    if experience_years >= 3:
+        return 58
+    return 48
+
+
+def extract_skills_from_plain_text(text: str, valid_skills: list[str]) -> list[str]:
+    if not text:
+        return []
+    valid_map = {skill.lower(): skill for skill in valid_skills}
+    found: list[str] = []
+    seen: set[str] = set()
+    lowered = text.lower()
+    for skill in sorted(valid_skills, key=len, reverse=True):
+        key = skill.lower()
+        if key and key in lowered and skill not in seen:
+            found.append(skill)
+            seen.add(skill)
+    for token in _SKILL_SPLIT_RE.split(text):
+        token = token.strip()
+        if not token:
+            continue
+        normalized = valid_map.get(token.lower())
+        if normalized and normalized not in seen:
+            found.append(normalized)
+            seen.add(normalized)
+    return found
+
+
+def enrich_engineer_info(info: dict, text: str, valid_skills: list[str]) -> dict:
+    merged = dict(info or {})
+    source_text = "\n".join([str(text or ""), str(merged.get("note") or "")])
+    if not merged.get("price"):
+        price = extract_price_man_yen(source_text)
+        if price:
+            merged["price"] = price
+    if not merged.get("experience_years"):
+        years = extract_experience_years(source_text)
+        if years:
+            merged["experience_years"] = years
+    if not merged.get("price"):
+        years = int(merged.get("experience_years") or 0)
+        if years:
+            merged["price"] = estimate_price_from_experience(years)
+
+    existing = merged.get("skills") or []
+    if existing and isinstance(existing[0], dict):
+        existing_names = {str(item.get("name") or "") for item in existing}
+    else:
+        existing_names = {str(item) for item in existing}
+    rule_skills = extract_skills_from_plain_text(source_text, valid_skills)
+    skill_items = list(existing) if existing else []
+    for skill in rule_skills:
+        if skill in existing_names:
+            continue
+        skill_items.append({"name": skill, "years": 0, "active": True})
+    if skill_items:
+        merged["skills"] = skill_items
+    return merged
+
 
 def _extract_pdf_text(file_bytes):
     try:
@@ -162,7 +264,13 @@ summary_text:
             caller="analyze_skill_sheet_v2",
             model="claude-haiku-4-5-20251001",
         )
-        return _parse_json_text(result)
+        parsed = _parse_json_text(result)
+        try:
+            from webhook_server import VALID_SKILLS
+        except Exception:
+            VALID_SKILLS = []
+        combined = "\n".join([summary_text or "", extracted if isinstance(extracted, str) else ""])
+        return enrich_engineer_info(parsed, combined, VALID_SKILLS)
     except Exception as e:
         print(f"[skill_extractor] analyze error: {e}")
         return {}

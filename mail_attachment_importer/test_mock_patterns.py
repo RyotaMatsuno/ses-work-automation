@@ -56,98 +56,54 @@ class MockPatternTests(unittest.TestCase):
     def tearDown(self):
         self.register_patcher.stop()
 
-    def test_pattern_a_attachment(self):
-        """パターンA: 添付Excel/PDF/Word → エンジニア抽出 → Notion登録"""
+    def test_pattern_a_attachment_skipped(self):
+        """パターンA: 人員判定の添付は登録せずスキップ"""
         from importer import process_attachments
-
-        engineer = {
-            "name": "田中太郎",
-            "affiliation": "テックソリューション株式会社",
-            "price": 65,
-            "available_date": "2026-06-09",
-            "experience_years": 5,
-            "skills": ["Java", "Spring", "Oracle"],
-        }
 
         with (
             patch("parsers.file_parser.parse_file", return_value=SAMPLE_TEXT_A),
             patch("ai_extractor.classify_content", return_value="engineer"),
-            patch("ai_extractor.extract_engineers", return_value=[engineer]),
+            patch("ai_extractor.extract_engineers") as mock_extract,
         ):
             stats = process_attachments(
                 [{"filename": "skillsheet.xlsx", "ext": ".xlsx", "data": b"dummy"}],
                 META,
             )
 
-        self.assertEqual(stats["success"], 1)
+        self.assertEqual(stats["success"], 0)
+        self.assertEqual(stats["skip"], 1)
         self.assertEqual(stats["error"], 0)
-        self.assertEqual(len(self.register_calls), 1)
-        self.assertEqual(self.register_calls[0]["engineer"]["name"], "田中太郎")
+        self.assertEqual(len(self.register_calls), 0)
+        mock_extract.assert_not_called()
 
-    def test_pattern_b_single_sheet(self):
-        """パターンB: Google Spreadsheet URL（1人分）→ Notion登録"""
+    def test_pattern_b_single_sheet_skipped(self):
+        """パターンB: スプレッドシート人員登録は廃止"""
         from importer import process_sheet_urls
 
-        engineer = {
-            "name": "佐藤花子",
-            "affiliation": "ABCパートナーズ",
-            "price": 55,
-            "available_date": "2026-07-01",
-            "experience_years": 3,
-            "skills": ["Python", "PostgreSQL"],
-        }
         sheet_url = "https://docs.google.com/spreadsheets/d/abc123/edit"
+        stats = process_sheet_urls([sheet_url], META)
 
-        with (
-            patch(
-                "sheet_fetcher.fetch_sheet_text",
-                return_value={"status": "ok", "text": SAMPLE_TEXT_B},
-            ),
-            patch("ai_extractor.extract_engineers", return_value=[engineer]),
-        ):
-            stats = process_sheet_urls([sheet_url], META)
+        self.assertEqual(stats, {"success": 0, "skip": 1, "error": 0})
+        self.assertEqual(len(self.register_calls), 0)
 
-        self.assertEqual(stats["success"], 1)
-        self.assertEqual(len(self.register_calls), 1)
-        self.assertEqual(self.register_calls[0]["engineer"]["name"], "佐藤花子")
-
-    def test_pattern_c_multi_sheet(self):
-        """パターンC: Google Spreadsheet URL（複数人リスト）→ 一括登録"""
+    def test_pattern_c_multi_sheet_skipped(self):
+        """パターンC: 複数人スプレッドシートも全件スキップ"""
         from importer import process_sheet_urls
 
-        engineers = [
-            {"name": "山田一郎", "affiliation": "XYZ商事", "price": 75, "skills": ["Java"]},
-            {"name": "鈴木二郎", "affiliation": "XYZ商事", "price": 60, "skills": ["Python"]},
-            {"name": "高橋三郎", "affiliation": "DEF技研", "price": 70, "skills": ["AWS"]},
-        ]
         sheet_url = "https://docs.google.com/spreadsheets/d/multi456/edit"
+        stats = process_sheet_urls([sheet_url], META)
 
-        with (
-            patch(
-                "sheet_fetcher.fetch_sheet_text",
-                return_value={"status": "ok", "text": SAMPLE_TEXT_C},
-            ),
-            patch("ai_extractor.extract_engineers", return_value=engineers),
-        ):
-            stats = process_sheet_urls([sheet_url], META)
-
-        self.assertEqual(stats["success"], 3)
-        self.assertEqual(len(self.register_calls), 3)
-        names = [c["engineer"]["name"] for c in self.register_calls]
-        self.assertEqual(names, ["山田一郎", "鈴木二郎", "高橋三郎"])
+        self.assertEqual(stats, {"success": 0, "skip": 1, "error": 0})
+        self.assertEqual(len(self.register_calls), 0)
 
     def test_sheet_login_required_skipped(self):
-        """ログイン必要スプレッドシートはスキップ"""
+        """人員スプレッドシートパスは廃止のためURL件数分スキップ"""
         from importer import process_sheet_urls
 
-        with patch(
-            "sheet_fetcher.fetch_sheet_text",
-            return_value={"status": "login_required"},
-        ):
-            stats = process_sheet_urls(
-                ["https://docs.google.com/spreadsheets/d/private/edit"],
-                META,
-            )
+        stats = process_sheet_urls(
+            ["https://docs.google.com/spreadsheets/d/private/edit"],
+            META,
+        )
 
         self.assertEqual(stats["skip"], 1)
         self.assertEqual(len(self.register_calls), 0)

@@ -1,0 +1,24 @@
+{
+  "measured_at": "2026-06-29T04:12:00+00:00",
+  "baseline_goals": {
+    "スキル空欄": "35件 → 10件以下",
+    "単価空欄": "35件 → 10件以下",
+    "最寄り駅": "4/208 → 120+件",
+    "経験年数": "120/208 → 150+件",
+    "稼働可能日": "57/208 → 100+件"
+  },
+  "after_apply": {
+    "total_records": 208,
+    "スキル": {"filled": 201, "empty": 7, "fill_pct": 96.6, "goal_met": true},
+    "単価（万円）": {"filled": 191, "empty": 17, "fill_pct": 91.8, "goal_met": false},
+    "最寄り駅": {"filled": 139, "empty": 69, "fill_pct": 66.8, "goal_met": true},
+    "経験年数": {"filled": 122, "empty": 86, "fill_pct": 58.7, "goal_met": false},
+    "稼働可能日": {"filled": 172, "empty": 36, "fill_pct": 82.7, "goal_met": true}
+  },
+  "remaining_update_candidates": 0,
+  "notes": [
+    "スキル・稼働可能日・最寄り駅は目標達成",
+    "単価・経験年数は原文に情報がないケースが残存（空欄補完のみのため上書きなし）",
+    "誤更新ゼロ: merge_policyにより既存値は全件保護"
+  ]
+}

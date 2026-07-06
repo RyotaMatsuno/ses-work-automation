@@ -1,0 +1,117 @@
+{
+  "languages": [
+    "Python", "Java", "JavaScript", "TypeScript", "PHP", "Ruby", "C#", "C++", "C", "Go",
+    "Rust", "Kotlin", "Swift", "Scala", "Perl", "VB", "VB.NET", "VBA", "COBOL", "R",
+    "Dart", "Objective-C", "Shell", "Bash", "PowerShell", "Groovy", "Haskell", "Elixir",
+    "Clojure", "F#"
+  ],
+  "frameworks": [
+    "React", "Vue", "Angular", "Next.js", "Nuxt", "Nuxt.js", "Node.js", "Express",
+    "Django", "Flask", "FastAPI", "Spring", "Spring Boot", "Laravel", "Rails",
+    "Ruby on Rails", ".NET", "ASP.NET", "Struts", "Hibernate", "jQuery",
+    "Bootstrap", "Tailwind", "Svelte", "Remix", "Nest.js", "NestJS", "GraphQL",
+    "gRPC", "Gin", "Echo", "Fiber", "Actix", "Rocket", "Play Framework", "Ktor",
+    "CakePHP", "Symfony", "CodeIgniter", "Slim", "Sinatra", "Grape", "Hanami",
+    "Flutter", "React Native", "Expo", "Ionic", "Xamarin", "MAUI"
+  ],
+  "cloud": [
+    "AWS", "Azure", "GCP", "OCI", "Alibaba Cloud",
+    "EC2", "S3", "Lambda", "VPC", "RDS", "ECS", "EKS", "Fargate",
+    "CloudFormation", "CDK", "Terraform", "Ansible", "Kubernetes", "Docker", "Podman",
+    "App Engine", "Cloud Run", "Cloud Functions", "Cloud Storage", "Cloud SQL",
+    "BigQuery", "Pub/Sub", "Cloud Spanner", "Firebase", "Vertex AI",
+    "App Service", "Azure Functions", "Azure DevOps", "AKS", "ACR",
+    "CloudFront", "Route53", "SQS", "SNS", "Kinesis", "Glue", "EMR",
+    "API Gateway", "Step Functions", "Cognito", "IAM", "WAF", "Shield",
+    "Lightsail", "Elastic Beanstalk"
+  ],
+  "databases": [
+    "MySQL", "PostgreSQL", "Oracle", "SQL Server", "SQLite", "MongoDB", "Redis",
+    "DynamoDB", "Cassandra", "Elasticsearch", "BigQuery", "Redshift", "Snowflake",
+    "MariaDB", "CockroachDB", "TiDB", "ClickHouse", "Neo4j", "Couchbase",
+    "HBase", "InfluxDB", "TimescaleDB", "Firestore", "Bigtable", "Spanner",
+    "DB2", "Sybase", "Access", "H2", "RabbitMQ", "Kafka", "ActiveMQ", "NATS"
+  ],
+  "middleware": [
+    "Apache", "Nginx", "Tomcat", "IIS", "JP1", "Zabbix", "Datadog",
+    "Prometheus", "Grafana", "Jenkins", "CircleCI", "GitHub Actions",
+    "GitLab CI", "Chef", "Puppet", "CLUSTERPRO", "HAProxy", "Pacemaker",
+    "ServiceNow", "Fluentd", "Logstash", "Kibana", "OpenTelemetry",
+    "Istio", "Envoy", "Consul", "Vault", "Nomad", "Zipkin", "Jaeger",
+    "ArgoCD", "Flux", "Helm", "Kustomize", "RancherOS", "Rancher",
+    "OpenShift", "Tekton", "Spinnaker", "Ansible Tower"
+  ],
+  "os": [
+    "Linux", "Windows", "Windows Server", "RHEL", "CentOS", "Ubuntu",
+    "Amazon Linux", "macOS", "Unix", "AIX", "Solaris", "FreeBSD",
+    "Debian", "Fedora", "Rocky Linux", "AlmaLinux", "openSUSE",
+    "Oracle Linux", "HP-UX"
+  ],
+  "infrastructure": [
+    "VMware", "Hyper-V", "Citrix", "Active Directory", "LDAP",
+    "DNS", "DHCP", "TCP/IP", "VPN", "Firewall", "Load Balancer",
+    "CDN", "WAF", "SSL/TLS", "PKI", "SAML", "OAuth", "OIDC",
+    "BGP", "OSPF", "VLAN", "SDN", "NFV", "Nutanix", "NetApp",
+    "EMC", "Pure Storage", "iSCSI", "FC SAN", "NAS"
+  ],
+  "data_ai": [
+    "Pandas", "NumPy", "Scikit-learn", "TensorFlow", "PyTorch",
+    "Jupyter", "Spark", "Hadoop", "Kafka", "Airflow", "dbt",
+    "Tableau", "Power BI", "Looker", "Matplotlib", "Seaborn",
+    "OpenCV", "Hugging Face", "LangChain", "LlamaIndex",
+    "XGBoost", "LightGBM", "CatBoost", "MLflow", "Kubeflow",
+    "Metabase", "Superset", "Redash", "Streamlit", "Gradio",
+    "PySpark", "Databricks", "Snowflake", "dbt Cloud", "Fivetran"
+  ],
+  "testing": [
+    "JUnit", "pytest", "Selenium", "Cypress", "Playwright",
+    "JSTQB", "TestRail", "Postman", "Jest", "Mocha", "Vitest",
+    "Testing Library", "Storybook", "Appium", "XCTest",
+    "Espresso", "k6", "Gatling", "JMeter", "Locust",
+    "SonarQube", "Checkstyle", "ESLint", "RuboCop", "Flake8"
+  ],
+  "pm_tools": [
+    "Jira", "Confluence", "Backlog", "Redmine", "Notion",
+    "Slack", "Teams", "Git", "GitHub", "GitLab", "SVN",
+    "Agile", "Scrum", "Kanban", "SAP", "Salesforce",
+    "kintone", "M365", "SharePoint", "Trello", "Asana",
+    "Monday", "Linear", "Figma", "Zeplin", "Miro",
+    "draw.io", "PlantUML", "OpenAPI", "Swagger"
+  ],
+  "security": [
+    "OAuth", "JWT", "SAML", "OpenID Connect", "OIDC",
+    "Penetration Testing", "OWASP", "CISSP", "CEH",
+    "IDS", "IPS", "SIEM", "SOC", "Kali Linux"
+  ],
+  "aliases": {
+    "JS": "JavaScript",
+    "TS": "TypeScript",
+    "RoR": "Ruby on Rails",
+    "GCP": "Google Cloud Platform",
+    "k8s": "Kubernetes",
+    "K8s": "Kubernetes",
+    "Py": "Python",
+    "PY": "Python",
+    "PG": "PostgreSQL",
+    "Postgres": "PostgreSQL",
+    "MSSQL": "SQL Server",
+    "MS SQL": "SQL Server",
+    "ES": "Elasticsearch",
+    "RMQ": "RabbitMQ",
+    "MQ": "RabbitMQ",
+    "GHA": "GitHub Actions",
+    "CI/CD": "CI/CD",
+    "VueJS": "Vue",
+    "ReactJS": "React",
+    "AngularJS": "Angular",
+    "NextJS": "Next.js",
+    "NuxtJS": "Nuxt.js",
+    "SpringBoot": "Spring Boot",
+    "RN": "React Native",
+    "Node": "Node.js",
+    "Express.js": "Express",
+    "FastAPI": "FastAPI",
+    "NestJS": "NestJS",
+    "Laravel": "Laravel"
+  }
+}

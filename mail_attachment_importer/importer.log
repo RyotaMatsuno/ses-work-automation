@@ -7975,3 +7975,31 @@
 2026-06-18 18:54:02,543 [INFO] importer: スプレッドシート取得（人員）: https://docs.google.com/spreadsheets/d/multi456/edit
 2026-06-18 18:54:02,543 [INFO] importer: スプレッドシート取得（人員）: https://docs.google.com/spreadsheets/d/private/edit
 2026-06-18 18:54:02,543 [INFO] importer: ログイン必要のためスキップ: https://docs.google.com/spreadsheets/d/private/edit
+2026-06-30 14:17:40,636 [INFO] importer: ===== インポート開始 =====
+2026-06-30 14:17:40,638 [INFO] importer: ログファイル: C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_attachment_importer\importer.log
+2026-06-30 14:17:40,679 [INFO] mail_fetcher: IMAP接続開始: account=sessales 118.27.122.112:993 (timeout=30s)
+2026-06-30 14:17:40,930 [INFO] mail_fetcher: IMAP接続成功: account=sessales sessales@terra-ltd.co.jp
+2026-06-30 14:17:41,231 [INFO] mail_fetcher: INBOX検索結果 account=sessales（直近1日）: 7444件
+2026-06-30 14:17:41,232 [INFO] mail_fetcher: 未処理 account=sessales: 7444件
+2026-06-30 14:17:41,232 [INFO] mail_fetcher: DRY_RUN=1: account=sessales はIMAP接続確認のみで本文取得をスキップ
+2026-06-30 14:17:41,247 [INFO] mail_fetcher: IMAP接続開始: account=matsuno 118.27.122.112:993 (timeout=30s)
+2026-06-30 14:17:41,493 [INFO] mail_fetcher: IMAP接続成功: account=matsuno r-matsuno@terra-ltd.co.jp
+2026-06-30 14:17:41,879 [INFO] mail_fetcher: INBOX検索結果 account=matsuno（直近1日）: 188件
+2026-06-30 14:17:41,879 [INFO] mail_fetcher: 未処理 account=matsuno: 188件
+2026-06-30 14:17:41,879 [INFO] mail_fetcher: DRY_RUN=1: account=matsuno はIMAP接続確認のみで本文取得をスキップ
+2026-06-30 14:17:41,894 [INFO] mail_fetcher: IMAP接続開始: account=okamoto 118.27.122.112:993 (timeout=30s)
+2026-06-30 14:17:42,109 [INFO] mail_fetcher: IMAP接続成功: account=okamoto r-okamoto@terra-ltd.co.jp
+2026-06-30 14:17:42,147 [INFO] mail_fetcher: INBOX検索結果 account=okamoto（直近1日）: 17件
+2026-06-30 14:17:42,148 [INFO] mail_fetcher: 未処理 account=okamoto: 17件
+2026-06-30 14:17:42,148 [INFO] mail_fetcher: DRY_RUN=1: account=okamoto はIMAP接続確認のみで本文取得をスキップ
+2026-06-30 14:17:42,165 [INFO] mail_fetcher: 全アカウント取得完了: 0件（添付またはURL含むもの）
+2026-06-30 14:17:42,165 [INFO] importer: 新規メールなし → 終了
+2026-06-30 14:20:10,838 [INFO] importer: コンテンツ判定: skillsheet.xlsx → engineer
+2026-06-30 14:20:10,840 [INFO] importer: 人員判定→スキップ（LINE手動登録のみ許可）: skillsheet.xlsx
+2026-06-30 14:20:10,840 [INFO] importer: スプレッドシート人員登録パスは廃止済み。1件スキップ
+2026-06-30 14:20:10,841 [INFO] importer: スプレッドシート人員登録パスは廃止済み。1件スキップ
+2026-06-30 14:20:10,841 [INFO] importer: スプレッドシート人員登録パスは廃止済み。1件スキップ
+2026-06-30 14:59:01,136 [INFO] importer: コンテンツ判定: p.xlsx → engineer
+2026-06-30 14:59:01,137 [INFO] importer: 人員判定→スキップ（LINE手動登録のみ許可）: p.xlsx
+2026-06-30 14:59:01,137 [INFO] importer: スプレッドシート人員登録パスは廃止済み。1件スキップ
+2026-06-30 14:59:01,137 [INFO] importer: コンテンツ判定: c.xlsx → project

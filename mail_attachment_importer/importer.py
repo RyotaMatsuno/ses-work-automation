@@ -70,9 +70,9 @@ def save_processed_id(uid: str, account: str = "sessales"):
 
 def process_attachments(attachments: list, meta: dict) -> dict:
     """パターンA: 添付ファイルを人員/案件に分類してNotion登録"""
-    from ai_extractor import classify_content, extract_engineers, extract_projects
+    from ai_extractor import classify_content, extract_projects
     from parsers.file_parser import parse_file
-    from utils.notion_writer import register_engineer, register_project
+    from utils.notion_writer import register_project
 
     stats = {"success": 0, "skip": 0, "error": 0}
 
@@ -91,14 +91,9 @@ def process_attachments(attachments: list, meta: dict) -> dict:
         logger.info(f"コンテンツ判定: {filename} → {content_type}")
 
         if content_type == "engineer":
-            records = extract_engineers(text, filename)
-            if not records:
-                logger.warning(f"エンジニア情報抽出失敗: {filename} → スキップ")
-                stats["error"] += 1
-                continue
-            for eng in records:
-                result = register_engineer(eng, meta)
-                stats["success" if result else "skip"] += 1
+            logger.info(f"人員判定→スキップ（LINE手動登録のみ許可）: {filename}")
+            stats["skip"] += 1
+            continue
         elif content_type == "project":
             records = extract_projects(text, filename)
             if not records:
@@ -116,47 +111,10 @@ def process_attachments(attachments: list, meta: dict) -> dict:
 
 
 def process_sheet_urls(sheet_urls: list, meta: dict) -> dict:
-    """パターンB/C: スプレッドシートURLからエンジニア情報を抽出してNotion登録（複数人対応）"""
-    from ai_extractor import extract_engineers
-    from sheet_fetcher import fetch_sheet_text
-    from utils.notion_writer import register_engineer
-
-    stats = {"success": 0, "skip": 0, "error": 0}
-
-    for url in sheet_urls:
-        logger.info(f"スプレッドシート取得（人員）: {url}")
-        result = fetch_sheet_text(url)
-
-        if result["status"] == "login_required":
-            logger.info(f"ログイン必要のためスキップ: {url}")
-            stats["skip"] += 1
-            continue
-        elif result["status"] == "error":
-            logger.warning(f"スプレッドシート取得失敗: {url} - {result.get('error', '')}")
-            stats["error"] += 1
-            continue
-
-        text = result.get("text", "")
-        if not text or len(text.strip()) < 50:
-            logger.warning(f"スプレッドシート内容が空または短すぎ: {url}")
-            stats["error"] += 1
-            continue
-
-        # パターンB: 1人 / C: 複数人 → extract_engineersが配列で返す
-        engineers = extract_engineers(text, f"sheet:{url[:60]}")
-        if not engineers:
-            logger.warning(f"エンジニア情報抽出失敗（スプレッドシート）: {url}")
-            stats["error"] += 1
-            continue
-
-        for eng in engineers:
-            reg_result = register_engineer(eng, meta)
-            if reg_result:
-                stats["success"] += 1
-            else:
-                stats["skip"] += 1
-
-    return stats
+    """パターンB/C: 廃止。人員はLINE手動登録のみ。"""
+    del meta  # 互換のため引数は維持
+    logger.info(f"スプレッドシート人員登録パスは廃止済み。{len(sheet_urls)}件スキップ")
+    return {"success": 0, "skip": len(sheet_urls), "error": 0}
 
 
 def process_sheet_urls_projects(sheet_urls: list, meta: dict) -> dict:

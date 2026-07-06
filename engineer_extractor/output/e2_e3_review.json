@@ -1,0 +1,41 @@
+{
+  "reviewed_at": "2026-06-29T04:06:00+00:00",
+  "e2_summary": {
+    "total_records": 208,
+    "update_candidates": 135,
+    "by_field": {
+      "稼働可能日": 115,
+      "スキル": 12,
+      "最寄り駅": 5,
+      "経験年数": 2,
+      "単価（万円）": 1
+    },
+    "errors": 0,
+    "patterns": {
+      "auto_import": 43,
+      "email_register": 155,
+      "line_register": 6,
+      "unknown": 4
+    }
+  },
+  "e3_manual_review_30": {
+    "approved": 28,
+    "rejected": 2,
+    "accuracy_pct": 93.3,
+    "notes": [
+      "稼働可能日15件: 件名/本文の「7月〜」「即日」パターンは妥当（28/30承認）",
+      "スキル8件: 辞書/件名抽出は妥当。SOCは文脈依存のため要ウォッチ",
+      "経験年数2件: 高信頼(0.92)のみ承認。低信頼3件はmerge_policy閾値0.7で除外済み",
+      "最寄り駅: KT「り駅」誤抽出を修正→西巣鴨駅に改善",
+      "単価1件(46397→50万): 件名ブラケット抽出、承認"
+    ],
+    "rejected_items": [
+      {"name": "SY", "field": "スキル", "reason": "SOCはセキュリティ文脈か不明、要人手確認"},
+      {"name": "K・D", "field": "稼働可能日", "reason": "2026-06-01は件名の月解釈が曖昧、保留"}
+    ]
+  },
+  "e4_fixes_applied": [
+    "station_extractor: 最寄り駅正規表現の誤マッチ(り駅)修正 + 駅サフィックスなし対応",
+    "merge_policy: 経験年数の最低信頼度0.70を追加"
+  ]
+}

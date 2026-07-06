@@ -1,0 +1,184 @@
+{
+  "batch": 2,
+  "success": 25,
+  "errors": 0,
+  "log": [
+    {
+      "name": "K.O",
+      "status": "ok",
+      "fields": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "KK",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "WYC",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K.S",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "D.S",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K・T",
+      "status": "ok",
+      "fields": [
+        "スキル"
+      ]
+    },
+    {
+      "name": "Y.A",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "D.E",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "WK",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "SC",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "R.M",
+      "status": "ok",
+      "fields": [
+        "スキル"
+      ]
+    },
+    {
+      "name": "AO",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "HH",
+      "status": "ok",
+      "fields": [
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "R.K",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "KS",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "S.A",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "S.U",
+      "status": "ok",
+      "fields": [
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "T.I",
+      "status": "ok",
+      "fields": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "I.R",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "T.D",
+      "status": "ok",
+      "fields": [
+        "スキル"
+      ]
+    },
+    {
+      "name": "T.Y",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "ST",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "IK",
+      "status": "ok",
+      "fields": [
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "A-KT",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "T.T",
+      "status": "ok",
+      "fields": [
+        "最寄り駅"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "batch": 1,
+  "success": 25,
+  "errors": 0,
+  "log": [
+    {
+      "name": "T.H",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K.M",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K・D",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K.Y",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "Y・K",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "I.O",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "S.K",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "K・K",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "D・T",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "H.T",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "R.S",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "Y.O",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "S.Y",
+      "status": "ok",
+      "updates": [
+        "最寄り駅"
+      ]
+    },
+    {
+      "name": "Y.I",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "T.H志木",
+      "status": "ok",
+      "updates": [
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "K.S八幡山",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "H.U",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "Y.K矢向",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "K.T",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "Y.A 荻窪",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "H.K",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "R.M戸部",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "S.O",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "S.H",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    },
+    {
+      "name": "M.S西川口",
+      "status": "ok",
+      "updates": [
+        "スキル",
+        "単価（万円）"
+      ]
+    }
+  ]
+}
