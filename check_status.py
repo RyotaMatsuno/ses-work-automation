@@ -41,7 +41,7 @@ def gtxt(p):
     return ""
 
 
-for status in ["選考中", "稼働中"]:
+for status in ["稼働中"]:
     print(f"\n=== {status} サンプル5件 ===")
     res = npost(
         f"databases/{CASE_DB}/query",

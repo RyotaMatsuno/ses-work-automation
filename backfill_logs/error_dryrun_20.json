@@ -1,0 +1,762 @@
+[
+  {
+    "page_id": "375450ff-37c0-81de-84de-e31004f8a461",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.144611+00:00",
+    "title": "AI翻訳システム事業推進PM対応（フロント対応・Firebase）",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81dc-b01f-e80502722f65",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.144611+00:00",
+    "title": "大手損保会社 代理店向けＷｅｂアプリケーション保守対応社員支援",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81c3-b4cc-f96a49140540",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.145609+00:00",
+    "title": "製造業向け基盤更改プロジェクト ネットワーク＆セキュリティインテグレーション構築",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "skill_dependent_no_number",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 100,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-818e-ac78-d7dfaaf9bf19",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.145609+00:00",
+    "title": "経理部IT支援・DX推進案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-813b-8d92-c93dee142d3d",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.145609+00:00",
+    "title": "業務システム刷新",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-811e-b4d6-ca5207904993",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.145609+00:00",
+    "title": "Windowsクライアントシステムのマイグレーション業務",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81e4-b309-eb5d40e2964e",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.145609+00:00",
+    "title": "電力システム開発",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8195-8bc1-dd3e08151425",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.146610+00:00",
+    "title": "旅行検索アプリの開発",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "full_remote",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-816f-90d4-eaa4831c085b",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.146610+00:00",
+    "title": "某大手系SIer社内でのNW技術支援",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8107-9408-fd86e3b6ceb0",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.146610+00:00",
+    "title": "官公庁向け基盤リプレース案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8176-a586-c7ffc210f46a",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.146610+00:00",
+    "title": "小売業向け店舗システム概要設計案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81a0-94a0-ceabf58184bb",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.146610+00:00",
+    "title": "Salesforceレポート設計案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "remote_possible",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8165-9340-d58ddd290075",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.147607+00:00",
+    "title": "金融プラットフォーム開発案件・PMO",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 80,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8199-b07b-fd57f43e8444",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.147607+00:00",
+    "title": "証券会社向けOAシステム運用保守案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8141-b5a4-dc39f42f9522",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.147607+00:00",
+    "title": "労金向け次期基盤移行・API開発案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8104-b65c-f829b5eccbe2",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.148608+00:00",
+    "title": "大手メーカー向けクラウドシステム運用案件 若手枠",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "remote_possible",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81a4-8e14-f87053256f19",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.149608+00:00",
+    "title": "大手SIerのソフト・パッケージ・サービスの問い合わせ業務をサポートする基盤構築",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81f6-b143-c0c69c530e4f",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.150618+00:00",
+    "title": "不動産システム開発支援",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-8111-ae9b-fec1d2680d01",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.151613+00:00",
+    "title": "Snowflakeシステム改修・保守・運用",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "375450ff-37c0-81e4-ab38-ec32984d893e",
+    "batch_id": "error_dryrun_20",
+    "timestamp": "2026-06-25T09:32:25.151613+00:00",
+    "title": "Java既存Webアプリ改修案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 85,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  }
+]

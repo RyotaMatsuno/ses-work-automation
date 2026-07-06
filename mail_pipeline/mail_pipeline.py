@@ -45,8 +45,6 @@ except Exception:
     pass
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from common.email_cleaner import clean_email_body
-from common.ledger import can_spend
-from common.ledger import record as ledger_record
 from common.notion_register import NotionAPIError
 from common.notion_register import register_project as notion_register_project
 from cost_guard import allowed, finalize
@@ -852,9 +850,6 @@ def _batch_budget_reserve(batch_items: list[dict], phase: str = "classify"):
     if not batch_items:
         return None
     est_in, est_out = _estimate_batch_tokens(batch_items)
-    if not can_spend(est_in, est_out, CLAUDE_MODEL):
-        log("CostGuard blocked batch: budget")
-        return None
     target_id = hashlib.sha256(
         ",".join(sorted(item.get("custom_id", "") for item in batch_items)).encode("utf-8")
     ).hexdigest()[:32]
@@ -1131,6 +1126,7 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
         decision = _batch_budget_reserve(batch_items, phase="classify")
         if decision is None:
             raise RuntimeError("CostGuard blocked batch")
+        finalized = False
         try:
             res = requests_module.post(
                 "https://api.anthropic.com/v1/messages/batches",
@@ -1145,13 +1141,13 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             log(f"[BATCH] submitted {batch_id} ({len(batch_items)}件) at {submitted_at}")
             results = wait_for_batch(batch_id, headers)
             if results is None:
-                finalize(decision, success=False, error_kind="transient")
                 raise BatchPollTimeout(batch_id, BATCH_POLL_TIMEOUT_MINUTES)
             _finalize_batch_usage(decision, results, phase="classify")
+            finalized = True
             return results
-        except Exception:
-            finalize(decision, success=False, error_kind="transient")
-            raise
+        finally:
+            if decision.allowed and not finalized:
+                finalize(decision, success=False, error_kind="transient")
 
     def result_text(item: dict) -> str:
         result = item.get("result", {})
@@ -1176,7 +1172,7 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             import io as _io
 
             _sys.stdout = _io.StringIO()
-            from analyze_final import ENGINEER_PATTERNS, PROJECT_PATTERNS, SKIP_PATTERNS, classify_by_rule, should_promote_other_to_project
+            from analyze_final import ENGINEER_PATTERNS, PROJECT_PATTERNS, SKIP_PATTERNS, classify_by_rule, classify_tier, should_promote_other_to_project
         finally:
             _sys.stdout = _old_stdout
         _ = (SKIP_PATTERNS, ENGINEER_PATTERNS, PROJECT_PATTERNS)
@@ -1198,25 +1194,30 @@ job_category: 開発/インフラ/PMO/ヘルプデスク/事務/テスト/運用
             sender = em.get("sender", "")
             body = em.get("body", "")
             email_by_index[idx] = em
-            rule_type = classify_by_rule(subject, sender, body)
-            if rule_type == "unknown":
-                rule_type = "skip"
-            if rule_type in ("skip", "engineer"):
-                results[idx] = {"type": "skip", "note": f"ルール分類{rule_type}"}
-            elif rule_type == "project":
-                batch_requests.append(build_extract_request(f"extract_project_{idx}", subject, body, "project"))
+            # BG Layer 1: 離散カテゴリ (strong_project / strong_engineer / ambiguous)
+            tier = classify_tier(subject, sender, body)
+            if tier == "strong_engineer":
+                results[idx] = {"type": "skip", "note": "tier:strong_engineer"}
             else:
-                batch_requests.append(
-                    {
-                        "custom_id": f"classify_{idx}",
-                        "params": {
-                            "model": model,
-                            "max_tokens": 50,
-                            "system": classify_system,
-                            "messages": [{"role": "user", "content": f"件名: {subject}\n本文: {body[:2000]}"}],
-                        },
-                    }
-                )
+                rule_type = classify_by_rule(subject, sender, body)
+                if tier == "strong_project":
+                    rule_type = "project"
+                if rule_type in ("skip", "engineer"):
+                    results[idx] = {"type": "skip", "note": f"ルール分類{rule_type}"}
+                elif rule_type == "project":
+                    batch_requests.append(build_extract_request(f"extract_project_{idx}", subject, body, "project"))
+                else:
+                    batch_requests.append(
+                        {
+                            "custom_id": f"classify_{idx}",
+                            "params": {
+                                "model": model,
+                                "max_tokens": 50,
+                                "system": classify_system,
+                                "messages": [{"role": "user", "content": f"件名: {subject}\n本文: {body[:2000]}"}],
+                            },
+                        }
+                    )
 
         second_extract_requests = []
         for item in send_batch(batch_requests):
@@ -1677,6 +1678,51 @@ def validate_project_payload(payload: dict) -> None:
 # ===== end validation =====
 
 
+def apply_shadow_extraction_v2(
+    properties: dict,
+    db_props: set,
+    email_text: str,
+    *,
+    existing_rate: float | None,
+    existing_location: str | None,
+) -> None:
+    """Append R5 v2 extractor fields without changing legacy skill extraction."""
+    from extractors.location_extractor import extract_location
+    from extractors.rate_extractor import extract_rate, validate_rate_man
+    from extractors.remote_extractor import extract_remote
+
+    text = email_text or ""
+    rate_result = extract_rate(text)
+    remote_result = extract_remote(text)
+    location_result = extract_location(text)
+
+    if "rate_type" in db_props and rate_result.rate_type:
+        properties["rate_type"] = {"select": {"name": rate_result.rate_type}}
+    if "remote_type" in db_props and remote_result.remote_type:
+        properties["remote_type"] = {"select": {"name": remote_result.remote_type}}
+    if "extraction_method" in db_props:
+        properties["extraction_method"] = {"select": {"name": rate_result.method}}
+    if "pipeline_version" in db_props:
+        properties["pipeline_version"] = {"select": {"name": "v2"}}
+    if "extraction_confidence" in db_props:
+        properties["extraction_confidence"] = {
+            "number": int(min(rate_result.confidence, remote_result.confidence) * 100)
+        }
+    if "needs_review" in db_props and rate_result.needs_review:
+        properties["needs_review"] = {"checkbox": True}
+
+    if not existing_location and location_result.location and "勤務地" in db_props:
+        properties["勤務地"] = {
+            "rich_text": [{"text": {"content": str(location_result.location)[:2000]}}]
+        }
+
+    if existing_rate == 0:
+        if rate_result.rate_max_man and "単価（万円）" in db_props:
+            properties["単価（万円）"] = {"number": validate_rate_man(rate_result.rate_max_man)}
+        elif rate_result.rate_type == "not_present" and "単価（万円）" in db_props:
+            properties["単価（万円）"] = {"number": None}
+
+
 def register_project(
     info: dict,
     subject: str,
@@ -1727,6 +1773,21 @@ def register_project(
             properties["Driveリンク"] = {"rich_text": [{"text": {"content": drive_url[:2000]}}]}
     if "matching_status" in get_database_property_names(PROJECT_DB):
         properties["matching_status"] = {"select": {"name": "pending"}}
+    # BG: 分類メタデータ（プロパティが存在する場合のみ設定）
+    _proj_db_props = get_database_property_names(PROJECT_DB)
+    if "is_active_for_matching" in _proj_db_props:
+        properties["is_active_for_matching"] = {"checkbox": bool(info.get("is_active_for_matching", True))}
+    if "review_needed" in _proj_db_props:
+        properties["review_needed"] = {"checkbox": bool(info.get("review_needed", False))}
+    add_rich_text_if_exists(properties, PROJECT_DB, "classification_version", "v2_BG_20260624")
+    add_rich_text_if_exists(properties, PROJECT_DB, "classification_reason", str(info.get("classification_reason", "")))
+    apply_shadow_extraction_v2(
+        properties,
+        _proj_db_props,
+        raw_body or note,
+        existing_rate=final_price if final_price is not None else info.get("price"),
+        existing_location=location,
+    )
     log_project_save_warnings(name, properties, subject, raw_body, log_fn=log)
     if os.environ.get("DRY_RUN") == "1":
         log(f"[DRY_RUN] 案件Notion登録スキップ: {name}")

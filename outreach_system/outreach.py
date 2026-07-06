@@ -6,7 +6,10 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from send_mail import MATSUNO_EMAIL, OUTREACH_FROM_EMAIL, SENDER_NAME, send_mail
+from send_mail import MATSUNO_EMAIL, OUTREACH_FROM_EMAIL, send_mail
+from templates import get_template
+
+TYPE_MAP = {"元請け": "project", "SES": "engineer"}
 
 BASE_DIR = Path(__file__).resolve().parent
 TARGETS_PATH = BASE_DIR / "targets.csv"
@@ -45,49 +48,6 @@ def was_sent_recently(email: str, history: dict[str, str], now: datetime) -> boo
 
     return now - last_sent < timedelta(days=RESEND_DAYS)
 
-
-def build_template(target: dict[str, str]) -> tuple[str, str, str]:
-    contact_name = target["contact_name"] or "ご担当者"
-    target_type = target["type"]
-    sender_name = SENDER_NAME or "松野"
-    sender_name_with_family = f"松野 {SENDER_NAME}".rstrip()
-
-    if target_type == "元請け":
-        subject = "エンジニアリングリソースのご提案"
-        template = "A"
-        body = f"""{contact_name}様
-
-お世話になっております。株式会社TERRA 松野と申します。
-
-SESエンジニアのご提案にてご連絡させていただきました。
-Java/Python/インフラ等、幅広いスキルセットのエンジニアを
-即日〜ご提案可能です。
-
-ご興味がございましたら、お気軽にご返信ください。
-
-株式会社TERRA
-{sender_name_with_family}
-{OUTREACH_FROM_EMAIL}
-"""
-        return subject, body, template
-
-    subject = "エンジニア情報交換・BP提携のご相談"
-    template = "B"
-    body = f"""{contact_name}様
-
-お世話になっております。株式会社TERRA 松野と申します。
-
-弊社はSES事業を展開しており、BP様との情報交換・相互提案を
-積極的に進めております。
-
-案件・人員情報の交換等、ご興味がございましたら
-ぜひお気軽にご返信ください。
-
-株式会社TERRA
-{sender_name}
-{OUTREACH_FROM_EMAIL}
-"""
-    return subject, body, template
 
 
 def make_detail(
@@ -137,12 +97,13 @@ def run_outreach(dry_run: bool = True) -> dict[str, object]:
             print(f"[skip_180日未満] {company} <{email}>")
             continue
 
-        subject, body, template = build_template(target)
-        print(f"[target] {company} <{email}> template={template}")
+        template_type = TYPE_MAP.get(target["type"], "unified")
+        subject, body = get_template(template_type, target["contact_name"])
+        print(f"[target] {company} <{email}> template={template_type}")
         send_mail(email, subject, body, dry_run=dry_run, cc_email=MATSUNO_EMAIL)
 
         sent += 1
-        details.append(make_detail(target, "sent", template))
+        details.append(make_detail(target, "sent", template_type))
         if not dry_run:
             history[email] = now.isoformat(timespec="seconds")
 

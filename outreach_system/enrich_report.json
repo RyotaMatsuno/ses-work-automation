@@ -1,0 +1,11 @@
+{
+  "run_at": "2026-07-04T08:26:19",
+  "dry_run": false,
+  "shard_id": 4,
+  "shard_count": 5,
+  "limit": 0,
+  "processed": 806,
+  "success": 741,
+  "failed": 65,
+  "skipped": 0
+}

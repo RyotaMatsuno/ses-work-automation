@@ -1,27 +1,105 @@
 {
-  "run_at": "2026-05-25T17:47:02",
+  "run_at": "2026-07-02T18:48:53",
   "dry_run": true,
-  "total": 3,
-  "sent": 2,
-  "skipped": 1,
+  "total": 16,
+  "sent": 16,
+  "skipped": 0,
   "details": [
     {
-      "company": "株式会社サンプル",
-      "email": "tanaka@example.com",
+      "company": "有限会社ケープコム",
+      "email": "info@capecom.co.jp",
       "status": "sent",
-      "template": "A"
+      "template": "engineer"
     },
     {
-      "company": "株式会社テスト",
-      "email": "suzuki@test.co.jp",
-      "status": "skip_断り",
-      "template": null
+      "company": "株式会社ビッグタウンズ",
+      "email": "info@bigtowns.co.jp",
+      "status": "sent",
+      "template": "engineer"
     },
     {
-      "company": "株式会社デモ",
-      "email": "sato@example.com",
+      "company": "株式会社BASIS",
+      "email": "info@e-basis.co.jp",
       "status": "sent",
-      "template": "B"
+      "template": "engineer"
+    },
+    {
+      "company": "アイムファクトリー株式会社",
+      "email": "tasaki@aim-factory.com",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "アラスジャパン株式会社",
+      "email": "community-japan@aras.com",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "アキュラスター株式会社",
+      "email": "tatsuki.kaibara@aqurastar.co.jp",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "アイピーティシステムズ有限会社",
+      "email": "info@ipt-systems.com",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "TJサーチ＆カンパニー株式会社",
+      "email": "info@tjsearch.co.jp",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "omeroid株式会社",
+      "email": "inquiry@omeroid.com",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "RON株式会社",
+      "email": "consulting@ron.style",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "En-Technology株式会社",
+      "email": "info@en-technology.co.jp",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "DXHR株式会社",
+      "email": "aoyagi@dxhr.inc",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "dongoon株式会社",
+      "email": "pilot_window@dongoon.jp",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "CFL株式会社",
+      "email": "miki.ando@cfl-re.co.jp",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "BLKS株式会社",
+      "email": "oyama@blks.tokyo",
+      "status": "sent",
+      "template": "engineer"
+    },
+    {
+      "company": "INCREDS株式会社",
+      "email": "info@increds.co.jp",
+      "status": "sent",
+      "template": "engineer"
     }
   ]
 }

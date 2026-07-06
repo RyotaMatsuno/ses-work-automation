@@ -2,9 +2,9 @@ env_path = r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\config\.env"
 
 with open(env_path, "a", encoding="utf-8") as f:
     f.write(
-        "\nOPENAI_API_KEY=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\n"
+        "\nOPENAI_API_KEY=REDACTED_API_KEY\n"
     )
-    f.write("GEMINI_API_KEY=AIzaSyBr_Xbawa7DR9RVJDqrv9YUwMzGbQcRCes\n")
+    f.write("GEMINI_API_KEY=REDACTED_API_KEY\n")
 
 # 確認
 from dotenv import dotenv_values

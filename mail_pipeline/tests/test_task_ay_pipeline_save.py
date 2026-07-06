@@ -110,6 +110,36 @@ def test_backfill_note_tag():
     assert BACKFILL_SOURCE_TAG in backfill_note_append("既存メモ")
 
 
+def test_prepare_notion_project_fields_bracket_location():
+    info = {"type": "project", "name": "案件"}
+    _, _, _, location = prepare_notion_project_fields(
+        info,
+        "案件",
+        "【勤務地】新宿\n必須: Java",
+    )
+    assert location == "新宿"
+
+
+def test_prepare_notion_project_fields_remote_keyword():
+    info = {"type": "project", "name": "案件"}
+    _, _, _, location = prepare_notion_project_fields(
+        info,
+        "フルリモート案件",
+        "必須: Python",
+    )
+    assert location == "リモート"
+
+
+def test_prepare_notion_project_fields_preserves_existing_location():
+    info = {"type": "project", "name": "案件", "location": "大阪"}
+    _, _, _, location = prepare_notion_project_fields(
+        info,
+        "案件",
+        "【勤務地】新宿",
+    )
+    assert location == "大阪"
+
+
 def test_backfill_script_dry_run(monkeypatch):
     import scripts.backfill_case_skills as mod
 

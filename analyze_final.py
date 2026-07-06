@@ -838,6 +838,42 @@ def classify_by_rule(subj, frm, body=""):
     return verdict
 
 
+# === BG Task: 2層分類の第1層 ===
+_TIER_STRONG_ENG_RE = re.compile(
+    r"(?:若手|ベテラン|中堅|シニア).{0,8}(?:人材|エンジニア|技術者)"
+    r"|(?:人材|要員).{0,8}(?:ご紹介|配信)"
+    r"|\d{2}歳[／/](?:男性|女性)"
+    r"|弊社(?:プロパー|フリーランス).{0,6}(?:ご紹介|ご案内)"
+    r"|おすすめ人材|注力要員"
+    r"|スキルシート.{0,4}(?:送付|添付)|経歴書.{0,4}(?:送付|添付)"
+    r"|直個人|直フリーランス|要員配信|人材配信"
+    r"|(?:弊社|当社|自社)(?:プロパー|社員|要員).{0,4}(?:ご紹介|提案|配信)"
+)
+
+
+def classify_tier(subj: str, frm: str = "", body: str = "") -> str:
+    """2層分類の第1層: 'strong_project' / 'strong_engineer' / 'ambiguous'。
+
+    strong_project/strong_engineer はLLM不要。ambiguous のみ第2層LLMへ渡す。
+    """
+    subj = subj or ""
+    body_head = (body or "")[:800]
+    combined = subj + "\n" + body_head
+
+    if _TIER_STRONG_ENG_RE.search(combined):
+        return "strong_engineer"
+
+    if not _SUPPRESS_STRONG_PROJECT_RE.search(subj) and not _HUMAN_MARKER_RE.search(subj):
+        sp_hits = sum(1 for pat in STRONG_PROJECT_PATTERNS if re.search(pat, subj))
+        if sp_hits >= 2:
+            return "strong_project"
+        bpt = _count_template_hits(body_head, BODY_PROJECT_TEMPLATE)
+        if sp_hits >= 1 and bpt >= 3:
+            return "strong_project"
+
+    return "ambiguous"
+
+
 if __name__ == "__main__":
     with open(r"C:\Users\ma_py\OneDrive\デスクトップ\ses_work\mail_subjects_sample.json", encoding="utf-8") as f:
         data = json.load(f)

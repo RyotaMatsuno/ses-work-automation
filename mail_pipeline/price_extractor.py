@@ -6,6 +6,30 @@ import re
 import unicodedata
 
 
+def validate_price(value: float | int | None, raw_text: str = "") -> tuple[float | None, str | None]:
+    """単価の異常値を検出してnullまたは変換する。
+    Returns: (validated_value_or_none, reason_or_none)
+    reason: None=正常, 'annual_converted', 'daily_converted', 'anomaly_nulled'
+    """
+    if value is None:
+        return None, None
+    try:
+        val = float(value)
+    except (TypeError, ValueError):
+        return None, "anomaly_nulled"
+    if val > 200:
+        annual_keywords = ["年収", "年俸", "賞与込", "annual"]
+        if any(kw in raw_text for kw in annual_keywords):
+            return round(val / 12, 1), "annual_converted"
+        return None, "anomaly_nulled"
+    if val < 20:
+        daily_keywords = ["日額", "日給", "/日", "daily"]
+        if any(kw in raw_text for kw in daily_keywords):
+            return round(val * 20, 1), "daily_converted"
+        return None, "anomaly_nulled"
+    return val, None
+
+
 def extract_price(subject: str, body: str) -> dict:
     """Extract price from subject/body. Returns value, unit, raw, confidence."""
     result = _extract_from_text(subject or "")

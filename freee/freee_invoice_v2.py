@@ -2,6 +2,8 @@
 freee_invoice_v2.py
 契約マスターSheetを正として稼働中人員の請求書をfreee /iv APIで下書き作成。
 
+CostGuard: LLM呼び出しなし（freee API / Sheets API のみ）— cost_guard_v2 Phase 7.4 対象外・確認済み。
+
 請求ルール:
 【TERRA】源泉あり / 件名: {Y}年{M}月分請求書
   P（GL/FT経由以外）: 15,000円固定・プロパー合算行
@@ -168,7 +170,7 @@ def build_lines(partner, people, target_month: date):
                 "type": "item",
                 "description": "プロパー稼働分",
                 "quantity": len(props),
-                "unit": LINE_UNIT,
+                **({"unit": LINE_UNIT} if LINE_UNIT else {}),
                 "unit_price": "15000",
                 "tax_rate": 10,
                 "reduced_tax_rate": False,
@@ -182,7 +184,7 @@ def build_lines(partner, people, target_month: date):
                 "type": "item",
                 "description": person["description"],
                 "quantity": 1,
-                "unit": LINE_UNIT,
+                **({"unit": LINE_UNIT} if LINE_UNIT else {}),
                 "unit_price": str(person["seikyu"]),
                 "tax_rate": 10,
                 "reduced_tax_rate": False,

@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-06-25T05:39:09.161778+00:00",
+  "scope": "active_only",
+  "total_cases": 469,
+  "required_skill_empty_rate": 0.0554,
+  "price_empty_rate": 0.4947,
+  "location_empty_rate": 0.2793,
+  "remote_empty_rate": 1.0,
+  "avg_match_count": 0.32,
+  "zero_match_rate": 0.9434,
+  "match_50plus_rate": 0.0,
+  "note": "price_empty treats 0万 as empty per R5 spec"
+}

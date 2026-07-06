@@ -64,7 +64,7 @@
 - [x] 4.2 `config/dedup_target_required.json` を読み込んで target_id 必須/任意を判定
   - 必須系で未指定 → **reason=error_missing_target_id**(message="target_id required for block_type=...")
 - [x] 4.3 `claim_dedup()` 内で同一トランザクション内 inline purge を実装(TTL実効値化、SPEC §5.3)
-- [ ] 4.4 週次 cron で `confirmed=1` の履歴を `dedup_claims_archive` へ移動(統計用)
+- [x] 4.4 週次 cron で `confirmed=1` の履歴を `dedup_claims_archive` へ移動(統計用)（`maintenance/weekly_dedup_archive.py` 作成済み）
 - [x] 4.5 TTL 設定可能化(`.env: DEDUP_CLAIM_TTL_SEC`)
 
 ## Phase 5: 統一エントリポイント
@@ -88,7 +88,7 @@
   - ROLLBACK 時は `ledger.log_event(reason="error_internal", detail="finalize_state_mismatch", phase=..., block_type=..., script=...)` を記録
 - [x] 5.4 reason enum を `cost_guard.reasons` に Enum クラスで定義(SPEC §9 **全14値**: error_missing_target_id 追加)
 - [x] 5.5 `estimate_cause()` 実装と入出力例追記(SPEC §11.3)
-- [ ] 5.6 呼び出し側に「try/finally で finalize 必須」のドキュメント整備
+- [x] 5.6 呼び出し側に「try/finally で finalize 必須」のドキュメント整備（`cost_guard.finalize()` docstring にパターン例追記済み）
 - [x] 5.7 `finalize()` の冪等性実装(reservation.finalized=1済 or claim確定/解除済 → no-op)
 - [x] 5.8 `Decision.reason` 成功時は "ok" 固定で返す
 
@@ -101,11 +101,11 @@
 
 ## Phase 7: 既存呼び出し側の置換
 
-- [ ] 7.1 `gate_checker/gate_check.py` を `cost_guard.allowed()` 経由に置換 + finalize 呼び出し
+- [x] 7.1 `gate_checker/gate_check.py` を `cost_guard.allowed()` 経由に置換 + finalize 呼び出し（`agreement_checker.py` の GPT/Sonnet 経路含む）
 - [x] 7.2 `matching_v3/skill_judge.py` を `cost_guard.allowed()` 経由に置換 + finalize 呼び出し
-- [ ] 7.3 `mail_pipeline.py` を `cost_guard.allowed()` 経由に置換 + finalize 呼び出し
-- [ ] 7.4 `freee/freee_invoice_v2.py` の LLM 呼び出し箇所を置換
-- [ ] 7.5 `line_webhook/line_bridge.py` の LLM 呼び出し箇所を置換
+- [x] 7.3 `mail_pipeline.py` を `cost_guard.allowed()` 経由に置換 + finalize 呼び出し（legacy `can_spend` 除去済み）
+- [x] 7.4 `freee/freee_invoice_v2.py` の LLM 呼び出し箇所を置換（LLM呼び出しなし → 対応不要・docstring確認済み）
+- [x] 7.5 `line_webhook/line_bridge.py` の LLM 呼び出し箇所を置換（`guarded_anthropic_call` → allowed/finalize try/finally。Cloud Run再デプロイは Phase 10 で松野確認後）
 - [x] 7.6 exit 2 を「スキップして次へ」と扱うラップ関数を共通化(`common/exit_handler.py`)
 - [x] 7.7 `matching_v2` を直接呼ぶ箇所を grep で全消去確認
 
@@ -139,9 +139,9 @@
 
 ## Phase 9: ゲート②
 
-- [ ] 9.1 暫定経路(gpt-5.4 reasoning_effort=low max_completion_tokens=8000)で実装レビュー取得
-- [ ] 9.2 「条件付きGO」以下なら修正
-- [ ] 9.3 「GO」確認後 Phase 10 へ
+- [x] 9.1 暫定経路(gpt-5.4 reasoning_effort=low max_completion_tokens=8000)で実装レビュー取得
+- [x] 9.2 「条件付きGO」以下なら修正（v2.10.1 patch で NG 修正 → GO）
+- [x] 9.3 「GO」確認後 Phase 10 へ（gate2_review_v2.10.1_final.md 参照）
 
 ## Phase 10: デプロイ
 

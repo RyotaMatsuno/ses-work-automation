@@ -93,7 +93,6 @@ def create_project_db():
                 "select": {
                     "options": [
                         {"name": "募集中", "color": "green"},
-                        {"name": "選考中", "color": "yellow"},
                         {"name": "成約", "color": "blue"},
                         {"name": "終了", "color": "gray"},
                     ]

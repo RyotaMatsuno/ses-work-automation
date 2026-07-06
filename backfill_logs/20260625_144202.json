@@ -1,0 +1,198 @@
+[
+  {
+    "page_id": "38a450ff-37c0-8191-9ec0-fd4111022d25",
+    "batch_id": "20260625_144202",
+    "timestamp": "2026-06-25T05:42:03.656650+00:00",
+    "title": "NetView経験者募集",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "not_present",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "unknown",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "単価（万円）",
+        "old": 0,
+        "new": null,
+        "reason": "zero_to_null"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 50,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "38a450ff-37c0-815a-8d97-ee8e5180ae40",
+    "batch_id": "20260625_144202",
+    "timestamp": "2026-06-25T05:42:03.656650+00:00",
+    "title": "投資・資産運用会社のシステム開発",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 75,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "38a450ff-37c0-8174-8be3-ccb4fffe5196",
+    "batch_id": "20260625_144202",
+    "timestamp": "2026-06-25T05:42:03.657866+00:00",
+    "title": "省庁向けNW構築 SD-WAN設計構築",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_range",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 90,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "38a450ff-37c0-816f-aa35-cbd3f6f81875",
+    "batch_id": "20260625_144202",
+    "timestamp": "2026-06-25T05:42:03.657866+00:00",
+    "title": "大規模金融システム向け基盤運用設計・開発支援案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "skill_dependent_no_number",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "hybrid",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 80,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  },
+  {
+    "page_id": "38a450ff-37c0-8180-bbf7-d49ab660581b",
+    "batch_id": "20260625_144202",
+    "timestamp": "2026-06-25T05:42:03.657866+00:00",
+    "title": "＜急募＞官公庁：システム開発案件",
+    "changes": [
+      {
+        "field": "rate_type",
+        "old": null,
+        "new": "fixed_upper_only",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "remote_type",
+        "old": null,
+        "new": "onsite",
+        "reason": "fill_if_empty"
+      },
+      {
+        "field": "extraction_method",
+        "old": null,
+        "new": "regex",
+        "reason": "fill_if_empty_default"
+      },
+      {
+        "field": "extraction_confidence",
+        "old": null,
+        "new": 75,
+        "reason": "flag_only"
+      },
+      {
+        "field": "pipeline_version",
+        "old": null,
+        "new": "v2",
+        "reason": "fill_if_empty_default"
+      }
+    ]
+  }
+]

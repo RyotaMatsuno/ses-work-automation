@@ -18,6 +18,7 @@ OUTREACH_MAIL_PASSWORD = config.get(
     config.get("SESSALES_MAIL_PASSWORD", ""),
 )
 SENDER_NAME = config.get("SENDER_NAME", "")
+SENDER_COMPANY = config.get("SENDER_COMPANY", "株式会社TERRA")
 
 
 def send_mail(

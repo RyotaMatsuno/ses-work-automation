@@ -809,6 +809,24 @@ def finalize(
     全操作を単一 BEGIN IMMEDIATE トランザクションで原子的に実行（SPEC §3.2.2 / v2.10.1）。
     冪等/不整合は FinalizeResult で返す（SPEC v2.10.1 §6）。
 
+    **呼び出し側 try/finally パターン（必須）**:
+
+        decision = cost_guard.allowed(phase=..., block_type=..., target_id=...)
+        if not decision.allowed:
+            return  # or raise
+        try:
+            response = call_llm(...)
+            cost_guard.finalize(decision, response.in_tokens, response.out_tokens, success=True)
+        except TransientError as e:
+            cost_guard.finalize(decision, 0, 0, success=False, error_kind="transient")
+            raise
+        except PermanentError as e:
+            cost_guard.finalize(decision, 0, 0, success=False, error_kind="permanent_api")
+            raise
+
+    finalize() を呼ばずに return/raise すると reservation が解放されず DAILY_CALL_LIMIT を消費し続ける。
+    必ず try/finally で保証すること（SPEC §5.6 / CLAUDE.md §2）。
+
     不正引数:
       - success=False かつ error_kind="" → raise ValueError
       - success=True  かつ error_kind!="" → raise ValueError

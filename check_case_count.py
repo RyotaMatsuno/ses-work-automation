@@ -28,7 +28,7 @@ def npost(path, payload):
 
 # 募集中の全件数を確認
 print("=== 案件DB ステータス別件数 ===")
-for status in ["募集中", "稼働中", "選考中", "クローズ", "営業終了"]:
+for status in ["募集中", "稼働中", "クローズ", "営業終了"]:
     res = npost(
         f"databases/{CASE_DB}/query",
         {"filter": {"property": "ステータス", "select": {"equals": status}}, "page_size": 1},
@@ -47,10 +47,10 @@ for status in ["募集中", "稼働中", "選考中", "クローズ", "営業終
         cursor = r2.get("next_cursor")
     print(f"  {status}: {count}件")
 
-# webhook_server.pyが取得している件数（募集中+稼働中+選考中）
+# webhook_server.pyが取得している件数（募集中+稼働中）
 print("\n=== webhook_server.pyのget_active_projects()が取得する件数 ===")
 total = 0
-for status in ["募集中", "稼働中", "選考中"]:
+for status in ["募集中", "稼働中"]:
     cursor = None
     cnt = 0
     while True:

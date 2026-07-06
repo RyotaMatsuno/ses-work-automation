@@ -14,6 +14,7 @@ if str(SES_WORK) not in sys.path:
     sys.path.insert(0, str(SES_WORK))
 
 
+from mail_pipeline.location_extractor import extract_location
 from mail_pipeline.price_extractor import resolve_final_price
 from mail_pipeline.skill_extractor import extract_skills
 
@@ -39,9 +40,11 @@ def _get_normalizer():
 
 def _extract_work_location(subject: str, body: str) -> str | None:
     for text in (body, subject):
-        match = re.search(r"勤務地\s*[:：]\s*([^\n\r]+)", text)
-        if match:
-            return match.group(1).strip()[:200]
+        if not text:
+            continue
+        loc = extract_location(text)
+        if loc:
+            return loc[:200]
     return None
 
 
