@@ -1,0 +1,17 @@
+﻿timestamp,phase,url,error_type,message
+2026-07-03 12:42:50,phase8a,https://www.technoproholdings.com/jp/ir/library/,NO_PDF,有価証券報告書PDF未検出
+2026-07-03 12:43:08,phase8a,https://www.yumegroup.co.jp/ir/library/,Error,"Page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.yumegroup.co.jp/ir/library/
+Call log:
+  - navigating to ""https://www.yumegroup.co.jp/ir/library/"", waiting until ""domcontentloaded""
+"
+2026-07-03 12:43:17,phase8a_pdf,https://www.fsi.co.jp/ir/library/docs/securities_report/55yuuka.pdf,URLError,<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1010)>
+2026-07-03 12:43:17,phase8a,https://www.fsi.co.jp/ir/library/,Error,"Page.goto: Download is starting
+Call log:
+  - navigating to ""https://www.fsi.co.jp/ir/library/docs/securities_report/55yuuka.pdf"", waiting until ""domcontentloaded""
+"
+2026-07-03 12:43:24,phase8a,https://www.tis.co.jp/ir/library/security_report.html,NO_PDF,有価証券報告書PDF未検出
+2026-07-03 12:43:27,phase8a,https://www.scsk.jp/ir/library/annual_report.html,NO_PDF,有価証券報告書PDF未検出
+2026-07-03 15:34:54,phase8_bing,"site:oshiete.goo.ne.jp ""SES営業"" ""インセンティブ""",Error,"Page.goto: net::ERR_NAME_NOT_RESOLVED at https://oshiete.goo.ne.jp/search?q=SES%E5%96%B6%E6%A5%AD%20%E3%82%A4%E3%83%B3%E3%82%BB%E3%83%B3%E3%83%86%E3%82%A3%E3%83%96
+Call log:
+  - navigating to ""https://oshiete.goo.ne.jp/search?q=SES%E5%96%B6%E6%A5%AD%20%E3%82%A4%E3%83%B3%E3%82%BB%E3%83%B3%E3%83%86%E3%82%A3%E3%83%96"", waiting until ""domcontentloaded""
+"

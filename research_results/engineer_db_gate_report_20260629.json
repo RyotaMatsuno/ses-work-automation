@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-06-29T04:42:24.173506+00:00",
+  "gates": {
+    "F1": {
+      "gate": "F1",
+      "records": 10,
+      "approved": 10,
+      "accuracy_pct": 100.0,
+      "threshold_pct": 80,
+      "passed": true,
+      "sample": [
+        {
+          "name": "T.H",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "K.M",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "K・D",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "K.Y",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "Y・K",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "I.O",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "S.K",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "K・K",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "D・T",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        },
+        {
+          "name": "H.T",
+          "status": "ok",
+          "updates": [
+            "最寄り駅"
+          ]
+        }
+      ]
+    },
+    "F3": {
+      "gate": "F3",
+      "records": 50,
+      "unknown_count": 0,
+      "unknown_rate_pct": 0.0,
+      "threshold_pct": 15,
+      "passed": true
+    },
+    "F4": {
+      "gate": "F4",
+      "remaining_update_candidates": 0,
+      "total_applied_records": 74,
+      "passed": true
+    }
+  },
+  "all_passed": true
+}

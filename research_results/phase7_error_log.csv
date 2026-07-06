@@ -1,0 +1,15 @@
+﻿timestamp,phase,url,error_type,message
+2026-07-02 15:23:14,phase7a_media,https://sesmedia.jp/,ROBOTS_SKIP,robots.txt unreadable: <urlopen error [Errno 11001] getaddrinfo failed>
+2026-07-02 15:23:14,phase7a_media,https://sesmedia.jp/companies,ROBOTS_SKIP,robots.txt unreadable: <urlopen error [Errno 11001] getaddrinfo failed>
+2026-07-02 15:23:14,phase7a_media,https://sesmedia.jp/company-list,ROBOTS_SKIP,robots.txt unreadable: <urlopen error [Errno 11001] getaddrinfo failed>
+2026-07-02 15:23:14,phase7a_media,https://sesmedia.jp/ses-company-list,ROBOTS_SKIP,robots.txt unreadable: <urlopen error [Errno 11001] getaddrinfo failed>
+2026-07-02 16:24:42,phase7d_part1/5,Androbo Quick,OSError,[Errno 22] Invalid argument
+2026-07-02 16:28:05,phase7d_part1/5,GHソリューション,OSError,[Errno 22] Invalid argument
+2026-07-02 16:31:27,phase7d_part1/5,IT - ニュース解説,OSError,[Errno 22] Invalid argument
+2026-07-02 16:34:49,phase7d_part1/5,MA Solutions,OSError,[Errno 22] Invalid argument
+2026-07-02 16:38:11,phase7d_part1/5,SIG,OSError,[Errno 22] Invalid argument
+2026-07-02 16:41:33,phase7d_part1/5,V Diordna,OSError,[Errno 22] Invalid argument
+2026-07-02 16:44:55,phase7d_part1/5,ZERO,OSError,[Errno 22] Invalid argument
+2026-07-02 16:48:17,phase7d_part1/5,アイエスエイプラン,OSError,[Errno 22] Invalid argument
+2026-07-02 16:51:39,phase7d_part1/5,アイスタンダード,OSError,[Errno 22] Invalid argument
+2026-07-02 16:55:02,phase7d_part1/5,アイディーエス,OSError,[Errno 22] Invalid argument

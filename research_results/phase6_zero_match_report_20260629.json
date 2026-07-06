@@ -1,0 +1,171 @@
+{
+  "generated_at": "2026-06-29T10:54:07.504657+00:00",
+  "phase": "phase6_filter_redesign",
+  "cases_evaluated": 30,
+  "engineer_pool_size": 343,
+  "pipeline_before": {
+    "description": "skill_50pct_filter + legacy_hard_filters(all_enabled)",
+    "avg_candidates": 4.2,
+    "zero_match_rate": 0.8666666666666667,
+    "zero_match_cases": 26
+  },
+  "pipeline_after_3layer": {
+    "description": "filter_candidates_3layer (hard_v6 + soft + rerank)",
+    "avg_candidates": 100.0,
+    "zero_match_rate": 0.0,
+    "zero_match_cases": 0
+  },
+  "target_zero_match_rate": 0.15,
+  "per_case": [
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 28,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 21,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 49,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 28,
+      "after_3layer": 100
+    },
+    {
+      "case_id": null,
+      "before_legacy": 0,
+      "after_3layer": 100
+    }
+  ]
+}

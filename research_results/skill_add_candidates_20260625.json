@@ -1,0 +1,9642 @@
+[
+  {
+    "skill": "C++",
+    "count": 29,
+    "class": "tech_skill",
+    "canonical_form": "C++",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "JP1",
+    "count": 19,
+    "class": "tech_skill",
+    "canonical_form": "JP1",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ネットワーク",
+    "count": 18,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Active Directory",
+    "count": 18,
+    "class": "tech_skill",
+    "canonical_form": "Active Directory",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "テスト",
+    "count": 16,
+    "class": "process",
+    "canonical_form": "テスト",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Apache",
+    "count": 15,
+    "class": "tech_skill",
+    "canonical_form": "Apache",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Excel VBA",
+    "count": 14,
+    "class": "tech_skill",
+    "canonical_form": "Excel VBA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Microsoft 365",
+    "count": 14,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft 365",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tomcat",
+    "count": 13,
+    "class": "tech_skill",
+    "canonical_form": "Tomcat",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "excel",
+    "count": 12,
+    "class": "tech_skill",
+    "canonical_form": "Excel",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ETL",
+    "count": 12,
+    "class": "tech_skill",
+    "canonical_form": "ETL",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "構築",
+    "count": 12,
+    "class": "process",
+    "canonical_form": "構築",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "React Native",
+    "count": 11,
+    "class": "tech_skill",
+    "canonical_form": "React Native",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "リーダー経験",
+    "count": 10,
+    "class": "role",
+    "canonical_form": "リーダー",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ネットワーク設計",
+    "count": 10,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク設計",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SKYSEA",
+    "count": 9,
+    "class": "tech_skill",
+    "canonical_form": "SKYSEA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "設計",
+    "count": 9,
+    "class": "process",
+    "canonical_form": "設計",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Web開発",
+    "count": 9,
+    "class": "tech_skill",
+    "canonical_form": "Web開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "クラウド",
+    "count": 9,
+    "class": "tech_skill",
+    "canonical_form": "クラウド",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "要件定義の経験",
+    "count": 8,
+    "class": "process",
+    "canonical_form": "要件定義",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Cisco Catalyst",
+    "count": 8,
+    "class": "tech_skill",
+    "canonical_form": "Cisco Catalyst",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Google Workspace",
+    "count": 8,
+    "class": "tech_skill",
+    "canonical_form": "Google Workspace",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "GitHub Actions",
+    "count": 8,
+    "class": "tech_skill",
+    "canonical_form": "GitHub Actions",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "UNIX",
+    "count": 8,
+    "class": "tech_skill",
+    "canonical_form": "UNIX",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Slack",
+    "count": 8,
+    "class": "tech_skill",
+    "canonical_form": "Slack",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "運用経験",
+    "count": 7,
+    "class": "role",
+    "canonical_form": "運用経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Ruby on Rails",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "Ruby on Rails",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "機械学習",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "機械学習",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Claude",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "Claude",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ネットワーク構築",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク構築",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Confluence",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "Confluence",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SAP S/4HANA",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "SAP S/4HANA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Flask",
+    "count": 7,
+    "class": "tech_skill",
+    "canonical_form": "Flask",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SharePoint",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "SharePoint",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "サブリーダー経験",
+    "count": 6,
+    "class": "role",
+    "canonical_form": "サブリーダー",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "システム保守開発",
+    "count": 6,
+    "class": "process",
+    "canonical_form": "システム保守開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "上流工程 開発経験",
+    "count": 6,
+    "class": "process",
+    "canonical_form": "上流工程 開発経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Oracle Linux",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "Oracle Linux",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "WEBアプリケーション開発",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "WEBアプリケーション開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "GRANDIT",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "GRANDIT",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Power BI",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "Power BI",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "AWS Lambda",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "AWS Lambda",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Jobcenter",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "Jobcenter",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Exchange Online",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "Exchange Online",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Prisma Access",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "Prisma Access",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ファイアウォール",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "ファイアウォール",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ロードバランサー",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "ロードバランサー",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "監視ツール",
+    "count": 6,
+    "class": "tech_skill",
+    "canonical_form": "監視ツール",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ヘルプデスク",
+    "count": 5,
+    "class": "role",
+    "canonical_form": "ヘルプデスク",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "開発経験",
+    "count": 5,
+    "class": "role",
+    "canonical_form": "開発経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "freee",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "freee",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "楽天",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "楽天",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "進捗管理",
+    "count": 5,
+    "class": "process",
+    "canonical_form": "進捗管理",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "コミュニケーション力",
+    "count": 5,
+    "class": "role",
+    "canonical_form": "コミュニケーション力",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "上流工程",
+    "count": 5,
+    "class": "process",
+    "canonical_form": "上流工程",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "顧客折衝",
+    "count": 5,
+    "class": "role",
+    "canonical_form": "顧客折衝",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": ".NET Core",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": ".NET Core",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "EC2",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "EC2",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "UiPath",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "UiPath",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "JP1/AJ",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "JP1/AJ",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Visual Studio 2022",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "Visual Studio 2022",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Agile",
+    "count": 5,
+    "class": "role",
+    "canonical_form": "Agile",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Direct Connect",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "Direct Connect",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ネットワーク技術",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク技術",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SAP FI",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "SAP FI",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "PowerScale",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "PowerScale",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "AWS ECS",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "AWS ECS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "WebSocket",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "WebSocket",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "LifeKeeper",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "LifeKeeper",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SaaS",
+    "count": 5,
+    "class": "tech_skill",
+    "canonical_form": "SaaS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "バックエンド開発",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "バックエンド開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Redmine",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Redmine",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "構築経験",
+    "count": 4,
+    "class": "process",
+    "canonical_form": "構築経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "プリセールス",
+    "count": 4,
+    "class": "role",
+    "canonical_form": "プリセールス",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Copilot",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Copilot",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "運用保守",
+    "count": 4,
+    "class": "process",
+    "canonical_form": "運用保守",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "MVVM",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "MVVM",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "GA4",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "GA4",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "バッチ開発",
+    "count": 4,
+    "class": "process",
+    "canonical_form": "バッチ開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Eclipse",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Eclipse",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tableau",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Tableau",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Photoshop",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Photoshop",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Illustrator",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Illustrator",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Db2",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Db2",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ネットワーク運用",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク運用",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SFTP",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "SFTP",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Red Hat Linux",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Red Hat Linux",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tectia SSH",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Tectia SSH",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "VxRail",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "VxRail",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "MS SQL Server",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "MS SQL Server",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Dataspider Servista",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Dataspider Servista",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Windows 10",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Windows 10",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "電子カルテ",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "電子カルテ",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "医事会計システム",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "医事会計システム",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "IT資産管理",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "IT資産管理",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "macOS",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "macOS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "RHEL",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "RHEL",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Google Analytics",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Google Analytics",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Palo Alto",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Palo Alto",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Entra Connect",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Entra Connect",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "NetAttest EPS",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "NetAttest EPS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "L2/L3",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "L2/L3",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Routing",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Routing",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "GeneXus",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "GeneXus",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WorkWithPlus for Web",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "WorkWithPlus for Web",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Tailwind",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Tailwind",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "PyTorch",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "PyTorch",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Amazon EKS",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Amazon EKS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "GitLab CI",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "GitLab CI",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "MS Project",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "MS Project",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Smartsheet",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Smartsheet",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SharePoint Online",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "SharePoint Online",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クラウド接続設計",
+    "count": 4,
+    "class": "process",
+    "canonical_form": "クラウド接続設計",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "閉域網",
+    "count": 4,
+    "class": "role",
+    "canonical_form": "閉域網",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Interconnect",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "Interconnect",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ハイブリッドクラウド",
+    "count": 4,
+    "class": "tech_skill",
+    "canonical_form": "ハイブリッドクラウド",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Scrum",
+    "count": 4,
+    "class": "process",
+    "canonical_form": "Scrum",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "オンプレミス",
+    "count": 4,
+    "class": "role",
+    "canonical_form": "オンプレミス",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "フロントエンド開発",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "フロントエンド開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "セキュリティ",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "セキュリティ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "英語",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "英語",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "PowerPoint",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "PowerPoint",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "nginx",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "nginx",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "コードレビュー",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "コードレビュー",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Apex",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Apex",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "jQuery",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "jQuery",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "アーキテクチャ設計の経験",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "アーキテクチャ設計の経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "技術選定",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "技術選定",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "運用保守経験",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "運用保守経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "javaを用いた開発経験",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "javaを用いた開発経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "基本設計の経験",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "基本設計の経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "プロダクトマネジメント",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "プロダクトマネジメント",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "勤怠安定性",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "勤怠安定性",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "リーダー",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "リーダー",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "顧客対応",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "顧客対応",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "テックリード経験",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "テックリード経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WAN設計構築",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "WAN設計構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "サーバー構築",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "サーバー構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "基本設計経験",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "基本設計経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "基地局経験",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "基地局経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "上流工程経験",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "上流工程経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Objective-C",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Objective-C",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Webシステム開発",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Webシステム開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "pmo経験",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "pmo経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ドキュメント作成",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "ドキュメント作成",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Word",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Word",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "組込",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "組込",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "CICS",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "CICS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Microsoft Intune",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft Intune",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "FIREWALL",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "FIREWALL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Juniper",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Juniper",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Defender",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Defender",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Microsoft Office",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft Office",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ストアドプロシージャ",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "ストアドプロシージャ",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ連携",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "データ連携",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP MM",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "SAP MM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Redshift",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Redshift",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Visual Studio",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Visual Studio",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Batch",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Batch",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Tera Term MACRO",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Tera Term MACRO",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WinRM",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "WinRM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Copilot Studio",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Copilot Studio",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Hyper-V",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Hyper-V",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Fiori",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Fiori",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "認証系",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "認証系",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Looker Studio",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Looker Studio",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WordPress",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "WordPress",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WSUS",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "WSUS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "仮想化",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "仮想化",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Azure Data Factory",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Azure Data Factory",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "仮想化技術",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "仮想化技術",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ルーティング",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "ルーティング",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "テスト自動化",
+    "count": 3,
+    "class": "process",
+    "canonical_form": "テスト自動化",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "FI/CO",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "FI/CO",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "AI-OCR",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "AI-OCR",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "マクロ",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "マクロ",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Oracle WebLogic",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Oracle WebLogic",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "mcframe",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "mcframe",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "日立ホスト",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "日立ホスト",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "富士通ホスト",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "富士通ホスト",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Switch",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Switch",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Router",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Router",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ESET",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "ESET",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Clomo MDM",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "Clomo MDM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "TensorFlow",
+    "count": 3,
+    "class": "tech_skill",
+    "canonical_form": "TensorFlow",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "AI開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "AI開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "金融業界経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "金融業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ヘルプデスク経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "ヘルプデスク経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "会計知識",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "会計知識",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "自社開発企業での開発経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "自社開発企業での開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "モバイルアプリの開発経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "モバイルアプリの開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "営業経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "営業経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "自社開発企業での正社員経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "自社開発企業での正社員経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "pythonを用いた開発経験",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "pythonを用いた開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "aws環境での開発経験",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "aws環境での開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "メンバーマネジメント経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "MemberManagement",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "単体テスト",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "UnitTest",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "キッティング経験",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "KittingExperience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "報連相",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "ReportingCommunication",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WinActor開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "WinActor",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "保守案件での実務経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "MaintenanceExperience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "端末リプレース知見",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "TerminalReplacements",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "intra-mart",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "IntraMart",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "電話対応",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "PhoneSupport",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "障害対応",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "Troubleshooting",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "生成AI開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "GenerativeAI",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "クラウド環境",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CloudEnvironment",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "rpa",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "RPA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "API開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "APIDevelopment",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "組み込み開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "EmbeddedDevelopment",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "テスト実施",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "Testing",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "TestRail",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "TestRail",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "VisualStudioCode",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "VisualStudioCode",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "GeminiAPI",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "GeminiAPI",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "実装",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Implementation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ連携環境構築",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "DataIntegrationEnvironment",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "etlツールでの開発経験",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ETLToolDevelopment",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ecサイト開発経験",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ECSiteDevelopment",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "結合テスト",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "IntegrationTesting",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ネットワーク知識",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "NetworkKnowledge",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "リーダーシップ",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Leadership",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "設計構築",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "DesignAndConstruction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "管理業務",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "ManagementWork",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "API Gateway",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "APIGateway",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "基本設計以降",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "BasicDesignAndBeyond",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "マーケティング",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Marketing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "firebase",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Firebase",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "インフラ構築",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "InfrastructureConstruction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Operation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "dart",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Dart",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "システム開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SystemDevelopment",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "CloudFormation",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CloudFormation",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "サーバーレス開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ServerlessDevelopment",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Exchange",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Exchange",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "プロジェクト管理",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "ProjectManagement",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SRE",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "SRE",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "業務シナリオテスト",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "BusinessScenarioTesting",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "課題管理",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "IssueManagement",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データベース",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Database",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "関係者へのヒアリング経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "StakeholderHearing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "4HANA",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "HANA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "保守",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Maintenance",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "sql経験",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SQLExperience",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "汎用機",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Mainframe",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "証券業務知識",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "SecuritiesBusinessKnowledge",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Seasar2",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Seasar2",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "マイクロサービス",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Microservices",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ビジネス英語",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "BusinessEnglish",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "sap s",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SAPS",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "マネジメント",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AI駆動開発",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "AIDrivenDevelopment",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "総合試験",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "SystemTesting",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "要件整理",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "RequirementsOrganization",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アジャイル開発",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "AgileDevelopment",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Talend",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Talend",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Zero-ETL",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ZeroETL",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "QuickSight",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "QuickSight",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "JasperReports",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "JasperReports",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "DBA",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "DBA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "VB6.0",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "VB6",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Cshell",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CShell",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Clean Architecture",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CleanArchitecture",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "プリンタ設定",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "PrinterSettings",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Nutanix",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Nutanix",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ADFS",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ADFS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ADDS",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "ADDS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tanium",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Tanium",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SailPoint",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SailPoint",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SAP BTP",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SAPBTP",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "PFCG",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "PFCG",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SAP Solution Manager",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SAPSolutionManager",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "IdentityNow",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "IdentityNow",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Basis",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Basis",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Backlog",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "BacklogManagement",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "OpenCV",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "OpenCV",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SAP SD",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "SAPSD",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Windows 11",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Windows11",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "IBM zOS",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "IBMzOS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tablet System Development",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "TabletSystemDevelopment",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "タブレットシステム開発",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "TabletSystemDevelopment",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "ミドルウェア",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Middleware",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "銀行システム",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Banking System",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Creo",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Creo",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Windchill",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Windchill",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Tricentis qTest",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Tricentis qTest",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SU53",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SU53",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Kyriba",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Kyriba",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "OANDA",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "OANDA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Office",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Office",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "プロンプトエンジニアリング",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Prompt Engineer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ファインチューニング",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "Fine-tuning",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Windows Batch",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Windows Batch",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Struts",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Struts",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Systemwalker",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Systemwalker",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Jamf",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Jamf",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "LANSCOPE",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "LANSCOPE",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "FI-GL",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "FI-GL",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "FI-AP",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "FI-AP",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "FI-AR",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "FI-AR",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "FI-AA",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "FI-AA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Speaker Deck",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Speaker Deck",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "AutoGPT",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "AutoGPT",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "LangChain",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "LangChain",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "コード生成",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Code Generation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Aruba",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Aruba",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SD/MM/PP",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SD/MM/PP",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Power Automate Desktop",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Power Automate Desktop",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "JP1/AJS3",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "JP1/AJS3",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "AWS CDK",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "AWS CDK",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "CloudWatch",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CloudWatch",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "HubSpot",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "HubSpot",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Marketo",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Marketo",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Pardot",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Pardot",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Eloqua",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Eloqua",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "WebLogic",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "WebLogic",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "MATLAB",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "MATLAB",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "HENNGE",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "HENNGE",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "AddressLook Online",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "AddressLook Online",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "LDAP Manager",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "LDAP Manager",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ワークフロー",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "Workflow",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "監視運用",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "Monitoring Operation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Access VBA",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Access VBA",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Service Cloud",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Service Cloud",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SD-WAN",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SD-WAN",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Oracle Cloud",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Oracle Cloud",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "GS21",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "GS21",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "VSAM",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "VSAM",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "CVSS",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "CVSS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SSVC",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SSVC",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Google App Sheet",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Google AppSheet",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Microsoft Dynamics 365",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft Dynamics 365",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Dataverse",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Dataverse",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Power Apps",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Power Apps",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Power Automate",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Power Automate",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Power Platform",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Power Platform",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Cisco Umbrella",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "Cisco Umbrella",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SCCM",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "SCCM",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "RTOS",
+    "count": 2,
+    "class": "tech_skill",
+    "canonical_form": "RTOS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "activedirectory",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Active Directory",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "authconductor",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AuthConductor",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "v-recover",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "V-Recover",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "スキル:業務スキル経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Business Skill Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "各種ソフトウェアの利用経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Software Utilization Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク運用監視",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Network Operation Monitoring",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "障害調査",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Troubleshooting",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保守調整",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Maintenance Coordination",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "RDBMS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "RDBMS",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "VMware NSX",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VMware NSX",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Cato",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cato",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Teams",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Teams",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Zoom",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Zoom",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "OneNote",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OneNote",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "JBoss",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JBoss",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "ミドルウェア設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Middleware Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "intra-mart Workflow",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Intra-mart Workflow",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "javaの実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "内部設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Internal Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "試験設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Test Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Salesforce開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Salesforce Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Financial Service Cloud",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Financial Service Cloud",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Visualforce",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Visualforce",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "apexのコードレビュー経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Apex Code Review",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "カスタマイズ経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Customization",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "損害保険業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Insurance Industry Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "チームリーダー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Team Leader Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "platform app builder",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Platform App Builder",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "保守経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Maintenance Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基本設計)の経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Basic Design Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "大手損害保険会社でのシステム開発",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Large Insurance System Development",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "データ管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Data Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ整備",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データ整備",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ調査",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データ調査",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Webシステム開発実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Webシステム開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "チームリーダーシップ",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "チームリーダーシップ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ移行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データ移行",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "1 etl",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "etl",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "2 移行リハーサル経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "移行リハーサル",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "3 マニュアル作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "マニュアル作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "rdbmsを用いたetl開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "rdbmsを用いたetl開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ整合性検証の設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データ整合性検証の設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ移行経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データ移行経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "実施経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "実施経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ設計経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "大規模システム移行プロジェクト経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "大規模システム移行プロジェクト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "laravelでの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "laravel",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "tomcat環境での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "tomcat",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "go言語を用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "go言語",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "grpcを用いた業務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "grpc",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "アーキテクチャ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "アーキテクチャ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "技術選定の経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "技術選定",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用保守まで一貫した経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用保守",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "gcp環境での業務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "gcp",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "フロントエンドの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "フロントエンド開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "qa経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "qa経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アジャイル開発におけるテスト",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "アジャイル開発におけるテスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "レビューまで一貫したテスト業務経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "レビューまで一貫したテスト業務",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "qaリーダのご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "qaリーダ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "webアプリの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "webアプリ開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "企画",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "企画",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロダクト開発",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "プロダクト開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "導入経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "導入",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "webアプリ開発のご経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "webアプリ開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ローコードツールの導入支援経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "ローコードツール導入支援",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "rubyを用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ruby",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "インフラの設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "インフラ設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データパイプラインの設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データパイプライン設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データモデリングの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データモデリング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ基盤の設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ基盤設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "cdパイプラインの構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "cdパイプライン構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ml基盤の構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ml基盤構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "バックエンドの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "バックエンド開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "pjm経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "pjm",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "maの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ma開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "pdmのご経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "pdm",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "gnn等)の実装経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "gnn実装",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データエンジニアリング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データエンジニアリング",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "リアルタイム推論環境の開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "リアルタイム推論環境開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "etlの設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "etl設計",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データパイプライン",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データパイプライン",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "実装経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "実装経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "要件定義からテスト",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "要件定義からテスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用した経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用保守まで一貫した業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用保守",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ragの設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "rag設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ステークホルダーとの折衝経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "ステークホルダー折衝",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "オープン系言語を用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "オープン系言語開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "証券取引システムの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "証券取引システム開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アジャイル開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "アジャイル開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "unityを用いたデータ入力経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "unity",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "空間構築)の作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "空間構築作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テスト計画",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "テスト計画",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "品質管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "品質管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "および品質向上観点での提案経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "品質向上提案",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システムテスト",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "システムテスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テストメンバーのタスク管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "テストタスク管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "レビュー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "レビュー経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "受け入れテストの設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "受け入れテスト設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "バックエンド)としての開発実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "バックエンド開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用知見",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用知見",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "コンサルティングのご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "コンサル経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "e2eテストなど一貫したテスト経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "e2eテスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "next.js)を用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "next.js",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "openapiの運用経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "openapi",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ア-キテクチャの設計経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "アーキテクチャ設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "dbの設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "db設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "pmとしてのマネジメント業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "pmマネジメント",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テックリードの経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "テックリード",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "英語を用いた業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "English Business Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "高負荷システムの設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "High Load System Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "java)を用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java",
+    "source": "gpt",
+    "confidence": 0.95
+  },
+  {
+    "skill": "plやtlなどリーダー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Team Lead",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "クラウド環境での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cloud Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クラウド環境の設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Cloud Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "人事労務システムの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "HR System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "物流業界向けシステムの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Logistics System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "人事労務",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Human Resources",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "スタートアップ企業での経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Startup Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "採用マネージャー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Recruitment Manager",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "経営層との折衝経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Executive Negotiation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "springを用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Spring Framework",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "リッチな画面の作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Rich UI Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "spine",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Spine",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "アニメーション制作",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Animation Production",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アニメーション経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Animation Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "plとしてのマネジメント経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Team Lead Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "エンジニア経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Engineer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "storybook",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Storybook",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "pmとしてのマネジメント経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Project Manager",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "toc向けサービスの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "TOC Service Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロダクトのkpiを伸ばした経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "KPI Improvement",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク設計構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Design and Construction",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Palo Alto FW",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Palo Alto Firewall",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Linux Server",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Linux Server",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "AWS VPN Gateway",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS VPN Gateway",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "JPQL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JPQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SD-WAN経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SD-WAN",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "sd-wanの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SD-WAN",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "大規模nwインフラ案件での設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Large-Scale Network Infrastructure Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "テスト経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Testing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "原因調査",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Root Cause Analysis",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "dell",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Dell",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "ネットワーク運用保守経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Operation and Maintenance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "障害切り分けおよび原因調査経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Failure Investigation and Troubleshooting",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SW詳細設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SW Detailed Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "FW詳細設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Firewall Detailed Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ルーティング設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Routing Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "fwの詳細設計経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Firewall Detailed Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ネットワークエンジニア経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Network Engineer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ルーティング設計経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Routing Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WinActor開発・保守",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WinActor Development and Maintenance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "WinActor実務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "WinActor Maintenance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IM-FormaDesigner",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IM-FormaDesigner",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "intra-mart 開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Intra-mart Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IM-BloomMaker",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IM-BloomMaker",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IM-LogicDesigner",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IM-LogicDesigner",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "im-bloommaker経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IM-BloomMaker",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "接客・販売経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Customer Service and Sales Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "受付経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Reception Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "コールセンター業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Call Center Operations",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "お客様対応のご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Customer Support Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム開発の実務経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "System Development Practice",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "開発リーダー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Development Lead",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テックリードや開発リーダーのご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Tech Lead / Development Lead",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "OS構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OS Installation and Configuration",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "パッチ適用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Patch Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "脆弱性対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Vulnerability Response",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AIエージェント開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI Agent Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "WinActor保守",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WinActor Maintenance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク詳細設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Detailed Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "FortiAnalyzer",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "FortiAnalyzer",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "fortigate製品の詳細設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "FortiGate Product Detailed Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "大規模ネットワーク環境での構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Large-Scale Network Environment Construction",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ネットワーク移行プロジェクト経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Network Migration Project",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "サーバー設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Server Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "モックアップ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Mockup",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "バッチ設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Batch Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "画面開発設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Screen Development Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "大手食品メーカーid管理バッチ設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Batch Design for Major Food Manufacturer ID Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Intra-Mart",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Intra-Mart",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Bloommaker",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "BloomMaker",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "LogicDesigner",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "LogicDesigner",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Web アプリケーション開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Web Application Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "OpenAPI",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OpenAPI",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "API設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "API Design",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "java springboot",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java Spring Boot",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "およびapi設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "API Integration",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "公共データ連携基盤開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Public Data Linkage Platform Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "開発の実務経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Development Practice",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基本設計書作成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Basic Design Document Creation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "詳細設計書作成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Detailed Design Document Creation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "非機能要件定義書",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Non-Functional Requirements Specification",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基本設計書",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Basic Design Document",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "生成aiを用いた開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI Generation Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "詳細設計書",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Detailed Design Document",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運転免許",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Driving License",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "ハードウェア修理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Hardware Repair",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "メンテナンス",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Maintenance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "c++経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "C++ Experience",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "詳細設計経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Detailed Design Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "組み込み開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Embedded Development Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "銀行システム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Banking System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "証券システム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Securities System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "aiを活用した開発のご経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "sqlでの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "テストのご経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "テスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "派遣契約",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "派遣契約",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "銀行や証券システムでの設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "銀行システム設計",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "AI活用開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI活用開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ASP.NET Core",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ASP.NET Core",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "新規開発経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "新規開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "c#での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "C#",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "asp.net coreの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ASP.NET Core",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "事務の経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "事務",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基地局業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "基地局業務",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム管理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "インシデント対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "インシデント対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム変更対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "システム変更対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "バージョンアップ対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "バージョンアップ対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "各種製品の運用保守",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "運用保守",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "非定型作業",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "非定型作業",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "コンテナアプリケーション開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "コンテナアプリケーション開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "btobインサイドセールス経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "インサイドセールス",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "SaaS業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SaaS業界",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "複数商材経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "複数商材経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "saas業界での複数商材経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SaaS業界複数商材経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "ETLツール開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ETLツール開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "性能改善",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "性能改善",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "品質改善",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "品質改善",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基幹システム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "基幹システム開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "フレームワーク",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "フレームワーク",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "富士通ホストCOBOL開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "富士通ホストCOBOL開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NET-COBOL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NET-COBOL",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保守開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "保守開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "シェルスクリプト",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "シェルスクリプト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Amazon Aurora PostgreSQL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Amazon Aurora PostgreSQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "javaの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "自動テスト",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "自動テスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "c#.net開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "C#.NET開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ECサイト開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ECサイト開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "決済システム",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "決済システム",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "OCI設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OCI設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NW設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NW設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Oracle DB EE設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle DB EE設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "TP1設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "TP1設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "JP1設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JP1設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "uCosmi Application Server",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "uCosmi Application Server",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "oracle linux の経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle Linux",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AWS構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "aws構築実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS構築実務",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "銀行インフラ",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "銀行インフラ",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "証券インフラ",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "証券インフラ",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "証券など)でのインフラ構築",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "証券インフラ構築",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システムマイグレーション",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "システムマイグレーション",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ファイル連携",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ファイル連携",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "人事経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "人事",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "エンジニア採用経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "エンジニア採用",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "広報経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "広報",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "aws環境での運用保守経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS運用保守",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AWS IAM（ユーザー管理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS IAM",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "セキュリティ運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "セキュリティ運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "監査業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "監査業務",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "OS）開発運用経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OS開発・運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "サーバー運用保守",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "サーバー運用保守",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Linux構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Linux構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "正社員経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "正社員",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "情報処理基礎知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "情報処理基礎知識",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "c++での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "C++",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データベース知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データベース知識",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "WebPerformer",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WebPerformer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "サーバー",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "サーバー",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "クラウド・インフラ設計構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド・インフラ設計構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Azure or AWS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "クラウド系認定資格",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド系認定資格",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アーキテクト経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "アーキテクト",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "クラウド系サービス",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド系サービス",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP設計・構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NW構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NW構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "現地対応を含む構築支援経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "現地対応・構築支援",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "仙台現地対応可能",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "仙台現地対応",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Palo Alto構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Palo Alto構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Juniper構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Juniper構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "BIG-IP構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "BIG-IP構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "APRESIA構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "APRESIA構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ElastiCache",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ElastiCache",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "コンテナ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "コンテナ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VPN Gateway",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VPN Gateway",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "金融機関プロジェクト参画経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "金融機関プロジェクト参画",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "資料作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "資料作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "資料作成の経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "資料作成経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "顧客折衝の経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "顧客折衝",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "基本設計以降の開発経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "基本設計以降の開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基幹システムテスト経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "基幹システムテスト",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "生保・損保業務知識",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生保・損保業務",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "支払いシステム経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "支払いシステム",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "COBOL開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "COBOL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "既存ソース解読能力",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "既存ソース解読",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム系開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム系開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "上流工程の経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "上流工程",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "運行管理システム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "運行管理システム",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データクレンジング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データクレンジング",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ分析基盤",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ分析基盤",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Looker",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Looker",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "クラウド移行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "クラウド移行",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "オンプレミス環境知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "オンプレミス環境知識",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "オンプレミスサーバー構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "オンプレミスサーバー構築",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "インフラエンジニア",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "インフラエンジニア",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "kubernetes構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Kubernetes構築経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "記事制作ディレクション経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "記事制作ディレクション経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "vitest",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Vitest",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Vitest",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Vitest",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Dynamics 365 FO",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Dynamics 365 FO",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "生産領域コンサル",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生産領域コンサル",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "生産領域でのコンサル経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生産領域でのコンサル経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Fineace6000",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Finance6000",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAIL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAIL",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "試験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "試験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SQL-Server",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SQL Server",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "管理会計",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "管理会計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "原価計算業務知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "原価計算業務知識",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "設計経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "設計経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "c#の実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "C#の実務経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "製造業向けのsapプロジェクト経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SAPプロジェクト経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "製造業向けSAPプロジェクト経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SAPプロジェクト経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基幹系システム刷新プロジェクト経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "基幹系システム刷新プロジェクト経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基本設計フェーズ経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "基本設計フェーズ経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "DWH設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DWH設計",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "php開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PHP開発経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "予約管理システムの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "予約管理システムの開発経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Dynamics365",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Dynamics 365",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "dynamics",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Dynamics",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "営業",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "営業",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "SNS運用",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "SNS運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "javaバッチ開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Javaバッチ開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Oracle 11",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle 11",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Visual Studio Code",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Visual Studio Code",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Cron",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cron",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "javascrip",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JavaScript",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "組込製品の検証経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "組込製品の検証経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テスト設計経験者歓迎",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "テスト設計経験者歓迎",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "リーダーシップ経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "リーダーシップ経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "人をまとめた経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "人をまとめた経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "iOS開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "iOS開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Android開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Android開発",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "既存システム運用",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "既存システム運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "常駐可能",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "常駐可能",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "express",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Express",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "基本リモート",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "基本リモート",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "リモート希望",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "リモート希望",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "生命保険システム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "生命保険システム開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "生命保険システムの開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生命保険システムの開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "生産計画",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生産計画",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基地局経験または営業経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "基地局経験または営業経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "自動車運転",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "自動車運転",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IT・通信業界の営業経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "IT・通信業界の営業経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "通信キャリアでの基地局建設業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "通信キャリアでの基地局建設業務経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "通信業界の営業部署での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "通信業界の営業部署での業務経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "脆弱性診断",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "脆弱性診断",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "脆弱性トリアージ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "脆弱性トリアージ",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "通信建設業界経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "通信建設業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "交渉力",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "交渉力",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AWS構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS構築経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "トラブルシューティング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "トラブルシューティング",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Lambda",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Lambda",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "自動車業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "自動車業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "大手製造業での上流工程経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "大手製造業での上流工程経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "DynamoDB",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DynamoDB",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "javaでのシステム開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Javaシステム開発経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "サブリーダー業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "サブリーダー業務",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "lambda",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Lambda",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "各種apiの開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "各種APIの開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "設計に関する知見や実務経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "設計に関する知見や実務経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "PM経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "PM経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "PL経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "PL経験",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Microsoft SQL Server",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft SQL Server",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "セキュリティリスクアセスメント",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "セキュリティリスクアセスメント",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "化学業界知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "化学業界知識",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "GCDS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "GCDS",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "権限管理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "権限管理",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "システム保守",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム保守",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ユーザーサポート",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "ユーザーサポート",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NW機器運用手順書作成経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NW機器運用手順書作成経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "議事録作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "議事録作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IT業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "IT業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "英語スキル",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "英語スキル",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "何らかのit業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "何らかのIT業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "回線調整業務経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "回線調整業務経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "通信業界経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "通信業界経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "上流設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "上流設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "セキュリティ知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "セキュリティ知識",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Azure Blob",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure Blob",
+    "source": "gpt",
+    "confidence": 1.0
+  },
+  {
+    "skill": "Data Sharing",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Data Sharing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Streams",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Streams",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Tasks",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Tasks",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロジェクトマネジメント",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "プロジェクトマネジメント",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "戦略コンサルティング",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Strategy Consultant",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ビジネス分析",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Business Analyst",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "CakePHP",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CakePHP",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Symfony",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Symfony",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "コールセンター",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Call Center",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ローカル環境でのデータ操作管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Data Management in Local Environment",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Amazon Redshift",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Amazon Redshift",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Google Apps Script",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Google Apps Script",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "マルチベンダー調整",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Vendor Coordination",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "テスト計画·品質管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Test Planning and Quality Control",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VB6",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VB6",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "現状解析",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Current State Analysis",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "vb.net で詳細設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VB.NET",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "POSシステム開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "POS System Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "posシステムの開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "POS System Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Webシステム開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Web System Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "検証",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Verification",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "オブジェクト指向",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Object-Oriented Programming",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "キャラクターモデリング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Character Modeling",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "MAYA",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "MAYA",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Zbrush",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ZBrush",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SubstancePainter",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Substance Painter",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Unreal Engine",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Unreal Engine",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "セルルック",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cel Shading",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "証券業界PJT経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Securities Industry Project Member",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "springboot 経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Spring Boot",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "websocket",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WebSocket",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "管理",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Management",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "big-ipを保守等で使った経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Big-IP",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "OpenCOBOL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OpenCOBOL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "給付・保険・共済系システム開発",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Insurance System Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Excel",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Excel",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "サーバー運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Server Operations",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保険業界やpj経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Insurance Industry Project Member",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "windowsサーバの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows Server",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "カード業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Credit Card Business",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "salesforce開発のご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Salesforce Developer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "JQuery",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "jQuery",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "androidアプリの開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Android App Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "統合テスト",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Integration Testing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "収益性分析",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Profitability Analysis",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "アドオン開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Add-on Development",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム要件定義",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "System Requirements Definition",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Webアプリ開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Web Application Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "PostgreSQL構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PostgreSQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "intuneでのデバイス管理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Intune Device Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "sql開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SQL Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "証券関連プロジェクト 経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Securities Project Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "社内SE経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Internal IT Staff",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "インフラ知見",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Infrastructure Knowledge",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "ヘルプデスクまたは社内se経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Help Desk / Internal IT",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム問い合わせ対応経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "System Inquiry Support",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "sqlの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SQL Experience",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "資料作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Document Creation",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "cad使用経験 電気工事経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CAD (Electrical Construction)",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Unix-COBOL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Unix COBOL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "unix-cobolの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Unix COBOL Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クレジットカード業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Credit Card Operations",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "クレジットカード業務の経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Credit Card Operations",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "金融系",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Financial Systems",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "金融系システム",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Financial System",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Svelte",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Svelte",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "FastAPI",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "FastAPI",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Dify",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Dify",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Ollama",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Ollama",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "vLLM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "vLLM",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "LLM活用アプリケーション開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "LLM Application Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テスト計画作成など) の実施経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Test Planning and Implementation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データドッグの構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DataDog Setup",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "webシステム開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Web System Developer",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "検証経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Verification Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "業務系pmo(進捗管理",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Business Operations PM",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "sap開発経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SAP Developer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Windowsサーバ設計構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows Server Design and Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "表計算",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Spreadsheet",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "vlookup",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VLOOKUP",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "xlookup",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "XLOOKUP",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ピボットテーブル等)の利用経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PivotTable and Related Functions",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "に応じた設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Design According to Requirements",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "実装支援",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Implementation Support",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "業務効率化",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "業務効率化",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "自動化",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "自動化",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ分析",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Data Analysis",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "vbaによる業務改善経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VBA",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "aws の実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "snowflakeでの実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Snowflake",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "terraformの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Terraform",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Webアプリ開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Web Application Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "インフラ開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Infrastructure Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "vmwareesxi",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VMware ESXi",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "スクリプト開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Script Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "appsflyer",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AppFlyer",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "PHP8",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PHP 8",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クリーンアーキテクチャ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Clean Architecture",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "サーバーサイド開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Server-side Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "調整の現場でのマネジメント経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Project Management",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "決算業務",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Financial Closing",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "技術検討",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Technical Review",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "RPA開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "RPA Development",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "リモートコミュニケーション",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Remote Communication",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Linux運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Linux Operations",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Windows運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows Operations",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "パッチ適用経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Patch Application",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用監視経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Operation Monitoring",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "マイグレーション案件の経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Migration Projects",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "aras 経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ARAS",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "または移行プロジェクトの経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Migration Projects",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "カスタマイズ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Customization",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "firewallの構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Firewall Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "要件】",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Requirements",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "レポートの設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Report Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "実装の実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Implementation Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "富士通オフコン",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Fujitsu OECON",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "コンサルタント",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Consultant",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "レビュー・品質管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Review and Quality Control",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク支援",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Support",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "環境構築支援",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Environment Setup Support",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "調整業務",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Adjustment Work",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "excelvbaでの豊富な開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Excel VBA",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "技術支援",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Technical Support",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "os及びdb2の数年以上の運用経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OS and DB2 Operations",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "自動化ツー",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Automation Tool",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "要件",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Requirements",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "上流工程対応経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Upstream Process",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "webシステム開発上流工程経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Web System Development Upstream Process",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "itヘルプデスク経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Help Desk Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "SAP Public Cloud",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP Public Cloud",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "コンサルタント経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Consultant",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Nuxt3",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Nuxt3",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "スクラム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Scrum Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NW機器運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Equipment Operation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "手順書作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Procedure Document Creation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Design and Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データベース構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Database Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プリセールス関連 経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Pre-sales Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "バッチアプリケーション開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Batch Application Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "仕入れ棚卸関連経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Inventory and Procurement Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "JavaEE",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java EE",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "IM-Workflow",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IM-Workflow",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "intra-mart経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Intra-mart",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "javaeeを用いた経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java EE Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "設定経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Configuration Experience",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "証券システム開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Securities System Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "L3SW",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "L3 Switch",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "nw詳細設計の実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NW Detailed Design Experience",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "LB（BIG-IP）構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "BIG-IP LB Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "課題管理推進",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Issue Management Promotion",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "lb構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "LB Construction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Transact-SQL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Transact-SQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SSMS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SSMS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "コマンド",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Command",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "設計書作成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Design Document Creation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テスト仕様書作成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Test Specification Document Creation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "sqlとbatでの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SQL and BAT Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ビジネス要件定義の作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Business Requirements Definition",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "積極的・能動的対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Proactive and Active Response",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "AWS CLI",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS CLI",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "設計・構築",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AI Agent",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI Agent",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テックリード",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "テックリード",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP設計構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP設計構築経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "汎用COBOL開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "汎用COBOL開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "移行設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "移行設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "テスト結果報告書作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "テスト結果報告書作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "hulftを用いたデータ伝送の経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "hulftを用いたデータ伝送の経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "更改におけるテスト設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "更改におけるテスト設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "汎用cobol開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "汎用cobol開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ジョブネット設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ジョブネット設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "メール移行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "メール移行",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロジェクトリーダー経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "プロジェクトリーダー経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "プロジェクトリーダ経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "プロジェクトリーダ経験",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Cisco Nexus",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cisco Nexus",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "メールサーバ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "メールサーバ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "juniper",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "juniper",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "nexus",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "nexus",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "F5",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "F5",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "スクリプト作成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "スクリプト作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SmartDB",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SmartDB",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "業務改善コンサル",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "業務改善コンサル",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ノーコードツール開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ノーコードツール開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AWS S3",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AWS S3",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クラウド防犯カメラ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド防犯カメラ",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "動画配信サービス",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "動画配信サービス",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "Amazon Kinesis Video Streams",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Amazon Kinesis Video Streams",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Azure Functions v4",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure Functions v4",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Node.js 22",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Node.js 22",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Azure Static Web Apps",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure Static Web Apps",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SWA CLI",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SWA CLI",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "azure functions",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "azure functions",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "node.js 22 の実務経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "node.js 22",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "旧日本興亜損害保険での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "旧日本興亜損害保険での開発経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "外部設計以降のシステム保守経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "外部設計以降のシステム保守経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "mfcでのプログラム開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "mfcでのプログラム開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "gitによるソース管理経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "gitによるソース管理経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "アーキテクチャ設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "アーキテクチャ設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "DevOps",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "DevOps",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "画像生成",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "画像生成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データサイエンス",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データサイエンス",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "webアプリケーション開発のご経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "webアプリケーション開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "調整・推進力",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "調整・推進力",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "インフラ経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "インフラ経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "推進力",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "推進力",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Amazon ECS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Amazon ECS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "物理サーバ設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "物理サーバ設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク機器",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク機器",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "構築支援",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "構築支援",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "要件定義からのご経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "要件定義からのご経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "GithubCopilot",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "GithubCopilot",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム移行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "システム移行",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "オープンシステム",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "オープンシステム",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "マイグレーション経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "マイグレーション経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Modern C++",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Modern C++",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "マルチスレッド開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "マルチスレッド開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "modern c++での開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "modern c++での開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "pythonでの開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "pythonでの開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "GoogleCloud",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "GoogleCloud",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "GCLB",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "GCLB",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "フロントエンド",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "フロントエンド",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "androidjava",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "androidjava",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "JSTQB",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "JSTQB",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SQuBOK",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "SQuBOK",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "営業経験またはテレアポ経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "営業経験またはテレアポ経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "課題ヒアリング",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "課題ヒアリング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "タスク管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "タスク管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "協調性",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "協調性",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Echo",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Echo",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "移行作業",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "移行作業",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "移行経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "移行経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "CiscoNW設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CiscoNW設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "CiscoNW構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CiscoNW構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "cisconw 設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "cisconw 設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "LAMP",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "LAMP",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ゲーム開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ゲーム開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "DB設計・構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DB設計・構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "JMeter",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JMeter",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "コンテナ技術",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "コンテナ技術",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "一気通貫対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "一気通貫対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SmartHR",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SmartHR",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム設定",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム設定",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "人事労務システム",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "人事労務システム",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用改善",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "運用改善",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ワークフロー管理",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "ワークフロー管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "展開支援",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "展開支援",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データ可視化",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ可視化",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAPPHIRE",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAPPHIRE",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "外部システム連携対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "外部システム連携対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "DB設計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DB設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "正規化",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "正規化",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "影響調査",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "影響調査",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "影響調査経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "影響調査経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "金融商品知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "金融商品知識",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "フルスタック開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "フルスタック開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ソフトウェア開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ソフトウェア開発",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ集計",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ集計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "事務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "事務",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用サポート",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用サポート",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AI関連プロジェクト経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AI関連プロジェクト経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Tier1",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Tier1",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "セキュリティ監視",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "セキュリティ監視",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "UX設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "UX設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "仕様策定",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "仕様策定",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "進行管理を主導した経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "進行管理を主導した経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "android向けアプリの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "android向けアプリの開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "スタートアップ",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "スタートアップ",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "テックリードなどのリーダ経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "テックリード",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ベンチャー企業での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "ベンチャー企業での業務経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "プロダクトのグロース主導経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "プロダクトのグロース主導経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "bigqueryを用いた分析経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "bigqueryを用いた分析経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "カスタマージャーニーマップ作成経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "カスタマージャーニーマップ作成経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "クラウド環境でのシステム構築・運用",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド環境でのシステム構築・運用",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "モダン技術での開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "モダン技術での開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "パフォーマンス改善",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "パフォーマンス改善",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "顧客ヒアリング",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "顧客ヒアリング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "要件定義書作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "要件定義書作成",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "人事部門経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "人事部門経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "法務部門経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "法務部門経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "人事もしくは法務部門でのご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "人事もしくは法務部門でのご経験",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "調達業務知見",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "調達業務知見",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "sap mm経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "sap mm経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "調達",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "調達",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "購買業務知見",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "購買業務知見",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "運用経験歓迎",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "運用経験歓迎",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "設計書レビュー",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "設計書レビュー",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "顧客提案資料作成",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "顧客提案資料作成",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "設計書レビュー経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "設計書レビュー経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "顧客提案資料作成経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "顧客提案資料作成経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Springmvc",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Springmvc",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Mybatis",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Mybatis",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "インフラ基盤構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "インフラ基盤構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保守対応",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "保守対応",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "金融業務知識",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "金融業務知識",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VC++",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VC++",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "インフラ基盤の構築経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "インフラ基盤の構築経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保守対応経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "保守対応経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "開発手法理解",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "開発手法理解",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "保険業務知見",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "保険業務知見",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "クラウド環境開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド環境開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Subversion",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Subversion",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "java開発経験:",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "java開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SVF（SVFX）帳票開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SVF帳票開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "帳票開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "帳票開発経験",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "光ファイバー",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "光ファイバー",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "オプティカル・サブアセンブリ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "オプティカル・サブアセンブリ",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "電子機器組立",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "電子機器組立",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "与信管理業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "与信管理業務",
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "システム構築",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "システム構築",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Oracle APEX",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle APEX",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "仕様検討",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "仕様検討",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "HANA",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "HANA",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "3dsMax",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "3dsMax",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Blender",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Blender",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "WebGL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WebGL",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロジェクションマッピング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "プロジェクションマッピング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "3DCG",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "3DCG",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "モデリング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "モデリング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "レタッチ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "レタッチ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Command Prompt",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Command Prompt",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Windows PC",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows PC",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Jmeter",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Jmeter",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP-FI",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP-FI",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "AR/AP",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "AR/AP",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "English",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "English",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "仮想基盤",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "仮想基盤",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワーク設定",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ネットワーク設定",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "EventBridge",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "EventBridge",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "StepFunction",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "StepFunction",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ECS Fargate",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ECS Fargate",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP ECC6.0",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP ECC6.0",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Tivoli",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Tivoli",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "OS管理",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OS管理",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "サーバー移設",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "サーバー移設",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "データセンター移行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "データセンター移行",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Anytran",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Anytran",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Switch/Router",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Switch/Router",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Redux",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Redux",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Hooks",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Hooks",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "情報設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "情報設計",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "デザインガイドライン",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "デザインガイドライン",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ブランディング",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "ブランディング",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP PM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP PM",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP AA",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP AA",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SAP Fiori",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP Fiori",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP ECC",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP ECC",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "組込/制御アプリ開発",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Embedded/Control Application Development",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "CUDA",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CUDA",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP FI/CO",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP FI/CO",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Wi-Fi",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Wi-Fi",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Sophos",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Sophos",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Windows OS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows OS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Sysprep",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Sysprep",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Chrome",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Chrome",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Edge",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Edge",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ProActive",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ProActive",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Amazon Bedrock",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Amazon Bedrock",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ブロックチェーン",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Blockchain",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Web3.0",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Web3.0",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "デジタル通貨",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Digital Currency",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "コンテキストエンジニアリング",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Context Engineering",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ffmpeg",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ffmpeg",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "MLflow",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "MLflow",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "YOLO",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "YOLO",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SCADA",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SCADA",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "REST",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "REST",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ITIL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ITIL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データマート",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Data Mart",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VMware vSphere",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VMware vSphere",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "サーバハードウェア",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Server Hardware",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "T-SQL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "T-SQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ユニットテスト",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Unit Testing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "struts",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Struts",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "要件ヒアリング",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Requirements Hearing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Salesforce Marketing Cloud",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Salesforce Marketing Cloud",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Pardot API",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Pardot API",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Signavio",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Signavio",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP WM/EWM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP WM/EWM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Redash",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Redash",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Microsoft Fabric",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft Fabric",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データガバナンス",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Data Governance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "スイッチング",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Switching",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "基地局",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Base Station",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Perl",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Perl",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "韓国語",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Korean Language",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "A-AUTO",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "A-AUTO",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IBM z/OS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IBM z/OS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "DataLine",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "DataLine",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "NIST CSF",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "NIST CSF",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ISO27001",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ISO27001",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SIEM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SIEM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "CISSP",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CISSP",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "CISM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CISM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "CSIRT",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CSIRT",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Finance",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Finance",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Legal",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Legal",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "A5SQL",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "A5SQL",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "MATLAB/Simulink",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "MATLAB/Simulink",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "MovableType",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "MovableType",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SD/MM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SD/MM",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "会計システム",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Accounting System",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ネットワークセキュリティ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Network Security",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Palo Alto Networks",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Palo Alto Networks",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Apache Spark",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Apache Spark",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クレジット系業務知識",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Credit Business Knowledge",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Adobe Creative Suite",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Adobe Creative Suite",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "InDesign",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "InDesign",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Premiere Pro",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Premiere Pro",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "After Effects",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "After Effects",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "OutSystems",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "OutSystems",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Power",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Power",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VIOS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VIOS",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "TXSeries",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "TXSeries",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IBM Power Systems",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IBM Power Systems",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "PowerVM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PowerVM",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Adobe Creative Cloud",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Adobe Creative Cloud",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Fusion Place",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Fusion Place",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "プロンプト設計",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Prompt Design",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Microsoft Purview",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft Purview",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "MPIP",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "MPIP",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Server",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Server",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "資産管理",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Asset Management",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "UiPath Studio",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "UiPath Studio",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Browser",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Browser",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "REFramework",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "REFramework",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "UiPath Orchestrator",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "UiPath Orchestrator",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Document Understanding",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Document Understanding",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Code Review",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Code Review",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "KARTE Action",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "KARTE Action",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "ファイヤーウォール",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Firewall",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Microsoft 365 Teams",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft 365 Teams",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Cloud Systems",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cloud Systems",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Cisco Email Security",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Cisco Email Security",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Automation",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Automation",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "IaaS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "IaaS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Azure PaaS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure PaaS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "バージョン管理ツール",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Version Control Tools",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "VMware ESXi",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VMware ESXi",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "JP1/BASE",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "JP1/BASE",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Azure Monitor",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Azure Monitor",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "PowerPlatform",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "PowerPlatform",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "GSuite",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "G Suite",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SAP Basis",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SAP Basis",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ネットワークサービス",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ネットワークサービス",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "システム更改",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "システム更改",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "SASE",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SASE",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Google Spreadsheet",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Google Spreadsheet",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "データ連携基盤",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "データ連携基盤",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "HP/UX",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "HP/UX",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Office 365",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Office 365",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Adobe AEM",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Adobe AEM",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "ヒートマップ",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ヒートマップ",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Microsoft 365 Apps",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Microsoft 365 Apps",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Batch File",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Batch File",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "CLIP STUDIO PAINT",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "CLIP STUDIO PAINT",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Adobe Photoshop",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Adobe Photoshop",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "WinActor",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "WinActor",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "VBScript",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "VBScript",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Waterfall",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Waterfall",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "複合機開発",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "複合機開発",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "SCSS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "SCSS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "gulp",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "gulp",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "クラウド基盤",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "クラウド基盤",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Windows Server 2016",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Windows Server 2016",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "eclipseの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "eclipse",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "javaでの開発経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Java",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "oracleの経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Claude API",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Claude API",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "Oracle Cloud Manufacturing",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Oracle Cloud Manufacturing",
+    "source": "gpt",
+    "confidence": 0.8
+  },
+  {
+    "skill": "z/OS",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "z/OS",
+    "source": "gpt",
+    "confidence": 0.9
+  },
+  {
+    "skill": "Firewall",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Firewall",
+    "source": "gpt",
+    "confidence": 0.9
+  }
+]

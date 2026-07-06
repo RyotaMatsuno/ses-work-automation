@@ -1,0 +1,33 @@
+{
+  "snapshot_type": "after",
+  "captured_at": "2026-06-29T04:42:24.165513+00:00",
+  "source": "live Notion fetch via scripts/metrics.py",
+  "total_records": 208,
+  "fields": {
+    "スキル": {
+      "filled": 201,
+      "empty": 7,
+      "fill_pct": 96.6
+    },
+    "単価（万円）": {
+      "filled": 191,
+      "empty": 17,
+      "fill_pct": 91.8
+    },
+    "最寄り駅": {
+      "filled": 139,
+      "empty": 69,
+      "fill_pct": 66.8
+    },
+    "経験年数": {
+      "filled": 122,
+      "empty": 86,
+      "fill_pct": 58.7
+    },
+    "稼働可能日": {
+      "filled": 172,
+      "empty": 36,
+      "fill_pct": 82.7
+    }
+  }
+}

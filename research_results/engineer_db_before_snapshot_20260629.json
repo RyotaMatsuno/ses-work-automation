@@ -1,0 +1,33 @@
+{
+  "snapshot_type": "before",
+  "captured_at": "2026-06-26T00:00:00+00:00",
+  "source": "engineer_extractor/SPEC.md §12 Success Criteria baseline",
+  "total_records": 208,
+  "fields": {
+    "スキル": {
+      "filled": 173,
+      "empty": 35,
+      "fill_pct": 83.2
+    },
+    "単価（万円）": {
+      "filled": 173,
+      "empty": 35,
+      "fill_pct": 83.2
+    },
+    "最寄り駅": {
+      "filled": 4,
+      "empty": 204,
+      "fill_pct": 1.9
+    },
+    "経験年数": {
+      "filled": 120,
+      "empty": 88,
+      "fill_pct": 57.7
+    },
+    "稼働可能日": {
+      "filled": 57,
+      "empty": 151,
+      "fill_pct": 27.4
+    }
+  }
+}

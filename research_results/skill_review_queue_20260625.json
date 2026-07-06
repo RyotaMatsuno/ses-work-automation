@@ -1,0 +1,1002 @@
+[
+  {
+    "skill": "br-a11.hm-f.jp",
+    "count": 4,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "https:",
+    "count": 4,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "営業中プロパー一覧",
+    "count": 4,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "POSITIVE",
+    "count": 3,
+    "class": "role",
+    "canonical_form": "POSITIVE",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "知見",
+    "count": 2,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "toc向け事業会社での業務経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "BusinessUser",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "現地作業経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "OnSiteWork",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "能動的行動",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "ProactiveBehavior",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "事務経験",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "ClericalExperience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "並行状況",
+    "count": 2,
+    "class": "process",
+    "canonical_form": "ParallelStatus",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "面談可能日",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "InterviewAvailability",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "L2",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "L2Support",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "L3",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "L3Support",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "常駐可",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "OnSitePresence",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "出社可能",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "OfficeAttendance",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "人員】",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Personnel",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "リモート併用",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "RemoteWork",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "勤怠良好",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "AttendanceRecord",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "EASY PLUS",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "EASYPLUS",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "プリンタ",
+    "count": 2,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "サテライトオフィス",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Satellite Office",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "車載",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "In-vehicle",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "COMPANY",
+    "count": 2,
+    "class": "role",
+    "canonical_form": "Company",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "アプリ知識",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "自己作業管理",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Self-management",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "顧客調整経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Customer Coordination Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "北品川駅",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "時給精算",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Hourly Settlement",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "随時",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Ad-hoc",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "海外対応",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "海外対応",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "メール対応",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "メール対応",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "主体性",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "主体性",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "実施",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "実施",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "採用人事",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "採用人事",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "人材採用",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "人材採用",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "採用人事としての業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "採用人事業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "業務を推進したご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "業務推進",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "ec系での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "ec系業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "営業部門での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "営業部門業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "生成aiを活用した業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "生成AI業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "実行経験",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "実行",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "社内ツール",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "社内ツール",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "先物",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "暗号資産",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "為替",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "金融商品の取引経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "金融商品取引経験",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "金融業界での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "金融業界業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "フィールドプランナー",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "フィールドプランナー",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "実行",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "実行",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "ai関連サービスの業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "AIサービス業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "調整",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "調整",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "スタートアップ企業での業務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "スタートアップ業務",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "大規模",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "devin",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Devin",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "シフト例",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Shift Example",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "作成スキル",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "Creation Skills",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "顧客折衝経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.7
+  },
+  {
+    "skill": "目標達成意識",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "ラキール出身",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "ラキール製品知見",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "今日明日面談予定",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "東日本橋",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "御徒町駅",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "練馬駅",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "最上流実務ベテラン",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Senior Practitioner",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "現場工事経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Construction Site Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "虎ノ門",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "コンシューマ制作経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Consumer Content Creator",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "柏駅",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "長期参画前提",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Long-term Participant",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "何かしらの社会人経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Social Worker",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "生保経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Life Insurance Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "蒲田",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "年齢不問",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "新横浜",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "建設業経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Construction Industry Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "通信業経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Telecommunications Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "社会人経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "General Professional Experience",
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "生保業務",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Life Insurance Operations",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "案件詳細",
+    "count": 1,
+    "class": "process",
+    "canonical_form": "Project Details",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "プロモーション実務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Promotion Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "pcキッティング経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "PC Kitting Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "運用実務経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Operations Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "顧客折衝のご経験",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Customer Negotiation Experience",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "ツール作成",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "ツール運用",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "金融業界",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "金融業界案件の参画経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "スパナ",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "米国株式知識",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "何らかのit案件の参画経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "品川港】",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "男性",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Male",
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "キッティング経験必須",
+    "count": 1,
+    "class": "role",
+    "canonical_form": "Kitting Experience Required",
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "大規模製造業",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "自動車業界",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "製薬業界経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "×損保】ツール開発",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "製薬メーカーでのご経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "下記",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.0
+  },
+  {
+    "skill": "会計領域",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "和歌山出張対応",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "コンビニシステム経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "小売関連経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "店舗関連経験者",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "ToDo",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ToDo",
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "生保業務経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.3
+  },
+  {
+    "skill": "ビジネスモデル立案",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "戦略策定",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "ビジネスモデル立案経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "戦略策定経験",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "金融業界知識",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "1 windows",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "microsoft",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "論理的思考能力",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "浜松町",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "金融商品知識尚可",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "金融知識習得意欲",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "国立駅",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.2
+  },
+  {
+    "skill": "ポイ活 等)開発におけるpdm経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "ポイ活 等)開発におけるpdm経験",
+    "source": "gpt",
+    "confidence": 0.4
+  },
+  {
+    "skill": "マンガ",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.2
+  },
+  {
+    "skill": "何かしらのdb経験",
+    "count": 1,
+    "class": "tech_skill",
+    "canonical_form": "何かしらのdb経験",
+    "source": "gpt",
+    "confidence": 0.6
+  },
+  {
+    "skill": "Senju Family",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "MIDMOST",
+    "count": 1,
+    "class": "unknown",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.5
+  },
+  {
+    "skill": "YAMAHA",
+    "count": 1,
+    "class": "garbage",
+    "canonical_form": null,
+    "source": "gpt",
+    "confidence": 0.1
+  }
+]
