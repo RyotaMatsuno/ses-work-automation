@@ -18,6 +18,7 @@ def test_exit_code2_reasons():
         cg.Reasons.error_response_invalid,
         cg.Reasons.error_missing_target_id,
         cg.Reasons.error_internal,
+        cg.Reasons.db_error_blocked,
     }
     exit1_reasons = {
         cg.Reasons.stopped_budget,
@@ -26,9 +27,9 @@ def test_exit_code2_reasons():
     }
     exit0_reasons = {cg.Reasons.ok}
 
-    # すべての reason enum が存在すること（14値）
+    # すべての reason enum が存在すること（14値 + db_error_blocked = 15値）
     all_reasons = {r.value for r in cg.Reasons}
-    assert len(all_reasons) == 14, f"Expected 14 reasons, got {len(all_reasons)}: {all_reasons}"
+    assert len(all_reasons) == 15, f"Expected 15 reasons, got {len(all_reasons)}: {all_reasons}"
 
 
 def test_skipped_duplicate_is_exit_code2(monkeypatch):

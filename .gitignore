@@ -85,3 +85,13 @@ local_server/pending_notified.json
   
 # Pipeline drafts (generated)  
 mail_pipeline/pipeline_drafts/ 
+
+
+# One-off ops scripts / local-only files (2026-07-06)
+/_*.py
+/法人化設計マスター.xlsx
+logs/unknown_skill_candidates/
+research_results/phase8_pdfs/
+
+# Gate review logs (may echo secrets from reviewed code)
+gate_checker/results/

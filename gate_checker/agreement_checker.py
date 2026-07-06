@@ -19,25 +19,21 @@ from pathlib import Path
 from typing import Any
 
 _SES_WORK = Path(__file__).resolve().parent.parent
-import sys as _sys_cg
 
-if str(_SES_WORK) not in _sys_cg.path:
-    _sys_cg.path.insert(0, str(_SES_WORK))
-try:
-    from common.ledger import can_spend as _can_spend
-    from common.ledger import record as _ledger_record
-
-    _LEDGER_OK = True
-except Exception:
-    _LEDGER_OK = False
+if str(_SES_WORK) not in sys.path:
+    sys.path.insert(0, str(_SES_WORK))
+from cost_guard import allowed as _cg_allowed
+from cost_guard import finalize as _cg_finalize
 
 try:
-    from cost_guard import allowed as _cg_allowed
-    from cost_guard import finalize as _cg_finalize
+    from common import ledger as _ledger
 
-    _CG_OK = True
-except Exception:
-    _CG_OK = False
+    _LEDGER_AVAILABLE = True
+except ImportError:
+    _ledger = None  # type: ignore[assignment]
+    _LEDGER_AVAILABLE = False
+
+LEDGER_BLOCKED_MARKER = "LedgerBlocked"
 
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -51,9 +47,11 @@ SES_WORK = BASE_DIR.parent
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
 OPENAI_URL = "https://api.openai.com/v1/chat/completions"
 SONNET_MODEL = "claude-sonnet-4-6"
-GATE_CHECKER_BLOCK_TYPE = "gate_checker"
+GATE_CHECKER_BLOCK_TYPE = "gate_check"
+GPT_PHASE = "gate"
 SONNET_PHASE = "review_sonnet"
-TIMEOUT_SECONDS = 45
+SCRIPT_NAME = "gate_check.py"  # CostGuard・ledger 共通（SPEC §7）
+TIMEOUT_SECONDS = 90
 SONNET_MAX_TOKENS = 3000
 
 logger = logging.getLogger("agreement_checker")
@@ -96,8 +94,32 @@ def _load_env() -> dict[str, str]:
     return env
 
 
-def _sonnet_target_id(user_prompt: str) -> str:
-    return hashlib.sha256(user_prompt.encode("utf-8")).hexdigest()[:32]
+def _target_id(user_prompt: str, suffix: str = "") -> str:
+    raw = f"{suffix}:{user_prompt[:500]}"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:32]
+
+
+def _ledger_can_spend(est_in: int, est_out: int, model: str) -> bool:
+    if not _LEDGER_AVAILABLE:
+        return True
+    try:
+        return _ledger.can_spend(est_in, est_out, model)
+    except Exception as exc:
+        logger.warning("ledger.can_spend 呼び出し失敗（スキップ）: %s", exc)
+        return True
+
+
+def _ledger_record(in_tokens: int, out_tokens: int, model: str) -> None:
+    if not _LEDGER_AVAILABLE:
+        return
+    try:
+        _ledger.record(in_tokens, out_tokens, model, SCRIPT_NAME, phase="gate")
+    except Exception as exc:
+        logger.warning("ledger.record 呼び出し失敗: %s", exc)
+
+
+def is_ledger_blocked(result: ModelResult) -> bool:
+    return result.verdict == "ERROR" and LEDGER_BLOCKED_MARKER in (result.error or "")
 
 
 def parse_judgment(review_text: str) -> tuple[str, str]:
@@ -109,7 +131,7 @@ def parse_judgment(review_text: str) -> tuple[str, str]:
     for pattern in patterns:
         matches = re.findall(pattern, review_text, flags=re.IGNORECASE)
         if matches:
-            raw = matches[-1]
+            raw = matches[0]  # 先頭判定優先（1行目判定プロンプト対応）
             if "条件付き" in raw:
                 return "条件付きGO", "OK"
             if raw.upper() == "GO":
@@ -153,30 +175,34 @@ def call_sonnet(system_prompt: str, user_prompt: str, api_key: str) -> ModelResu
     if not api_key:
         return ModelResult("sonnet", "", "ERROR", "ERROR", error="ANTHROPIC_API_KEY未設定")
 
-    decision = None
-    error_kind = ""
-    in_tok = 0
-    out_tok = 0
-    result: ModelResult | None = None
-
-    if _CG_OK:
-        decision = _cg_allowed(
-            phase=SONNET_PHASE,
-            block_type=GATE_CHECKER_BLOCK_TYPE,
-            target_id=_sonnet_target_id(user_prompt),
-            est_in=len(user_prompt) // 4 + len(system_prompt) // 4 + 200,
-            est_out=SONNET_MAX_TOKENS,
-            model_hint=SONNET_MODEL,
-            script="gate_checker",
+    est_in = len(user_prompt) // 4 + len(system_prompt) // 4 + 200
+    est_out = SONNET_MAX_TOKENS
+    if not _ledger_can_spend(est_in, est_out, SONNET_MODEL):
+        return ModelResult(
+            "sonnet",
+            "",
+            "ERROR",
+            "ERROR",
+            error=f"{LEDGER_BLOCKED_MARKER}: ledger.can_spend()=False",
         )
-        if decision.exit_code != 0:
-            return ModelResult(
-                "sonnet",
-                "",
-                "ERROR",
-                "ERROR",
-                error=f"CostGuard blocked: {decision.reason}",
-            )
+
+    decision = _cg_allowed(
+        phase=SONNET_PHASE,
+        block_type=GATE_CHECKER_BLOCK_TYPE,
+        target_id=_target_id(user_prompt, "sonnet"),
+        est_in=est_in,
+        est_out=est_out,
+        model_hint=SONNET_MODEL,
+        script=SCRIPT_NAME,
+    )
+    if not decision.allowed:
+        return ModelResult(
+            "sonnet",
+            "",
+            "ERROR",
+            "ERROR",
+            error=f"CostGuard blocked: {decision.reason}",
+        )
 
     payload = {
         "model": SONNET_MODEL,
@@ -186,9 +212,13 @@ def call_sonnet(system_prompt: str, user_prompt: str, api_key: str) -> ModelResu
         "messages": [{"role": "user", "content": user_prompt}],
     }
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    error_kind = ""
+    in_tok = 0
+    out_tok = 0
+    result: ModelResult | None = None
 
     try:
-        for attempt in range(2):
+        for attempt in range(3):
             try:
                 req = urllib.request.Request(
                     ANTHROPIC_URL,
@@ -207,28 +237,24 @@ def call_sonnet(system_prompt: str, user_prompt: str, api_key: str) -> ModelResu
                 usage = data.get("usage", {})
                 in_tok = int(usage.get("input_tokens", 0))
                 out_tok = int(usage.get("output_tokens", 0))
-                if _LEDGER_OK:
-                    try:
-                        _ledger_record(
-                            in_tok or 3000,
-                            out_tok or 3000,
-                            SONNET_MODEL,
-                            "gate_checker",
-                            phase=SONNET_PHASE,
-                        )
-                    except Exception:
-                        pass
                 judgment, verdict = parse_judgment(text)
                 result = ModelResult("sonnet", text, verdict, judgment)
+                _ledger_record(in_tok, out_tok, SONNET_MODEL)
                 break
             except urllib.error.HTTPError as e:
                 body_str = e.read().decode("utf-8", errors="replace")[:500]
                 logger.error("Sonnet HTTPエラー: status=%s body=%s", e.code, body_str)
-                if e.code == 429 and attempt == 0:
+                if e.code == 429 and attempt < 2:
                     time.sleep(10)
                     continue
                 error_kind = "permanent_api"
                 result = ModelResult("sonnet", "", "ERROR", "ERROR", error=f"HTTP {e.code}: {body_str}")
+                break
+            except urllib.error.URLError as exc:
+                # タイムアウト（socket.timeout）含む。リトライしない
+                logger.error("Sonnet URLError（タイムアウト含む、リトライなし）: %s", exc)
+                error_kind = "transient"
+                result = ModelResult("sonnet", "", "ERROR", "ERROR", error=f"URLError: {exc}")
                 break
             except Exception as exc:
                 logger.error("Sonnet呼び出し失敗: %s", exc)
@@ -241,7 +267,7 @@ def call_sonnet(system_prompt: str, user_prompt: str, api_key: str) -> ModelResu
             result = ModelResult("sonnet", "", "ERROR", "ERROR", error="Sonnet一時利用不可")
         return result
     finally:
-        if _CG_OK and decision is not None and decision.allowed:
+        if decision.allowed:
             try:
                 _cg_finalize(
                     decision,
@@ -255,9 +281,39 @@ def call_sonnet(system_prompt: str, user_prompt: str, api_key: str) -> ModelResu
 
 
 def call_gpt4o_simple(system_prompt: str, user_prompt: str, api_key: str) -> ModelResult:
-    """GPT-4o でレビューを実行（agreement_checker 経由の薄いラッパー）。"""
+    """GPT-4o でレビューを実行（cost_guard.allowed()/finalize() 経由）。"""
     if not api_key:
         return ModelResult("gpt-4o", "", "ERROR", "ERROR", error="OPENAI_API_KEY未設定")
+
+    est_in = max(500, len(user_prompt) // 3 + len(system_prompt) // 3)
+    est_out = 3000
+    gpt_model = "gpt-4o"
+    if not _ledger_can_spend(est_in, est_out, gpt_model):
+        return ModelResult(
+            "gpt-4o",
+            "",
+            "ERROR",
+            "ERROR",
+            error=f"{LEDGER_BLOCKED_MARKER}: ledger.can_spend()=False",
+        )
+
+    decision = _cg_allowed(
+        phase=GPT_PHASE,
+        block_type=GATE_CHECKER_BLOCK_TYPE,
+        target_id=_target_id(user_prompt, "gpt"),
+        est_in=est_in,
+        est_out=est_out,
+        model_hint=gpt_model,
+        script=SCRIPT_NAME,
+    )
+    if not decision.allowed:
+        return ModelResult(
+            "gpt-4o",
+            "",
+            "ERROR",
+            "ERROR",
+            error=f"CostGuard blocked: {decision.reason}",
+        )
 
     payload = {
         "model": "gpt-4o",
@@ -269,42 +325,67 @@ def call_gpt4o_simple(system_prompt: str, user_prompt: str, api_key: str) -> Mod
         "temperature": 0,
     }
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    req = urllib.request.Request(
-        OPENAI_URL,
-        data=body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        method="POST",
-    )
-    for attempt in range(3):
-        try:
-            with urllib.request.urlopen(req, timeout=TIMEOUT_SECONDS) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-            text = data["choices"][0]["message"]["content"] or ""
-            if _LEDGER_OK:
-                try:
-                    usage = data.get("usage", {})
-                    _ledger_record(
-                        usage.get("prompt_tokens", 3000),
-                        usage.get("completion_tokens", 3000),
-                        "gpt-4o",
-                        "agreement_checker_gpt",
-                    )
-                except Exception:
-                    pass
-            judgment, verdict = parse_judgment(text)
-            return ModelResult("gpt-4o", text, verdict, judgment)
-        except urllib.error.HTTPError as e:
-            body_str = e.read().decode("utf-8", errors="replace")[:200]
-            if e.code == 429 and attempt < 2:
-                time.sleep(2**attempt)
-                continue
-            return ModelResult("gpt-4o", "", "ERROR", "ERROR", error=f"HTTP {e.code}: {body_str}")
-        except Exception as exc:
-            return ModelResult("gpt-4o", "", "ERROR", "ERROR", error=str(exc))
-    return ModelResult("gpt-4o", "", "ERROR", "ERROR", error="API呼び出し失敗")
+    error_kind = ""
+    in_tok = 0
+    out_tok = 0
+    result: ModelResult | None = None
+
+    try:
+        for attempt in range(3):
+            try:
+                req = urllib.request.Request(
+                    OPENAI_URL,
+                    data=body,
+                    headers={
+                        "Content-Type": "application/json",
+                        "Authorization": f"Bearer {api_key}",
+                    },
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=TIMEOUT_SECONDS) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                text = data["choices"][0]["message"]["content"] or ""
+                usage = data.get("usage", {})
+                in_tok = int(usage.get("prompt_tokens", 0) or est_in)
+                out_tok = int(usage.get("completion_tokens", 0) or est_out)
+                judgment, verdict = parse_judgment(text)
+                result = ModelResult("gpt-4o", text, verdict, judgment)
+                _ledger_record(in_tok, out_tok, gpt_model)
+                break
+            except urllib.error.HTTPError as e:
+                body_str = e.read().decode("utf-8", errors="replace")[:200]
+                if e.code == 429 and attempt < 2:
+                    time.sleep(2**attempt)
+                    continue
+                error_kind = "permanent_api"
+                result = ModelResult("gpt-4o", "", "ERROR", "ERROR", error=f"HTTP {e.code}: {body_str}")
+                break
+            except urllib.error.URLError as exc:
+                # タイムアウト（socket.timeout）含む。リトライしない
+                logger.error("GPT URLError（タイムアウト含む、リトライなし）: %s", exc)
+                error_kind = "transient"
+                result = ModelResult("gpt-4o", "", "ERROR", "ERROR", error=f"URLError: {exc}")
+                break
+            except Exception as exc:
+                error_kind = "transient"
+                result = ModelResult("gpt-4o", "", "ERROR", "ERROR", error=str(exc))
+                break
+        if result is None:
+            error_kind = error_kind or "transient"
+            result = ModelResult("gpt-4o", "", "ERROR", "ERROR", error="API呼び出し失敗")
+        return result
+    finally:
+        if decision.allowed:
+            try:
+                _cg_finalize(
+                    decision,
+                    in_tokens=in_tok,
+                    out_tokens=out_tok,
+                    success=(error_kind == "" and result is not None and result.verdict != "ERROR"),
+                    error_kind=error_kind,
+                )
+            except Exception:
+                pass
 
 
 def judge(
@@ -319,8 +400,22 @@ def judge(
       両者 NG             → NG（GPT採用）
       片方 NG             → NG（保守的、NG側採用）
       Sonnet ERROR        → GPT単独判定にフォールバック
-      confidence < 0.6    → 一段階保守的（GO→条件付きGO、条件付きGO→NG）
+      GPT ERROR           → Sonnet単独判定にフォールバック
+      両者 ERROR          → NG（保守的）
     """
+    if sonnet_result.verdict == "ERROR" and gpt_result.verdict == "ERROR":
+        return AgreementDecision(
+            final_verdict="NG",
+            final_judgment="NG",
+            adopted_model="両者エラー",
+            adopted_result=gpt_result,
+            gpt_result=gpt_result,
+            sonnet_result=sonnet_result,
+            sonnet_available=False,
+            agreement=False,
+            reason=f"両者エラー → 保守的NG: GPT={gpt_result.error} / Sonnet={sonnet_result.error}",
+        )
+
     if sonnet_result.verdict == "ERROR":
         return AgreementDecision(
             final_verdict=gpt_result.verdict if gpt_result.verdict != "ERROR" else "NG",
@@ -332,6 +427,19 @@ def judge(
             sonnet_available=False,
             agreement=False,
             reason=f"Sonnetエラーのためフォールバック: {sonnet_result.error}",
+        )
+
+    if gpt_result.verdict == "ERROR":
+        return AgreementDecision(
+            final_verdict=sonnet_result.verdict,
+            final_judgment=sonnet_result.judgment,
+            adopted_model="sonnet（GPTフォールバック）",
+            adopted_result=sonnet_result,
+            gpt_result=gpt_result,
+            sonnet_result=sonnet_result,
+            sonnet_available=True,
+            agreement=False,
+            reason=f"GPTエラーのためSonnetフォールバック: {gpt_result.error}",
         )
 
     gpt_ok = gpt_result.verdict == "OK"
@@ -393,12 +501,6 @@ def run_dual_review(
 
     openai_key = env.get("OPENAI_API_KEY", "")
     anthropic_key = env.get("ANTHROPIC_API_KEY", "")
-
-    if _LEDGER_OK:
-        if not _can_spend(3000, 3000, "gpt-4o"):
-            raise RuntimeError("[agreement_checker] CostGuard: 日次/月次上限超過（GPT）")
-        if not _can_spend(3000, 3000, SONNET_MODEL):
-            raise RuntimeError("[agreement_checker] CostGuard: 日次/月次上限超過（Sonnet）")
 
     with ThreadPoolExecutor(max_workers=2) as executor:
         fut_gpt = executor.submit(call_gpt4o_simple, system_prompt, user_prompt, openai_key)

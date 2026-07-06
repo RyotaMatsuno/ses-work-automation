@@ -8,7 +8,7 @@
 
 ## Phase 0: ゲート①（設計レビュー）
 
-- [ ] ゲート①再実施：SPEC.md v2.1 をレビュー → OK 取得
+- [!] ゲート①再実施：SPEC.md v2.1 をレビュー → OK 取得 （2026-07-06 GPT-4o判定:NG）
   - 実行モデル: 当面は `python gate_checker/spec_v2_review_by_gpt54.py` 経由で gpt-5.4
   - 既存 `gate_check.py --phase design` は GPT-4o ハルシネーション問題があるためWeek1中は使わない（別タスクで対応）
 
@@ -16,7 +16,7 @@
 
 ## Phase 1: 新規モジュール作成
 
-- [ ] `gate_checker/phase_models.py` 新規作成
+- [!] `gate_checker/phase_models.py` 新規作成 （2026-07-06 GPT-4o判定:NG）
   - `PHASE_MODEL_MAP` 定数（6フェーズ × モデル × クラス）
   - `FALLBACK_MODEL = "gpt-4o"` / `FALLBACK_CLASS = "medium"`
   - `resolve_model(phase, available_models=None) -> tuple[str, str, bool]` 関数
@@ -25,14 +25,14 @@
     - `GATE_MODEL_CLASS_{PHASE}` でクラス上書き（v2.1新規）
   - available_models 未マッチで fallback (gpt-4o, medium, True) を返す
 
-- [ ] `gate_checker/cost_calc.py` 新規作成
+- [!] `gate_checker/cost_calc.py` 新規作成 （2026-07-06 GPT-4o判定:NG）
   - `MODEL_PRICING` 単価表（5モデル分: nano/mini/5.4/codex/gpt-4o）
   - `FALLBACK_RATE = {"in": 2.50, "out": 10.00}`（gpt-4o相当）
   - `calc_actual_cost(model, in_tokens, out_tokens) -> tuple[float, bool]`
     - 未知モデルは FALLBACK_RATE で計算し fallback_used=True を返す
   - `get_cost_threshold(model_class: str) -> float`（軽=$0.025/中=$0.10/重=$0.15）
 
-- [ ] `gate_checker/costguard_handler.py` 新規作成
+- [!] `gate_checker/costguard_handler.py` 新規作成 （2026-07-06 GPT-4o判定:NG）
   - `handle_costguard_blocked(phase, target, model, block_type, env) -> tuple[str, bool]`
     - 戻り値: (task_id, suppressed)
     - block_type: `"costguard"` または `"daily_limit"`
@@ -49,29 +49,29 @@
 
 ## Phase 2: gate_check.py 改修
 
-- [ ] `REVIEW_MODEL = "gpt-4o"` 定数を削除
-- [ ] `DAILY_CALL_LIMIT = 10` → `int(os.environ.get("GATE_DAILY_CALL_LIMIT") or 30)`
-- [ ] 起動時に `OpenAI.models.list()` を1回呼び、`AVAILABLE_MODELS: set[str]` を生成
+- [!] `REVIEW_MODEL = "gpt-4o"` 定数を削除 （2026-07-06 GPT-4o判定:NG）
+- [!] `DAILY_CALL_LIMIT = 10` → `int(os.environ.get("GATE_DAILY_CALL_LIMIT") or 30)` （2026-07-06 GPT-4o判定:NG）
+- [!] 起動時に `OpenAI.models.list()` を1回呼び、`AVAILABLE_MODELS: set[str]` を生成 （2026-07-06 GPT-4o判定:NG）
   - 失敗時は空 set + WARNING ログ（API障害時も実行継続）
-- [ ] `call_gpt4o()` 内部でフェーズ別モデル解決:
+- [!] `call_gpt4o()` 内部でフェーズ別モデル解決: （2026-07-06 GPT-4o判定:NG）
   - `model, model_class, fallback_used = resolve_model(phase, AVAILABLE_MODELS)`
   - OpenAI client.chat.completions.create に `model=model` を渡す
   - fallback_used=True なら WARNING + LINE通知（push_or_log、残80通閾値）
-- [ ] API呼び出し**前**に `check_daily_limit()`:
+- [!] API呼び出し**前**に `check_daily_limit()`: （2026-07-06 GPT-4o判定:NG）
   - 超過していたら API打たずに `handle_costguard_blocked(phase, target, model, "daily_limit", env)` 呼び出し
   - exit code 2
-- [ ] CostGuard `can_spend()` 拒否時:
+- [!] CostGuard `can_spend()` 拒否時: （2026-07-06 GPT-4o判定:NG）
   - `handle_costguard_blocked(phase, target, model, "costguard", env)` 呼び出し
   - exit code 2
-- [ ] API応答後に装置2チェック:
+- [!] API応答後に装置2チェック: （2026-07-06 GPT-4o判定:NG）
   - `actual_cost, cost_calc_fallback = calc_actual_cost(model, in_tokens, out_tokens)`
   - `threshold = get_cost_threshold(model_class)`
   - `actual_cost > threshold` なら `results/cost_alerts.jsonl` 追記
   - 抑制キー: `(yyyymmdd, phase, model_class)` で同日初回のみLINE通知（push_or_log、残150通閾値）
-- [ ] 結果JSON に新フィールド追加:
+- [!] 結果JSON に新フィールド追加: （2026-07-06 GPT-4o判定:NG）
   - `model_class` / `original_model` / `fallback_used` / `actual_cost_usd` / `cost_calc_fallback` / `cost_alert_triggered` / `cost_alert_threshold` / `daily_limit`
-- [ ] TASKS.md更新時の suffix を `（{日付} GPT-4o判定:NG）` → `（{日付} {model}判定:NG）` に変更
-- [ ] TASKS.md誤爆防止:
+- [!] TASKS.md更新時の suffix を `（{日付} GPT-4o判定:NG）` → `（{日付} {model}判定:NG）` に変更 （2026-07-06 GPT-4o判定:NG）
+- [!] TASKS.md誤爆防止: （2026-07-06 GPT-4o判定:NG）
   - 既に `[!]` または `[x]` がついている行は更新しない
   - `ゲート①` を含む行が複数ある場合、最初の `[ ]` のみ更新
 

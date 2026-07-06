@@ -1,8 +1,8 @@
 # SPEC.md - 自動ダブルチェックシステム（gate_checker）
 
-バージョン: 2.2（Week1拡張版、GPT-5.4 二次レビューを反映）
+バージョン: 2.4（wall_hitting CostGuard被覆 + Sonnetタイムアウト修正）
 作成日: 2026-06-09（v1.0）
-更新日: 2026-06-16（v2.2）
+更新日: 2026-07-06（v2.4）
 
 ---
 
@@ -14,6 +14,34 @@
 | 2.0 | フェーズ別モデルルーティング / DAILY_CALL_LIMIT段階値 / 装置2 / 装置3 |
 | 2.1 | モデル不在fallback統一 / CostGuard定数明記 / 装置3集約キー複合化 / 未知モデルfallback計算 / exit code 2互換性タスク追加 / 通知優先順位明文化 / class override対応 / DAILY_CALL_LIMIT発火タイミング明記 |
 | 2.2 | **CostGuard判定順序を統一（check_daily_limit→can_spend）** / **装置3重複時の挙動を「完全スキップ」に統一** / **§5-5の章番号誤記修正(§14→§15)** / **models.list()失敗時の明文化（空set→全phase fallback）** |
+| 2.3 | **§13 通知仕様を現行コードに同期** / **agreement_checker（GPT+Sonnet）に ledger.can_spend/record 統合** / **resolve_human_review役割明記** |
+| 2.4 | **wall_hitting.py CostGuard被覆完了（can_spend前 + record後・実トークン）** / **agreement_checker TIMEOUT_SECONDS 45→90・URLErrorノーリトライ追加** |
+
+---
+
+## 0-B. 現行実装状況（2026-07-06時点）
+
+> **注意**: このSPECはv2.x全体の設計書です。以下は現行実装の範囲を示します。
+
+### 実装済み（gate_check.py 現行版）
+- 6フェーズ対応ゲートチェック
+- GPT-4o + Claude Sonnet 4.6 合意判定（agreement_checker）
+- DAILY_CALL_LIMIT チェック（`.env` GATE_DAILY_CALL_LIMIT で変更可）
+- CostGuard（ledger.can_spend / record）統合
+- NG時LINE通知（§13-1 仕様）
+- TASKS.md ���ートフラグ更新
+- 結果JSON保存（基本フィールド）
+- 技術的NG時 wall_hitting.py 自動実行
+
+### Week2以降実装予定
+- §3 フェーズ別モデルルーティング（phase_models.py）→ 現在 gpt-4o 固定
+- §5 装置2: 単発コスト警告（cost_calc.py）
+- §6 装置3: CostGuard停止時 Notion 自動起票（costguard_handler.py）
+- §8 結果JSON追加フィールド（model_class / actual_cost_usd 等）
+- §13 残通数制御（push_or_log）→ 現在 send_line_notification は残通数チェックなしで送信
+- exit code 2 呼び出し元互換性確認（§2）
+
+**コードレビュー時は「Week2以降実装予定」の機能（§3フェーズ別ルーティング・§5装置2・§6装置3・§8追加JSONフィールド）が未実装であることは想定範囲内であり、NG判定の根拠としないこと。**
 
 ---
 
@@ -119,7 +147,7 @@ def resolve_model(phase: str, available_models: set[str] | None = None) -> tuple
 
 ### 3-4. agreement_checker との関係
 
-- `run_dual_review()`（GPT-4o + Gemini）は **v2.x スコープでは変更しない**
+- `run_dual_review()`（GPT-4o + Claude Sonnet 4.6）が合意判定ライブラリとして稼働中
 - v2.2 で `call_gpt4o()` の中身を「フェーズ別モデル呼び出し」に置き換える
 - 関数名は v1.0 互換のため `call_gpt4o()` のまま残す（実態と命名のズレを許容、Week2 で命名整理予定）
 
@@ -351,9 +379,16 @@ def handle_costguard_blocked(
 3. API呼び出し
 4. `record()` + `increment_daily_counter()` （API後）
 
-**v2.x で `agreement_checker` 経由の Gemini 呼び出しは ledger.record() 済み**（既存実装で `_ledger_record(3000, 3000, "gemini-2.5-flash", "agreement_checker_gemini")` あり）。Gemini単価は ledger.py の default rate (1.0/5.0) で記録される点に注意（実コストとはズレる可能性あり、Week2で修正検討）。
+**二層ガード構造（2026-07-06確認済み）**:
 
-**wall_hitting.py 呼び出しはWeek2でCostGuard被覆を確認する**（v2.x スコープ外、原則 wall_hitting 内部で can_spend / record していること前提だが未確認）。
+| 層 | 担当 | 実装場所 |
+|---|---|---|
+| 第1層（cost_guard.allowed/finalize） | agreement_checker.py の `call_gpt4o_simple` / `call_sonnet` 内 | `_cg_allowed()` / `_cg_finalize()` |
+| 第2層（ledger.can_spend）| gate_check.py の `run_gate_check()` 内（API呼び出し前に両モデル分チェック → False なら exit 2） | `_ledger.can_spend()` ×2 |
+
+`run_gate_check()` は `cost_guard.allowed()` を直接呼ばない設計（agreement_checker 内部で呼ぶため冗長を避ける）。
+
+**wall_hitting.py**: 各LLM呼び出し成功後に実トークン（取得不能時は推定値）で `ledger.record(script="wall_hitting.py", phase="wallhit")` を呼び出す。被覆完了（2026-07-06）。
 
 ---
 
@@ -445,7 +480,7 @@ FALLBACK_RATE = {"in": 2.50, "out": 10.00}
 
 # その他
 MAX_RETRIES = 3
-SCRIPT_NAME = "gate_checker"
+SCRIPT_NAME = "gate_check.py"  # ledger.record に使用（§7）
 ```
 
 ---
@@ -494,7 +529,7 @@ SCRIPT_NAME = "gate_checker"
   - `--phase requirements --file SPEC.md` 動作
   - `--phase implementation --dir gate_checker` 動作
   - TASKS.md の [!] 更新動作
-- agreement_checker（GPT-4o + Gemini）の動作不変
+- agreement_checker（GPT-4o + Claude Sonnet 4.6）の動作不変
 
 ### TASKS.md 誤爆防止テスト
 - 既に `[!]` がついている行は更新されない
@@ -519,14 +554,21 @@ LINE月200通枠を守るため、抑制順位:
 | 優先度 | 通知種別 | 抑制 | 残通数閾値 |
 |---:|---|---|---:|
 | 1 | 装置3（CostGuard停止） | 重複起票防止のみ、原則送信 | 残10通でも送る |
-| 2 | NG + 仕様/致命的（松野確認要） | 同一target+phase で1日1回 | 残20通切ったらスキップ |
-| 3 | 松野確認要（OK時） | 同一target+phase で1日1回 | 残50通切ったらスキップ |
+| 2 | NG（全件）1行通知・返信要求なし | 同一target+phase で1日1回 | 残20通切ったらスキップ |
+| 3 | **廃止** ~~松野確認要（OK時）~~ | - | - |
 | 4 | モデル不在fallback発動 | 1日1回（モデル名キー、phase 跨いで1回に集約） | 残80通切ったらスキップ |
 | 5 | 装置2（単発コスト警告） | 同日同phase同class で1日1回 | 残150通切ったらスキップ |
 
 `push_or_log` で残通数を取得し、上記閾値で判定する。
 
-**Week2課題**: 同一実行内で複数通知（fallback + 松野確認 + 装置2が同時発生）が起きた場合の集約は v2.x スコープ外。Week2 で「実行ID単位で1通に統合」を検討。
+### 13-1. 現行通知仕様（v2.3同期）
+
+- **verdict=OK**: LINE通知なし。ログ出力 + results JSON への記録のみ。
+- **verdict=NG**: 1行通知（`[gate] {phase} NG: {filename} → ジョブズ対応中・返信不要`）。返信要求なし。
+- **松野判断の提起**: ジョブズが Claude.ai チャネルで行う。コードは関与しない。
+- **`resolve_human_review()` の役割**: NG内容の分類（仕様的/技術的）を `needs_human_review` フィールドとして results JSON に記録するのみ。LINE通知の有無には影響しない（NG全件通知・OK全件無通知で統一）。
+
+**Week2課題**: 同一実行内で複数通知（fallback + 装置2が同時発生）が起きた場合の集約は v2.x スコープ外。Week2 で「実行ID単位で1通に統合」を検討。
 
 ---
 
@@ -538,9 +580,8 @@ LINE月200通枠を守るため、抑制順位:
 | gpt-5.4-nano/codex の正式名 | 公式と異なる可能性 | 起動時に list_models() で検証、不在なら fallback gpt-4o |
 | Notion API レート制限 | 装置3で連発起票するとhit | 複合キー (date+block_type+phase) で同日完全スキップ |
 | LINE 月200通上限 | 装置2+3で通知過多になる可能性 | §13 通知優先順位＋残通数別閾値 |
-| agreement_checker | フェーズ別モデルと別系統で動作 | v2.x スコープ外、Week2 で統一 |
-| wall_hitting.py | CostGuard被覆が未検証 | Week2 で被覆確認 |
-| Gemini単価 | ledger.py default rate (1/5) で記録、実コストとズレる可能性 | Week2 で修正検討 |
+| agreement_checker | GPT-4o + Claude Sonnet 4.6 で稼働。フェーズ別モデルとは別系統 | v2.x スコープ外、Week2 で統一検討 |
+| wall_hitting.py | ~~CostGuard被覆が未検証~~ | 2026-07-06 被覆完了（can_spend前 + record後） |
 | exit code 2 既存呼び出し側 | 旧 returncode==1 前提で動く可能性 | TASKS Phase 7 で棚卸し |
 | OpenAI.models.list() 失敗 | 全 phase fallback でLINE通知集中 | モデル名キーで日次1回に集約（§13） |
 | gate_check.py 自身のハルシネーション | 既知バグあり（2026-06-16確認） | Week1 中はSPEC/コードレビューを別経路（spec_v2_review_by_gpt54.py）で実施、別タスク化済 |
@@ -555,3 +596,5 @@ LINE月200通枠を守るため、抑制順位:
 | 2026-06-16 | 2.0 | フェーズ別モデルルーティング / DAILY_CALL_LIMIT段階値 / 装置2 / 装置3 |
 | 2026-06-16 | 2.1 | モデル不在fallback統一 / CostGuard定数明記 / 装置3集約キー複合化 / 未知モデルfallback計算 / exit code 2互換性タスク追加 / 通知優先順位明文化 / class override対応 / DAILY_CALL_LIMIT発火タイミング明記 |
 | 2026-06-16 | 2.2 | CostGuard判定順序統一（daily_limit→costguard）/ 装置3重複時を「完全スキップ」に統一 / §5-5の章番号誤記修正（§14→§15）/ models.list()失敗時を空set→全phase fallback と明文化 / estimate_cause()に block_type 引数追加 / original_model 埋め方仕様明記 / Week2課題（同一実行内通知集約）追加 |
+| 2026-07-06 | 2.3 | §13 通知仕様を現行コードに同期: OK時=通知なし（ログ+results JSON）/ NG時=1行・返信不要 / resolve_human_review役割明記（results JSON記録のみ）/ gate_check.py に ledger.can_spend/record 統合（exit code 2対応） |
+| 2026-07-06 | 2.4 | wall_hitting.py CostGuard被覆完了（§7更新）/ agreement_checker TIMEOUT_SECONDS 45→90・URLErrorノーリトライ追加 |
