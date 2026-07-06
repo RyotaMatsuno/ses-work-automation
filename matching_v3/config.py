@@ -27,6 +27,30 @@ CASE_DB_ID = "343450ff-37c0-81e4-934e-f25f90284a3c"
 DEFAULT_STRUCTURER_MODEL = STRUCTURER_MODEL or "gpt-4.1-nano"
 MAX_PROFILE_AGE_DAYS = int(os.environ.get("MAX_PROFILE_AGE_DAYS", "21"))
 
+HARD_FILTERS = {
+    "rate": False,
+    "remote_location": False,
+    "skill_threshold": False,
+    "start_timing": False,
+}
+
+# Phase 6: 3層フィルタ — Hard層は絶対条件のみ（Soft層へ移行した項目は上記False）
+HARD_FILTERS_V6 = {
+    "proposal_flag": True,
+    "active_working": True,
+    "late_start_months": 3,
+}
+
+SCORE_WEIGHTS = {
+    "skill": 0.5,
+    "location": 0.15,
+    "experience": 0.15,
+    "availability": 0.2,
+}
+
+SKILL_MATCH_THRESHOLD = 0.5
+MAX_CANDIDATES_BEFORE_JUDGE = 100
+
 
 class Config:
     def __init__(self, env_path: str | Path = ENV_PATH, users_path: str | Path = USERS_PATH) -> None:

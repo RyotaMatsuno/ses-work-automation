@@ -117,6 +117,12 @@ class ProcessedDB:
         with self._connect() as conn:
             self._increment_daily_stat(conn, staleness_excluded_count=count)
 
+    def record_oov_skip(self, count: int = 1) -> None:
+        if count <= 0:
+            return
+        with self._connect() as conn:
+            self._increment_daily_stat(conn, oov_skip_count=count)
+
     def recompute_daily_stats(self, stat_date: str | None = None) -> dict[str, int | float | str]:
         """processed_cases から daily_stats を再集計して冪等 upsert する。"""
         with self._connect() as conn:
@@ -334,6 +340,12 @@ class ProcessedDB:
                 )
             except Exception:
                 pass
+            try:
+                conn.execute(
+                    "ALTER TABLE daily_stats ADD COLUMN oov_skip_count INTEGER DEFAULT 0"
+                )
+            except Exception:
+                pass
 
     @staticmethod
     def _increment_daily_stat(
@@ -345,14 +357,15 @@ class ProcessedDB:
         match_count: int = 0,
         staleness_excluded_count: int = 0,
         extraction_retry_count: int = 0,
+        oov_skip_count: int = 0,
     ) -> None:
         conn.execute(
             """
             INSERT INTO daily_stats (
                 stat_date, api_calls, total_cost_usd, ng_count, review_count, match_count,
-                staleness_excluded_count, extraction_retry_count
+                staleness_excluded_count, extraction_retry_count, oov_skip_count
             )
-            VALUES (date('now', '+9 hours'), ?, ?, ?, ?, ?, ?, ?)
+            VALUES (date('now', '+9 hours'), ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(stat_date) DO UPDATE SET
                 api_calls = daily_stats.api_calls + excluded.api_calls,
                 total_cost_usd = daily_stats.total_cost_usd + excluded.total_cost_usd,
@@ -360,7 +373,8 @@ class ProcessedDB:
                 review_count = daily_stats.review_count + excluded.review_count,
                 match_count = daily_stats.match_count + excluded.match_count,
                 staleness_excluded_count = daily_stats.staleness_excluded_count + excluded.staleness_excluded_count,
-                extraction_retry_count = daily_stats.extraction_retry_count + excluded.extraction_retry_count
+                extraction_retry_count = daily_stats.extraction_retry_count + excluded.extraction_retry_count,
+                oov_skip_count = daily_stats.oov_skip_count + excluded.oov_skip_count
             """,
-            (api_calls, total_cost_usd, ng_count, review_count, match_count, staleness_excluded_count, extraction_retry_count),
+            (api_calls, total_cost_usd, ng_count, review_count, match_count, staleness_excluded_count, extraction_retry_count, oov_skip_count),
         )

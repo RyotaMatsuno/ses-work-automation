@@ -3,16 +3,21 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import math
 import re
 import sys
 import unicodedata
+from collections import Counter
+from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
+from config import HARD_FILTERS_V6, SCORE_WEIGHTS
 from staleness_checker import STALENESS_DAYS
 from staleness_checker import check as staleness_check
 from skill_judge import skills_must_not_merge
+from skill_pre_normalize import skill_lookup_key, pre_normalize_skill_tokens
 
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -23,6 +28,8 @@ except Exception:
 logger = logging.getLogger(__name__)
 ENGINEER_STALENESS_DAYS = STALENESS_DAYS
 GROSS_THRESHOLDS = {"松野": 5, "岡本": 3}
+SKILL_MATCH_THRESHOLD = 0.5
+MAX_CANDIDATES_BEFORE_JUDGE = 100
 GROSS_PROFIT_MAX = 15.0
 PRICE_DEVIATION_MAX = 5.0
 WEIGHT_MUST_HAVE = 10
@@ -219,7 +226,7 @@ class SkillNormalizer:
         return int(self.skill_tiers.get(canonical, 1))
 
     def _skill_key(self, skill: str) -> str:
-        return " ".join(skill.lower().strip().split())
+        return skill_lookup_key(skill)
 
     def normalize_hard(self, skill: str) -> str | None:
         key = self._skill_key(skill)
@@ -292,10 +299,13 @@ def resolve_case_required_skills(
     case_json: dict[str, Any],
     normalizer: SkillNormalizer,
 ) -> tuple[list[str], str]:
-    """Notion案件の必須スキルを解決する。空なら案件名→詳細→原文の順でフォールバック。"""
+    """Notion案件の必須スキルを解決する。技術スキルのみ返す。"""
+    from skill_gate import extract_raw_required_skills, normalize_technical_skills
+
     notion_skills = case.get("必要スキル") or []
     if notion_skills:
-        return canonicalize_skill_list([str(s) for s in notion_skills], normalizer), "multi_select"
+        raw = [str(s) for s in notion_skills]
+        return normalize_technical_skills(raw, normalizer), "multi_select"
 
     for source, field in (
         ("fallback_title", "案件名"),
@@ -309,7 +319,8 @@ def resolve_case_required_skills(
 
     struct_skills = case_json.get("required_skills") or []
     if struct_skills:
-        return canonicalize_skill_list([str(s) for s in struct_skills], normalizer), "structurer"
+        raw = extract_raw_required_skills(case, case_json)
+        return normalize_technical_skills(raw or [str(s) for s in struct_skills], normalizer), "structurer"
 
     return [], "none"
 
@@ -479,23 +490,404 @@ def filter_engineers_by_required_skills(
     skill_index: dict[str, set[str]],
     required_skills: list[str],
 ) -> list[dict]:
-    """required_skillsで候補エンジニアを絞り込む。空なら全件。"""
+    """required_skillsで候補エンジニアを絞り込む。空なら全件。閾値50%以上のスキル一致で候補に含める。"""
     if not required_skills:
         return engineers
-    candidate_ids: set[str] | None = None
-    resolved_count = 0
+
+    # 必須スキルをcanonical形式に解決（2トークン化対応）
+    resolved: list[str] = []
+    for skill in required_skills:
+        tokens = pre_normalize_skill_tokens(skill, lookup=normalizer.resolve_canonical)
+        for token in tokens:
+            canonical = normalizer.resolve_canonical(token)
+            if canonical and canonical not in resolved:
+                resolved.append(canonical)
+
+    if not resolved:
+        return []
+
+    # エンジニアごとのスキル一致数をカウント
+    counter: Counter[str] = Counter()
+    for skill in resolved:
+        for eng_id in skill_index.get(skill, set()):
+            counter[eng_id] += 1
+
+    # 閾値: resolved スキルの50%以上 (最低1件)
+    min_match = max(1, math.ceil(SKILL_MATCH_THRESHOLD * len(resolved)))
+
+    # 閾値クリアしたエンジニアをスコア降順で最大100件に絞る
+    passing = [(eng_id, cnt) for eng_id, cnt in counter.items() if cnt >= min_match]
+    passing.sort(key=lambda x: -x[1])
+    candidate_ids = {eng_id for eng_id, _ in passing[:MAX_CANDIDATES_BEFORE_JUDGE]}
+
+    return [engineer for engineer in engineers if engineer.get("id") in candidate_ids]
+
+
+_STATION_MASTER_PATH = Path(__file__).resolve().parent / "station_master.json"
+_station_master_cache: dict[str, Any] | None = None
+_station_to_line_cache: dict[str, str] | None = None
+_station_to_prefecture_cache: dict[str, str] | None = None
+
+
+def _load_station_master() -> dict[str, Any]:
+    global _station_master_cache, _station_to_line_cache, _station_to_prefecture_cache
+    if _station_master_cache is None:
+        with _STATION_MASTER_PATH.open(encoding="utf-8") as f:
+            _station_master_cache = json.load(f)
+        _station_to_line_cache = {}
+        for line_name, stations in _station_master_cache.get("lines", {}).items():
+            for station in stations:
+                _station_to_line_cache.setdefault(station, line_name)
+        _station_to_prefecture_cache = {}
+        for prefecture, stations in _station_master_cache.get("prefecture_areas", {}).items():
+            for station in stations:
+                _station_to_prefecture_cache.setdefault(station, prefecture)
+    return _station_master_cache
+
+
+def _parse_date_value(value: Any) -> date | None:
+    if value is None:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    if isinstance(value, date):
+        return value
+    text = str(value).strip()
+    if not text:
+        return None
+    normalized = text.replace("/", "-")
+    for size in (10, 7):
+        try:
+            return date.fromisoformat(normalized[:size])
+        except ValueError:
+            continue
+    return None
+
+
+def _add_months(base: date, months: int) -> date:
+    month_index = base.month - 1 + months
+    year = base.year + month_index // 12
+    month = month_index % 12 + 1
+    return date(year, month, min(base.day, 28))
+
+
+def _normalize_station_name(name: str | None) -> str:
+    if not name:
+        return ""
+    text = unicodedata.normalize("NFKC", str(name).strip())
+    text = re.sub(r"\(.*?\)", "", text)
+    text = re.sub(r"駅$", "", text)
+    return text.strip()
+
+
+def _extract_station_from_location(location: str | None) -> str:
+    normalized = _normalize_station_name(location)
+    if not normalized:
+        return ""
+    master = _load_station_master()
+    known: set[str] = set()
+    for stations in master.get("lines", {}).values():
+        known.update(stations)
+    for stations in master.get("prefecture_areas", {}).values():
+        known.update(stations)
+    matches = [(station, normalized.find(station)) for station in known if station in normalized]
+    if matches:
+        matches.sort(key=lambda item: (-len(item[0]), -item[1]))
+        return matches[0][0]
+    return normalized
+
+
+def exact_station_match(engineer_station: str | None, case_location: str | None) -> bool:
+    eng = _normalize_station_name(engineer_station)
+    case_station = _extract_station_from_location(case_location)
+    if not eng or not case_station:
+        return False
+    return eng == case_station or eng in case_station or case_station in eng
+
+
+def same_line(engineer_station: str | None, case_location: str | None) -> bool:
+    _load_station_master()
+    assert _station_to_line_cache is not None
+    eng = _extract_station_from_location(engineer_station)
+    case_station = _extract_station_from_location(case_location)
+    if not eng or not case_station:
+        return False
+    eng_line = _station_to_line_cache.get(eng)
+    case_line = _station_to_line_cache.get(case_station)
+    return bool(eng_line and case_line and eng_line == case_line)
+
+
+def same_prefecture(engineer_station: str | None, case_location: str | None) -> bool:
+    _load_station_master()
+    assert _station_to_prefecture_cache is not None
+    eng = _extract_station_from_location(engineer_station)
+    case_station = _extract_station_from_location(case_location)
+    if not eng or not case_station:
+        return False
+    eng_pref = _station_to_prefecture_cache.get(eng)
+    case_pref = _station_to_prefecture_cache.get(case_station)
+    return bool(eng_pref and case_pref and eng_pref == case_pref)
+
+
+def calc_location_score(engineer_station: str | None, case_location: str | None) -> float:
+    if not engineer_station or not case_location:
+        return 0.0
+    if exact_station_match(engineer_station, case_location):
+        return 1.0
+    if same_line(engineer_station, case_location):
+        return 0.7
+    if same_prefecture(engineer_station, case_location):
+        return 0.2
+    return 0.0
+
+
+def calc_experience_score(engineer_years: float | None, required_years: float | None) -> float:
+    if engineer_years is None or required_years is None:
+        return 0.5
+    diff = engineer_years - required_years
+    if diff >= 0:
+        return 1.0
+    if diff >= -1:
+        return 0.7
+    if diff >= -2:
+        return 0.4
+    return 0.1
+
+
+def calc_availability_score(engineer_start: date | None, case_start: date | None) -> float:
+    if engineer_start is None or case_start is None:
+        return 0.5
+    diff_days = (engineer_start - case_start).days
+    if diff_days <= 0:
+        return 1.0
+    if diff_days <= 30:
+        return 0.8
+    if diff_days <= 60:
+        return 0.5
+    return 0.2
+
+
+def calc_skill_match_score(
+    engineer: dict[str, Any],
+    required_skills: list[str],
+    normalizer: SkillNormalizer,
+    skill_index: dict[str, set[str]],
+) -> float:
+    if not required_skills:
+        return 0.5
+    resolved: list[str] = []
     for skill in required_skills:
         canonical = normalizer.resolve_canonical(skill)
-        if not canonical:
-            continue
-        resolved_count += 1
-        skill_ids = skill_index.get(canonical, set())
-        candidate_ids = skill_ids if candidate_ids is None else candidate_ids & skill_ids
-    if resolved_count == 0:
-        return engineers
-    if not candidate_ids:
-        return []
-    return [engineer for engineer in engineers if engineer.get("id") in candidate_ids]
+        if canonical:
+            resolved.append(canonical)
+    if not resolved:
+        return 0.0
+    engineer_id = engineer.get("id")
+    if not engineer_id:
+        return 0.0
+    matched = sum(1 for skill in resolved if engineer_id in skill_index.get(skill, set()))
+    return matched / len(resolved)
+
+
+def normalize_skill_with_log(raw_skill: str, normalizer: SkillNormalizer) -> dict[str, Any]:
+    key = normalizer._skill_key(raw_skill)
+    hard = normalizer.normalize_hard(raw_skill)
+    if hard is not None:
+        rule_hit = "hard_alias" if key in normalizer.hard else "canonical"
+        return {"raw_skill": raw_skill, "normalized_skill": hard, "rule_hit": rule_hit}
+    soft = normalizer.normalize_soft(raw_skill)
+    if soft is not None and key in normalizer.soft:
+        return {"raw_skill": raw_skill, "normalized_skill": soft, "rule_hit": "soft_alias"}
+    tier = normalizer.resolve_canonical(raw_skill)
+    if tier:
+        return {"raw_skill": raw_skill, "normalized_skill": tier, "rule_hit": "tier_canonical"}
+    return {"raw_skill": raw_skill, "normalized_skill": raw_skill.strip(), "rule_hit": "unchanged"}
+
+
+def normalize_skills_with_log(
+    skills: list[str],
+    normalizer: SkillNormalizer,
+    *,
+    logger: logging.Logger | None = None,
+) -> list[dict[str, Any]]:
+    log = logger or logging.getLogger(__name__)
+    entries = [normalize_skill_with_log(str(skill), normalizer) for skill in skills if str(skill).strip()]
+    for entry in entries:
+        log.info(
+            "skill_normalize raw=%s normalized=%s rule=%s",
+            entry["raw_skill"],
+            entry["normalized_skill"],
+            entry["rule_hit"],
+        )
+    return entries
+
+
+def unique_skill_count_report(raw_skills: list[str], normalizer: SkillNormalizer) -> dict[str, int]:
+    raw_unique = {str(skill).strip() for skill in raw_skills if str(skill).strip()}
+    normalized_unique = {
+        entry["normalized_skill"]
+        for entry in normalize_skills_with_log(list(raw_unique), normalizer)
+    }
+    return {
+        "raw_unique_count": len(raw_unique),
+        "normalized_unique_count": len(normalized_unique),
+    }
+
+
+@dataclass
+class HardFilterV6Stats:
+    total_in: int = 0
+    total_out: int = 0
+    dropped_proposal_flag: int = 0
+    dropped_active_working: int = 0
+    dropped_late_start: int = 0
+
+    def to_dict(self) -> dict[str, int]:
+        return {
+            "total_in": self.total_in,
+            "total_out": self.total_out,
+            "dropped_proposal_flag": self.dropped_proposal_flag,
+            "dropped_active_working": self.dropped_active_working,
+            "dropped_late_start": self.dropped_late_start,
+        }
+
+
+def apply_hard_filter_v6(
+    engineers: list[dict[str, Any]],
+    case_json: dict[str, Any],
+    *,
+    hard_filters: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], HardFilterV6Stats]:
+    active = hard_filters if hard_filters is not None else HARD_FILTERS_V6
+    stats = HardFilterV6Stats(total_in=len(engineers))
+    survivors: list[dict[str, Any]] = []
+    breakdowns: list[dict[str, Any]] = []
+
+    case_start = _parse_date_value(case_json.get("start_date"))
+    late_months = int(active.get("late_start_months", 3))
+
+    for engineer in engineers:
+        rejection_reasons: list[str] = []
+        if active.get("proposal_flag", True) and engineer.get("提案対象フラグ") is False:
+            rejection_reasons.append("proposal_flag")
+            stats.dropped_proposal_flag += 1
+        if active.get("active_working", True) and engineer.get("稼働状況") == "稼働中":
+            rejection_reasons.append("active_working")
+            stats.dropped_active_working += 1
+        eng_start = _parse_date_value(engineer.get("稼働可能日") or engineer.get("稼働開始"))
+        if case_start and eng_start and late_months > 0:
+            limit = _add_months(case_start, late_months)
+            if eng_start > limit:
+                rejection_reasons.append("late_start")
+                stats.dropped_late_start += 1
+
+        hard_pass = not rejection_reasons
+        breakdowns.append(
+            {
+                "engineer_id": engineer.get("id"),
+                "hard_pass": hard_pass,
+                "rejection_reasons": rejection_reasons,
+            }
+        )
+        if hard_pass:
+            survivors.append(engineer)
+
+    stats.total_out = len(survivors)
+    return survivors, breakdowns, stats
+
+
+def score_candidate_soft(
+    engineer: dict[str, Any],
+    case_json: dict[str, Any],
+    normalizer: SkillNormalizer,
+    skill_index: dict[str, set[str]],
+    required_skills: list[str],
+    *,
+    score_weights: dict[str, float] | None = None,
+) -> dict[str, Any]:
+    weights = score_weights if score_weights is not None else SCORE_WEIGHTS
+    case_location = (
+        case_json.get("work_location")
+        or case_json.get("location_normalized")
+        or case_json.get("location")
+    )
+    engineer_station = engineer.get("最寄り駅") or engineer.get("居住地")
+    engineer_years = engineer.get("経験年数")
+    required_years = case_json.get("experience_years")
+    engineer_start = _parse_date_value(engineer.get("稼働可能日") or engineer.get("稼働開始"))
+    case_start = _parse_date_value(case_json.get("start_date"))
+
+    years_eng = float(engineer_years) if engineer_years is not None else None
+    years_req = float(required_years) if required_years is not None else None
+
+    scores = {
+        "skill": calc_skill_match_score(engineer, required_skills, normalizer, skill_index),
+        "location": calc_location_score(str(engineer_station) if engineer_station else None, str(case_location) if case_location else None),
+        "experience": calc_experience_score(years_eng, years_req),
+        "availability": calc_availability_score(engineer_start, case_start),
+    }
+    total = sum(float(weights.get(key, 0.0)) * float(scores[key]) for key in scores)
+    scores["total"] = round(total, 4)
+    return {
+        "engineer_id": engineer.get("id"),
+        "scores": scores,
+        "hard_pass": True,
+        "rejection_reasons": [],
+    }
+
+
+def filter_candidates_3layer(
+    engineers: list[dict[str, Any]],
+    case: dict[str, Any],
+    case_json: dict[str, Any],
+    normalizer: SkillNormalizer,
+    skill_index: dict[str, set[str]],
+    required_skills: list[str],
+    *,
+    hard_filters: dict[str, Any] | None = None,
+    score_weights: dict[str, float] | None = None,
+    max_candidates: int | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], HardFilterV6Stats]:
+    """Hard → Soft Scoring → Rerank の3層フィルタ。"""
+    del case  # case_json に正規化済みフィールドを集約
+    limit = max_candidates if max_candidates is not None else MAX_CANDIDATES_BEFORE_JUDGE
+
+    hard_survivors, hard_breakdowns, hard_stats = apply_hard_filter_v6(
+        engineers,
+        case_json,
+        hard_filters=hard_filters,
+    )
+    for item in hard_breakdowns:
+        if not item["hard_pass"]:
+            logger.info(
+                "hard_filter_v6 drop engineer=%s reasons=%s",
+                item.get("engineer_id"),
+                item.get("rejection_reasons"),
+            )
+
+    scored: list[tuple[dict[str, Any], dict[str, Any], float]] = []
+    for engineer in hard_survivors:
+        breakdown = score_candidate_soft(
+            engineer,
+            case_json,
+            normalizer,
+            skill_index,
+            required_skills,
+            score_weights=score_weights,
+        )
+        scored.append((engineer, breakdown, float(breakdown["scores"]["total"])))
+        logger.info(
+            "score_breakdown engineer=%s scores=%s",
+            breakdown.get("engineer_id"),
+            breakdown.get("scores"),
+        )
+
+    scored.sort(key=lambda item: (-item[2], str(item[0].get("id") or "")))
+    top = scored[:limit]
+    candidates = [engineer for engineer, _, _ in top]
+    score_breakdowns = [breakdown for _, breakdown, _ in top]
+    rejected_breakdowns = [item for item in hard_breakdowns if not item["hard_pass"]]
+    return candidates, score_breakdowns + rejected_breakdowns, hard_stats
 
 
 def _classify_required_hit(
@@ -617,6 +1009,7 @@ def _evaluate_hard_exclusions(
     eng_price: float,
     miss_skills: list[str],
     assignee: str | None,
+    case_max_is_estimated: bool = False,
 ) -> tuple[str | None, list[str]]:
     if miss_skills:
         return "NG", [f"必須スキル不足: {miss_skills}"]
@@ -625,16 +1018,15 @@ def _evaluate_hard_exclusions(
     if must_not_verdict == "NG":
         return must_not_verdict, must_not_reasons
 
-    if _price_deviation_exceeds(case_max, eng_price):
-        over = eng_price - case_max
-        return "NG", [f"単価乖離超過: エンジニア単価が案件上限を{over:.1f}万円超過（許容{PRICE_DEVIATION_MAX:.0f}万円）"]
-
-    floor = _gross_threshold(assignee or case_json.get("担当者"))
-    gross = calc_gross_profit(case_max, eng_price)
-    if gross < floor:
-        return "NG", [f"粗利不足: {gross}万円 < 最低粗利{int(floor)}万円"]
-    if gross > GROSS_PROFIT_MAX:
-        return "NG", [f"粗利過大: {gross}万円 > 最高粗利{int(GROSS_PROFIT_MAX)}万円（スキル/価格ミスマッチの可能性）"]
+    if case_max > 0 and eng_price > 0:
+        gross = calc_gross_profit(case_max, eng_price)
+        if gross < 5.0:
+            reason = f"粗利不足: {gross:.1f}万 < 5万（案件{case_max}万 - 人員{eng_price}万）"
+            if case_max_is_estimated:
+                return "REVIEW", [reason + "（推定単価ベース・要確認）"]
+            return "NG", [reason]
+        if gross > GROSS_PROFIT_MAX:
+            return "NG", [f"粗利過大: {gross:.1f}万円 > 最高粗利{int(GROSS_PROFIT_MAX)}万円（スキル/価格ミスマッチの可能性）"]
 
     return None, []
 
@@ -728,6 +1120,7 @@ def _finalize_judge_result(
     finalized["score"] = total
     finalized["breakdown"] = breakdown
     finalized["total_score"] = total
+    finalized["judge_version"] = "v5.1"
     return finalized
 
 
@@ -795,14 +1188,26 @@ def judge_with_meta(
     case_actual = _actual_price(case_json.get("price_max"))
     if eng_actual is not None:
         eng_price = eng_actual
+        engineer_unit_price_source = "actual"
     else:
-        eng_price = _estimate_engineer_price(engineer)
-        reasons.append(f"エンジニア単価推定: {eng_price}万")
+        eng_price = 0.0
+        engineer_unit_price_source = "missing"
+        reasons.append("人員単価不明")
+    case_max_is_estimated = case_actual is None
     if case_actual is not None:
         case_max = case_actual
+        gross_profit_calc_status = "missing_eng" if eng_actual is None else "ok"
     else:
         case_max = _estimate_case_price(case_json)
+        gross_profit_calc_status = "both_missing" if eng_actual is None else "estimated_case"
         reasons.append(f"案件単価推定: {case_max}万（スキル見合い案件）")
+    logger.info(
+        "price meta: engineer_unit_price_source=%s gross_profit_calc_status=%s eng_price=%s case_max=%s",
+        engineer_unit_price_source,
+        gross_profit_calc_status,
+        eng_price,
+        case_max,
+    )
 
     required_raw = _without_soft_skills(case_json.get("required_skills") or [])
     required_skills, competencies = _partition_required_skills(required_raw)
@@ -814,8 +1219,10 @@ def judge_with_meta(
     eng_skills_raw = [str(skill) for skill in (engineer.get("正規化スキル") or engineer.get("スキル") or [])]
     eng_skills = set()
     for skill in eng_skills_raw:
-        normalized = normalizer.resolve_canonical(skill) or normalizer.normalize_hard(skill)
-        eng_skills.add(normalized if normalized else skill)
+        tokens = pre_normalize_skill_tokens(skill, lookup=normalizer.resolve_canonical)
+        for token in tokens:
+            normalized = normalizer.resolve_canonical(token) or normalizer.normalize_hard(token)
+            eng_skills.add(normalized if normalized else token)
 
     miss_skills: list[str] = []
     unknown_skills: list[str] = []
@@ -842,7 +1249,11 @@ def judge_with_meta(
             unknown_skills.append(skill)
             continue
         if not _engineer_has_canonical(canonical, eng_skills, normalizer.parent_skills):
-            miss_skills.append(skill)
+            parent = normalizer.parent_skills.get(canonical)
+            if parent and parent in eng_skills:
+                unknown_skills.append(skill)
+            else:
+                miss_skills.append(skill)
             continue
         hit_kind = _classify_required_hit(skill, canonical, eng_skills_raw, normalizer)
         if hit_kind == "exact":
@@ -877,6 +1288,7 @@ def judge_with_meta(
         eng_price=eng_price,
         miss_skills=miss_skills,
         assignee=assignee,
+        case_max_is_estimated=case_max_is_estimated,
     )
     if hard_verdict == "NG":
         return _finalize_judge_result(
@@ -895,6 +1307,8 @@ def judge_with_meta(
             case_json=case_json,
             normalizer=normalizer,
         )
+    elif hard_verdict == "REVIEW":
+        reasons.extend(hard_reasons)
 
     if soft_alias_only and exact_count == 0 and alias_count == 0:
         try:
@@ -952,12 +1366,22 @@ def judge_with_meta(
     if unknown_with_evidence:
         logger.info("unknown skills with engineer DB evidence: %s", unknown_with_evidence)
 
+    optional_raw_full = case_json.get("optional_skills") or []
+    unknown_optional = [
+        s for s in optional_raw_full
+        if not (normalizer.resolve_canonical(str(s)) or normalizer.normalize_hard(str(s)))
+    ]
+    if unknown_optional:
+        logger.info("未知尚可スキル（INFO）: %s", unknown_optional)
+
     p_score = _calc_parallel_score(engineer)
-    if p_score >= 5.0:
+    if p_score is None:
+        reasons.append("並行スコア欠損（要確認）")
+    elif p_score >= 5.0:
         return _finalize_judge_result(
             {
                 "verdict": "NG",
-                "reasons": [f"並行過多: スコア{p_score:.1f}（上限5.0）"],
+                "reasons": [f"並行スコア過多: {p_score:.1f}（上限5.0）"],
                 "process_requirements": competencies,
                 "score_components": score_components,
             },

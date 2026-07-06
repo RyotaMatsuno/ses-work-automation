@@ -1,0 +1,677 @@
+key,canonical,reject_code,note
+4hana 販売領域の導入もしくは運用保守経験,運用保守,R1,助詞含み
+75万】java基本設計〜,Java,R3,求人ノイズ記号含み
+ai(claudeやcodex,Claude,R1,助詞含み
+ai/ml組み込み経験,AI,R4,危険canonical=AI
+ai/ml要件の仕様化経験,AI,R1,助詞含み
+aim,AI,R4,危険canonical=AI
+aixのご経験,AIX,R1,助詞含み
+aiを使用した開発経験,開発経験,R1,助詞含み
+aiを取り入れたデザイン業務,AI,R1,助詞含み
+aiエージェント設計,設計,R4,危険canonical=設計
+aiカタログ,AI,R4,危険canonical=AI
+aiカタログ基盤,AI,R4,危険canonical=AI
+aiガバナンス,AI,R4,危険canonical=AI
+aiガバナンスの基礎知識,AI,R1,助詞含み
+aiガバナンス関連の開発,AI,R1,助詞含み
+aiガバナンス関連開発,AI,R4,危険canonical=AI
+aiゲートウェイ,AI,R4,危険canonical=AI
+aiゲートウェイ等の知識および実装経験,AI,R1,助詞含み
+aiコーディング,AI,R4,危険canonical=AI
+aiツール,AI,R4,危険canonical=AI
+aiツールの活用,AI,R1,助詞含み
+aiツール活用,AI,R4,危険canonical=AI
+ai活用,AI,R4,危険canonical=AI
+ai関連のプロジェクト参画経験,AI,R1,助詞含み
+ai関連サービス,AI,R4,危険canonical=AI
+ai関連プロジェクト(アジャイル形式,AI,R2,日本語15字超
+ai関連基盤の構築経験,構築経験,R1,助詞含み
+ai関連基盤構築,構築,R4,危険canonical=構築
+androidアプリのe2eテスト実装経験,Android,R1,助詞含み
+androidアプリの開発経験,Android,R1,助詞含み
+ansible)経験,Ansible,R15,括弧/カンマ含み
+ansible利用経験1年以上,Ansible,R13,求人文脈語含み
+apache/tomcat等のweb/apサーバの基本理解 運用経験,Tomcat,R1,助詞含み
+api,API,R9,短英字キー(api)
+apiを伴うwebアプリケーションの理解,API,R1,助詞含み
+apiテスト,テスト,R4,危険canonical=テスト
+apiポリシーの定義 カスタマイズ経験,API,R1,助詞含み
+api接続の知識,API,R1,助詞含み
+aras plmシステム開発およびawsインフラ構築エンジニア,インフラ,R2,日本語20字超
+aruba(cx switch、central、無線ap)の経験,Aruba,R1,助詞含み
+aruba製品(無線lan機器、aruba central)の導入/運用経験,Aruba,R1,助詞含み
+aws athena,AWS,R4,危険canonical=AWS
+aws cli,AWS,R4,危険canonical=AWS
+aws glue,AWS,R4,危険canonical=AWS
+aws iam設定 修正,AWS,R2,空白2個以上
+aws sagemaker,AWS,R4,危険canonical=AWS
+"aws(dynamodb, sqs",DynamoDB,R15,括弧/カンマ含み
+aws(dynamodb、sqs)の基本知識,DynamoDB,R1,助詞含み
+awsの環境構築経験,構築経験,R1,助詞含み
+awsの経験,AWS,R1,助詞含み
+awsの設計経験,AWS,R1,助詞含み
+awsへの移行案件のリーダー経験,リーダー,R1,助詞含み
+awsアーキテクチャ設計,AWS,R4,危険canonical=AWS
+awsコンソールでの作業経験,AWS,R1,助詞含み
+awsサービス経験,AWS,R4,危険canonical=AWS
+aws上流からの経験,AWS,R1,助詞含み
+aws主要サービス(glue/step functions/redshift等)の実務経験,AWS,R1,助詞含み
+aws主要サービス(step functions,AWS,R15,括弧/カンマ含み
+aws主要サービス(step functions、aws glue、amazon redshift、s3、iam、vpc,AWS,R2,空白3個以上
+aws基盤構築および運用保守経験,運用保守,R2,日本語13字超
+aws案件,AWS,R4,危険canonical=AWS
+aws案件でのpj推進経験,AWS,R1,助詞含み
+aws構築経験豊富な方,構築経験,R4,危険canonical=構築経験
+aws環境,AWS,R4,危険canonical=AWS
+aws環境での,AWS,R1,助詞含み
+aws環境での開発経験,開発経験,R1,助詞含み
+aws環境におけるネットワーク設計,ネットワーク設計,R1,助詞含み
+aws設計,AWS,R4,危険canonical=AWS
+aws設計 構築,AWS,R4,危険canonical=AWS
+aws設計/構築経験,構築経験,R4,危険canonical=構築経験
+aws認定資格(solutions architect、database,Database,R3,求人ノイズ記号含み
+aws運用保守,AWS,R4,危険canonical=AWS
+azure ai foundryを活用したai基盤構築経験,Azure,R1,助詞含み
+azure api management for ai,Azure,R2,英数27字超
+azure api management(apim)を用いたapiゲートウェイの設計 構築 運用経験,Azure,R1,助詞含み
+azure landing zone,Azure,R2,空白2個以上
+azure or aws,Azure,R2,空白2個以上
+azure の操作 (特にネットワーク,ネットワーク,R1,助詞含み
+azureの主要リソース,Azure,R1,助詞含み
+azureの構築イメージ,Azure,R1,助詞含み
+azureまたはmicrosoft fabric環境におけるガバナンス設定 実装経験,Azure,R1,助詞含み
+azureサービスのiac化経験,Azure,R1,助詞含み
+azure環境での経験,Azure,R1,助詞含み
+azure環境におけるアプリケーションまたはインフラ開発経験,Azure,R1,助詞含み
+azure設計 構築経験5年以上,Azure,R13,求人文脈語含み
+base,SE,R4,危険canonical=SE
+big-ip設計構築,構築,R4,危険canonical=構築
+bi運用保守経験,運用保守,R4,危険canonical=運用保守
+bpr企画 実行,実行,R4,危険canonical=実行
+c# (.net 10,.NET,R2,空白2個以上
+c#.,C#,R9,短英字キー(c#.)
+c#/.net開発経験,開発経験,R4,危険canonical=開発経験
+c#かc++の経験,C++,R1,助詞含み
+c#での開発経験,開発経験,R1,助詞含み
+c#の実務経験,C#,R1,助詞含み
+canの開発経験,開発経験,R1,助詞含み
+cdk,AWS CDK,R9,短英字キー(cdk)
+cdパイプライン構築経験,構築経験,R4,危険canonical=構築経験
+ci/cd環境の構築 運用経験,CI/CD,R1,助詞含み
+cisco機器の構築,Cisco,R1,助詞含み
+cisco機器の構築 保守経験3年以上,Cisco,R1,助詞含み
+cisco製品でのnw構築、設定変更経験,Cisco,R1,助詞含み
+cloudtrail,AI,R4,危険canonical=AI
+crm案件pm/pl,PL,R4,危険canonical=PL
+crowdstrikeのログ分析経験,ログ,R1,助詞含み
+databricksの構築に携わった経験,Databricks,R1,助詞含み
+"dau10万以上サービスでのrails, rds, kvsのチューニング経験",AI,R1,助詞含み
+dbt を用いたデータモデリング,データモデリング,R1,助詞含み
+dbtを用いた分析基盤の開発 運用経験,運用経験,R1,助詞含み
+dbやsqlの業務経験や基礎知識,SQL,R1,助詞含み
+db操作,DB,R4,危険canonical=DB
+db移行経験,DB,R4,危険canonical=DB
+db設計経験,設計,R4,危険canonical=設計
+dockerの仮想環境での開発経験,Docker,R1,助詞含み
+ds8k設計構築,構築,R4,危険canonical=構築
+dwh(etl)運用保守経験,運用保守,R15,括弧/カンマ含み
+dynamics365 finance and operations,Dynamics,R2,英数34字超
+ecsでの運用経験,運用経験,R1,助詞含み
+ecプラットフォームの開発経験,開発経験,R1,助詞含み
+emlinuxの知見,Linux,R1,助詞含み
+enterprise pl/iのバージョン(v6.1などv6以降)経験,PL,R1,助詞含み
+entra id/active directory,Active Directory,R2,空白2個以上
+entraid,AI,R4,危険canonical=AI
+eset等のセキュリティ製品運用経験,セキュリティ,R1,助詞含み
+etl ジョブスケジューラ dwhの理解,ジョブスケジューラ,R1,助詞含み
+etl ジョブスケジューラ dwhの移行経験,ジョブスケジューラ,R1,助詞含み
+etl ジョブスケジューラ dwhの設計または実装経験,ジョブスケジューラ,R1,助詞含み
+etlツールでの開発の知見,ETL,R1,助詞含み
+euc構築,構築,R4,危険canonical=構築
+excel(関数,Excel,R15,括弧/カンマ含み
+excelvbaでの豊富な開発経験,Excel,R1,助詞含み
+flutterを用いたios,Flutter,R1,助詞含み
+fortigateに限らずnwの設計,FortiGate,R1,助詞含み
+fortigateのバージョンアップ経験,FortiGate,R1,助詞含み
+fortigateの設計 構築実績,FortiGate,R1,助詞含み
+freshservice,SE,R4,危険canonical=SE
+githubを使ったpullrequestベースでのチーム開発の経験,GitHub,R1,助詞含み
+githubを用いたチーム開発経験,GitHub,R1,助詞含み
+googlespredseet,SE,R4,危険canonical=SE
+go言語開発経験,開発経験,R4,危険canonical=開発経験
+grc,GRC,R9,短英字キー(grc)
+hirdb,DB,R4,危険canonical=DB
+htmlの実務経験または知見,HTML,R1,助詞含み
+hubspotの実務経験(crm/sfa領域,HubSpot,R1,助詞含み
+hubspotの日常運用/保守経験,HubSpot,R1,助詞含み
+hulftを用いたデータ伝送の経験,HULFT,R1,助詞含み
+iac,Terraform,R9,短英字キー(iac)
+iac(ansible,Ansible,R15,括弧/カンマ含み
+iac(terraform,Terraform,R15,括弧/カンマ含み
+iacでの構築経験,構築経験,R1,助詞含み
+iam設計,設計,R4,危険canonical=設計
+ibm系ai基盤,AI,R4,危険canonical=AI
+ibm系ai基盤(openshift)のインフラ設計,OpenShift,R1,助詞含み
+ibm系ai基盤(openshift)インフラ設計,OpenShift,R15,括弧/カンマ含み
+ibpにおけるデータ要件定義,要件定義,R1,助詞含み
+ifテスト計画,テスト,R4,危険canonical=テスト
+ifテスト計画 (計画書作成,テスト,R15,括弧/カンマ含み
+iij seil/x4の経験,SE,R1,助詞含み
+im)設計,設計,R15,括弧/カンマ含み
+intra-martローコード開発経験,開発経験,R4,危険canonical=開発経験
+intuneでのデバイス管理,Microsoft Intune,R1,助詞含み
+intuneやjamfを用いたプロファイル作成 デバイス制御,Jamf,R1,助詞含み
+ios開発経験10年以上,iOS開発,R13,求人文脈語含み
+itのヘルプデスク経験2年以上,ヘルプデスク,R1,助詞含み
+itサービス アプリケーションのプロジェクトリーダー経験(2年以上,リーダー,R1,助詞含み
+java spring boot,Spring,R2,空白2個以上
+java2年以上,Java,R4,危険canonical=Java
+javase,Java,R4,危険canonical=Java
+javaを用いたwebアプリケーション開発経験,WEBアプリケーション開発,R1,助詞含み
+javaコードのリファクタリングができる,Java,R1,助詞含み
+java以外の言語(php等)での開発経験,開発経験,R1,助詞含み
+java案件,Java,R4,危険canonical=Java
+java案件】java,Java,R3,求人ノイズ記号含み
+java等のアプリケーション構造の理解,Java,R1,助詞含み
+java要件定義〜,Java,R3,求人ノイズ記号含み
+java設計 開発経験,開発経験,R4,危険canonical=開発経験
+java運用保守,Java,R4,危険canonical=Java
+java開発の設計、製造、テストまで一貫して対応,Java,R1,助詞含み
+jetpackcomposeでの開発経験,開発経験,R1,助詞含み
+jira service management,Jira,R2,空白2個以上
+jiraの管理 操作経験,Jira,R1,助詞含み
+jp1(base,JP1,R15,括弧/カンマ含み
+jp1(ジョブ 監視,JP1,R15,括弧/カンマ含み
+jp1の利用経験,JP1,R1,助詞含み
+jsm(jira service management,Jira,R2,英数27字超
+kmpでの開発経験,開発経験,R1,助詞含み
+kong ai gateway等のaiゲートウェイ製品の知見,AI,R1,助詞含み
+kotlinでのモバイルアプリ開発経験3年,Kotlin,R1,助詞含み
+kpi設計,設計,R4,危険canonical=設計
+l2/l3設計 構築,構築,R4,危険canonical=構築
+lambda(python,Lambda,R15,括弧/カンマ含み
+lambda(python)の開発経験,Lambda,R1,助詞含み
+lamp,LAMP,R9,短英字キー(lamp)
+lamp(linux,Linux,R15,括弧/カンマ含み
+lan/ネットワーク構成に関する基本知識,ネットワーク,R1,助詞含み
+lb(big-ip)構築,構築,R15,括弧/カンマ含み
+lb構築,構築,R4,危険canonical=構築
+linuxの基本知識および運用経験,Linux,R1,助詞含み
+linuxの操作経験,Linux,R1,助詞含み
+linuxの移行経験,Linux,R1,助詞含み
+linux環境でossを活用しながらのシステム開発の経験,Linux,R1,助詞含み
+linux環境での開発,Linux,R1,助詞含み
+linux環境での開発経験,Linux,R1,助詞含み
+linux環境を1人称で触れる方,Linux,R1,助詞含み
+linux環境下での作業経験,Linux,R1,助詞含み
+llm(大規模言語モデル)のファインチューニング,LLM,R1,助詞含み
+llmアプリケーションの実装経験,LLM,R1,助詞含み
+microsoft 365(a365,Microsoft 365,R15,括弧/カンマ含み
+microsoft 365の基本的な運用経験,Microsoft 365,R1,助詞含み
+microsoft 365環境の構築,Microsoft 365,R1,助詞含み
+microsoft entra id,Microsoft Entra ID,R2,空白2個以上
+microsoft fabricのアーキテクチャ設計経験,設計,R1,助詞含み
+microsoft officeの基礎知識,Microsoft Office,R1,助詞含み
+mvvmアーキテクチャを用いた開発経験,MVVM,R1,助詞含み
+mysql)での開発経験を有すること,MySQL,R1,助詞含み
+mysqlのチューニング経験,MySQL,R1,助詞含み
+mysqlのテーブル設計 クエリチューニング,MySQL,R1,助詞含み
+mysqlを用いたテーブル設計およびクエリチューニング,MySQL,R1,助詞含み
+notes dbの構成に関する基礎的な知識,DB,R1,助詞含み
+nwの設計 構築経験,構築経験,R1,助詞含み
+nw工事における調整業務経験,調整,R1,助詞含み
+nw構築,構築,R4,危険canonical=構築
+nw設計構築経験,構築経験,R4,危険canonical=構築経験
+nw設計経験,設計,R4,危険canonical=設計
+office操作スキル(word,Office,R15,括弧/カンマ含み
+office製品をビジネスレベルで利用できる方,Office,R1,助詞含み
+oracle cloud infrastructure (oci,Oracle Cloud,R2,英数32字超
+oracle database ee設計,Database,R2,空白2個以上
+oracleデータベースの実務経験者,Oracle,R1,助詞含み
+ossを用いた冗長化,冗長化,R1,助詞含み
+os及びdb2の数年以上の運用経験,運用経験,R1,助詞含み
+otセキュリティに関する知見,セキュリティ,R1,助詞含み
+paloaltoファイアウォールの経験,ファイアウォール,R1,助詞含み
+pc、サーバー、nwの障害が起きた際に原因の特定までを自発的に行える,サーバ,R1,助詞含み
+pdmやpmとプロダクトについて折衝した経験,PM,R1,助詞含み
+php8,PHP,R9,短英字キー(php8)
+php開発経験,開発経験,R4,危険canonical=開発経験
+php開発経験2~3年以上(9月参画,開発経験,R15,括弧/カンマ含み
+php開発経験5年以上(8月参画,開発経験,R15,括弧/カンマ含み
+pl/1,PL,R4,危険canonical=PL
+pl/i,PL,R4,危険canonical=PL
+pl/sqlの設計 実装経験,PL/SQL,R1,助詞含み
+plmシステムの導入,PL,R1,助詞含み
+pls,PL,R4,危険canonical=PL
+plやチームリーダーとして「品質管理(品質分析 報告書作成)」の実務経験,リーダー,R1,助詞含み
+pl支援,PL,R4,危険canonical=PL
+pmoとしてのpj推進経験,PMO,R1,助詞含み
+pmまたはpmoまたはpl経験,PL経験,R1,助詞含み
+pmやリーダーなどの経験,リーダー,R1,助詞含み
+postgresqlを利用した開発経験,PostgreSQL,R1,助詞含み
+power appsおよびpower automateの実装経験,Power Automate,R1,助詞含み
+power appsに関する基礎知識,Power Apps,R1,助詞含み
+powerappsの設計,設計,R1,助詞含み
+powerbiを用いたダッシュボード,Power BI,R1,助詞含み
+powerplatform,PL,R4,危険canonical=PL
+protocol/nw通信ログ確認経験,ログ,R4,危険canonical=ログ
+pytest テストコード実装&テスト,テスト,R4,危険canonical=テスト
+pythonを用いたデータ分析,Python,R1,助詞含み
+python等を用いたai,Python,R1,助詞含み
+rails/specでのテストコードの実務経験,テスト,R1,助詞含み
+rdb,DB,R4,危険canonical=DB
+rdbまたは分散データベース,データベース,R1,助詞含み
+rdb使用,DB,R4,危険canonical=DB
+react go aws aurora,AWS Aurora,R2,空白3個以上
+react案件,React,R13,求人文脈語含み
+red hat enterprise linux,Red Hat,R2,空白3個以上
+red hat enterprise linux の設計/構築経験,Red Hat,R1,助詞含み
+saas型動画コンテンツ管理システム,SaaS,R2,日本語14字超
+saas製品の営業経験者,SaaS,R1,助詞含み
+salesforce data cloudの知見,Salesforce,R1,助詞含み
+salesforceと他システム連携に関して、上流から一気通貫して対応したご経験,Salesforce,R1,助詞含み
+salesforce業務経験3年程度,Salesforce,R13,求人文脈語含み
+salesforce開発のご経験,Salesforce,R1,助詞含み
+sap apo/ibp(需給計画)の経験,SAP,R1,助詞含み
+sap hanaの知見/経験,HANA,R1,助詞含み
+sap mm(購買 在庫管理)の経験,SAP,R1,助詞含み
+sap pp(生産計画)の経験,SAP,R1,助詞含み
+sap sd(販売管理)の経験,SAP,R1,助詞含み
+sap wm/ewm(倉庫管理)の経験,SAP,R1,助詞含み
+sap保守/運用案件での改修経験,SAP,R1,助詞含み
+sap開発経験,開発経験,R4,危険canonical=開発経験
+scpt周りのpmo経験,PMO,R1,助詞含み
+seo対策,SE,R4,危険canonical=SE
+servicenow開発経験3年以上,ServiceNow,R13,求人文脈語含み
+se経験,SE,R4,危険canonical=SE
+se経験7年以上,SE,R4,危険canonical=SE
+sfaの導入実績,Salesforce,R1,助詞含み
+shell/powershell等を用いた運用改善 バッチ処理の経験,PowerShell,R1,助詞含み
+shellの経験,Shell,R1,助詞含み
+sidekiq等のjobを使ったバッチ処理の設計,バッチ処理,R1,助詞含み
+snowflakeのご経験,Snowflake,R1,助詞含み
+snowflakeのコスト最適化 クエリチューニング経験,Snowflake,R1,助詞含み
+snowflakeの知見,Snowflake,R1,助詞含み
+snowflakeを用いたdwhの設計 開発実務経験,Snowflake,R1,助詞含み
+snowpark(python)を用いたデータ処理の実装経験,Python,R1,助詞含み
+splunkの設計 構築経験者,Splunk,R1,助詞含み
+splunkを用いた構築経験,Splunk,R1,助詞含み
+spring boot sql,Spring,R2,空白2個以上
+sqlserverのデータ移行,SQL,R1,助詞含み
+sqlserverデータ移行(モバイルicカードdb移行,SQL,R2,日本語14字超
+sqlのパフォーマンスチューニング,SQL,R1,助詞含み
+sqlを用いたデータ参照/更新の実務経験,SQL,R1,助詞含み
+sqlを用いたデータ変換 分析の実務経験,SQL,R1,助詞含み
+sqlを用いたデータ抽出、加工経験,SQL,R1,助詞含み
+sqlを用いたデータ調査、検証経験,SQL,R1,助詞含み
+sql経験必須,SQL,R13,求人文脈語含み
+superset,SE,R4,危険canonical=SE
+swiftuiでの開発経験,SwiftUI,R1,助詞含み
+swiftでのモバイルアプリ開発経験3年,Swift,R1,助詞含み
+sw、fwの詳細設計,詳細設計,R1,助詞含み
+systemwalkeroperationmanager,Systemwalker,R2,英数28字超
+tableau または alteryxの実プロジェクト経験,Tableau,R1,助詞含み
+tableauの複数実務経験,Tableau,R1,助詞含み
+tcp/ip、dns、ファイアウォール等の基本的なネットワーク知識,ファイアウォール,R1,助詞含み
+terraform(ci/cd)の経験,Terraform,R1,助詞含み
+thecomposablearchitectureを利用したアプリ開発経験,開発経験,R1,助詞含み
+tier2レベルセキュリティー対応,セキュリティ,R13,求人文脈語含み
+tp1設計,設計,R4,危険canonical=設計
+ucosmi application server経験,PL,R2,空白2個以上
+ui/ux設計,設計,R4,危険canonical=設計
+ui設計,設計,R4,危険canonical=設計
+unix-cobolの開発経験,COBOL,R1,助詞含み
+vb.netおよびsqlでの開発経験,VB.NET,R1,助詞含み
+vb6,VB6,R9,短英字キー(vb6)
+vc++,C++,R9,短英字キー(vc++)
+vllm,LLM,R9,短英字キー(vllm)
+vm上のjava,Java,R1,助詞含み
+"vsphere(vcenter, esxi) の設計構築経験",構築経験,R1,助詞含み
+"vxrail, vsphere replication, vmware live site recovery の設計構築経験",VxRail,R1,助詞含み
+webアプリケーションの設計 開発実務経験,設計,R1,助詞含み
+webアプリケーション開発の実務経験,WEBアプリケーション開発,R1,助詞含み
+webアプリ基盤(apache/tomcat等)の運用経験,Tomcat,R1,助詞含み
+webアプリ基盤の運用経験,運用経験,R1,助詞含み
+webアプリ開発経験,開発経験,R4,危険canonical=開発経験
+webシステム開発経験,開発経験,R4,危険canonical=開発経験
+webディレクション,ディレクション,R4,危険canonical=ディレクション
+webデザイナーとしての実務経験,UI/UXデザイン,R1,助詞含み
+webフロントエンド開発経験,開発経験,R4,危険canonical=開発経験
+web設計,設計,R4,危険canonical=設計
+web開発の実務経験,Web開発,R1,助詞含み
+windows server 2016,Windows Server,R2,空白2個以上
+windows server 2022,Windows Server,R2,空白2個以上
+windows server の利用経験,Windows Server,R1,助詞含み
+windowsサーバの経験,Windows,R1,助詞含み
+windowsサーバの設計構築,Windows,R1,助詞含み
+windows環境におけるpcサポート,Windows,R1,助詞含み
+windows環境におけるpcサポート、トラブルシュート経験,Windows,R1,助詞含み
+word,Word,R9,短英字キー(word)
+wsusまたはwindows update管理経験,Windows,R1,助詞含み
+ydy案件ーangular,Angular,R13,求人文脈語含み
+zabbix関連アラート対応,Zabbix,R13,求人文脈語含み
+zscale設計構築経験,構築経験,R4,危険canonical=構築経験
+★★エンド直★★6月aws構築,AWS,R4,危険canonical=AWS
+【java,Java,R3,求人ノイズ記号含み
+およびapi設計,API,R1,接続詞先頭
+その他awsコンポーネント:cloudwatch、dynamodb、codepipeline、codecommitなどの基本操作,CloudWatch,R1,助詞含み
+アジャイル開発におけるテスト,テスト,R1,助詞含み
+アジャイル開発経験,開発経験,R4,危険canonical=開発経験
+アプリ開発での要件定義の経験,要件定義,R1,助詞含み
+アーキ!▼ クラウド gcp(or aws,クラウド,R2,空白3個以上
+アーキテクチャ設計,設計,R4,危険canonical=設計
+インサイドセールスやai関連商材営業に準ずる経験,営業,R1,助詞含み
+インフラ(aws,インフラ,R15,括弧/カンマ含み
+インフラ、ソフトウェア両方のpl経験,PL経験,R1,助詞含み
+インフラの自動化,インフラ,R1,助詞含み
+インフラやミドルウェアの知識 知見,インフラ,R1,助詞含み
+インフラシステムの運用保守の実務経験,運用保守,R1,助詞含み
+インフラロースキル案件。ネットワークとサーバーの実務経験が必須,ネットワーク,R1,助詞含み
+インフラ基盤の環境構築,インフラ,R1,助詞含み
+インフラ担当pmo案件,インフラ,R13,求人文脈語含み
+インフラ業界歴13年,インフラ,R13,求人文脈語含み
+インフラ構築経験,構築経験,R4,危険canonical=構築経験
+インフラ開発経験,開発経験,R4,危険canonical=開発経験
+インフラ開発経験者,開発経験,R4,危険canonical=開発経験
+インフラ領域(os/ミドルウェア/ネットワーク)の基礎知識,ネットワーク,R1,助詞含み
+エンドユーザとの調整,調整,R1,助詞含み
+エンドユーザーやプライムベンダーとの調整経験,調整,R1,助詞含み
+オンプレミス/ホスティング環境の運用経験,運用経験,R1,助詞含み
+オンプレミスからaws環境への移行プロジェクト経験,AWS,R1,助詞含み
+オンプレミスからクラウド(aws)への移行や連携,クラウド,R1,助詞含み
+オンプレミスからクラウドへの移行プロジェクト経験,クラウド,R1,助詞含み
+オンプレミス環境からazure環境へのクラウド移行,Azure,R1,助詞含み
+オンプレミス環境における運用経験,運用経験,R1,助詞含み
+オンライン機能の開発 テスト,テスト,R1,助詞含み
+オープン系言語での開発経験,開発経験,R1,助詞含み
+キャリア向けコアネットワークnode.jsのsi経験,Node.js,R1,助詞含み
+クラウド(aws,クラウド,R15,括弧/カンマ含み
+クラウド(aws/azure等)の知見,Azure,R1,助詞含み
+クラウド基盤の,クラウド,R1,助詞含み
+クラウド環境(aws/azure/gcp)の基礎知識または運用経験,Azure,R1,助詞含み
+ゲーム開発経験,開発経験,R4,危険canonical=開発経験
+コアネットワークプロトコル知識,ネットワークプロトコル,R2,日本語15字超
+コンサルファーム、sierにおけるpm/アカウントマネージャー経験,PM,R1,助詞含み
+コンテナ上のjavaアプリ,Java,R1,助詞含み
+サイドカーの知見,サイドカー,R1,助詞含み
+サイバーセキュリティ要件定義,セキュリティ,R2,日本語14字超
+サブリーダー経験,リーダー,R4,危険canonical=リーダー
+サーバサイドエンジニア経験,サーバ,R2,日本語13字超
+サーバーサイドでの開発経験,開発経験,R1,助詞含み
+サーバー要員,サーバ,R13,求人文脈語含み
+サーバー運用経験(linux,Linux,R15,括弧/カンマ含み
+サーバ更改において既存データセンターからawsへの移行推進,サーバ,R1,助詞含み
+システムの設計/開発経験,開発経験,R1,助詞含み
+システムの運用保守経験,運用保守,R1,助詞含み
+システム全体の設計 構築,構築,R1,助詞含み
+システム全体の設計を説明できる,設計,R1,助詞含み
+システム構築,構築,R4,危険canonical=構築
+システム設計,設計,R4,危険canonical=設計
+システム連携テストの推進経験,テスト,R1,助詞含み
+システム開発pjにおいて、plやチームリーダーとして「品質管理(品質分析 報告書作成)」の実務経験,リーダー,R1,助詞含み
+システム開発において基本設計から対応されたご経験,基本設計,R1,助詞含み
+システム開発または運用における上流工程,上流工程,R1,助詞含み
+システム開発経験,開発経験,R4,危険canonical=開発経験
+システム間調整,調整,R4,危険canonical=調整
+ジョブスケジューラ製品の知見,ジョブスケジューラ,R1,助詞含み
+ジョブネット設計の経験,設計,R1,助詞含み
+スクラッチでの設計,設計,R1,助詞含み
+スクリプトの作成、実環境への適用の経験,スクリプト,R1,助詞含み
+ストレージ、バックアップの設計構築経験,ストレージ,R1,助詞含み
+ストレージ関連(sanスイッチ/svc/v7k)スキル,ストレージ,R2,日本語14字超
+スマホアプリ開発経験は不要,開発経験,R1,助詞含み
+セキュリティアプリケーション運用保守経験,セキュリティ,R2,日本語20字超
+セキュリティコンサルタント,セキュリティ,R2,日本語13字超
+セキュリティフレームワーク,セキュリティ,R2,日本語13字超
+セキュリティポリシー/ガイドライン策定経験,セキュリティ,R2,日本語20字超
+セキュリティポリシー設定経験,セキュリティ,R2,日本語14字超
+セキュリティリスクアセスメント,セキュリティ,R2,日本語15字超
+セキュリティ情報の取得,セキュリティ,R1,助詞含み
+ゼロコピークローンやタイムトラベル機能を活用した運用設計経験,運用設計,R1,助詞含み
+チームリーダー,リーダー,R4,危険canonical=リーダー
+チームリーダーやメンター,リーダー,R1,助詞含み
+チームリーダー経験,リーダー,R4,危険canonical=リーダー
+チーム進捗管理,進捗管理,R4,危険canonical=進捗管理
+チーム開発経験,開発経験,R4,危険canonical=開発経験
+テストツール作成,テスト,R4,危険canonical=テスト
+テスト工程,テスト,R4,危険canonical=テスト
+テスト検証,テスト,R4,危険canonical=テスト
+テスト計画·品質管理,テスト,R4,危険canonical=テスト
+テスト計画書作成,テスト,R4,危険canonical=テスト
+テスト計画書執筆経験,テスト,R4,危険canonical=テスト
+テーブルの設計 実装経験,設計,R1,助詞含み
+テーブル設計の経験,設計,R1,助詞含み
+ディレクション経験,ディレクション,R4,危険canonical=ディレクション
+デザイナーとのコミュニケーション,コミュニケーション,R1,助詞含み
+デザイナーやpm、pdmとコミュニケーションを取りながら開発,コミュニケーション,R1,助詞含み
+デザインの実務経験,UI/UXデザイン,R1,助詞含み
+データカタログ,ログ,R4,危険canonical=ログ
+データカタログ製品との連携実装経験,ログ,R1,助詞含み
+データドッグの構築,構築,R1,助詞含み
+データドッグの構築、運用実務経験,構築,R1,助詞含み
+データベースの設計 構築経験,データベース,R1,助詞含み
+データベースエラー対応,データベース,R13,求人文脈語含み
+データ分析基盤構築,構築,R4,危険canonical=構築
+データ基盤(ビッグデータ、dwh、biツール等)やクラウド環境(aws/gcp/azure等)の基礎知識,Azure,R1,助詞含み
+データ移行／データ整備の実務経験,ETL,R1,助詞含み
+データ論理設計,設計,R4,危険canonical=設計
+データ連携ツール「asteria warp」の経験,ASTERIA Warp,R1,助詞含み
+ネットワーク(cisco)設計構築3年以上,ネットワーク,R2,日本語13字超
+ネットワークとサーバーの実務必須,ネットワーク,R1,助詞含み
+ネットワークの基礎知識,ネットワーク,R1,助詞含み
+ネットワークの知見,ネットワーク,R1,助詞含み
+ネットワーク構築経験3年以上,ネットワーク構築,R2,日本語13字超
+ネットワーク機器の導入/設定経験,ネットワーク,R1,助詞含み
+ネットワーク環境における調査検証の経験,ネットワーク,R1,助詞含み
+ネットワーク要員,ネットワーク,R13,求人文脈語含み
+ハードウェアの開発経験,開発経験,R1,助詞含み
+ハードウェア障害、性能監視、データベースエラー、zabbix関連アラートの対応経験,データベース,R1,助詞含み
+バッチの詳細設計以降1人称で対応可能,詳細設計,R1,助詞含み
+バッチ処理の設計 開発経験,バッチ処理,R1,助詞含み
+バッチ処理やスクリプト(perl/shell等)の理解 改修経験,スクリプト,R1,助詞含み
+バッチ処理やスクリプトの理解 改修経験,スクリプト,R1,助詞含み
+バッチ設計,設計,R4,危険canonical=設計
+バージョンアップ開発経験,開発経験,R4,危険canonical=開発経験
+パッケージ、関数、カーソル等の設計 実装経験,設計,R1,助詞含み
+パフォーマンス/セキュリティを考慮した設計,セキュリティ,R1,助詞含み
+パフォーマンス/セキュリティ設計,セキュリティ,R2,日本語15字超
+パブリッククラウドの運用経験,運用経験,R1,助詞含み
+ビジネスメール,メール,R4,危険canonical=メール
+ファイアウォールの設計 構築経験,ファイアウォール,R1,助詞含み
+ファイアウォール設計 構築経験,ファイアウォール,R2,日本語14字超
+フロント開発経験,開発経験,R4,危険canonical=開発経験
+プロキシ設計,設計,R4,危険canonical=設計
+プロキシ設計/構築,構築,R4,危険canonical=構築
+プログラム設計の経験,設計,R1,助詞含み
+プロジェクトディレクション,ディレクション,R2,日本語13字超
+ヘルプデスクの経験,ヘルプデスク,R1,助詞含み
+ベテランjava人材,Java,R4,危険canonical=Java
+ベンダ調整,調整,R4,危険canonical=調整
+マッチングロジック設計,設計,R4,危険canonical=設計
+ミドルウェア構築,構築,R4,危険canonical=構築
+メインフレーム移行設計,設計,R4,危険canonical=設計
+メンバー進捗管理,進捗管理,R4,危険canonical=進捗管理
+メール,メール,R4,危険canonical=メール
+メールサーバの運用経験,運用経験,R1,助詞含み
+モバイルゲームの2年以上のバージョンアップ開発経験,開発経験,R1,助詞含み
+モバイルゲーム運用経験,運用経験,R4,危険canonical=運用経験
+モバイルゲーム運用経験3年以上,運用経験,R2,日本語14字超
+ユーザー対応を含むコミュニケーション力,コミュニケーション力,R1,助詞含み
+ユーザー調整経験,調整,R4,危険canonical=調整
+リバース設計,設計,R4,危険canonical=設計
+リモート多めの為、リモート時にきちんとコミュニケーションとれる方,コミュニケーション,R1,助詞含み
+ルータの構築,構築,R1,助詞含み
+ルータ構築,構築,R4,危険canonical=構築
+ルーティング設計,設計,R4,危険canonical=設計
+レポートの設計,設計,R1,助詞含み
+ロジもしくは会計のsapコンサル経験,SAP,R1,助詞含み
+ローコードツール(power platform 等)の利用経験,Power Platform,R1,助詞含み
+ローコード開発経験,開発経験,R4,危険canonical=開発経験
+ロードバランサー(物理 仮想)の設計 構築経験,ロードバランサー,R1,助詞含み
+ロードバランサー設計 構築経験,ロードバランサー,R2,日本語14字超
+上流工程からリリースまでの経験,上流工程,R1,助詞含み
+上流工程リード,上流工程,R4,危険canonical=上流工程
+上流工程対応経験,上流工程,R4,危険canonical=上流工程
+上流工程経験,上流工程,R4,危険canonical=上流工程
+上流視点を持ちつつ、現場調整も厭わないバイタリティ,調整,R1,助詞含み
+上流設計,設計,R4,危険canonical=設計
+主体的にコミュニケーションが取れる,コミュニケーション,R1,助詞含み
+主体的にコミュニケーションを取りながら仕様を詰められる,コミュニケーション,R1,助詞含み
+主体的にコミュニケーションを取りながら仕様を詰められる方,コミュニケーション,R1,助詞含み
+事業会社ディレクション,ディレクション,R4,危険canonical=ディレクション
+人柄重視。php,PHP,R3,求人ノイズ記号含み
+他システム基盤設計,設計,R4,危険canonical=設計
+他部門とのコミュニケーション,コミュニケーション,R1,助詞含み
+仮想サーバ構築経験,構築経験,R4,危険canonical=構築経験
+仮想化基盤(vmware等)の知識,VMware,R1,助詞含み
+仮想基盤構築プロジェクトのpmo,PMO,R1,助詞含み
+任意のプログラミング言語での開発or保守経験5年以上,ログ,R1,助詞含み
+体制は2名の技術者を想定し、設計から移行まで指導 遂行できる人材を求める,設計,R1,助詞含み
+何かしらのフレームワークを使ったphp開発経験,開発経験,R1,助詞含み
+保守/運用開発経験,開発経験,R4,危険canonical=開発経験
+保守運用経験者,運用経験,R4,危険canonical=運用経験
+保険会社のシステムテスト案件pmo要員募集,テスト,R1,助詞含み
+保険業界での開発経験,開発経験,R1,助詞含み
+光回線系の営業経験,営業,R1,助詞含み
+光回線系の営業経験者,営業,R1,助詞含み
+円滑なコミュニケーション,コミュニケーション,R3,求人ノイズ記号含み
+円滑にコミュニケーションが取れる方,コミュニケーション,R1,助詞含み
+勤怠、コミュニケーション良好な方,コミュニケーション,R2,日本語15字超
+受入れテスト経験,テスト,R4,危険canonical=テスト
+各種ネットワークにおける設計 構築 運用保守経験,ネットワーク,R1,助詞含み
+周辺システムのアドオン機能設計,設計,R1,助詞含み
+問題定義力 主体性,主体性,R4,危険canonical=主体性
+営業管理,営業,R4,危険canonical=営業
+営業経験,営業,R4,危険canonical=営業
+営業経験3年以上,営業,R4,危険canonical=営業
+基本設計~実装~テストまで一人称で対応可能な方,基本設計,R2,日本語21字超
+基本設計~経験があると良い,基本設計,R1,助詞含み
+基本設計の経験,基本設計,R1,助詞含み
+基本設計以降の対応,基本設計,R1,助詞含み
+基本設計書 / 外部設計書 / テーブル定義書等を読んで仕様理解できること,基本設計,R1,助詞含み
+基盤/ネットワーク領域の知見,ネットワーク,R1,助詞含み
+基盤構築経験,構築経験,R4,危険canonical=構築経験
+基盤設計,設計,R4,危険canonical=設計
+基礎的なazureの構築イメージが持てる人,Azure,R1,助詞含み
+外部会社へのセキュリティチェック 是正措置の提案経験,セキュリティ,R1,助詞含み
+大手ネット証券グループの認証認可基盤開発会社におけるpmo支援,PMO,R1,助詞含み
+大手食品メーカーid管理バッチ設計,設計,R2,日本語15字超
+大規模nw構築経験,構築経験,R4,危険canonical=構築経験
+大規模sap導入プロジェクト経験,SAP,R2,日本語13字超
+大規模アプリ開発経験,開発経験,R4,危険canonical=開発経験
+大規模インフラ基盤更改案件の経験,インフラ,R1,助詞含み
+大規模システム(エンタープライズ環境)でのインフラ 監視設計経験,インフラ,R1,助詞含み
+大規模トラフィック 高負荷環境でのアーキテクチャ設計 開発 運用経験,運用経験,R1,助詞含み
+急募:フルリモaws案件,AWS,R4,危険canonical=AWS
+性能設計,設計,R4,危険canonical=設計
+情シス(社内se)経験2年以上,SE,R15,括弧/カンマ含み
+情シスse経験,SE,R4,危険canonical=SE
+情報システム部門または社内seとしての実務経験,SE,R1,助詞含み
+技術的リーダーシップ,リーダー,R4,危険canonical=リーダー
+提案 要件定義 折衝経験,要件定義,R2,空白2個以上
+新しいデータ活用やai活用に関心を持ち、積極的に学習できる方,AI,R1,助詞含み
+既存システムからの移行、再構築案件の経験,構築,R1,助詞含み
+既存システムの運用保守 改修経験,運用保守,R1,助詞含み
+日本語でのコミュニケーション,コミュニケーション,R1,助詞含み
+日立関連プロジェクトでの設計 開発経験,開発経験,R1,助詞含み
+業務システムの保守開発経験,開発経験,R1,助詞含み
+業務設計,設計,R4,危険canonical=設計
+業務部門とのコミュニケーション,コミュニケーション,R1,助詞含み
+概要設計,設計,R4,危険canonical=設計
+構築時は出社あり,構築,R1,助詞含み
+構築経験(クラウド,構築経験,R15,括弧/カンマ含み
+構築経験者,構築経験,R4,危険canonical=構築経験
+機械学習の基礎理解,機械学習,R1,助詞含み
+法人営業,営業,R4,危険canonical=営業
+無形商材の営業経験,営業,R1,助詞含み
+無形商材の法人営業経験3年以上,営業,R1,助詞含み
+現状のインフラ要員がawsの人でazureは手探り,Azure,R1,助詞含み
+生成ai(llm,生成AI,R15,括弧/カンマ含み
+生成aiによるコード生成を活用しながら高品質な実装ができる方,生成AI,R1,助詞含み
+生成aiを活用した開発効率化の実践経験,生成AI,R1,助詞含み
+生成aiツールを用いて業務を行った経験,生成AI,R1,助詞含み
+生成ai領域の知見 経験,生成AI,R1,助詞含み
+申請ワークフローシステムの開発経験,開発経験,R1,助詞含み
+画像認識ai,AI,R4,危険canonical=AI
+画像認識ai構築,構築,R4,危険canonical=構築
+画面開発設計,設計,R4,危険canonical=設計
+研修実施,実施,R4,危険canonical=実施
+社内se,SE,R4,危険canonical=SE
+社内ヘルプデスクの業務,ヘルプデスク,R1,助詞含み
+社内外折衝/調整経験,調整,R4,危険canonical=調整
+移行のディレクション,ディレクション,R1,助詞含み
+移行設計,設計,R4,危険canonical=設計
+組み込み機器におけるメカ制御用アプリケーションソフト開発経験,開発経験,R1,助詞含み
+組込ソフト開発経験,開発経験,R4,危険canonical=開発経験
+組込開発経験,開発経験,R4,危険canonical=開発経験
+結合テスト,テスト,R4,危険canonical=テスト
+総合テスト,テスト,R4,危険canonical=テスト
+自動テストの実装経験,テスト,R1,助詞含み
+自動取込] 件名: 【案件】関西インフラロースキル案件,インフラ,R2,日本語21字超
+自動車メーカー向けインフラ更改プロジェクトpmo,インフラ,R2,日本語21字超
+自律的にタスクの整理 実行,実行,R1,助詞含み
+自律的に課題を整理し、セキュリティ領域を主導して推進できる方,セキュリティ,R1,助詞含み
+自社サービスでの開発経験,開発経験,R1,助詞含み
+英語でのコミュニケーション,コミュニケーション,R1,助詞含み
+英語でのコミュニケーションスキル,コミュニケーション,R1,助詞含み
+英語セキュリティ系業務経験もなくても興味ある人,セキュリティ,R1,助詞含み
+行動ログ イベントログ設計,設計,R4,危険canonical=設計
+複合機、コピー機、プリンタ機の開発経験,開発経験,R1,助詞含み
+複数サービスを組み合わせた基盤構築経験,構築経験,R1,助詞含み
+複数事業またはグループ会社環境での運用経験,運用経験,R1,助詞含み
+複数部門を横断した業務改善/運用経験,運用経験,R1,助詞含み
+要件ヒアリングや設計などのご経験,設計,R1,助詞含み
+要件定義からツール作成まで一貫して対応できるseスキル,要件定義,R1,助詞含み
+要件定義など上流工程を担当した経験,要件定義,R1,助詞含み
+要件定義フェーズから一貫して対応した開発経験,開発経験,R1,助詞含み
+要件定義フェーズのご経験,要件定義,R1,助詞含み
+設計~受入テストまでの開発経験,開発経験,R1,助詞含み
+設計〜対応可能なエンジニア募集,設計,R2,日本語14字超
+設計から1人称で作業ができる方,設計,R1,助詞含み
+設計から一人称で対応できる方,設計,R2,日本語14字超
+設計から運用までの一貫した経験,設計,R1,助詞含み
+設計以降一連でご対応可能な方,設計,R2,日本語14字超
+設計意図理解,設計,R4,危険canonical=設計
+設計書からテストまで一貫して作業した経験,テスト,R1,助詞含み
+設計書等がない中での開発経験,開発経験,R1,助詞含み
+設計書等のドキュメント作成経験,設計,R1,助詞含み
+設計構築,構築,R4,危険canonical=構築
+設計構築経験,構築経験,R4,危険canonical=構築経験
+設計段階から対応可能,設計,R4,危険canonical=設計
+設計経験,設計,R4,危険canonical=設計
+証券システム開発経験,開発経験,R4,危険canonical=開発経験
+試験書作成~実施経験,実施,R4,危険canonical=実施
+詳細設計書をもとに一人称で製造 単体試験を実施した経験,詳細設計,R1,助詞含み
+認証系の経験,認証,R1,助詞含み
+調整業務,調整,R4,危険canonical=調整
+負荷試験計画の策定から実施 解析 改善提案まで一連の工程の対応経験,実施,R1,助詞含み
+通信テスト,テスト,R4,危険canonical=テスト
+通信部の組込アプリケーション開発経験,開発経験,R1,助詞含み
+運用保守の経験,運用保守,R1,助詞含み
+運用保守経験3年以上,運用保守,R4,危険canonical=運用保守
+運用保守経験5年以上,運用保守,R4,危険canonical=運用保守
+運用設計/構築に関する経験,運用設計,R1,助詞含み
+運用設計の経験,運用設計,R1,助詞含み
+過去に同一顧客での開発経験,開発経験,R1,助詞含み
+金融サービス型ib基盤移行 テスト推進統括pmo,テスト,R2,日本語18字超
+金融系システムの開発経験,開発経験,R1,助詞含み
+開発pm,PM,R4,危険canonical=PM
+開発側でのpmo経験,PMO,R1,助詞含み
+開発系pm,PM,R4,危険canonical=PM
+開発経験5年以上,開発経験,R4,危険canonical=開発経験
+開発経験者,開発経験,R4,危険canonical=開発経験
+関係各所との調整、エスカレーション経験,調整,R1,助詞含み
+関係者(インフラ/アプリ)との調整経験,インフラ,R1,助詞含み
+関係者とのコミュニケーションを取りながら業務を推進できる方,コミュニケーション,R1,助詞含み
+関係者との円滑なコミュニケーション,コミュニケーション,R1,助詞含み
+関係者との調整,調整,R1,助詞含み
+関係者と円滑にコミュニケーション,コミュニケーション,R1,助詞含み
+関係者と円滑にコミュニケーションを取りながら開発を推進できる方,コミュニケーション,R1,助詞含み
+関係者調整,調整,R4,危険canonical=調整
+関係部署およびベンダーとの調整経験,調整,R1,助詞含み
+関連システムとのインタフェース設計経験,設計,R1,助詞含み
+電話 メールでの顧客対応経験,メール,R1,助詞含み
+非機能要件設計,設計,R4,危険canonical=設計
+顧客やユーザーとのコミュニケーションを円滑に行える方,コミュニケーション,R1,助詞含み
+顧客要求に対してニーズを分析し上流工程からアプローチした経験,上流工程,R1,助詞含み
+高いコミュニケーション力,コミュニケーション力,R4,危険canonical=コミュニケーション力

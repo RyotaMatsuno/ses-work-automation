@@ -88,6 +88,31 @@ def _apply_strict_schema(data: dict[str, Any]) -> dict[str, Any]:
         result["price_min"] = text_min
     if result.get("price_max") is None and text_max is not None:
         result["price_max"] = text_max
+
+    # BH: 「スキル見合い」「応相談」→ 推定単価レンジを補完（表示のみ、マッチング未反映）
+    budget_text = str(result.get("budget_text") or "")
+    _UNKNOWN_BUDGET_RE = (
+        r"スキル見合|応相談|要相談|スキルみ合|単価要相談"
+    )
+    if result.get("price_min") is None and result.get("price_max") is None:
+        import re as _re
+        if not budget_text or _re.search(_UNKNOWN_BUDGET_RE, budget_text):
+            try:
+                from price_estimator import estimate_price as _estimate_price
+                est = _estimate_price(result)
+                result["budget_estimated"] = True
+                result["budget_min_estimated"] = est.get("estimated_min")
+                result["budget_max_estimated"] = est.get("estimated_max")
+                result["budget_confidence_rank"] = est.get("confidence_rank", "low")
+                result["budget_source"] = "estimated"
+                result["budget_estimation_version"] = "v1_20260624"
+            except Exception as _exc:
+                logger.debug("price_estimator スキップ: %s", _exc)
+        else:
+            result["budget_source"] = "unknown"
+    else:
+        result["budget_source"] = "explicit"
+        result["budget_estimated"] = False
     loc = result.get("location") or result.get("work_location")
     if loc:
         raw_loc, norm_loc = normalize_location_text(loc)

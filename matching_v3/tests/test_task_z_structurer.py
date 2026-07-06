@@ -55,8 +55,8 @@ def test_rule_fallback_extracts_react_java_subject():
 
     result = structurer.rule_based_fallback(subject, body)
 
-    assert "react" in result["required_skills"]
-    assert "java" in result["required_skills"]
+    assert any(s.lower() == "react" for s in result["required_skills"])
+    assert any(s.lower() == "java" for s in result["required_skills"])
     assert result["price_min"] == 70.0
     assert structurer.is_recoverable(result)
 
@@ -67,7 +67,7 @@ def test_json_parse_failure_uses_rule_fallback():
 
     result = structurer._parse_json_or_fallback("not json", subject, body)
 
-    assert "swift" in result["required_skills"]
+    assert any(s.lower() == "swift" for s in result["required_skills"])
     assert result["price_min"] == 60.0
     assert result["structure_source"] == "rule_fallback"
 

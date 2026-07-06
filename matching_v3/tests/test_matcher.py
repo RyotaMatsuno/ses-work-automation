@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from datetime import date, datetime, timedelta, timezone
 
+from unittest.mock import patch
+
 from matcher import (
     SkillNormalizer,
     _calc_parallel_score,
@@ -12,6 +14,7 @@ from matcher import (
     filter_fresh_engineers,
     is_engineer_fresh,
     judge,
+    judge_with_meta,
     meets_profit_floor,
 )
 
@@ -70,14 +73,15 @@ def test_ng_when_only_ambiguous_skills_exist():
     assert reasons == ["曖昧スキルのみ: 判定不可"]
 
 
-def test_ng_when_case_price_is_estimated_below_gross_floor():
+def test_review_when_case_price_is_estimated_below_gross_floor():
+    """推定単価のみで粗利不足→NGではなくREVIEW"""
     case = {"required_skills": ["Java"], "price_max": None, "extraction_confidence": 1.0}
     engineer = {"単価（万円）": 70, "スキル": ["Java"], "_last_edited_time": datetime.now(timezone.utc).isoformat()}
 
     verdict, reasons = judge(case, engineer, _normalizer())
 
-    assert verdict == "NG"
-    assert any(keyword in reasons[0] for keyword in ("粗利不足", "単価乖離超過"))
+    assert verdict == "REVIEW"
+    assert any("推定単価ベース" in r for r in reasons)
 
 
 def test_engineer_skills_are_normalized_before_matching():
@@ -119,7 +123,7 @@ def test_ng_gross_below_matsuno_floor():
     verdict, reasons = judge(case, engineer, _normalizer(), assignee="松野")
 
     assert verdict == "NG"
-    assert reasons == ["粗利不足: 4.0万円 < 最低粗利5万円"]
+    assert any("粗利不足" in r and "4.0万" in r for r in reasons)
 
 
 def test_match_gross_at_matsuno_floor():
@@ -136,18 +140,15 @@ def test_match_gross_at_matsuno_floor():
     assert reasons == []
 
 
-def test_match_gross_above_okamoto_floor():
+def test_ng_gross_below_unified_5man_floor_okamoto():
+    """統一5万床: 岡本でも粗利3万はNG（旧3万床は廃止）"""
     case = {"required_skills": [], "price_max": 73, "extraction_confidence": 1.0}
-    engineer = {
-        "単価（万円）": 70,
-        "スキル": [],
-        "_last_edited_time": datetime.now(timezone.utc).isoformat(),
-    }
+    engineer = {"単価（万円）": 70, "スキル": []}
 
     verdict, reasons = judge(case, engineer, _normalizer(), assignee="岡本")
 
-    assert verdict == "MATCH"
-    assert reasons == []
+    assert verdict == "NG"
+    assert any("粗利不足" in r for r in reasons)
 
 
 def test_ng_gross_below_okamoto_floor():
@@ -157,7 +158,7 @@ def test_ng_gross_below_okamoto_floor():
     verdict, reasons = judge(case, engineer, _normalizer(), assignee="岡本")
 
     assert verdict == "NG"
-    assert reasons == ["粗利不足: 2.0万円 < 最低粗利3万円"]
+    assert any("粗利不足" in r and "2.0万" in r for r in reasons)
 
 
 def _engineer_result_waiting(interview_date: str | None) -> dict:
@@ -213,7 +214,7 @@ def test_gross_profit_60_56_is_ng():
     verdict, reasons = judge(case, engineer, _normalizer())
 
     assert verdict == "NG"
-    assert reasons == ["粗利不足: 4.0万円 < 最低粗利5万円"]
+    assert any("粗利不足" in r and "4.0万" in r for r in reasons)
 
 
 def test_gross_profit_60_55_borderline_is_match():
@@ -231,27 +232,25 @@ def test_gross_profit_60_55_borderline_is_match():
 
 
 def test_gross_profit_okamoto_50_48_is_ng():
+    """統一5万床: 粗利2万はNG"""
     case = {"required_skills": [], "price_max": 50, "extraction_confidence": 1.0}
     engineer = {"単価（万円）": 48, "スキル": []}
 
     verdict, reasons = judge(case, engineer, _normalizer(), assignee="岡本")
 
     assert verdict == "NG"
-    assert reasons == ["粗利不足: 2.0万円 < 最低粗利3万円"]
+    assert any("粗利不足" in r and "2.0万" in r for r in reasons)
 
 
-def test_gross_profit_okamoto_50_47_is_match():
+def test_gross_profit_okamoto_50_47_is_ng():
+    """統一5万床: 粗利3万もNG（旧岡本3万床は廃止）"""
     case = {"required_skills": [], "price_max": 50, "extraction_confidence": 1.0}
-    engineer = {
-        "単価（万円）": 47,
-        "スキル": [],
-        "_last_edited_time": datetime.now(timezone.utc).isoformat(),
-    }
+    engineer = {"単価（万円）": 47, "スキル": []}
 
     verdict, reasons = judge(case, engineer, _normalizer(), assignee="岡本")
 
-    assert verdict == "MATCH"
-    assert meets_profit_floor(50, 47, floor_man=3.0)
+    assert verdict == "NG"
+    assert any("粗利不足" in r and "3.0万" in r for r in reasons)
 
 
 def test_is_engineer_fresh_20_days_old():
@@ -637,3 +636,57 @@ def test_match_new_skill_snowflake_in_dict():
     verdict, reasons = judge(case, engineer, _normalizer())
 
     assert verdict == "MATCH"
+
+
+# --- Phase 5.1 新規テスト ---
+
+def test_review_when_eng_price_missing():
+    """単価欠損時はREVIEW判定（NGでなく）"""
+    case = {"required_skills": ["Java"], "price_max": 80, "extraction_confidence": 1.0}
+    engineer = {
+        "スキル": ["Java"],
+        "_last_edited_time": datetime.now(timezone.utc).isoformat(),
+    }
+
+    verdict, reasons = judge(case, engineer, _normalizer())
+
+    assert verdict == "REVIEW"
+    assert any("人員単価不明" in r for r in reasons)
+
+
+def test_review_not_ng_when_estimated_case_price_below_gross_floor():
+    """推定単価のみで粗利不足→NG禁止・REVIEW"""
+    case = {"required_skills": ["Java"], "price_max": None, "extraction_confidence": 1.0}
+    engineer = {
+        "単価（万円）": 70,
+        "スキル": ["Java"],
+        "_last_edited_time": datetime.now(timezone.utc).isoformat(),
+    }
+
+    verdict, reasons = judge(case, engineer, _normalizer())
+
+    assert verdict == "REVIEW"
+    assert not any(r.startswith("NG") for r in reasons)
+    assert any("推定単価ベース" in r for r in reasons)
+
+
+def test_review_when_parallel_score_is_none():
+    """並行スコアNone時はREVIEW判定"""
+    case = {"required_skills": ["Java"], "price_max": 80, "extraction_confidence": 1.0}
+    engineer = _fresh_engineer(スキル=["Java"])
+
+    with patch("matcher._calc_parallel_score", return_value=None):
+        result = judge_with_meta(case, engineer, _normalizer())
+
+    assert result["verdict"] == "REVIEW"
+    assert any("並行スコア欠損" in r for r in result["reasons"])
+
+
+def test_judge_version_in_result():
+    """judge_version=v5.1 が結果に記録されること"""
+    case = {"required_skills": ["Java"], "price_max": 80, "extraction_confidence": 1.0}
+    engineer = _fresh_engineer(スキル=["Java"])
+
+    result = judge_with_meta(case, engineer, _normalizer())
+
+    assert result.get("judge_version") == "v5.1"

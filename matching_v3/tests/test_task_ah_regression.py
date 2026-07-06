@@ -107,15 +107,16 @@ def test_unknown_with_fuzzy_evidence_does_not_count_toward_ratio():
     assert any("語彙外スキル" in reason and "MATCH判定" in reason for reason in reasons)
 
 
-def test_match_when_only_price_estimate_reasons():
+def test_review_when_only_price_missing_reasons():
+    """人員単価不明はREVIEW（粗利チェック不可のため）"""
     case = {"required_skills": ["Java"], "price_max": 58, "extraction_confidence": 1.0}
     engineer = _fresh_engineer(スキル=["Java"])
     engineer.pop("単価（万円）")
 
     verdict, reasons = judge(case, engineer, _normalizer())
 
-    assert verdict == "MATCH"
-    assert any(reason.startswith("エンジニア単価推定") for reason in reasons)
+    assert verdict == "REVIEW"
+    assert any("人員単価不明" in reason for reason in reasons)
 
 
 def test_ng_unchanged_for_miss_and_gross():

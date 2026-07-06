@@ -1,0 +1,13 @@
+alias_key,suggested_canonical,reason
+aws aurora,AWS Aurora,クラウド子サービス(prefix=aws)
+aws cloudformation,CloudFormation,クラウド子サービス(prefix=aws)
+azure backup,Azure,クラウド子サービス(prefix=azure)
+azure blobstorage,Azure Blob,クラウド子サービス(prefix=azure)
+azure devops,Azure DevOps,クラウド子サービス(prefix=azure)
+azure monitor,Azure,クラウド子サービス(prefix=azure)
+azure openai,Azure,クラウド子サービス(prefix=azure)
+azure policy,Azure,クラウド子サービス(prefix=azure)
+azure synapse,Azure,クラウド子サービス(prefix=azure)
+google workspace管理経験,Google Workspace,クラウド子サービス(prefix=google)
+microsoft intune,Microsoft Intune,クラウド子サービス(prefix=microsoft)
+microsoft office,Microsoft Office,クラウド子サービス(prefix=microsoft)

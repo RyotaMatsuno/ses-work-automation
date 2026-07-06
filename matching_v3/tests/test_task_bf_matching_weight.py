@@ -113,7 +113,7 @@ def test_price_deviation_excludes_expensive_engineer():
     result = judge_with_meta(case, engineer, _normalizer())
 
     assert result["verdict"] == "NG"
-    assert "単価乖離超過" in result["reasons"][0]
+    assert "粗利不足" in result["reasons"][0]
 
 
 def test_score_breakdown_is_attached_to_match_result():

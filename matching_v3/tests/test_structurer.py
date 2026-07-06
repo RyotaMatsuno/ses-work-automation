@@ -65,4 +65,4 @@ def test_json_parse_failure_returns_rule_fallback():
     result = structurer._parse_json_or_fallback("not json", subject, body)
 
     assert result["extraction_confidence"] >= 0.4
-    assert "java" in result["required_skills"]
+    assert any(s.lower() == "java" for s in result["required_skills"])

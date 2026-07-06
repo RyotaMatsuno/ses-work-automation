@@ -40,6 +40,7 @@ NEVER_MERGE: tuple[frozenset[str], ...] = (
     frozenset({"PM", "PMO"}),
     frozenset({"AWS", "Azure", "GCP"}),
     frozenset({"React", "React Native"}),
+    frozenset({"SQL", "MySQL", "PostgreSQL", "SQL Server"}),
 )
 _NEVER_MERGE_LOOKUP: dict[str, frozenset[str]] = {}
 for group in NEVER_MERGE:

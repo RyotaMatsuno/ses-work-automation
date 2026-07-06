@@ -45,7 +45,21 @@ class NotionClient:
             }
         }
         pages = self._query_database(CASE_DB_ID, payload)
-        return [self._parse_case_page(page) for page in pages]
+        cases = [self._parse_case_page(page) for page in pages]
+        # BG: is_active_for_matching=False の案件をスキップ（Noneは未設定=True扱い）
+        return [c for c in cases if c.get("is_active_for_matching") is not False]
+
+    def get_active_cases(self, limit: int = 20) -> list[dict[str, Any]]:
+        """募集中の直近案件を取得する（Phase 2A0 検証用）。"""
+        payload: dict[str, Any] = {
+            "filter": {"property": "ステータス", "select": {"equals": "募集中"}},
+            "sorts": [{"timestamp": "created_time", "direction": "descending"}],
+            "page_size": min(max(limit, 1), 100),
+        }
+        pages = self._query_database(CASE_DB_ID, payload)
+        cases = [self._parse_case_page(page) for page in pages]
+        active = [c for c in cases if c.get("is_active_for_matching") is not False]
+        return active[:limit]
 
     def get_proposal_target_engineers(self) -> list[dict[str, Any]]:
         """提案対象フラグ=True のエンジニアを全件取得（鮮度フィルタなし）。"""
@@ -59,6 +73,13 @@ class NotionClient:
             else:
                 raise
         return [self._parse_engineer_page(page) for page in pages]
+
+    def update_engineer_status(self, page_id: str, status: str) -> bool:
+        """稼働状況selectフィールドを更新する。rate limit考慮済み。"""
+        properties = {
+            "稼働状況": {"select": {"name": status}},
+        }
+        return self._patch_page_with_rate_limit(page_id, properties)
 
     def update_engineer_unit_price_review(self, page_id: str, memo_text: str) -> bool:
         """単価REVIEW用に提案対象フラグをFalse・備考を更新する。成功=True、400/403/404=False。"""
@@ -117,22 +138,54 @@ class NotionClient:
         return False
 
     def get_active_engineers(self) -> list[dict[str, Any]]:
-        """提案対象フラグ=True のみで全件取得し、鮮度は Python 側で判定する。"""
+        """提案対象フラグ=True のみで全件取得し、鮮度と稼働状況は Python 側で判定する。"""
         flag_filter = {"property": "提案対象フラグ", "checkbox": {"equals": True}}
         try:
             pages = self._query_database(ENGINEER_DB_ID, {"filter": flag_filter})
         except requests.HTTPError as exc:
             if exc.response is not None and exc.response.status_code == 400:
-                logger.error("提案対象フラグフィルタ失敗 - マッチング中断: %s", exc)
-                raise RuntimeError(f"提案対象フラグフィルタ利用不可のためマッチング中断: {exc}") from exc
-            raise
+                logger.warning("提案対象フラグフィルタをスキップしてエンジニア取得: %s", exc)
+                pages = self._query_database(ENGINEER_DB_ID, {})
+            else:
+                raise
         engineers = [self._parse_engineer_page(page) for page in pages]
-        return filter_fresh_engineers(engineers, logger)
+        fresh = filter_fresh_engineers(engineers, logger)
+        # 稼働中は Active Pool から除外（空欄・稼働可能・調整中はすべて対象）
+        return [e for e in fresh if e.get("稼働状況") != "稼働中"]
 
     def get_all_engineers(self) -> list[dict[str, Any]]:
         """エンジニアDB全件取得（鮮度・フラグフィルタなし）。正規化バッチ用。"""
         pages = self._query_database(ENGINEER_DB_ID, {})
         return [self._parse_engineer_page(page) for page in pages]
+
+    def ensure_normalized_skill_property(self) -> bool:
+        """エンジニアDBに「正規化スキル」multi_selectプロパティが存在しない場合に追加する。"""
+        url = self.BASE_URL + f"databases/{ENGINEER_DB_ID}"
+        try:
+            resp = self.session.request("GET", url, headers=self.headers, timeout=self.timeout)
+            resp.raise_for_status()
+            existing = resp.json().get("properties", {})
+            if "正規化スキル" in existing:
+                logger.info("正規化スキルプロパティは既に存在します")
+                return True
+        except Exception as exc:
+            logger.warning("DBスキーマ取得失敗: %s", exc)
+            return False
+
+        try:
+            patch_resp = self.session.request(
+                "PATCH",
+                url,
+                headers=self.headers,
+                json={"properties": {"正規化スキル": {"multi_select": {}}}},
+                timeout=self.timeout,
+            )
+            patch_resp.raise_for_status()
+            logger.info("正規化スキルプロパティを追加しました")
+            return True
+        except Exception as exc:
+            logger.warning("正規化スキルプロパティ追加失敗: %s", exc)
+            return False
 
     def update_engineer_normalized_skills(self, page_id: str, normalized_skills: list[str]) -> bool:
         """正規化スキルフィールドを上書きする。フィールドが存在しない場合は False。"""
@@ -146,15 +199,6 @@ class NotionClient:
     def update_match_status(self, case_id: str, results: list[dict[str, Any]]) -> None:
         try:
             summary = _summarize_results(results)
-            properties: dict[str, Any] = {}
-            if summary in ("MATCH", "REVIEW"):
-                properties["ステータス"] = {"select": {"name": "選考中"}}
-            if properties:
-                self._request(
-                    "PATCH",
-                    f"pages/{case_id}",
-                    json_body={"properties": properties},
-                )
             self.update_matching_status(case_id, "matched" if summary != "NG" else "ng", len(results))
         except Exception as exc:
             logger.exception("Notion update_match_status failed: %s", exc)
@@ -254,9 +298,12 @@ class NotionClient:
             "仕入単価（万円）": purchase_price,
             "勤務地": _rich_text(props.get("勤務地")),
             "リモート": _select(props.get("リモート")),
+            "rate_type": _select(props.get("rate_type")),
+            "remote_type": _select(props.get("remote_type")),
             "年齢制限": _rich_text(props.get("年齢制限")),
             "matching_status": _select(props.get("matching_status")),
             "案件種別": _select(props.get("案件種別")),
+            "is_active_for_matching": _checkbox(props.get("is_active_for_matching")) if props.get("is_active_for_matching") is not None else None,
         }
 
     @staticmethod

@@ -1,0 +1,66 @@
+key,canonical,review_code,note
+.net framework,.NET,R12,短canonical=.NETの完全一致のみ
+.net maui,.NET,R12,短canonical=.NETの完全一致のみ
+4hana 販売領域,HANA,R12,canonicalがキー先頭以外からの包含
+apサーバ,サーバ,R12,canonicalがキー先頭以外からの包含
+asp.net 2.0,.NET,R12,短canonical=.NETの完全一致のみ
+asp.net core,.NET Core,R12,短canonical=.NET Coreの完全一致のみ
+bshell,Shell,R12,canonicalがキー先頭以外からの包含
+c#人材,C#,R12,短canonical=C#の完全一致のみ
+c-sharp,C#,R12,短canonical=C#の完全一致のみ
+devexpress,Express,R12,canonicalがキー先頭以外からの包含
+gs21ホスト,GS21,R12,短canonical=GS21の完全一致のみ
+hpe dlサーバー,サーバ,R12,canonicalがキー先頭以外からの包含
+ibm cobol,COBOL,R12,canonicalがキー先頭以外からの包含
+ibm製サーバー製品スキル,サーバ,R12,canonicalがキー先頭以外からの包含
+ieee802.1x認証,認証,R12,短canonical=認証の完全一致のみ
+javaバッチ開発,バッチ開発,R12,canonicalがキー先頭以外からの包含
+java詳細設計,詳細設計,R12,canonicalがキー先頭以外からの包含
+jp1/ajs設計構築,JP1/AJ,R12,短canonical=JP1/AJの完全一致のみ
+jp1バッチ,JP1,R12,短canonical=JP1の完全一致のみ
+l3ネットワーク,ネットワーク,R12,canonicalがキー先頭以外からの包含
+linuxshell,Shell,R12,canonicalがキー先頭以外からの包含
+managed redis,Redis,R12,canonicalがキー先頭以外からの包含
+mlops,ML,R12,短canonical=MLの完全一致のみ
+ms365 copilot,Copilot,R12,canonicalがキー先頭以外からの包含
+nwエンジニア,ネットワーク,R12,canonical=ネットワークがキーの部分文字列でない
+openai api,API,R12,canonicalがキー先頭以外からの包含
+opencobol,COBOL,R12,canonicalがキー先頭以外からの包含
+oracle database,Database,R12,canonicalがキー先頭以外からの包含
+oracle database@azure,Database,R12,canonicalがキー先頭以外からの包含
+postgres sql,SQL,R12,canonicalがキー先頭以外からの包含
+powerpages,RPA,R12,canonicalがキー先頭以外からの包含
+pro cobol,COBOL,R12,canonicalがキー先頭以外からの包含
+qaエンジニア,QA,R12,短canonical=QAの完全一致のみ
+react typescript,TypeScript,R12,canonicalがキー先頭以外からの包含
+shellスクリプト,スクリプト,R12,canonicalがキー先頭以外からの包含
+sql database,Database,R12,canonicalがキー先頭以外からの包含
+sql linux,Linux,R12,canonicalがキー先頭以外からの包含
+web api,API,R12,canonicalがキー先頭以外からの包含
+web api開発,API,R12,canonicalがキー先頭以外からの包含
+webapi,API,R12,canonicalがキー先頭以外からの包含
+webサーバ,サーバ,R12,canonicalがキー先頭以外からの包含
+winサーバ設計構築,サーバ,R12,canonicalがキー先頭以外からの包含
+xhtml,HTML,R12,canonicalがキー先頭以外からの包含
+クラウド インフラ設計構築,インフラ,R12,canonicalがキー先頭以外からの包含
+クラウドセキュリティ,セキュリティ,R12,canonicalがキー先頭以外からの包含
+コンテナ,Docker,R12,canonical=Dockerがキーの部分文字列でない
+シェルスクリプト,スクリプト,R12,canonicalがキー先頭以外からの包含
+システムテスト設計,テスト設計,R12,canonicalがキー先頭以外からの包含
+システム要件定義,要件定義,R12,canonicalがキー先頭以外からの包含
+テスト基本設計,基本設計,R12,canonicalがキー先頭以外からの包含
+テスト詳細設計,詳細設計,R12,canonicalがキー先頭以外からの包含
+データ移行,ETL,R12,canonical=ETLがキーの部分文字列でない
+ワード>powerbi,Power BI,R12,canonicalがキー先頭以外からの包含
+一般的なネットワーク知識,ネットワーク,R12,canonicalがキー先頭以外からの包含
+再学習,機械学習,R12,canonical=機械学習がキーの部分文字列でない
+基盤構築,インフラ,R12,canonical=インフラがキーの部分文字列でない
+外部api連携,API,R12,canonicalがキー先頭以外からの包含
+富士通cobol,COBOL,R12,canonicalがキー先頭以外からの包含
+富士通ホストcobol開発,COBOL,R12,canonicalがキー先頭以外からの包含
+推論,ML,R12,短canonical=MLの完全一致のみ
+環境構築,インフラ,R12,canonical=インフラがキーの部分文字列でない
+組込みc言語,C言語,R12,canonicalがキー先頭以外からの包含
+統計/機械学習,機械学習,R12,canonicalがキー先頭以外からの包含
+脆弱性トリアージ,セキュリティ,R12,canonical=セキュリティがキーの部分文字列でない
+脆弱性診断,セキュリティ,R12,canonical=セキュリティがキーの部分文字列でない

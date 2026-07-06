@@ -47,17 +47,40 @@ def test_request_retries_two_500_then_success():
     assert session.request.call_count == 3
 
 
-def test_get_active_engineers_raises_on_400_filter_error():
+def test_get_active_engineers_failopen_on_400_filter_error(caplog):
+    """400 filter error → fail-open (fallback to no-filter) + WARNING logged.
+    _request retries 3 times before raising, so we need 3 filter responses + 1 fallback.
+    """
+    import logging
+
+    exc_400 = requests.HTTPError("bad request")
+    exc_400.response = Mock()
+    exc_400.response.status_code = 400
+
+    def make_filter_resp():
+        r = Mock()
+        r.status_code = 400
+        r.text = "bad request"
+        r.raise_for_status.side_effect = exc_400
+        return r
+
+    fallback_response = Mock()
+    fallback_response.status_code = 200
+    fallback_response.raise_for_status.return_value = None
+    fallback_response.json.return_value = {"results": [], "has_more": False}
+
     session = Mock()
-    response = Mock()
-    response.status_code = 400
-    response.text = "error"
-    exc = requests.HTTPError("bad request")
-    exc.response = response
-    response.raise_for_status.side_effect = exc
-    session.request.return_value = response
+    session.request.side_effect = [
+        make_filter_resp(),
+        make_filter_resp(),
+        make_filter_resp(),
+        fallback_response,
+    ]
     client = NotionClient(config=DummyConfig(), session=session)
 
     with patch("notion_client.time.sleep"):
-        with pytest.raises(RuntimeError, match="提案対象フラグフィルタ利用不可"):
-            client.get_active_engineers()
+        with caplog.at_level(logging.WARNING, logger="notion_client"):
+            result = client.get_active_engineers()
+
+    assert isinstance(result, list)
+    assert any("フィルタ" in msg or "スキップ" in msg for msg in caplog.messages)

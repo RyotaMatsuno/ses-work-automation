@@ -20,6 +20,7 @@ def _engineer(eid: str, skills: list[str]) -> dict:
 
 
 def test_skill_index_filters_candidates(tmp_path):
+    # Phase2A0以降: min_match=ceil(0.5*2)=1 → Java単独もパス
     normalizer = SkillNormalizer("skill_aliases.json")
     engineers = [
         _engineer("e1", ["Java", "Spring"]),
@@ -33,11 +34,14 @@ def test_skill_index_filters_candidates(tmp_path):
         index,
         ["Java", "Spring"],
     )
-    assert len(filtered) == 1
-    assert filtered[0]["id"] == "e1"
+    ids = {e["id"] for e in filtered}
+    assert "e1" in ids
+    assert "e3" in ids
+    assert "e2" not in ids
 
 
 def test_skill_index_returns_empty_when_no_engineer_matches_all_required():
+    # Phase2A0以降: min_match=1 → Java単独/Spring単独もパス（AND廃止）
     normalizer = SkillNormalizer("skill_aliases.json")
     engineers = [
         _engineer("e1", ["Java"]),
@@ -50,7 +54,9 @@ def test_skill_index_returns_empty_when_no_engineer_matches_all_required():
         index,
         ["Java", "Spring"],
     )
-    assert filtered == []
+    ids = {e["id"] for e in filtered}
+    assert "e1" in ids
+    assert "e2" in ids
 
 
 def test_should_skip_unchanged_matched_case(tmp_path):

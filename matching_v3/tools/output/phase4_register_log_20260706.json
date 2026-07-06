@@ -1,0 +1,28 @@
+{
+  "date": "2026-07-06",
+  "plan": "案1(高リスク+remotework除外)",
+  "candidates": 127,
+  "excluded": [
+    "api management",
+    "company cjk",
+    "iaas運用",
+    "linux sql",
+    "long-term participant",
+    "oracle ebs",
+    "oracle erp",
+    "oracle sql",
+    "project details",
+    "remotework",
+    "sap s",
+    "swift ui",
+    "vmwareesxi",
+    "windowsos基本操作知識",
+    "インフラpmo",
+    "サーバーサイド開発",
+    "スクリプト言語",
+    "機械学習基盤構築"
+  ],
+  "registered": 109,
+  "aliases_before": 715,
+  "aliases_after": 824
+}
