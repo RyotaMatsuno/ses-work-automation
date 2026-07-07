@@ -127,11 +127,13 @@ def flush_notify_queue(label: str = None) -> bool:
     if not events:
         return False
 
-    counts = {"success": 0, "retry": 0, "blocked": 0, "timeout": 0}
+    counts = {"success": 0, "retry": 0, "blocked": 0, "timeout": 0, "gate_ng": 0}
     for e in events:
         t = e.get("type", "")
         if t in counts:
             counts[t] += 1
+        elif t in ("gate_ng_blocked", "gate_costguard"):
+            counts["gate_ng"] += 1
 
     if label is None:
         label = datetime.now().strftime("%H:%M")
@@ -142,6 +144,8 @@ def flush_notify_queue(label: str = None) -> bool:
     )
     if counts["timeout"]:
         header += f" / timeout {counts['timeout']}"
+    if counts["gate_ng"]:
+        header += f" / gate_ng {counts['gate_ng']}"
 
     detail_lines = [header]
     for e in events:
@@ -160,6 +164,13 @@ def flush_notify_queue(label: str = None) -> bool:
             detail_lines.append(f"🚫 {task} → blocked ({reason})")
         elif t == "timeout":
             detail_lines.append(f"⏱ {task} TIMEOUT")
+        elif t == "gate_ng":
+            phase = e.get("phase", "")
+            detail_lines.append(f"🔶 gate NG: {e.get('target', task)} ({phase})")
+        elif t == "gate_ng_blocked":
+            detail_lines.append(f"⛔ gate 3回到達blocked: {e.get('target', task)}")
+        elif t == "gate_costguard":
+            detail_lines.append(f"⛔ gate CostGuard停止: {e.get('target', task)}")
 
     push_message("\n".join(detail_lines))
 

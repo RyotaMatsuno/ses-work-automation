@@ -45,6 +45,9 @@ except ImportError:
 RESULTS_DIR = BASE_DIR / "results"
 PROMPTS_DIR = BASE_DIR / "prompts"
 DAILY_COUNTER_PATH = RESULTS_DIR / "daily_counter.json"
+PER_TARGET_NG_PATH = RESULTS_DIR / "per_target_ng.json"
+NOTIFY_QUEUE_PATH = SES_WORK / "task_auto_runner" / "notify_queue.jsonl"
+MAX_NG_PER_TARGET = 3
 
 DAILY_CALL_LIMIT = int(os.environ.get("GATE_DAILY_CALL_LIMIT") or 30)
 REVIEW_MODEL = "gpt-4o"
@@ -336,6 +339,54 @@ def save_daily_counter(count: int) -> None:
     )
 
 
+def load_target_ng_counter() -> dict[str, Any]:
+    today = _today_str()
+    if not PER_TARGET_NG_PATH.exists():
+        return {"date": today, "counts": {}}
+    try:
+        data = json.loads(PER_TARGET_NG_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {"date": today, "counts": {}}
+    if data.get("date") != today:
+        return {"date": today, "counts": {}}
+    return {"date": today, "counts": dict(data.get("counts", {}))}
+
+
+def save_target_ng_counter(counter: dict[str, Any]) -> None:
+    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+    PER_TARGET_NG_PATH.write_text(
+        json.dumps(counter, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
+def increment_target_ng(target_name: str) -> int:
+    counter = load_target_ng_counter()
+    counter["counts"][target_name] = counter["counts"].get(target_name, 0) + 1
+    save_target_ng_counter(counter)
+    return counter["counts"][target_name]
+
+
+def get_target_ng_count(target_name: str) -> int:
+    return load_target_ng_counter()["counts"].get(target_name, 0)
+
+
+def _enqueue_gate_event(event_type: str, phase: str, target: str, **kwargs: Any) -> None:
+    """gate_checkイベントをnotify_queue.jsonlに追記する。LINE通知は行わない。"""
+    entry: dict[str, Any] = {
+        "ts": datetime.now(JST).isoformat(),
+        "type": event_type,
+        "phase": phase,
+        "target": _target_filename(target),
+        **kwargs,
+    }
+    try:
+        with NOTIFY_QUEUE_PATH.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    except Exception as exc:
+        logger.warning("notify_queueへの追記失敗: %s", exc)
+
+
 def check_daily_limit() -> tuple[bool, int]:
     counter = load_daily_counter()
     count = int(counter["count"])
@@ -575,40 +626,10 @@ def send_line_notification(
     target: str,
     env: dict[str, str],
 ) -> bool:
-    """NG判定時にLINEへ1行通知（返信不要・レビュー本文は送らない）。"""
-    token = env.get("LINE_CHANNEL_ACCESS_TOKEN", "")
-    user_id = env.get("MATSUNO_USER_ID") or env.get("MATSUNO_LINE_USER_ID", "")
-    if not token or not user_id:
-        logger.warning("LINE通知スキップ: token=%s user_id=%s", bool(token), bool(user_id))
-        return False
-
-    filename = _target_filename(target)
-    message = NOTIFY_TEMPLATE_NG.format(phase=phase, filename=filename)
-    logger.info("LINE通知送信: %s", message)
-
-    body = json.dumps(
-        {"to": user_id, "messages": [{"type": "text", "text": message}]},
-        ensure_ascii=False,
-    ).encode("utf-8")
-    request = urllib.request.Request(
-        "https://api.line.me/v2/bot/message/push",
-        data=body,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {token}",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=10) as response:
-            logger.info("LINE通知送信完了: status=%s", response.status)
-            return True
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")[:500]
-        logger.error("LINE通知失敗: status=%s body=%s", exc.code, detail)
-    except Exception as exc:
-        logger.error("LINE通知失敗: %s", exc)
-    return False
+    """NG判定時のイベントをnotify_queue.jsonlに追記する（LINE直接pushは廃止）。"""
+    _enqueue_gate_event("gate_ng", phase=phase, target=target)
+    logger.info("gate_ng enqueued: phase=%s target=%s", phase, _target_filename(target))
+    return True
 
 
 def run_wall_hitting(problem_text: str, phase: str, results_dir: Path) -> tuple[str, Path]:
@@ -698,6 +719,36 @@ def run_gate_check(
     anchor = target_file or target_dir
     assert anchor is not None
     tasks_path = resolve_tasks_path(anchor, tasks_arg)
+
+    # ── per-target NG ガード（API呼び出し前チェック） ──────────
+    target_name = _target_filename(str(target_file or target_dir))
+    ng_today = get_target_ng_count(target_name)
+    if ng_today >= MAX_NG_PER_TARGET:
+        msg = (
+            f"本日NG{MAX_NG_PER_TARGET}回到達: {target_name}。"
+            "修正内容を見直しblocked化を検討"
+        )
+        logger.warning(msg)
+        _enqueue_gate_event("gate_ng_blocked", phase=phase, target=target_name, reason=msg)
+        ng_guard_payload: dict[str, Any] = {
+            "timestamp": datetime.now(JST).isoformat(),
+            "phase": phase,
+            "target_file": str(target_file) if target_file else None,
+            "target_dir": str(target_dir) if target_dir else None,
+            "tasks_file": str(tasks_path) if tasks_path else None,
+            "verdict": "NG_GUARD",
+            "judgment": "NG_GUARD",
+            "review_text": msg,
+            "model": "n/a",
+            "input_tokens": 0,
+            "output_tokens": 0,
+            "daily_count": current_count,
+            "daily_limit": DAILY_CALL_LIMIT,
+            "needs_human_review": False,
+        }
+        save_result(ng_guard_payload)
+        return 2
+
     env = _load_env()
     api_key = env.get("OPENAI_API_KEY", "")
     if not api_key:
@@ -739,6 +790,7 @@ def run_gate_check(
                         "daily_count": current_count,
                         "needs_human_review": False,
                     }
+                    _enqueue_gate_event("gate_costguard", phase=phase, target=target_display, model=_model)
                     save_result(_cg_payload)
                     return 2
         except Exception as exc:
@@ -765,6 +817,7 @@ def run_gate_check(
                 "daily_count": current_count,
                 "needs_human_review": False,
             }
+            _enqueue_gate_event("gate_costguard", phase=phase, target=target_display, model=blocked.model)
             save_result(_cg_payload)
             return 2
         review_text = decision.adopted_result.text
@@ -848,7 +901,9 @@ def run_gate_check(
         return 0
 
     payload["wall_hitting_file"] = None
+    ng_total = increment_target_ng(target_name)
     send_line_notification(phase=phase, target=target_label, env=env)
+    logger.info("per-target NG count: %s = %d/%d", target_name, ng_total, MAX_NG_PER_TARGET)
     if not human_review:
         try:
             _, wall_path = run_wall_hitting(review_text, phase, RESULTS_DIR)
