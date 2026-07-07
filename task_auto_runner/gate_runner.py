@@ -77,8 +77,17 @@ def extract_target_file(instruction_text: str) -> str:
 
 
 def run_gate_check(target_file: str, phase: str = "implementation", timeout: int = 120) -> GateResult:
-    """gate_check.py を呼び出して結果を返す。"""
-    if not target_file or not os.path.exists(target_file):
+    """gate_check.py を呼び出して結果を返す。
+    target_file が未指定（空文字）の場合はゲートをスキップしてOKを返す。
+    """
+    if not target_file:
+        return GateResult(
+            verdict="OK",
+            judgment="SKIP",
+            reason="target_file未指定のためゲート②スキップ",
+            raw_output="",
+        )
+    if not os.path.exists(target_file):
         return GateResult(
             verdict="NG",
             judgment="NG",

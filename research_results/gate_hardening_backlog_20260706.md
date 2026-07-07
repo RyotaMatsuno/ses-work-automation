@@ -20,3 +20,24 @@
 
 ## 壁打ち判定（2026-07-06）
 - クローズ提案はNG判定。②can_spend固定見積もりのみ即修正、①③④⑥⑦⑧はバックログ妥当との合意。
+
+
+---
+
+## 2026-07-07 追記: wall_hitting系統クローズ + 誤NG仲裁記録
+
+### クローズ
+- wall_hitting.py: ゲートGO（GPT=GO/Sonnet=GO 一致、12:32）→ **本系統クローズ**
+- agreement_checker.py: GPT=NG/Sonnet=GO不一致 → 壁打ち仲裁（GPT-4o+Gemini 2.5 Flash両者合意）で
+  **誤NG棄却・GO扱いクローズ**
+  - NG根拠「check_daily_limit()未実装」は事実誤認: gate_check.py:339に実装・665で呼出済み。
+    SPEC§7二層ガード表に責務分離明記済み
+  - 再ゲートは装置3の同一ターゲット重複スキップで即ERROR（正常動作）
+
+### 新規バックログ（助言レベル）
+1. GPT-4oレビュアーの「単体ファイルレビューで呼び出し元責務を要求する」誤NGパターンが再発
+   （07-06 gate_check.py / 07-07 agreement_checker.py）
+   → レビュープロンプトに「呼び出し元責務（SPECの責務分離表参照）はNG根拠にしない」を追加検討
+2. model_rates.json に gemini-2.5-flash 未登録 → 未知モデル2倍見積もりが毎回発火（動作は正常・保守的）
+3. wall_hitting.py SPECコメント（in=300）と実装（max(500, len//3)）の乖離 → ドキュメント修正のみ
+4. format_result: --search時のラベルが「GPT-4o視点」のまま（表示のみ・機能影響なし）

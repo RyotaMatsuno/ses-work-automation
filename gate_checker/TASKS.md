@@ -79,7 +79,7 @@
 
 ## Phase 3: .env 更新
 
-- [ ] `config/.env` に以下を追記:
+- [!] `config/.env` に以下を追記: （2026-07-07 GPT-4o判定:NG）
   ```
   # gate_checker v2.1
   GATE_DAILY_CALL_LIMIT=30
@@ -88,7 +88,7 @@
   # GATE_MODEL_CLASS_DESIGN=heavy
   # GATE_MODEL_IMPLEMENTATION=gpt-5.4
   ```
-- [ ] 既存の `COST_GUARD_DAILY_USD=8` / `COST_GUARD_MONTHLY_USD=140` が設定済みであることを確認
+- [!] 既存の `COST_GUARD_DAILY_USD=8` / `COST_GUARD_MONTHLY_USD=140` が設定済みであることを確認 （2026-07-07 GPT-4o判定:NG）
 
 ---
 
